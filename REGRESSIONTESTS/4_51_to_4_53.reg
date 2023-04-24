@@ -2375,9 +2375,9 @@ b) nPf7
 
 c) nhnPf7  
 
-   1.nhnPf7*e8-a8=nhnQ=wh # !
+   1.nhnPf7*e8-a8=nhnQ=whn # !
 
-   1.nhnPf7*e8-a8=nhnB=wh # !
+   1.nhnPf7*e8-a8=nhnB=whn # !
 
   add_to_move_generation_stack:          25
                      play_move:          47

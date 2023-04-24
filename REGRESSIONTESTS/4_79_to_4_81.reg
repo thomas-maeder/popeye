@@ -1,3 +1,39 @@
+issue #228
+#1 without capture
+
+           Zoltan Laborczi
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   Q   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  White 1a[!x&#]d             2 + 2
+
+   1.Qb1-b8 # !
+
+  add_to_move_generation_stack:          37
+                     play_move:          37
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          39
+
+solution finished.
+
+
 
 Popeye 4.65 to 4.79 would only do en passant capture by Black!
 
@@ -27,6 +63,307 @@ both sides need a king
 
   add_to_move_generation_stack:           8
                      play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+duplex intelligent didn't correctly test for an illegal check in the diagram
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=1                         2 + 1
+               Duplex
+
+the side to play can capture the king
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           1
+
+
+the side to play can capture the king  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
+issue #231
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg11                        2 + 2
+              AntiCirce
+
+   1.Sc6*a7[wSa7->g1] z !
+
+  add_to_move_generation_stack:          13
+                     play_move:          13
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+
+issue #232
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  BK   .   3
+|                                   |
+2   .   .   .  -K   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+both sides need a king
+
+the side to play can capture the king  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         3 + 1
+            BichromChess
+
+a) 
+
+  add_to_move_generation_stack:          26
+                     play_move:           0
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           1
+
+b) MonochromChess  
+
+   1.0-0 !
+
+  add_to_move_generation_stack:          26
+                     play_move:           1
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+
+
+           Gy\"orgy Bakcsi
+            Gaudium 2018
+WhiteMustCapture Ultra seems to have been ignored since 4.37 (or earlier)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   P   .   .   5
+|                                   |
+4   .   .   P   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   K   P  -K   3
+|                                   |
+2   .  -P   P   .   .   .   .   .   2
+|                                   |
+1   S   .   .   R   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#10                   12 + 2
+       BlackMustCapture  ultra
+       WhiteMustCapture  ultra
+
+  1.b2*a1=S   2.Sa1*c2   3.Sc2*a3   4.Sa3*c4   5.Sc4*a5   6.Sa5*c6   7.Sc6*e7   8.Se7*f5   9.Sf5*g3  10.Sg3*h1 Rd1*h1 #
+  add_to_move_generation_stack:        4617
+                     play_move:         232
+ is_white_king_square_attacked:         124
+ is_black_king_square_attacked:         232
+
+solution finished.
+
+
+
+Since 4.63, Popeye has generated duplicate moves for rook- and bishop-eagles
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  BE   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .  RE  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 4
+both sides need a king
+
+   1.REd3-e2 !
+
+   1.REd3-e4 !
+
+   1.REd3-c4 !
+
+   1.BEg8-e8 !
+
+   1.BEg8-g6 !
+
+  add_to_move_generation_stack:           7
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+this problem should not have a solution
+
+             issue #170
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  sx2                         1 + 1
+       BlackMustCapture  ultra
+
+  add_to_move_generation_stack:           4
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+              issue #71
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 1
+       AntiCirce Super Cheylan
+Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.
+  add_to_move_generation_stack:           0
+                     play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -1503,7 +1503,7 @@ Loesung beendet.
 
 a) 
 
-  1...De7-f7   2.LIa5-d8 + La6-b7   3.hnGh8-c8=nh + nhnGc8-e8=sh #
+  1...De7-f7   2.LIa5-d8 + La6-b7   3.hnGh8-c8=nhn + nhnGc8-e8=shn #
   add_to_move_generation_stack:      292882
                      play_move:      120193
  is_white_king_square_attacked:      108786
@@ -1511,7 +1511,7 @@ a)
 
 b) whnGh8-->h1  
 
-  1...De7-f8   2.LIa5-d5 + La7-b8   3.hnGh1-c6=nh + nhnGc6-e4=sh #
+  1...De7-f8   2.LIa5-d5 + La7-b8   3.hnGh1-c6=nhn + nhnGc6-e4=shn #
   add_to_move_generation_stack:      310971
                      play_move:      137741
  is_white_king_square_attacked:      125489
