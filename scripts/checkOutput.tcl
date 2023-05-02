@@ -171,13 +171,13 @@ namespace eval format {
         set cornerSign {[+]}
         set verticalBorderSign {[|]}
         set horizontalBorderSign "-"
-        
         set columnName {[a-h]}
+        set rowNo {[1-8]}
+        set gridVertical {[|]}
+
         set columnSpec "(?:$horizontalBorderSign$horizontalBorderSign$columnName$horizontalBorderSign)"
         set columns "$cornerSign$horizontalBorderSign$columnSpec{$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign[v eol]"
 
-        set rowNo {[1-8]}
-        set gridVertical {[|]}
         set gridHorizontal "[v space]---"
         set squareEmpty "(?:[v space]|$gridVertical)[v space][v period]"
         set hole "(?:[v space]|$gridVertical)[v space][v space]"
