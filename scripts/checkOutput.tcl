@@ -12,16 +12,16 @@ if {[llength $argv]>1} {
 
 switch -re $inputfile {
     ".*[.]out$" {
-	set language "german"
+        set language "german"
     }
     ".*[.]tst$" -
     ".*[.]ref$" -
     ".*[.]reg$" {
-	set language "english"
+        set language "english"
     }
     default {
-	error "failed to detect language"
-	exit 1
+        error "failed to detect language"
+        exit 1
     }
 }
 
@@ -35,21 +35,21 @@ namespace eval german {
     set but "Aber"
     # yes, some shortcuts are ambiguous
     set pieceAttributeShortcuts {
-	{[wsn]}
-	k
-	k
-	p
-	c
-	j
-	v
-	b
-	hn
-	sfw
-	p
-	m
-	u
-	p
-	f
+        {[wsn]}
+        k
+        k
+        p
+        c
+        j
+        v
+        b
+        hn
+        sfw
+        p
+        m
+        u
+        p
+        f
     }
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
@@ -82,21 +82,21 @@ namespace eval english {
     set but "but"
     # yes, some shortcuts are ambiguous - not the same as in German
     set pieceAttributeShortcuts {
-	{[wbn]}
-	r
-	k
-	p
-	c
-	j
-	v
-	f
-	hn
-	hcc
-	p
-	m
-	u
-	p
-	f
+        {[wbn]}
+        r
+        k
+        p
+        c
+        j
+        v
+        f
+        hn
+        hcc
+        p
+        m
+        u
+        p
+        f
     }
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
@@ -130,14 +130,33 @@ proc v {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
-	if {$scope=="::"} {
-	    puts stderr "can't find variable $name from scope $initialscope"
-	    exit 1
-	} else {
-	    set scope [namespace parent $scope]
-	}
+        if {$scope=="::"} {
+            puts stderr "can't find variable $name from scope $initialscope"
+            exit 1
+        } else {
+            set scope [namespace parent $scope]
+        }
     }
     return [set ${scope}::$name]
+}
+
+proc nonterminal {name def} {
+    upvar $name result
+
+    set result ""
+    regsub -all {[[:space:]]+} $def " " def
+    regsub {^[[:space:]]+} $def "" def
+    regsub {[[:space:]]+$} $def "" def
+    foreach token [split $def " "] {
+        switch -regexp $token {
+            ^[[:alnum:]_:]+$ {
+                append result [uplevel v $token]
+            }
+            default {
+                append result $token
+            }
+        }
+    }
 }
 
 namespace eval format {
@@ -145,23 +164,24 @@ namespace eval format {
     set emptyLine {\n}
     set lineText {[^\n]}
     set space { }
+    set hyphen {-}
     set nonspace {[^ ]}
     set period {[.]}
 
     namespace eval remark {
-        set remark "[v lineText]+"
-        set remarkLine "(?:$remark[v eol])"
+        nonterminal remark { lineText + }
+        nonterminal remarkLine { (?: remark eol )}
 
-        set RE "(?:$remarkLine+[v emptyLine]*)"
+        nonterminal RE { (?: remarkLine +  emptyLine * ) }
     }
 
     namespace eval authoretc {
-        set leadingBlanks "[v space]*"
+        nonterminal leadingBlanks { space * }
 
-        set authorOriginAwardTitle "[v lineText]+"
-        set authorOriginAwardTitleLine "(?:$leadingBlanks$authorOriginAwardTitle[v eol])"
+        nonterminal authorOriginAwardTitle { lineText + }
+        nonterminal authorOriginAwardTitleLine { (?: leadingBlanks authorOriginAwardTitle eol ) }
 
-        set RE "[v emptyLine]?$authorOriginAwardTitleLine*[v emptyLine]"
+        nonterminal RE { emptyLine ?  authorOriginAwardTitleLine *  emptyLine }
     }
 
     namespace eval board {
@@ -174,102 +194,142 @@ namespace eval format {
         set columnName {[a-h]}
         set rowNo {[1-8]}
         set gridVertical {[|]}
-
-        set columnSpec "(?:$horizontalBorderSign$horizontalBorderSign$columnName$horizontalBorderSign)"
-        set columns "$cornerSign$horizontalBorderSign$columnSpec{$nrColumns}$horizontalBorderSign$horizontalBorderSign$cornerSign[v eol]"
-
-        set gridHorizontal "[v space]---"
-        set squareEmpty "(?:[v space]|$gridVertical)[v space][v period]"
-        set hole "(?:[v space]|$gridVertical)[v space][v space]"
-        set color "(?:[v space]|=|-)"
+        set white " "
+        set black "-"
+        set neutral "="
         set walkChar {[[:upper:][:digit:]]}
-        set walk1Char "(?:[v space]|$gridVertical)$color$walkChar"
-        set walk2Chars "(?:$color|$gridVertical)$walkChar{2}"
-        set pieceSpecSeparator "[v space]"
         set hunterPartsSeparator "/"
-        set pieceSpec "(?:$squareEmpty|$hole|$walk1Char|$walk2Chars)(?:$pieceSpecSeparator|$hunterPartsSeparator)"
-        set piecesLine "$rowNo[v space](?:$pieceSpec){$nrColumns}[v space][v space]$rowNo[v eol]"
 
-        set hunter2ndPart "(?:$hole|$walk1Char|$walk2Chars)"
-        set spaceLine "$verticalBorderSign[v space](?:$hunter2ndPart$pieceSpecSeparator|$gridHorizontal){$nrColumns}[v space][v space]$verticalBorderSign[v eol]"
+        nonterminal columnSpec { (?: horizontalBorderSign horizontalBorderSign columnName horizontalBorderSign ) }
+        nonterminal columns { cornerSign horizontalBorderSign columnSpec { nrColumns } horizontalBorderSign horizontalBorderSign cornerSign eol }
 
-        set RE "(?:${columns}(?:$spaceLine$piecesLine){$nrRows}$spaceLine$columns)"
+        nonterminal gridHorizontal { space hyphen hyphen hyphen }
+        nonterminal squareEmpty { (?: space | gridVertical ) space period }
+        nonterminal hole { (?: space | gridVertical ) space space }
+        nonterminal color { (?: white | black | neutral ) }
+        nonterminal walk1Char { (?: space | gridVertical ) color walkChar }
+        nonterminal walk2Chars { (?: color | gridVertical ) walkChar walkChar }
+        nonterminal regularSeparator { space }
+        nonterminal separator { (?: regularSeparator | hunterPartsSeparator ) }
+        nonterminal pieceOrNoPiece { (?: squareEmpty | hole | walk1Char | walk2Chars ) }
+        nonterminal piecesLine { rowNo space (?: pieceOrNoPiece separator ) { nrColumns } space space rowNo eol }
+
+        nonterminal hunter2ndPart { (?: hole | walk1Char | walk2Chars ) }
+        nonterminal spaceLine { verticalBorderSign space (?: hunter2ndPart regularSeparator | gridHorizontal ) { nrColumns } space space verticalBorderSign eol }
+
+        nonterminal RE {
+            (?:
+             columns
+             (?:
+              spaceLine
+              piecesLine
+              ) { nrRows }
+             spaceLine
+             columns
+             )
+        }
     }
 
     namespace eval gridboard {
         namespace eval cellsline {
-	    set cell {[ [:digit:]][[:digit:]]}
-	    set RE "[v board::rowNo](?:[v space][v space]$cell){[v board::nrColumns]}[v space][v space][v space][v board::rowNo][v eol]"
+            set cell {[ [:digit:]][[:digit:]]}
+
+            nonterminal RE { board::rowNo (?: space space cell ) { board::nrColumns } space space space board::rowNo eol }
         }
 
-        set RE "(?:[v emptyLine][v board::columns](?:[v board::spaceLine]$cellsline::RE){[v board::nrRows]}[v board::spaceLine][v board::columns])"
+        nonterminal RE { (?: emptyLine board::columns (?: board::spaceLine cellsline::RE ) { board::nrRows } board::spaceLine board::columns ) }
     }
 
     namespace eval stipulation {
         set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
-        set exact {(?:exact-)}
-        set intro {(?:[[:digit:]]+->)}
-        set series "(?:$intro?(?:ph?)?ser-)"
-        set help "h"
+        set exactPrefix {(?:exact-)}
+        set introPrefix {(?:[[:digit:]]+->)}
+        set parryPrefix {(?:ph?)}
+        set seriesPrefix {ser-}
+        set helpPrefix "h"
         set paren_open {[(]}
-        set paren_close {[)]}
-        set recigoal "(?:$paren_open$goal$paren_close)"
-        set recihelp "(?:reci-h$recigoal?)"
-        set self "s"
-        set reflex {(?:(?:semi-)?r)}
-        set play "(?:(?:$series)?(?:$help|$recihelp|$self|h$self|$reflex|h$reflex)?)"
+            set paren_close {[)]}
+        set reciPrefix {reci-h}
+        set selfPrefix "s"
+        set reflexPrefix {(?:(?:semi-)?r)}
         set length {(?:[[:digit:]]+(?:[.]5)?)}
-        set stipulation_traditional "(?:$exact?$play$goal$length)"
-
         set side "(?:[l white]|[l black])"
-        set stipulation_structured "(?:$side[v space][v nonspace]+)"; # TODO
+        set maxthreatSuffix {(?:/[[:digit:]]*)}
+        set maxflightSuffix {(?:/[[:digit:]]+)}
+        set nontrivialSuffix {(?:;[[:digit:]]+,[[:digit:]]+)}
 
-        set maxthreat {(?:/[[:digit:]]*)}
-        set maxflight {(?:/[[:digit:]]+)}
-        set nontrivial {(?:;[[:digit:]]+,[[:digit:]]+)}
+        nonterminal helpselfPrefix { helpPrefix selfPrefix }
+        nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
+        nonterminal genericSeriesPrefix { (?: introPrefix ?  parryPrefix ?  seriesPrefix ) }
+        nonterminal recigoal { (?: paren_open goal paren_close ) }
+        nonterminal recihelpPrefix { (?: reciPrefix recigoal ? ) }
+        nonterminal playPrefix { (?: (?: genericSeriesPrefix ) ?  (?: helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix ) ? ) }
+        nonterminal stipulation_traditional { (?: exactPrefix ? playPrefix goal length ) }
 
-        set RE "(?:(?:$stipulation_traditional|$stipulation_structured)(?:$maxthreat$maxflight?)?$nontrivial?)?"; # TODO order of suffixes?
+        nonterminal stipulation_structured { (?: side space  nonspace + ) }; # TODO
+
+        nonterminal suffix { (?: maxthreatSuffix maxflightSuffix ? ) ?  nontrivialSuffix ? }
+
+        nonterminal RE { (?: (?: stipulation_traditional | stipulation_structured ) suffix ) }; # TODO order of suffixes?
     }
         
     namespace eval pieceControl {
         set piecesOfColor {[[:digit:]]+}
         set plus {[+]}
-        set RE "$piecesOfColor[v space]$plus[v space]${piecesOfColor}(?:[v space]$plus[v space]${piecesOfColor}n)?(?:[v space]$plus[v space]${piecesOfColor}[v space]TI)?"
+        set totalInvisiblePseudoWalk "TI"
+        set neutral "n"
+
+        nonterminal separator { space plus space }
+        nonterminal RE {
+            piecesOfColor separator piecesOfColor
+            (?: separator piecesOfColor neutral ) ?
+            (?: separator piecesOfColor space totalInvisiblePseudoWalk ) ?
+        }
     }
 
     namespace eval caption {
-        set stip_pieceControl "[v space]*[v stipulation::RE][v space]*[v pieceControl::RE][v eol]"
-        set RE "${stip_pieceControl}"
+        nonterminal RE { space *  stipulation::RE  space *  pieceControl::RE  eol }
     }
 
     namespace eval boardA {
+        set tomoveIndicator "->"
+        set arrow "=>"
+
         # the caption of board A doesn't indicate the stipulation
-        set caption " *[v pieceControl::RE][v eol]"
-        set tomove "[v stipulation::paren_open][v stipulation::side][v space]->[v stipulation::paren_close]"
-        set RE "(?:[v board::RE]$caption[v eol][v space]*=>[v space]$tomove[v eol][v emptyLine][v emptyLine])"
+        nonterminal captionLine { space *  pieceControl::RE  eol }
+        nonterminal tomove { stipulation::paren_open stipulation::side space tomoveIndicator stipulation::paren_close }
+        nonterminal tomoveLine { space * arrow space tomove eol }
+        nonterminal RE {
+            (?:
+             board::RE
+             captionLine
+             emptyLine
+             tomoveLine
+             emptyLine
+             emptyLine
+             )
+        }
     }
 
     namespace eval conditions {
-        set line " *[v lineText]+[v eol]"
-        set RE "(?:$line)*?"
+        nonterminal RE { (?: space *  lineText +  eol ) * }
     }
 
     namespace eval duplex {
-        set line " *(?:[l duplex]|[l halfduplex])[v eol]"
-        set RE "(?:$line)?"
+        set duplexOrHalf "(?:[l duplex]|[l halfduplex])"
+
+        nonterminal RE { (?: space *  duplexOrHalf  eol ) ? }
     }
 
     namespace eval solution {
-        set ordinalNumber {[1-9][0-9]*[.]}
+        set naturalNumber {[1-9][0-9]*}
         set paren_open {[(]}
-    	set paren_close {[)]}
+        set paren_close {[)]}
         set bracket_open {\[}
         set bracket_close {\]}
         set ellipsis {[.][.][.]}
-        set walkChar {[[:upper:][:digit:]]}
-        set hunterSuffix "(?:/$walkChar{1,2})"
-        set walkPawnImplicit "$walkChar{0,2}$hunterSuffix?"
-        set walk "(?:$walkChar{1,2}$hunterSuffix?)"
+        set comma ","
+        set period {[.]}
         set square {[a-h][1-8]}
         set capture {[*]}
         set captureOrNot {[-*]}
@@ -277,197 +337,284 @@ namespace eval format {
         set castlingK "0-0"
         set pieceAttributeShortcut "(?:"
         foreach p [l pieceAttributeShortcuts] {
-	    if {[string length $p]==1} {
-		append pieceAttributeShortcut "$p?"
-	    } else {
-		append pieceAttributeShortcut "(?:$p)?"
-	    }
+            if {[string length $p]==1} {
+                append pieceAttributeShortcut "$p?"
+            } else {
+                append pieceAttributeShortcut "(?:$p)?"
+            }
         }
         append pieceAttributeShortcut ")"
-        set movement "(?:(?:$pieceAttributeShortcut$walkPawnImplicit${square}$captureOrNot$square|$castlingQ|$castlingK)(?:$captureOrNot$square)*)"
-        set messignyExchange "(?:$walk$square<->$walk$square)"
-        set promotion "(?:=$pieceAttributeShortcut$walk?)"
-        set enPassant "(?:[v space]ep\[.])"
+        set enPassant {(?: ep[.])}
         set vulcanization "(?:->v)"
-        set pieceChangement "(?:$square$promotion)"
-        set pieceSpec "$pieceAttributeShortcut$walk$square"
-        set pieceMovement "(?:$pieceSpec->$pieceAttributeShortcut$walk?$square$promotion*$vulcanization?)"
-        set pieceAddition "(?:\[+]$pieceSpec$promotion*$vulcanization?)"
-        set pieceRemoval "(?:-$pieceSpec)"
-        set pieceExchange "(?:$pieceSpec<->$pieceSpec)"
-        set pieceEffect "(?:${bracket_open}(?:$pieceMovement|$pieceAddition|$pieceRemoval|$pieceChangement|$pieceExchange)$bracket_close)"
-        set imitatorMovement "(?:${bracket_open}I${square}(?:,$square)*$bracket_close)"
+        set promotionIndicator "="
+        set pieceAdditionIndicator {[+]}
+        set pieceRemovalIndicator "-"
+        set pieceMovementIndicator "->"
+        set pieceExchangeIndicator "<->"
         set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
-        set bglBalance "(?:[v space]${paren_open}(?:-|$bglNumber)(?:/$bglNumber)?$paren_close)"
-        set checkIndicator "(?:[v space]\[+])"
+        set bglNone "-"
+        set bglDividedBy "/"
+        set checkIndicator {(?: [+])}
         # yes, this is slightly different from stipulation::goal!
-        set goal "(?:[v space](?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
-        set castlingPartnerMovement "(?:/$movement)"
-        set totalInvisibleMove "TI~-~"
-        set totalInvisibleCapture "TI~$capture$square"
-        set move "(?:[v space][l roleExchange]|[v space]$ellipsis|$pieceEffect*(?:$movement$castlingPartnerMovement?|$totalInvisibleMove|$totalInvisibleCapture|$messignyExchange)$enPassant?$imitatorMovement?$promotion*$pieceEffect*$bglBalance?$checkIndicator?)$goal?"
-
+        set goal "(?: (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
         set moveNumber {[1-9][0-9]*}
-        set moveNumberLineNonIntelligent "(?:[v space]*$moveNumber[v space][v space]\[(]$move[v space]\[)][v eol])"
-
         set nrPositions {[[:digit:]]+}
         set nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        set moveNumberLineIntelligent "$nrPositions[v space][l potentialPositionsIn][v space]$nrMoves[v eol]"
+        set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
+        set imitatorSign "I"
+        set castlingPartnerSeparator "/"
+        set roleExchange " [l roleExchange]"
+        set potentialPositionsIn "[l potentialPositionsIn]"
+        set totalInvisibleMovePrefix "TI~"
+        set totalInvisibleMoveSuffix "-~"
 
-        set undec "(?:[v space](?:[l legalityUndecidable]|[l refutationUndecidable]))"
+        nonterminal ordinalNumber { naturalNumber period }
+
+        nonterminal hunterSuffix { (?: board::hunterPartsSeparator  board::walkChar {1,2} ) }
+        nonterminal walk { (?: board::walkChar {1,2}  hunterSuffix ? ) }
+        nonterminal walkPawnImplicit { (?: board::walkChar {0,2}  hunterSuffix ? ) }
+
+        nonterminal movementFromTo { pieceAttributeShortcut walkPawnImplicit square captureOrNot square }
+        nonterminal castlingPartnerMovement { (?: castlingPartnerSeparator movementFromTo ) }
+        nonterminal movement { (?: (?: movementFromTo castlingPartnerMovement ? | castlingQ | castlingK ) (?: captureOrNot square ) * ) }
+        nonterminal messignyExchange { (?: walk square pieceExchangeIndicator walk square ) }
+        nonterminal promotion { (?: promotionIndicator pieceAttributeShortcut walk ? ) }
+        nonterminal pieceChangement { (?: square promotion ) }
+        nonterminal pieceSpec { pieceAttributeShortcut walk square }
+        nonterminal pieceMovement { (?: pieceSpec  pieceMovementIndicator  pieceAttributeShortcut  walk ?  square  promotion *  vulcanization ? ) }
+        nonterminal pieceAddition { (?: pieceAdditionIndicator pieceSpec promotion *  vulcanization ? ) }
+        nonterminal pieceRemoval { (?: pieceRemovalIndicator pieceSpec ) }
+        nonterminal pieceExchange { (?: pieceSpec pieceExchangeIndicator pieceSpec ) }
+        nonterminal pieceEffect { (?: bracket_open (?: pieceMovement | pieceAddition | pieceRemoval | pieceChangement | pieceExchange ) bracket_close ) }
+        nonterminal imitatorMovement { (?: bracket_open imitatorSign square (?: comma square ) * bracket_close ) }
+        nonterminal bglBalance { (?: space paren_open (?: bglNone | bglNumber ) (?: bglDividedBy bglNumber ) ? paren_close ) }
+        nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
+        nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
+        nonterminal move { (?: roleExchange | space ellipsis | pieceEffect * (?: movement | totalInvisibleMove | totalInvisibleCapture | messignyExchange ) enPassant ? imitatorMovement ? promotion * pieceEffect * bglBalance ? checkIndicator ? ) goal ? } ; # TODO move goal away from here
+
+        nonterminal moveNumberLineNonIntelligent { space * moveNumber space space paren_open move space paren_close eol }
+        nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
 
         namespace eval twinning {
-	    set RE "(?:[v emptyLine]\[+\]?\[a-z]\\)[v space][v lineText]*[v eol](?:[v space][v lineText]+[v eol])*)"; # TODO be more explicit
+            set continued {[+]}
+            set label {[[:lower:]][)]}
+
+            nonterminal RE {
+                (?:
+                 emptyLine
+                 continued ? label space lineText * eol
+                 (?: space lineText + eol ) *
+                 )
+            }; # TODO be more explicit
         }
 
         namespace eval forcedreflexmove {
-	    set indicator {[?]![?]}
-	    set RE "(?:[v space]+[v ordinalNumber][v move][v space]$indicator[v eol])"
+            set indicator {[?]![?]}
+
+            nonterminal RE { (?: space + ordinalNumber move space indicator eol ) }
         }
 
         namespace eval tree {
-	    set attackNumber "[v ordinalNumber]"
-	    set defenseNumber "[v ordinalNumber]\\.{2}"
+            set zugzwang "[l zugzwang]"
+            set threat "[l threat]"
+            set refutationIndicator "!"
 
-	    # in condition "lost pieces", lost pieces of the attacker may be removed
-	    set zugzwangOrThreat "(?:[l zugzwang]|[l threat](?:[v pieceEffect])?)"
+            nonterminal attack { ordinalNumber move }
+            nonterminal defense { naturalNumber ellipsis move }
 
-	    namespace eval keyline {
-		set success "(?:[v space]\[?!])"
-		set RE "[v space][v space][v space][v attackNumber][v move](?:(?:[v undec])|${success}(?:[v space][v zugzwangOrThreat])?)[v eol]"
-	    }
+            # in condition "lost pieces", lost pieces of the attacker may be removed
+            nonterminal zugzwangOrThreat { (?: zugzwang | threat (?: pieceEffect ) ? ) }
+
+            namespace eval keyline {
+                set success {[?!]}
+
+                nonterminal RE { space space space attack (?: undec | space success (?: space zugzwangOrThreat ) ? ) eol }
+            }
 
             namespace eval attackline {
-		set RE "[v space]+[v attackNumber][v move](?:(?:[v undec])|(?:[v space][v zugzwangOrThreat])?)[v eol]"
-	    }
-
-            set threatLine $attackline::RE
-
-            set defense " +$defenseNumber[v move]"
+                nonterminal RE { space + attack (?: undec | (?: space zugzwangOrThreat ) ? ) eol }
+            }
 
             namespace eval defenseline {
-		set RE "[v defense](?:[v undec])?[v eol]"
-	    }
+                nonterminal RE { space + defense (?: undec ) ? eol }
+            }
 
             namespace eval checkOrZugzwangOrThreatLine {
-		# TODO Popeye should write an empty line before the check indicator
-		set RE "(?:(?:[v space]\[+]|[v emptyLine][v space][v zugzwangOrThreat])[v eol])"
-	    }
+                # TODO should Popeye write an empty line before the check indicator?
+                nonterminal RE { (?: (?: checkIndicator | emptyLine space zugzwangOrThreat ) eol ) }
+            }
 
             namespace eval postkeyplay {
                 set RE "(?:(?:[v checkOrZugzwangOrThreatLine::RE])?(?:[v defenseline::RE](?:[v space]+[l refutes][v eol])?|[v attackline::RE])*)"
-	    }
+            }
 
             namespace eval refutation {
-                set RE "(?:[v defense][v space]![v eol](?:[v forcedreflexmove::RE])?)"
+                nonterminal RE { (?: space + defense space refutationIndicator eol (?: forcedreflexmove::RE ) ? ) }
             }
 
             namespace eval refutationblock {
-		set butLine " +[l but][v eol]"
-                set RE "(?:$butLine[v refutation::RE]+)"
+                set but "[l but]"
+
+                nonterminal RE {
+                    (?:
+                     space + but eol
+                     refutation::RE +
+                     )
+                }
             }
 
             namespace eval fullphase {
-                set playAfterKey "(?:(?:[v defenseline::RE]|[v attackline::RE])+)"
-		set RE "(?:[v keyline::RE]$playAfterKey?[v refutationblock::RE]?[v emptyLine])"
-	    }
+                nonterminal playAfterKey { (?: (?: defenseline::RE | attackline::RE ) + ) }
+
+                nonterminal RE {
+                    (?:
+                     keyline::RE
+                     playAfterKey ?
+                     refutationblock::RE ?
+                     emptyLine
+                     )
+                }
+            }
 
             namespace eval setplay {
-                set RE "[v fullphase::playAfterKey]"
-	    }
+                nonterminal RE { fullphase::playAfterKey }
+            }
 
-            set regularplay "(?:[v moveNumberLineNonIntelligent]|$fullphase::RE)+"
-            set RE "(?:$postkeyplay::RE|(?:(?:[v emptyLine]$setplay::RE)?(?:[v emptyLine]$regularplay)*))"
+            nonterminal regularplay { (?: moveNumberLineNonIntelligent | fullphase::RE ) + }
+            nonterminal RE { (?: postkeyplay::RE | (?: (?: emptyLine setplay::RE ) ? (?: emptyLine regularplay ) * ) ) }
         }
 
         namespace eval line {
-	    set subsequentMovePair "(?:[v space]+[v ordinalNumber][v move](?:[v undec][v eol]|(?:[v space]+[v move])+(?:[v undec][v eol])?))"
-	    set moveNumberLine "[v moveNumberLineNonIntelligent]|[v moveNumberLineIntelligent]"
+            nonterminal subsequentMovePair { (?: space + ordinalNumber move (?: undec eol | (?: space + move ) + (?: undec eol ) ? ) ) }
+            nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
 
-	    namespace eval helpplay {
-		set finalMove "(?:[v space]+[v ordinalNumber][v move](?:[v undec][v eol])?)"
+            namespace eval helpplay {
+                set one "1"
 
-		# set play of h#n.5
-		namespace eval twoEllipsis {
-		    set firstMovePairSkipped "1[v ellipsis][v space]+[v ellipsis]"
-		    set line "(?:[v space]+$firstMovePairSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
-		    set RE "(?:(?:$line|[v moveNumberLine])+)"
-		}
+                nonterminal finalMove { (?: space + ordinalNumber move (?: undec eol ) ? ) }
+
+                # set play of h#n.5
+                namespace eval twoEllipsis {
+                    nonterminal firstMovePairSkipped { one ellipsis space + ellipsis }
+                    nonterminal line { (?: space + firstMovePairSkipped subsequentMovePair * finalMove ? eol ) }
+                    nonterminal RE { (?: (?: line | moveNumberLine ) + ) }
+                }
 
                 # set play of h#n or regular play of h#n.5
                 namespace eval oneEllipsis {
-		    set firstMoveSkipped "1[v ellipsis][v move](?:[v undec][v eol])?"
-		    set line "(?:[v space]+$firstMoveSkipped[v subsequentMovePair]*[v finalMove]?[v eol])"
-		    set RE "(?:(?:$line|[v moveNumberLine])+)"
-		}
+                    nonterminal firstMoveSkipped { one  ellipsis move (?: undec eol ) ? }
+                    nonterminal line { (?: space + firstMoveSkipped subsequentMovePair * finalMove ? eol ) }
+                    nonterminal RE { (?: (?: line | moveNumberLine ) + ) }
+                }
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-		    set firstMovePair "(?:1.[v move](?:[v undec][v eol]|(?:[v space]+[v move])+(?:[v undec][v eol])?))"
-		    set line "(?:[v space]+$firstMovePair[v subsequentMovePair]*[v finalMove]?[v eol])"
-		    set RE "(?:(?:$line|[v moveNumberLine])+)"
-		}
+                    nonterminal firstMovePair { (?: one period move (?: undec eol | (?: space + move ) + (?: undec eol ) ? ) ) }
+                    nonterminal line { (?: space + firstMovePair subsequentMovePair * finalMove ? eol ) }
+                    nonterminal RE { (?: (?: line | moveNumberLine ) + ) }
+                }
 
-                set RE "(?:$twoEllipsis::RE?[v emptyLine]?$oneEllipsis::RE?|$oneEllipsis::RE?[v emptyLine]?$noEllipsis::RE?)"
-    	    }
+                nonterminal RE  { (?: twoEllipsis::RE ? emptyLine ? oneEllipsis::RE | oneEllipsis::RE ? emptyLine ? noEllipsis::RE ? ) }
+            }
 
             namespace eval seriesplay {
-		set numberedMove "(?:[v space]+[v ordinalNumber][v move])"
-		set line "(?:(?:$numberedMove|[v subsequentMovePair])+[v eol])"
-		set RE "(?:(?:(?:[l setplayNotApplicable]|[l tryplayNotApplicable])[v eol]*)?[v emptyLine](?:$line|[v moveNumberLine])*)"
-	    }
+                # TODO while not in help play?
+                set setplayNotApplicable "[l setplayNotApplicable]"
+                set tryplayNotApplicable "[l tryplayNotApplicable]"
 
-            set RE "(?:[v emptyLine]$helpplay::RE|$seriesplay::RE)"
+                nonterminal numberedMove { (?: space + ordinalNumber move ) }
+                nonterminal line { (?: (?: numberedMove | subsequentMovePair ) + eol ) }
+                nonterminal RE { (?: (?: (?: setplayNotApplicable | tryplayNotApplicable ) eol * ) ? emptyLine (?: line | moveNumberLine ) * ) }
+            }
+
+            # TODO why emptyLine only before help play?
+            nonterminal RE { (?: emptyLine helpplay::RE | seriesplay::RE ) }
         }
 
         namespace eval measurements {
-	    set line "(?:[v space]*\[\[:alpha:]_]+:[v space]*\[\[:digit:]]+)"
-	    set RE "(?:(?:$line[v eol])+)"
+            set line {(?: *[[:alpha:]_]+: *[[:digit:]]+)}
+            nonterminal RE { (?: (?: line eol ) + ) }
         }
 
         namespace eval kingmissing {
-	    set RE "(?:[l kingmissing][v eol])"
+            set kingmissing "[l kingmissing]"
+
+            nonterminal RE { (?: kingmissing eol ) }
         }
 
         namespace eval untwinned {
-	    set problemignored "(?:(?:[l toofairy][v eol]|[l nonsensecombination][v eol]|[l conditionSideUndecidable][v eol][v emptyLine])[l problemignored][v eol])"
-	    set simplex "(?:(?:[v emptyLine][l illegalSelfCheck]|[v emptyLine][v forcedreflexmove::RE]+|[v tree::RE]|[v line::RE])+)"
+            set toofairy "[l toofairy]"
+            set nonsensecombination "[l nonsensecombination]"
+            set conditionSideUndecidable "[l conditionSideUndecidable]"
+            set problemignored "[l problemignored]"
+            set illegalSelfCheck "[l illegalSelfCheck]"
+            set intelligentAndFairy "[l intelligentAndFairy]"
+
+            nonterminal problemignoredMsgs {
+                (?:
+                 (?:
+                  toofairy eol
+                  | nonsensecombination eol
+                  | conditionSideUndecidable eol emptyLine
+                  )
+                 problemignored eol
+                 )
+            }
+            nonterminal simplex { (?: (?: emptyLine illegalSelfCheck | emptyLine forcedreflexmove::RE + | tree::RE | line::RE ) + ) }
             # the last + should be {1,2}, but that would make the expression too complex
-	    set RE "(?:[v kingmissing::RE]?(?:[l intelligentAndFairy])?(?:$problemignored|(?:$simplex[v measurements::RE])+)(?:[v remark::RE])?)"
+            nonterminal RE { (?: kingmissing::RE ? (?: intelligentAndFairy ) ? (?: problemignoredMsgs | (?: simplex measurements::RE ) + ) (?: remark::RE ) ? ) }
         }
 
         namespace eval twinned {
-	    # too complex for regexp
-	    set RE "(?:[v twinning::RE][v untwinned::RE])+"
-	    set separator [v twinning::RE]
+            # too complex for regexp
+            nonterminal RE { (?: twinning::RE untwinned::RE ) + }
+            nonterminal separator { twinning::RE }
         }
 
         # too complex for regexp
-        set RE "(?:$untwinned::RE|$twinned::RE)"
+        nonterminal RE { (?: untwinned::RE | twinned::RE ) }
     }
 
     namespace eval footer {
-        set RE "(?:[v eol][l endOfSolution]|[l partialSolution])[v eol][v emptyLine][v emptyLine]"
+        set endOfSolution "[l endOfSolution]"
+        set partialSolution "[l partialSolution]"
+
+        nonterminal RE { (?: eol endOfSolution | partialSolution ) eol emptyLine emptyLine }
     }
 
     # applying this gives an "expression is too complex" error :-(
     # dividing the input at recognized problem footers is also much, much faster...
     namespace eval problem {
         # too complex for regexp
-        set RE "([v remark::RE](?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v solution::RE])([v footer::RE])"
+        nonterminal RE { ( remark::RE (?: ( authoretc::RE ) ( boardA::RE ? ) ( board::RE ) ( caption::RE ) ( conditions::RE ) ( duplex::RE ) ( gridboard::RE ? ) ) ? ( solution::RE ) ( footer::RE ) ) }
     }
 
     namespace eval inputerror {
-        set text "[v lineText]+"
-        set RE "(?:[l inputError]:$text[v eol][l offendingItem]:[v space]$text[v eol])"
+        set inputError "[l inputError]:"
+        set offendingItem "[l offendingItem]:"
+
+        nonterminal RE {
+            (?:
+             inputError lineText + eol
+             offendingItem space lineText + eol
+             )
+        }
     }
 
     namespace eval zeroposition {
-        set RE "(?:[v emptyLine][l zeroposition][v eol][v emptyLine])"
+        set zeroposition "[l zeroposition]"
+
+        nonterminal RE { (?: emptyLine zeroposition eol emptyLine ) }
     }
 
     namespace eval beforesolution {
-        set RE "^([v inputerror::RE]*)([v remark::RE]?)(?:([v authoretc::RE])([v boardA::RE]?)([v board::RE])([v caption::RE])([v conditions::RE])([v duplex::RE])([v gridboard::RE]?))?([v zeroposition::RE]?)"
+        nonterminal RE {
+            ^
+            ( inputerror::RE * )
+            ( remark::RE ? )
+            (?: ( authoretc::RE ) ( boardA::RE ? ) ( board::RE ) ( caption::RE ) ( conditions::RE ) ( duplex::RE ) ( gridboard::RE ? ) ) ?
+            ( zeroposition::RE ? )
+        }
     }
 }
 
@@ -477,29 +624,29 @@ close $f
 
 proc printSection {debugPrefix section} {
     if {[lindex $::sections 0]=="debug"} {
-	foreach line [split [regsub "\n$" $section ""] "\n"] {
-	    puts "$debugPrefix:$line@"
-	}
+        foreach line [split [regsub "\n$" $section ""] "\n"] {
+            puts "$debugPrefix:$line@"
+        }
     } else {
-	puts -nonewline $section
+        puts -nonewline $section
     }
 }
 
 proc handleTextBeforeSolution {beforesol} {
     if {[regexp $format::beforesolution::RE $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
-	&& ([regexp -- {[^[:space:]]} $inputerrors]
-	    || [regexp -- {[^[:space:]]} $remark]
-	    || [regexp -- {[^[:space:]]} $board])} {
-	printSection "i" $inputerrors
-	printSection "r" $remark
-	printSection "a" $authoretc
-	printSection "ba" $boardA
-	printSection "b" $board
-	printSection "ca" $caption
-	printSection "co" $conditions
-	printSection "d" $duplex
-	printSection "g" $gridboard
-	printSection "z" $zeroposition
+        && ([regexp -- {[^[:space:]]} $inputerrors]
+            || [regexp -- {[^[:space:]]} $remark]
+            || [regexp -- {[^[:space:]]} $board])} {
+        printSection "i" $inputerrors
+        printSection "r" $remark
+        printSection "a" $authoretc
+        printSection "ba" $boardA
+        printSection "b" $board
+        printSection "ca" $caption
+        printSection "co" $conditions
+        printSection "d" $duplex
+        printSection "g" $gridboard
+        printSection "z" $zeroposition
     }
 }
 
@@ -511,11 +658,11 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
     # output created with option noboard and yield "interesting" results
     if {[regexp -- $noboardExpr $beforeFooter -  beforesol solution]
         || [regexp -- $withBoardExpr $beforeFooter - beforesol solution]} {
-	handleTextBeforeSolution $beforesol
-	printSection "s" $solution
+        handleTextBeforeSolution $beforesol
+        printSection "s" $solution
     } else {
-	# input error ...
-	handleTextBeforeSolution $beforeFooter
+        # input error ...
+        handleTextBeforeSolution $beforeFooter
     }
 }
 
@@ -523,10 +670,10 @@ proc makeSegments {beforeFooter twinningIndices} {
     set segments {}
     set startOfNextSegment 0
     foreach pair $twinningIndices {
-	foreach {twinningStart twinningEnd} $pair break
-	lappend segments [string range $beforeFooter $startOfNextSegment [expr {$twinningStart-1}]]
-	lappend segments [string range $beforeFooter $twinningStart $twinningEnd]
-	set startOfNextSegment [expr {$twinningEnd+1}]
+        foreach {twinningStart twinningEnd} $pair break
+        lappend segments [string range $beforeFooter $startOfNextSegment [expr {$twinningStart-1}]]
+        lappend segments [string range $beforeFooter $twinningStart $twinningEnd]
+        set startOfNextSegment [expr {$twinningEnd+1}]
     }
     lappend segments [string range $beforeFooter $startOfNextSegment "end"]
     return $segments
@@ -537,20 +684,20 @@ proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
     set firstTwin true
     set beforeSolution [lindex $segments 0]
     foreach {twinning solution} [lrange $segments 1 "end"] {
-	if {[regexp $format::solution::untwinned::RE $solution]} {
-	    if {$firstTwin} {
-		handleTextBeforeSolution $beforeSolution
-		set firstTwin false
-	    }
-	    printSection "t" $twinning
-	    printSection "s" $solution
-	} else {
-	    append beforeSolution "$twinning$solution"
-	}
+        if {[regexp $format::solution::untwinned::RE $solution]} {
+            if {$firstTwin} {
+                handleTextBeforeSolution $beforeSolution
+                set firstTwin false
+            }
+            printSection "t" $twinning
+            printSection "s" $solution
+        } else {
+            append beforeSolution "$twinning$solution"
+        }
     }
     if {$firstTwin} {
-	# there was some "fake twinning" in a text field
-	handleSolutionWithoutTwinning $beforeFooter
+        # there was some "fake twinning" in a text field
+        handleSolutionWithoutTwinning $beforeFooter
     }
 }
 
@@ -558,25 +705,25 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
     set footerIndices [regexp -all -indices -inline $format::footer::RE $input]
     set nextProblemStart 0
     foreach footerIndexPair $footerIndices {
-	foreach {footerStart footerEnd} $footerIndexPair break
-	set footer [string range $input $footerStart $footerEnd]
-	set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
-	set nextProblemStart [expr {$footerEnd+1}]
-	set twinningIndices [regexp -all -inline -indices $format::solution::twinned::separator $beforeFooter]
-	if {[llength $twinningIndices]==0} {
-	    handleSolutionWithoutTwinning $beforeFooter
-	} else {
-	    handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices
-	}
-	printSection "f" $footer
+        foreach {footerStart footerEnd} $footerIndexPair break
+        set footer [string range $input $footerStart $footerEnd]
+        set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
+        set nextProblemStart [expr {$footerEnd+1}]
+        set twinningIndices [regexp -all -inline -indices $format::solution::twinned::separator $beforeFooter]
+        if {[llength $twinningIndices]==0} {
+            handleSolutionWithoutTwinning $beforeFooter
+        } else {
+            handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices
+        }
+        printSection "f" $footer
     }
 } else {
     set expr ""
     foreach section $sections {
-	append expr [set format::${section}::RE]
+        append expr [set format::${section}::RE]
     }
     foreach match [regexp -all -inline $expr $input] {
-	puts -nonewline $match
-	puts "===="
+        puts -nonewline $match
+        puts "===="
     }
 }
