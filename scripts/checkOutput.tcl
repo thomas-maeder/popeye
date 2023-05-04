@@ -140,15 +140,21 @@ proc v {name} {
     return [set ${scope}::$name]
 }
 
-proc nonterminal {name def} {
+proc terminal {name expression} {
     upvar $name result
 
-    regsub -all {[[:space:]]+} $def " " def
-    regsub {^[[:space:]]+} $def "" def
-    regsub {[[:space:]]+$} $def "" def
+    set result $expression
+}
+
+proc nonterminal {name production} {
+    upvar $name result
+
+    regsub -all {[[:space:]]+} $production " " production
+    regsub {^[[:space:]]+} $production "" production
+    regsub {[[:space:]]+$} $production "" production
 
     set result "(?:"
-    foreach token [split $def " "] {
+    foreach token [split $production " "] {
         switch -regexp $token {
             ^[[:alnum:]_:]+$ {
                 append result [uplevel v $token]
@@ -162,13 +168,13 @@ proc nonterminal {name def} {
 }
 
 namespace eval format {
-    set eol {\n}
-    set emptyLine {\n}
-    set lineText {[^\n]}
-    set space { }
-    set hyphen {-}
-    set nonspace {[^ ]}
-    set period {[.]}
+    terminal eol {\n}
+    terminal emptyLine {\n}
+    terminal lineText {[^\n]}
+    terminal space { }
+    terminal hyphen {-}
+    terminal nonspace {[^ ]}
+    terminal period {[.]}
 
     namespace eval remark {
         nonterminal remark { lineText + }
@@ -187,20 +193,20 @@ namespace eval format {
     }
 
     namespace eval board {
-        set nrRows 8
-        set nrColumns 8
+        terminal nrRows 8
+        terminal nrColumns 8
         
-        set cornerSign {[+]}
-        set verticalBorderSign {[|]}
-        set horizontalBorderSign "-"
-        set columnName {[a-h]}
-        set rowNo {[1-8]}
-        set gridVertical {[|]}
-        set white " "
-        set black "-"
-        set neutral "="
-        set walkChar {[[:upper:][:digit:]]}
-        set hunterPartsSeparator "/"
+        terminal cornerSign {[+]}
+        terminal verticalBorderSign {[|]}
+        terminal horizontalBorderSign "-"
+        terminal columnName {[a-h]}
+        terminal rowNo {[1-8]}
+        terminal gridVertical {[|]}
+        terminal white " "
+        terminal black "-"
+        terminal neutral "="
+        terminal walkChar {[[:upper:][:digit:]]}
+        terminal hunterPartsSeparator "/"
 
         nonterminal columnSpec { horizontalBorderSign horizontalBorderSign columnName horizontalBorderSign }
         nonterminal columns { cornerSign horizontalBorderSign columnSpec { nrColumns } horizontalBorderSign horizontalBorderSign cornerSign eol }
@@ -231,9 +237,9 @@ namespace eval format {
     }
 
     namespace eval gridboard {
-	set cell {[ [:digit:]][[:digit:]]}
+	terminal cell {(?:  [ [:digit:]][[:digit:]])}
 
-	nonterminal cellsline { board::rowNo (?: space space cell ) { board::nrColumns } space space space board::rowNo eol }
+	nonterminal cellsline { board::rowNo cell { board::nrColumns } space space space board::rowNo eol }
         nonterminal block {
 	    emptyLine
 	    board::columns
@@ -244,29 +250,29 @@ namespace eval format {
     }
 
     namespace eval stipulation {
-        set goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
-        set exactPrefix {(?:exact-)}
-        set introPrefix {(?:[[:digit:]]+->)}
-        set parryPrefix {(?:ph?)}
-        set seriesPrefix {ser-}
-        set helpPrefix "h"
-        set paren_open {[(]}
-            set paren_close {[)]}
-        set reciPrefix {reci-h}
-        set selfPrefix "s"
-        set reflexPrefix {(?:(?:semi-)?r)}
-        set length {(?:[[:digit:]]+(?:[.]5)?)}
-        set side "(?:[l white]|[l black])"
-        set maxthreatSuffix {(?:/[[:digit:]]*)}
-        set maxflightSuffix {(?:/[[:digit:]]+)}
-        set nontrivialSuffix {(?:;[[:digit:]]+,[[:digit:]]+)}
+        terminal goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
+        terminal exactPrefix {(?:exact-)}
+        terminal introPrefix {(?:[[:digit:]]+->)}
+        terminal parryPrefix {(?:ph?)}
+        terminal seriesPrefix {ser-}
+        terminal helpPrefix "h"
+        terminal paren_open {[(]}
+            terminal paren_close {[)]}
+        terminal reciPrefix {reci-h}
+        terminal selfPrefix "s"
+        terminal reflexPrefix {(?:(?:semi-)?r)}
+        terminal length {(?:[[:digit:]]+(?:[.]5)?)}
+        terminal side "(?:[l white]|[l black])"
+        terminal maxthreatSuffix {(?:/[[:digit:]]*)}
+        terminal maxflightSuffix {(?:/[[:digit:]]+)}
+        terminal nontrivialSuffix {(?:;[[:digit:]]+,[[:digit:]]+)}
 
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
         nonterminal genericSeriesPrefix { introPrefix ?  parryPrefix ?  seriesPrefix }
         nonterminal recigoal { paren_open goal paren_close }
         nonterminal recihelpPrefix { reciPrefix recigoal ? }
-        nonterminal playPrefix { (?: genericSeriesPrefix ) ?  (?: helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix ) ? }
+        nonterminal playPrefix { genericSeriesPrefix ?  (?: helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix ) ? }
         nonterminal stipulation_traditional { exactPrefix ? playPrefix goal length }
 
         nonterminal stipulation_structured { side space  nonspace + }; # TODO
@@ -277,10 +283,10 @@ namespace eval format {
     }
         
     namespace eval pieceControl {
-        set piecesOfColor {[[:digit:]]+}
-        set plus {[+]}
-        set totalInvisiblePseudoWalk "TI"
-        set neutral "n"
+        terminal piecesOfColor {[[:digit:]]+}
+        terminal plus {[+]}
+        terminal totalInvisiblePseudoWalk "TI"
+        terminal neutral "n"
 
         nonterminal separator { space plus space }
         nonterminal block {
@@ -295,8 +301,8 @@ namespace eval format {
     }
 
     namespace eval boardA {
-        set tomoveIndicator "->"
-        set arrow "=>"
+        terminal tomoveIndicator "->"
+        terminal arrow "=>"
 
         # the caption of board A doesn't indicate the stipulation
         nonterminal captionLine { space *  pieceControl::block  eol }
@@ -317,26 +323,26 @@ namespace eval format {
     }
 
     namespace eval duplex {
-        set duplexOrHalf "(?:[l duplex]|[l halfduplex])"
+        terminal duplexOrHalf "(?:[l duplex]|[l halfduplex])"
 
         nonterminal block { (?: space *  duplexOrHalf  eol ) ? }
     }
 
     namespace eval solution {
-        set naturalNumber {[1-9][0-9]*}
-        set paren_open {[(]}
-        set paren_close {[)]}
-        set bracket_open {\[}
-        set bracket_close {\]}
-        set ellipsis {[.][.][.]}
-        set comma ","
-        set period {[.]}
-        set square {[a-h][1-8]}
-        set capture {[*]}
-        set captureOrNot {[-*]}
-        set castlingQ "0-0-0"
-        set castlingK "0-0"
-        set pieceAttributeShortcut "(?:"
+        terminal naturalNumber {[1-9][0-9]*}
+        terminal paren_open {[(]}
+        terminal paren_close {[)]}
+        terminal bracket_open {\[}
+        terminal bracket_close {\]}
+        terminal ellipsis {[.][.][.]}
+        terminal comma ","
+        terminal period {[.]}
+        terminal square {[a-h][1-8]}
+        terminal capture {[*]}
+        terminal captureOrNot {[-*]}
+        terminal castlingQ "0-0-0"
+        terminal castlingK "0-0"
+        terminal pieceAttributeShortcut "(?:"
         foreach p [l pieceAttributeShortcuts] {
             if {[string length $p]==1} {
                 append pieceAttributeShortcut "$p?"
@@ -345,37 +351,37 @@ namespace eval format {
             }
         }
         append pieceAttributeShortcut ")"
-        set enPassant {(?: ep[.])}
-        set vulcanization "(?:->v)"
-        set promotionIndicator "="
-        set pieceAdditionIndicator {[+]}
-        set pieceRemovalIndicator "-"
-        set pieceMovementIndicator "->"
-        set pieceExchangeIndicator "<->"
-        set bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
-        set bglNone "-"
-        set bglDividedBy "/"
-        set checkIndicator {(?: [+])}
+        terminal enPassant {(?: ep[.])}
+        terminal vulcanization "(?:->v)"
+        terminal promotionIndicator "="
+        terminal pieceAdditionIndicator {[+]}
+        terminal pieceRemovalIndicator "-"
+        terminal pieceMovementIndicator "->"
+        terminal pieceExchangeIndicator "<->"
+        terminal bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
+        terminal bglNone "-"
+        terminal bglDividedBy "/"
+        terminal checkIndicator {(?: [+])}
         # yes, this is slightly different from stipulation::goal!
-        set goal "(?: (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
-        set moveNumber {[1-9][0-9]*}
-        set nrPositions {[[:digit:]]+}
-        set nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        set undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
-        set imitatorSign "I"
-        set castlingPartnerSeparator "/"
-        set roleExchange " [l roleExchange]"
-        set potentialPositionsIn "[l potentialPositionsIn]"
-        set totalInvisibleMovePrefix "TI~"
-        set totalInvisibleMoveSuffix "-~"
-        set forcedReflexMoveIndicator {[?]![?]}
-        set kingmissing "[l kingmissing]"
-        set measurementsLine {(?: *[[:alpha:]_]+: *[[:digit:]]+)}
+        terminal goal "(?: (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
+        terminal moveNumber {[1-9][0-9]*}
+        terminal nrPositions {[[:digit:]]+}
+        terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
+        terminal undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
+        terminal imitatorSign "I"
+        terminal castlingPartnerSeparator "/"
+        terminal roleExchange " [l roleExchange]"
+        terminal potentialPositionsIn "[l potentialPositionsIn]"
+        terminal totalInvisibleMovePrefix "TI~"
+        terminal totalInvisibleMoveSuffix "-~"
+        terminal forcedReflexMoveIndicator {[?]![?]}
+        terminal kingmissing "[l kingmissing]"
+        terminal measurementsLine {(?: *[[:alpha:]_]+: *[[:digit:]]+)}
 
         nonterminal ordinalNumber { naturalNumber period }
 
         nonterminal hunterSuffix { board::hunterPartsSeparator  board::walkChar {1,2} }
-        nonterminal walk { (?: board::walkChar {1,2}  hunterSuffix ? ) }
+        nonterminal walk { board::walkChar {1,2}  hunterSuffix ? }
         nonterminal walkPawnImplicit { board::walkChar {0,2}  hunterSuffix ? }
 
         nonterminal movementFromTo { pieceAttributeShortcut walkPawnImplicit square captureOrNot square }
@@ -400,8 +406,8 @@ namespace eval format {
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
 
         namespace eval twinning {
-            set continued {[+]}
-            set label {[[:lower:]][)]}
+            terminal continued {[+]}
+            terminal label {[[:lower:]][)]}
 
             nonterminal block {
 		emptyLine
@@ -413,18 +419,18 @@ namespace eval format {
         nonterminal forcedReflexMove { space + ordinalNumber move space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
-            set zugzwang "[l zugzwang]"
-            set threat "[l threat]"
-            set refutationIndicator "!"
-	    set refutesIndicator "[l refutes]"
-	    set keySuccess {[?!]}
-	    set but "[l but]"
+            terminal zugzwang "[l zugzwang]"
+            terminal threat "[l threat]"
+            terminal refutationIndicator "!"
+	    terminal refutesIndicator "[l refutes]"
+	    terminal keySuccess {[?!]}
+	    terminal but "[l but]"
 
             nonterminal attack { ordinalNumber move }
             nonterminal defense { naturalNumber ellipsis move }
 
             # in condition "lost pieces", lost pieces of the attacker may be removed
-            nonterminal zugzwangOrThreat { zugzwang | threat (?: pieceEffect ) ? }
+            nonterminal zugzwangOrThreat { zugzwang | threat pieceEffect ? }
 
 	    nonterminal keyLine { space space space attack (?: undec | space keySuccess (?: space zugzwangOrThreat ) ? ) eol }
 
@@ -434,9 +440,9 @@ namespace eval format {
 	    # TODO should Popeye write an empty line before the check indicator?
 	    nonterminal checkOrZugzwangOrThreatLine { (?: checkIndicator | emptyLine space zugzwangOrThreat ) eol }
 
-	    nonterminal postKeyPlay { (?: checkOrZugzwangOrThreatLine ) ? (?: defenseLine (?: space + refutesIndicator eol ) ? | attackLine ) * }
+	    nonterminal postKeyPlay { checkOrZugzwangOrThreatLine ? (?: defenseLine (?: space + refutesIndicator eol ) ? | attackLine ) * }
 
-	    nonterminal refutation { space + defense space refutationIndicator eol (?: forcedReflexMove ) ? }
+	    nonterminal refutation { space + defense space refutationIndicator eol forcedReflexMove ? }
 
 	    nonterminal refutationBlock {
 		space + but eol
@@ -463,7 +469,7 @@ namespace eval format {
             nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
 
             namespace eval helpplay {
-                set one "1"
+                terminal one "1"
 
                 nonterminal finalMove { space + ordinalNumber move (?: undec eol ) ? }
 
@@ -496,8 +502,8 @@ namespace eval format {
 
             namespace eval seriesplay {
                 # TODO while not in help play?
-                set setplayNotApplicable "[l setplayNotApplicable]"
-                set tryplayNotApplicable "[l tryplayNotApplicable]"
+                terminal setplayNotApplicable "[l setplayNotApplicable]"
+                terminal tryplayNotApplicable "[l tryplayNotApplicable]"
 
                 nonterminal numberedMove { space + ordinalNumber move }
                 nonterminal line { (?: numberedMove | subsequentMovePair ) + eol }
@@ -513,12 +519,12 @@ namespace eval format {
         nonterminal kingMissingLine { kingmissing eol }
 
         namespace eval untwinned {
-            set toofairy "[l toofairy]"
-            set nonsensecombination "[l nonsensecombination]"
-            set conditionSideUndecidable "[l conditionSideUndecidable]"
-            set problemignored "[l problemignored]"
-            set illegalSelfCheck "[l illegalSelfCheck]"
-            set intelligentAndFairy "[l intelligentAndFairy]"
+            terminal toofairy "[l toofairy]"
+            terminal nonsensecombination "[l nonsensecombination]"
+            terminal conditionSideUndecidable "[l conditionSideUndecidable]"
+            terminal problemignored "[l problemignored]"
+            terminal illegalSelfCheck "[l illegalSelfCheck]"
+            terminal intelligentAndFairy "(?:[l intelligentAndFairy])"
 
             nonterminal problemignoredMsgs {
 		(?:
@@ -530,7 +536,7 @@ namespace eval format {
             }
             nonterminal simplex { (?: emptyLine illegalSelfCheck | emptyLine forcedReflexMove + | tree::block | line::block ) + }
             # the + should be {1,2}, but that would make the expression too complex
-            nonterminal block { kingMissingLine ? (?: intelligentAndFairy ) ? (?: problemignoredMsgs | (?: simplex measurementsBlock ) + ) (?: remark::block ) ? }
+            nonterminal block { kingMissingLine ? intelligentAndFairy ? (?: problemignoredMsgs | (?: simplex measurementsBlock ) + ) remark::block ? }
         }
 
         namespace eval twinned {
@@ -544,8 +550,8 @@ namespace eval format {
     }
 
     namespace eval footer {
-        set endOfSolution "[l endOfSolution]"
-        set partialSolution "[l partialSolution]"
+        terminal endOfSolution "[l endOfSolution]"
+        terminal partialSolution "[l partialSolution]"
 
         nonterminal block { (?: eol endOfSolution | partialSolution ) eol emptyLine emptyLine }
     }
@@ -558,8 +564,8 @@ namespace eval format {
     }
 
     namespace eval inputerror {
-        set inputError "[l inputError]:"
-        set offendingItem "[l offendingItem]:"
+        terminal inputError "[l inputError]:"
+        terminal offendingItem "[l offendingItem]:"
 
         nonterminal block {
 	    inputError lineText + eol
@@ -568,7 +574,7 @@ namespace eval format {
     }
 
     namespace eval zeroposition {
-        set zeroposition "[l zeroposition]"
+        terminal zeroposition "[l zeroposition]"
 
         nonterminal block { emptyLine zeroposition eol emptyLine }
     }
