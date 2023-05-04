@@ -193,9 +193,6 @@ namespace eval format {
     }
 
     namespace eval board {
-        terminal nrRows 8
-        terminal nrColumns 8
-        
         terminal cornerSign {[+]}
         terminal verticalBorderSign {[|]}
         terminal horizontalBorderSign "-"
@@ -209,7 +206,7 @@ namespace eval format {
         terminal hunterPartsSeparator "/"
 
         nonterminal columnSpec { horizontalBorderSign horizontalBorderSign columnName horizontalBorderSign }
-        nonterminal columns { cornerSign horizontalBorderSign columnSpec { nrColumns } horizontalBorderSign horizontalBorderSign cornerSign eol }
+        nonterminal columns { cornerSign horizontalBorderSign columnSpec + horizontalBorderSign horizontalBorderSign cornerSign eol }
 
         nonterminal gridHorizontal { space hyphen hyphen hyphen }
         nonterminal squareEmpty { (?: space | gridVertical ) space period }
@@ -220,17 +217,17 @@ namespace eval format {
         nonterminal regularSeparator { space }
         nonterminal separator { regularSeparator | hunterPartsSeparator }
         nonterminal pieceOrNoPiece { squareEmpty | hole | walk1Char | walk2Chars }
-        nonterminal piecesLine { rowNo space (?: pieceOrNoPiece separator ) { nrColumns } space space rowNo eol }
+        nonterminal piecesLine { rowNo space (?: pieceOrNoPiece separator ) + space space rowNo eol }
 
         nonterminal hunter2ndPart { hole | walk1Char | walk2Chars }
-        nonterminal spaceLine { verticalBorderSign space (?: hunter2ndPart regularSeparator | gridHorizontal ) { nrColumns } space space verticalBorderSign eol }
+        nonterminal spaceLine { verticalBorderSign space (?: hunter2ndPart regularSeparator | gridHorizontal ) + space space verticalBorderSign eol }
 
         nonterminal block {
 	    columns
 	    (?:
 	     spaceLine
 	     piecesLine
-	     ) { nrRows }
+	     ) +
 	    spaceLine
 	    columns
         }
@@ -239,11 +236,11 @@ namespace eval format {
     namespace eval gridboard {
 	terminal cell {(?:  [ [:digit:]][[:digit:]])}
 
-	nonterminal cellsline { board::rowNo cell { board::nrColumns } space space space board::rowNo eol }
+	nonterminal cellsline { board::rowNo cell + space space space board::rowNo eol }
         nonterminal block {
 	    emptyLine
 	    board::columns
-	    (?: board::spaceLine cellsline ) { board::nrRows }
+	    (?: board::spaceLine cellsline ) +
 	    board::spaceLine
 	    board::columns
 	}
