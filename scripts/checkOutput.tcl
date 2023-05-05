@@ -410,7 +410,9 @@ namespace eval format {
         nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart ? paren_close }
         nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
         nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
-        nonterminal move { roleExchange | space ellipsis | otherPieceEffect * (?: movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange ) enPassant ? imitatorMovement ? promotion * otherPieceEffect * bglBalance ? checkIndicator ? }
+	nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
+	nonterminal regularMove { otherPieceEffect * movingPieceMovement enPassant ? imitatorMovement ? promotion * otherPieceEffect * bglBalance ? checkIndicator ? }
+        nonterminal move { roleExchange | space ellipsis | regularMove }
 
         nonterminal moveNumberLineNonIntelligent { space * moveNumber space space paren_open move space paren_close eol }
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
