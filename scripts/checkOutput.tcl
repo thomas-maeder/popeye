@@ -410,7 +410,7 @@ namespace eval format {
         nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart ? paren_close }
         nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
         nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
-        nonterminal move { (?: roleExchange | space ellipsis | otherPieceEffect * (?: movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange ) enPassant ? imitatorMovement ? promotion * otherPieceEffect * bglBalance ? checkIndicator ? ) goal ? } ; # TODO move goal away from here
+        nonterminal move { roleExchange | space ellipsis | otherPieceEffect * (?: movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange ) enPassant ? imitatorMovement ? promotion * otherPieceEffect * bglBalance ? checkIndicator ? }
 
         nonterminal moveNumberLineNonIntelligent { space * moveNumber space space paren_open move space paren_close eol }
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
@@ -427,7 +427,7 @@ namespace eval format {
             }; # TODO be more explicit
         }
 
-        nonterminal forcedReflexMove { space + ordinalNumber move space forcedReflexMoveIndicator eol }
+        nonterminal forcedReflexMove { space + ordinalNumber move goal space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
             terminal zugzwang " [l zugzwang]"
@@ -443,12 +443,13 @@ namespace eval format {
             # in condition "lost pieces", lost pieces of the attacker may be removed
             nonterminal zugzwangOrThreat { zugzwang | threat otherPieceEffect ? }
 
-            nonterminal keySuccessSuffix { undec | space keySuccess zugzwangOrThreat ? }
+            nonterminal keySuccessSuffix { undec | goal ? space keySuccess zugzwangOrThreat ? }
             nonterminal keyLine { space space space attack keySuccessSuffix eol }
 
-            nonterminal attackSuffix { undec | zugzwangOrThreat ? }
-            nonterminal attackLine { space + attack attackSuffix eol }
-            nonterminal defenseLine { space + defense undec ? eol }
+            nonterminal attackSuffix { undec | goal | zugzwangOrThreat }
+            nonterminal attackLine { space + attack attackSuffix ? eol }
+            nonterminal defenseSuffix { undec | goal }
+            nonterminal defenseLine { space + defense defenseSuffix ? eol }
 
             # TODO should Popeye write an empty line before the check indicator?
             nonterminal checkOrZugzwangOrThreat { checkIndicator | emptyLine zugzwangOrThreat }
@@ -459,7 +460,7 @@ namespace eval format {
             nonterminal postKeyPlay { checkOrZugzwangOrThreatLine ? postKeyPlayLine * }
 
             nonterminal refutation {
-                space + defense space refutationIndicator eol
+                space + defense goal ? space refutationIndicator eol
                 forcedReflexMove ?
             }
 
@@ -487,37 +488,38 @@ namespace eval format {
         }
 
         namespace eval line {
-            nonterminal undecLine { undec eol }
-            nonterminal indentedMove { space + move }
-            nonterminal movesIfDecidable { undecLine | indentedMove + undecLine ? }
-            nonterminal subsequentMoveTuple { space + ordinalNumber move movesIfDecidable }
+            nonterminal moveSuffix { undec eol | goal }
             nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
+            nonterminal numberedHalfMove { space + ordinalNumber move }
+            nonterminal unnumberedHalfMove { space + move }
 
             namespace eval helpplay {
                 terminal one "1"
 
-                nonterminal finalMove { space + ordinalNumber move undecLine ? }
+                nonterminal movePair { numberedHalfMove unnumberedHalfMove }
+                # this is too generic: it allows lines without any move
+                # requiring >=1 move would be complicated, though
+                nonterminal movesSequence { movePair * numberedHalfMove ? moveSuffix ? eol}
 
                 # set play of h#n.5
                 namespace eval twoEllipsis {
                     nonterminal firstMovePairSkipped { one ellipsis space + ellipsis }
-                    nonterminal movesLine { space + firstMovePairSkipped subsequentMoveTuple * finalMove ? eol }
+                    nonterminal movesLine { space + firstMovePairSkipped movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
                     nonterminal block { line + }
                 }
 
                 # set play of h#n or regular play of h#n.5
                 namespace eval oneEllipsis {
-                    nonterminal firstMoveSkipped { one ellipsis move undecLine ? }
-                    nonterminal movesLine { space + firstMoveSkipped subsequentMoveTuple * finalMove ? eol }
+                    nonterminal firstMoveSkipped { one ellipsis move }
+                    nonterminal movesLine { space + firstMoveSkipped movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
                     nonterminal block { line + }
                 }
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-                    nonterminal firstMovePair { one period move movesIfDecidable }
-                    nonterminal movesLine { space + firstMovePair subsequentMoveTuple * finalMove ? eol }
+                    nonterminal movesLine { space + movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
                     nonterminal block { line + }
                 }
@@ -535,9 +537,8 @@ namespace eval format {
 
                 nonterminal optionNotApplicable { setplayNotApplicable | tryplayNotApplicable }
                 nonterminal optionNotApplicableLine { optionNotApplicable eol * }
-                nonterminal numberedMove { space + ordinalNumber move }
-                nonterminal moveNumberedOrNot { numberedMove | subsequentMoveTuple }
-                nonterminal movesLine { moveNumberedOrNot + eol }
+                nonterminal fullMove { numberedHalfMove unnumberedHalfMove * }
+                nonterminal movesLine { fullMove + moveSuffix ? eol }
                 nonterminal line { movesLine | moveNumberLine }
                 nonterminal block { optionNotApplicableLine ? emptyLine line * }
             }
