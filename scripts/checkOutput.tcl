@@ -155,7 +155,13 @@ proc nonterminal {name production} {
 
     set result "(?:"
     foreach token [split $production " "] {
-        switch -regexp $token {
+        switch -regexp -matchvar matches -- $token {
+            ^([[:alnum:]_:]+)([?*+])$ {
+                set name [lindex $matches 1]
+                set quantifier [lindex $matches 2]
+                append result [uplevel v $name]
+                append result $quantifier
+            }
             ^[[:alnum:]_:]+$ {
                 append result [uplevel v $token]
             }
@@ -177,19 +183,19 @@ namespace eval format {
     terminal period {[.]}
 
     namespace eval remark {
-        nonterminal remark { lineText + }
+        nonterminal remark { lineText+ }
         nonterminal remarkLine { remark eol }
 
-        nonterminal block { remarkLine +  emptyLine * }
+        nonterminal block { remarkLine+  emptyLine* }
     }
 
     namespace eval authoretc {
-        nonterminal leadingBlanks { space * }
+        nonterminal leadingBlanks { space* }
 
-        nonterminal authorOriginAwardTitle { lineText + }
+        nonterminal authorOriginAwardTitle { lineText+ }
         nonterminal authorOriginAwardTitleLine { leadingBlanks authorOriginAwardTitle eol }
 
-        nonterminal block { emptyLine ?  authorOriginAwardTitleLine *  emptyLine }
+        nonterminal block { emptyLine?  authorOriginAwardTitleLine*  emptyLine }
     }
 
     namespace eval board {
@@ -206,7 +212,7 @@ namespace eval format {
         terminal hunterPartsSeparator "/"
 
         nonterminal columnSpec { horizontalBorderSign horizontalBorderSign columnName horizontalBorderSign }
-        nonterminal columns { cornerSign horizontalBorderSign columnSpec + horizontalBorderSign horizontalBorderSign cornerSign eol }
+        nonterminal columns { cornerSign horizontalBorderSign columnSpec+ horizontalBorderSign horizontalBorderSign cornerSign eol }
 
         nonterminal gridHorizontal { space hyphen hyphen hyphen }
         nonterminal squareEmptyChar1 { space | gridVertical }
@@ -220,17 +226,17 @@ namespace eval format {
         nonterminal separator { regularSeparator | hunterPartsSeparator }
         nonterminal pieceOrNoPiece { squareEmpty | hole | walk1Char | walk2Chars }
         nonterminal pieceCell { pieceOrNoPiece separator }
-        nonterminal piecesLine { rowNo space pieceCell + space space rowNo eol }
+        nonterminal piecesLine { rowNo space pieceCell+ space space rowNo eol }
 
         nonterminal hunter2ndPart { hole | walk1Char | walk2Chars }
         nonterminal spaceLineCell { hunter2ndPart regularSeparator | gridHorizontal }
-        nonterminal spaceLine { verticalBorderSign space spaceLineCell + space space verticalBorderSign eol }
+        nonterminal spaceLine { verticalBorderSign space spaceLineCell+ space space verticalBorderSign eol }
 
         nonterminal linePair { spaceLine piecesLine }
 
         nonterminal block {
             columns
-            linePair +
+            linePair+
             spaceLine
             columns
         }
@@ -239,12 +245,12 @@ namespace eval format {
     namespace eval gridboard {
         terminal cell {(?:  [ [:digit:]][[:digit:]])}
 
-        nonterminal cellsline { board::rowNo cell + space space space board::rowNo eol }
+        nonterminal cellsline { board::rowNo cell+ space space space board::rowNo eol }
         nonterminal linePair { board::spaceLine cellsline }
         nonterminal block {
             emptyLine
             board::columns
-            linePair +
+            linePair+
             board::spaceLine
             board::columns
         }
@@ -270,17 +276,17 @@ namespace eval format {
 
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
-        nonterminal genericSeriesPrefix { introPrefix ?  parryPrefix ?  seriesPrefix }
+        nonterminal genericSeriesPrefix { introPrefix?  parryPrefix?  seriesPrefix }
         nonterminal recigoal { paren_open goal paren_close }
-        nonterminal recihelpPrefix { reciPrefix recigoal ? }
+        nonterminal recihelpPrefix { reciPrefix recigoal? }
         nonterminal alternatePrefix { helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix }
-        nonterminal playPrefix { exactPrefix ? genericSeriesPrefix ? alternatePrefix ? }
+        nonterminal playPrefix { exactPrefix? genericSeriesPrefix? alternatePrefix? }
         nonterminal stipulation_traditional { playPrefix goal length }
 
-        nonterminal stipulation_structured { side space  nonspace + }; # TODO
+        nonterminal stipulation_structured { side space  nonspace+ }; # TODO
 
-        nonterminal maxSuffix { maxthreatSuffix maxflightSuffix ? }
-        nonterminal suffix { maxSuffix ? nontrivialSuffix ? }; # TODO order of suffixes?
+        nonterminal maxSuffix { maxthreatSuffix maxflightSuffix? }
+        nonterminal suffix { maxSuffix? nontrivialSuffix? }; # TODO order of suffixes?
 
         nonterminal stipulation { stipulation_traditional | stipulation_structured }
 
@@ -295,11 +301,11 @@ namespace eval format {
 
         nonterminal piecesNeutral { separator piecesOfColor neutral }
         nonterminal piecesTotalInvisible { separator piecesOfColor space totalInvisiblePseudoWalk }
-        nonterminal block { piecesOfColor separator piecesOfColor piecesNeutral ? piecesTotalInvisible ? }
+        nonterminal block { piecesOfColor separator piecesOfColor piecesNeutral? piecesTotalInvisible? }
     }
 
     namespace eval caption {
-        nonterminal block { space *  stipulation::block  space *  pieceControl::block  eol }
+        nonterminal block { space*  stipulation::block  space*  pieceControl::block  eol }
     }
 
     namespace eval boardA {
@@ -307,9 +313,9 @@ namespace eval format {
         terminal arrow "=>"
 
         # the caption of board A doesn't indicate the stipulation
-        nonterminal captionLine { space *  pieceControl::block  eol }
+        nonterminal captionLine { space*  pieceControl::block  eol }
         nonterminal tomove { stipulation::paren_open stipulation::side space tomoveIndicator stipulation::paren_close }
-        nonterminal tomoveLine { space * arrow space tomove eol }
+        nonterminal tomoveLine { space* arrow space tomove eol }
         nonterminal block {
             board::block
             captionLine
@@ -321,15 +327,15 @@ namespace eval format {
     }
 
     namespace eval conditions {
-        nonterminal line { space *  lineText +  eol }
-        nonterminal block { line * }
+        nonterminal line { space*  lineText+  eol }
+        nonterminal block { line* }
     }
 
     namespace eval duplex {
         terminal duplexOrHalf "(?:[l duplex]|[l halfduplex])"
 
-        nonterminal line { space *  duplexOrHalf  eol }
-        nonterminal block { line ? }
+        nonterminal line { space*  duplexOrHalf  eol }
+        nonterminal block { line? }
     }
 
     namespace eval solution {
@@ -385,51 +391,51 @@ namespace eval format {
         nonterminal ordinalNumber { naturalNumber period }
 
         nonterminal hunterSuffix { board::hunterPartsSeparator  board::walkChar {1,2} }
-        nonterminal walk { board::walkChar {1,2}  hunterSuffix ? }
-        nonterminal walkPawnImplicit { board::walkChar {0,2}  hunterSuffix ? }
+        nonterminal walk { board::walkChar {1,2}  hunterSuffix? }
+        nonterminal walkPawnImplicit { board::walkChar {0,2}  hunterSuffix? }
 
         nonterminal movementTo { captureOrNot square }
         nonterminal movementFromTo { pieceAttributeShortcut walkPawnImplicit square movementTo }
         nonterminal castlingPartnerMovement { castlingPartnerSeparator movementFromTo }
-        nonterminal movementBasic { movementFromTo castlingPartnerMovement ? | castlingQ | castlingK }
-        nonterminal movementComposite { movementBasic movementTo * }
+        nonterminal movementBasic { movementFromTo castlingPartnerMovement? | castlingQ | castlingK }
+        nonterminal movementComposite { movementBasic movementTo* }
         nonterminal messignyExchange { walk square pieceExchangeIndicator walk square }
-        nonterminal promotion { promotionIndicator pieceAttributeShortcut walk ? }
+        nonterminal promotion { promotionIndicator pieceAttributeShortcut walk? }
         nonterminal pieceChangement { square promotion }
         nonterminal pieceSpec { pieceAttributeShortcut walk square }
-        nonterminal pieceMovement { pieceSpec  pieceMovementIndicator  pieceAttributeShortcut  walk ?  square  promotion *  vulcanization ? }
-        nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion *  vulcanization ? }
+        nonterminal pieceMovement { pieceSpec  pieceMovementIndicator  pieceAttributeShortcut  walk?  square  promotion*  vulcanization? }
+        nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion*  vulcanization? }
         nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
         nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
         nonterminal pieceEffect { pieceMovement | pieceAddition | pieceRemoval | pieceChangement | pieceExchange }
         nonterminal otherPieceEffect { bracket_open pieceEffect bracket_close }
         nonterminal nextImitatorPosition { comma square }
-        nonterminal imitatorMovement { bracket_open imitatorSign square nextImitatorPosition * bracket_close }
+        nonterminal imitatorMovement { bracket_open imitatorSign square nextImitatorPosition* bracket_close }
         nonterminal bglFirstPart { bglNone | bglNumber }
         nonterminal bglSecondPart { bglDividedBy bglNumber }
-        nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart ? paren_close }
+        nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart? paren_close }
         nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
         nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
-	nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
-	nonterminal regularMove { otherPieceEffect * movingPieceMovement enPassant ? imitatorMovement ? promotion * otherPieceEffect * bglBalance ? checkIndicator ? }
+        nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
+        nonterminal regularMove { otherPieceEffect* movingPieceMovement enPassant? imitatorMovement? promotion* otherPieceEffect* bglBalance? checkIndicator? }
         nonterminal move { roleExchange | space ellipsis | regularMove }
 
-        nonterminal moveNumberLineNonIntelligent { space * moveNumber space space paren_open move space paren_close eol }
+        nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space paren_close eol }
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
 
         namespace eval twinning {
             terminal continued {[+]}
             terminal label {[[:lower:]][)]}
 
-            nonterminal additionalLine { space lineText + eol }
+            nonterminal additionalLine { space lineText+ eol }
             nonterminal block {
                 emptyLine
-                continued ? label space lineText * eol
-                additionalLine *
+                continued? label space lineText* eol
+                additionalLine*
             }; # TODO be more explicit
         }
 
-        nonterminal forcedReflexMove { space + ordinalNumber move goal space forcedReflexMoveIndicator eol }
+        nonterminal forcedReflexMove { space+ ordinalNumber move goal space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
             terminal zugzwang " [l zugzwang]"
@@ -443,57 +449,57 @@ namespace eval format {
             nonterminal defense { naturalNumber ellipsis move }
 
             # in condition "lost pieces", lost pieces of the attacker may be removed
-            nonterminal zugzwangOrThreat { zugzwang | threat otherPieceEffect ? }
+            nonterminal zugzwangOrThreat { zugzwang | threat otherPieceEffect? }
 
-            nonterminal keySuccessSuffix { undec | goal ? space keySuccess zugzwangOrThreat ? }
+            nonterminal keySuccessSuffix { undec | goal? space keySuccess zugzwangOrThreat? }
             nonterminal keyLine { space space space attack keySuccessSuffix eol }
 
             nonterminal attackSuffix { undec | goal | zugzwangOrThreat }
-            nonterminal attackLine { space + attack attackSuffix ? eol }
+            nonterminal attackLine { space+ attack attackSuffix? eol }
             nonterminal defenseSuffix { undec | goal }
-            nonterminal defenseLine { space + defense defenseSuffix ? eol }
+            nonterminal defenseLine { space+ defense defenseSuffix? eol }
 
             # TODO should Popeye write an empty line before the check indicator?
             nonterminal checkOrZugzwangOrThreat { checkIndicator | emptyLine zugzwangOrThreat }
             nonterminal checkOrZugzwangOrThreatLine { checkOrZugzwangOrThreat eol }
 
-            nonterminal refutesLine { space + refutesIndicator eol }
-            nonterminal postKeyPlayLine { defenseLine refutesLine ? | attackLine }
-            nonterminal postKeyPlay { checkOrZugzwangOrThreatLine ? postKeyPlayLine * }
+            nonterminal refutesLine { space+ refutesIndicator eol }
+            nonterminal postKeyPlayLine { defenseLine refutesLine? | attackLine }
+            nonterminal postKeyPlay { checkOrZugzwangOrThreatLine? postKeyPlayLine* }
 
             nonterminal refutation {
-                space + defense goal ? space refutationIndicator eol
-                forcedReflexMove ?
+                space+ defense goal? space refutationIndicator eol
+                forcedReflexMove?
             }
 
             nonterminal refutationBlock {
-                space + but eol
-                refutation +
+                space+ but eol
+                refutation+
             }
 
             nonterminal playAfterKeyLine { defenseLine | attackLine }
-            nonterminal playAfterKeyBlock { playAfterKeyLine + }
+            nonterminal playAfterKeyBlock { playAfterKeyLine+ }
 
             nonterminal fullPhaseBlock {
                 keyLine
-                playAfterKeyBlock ?
-                refutationBlock ?
+                playAfterKeyBlock?
+                refutationBlock?
                 emptyLine
             }
 
             nonterminal setplayBlock { emptyLine playAfterKeyBlock }
 
             nonterminal regularPlaySegment { moveNumberLineNonIntelligent | fullPhaseBlock }
-            nonterminal regularplayBlock { emptyLine regularPlaySegment + }
+            nonterminal regularplayBlock { emptyLine regularPlaySegment+ }
 
-            nonterminal block { postKeyPlay | setplayBlock ? regularplayBlock * }
+            nonterminal block { postKeyPlay | setplayBlock? regularplayBlock* }
         }
 
         namespace eval line {
             nonterminal moveSuffix { undec eol | goal }
             nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
-            nonterminal numberedHalfMove { space + ordinalNumber move }
-            nonterminal unnumberedHalfMove { space + move }
+            nonterminal numberedHalfMove { space+ ordinalNumber move }
+            nonterminal unnumberedHalfMove { space+ move }
 
             namespace eval helpplay {
                 terminal one "1"
@@ -501,34 +507,34 @@ namespace eval format {
                 nonterminal movePair { numberedHalfMove unnumberedHalfMove }
                 # this is too generic: it allows lines without any move
                 # requiring >=1 move would be complicated, though
-                nonterminal movesSequence { movePair * numberedHalfMove ? moveSuffix ? eol}
+                nonterminal movesSequence { movePair* numberedHalfMove? moveSuffix? eol}
 
                 # set play of h#n.5
                 namespace eval twoEllipsis {
-                    nonterminal firstMovePairSkipped { one ellipsis space + ellipsis }
-                    nonterminal movesLine { space + firstMovePairSkipped movesSequence }
+                    nonterminal firstMovePairSkipped { one ellipsis space+ ellipsis }
+                    nonterminal movesLine { space+ firstMovePairSkipped movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
-                    nonterminal block { line + }
+                    nonterminal block { line+ }
                 }
 
                 # set play of h#n or regular play of h#n.5
                 namespace eval oneEllipsis {
                     nonterminal firstMoveSkipped { one ellipsis move }
-                    nonterminal movesLine { space + firstMoveSkipped movesSequence }
+                    nonterminal movesLine { space+ firstMoveSkipped movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
-                    nonterminal block { line + }
+                    nonterminal block { line+ }
                 }
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-                    nonterminal movesLine { space + movesSequence }
+                    nonterminal movesLine { space+ movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
-                    nonterminal block { line + }
+                    nonterminal block { line+ }
                 }
 
                 nonterminal block {
-                    twoEllipsis::block ? emptyLine ? oneEllipsis::block
-                    | oneEllipsis::block ? emptyLine ? noEllipsis::block ?
+                    twoEllipsis::block? emptyLine? oneEllipsis::block
+                    | oneEllipsis::block? emptyLine? noEllipsis::block?
                 }
             }
 
@@ -538,11 +544,11 @@ namespace eval format {
                 terminal tryplayNotApplicable "[l tryplayNotApplicable]"
 
                 nonterminal optionNotApplicable { setplayNotApplicable | tryplayNotApplicable }
-                nonterminal optionNotApplicableLine { optionNotApplicable eol * }
-                nonterminal fullMove { numberedHalfMove unnumberedHalfMove * }
-                nonterminal movesLine { fullMove + moveSuffix ? eol }
+                nonterminal optionNotApplicableLine { optionNotApplicable eol* }
+                nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
+                nonterminal movesLine { fullMove+ moveSuffix? eol }
                 nonterminal line { movesLine | moveNumberLine }
-                nonterminal block { optionNotApplicableLine ? emptyLine line * }
+                nonterminal block { optionNotApplicableLine? emptyLine line* }
             }
 
             # TODO why emptyLine only before help play?
@@ -550,7 +556,7 @@ namespace eval format {
         }
 
         nonterminal measurementLine { measurement eol }
-        nonterminal measurementsBlock { measurementLine + }
+        nonterminal measurementsBlock { measurementLine+ }
 
         nonterminal kingMissingLine { kingmissing eol }
 
@@ -571,18 +577,18 @@ namespace eval format {
                 errorLines
                 problemignored eol
             }
-            nonterminal simplexPart { emptyLine illegalSelfCheck | emptyLine forcedReflexMove + | tree::block | line::block }
-            nonterminal simplex { simplexPart + measurementsBlock }
+            nonterminal simplexPart { emptyLine illegalSelfCheck | emptyLine forcedReflexMove+ | tree::block | line::block }
+            nonterminal simplex { simplexPart+ measurementsBlock }
 
             # the + should be {1,2} (2*simplex = duplex), but that would make the expression too complex
-            nonterminal solvingResult { problemignoredMsgs | simplex + }
-            nonterminal block { kingMissingLine ? intelligentAndFairy ? solvingResult remark::block ? }
+            nonterminal solvingResult { problemignoredMsgs | simplex+ }
+            nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remark::block? }
         }
 
         namespace eval twinned {
             # too complex for regexp
             nonterminal twinblock { twinning::block untwinned::block }
-            nonterminal block { twinblock + }
+            nonterminal block { twinblock+ }
 
             nonterminal separator { twinning::block }
         }
@@ -609,36 +615,36 @@ namespace eval format {
     namespace eval problem {
         nonterminal noNonboardBlock {
             ( authoretc::block )
-            ( boardA::block ? )
+            ( boardA::block? )
             ( board::block )
             ( caption::block )
             ( conditions::block )
             ( duplex::block )
-            ( gridboard::block ? )
-            ( zeroposition::block ? )
+            ( gridboard::block? )
+            ( zeroposition::block? )
         }
 
         # applying this gives an "expression is too complex" error :-(
         # dividing the input at recognized problem footers is also much, much faster...
-        nonterminal block { ( remark::block noNonboardBlock ? ( solution::block ) ( footer::block ) ) }
+        nonterminal block { ( remark::block noNonboardBlock? ( solution::block ) ( footer::block ) ) }
     }
 
     namespace eval inputerror {
         terminal inputError "[l inputError]:"
-        terminal offendingItem "[l offendingItem]:"
+        terminal offendingItem "[l offendingItem]: "
 
         nonterminal block {
-            inputError lineText + eol
-            offendingItem space lineText + eol
+            inputError lineText+ eol
+            offendingItem lineText+ eol
         }
     }
 
     namespace eval beforesolution {
         nonterminal block {
             ^
-            ( inputerror::block * )
-            ( remark::block ? )
-            problem::noNonboardBlock ?
+            ( inputerror::block* )
+            ( remark::block? )
+            problem::noNonboardBlock?
         }
     }
 }
