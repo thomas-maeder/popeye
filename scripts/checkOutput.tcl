@@ -156,7 +156,7 @@ proc nonterminal {name production} {
     set result "(?:"
     foreach token [split $production " "] {
         switch -regexp -matchvar matches -- $token {
-            ^([[:alnum:]_:]+)([?*+])$ {
+            ^([[:alnum:]_:]+)([?*+]|{.*})$ {
                 set name [lindex $matches 1]
                 set quantifier [lindex $matches 2]
                 append result [uplevel v $name]
@@ -186,7 +186,7 @@ namespace eval format {
         nonterminal remark { lineText+ }
         nonterminal remarkLine { remark eol }
 
-        nonterminal block { remarkLine+  emptyLine* }
+        nonterminal block { remarkLine+ emptyLine* }
     }
 
     namespace eval authoretc {
@@ -195,7 +195,7 @@ namespace eval format {
         nonterminal authorOriginAwardTitle { lineText+ }
         nonterminal authorOriginAwardTitleLine { leadingBlanks authorOriginAwardTitle eol }
 
-        nonterminal block { emptyLine?  authorOriginAwardTitleLine*  emptyLine }
+        nonterminal block { emptyLine? authorOriginAwardTitleLine* emptyLine }
     }
 
     namespace eval board {
@@ -276,14 +276,14 @@ namespace eval format {
 
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
-        nonterminal genericSeriesPrefix { introPrefix?  parryPrefix?  seriesPrefix }
+        nonterminal genericSeriesPrefix { introPrefix? parryPrefix? seriesPrefix }
         nonterminal recigoal { paren_open goal paren_close }
         nonterminal recihelpPrefix { reciPrefix recigoal? }
         nonterminal alternatePrefix { helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix }
         nonterminal playPrefix { exactPrefix? genericSeriesPrefix? alternatePrefix? }
         nonterminal stipulation_traditional { playPrefix goal length }
 
-        nonterminal stipulation_structured { side space  nonspace+ }; # TODO
+        nonterminal stipulation_structured { side space nonspace+ }; # TODO
 
         nonterminal maxSuffix { maxthreatSuffix maxflightSuffix? }
         nonterminal suffix { maxSuffix? nontrivialSuffix? }; # TODO order of suffixes?
@@ -305,7 +305,7 @@ namespace eval format {
     }
 
     namespace eval caption {
-        nonterminal block { space*  stipulation::block  space*  pieceControl::block  eol }
+        nonterminal block { space* stipulation::block space* pieceControl::block eol }
     }
 
     namespace eval boardA {
@@ -313,7 +313,7 @@ namespace eval format {
         terminal arrow "=>"
 
         # the caption of board A doesn't indicate the stipulation
-        nonterminal captionLine { space*  pieceControl::block  eol }
+        nonterminal captionLine { space* pieceControl::block eol }
         nonterminal tomove { stipulation::paren_open stipulation::side space tomoveIndicator stipulation::paren_close }
         nonterminal tomoveLine { space* arrow space tomove eol }
         nonterminal block {
@@ -327,14 +327,14 @@ namespace eval format {
     }
 
     namespace eval conditions {
-        nonterminal line { space*  lineText+  eol }
+        nonterminal line { space* lineText+ eol }
         nonterminal block { line* }
     }
 
     namespace eval duplex {
         terminal duplexOrHalf "(?:[l duplex]|[l halfduplex])"
 
-        nonterminal line { space*  duplexOrHalf  eol }
+        nonterminal line { space* duplexOrHalf eol }
         nonterminal block { line? }
     }
 
@@ -390,9 +390,9 @@ namespace eval format {
 
         nonterminal ordinalNumber { naturalNumber period }
 
-        nonterminal hunterSuffix { board::hunterPartsSeparator  board::walkChar {1,2} }
-        nonterminal walk { board::walkChar {1,2}  hunterSuffix? }
-        nonterminal walkPawnImplicit { board::walkChar {0,2}  hunterSuffix? }
+        nonterminal hunterSuffix { board::hunterPartsSeparator board::walkChar{1,2} }
+        nonterminal walk { board::walkChar{1,2} hunterSuffix? }
+        nonterminal walkPawnImplicit { board::walkChar{0,2} hunterSuffix? }
 
         nonterminal movementTo { captureOrNot square }
         nonterminal movementFromTo { pieceAttributeShortcut walkPawnImplicit square movementTo }
@@ -403,8 +403,8 @@ namespace eval format {
         nonterminal promotion { promotionIndicator pieceAttributeShortcut walk? }
         nonterminal pieceChangement { square promotion }
         nonterminal pieceSpec { pieceAttributeShortcut walk square }
-        nonterminal pieceMovement { pieceSpec  pieceMovementIndicator  pieceAttributeShortcut  walk?  square  promotion*  vulcanization? }
-        nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion*  vulcanization? }
+        nonterminal pieceMovement { pieceSpec pieceMovementIndicator pieceAttributeShortcut walk? square promotion* vulcanization? }
+        nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
         nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
         nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
         nonterminal pieceEffect { pieceMovement | pieceAddition | pieceRemoval | pieceChangement | pieceExchange }
