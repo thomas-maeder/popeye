@@ -156,14 +156,11 @@ proc nonterminal {name production} {
     set result "(?:"
     foreach token [split $production " "] {
         switch -regexp -matchvar matches -- $token {
-            ^([[:alnum:]_:]+)([?*+]|{.*})$ {
+            ^([[:alnum:]_:]+)([?*+]|{.*})?$ {
                 set name [lindex $matches 1]
                 set quantifier [lindex $matches 2]
-                append result [uplevel v $name]
-                append result $quantifier
-            }
-            ^[[:alnum:]_:]+$ {
-                append result [uplevel v $token]
+		append result [uplevel v $name]
+		append result $quantifier
             }
             default {
                 append result $token
