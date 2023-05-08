@@ -146,6 +146,34 @@ proc terminal {name expression} {
     set result $expression
 }
 
+proc decomposeExpr {expr {end ""}} {
+    set result {}
+
+    while {$expr!=""} {
+	set firstChar [string range $expr 0 0]
+	if {$firstChar=="("} {
+	    foreach {nested expr} [decomposeExpr [string range $expr 1 "end"]  ")"] break
+	    lappend result [list "(" $nested ")"]
+	} elseif {$firstChar=="\["} {
+	    foreach {nested expr} [decomposeExpr [string range $expr 1 "end"]  "]"] break
+	    lappend result [list "\[" $nested "\]"]
+	} elseif {$firstChar=="\\"} {
+	    set escapedChar [string range $expr 0 1]
+	    set expr [string range $expr 2 "end"]
+	    lappend result $escapedChar
+	} else {
+	    set expr [string range $expr 1 "end"]
+	    if {$firstChar==$end} {
+		return [list $result $expr]
+	    } else {
+		lappend result $firstChar
+	    }
+	}
+    }
+
+    return [list $result ""]
+}
+
 proc nonterminal {name production} {
     upvar $name result
 
@@ -158,8 +186,18 @@ proc nonterminal {name production} {
         switch -regexp -matchvar matches -- $token {
             ^([[:alnum:]_:]+)([?*+]|{.*})?$ {
                 set name [lindex $matches 1]
+		set value [uplevel v $name]
                 set quantifier [lindex $matches 2]
-		append result [uplevel v $name]
+		set decomposition [lindex [decomposeExpr $value] 0]
+		if {[lsearch -exact $decomposition "|"]!=-1} {
+		    append result "(?:$value)"
+		} elseif {$quantifier==""} {
+		    append result $value
+		} elseif {[llength $decomposition]<=1} {
+		    append result $value
+		} else {
+		    append result "(?:$value)"
+		}
 		append result $quantifier
             }
             default {
@@ -240,7 +278,7 @@ namespace eval format {
     }
 
     namespace eval gridboard {
-        terminal cell {(?:  [ [:digit:]][[:digit:]])}
+        terminal cell {  [ [:digit:]][[:digit:]]}
 
         nonterminal cellsline { board::rowNo cell+ space space space board::rowNo eol }
         nonterminal linePair { board::spaceLine cellsline }
@@ -254,22 +292,22 @@ namespace eval format {
     }
 
     namespace eval stipulation {
-        terminal goal {(?:\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8])}
-        terminal exactPrefix {(?:exact-)}
-        terminal introPrefix {(?:[[:digit:]]+->)}
-        terminal parryPrefix {(?:ph?)}
+        terminal goal {\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]}
+        terminal exactPrefix {exact-}
+        terminal introPrefix {[[:digit:]]+->}
+        terminal parryPrefix {ph?}
         terminal seriesPrefix {ser-}
         terminal helpPrefix "h"
         terminal paren_open {[(]}
             terminal paren_close {[)]}
         terminal reciPrefix {reci-h}
         terminal selfPrefix "s"
-        terminal reflexPrefix {(?:(?:semi-)?r)}
-        terminal length {(?:[[:digit:]]+(?:[.]5)?)}
-        terminal side "(?:[l white]|[l black])"
-        terminal maxthreatSuffix {(?:/[[:digit:]]*)}
-        terminal maxflightSuffix {(?:/[[:digit:]]+)}
-        terminal nontrivialSuffix {(?:;[[:digit:]]+,[[:digit:]]+)}
+        terminal reflexPrefix {(?:semi-)?r}
+        terminal length {[[:digit:]]+(?:[.]5)?}
+        terminal side "[l white]|[l black]"
+        terminal maxthreatSuffix {/[[:digit:]]*}
+        terminal maxflightSuffix {/[[:digit:]]+}
+        terminal nontrivialSuffix {;[[:digit:]]+,[[:digit:]]+}
 
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
@@ -329,7 +367,7 @@ namespace eval format {
     }
 
     namespace eval duplex {
-        terminal duplexOrHalf "(?:[l duplex]|[l halfduplex])"
+        terminal duplexOrHalf "[l duplex]|[l halfduplex]"
 
         nonterminal line { space* duplexOrHalf eol }
         nonterminal block { line? }
@@ -358,8 +396,8 @@ namespace eval format {
             }
         }
         append pieceAttributeShortcut ")"
-        terminal enPassant {(?: ep[.])}
-        terminal vulcanization "(?:->v)"
+        terminal enPassant { ep[.]}
+        terminal vulcanization "->v"
         terminal promotionIndicator "="
         terminal pieceAdditionIndicator {[+]}
         terminal pieceRemovalIndicator "-"
@@ -368,13 +406,13 @@ namespace eval format {
         terminal bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
         terminal bglNone "-"
         terminal bglDividedBy "/"
-        terminal checkIndicator {(?: [+])}
+        terminal checkIndicator { [+]}
         # yes, this is slightly different from stipulation::goal!
-        terminal goal "(?: (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8]))"
+        terminal goal " (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8])"
         terminal moveNumber {[1-9][0-9]*}
         terminal nrPositions {[[:digit:]]+}
         terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        terminal undec "(?: (?:[l legalityUndecidable]|[l refutationUndecidable]))"
+        terminal undec " (?:[l legalityUndecidable]|[l refutationUndecidable])"
         terminal imitatorSign "I"
         terminal castlingPartnerSeparator "/"
         terminal roleExchange " [l roleExchange]"
@@ -383,7 +421,7 @@ namespace eval format {
         terminal totalInvisibleMoveSuffix "-~"
         terminal forcedReflexMoveIndicator {[?]![?]}
         terminal kingmissing "[l kingmissing]"
-        terminal measurement {(?: *[[:alpha:]_]+: *[[:digit:]]+)}
+        terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
         nonterminal ordinalNumber { naturalNumber period }
 
@@ -563,7 +601,7 @@ namespace eval format {
             terminal conditionSideUndecidable "[l conditionSideUndecidable]"
             terminal problemignored "[l problemignored]"
             terminal illegalSelfCheck "[l illegalSelfCheck]"
-            terminal intelligentAndFairy "(?:[l intelligentAndFairy])"
+            terminal intelligentAndFairy "[l intelligentAndFairy]"
 
             nonterminal errorLines {
                 toofairy eol
