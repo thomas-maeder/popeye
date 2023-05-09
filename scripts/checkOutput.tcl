@@ -152,10 +152,10 @@ proc decomposeExpr {expr {end ""}} {
     while {$expr!=""} {
 	set firstChar [string range $expr 0 0]
 	if {$firstChar=="("} {
-	    foreach {nested expr} [decomposeExpr [string range $expr 1 "end"]  ")"] break
+	    lassign [decomposeExpr [string range $expr 1 "end"] ")"] nested expr
 	    lappend result [list "(" $nested ")"]
 	} elseif {$firstChar=="\["} {
-	    foreach {nested expr} [decomposeExpr [string range $expr 1 "end"]  "]"] break
+	    lassign [decomposeExpr [string range $expr 1 "end"] "]"] nested expr
 	    lappend result [list "\[" $nested "\]"]
 	} elseif {$firstChar=="\\"} {
 	    set escapedChar [string range $expr 0 1]
@@ -736,7 +736,7 @@ proc makeSegments {beforeFooter twinningIndices} {
     set segments {}
     set startOfNextSegment 0
     foreach pair $twinningIndices {
-        foreach {twinningStart twinningEnd} $pair break
+        lassign $pair twinningStart twinningEnd
         lappend segments [string range $beforeFooter $startOfNextSegment [expr {$twinningStart-1}]]
         lappend segments [string range $beforeFooter $twinningStart $twinningEnd]
         set startOfNextSegment [expr {$twinningEnd+1}]
@@ -771,7 +771,7 @@ if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
     set footerIndices [regexp -all -indices -inline $format::footer::block $input]
     set nextProblemStart 0
     foreach footerIndexPair $footerIndices {
-        foreach {footerStart footerEnd} $footerIndexPair break
+        lassign $footerIndexPair footerStart footerEnd
         set footer [string range $input $footerStart $footerEnd]
         set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
         set nextProblemStart [expr {$footerEnd+1}]
