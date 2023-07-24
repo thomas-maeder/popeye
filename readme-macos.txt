@@ -1,4 +1,4 @@
-To install on MacOS (tested on a Macbook Pro in 2023 under MacOS Monerey):
+To install on MacOS (tested on an M2 Macbook Pro in 2023 under MacOS Monerey):
 
 1. Popeye's build system requires an up-to-date `clang`, `ld` etc. which are not provided by Apple by default.
 
