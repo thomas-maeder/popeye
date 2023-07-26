@@ -1261,7 +1261,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  hb->cmv.Leng = (unsigned short)(bp-hb->cmv.Data);
 }
 
 static unsigned int TellCommonEncodePosLeng(unsigned int len,
@@ -1562,7 +1562,7 @@ static void LargeEncode(stip_length_type min_length,
   bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  hb->cmv.Leng = (unsigned short)(bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1626,7 +1626,7 @@ static void SmallEncode(stip_length_type min_length,
   bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  hb->cmv.Leng = (unsigned short)(bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
