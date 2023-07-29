@@ -35,12 +35,17 @@ typedef unsigned long trace_level;
 * @param max_level maximal level of trace messages to be produced;
 *                  pass 0 to suppress all trace messages
 */
+void set_trace(boolean b);
+boolean get_trace(void);
 void TraceSetMaxLevel(trace_level max_level);
-
 void TraceSuppressPointerValues(void);
-
 /* End the current line */
 void TraceEOL(void);
+
+#if defined(DOTRACECALLSTACK)
+void set_trace_call_stack(boolean b);
+boolean get_trace_call_stack(void);
+#endif
 
 /* Trace function entry
  * e.g. > #17 func
