@@ -1,0 +1,75 @@
+
+          Bernd Schwarzkopf
+           feenschach 1979
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   . | . | . | . | . | . | . | .   8
+|  ---                         ---  |
+7   .   . | . | . | . | . | .   .   7
+|  --- ---                 --- ---  |
+6   . | .   . | . | . | .   .   .   6
+|          ---         --- --- ---  |
+5  -G   . | .   . | . | .   .   .   5
+|  --- ---     ---         --- ---  |
+4   .   . | .   . | . | .   .   .   4
+|  ---     ---         --- --- ---  |
+3   . | .   .   . | . | .   .   .   3
+|      --- --- ---         --- ---  |
+2   P | . | .   . | . | . | .   .   2
+|                              ---  |
+1  -G |WE | . | . | . | . | . | .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-!=186                   2 + 2
+              Royal b1
+              GridChess
+both sides need a king
+
+  1.rWEb1-c1   2.rWEc1-d1   3.rWEd1-e1   4.rWEe1-f1   5.rWEf1-g1   6.rWEg1-h1   7.rWEh1-h2   8.rWEh2-h3   9.rWEh3-h4  10.rWEh4-h5  11.rWEh5-h6  12.rWEh6-h7  13.rWEh7-h8  14.rWEh8-g8  15.rWEg8-f8  16.rWEf8-e8  17.rWEe8-d8  18.rWEd8-c8  19.rWEc8-b8  20.rWEb8-a8  21.rWEa8-a7  22.rWEa7-a6  23.rWEa6-b6  24.rWEb6-b7  25.rWEb7-c7  26.rWEc7-d7  27.rWEd7-e7  28.rWEe7-f7  29.rWEf7-g7  30.rWEg7-g6  31.rWEg6-g5  32.rWEg5-g4  33.rWEg4-g3  34.rWEg3-g2  35.rWEg2-f2  36.rWEf2-e2  37.rWEe2-d2  38.rWEd2-d3  39.rWEd3-e3  40.rWEe3-f3  41.rWEf3-f4  42.rWEf4-e4  43.rWEe4-d4  44.rWEd4-d5  45.rWEd5-e5  46.rWEe5-f5  47.rWEf5-f6  48.rWEf6-e6  49.rWEe6-d6  50.rWEd6-c6  51.rWEc6-c5  52.rWEc5-b5  53.rWEb5-b4  54.rWEb4-c4  55.rWEc4-c3  56.rWEc3-c2  57.rWEc2-b2  58.rWEb2-b3  59.rWEb3-a3  60.rWEa3-a4  61.rWEa4*a5  62.rWEa5-a4  63.rWEa4-a3  64.rWEa3-b3  65.rWEb3-b2  66.rWEb2-c2  67.rWEc2-c3  68.rWEc3-c4  69.rWEc4-b4  70.rWEb4-b5  71.rWEb5-c5  72.rWEc5-c6  73.rWEc6-d6  74.rWEd6-e6  75.rWEe6-f6  76.rWEf6-f5  77.rWEf5-e5  78.rWEe5-d5  79.rWEd5-d4  80.rWEd4-e4  81.rWEe4-f4  82.rWEf4-f3  83.rWEf3-e3  84.rWEe3-d3  85.rWEd3-d2  86.rWEd2-e2  87.rWEe2-f2  88.rWEf2-g2  89.rWEg2-g3  90.rWEg3-g4  91.rWEg4-g5  92.rWEg5-g6  93.rWEg6-g7  94.rWEg7-f7  95.rWEf7-e7  96.rWEe7-d7  97.rWEd7-c7  98.rWEc7-b7  99.rWEb7-b6 100.rWEb6-a6 101.rWEa6-a7 102.rWEa7-a8 103.rWEa8-b8 104.rWEb8-c8 105.rWEc8-d8 106.rWEd8-e8 107.rWEe8-f8 108.rWEf8-g8 109.rWEg8-h8 110.rWEh8-h7 111.rWEh7-h6 112.rWEh6-h5 113.rWEh5-h4 114.rWEh4-h3 115.rWEh3-h2 116.rWEh2-h1 117.rWEh1-g1 118.rWEg1-f1 119.rWEf1-e1 120.rWEe1-d1 121.rWEd1-c1 122.rWEc1-b1 123.rWEb1*a1 124.rWEa1-b1 125.rWEb1-c1 126.rWEc1-d1 127.rWEd1-e1 128.rWEe1-f1 129.rWEf1-g1 130.rWEg1-h1 131.rWEh1-h2 132.rWEh2-h3 133.rWEh3-h4 134.rWEh4-h5 135.rWEh5-h6 136.rWEh6-h7 137.rWEh7-h8 138.rWEh8-g8 139.rWEg8-f8 140.rWEf8-e8 141.rWEe8-d8 142.rWEd8-c8 143.rWEc8-b8 144.rWEb8-a8 145.rWEa8-a7 146.rWEa7-a6 147.rWEa6-b6 148.rWEb6-b7 149.rWEb7-c7 150.rWEc7-d7 151.rWEd7-e7 152.rWEe7-f7 153.rWEf7-g7 154.rWEg7-g6 155.rWEg6-g5 156.rWEg5-g4 157.rWEg4-g3 158.rWEg3-g2 159.rWEg2-f2 160.rWEf2-e2 161.rWEe2-d2 162.rWEd2-d3 163.rWEd3-e3 164.rWEe3-f3 165.rWEf3-f4 166.rWEf4-e4 167.rWEe4-d4 168.rWEd4-d5 169.rWEd5-e5 170.rWEe5-f5 171.rWEf5-f6 172.rWEf6-e6 173.rWEe6-d6 174.rWEd6-c6 175.rWEc6-c5 176.rWEc5-b5 177.rWEb5-b4 178.rWEb4-c4 179.rWEc4-c3 180.rWEc3-c2 181.rWEc2-b2 182.rWEb2-b3 183.rWEb3-a3 184.rWEa3-a4 185.rWEa4-a5 186.a2-a4 !=
+  add_to_move_generation_stack:      871625
+                     play_move:      333064
+ is_white_king_square_attacked:      496870
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+LaTeXFile will not compile: undefined fairy piece
+
+            Erich Bartel
+             D.u.F. 1965
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   . | .  GI   .   .   .   8
+|          ---     ---              |
+7   .   . | .   . -WE | .   .   .   7
+|      ---             ---          |
+6   .   .   .   .   .   . | .   .   6
+|      ---                 ---      |
+5   .   .   .   .   .   .   .   .   5
+|      ---                 ---      |
+4   .   .   .   .   .   .   .   .   4
+|      ---                 ---      |
+3   .   . | .   .   .   .   .   .   3
+|          ---             ---      |
+2   .   .   . | .   .   . | .   .   2
+|              ---     ---          |
+1   .   .   .   . | . | .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=22                    1 + 1
+              Royal e7
+              GridChess
+both sides need a king
+
+  1.rWEe7-f7   2.rWEf7-f6   3.rWEf6-g6   4.rWEg6-g5   5.rWEg5-g4   6.rWEg4-g3   7.rWEg3-g2   8.rWEg2-f2   9.rWEf2-f1  10.rWEf1-e1  11.rWEe1-d1  12.rWEd1-d2  13.rWEd2-c2  14.rWEc2-c3  15.rWEc3-b3  16.rWEb3-b4  17.rWEb4-b5  18.rWEb5-b6  19.rWEb6-b7  20.rWEb7-c7  21.rWEc7-c8  22.rWEc8-d8 GIe8-d4 =
+  add_to_move_generation_stack:        2167
+                     play_move:        1087
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1087
+
+solution finished.
+
+
