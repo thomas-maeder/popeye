@@ -1,0 +1,35 @@
+
+     S.Emmerson (after C.Tylor)
+             Unpublished
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P  HC   .   .   .   . -HC  -P   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+
+  1.HCg2-f3 HCb2-g2 +   2.HCf3-a8 HCg2-b7 #
+  1.HCg2-h3 HCb2*h2 +   2.HCh3-h8 HCh2-h7 #
+  add_to_move_generation_stack:        2931
+                     play_move:        2739
+ is_white_king_square_attacked:         547
+ is_black_king_square_attacked:        2605
+
+solution finished.
+
+

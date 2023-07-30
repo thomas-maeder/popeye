@@ -442,7 +442,7 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','k'}    /* KontraHamster */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
