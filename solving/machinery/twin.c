@@ -1493,7 +1493,7 @@ void verify_position(slice_index si)
         {
           /* only fairy pieces until now ! */
           disable_orthodox_mating_move_optimisation(nr_sides);
-          if (p!=Hamster)
+          if (true||p!=Hamster)
           {
             checkpieces[check_piece_index] = p;
             is_check_piece[p] = true;

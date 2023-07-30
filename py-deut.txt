@@ -1058,6 +1058,7 @@ aufwendiger ist das Kommando
 	gu	Grosser Baumhuepfer
 	h       Heuschrecke   
 	ha      Hamster                         0,1+1,1 180 Grad Huepfer
+	hc      ContraHamster
 	he	Hase                            Lion Variante des Kaenguruhs
 	hl      Laeuferheuschrecke   
 	hn      Nachtreiterheuschrecke

@@ -211,9 +211,8 @@ conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/observation.h pieces/walks/vectors.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ debugging/measure.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -562,8 +561,8 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  position/color.enum position/pieceid.h pieces/walks/vectors.h \
  position/castling_rights.h solving/move_generator.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h debugging/measure.h output/plaintext/protocol.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
+ solving/ply.h debugging/measure.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h
 conditions/madrasi.h:
 pieces/pieces.h:
@@ -780,9 +779,8 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h position/side.h \
  position/color.enum position/effects/king_square.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ debugging/measure.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -1106,8 +1104,8 @@ conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  pieces/walks/vectors.h position/castling_rights.h solving/castling.h \
  solving/move_effect_journal.h solving/ply.h \
  position/effects/piece_exchange.h position/effects/piece_removal.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/move_generator.h debugging/measure.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -3925,9 +3923,8 @@ conditions/take_and_make$(OBJ_SUFFIX): conditions/take_and_make.c \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h solving/ply.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ debugging/measure.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -4079,8 +4076,7 @@ conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h \
  output/mode.enum solving/observation.h solving/machinery/dispatch.h \
  solving/ply.h debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h solving/castling.h \
- solving/move_effect_journal.h \
+ solving/castling.h solving/move_effect_journal.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -4155,8 +4151,7 @@ conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -5297,7 +5292,7 @@ conditions/pointreflection$(OBJ_SUFFIX): conditions/pointreflection.c \
  debugging/trace.h solving/temporary_hacks.h solving/fork.h \
  solving/machinery/solve.h solving/castling.h \
  solving/move_effect_journal.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h \
+ debugging/measure.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \

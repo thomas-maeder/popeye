@@ -674,8 +674,7 @@ pieces/attributes/total_invisible/move_generation$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/goal_validation.h debugging/trace.h \
  solving/castling.h solving/machinery/solve.h \
  solving/machinery/dispatch.h solving/move_effect_journal.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h
+ solving/move_generator.h debugging/measure.h solving/pipe.h
 
 pieces/attributes/total_invisible/move_generation.h:
 
@@ -747,8 +746,6 @@ solving/move_generator.h:
 
 debugging/measure.h:
 
-output/plaintext/protocol.h:
-
 solving/pipe.h:
 pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/move_player.c \
@@ -772,7 +769,7 @@ pieces/attributes/total_invisible/move_player$(OBJ_SUFFIX): \
  solving/has_solution_type.enum pieces/attributes/total_invisible/taboo.h \
  position/effects/piece_readdition.h position/effects/null_move.h \
  solving/pipe.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h debugging/assert.h
+ debugging/assert.h
 
 pieces/attributes/total_invisible/move_player.h:
 
@@ -865,8 +862,6 @@ solving/pipe.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 debugging/assert.h:
 pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
@@ -1332,8 +1327,7 @@ pieces/attributes/total_invisible/replay_fleshed_out$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  solving/move_effect_journal.h solving/pipe.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h solving/castling.h \
- debugging/assert.h
+ debugging/measure.h solving/castling.h debugging/assert.h
 
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 
@@ -1416,8 +1410,6 @@ solving/pipe.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 solving/castling.h:
 

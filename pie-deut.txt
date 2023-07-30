@@ -159,3 +159,4 @@ se DL Senora (argentinische Dame)
 fa TL Faro (argentinischer Turm)
 lo LL Loco (argentinischer Laeufer)
 sa SL Saltador (argentinischer Springer)
+hc HC ContraHamster
