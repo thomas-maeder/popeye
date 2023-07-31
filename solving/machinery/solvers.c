@@ -123,6 +123,7 @@
 #include "conditions/synchronous.h"
 #include "conditions/must_capture.h"
 #include "conditions/lostpieces.h"
+#include "conditions/series_capture.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -678,6 +679,9 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
+
+  if (CondFlag[series_capture])
+	  solving_instrument_series_capture(si);
 
   pipe_solve_delegate(si);
 
