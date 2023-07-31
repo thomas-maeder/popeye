@@ -266,6 +266,7 @@ Kommandos:
 	SchwarzerMinDister
 	WeisserMaxDister
 	WeisserMinDister
+	SerienSchlag
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -400,7 +401,7 @@ Kommandos:
 	Bestimmung der Wiedergeburtsfelder:
 		Equipollents
 		Parrain		(== Equipollents LetzterZug)
-		ContraParrain	(== Equipollents Spiegel LetzterZug)
+		KontraParrain	(== Equipollents Spiegel LetzterZug)
 		Reihe
 		File
 		Symmetrie

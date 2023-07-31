@@ -263,6 +263,7 @@ simples:
 	NoirMinDister
 	BlancMaxDister
 	BlancMinDister
+	SerieCapture
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
