@@ -546,6 +546,12 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       }
       break;
 
+    case move_effect_reason_series_capture:
+      if (move_effect_journal[curr-1].type!=move_effect_piece_removal)
+        (*context->engine->fprintf)(context->file,"-");
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
+      break;
+
     default:
       break;
   }
@@ -661,6 +667,10 @@ static void write_piece_removal(output_plaintext_move_context_type *context,
     case move_effect_reason_pawn_promotion:
       /* ... nor for the removal of a pawn promoted to imitator ... */
     case move_effect_reason_volcanic_remember:
+      break;
+
+    case move_effect_reason_series_capture:
+      (*context->engine->fprintf)(context->file,"*");
       break;
 
     default:

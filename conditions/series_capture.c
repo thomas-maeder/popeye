@@ -6,6 +6,9 @@
 #include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
+#include "solving/move_effect_journal.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -40,11 +43,38 @@ void solving_instrument_series_capture(slice_index si)
  */
 void series_capture_solve(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_solve_delegate(si);
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
+  {
+    if (post_move_am_i_iterating())
+    {
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_secondary = square_d3;
+
+      if (!is_square_empty(sq_secondary))
+        move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
+                                             sq_secondary);
+      move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
+                                            move_effect_journal[movement].u.piece_movement.to,
+                                            sq_secondary);
+      post_move_iteration_solve_delegate(si);
+      post_move_iteration_end();
+    }
+    else
+    {
+      post_move_iteration_solve_delegate(si);
+      if (solve_result==this_move_is_illegal)
+        post_move_iteration_cancel();
+    }
+  }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
