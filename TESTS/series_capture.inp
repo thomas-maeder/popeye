@@ -1,0 +1,12 @@
+begin
+
+prot series_capture.tst
+
+pieces white bb1
+black pc2d3
+stip ~1
+condition seriescapture
+option nowk nobk
+
+end
+

@@ -166,6 +166,8 @@ boolean post_move_iteration_is_locked(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
