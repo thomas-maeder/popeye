@@ -1,4 +1,5 @@
 beg
+prot extragrid.ref
 latex extragrid.tex
 latexpieces
 k  K  king
