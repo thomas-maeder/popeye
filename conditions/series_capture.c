@@ -14,6 +14,15 @@
 
 #include "debugging/assert.h"
 
+static unsigned int level;
+
+typedef struct
+{
+  ply ply_secondary_movement;
+} level_state_type;
+
+static level_state_type levels[maxply+1];
+
 /* Instrument the solving machinery with Series Capture
  * @param si identifies entry slice into solving machinery
  */
@@ -53,9 +62,11 @@ void series_capture_solve(slice_index si)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
+    ++level;
+
     if (post_move_am_i_iterating())
     {
-      numecoup const curr = CURRMOVE_OF_PLY(nbply+1);
+      numecoup const curr = CURRMOVE_OF_PLY(levels[level].ply_secondary_movement);
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_capture = move_gen_top->capture;
       square const sq_departure = move_gen_top->departure;
@@ -68,15 +79,16 @@ void series_capture_solve(slice_index si)
                                             sq_departure,
                                             sq_arrival);
       post_move_iteration_solve_delegate(si);
-      ++nbply;
 
+      nbply = levels[level].ply_secondary_movement;
       pop_move();
       if (encore())
-        --nbply;
+        nbply = parent_ply[nbply];
       else
       {
         post_move_iteration_end();
         finply();
+        levels[level].ply_secondary_movement = 0;
       }
     }
     else
@@ -87,11 +99,15 @@ void series_capture_solve(slice_index si)
       else
       {
         move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-        siblingply(SLICE_STARTER(si));
+        auxiliaryply(SLICE_STARTER(si));
+        assert(levels[level].ply_secondary_movement==0);
+        levels[level].ply_secondary_movement = nbply;
         generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
-        --nbply;
+        nbply = parent_ply[nbply];
       }
     }
+
+    --level;
   }
   else
     pipe_solve_delegate(si);
