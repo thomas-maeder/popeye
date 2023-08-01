@@ -15,5 +15,12 @@ stipulation ~1
 condition seriescapture
 option nowk nobk
 
+next
+
+pieces white pg5 black pe7f7
+stipulation hze71
+condition seriescapture
+option nowk nobk
+
 end
 
