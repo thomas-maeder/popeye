@@ -156,3 +156,37 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -B  -K   8
+|                                   |
+7   .   .   .   .   .   .  -P  -P   7
+|                                   |
+6   .   .   .   .   .  -P   .   P   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 5
+            SeriesCapture
+
+   1.e5*f6*g7 # !
+
+  add_to_move_generation_stack:          14
+                     play_move:          17
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          14
+
+solution finished.
+
+

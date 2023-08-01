@@ -119,6 +119,7 @@ void series_capture_solve(slice_index si)
       move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                             sq_departure,
                                             sq_arrival);
+      move_effect_journal_base[levels[level].ply_secondary_movement+1] = move_effect_journal_base[nbply+1];
       post_move_iteration_solve_delegate(si);
 
       if (!post_move_iteration_is_locked())

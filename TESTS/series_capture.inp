@@ -28,5 +28,13 @@ pieces white pb7 black sa8
 stipulation zb61
 condition seriescapture
 option nowk nobk
+
+next
+
+pieces white pe5h6 black kh8 bg8 pf6g7h7
+stip #1
+condition seriescapture
+option nowk
+
 end
 
