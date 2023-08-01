@@ -1,5 +1,7 @@
 #include "conditions/series_capture.h"
 #include "position/position.h"
+#include "position/effects/piece_removal.h"
+#include "position/effects/piece_movement.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -8,8 +10,7 @@
 #include "solving/fork.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-#include "position/effects/piece_removal.h"
-#include "position/effects/piece_movement.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -33,6 +34,8 @@ void solving_instrument_series_capture(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STSeriesCapture);
+
+  promotion_insert_slice_sequence(si,STSeriesCapture,&move_insert_slices);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

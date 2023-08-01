@@ -22,5 +22,11 @@ stipulation hze71
 condition seriescapture
 option nowk nobk
 
+next
+
+pieces white pb7 black sa8
+stipulation zb61
+condition seriescapture
+option nowk nobk
 end
 

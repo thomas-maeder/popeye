@@ -505,6 +505,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[chamchess])
     chameleon_chess_initialise_solving(si);
 
+  if (CondFlag[series_capture])
+    solving_instrument_series_capture(si);
+
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
   promotion_instrument_solving_default(si);
 
@@ -679,9 +682,6 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
-
-  if (CondFlag[series_capture])
-    solving_instrument_series_capture(si);
 
   pipe_solve_delegate(si);
 
