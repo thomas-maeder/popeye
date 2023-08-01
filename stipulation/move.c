@@ -94,7 +94,7 @@ static slice_index const move_slice_rank_order[] =
     STHurdleColourChanger,
     STCirceConsideringRebirth,
     STCirceDoneWithRebirth,
-	STSeriesCapture,
+    STSeriesCapture,
     STMagicPiecesRecolorer,
     STSentinellesInserter,
     STCirceParachuteUncoverer,
