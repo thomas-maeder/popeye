@@ -181,7 +181,7 @@ void finply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-//  assert(post_move_iteration_ply_was_ended());
+  assert(post_move_iteration_ply_was_ended());
 
   assert(nbply==ply_watermark);
   --ply_watermark;
