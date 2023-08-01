@@ -5848,7 +5848,7 @@ conditions/series_capture$(OBJ_SUFFIX): conditions/series_capture.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/post_move_iteration.h solving/observation.h \
+ stipulation/pipe.h solving/post_move_iteration.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/pipe.h \
  solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
  pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
@@ -5899,6 +5899,7 @@ stipulation/slice_contextual_type.h:
 stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
+stipulation/pipe.h:
 solving/post_move_iteration.h:
 solving/observation.h:
 solving/temporary_hacks.h:

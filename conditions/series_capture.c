@@ -5,6 +5,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
 #include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
@@ -24,16 +25,53 @@ typedef struct
 
 static level_state_type levels[maxply+1];
 
-/* Instrument the solving machinery with Series Capture
- * @param si identifies entry slice into solving machinery
- */
-void solving_instrument_series_capture(slice_index si)
+static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STSeriesCapture);
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STSeriesCapture);
+    move_insert_slices(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor ultraschachzwang_enforcer_inserters[] =
+{
+  { STGoalMateReachedTester,     &stip_structure_visitor_noop           },
+  { STMove,                      &instrument_move                       },
+  { STKingCaptureLegalityTester, &stip_traverse_structure_children_pipe }
+};
+
+enum
+{
+  nr_ultraschachzwang_enforcer_inserters =
+      (sizeof ultraschachzwang_enforcer_inserters
+       / sizeof ultraschachzwang_enforcer_inserters[0])
+};
+
+/* Instrument the solving machinery with Series Capture
+ * @param si identifies entry slice into solving machinery
+ */
+void solving_instrument_series_capture(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    ultraschachzwang_enforcer_inserters,
+                                    nr_ultraschachzwang_enforcer_inserters);
+  stip_traverse_structure(si,&st);
 
   promotion_insert_slice_sequence(si,STSeriesCapture,&move_insert_slices);
 
