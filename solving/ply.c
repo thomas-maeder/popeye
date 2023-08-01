@@ -45,15 +45,18 @@ void nextply(Side side)
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
-  TraceValue("%u",parent);
-  TraceValue("%u",nbply);
-  TraceEOL();
-
   parent_ply[nbply] = parent;
 
   trait[nbply] = side;
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+
+  TraceValue("%u",parent);
+  TraceValue("%u",ply_watermark);
+  TraceValue("%u",nbply);
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceEOL();
+
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
@@ -183,6 +186,9 @@ void finply(void)
 
   assert(post_move_iteration_ply_was_ended());
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",ply_watermark);
+  TraceEOL();
   assert(nbply==ply_watermark);
   --ply_watermark;
 
