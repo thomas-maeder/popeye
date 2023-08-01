@@ -114,6 +114,10 @@ void series_capture_solve(slice_index si)
       square const sq_departure = move_gen_top->departure;
       square const sq_arrival = move_gen_top->arrival;
 
+      TraceValue("%u",level);
+      TraceValue("%u",levels[level].ply_secondary_movement);
+      TraceEOL();
+
       if (!is_no_capture(sq_capture))
         move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
                                              sq_capture);
@@ -150,7 +154,14 @@ void series_capture_solve(slice_index si)
         assert(levels[level].ply_secondary_movement==0);
         levels[level].ply_secondary_movement = nbply;
         generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
-        nbply = parent_ply[nbply];
+        if (encore())
+          nbply = parent_ply[nbply];
+        else
+        {
+          post_move_iteration_end();
+          finply();
+          levels[level].ply_secondary_movement = 0;
+        }
       }
     }
 

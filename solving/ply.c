@@ -49,7 +49,8 @@ void nextply(Side side)
 
   trait[nbply] = side;
 
-  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[parent+1];
+  move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
 
   TraceValue("%u",parent);
   TraceValue("%u",ply_watermark);
@@ -94,7 +95,8 @@ void siblingply(Side side)
 
   trait[nbply] = side;
 
-  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[elder+1];
+  move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
   en_passant_top[nbply] = en_passant_top[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 

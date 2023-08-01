@@ -241,7 +241,8 @@ void move_effect_journal_undoer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[parent_ply[nbply]+1];
+  move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
   pipe_solve_delegate(si);
 
   undo_move_effects();
