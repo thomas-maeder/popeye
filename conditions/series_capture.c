@@ -55,13 +55,11 @@ void series_capture_solve(slice_index si)
   {
     if (post_move_am_i_iterating())
     {
-      ++nbply;
-      numecoup const curr = CURRMOVE_OF_PLY(nbply);
+      numecoup const curr = CURRMOVE_OF_PLY(nbply+1);
       move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
       square const sq_capture = move_gen_top->capture;
       square const sq_departure = move_gen_top->departure;
       square const sq_arrival = move_gen_top->arrival;
-      --nbply;
 
       if (!is_no_capture(sq_capture))
         move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
