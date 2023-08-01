@@ -681,7 +681,7 @@ void build_solvers1(slice_index si)
     solving_insert_degenerate_tree_guards(si);
 
   if (CondFlag[series_capture])
-	  solving_instrument_series_capture(si);
+    solving_instrument_series_capture(si);
 
   pipe_solve_delegate(si);
 
