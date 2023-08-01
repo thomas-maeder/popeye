@@ -84,6 +84,9 @@ void TraceEOL(void)
   }
 }
 
+extern unsigned int current_level;
+extern unsigned int iteration_level;
+
 void TraceFunctionEntry(char const *name)
 {
   ++level;
@@ -91,6 +94,8 @@ void TraceFunctionEntry(char const *name)
   if (do_trace && (level<=max_level))
   {
     printf("> #%lu %s ",level,name);
+    TraceValue("%u",current_level);
+    TraceValue("%u",iteration_level);
     fflush(stdout);
   }
 
@@ -147,6 +152,8 @@ void TraceFunctionExit(char const *name)
   if (do_trace && (level<=max_level))
   {
     printf("< #%lu %s",level,name);
+    TraceValue("%u",current_level);
+    TraceValue("%u",iteration_level);
     fflush(stdout);
   }
 

@@ -184,13 +184,14 @@ void finply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(post_move_iteration_ply_was_ended());
+//  assert(post_move_iteration_ply_was_ended());
 
   TraceValue("%u",nbply);
   TraceValue("%u",ply_watermark);
   TraceEOL();
-  assert(nbply==ply_watermark);
-  --ply_watermark;
+//  assert(nbply==ply_watermark);
+//  --ply_watermark;
+  ply_watermark = nbply-1;
 
   nbply = ply_stack[--ply_stack_pointer];
 

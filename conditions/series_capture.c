@@ -11,6 +11,7 @@
 #include "solving/fork.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
+#include "solving/check.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
@@ -139,7 +140,8 @@ void series_capture_solve(slice_index si)
     else
     {
       post_move_iteration_solve_delegate(si);
-      if (solve_result==this_move_is_illegal)
+      if (solve_result==previous_move_is_illegal
+          || is_in_check(advers(SLICE_STARTER(si))))
         post_move_iteration_cancel();
       else
       {

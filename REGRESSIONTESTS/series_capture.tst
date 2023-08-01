@@ -182,10 +182,10 @@ solution finished.
 
    1.e5*f6*g7 # !
 
-  add_to_move_generation_stack:          14
-                     play_move:          17
+  add_to_move_generation_stack:          13
+                     play_move:          13
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          14
+ is_black_king_square_attacked:          16
 
 solution finished.
 

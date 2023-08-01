@@ -9,8 +9,8 @@
 
 #include "debugging/assert.h"
 
-static unsigned int current_level;
-static unsigned int iteration_level;
+unsigned int current_level;
+unsigned int iteration_level;
 
 void post_move_iteration_init_ply(void)
 {
@@ -19,7 +19,8 @@ void post_move_iteration_init_ply(void)
 
   TraceValue("%u",current_level);TraceEOL();
 
-  iteration_level = current_level;
+  if (iteration_level<current_level)
+    iteration_level = current_level;
 
   TraceValue("%u",iteration_level);TraceEOL();
 
@@ -79,7 +80,7 @@ void post_move_iteration_solve_delegate(slice_index si)
   pipe_solve_delegate(si);
 
   --current_level;
-  TraceValue("%u",current_level);TraceEOL();
+  TraceValue("%u",iteration_level);TraceValue("%u",current_level);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
