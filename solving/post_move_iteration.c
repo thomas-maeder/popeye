@@ -9,8 +9,8 @@
 
 #include "debugging/assert.h"
 
-unsigned int current_level;
-unsigned int iteration_level;
+static unsigned int current_level;
+static unsigned int iteration_level;
 
 void post_move_iteration_init_ply(void)
 {
