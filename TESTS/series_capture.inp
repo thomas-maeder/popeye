@@ -8,5 +8,12 @@ stip ~1
 condition seriescapture
 option nowk nobk
 
+next
+
+pieces white pd6 black pe7
+stipulation ~1
+condition seriescapture
+option nowk nobk
+
 end
 

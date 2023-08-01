@@ -53,6 +53,7 @@ static slice_index const move_slice_rank_order[] =
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
     STBretonApplier,
+    STSeriesCapture,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,
     STHauntedChessGhostSummoner,
@@ -94,7 +95,6 @@ static slice_index const move_slice_rank_order[] =
     STHurdleColourChanger,
     STCirceConsideringRebirth,
     STCirceDoneWithRebirth,
-    STSeriesCapture,
     STMagicPiecesRecolorer,
     STSentinellesInserter,
     STCirceParachuteUncoverer,

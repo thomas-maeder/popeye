@@ -80,15 +80,18 @@ void series_capture_solve(slice_index si)
                                             sq_arrival);
       post_move_iteration_solve_delegate(si);
 
-      nbply = levels[level].ply_secondary_movement;
-      pop_move();
-      if (encore())
-        nbply = parent_ply[nbply];
-      else
+      if (!post_move_iteration_is_locked())
       {
-        post_move_iteration_end();
-        finply();
-        levels[level].ply_secondary_movement = 0;
+        nbply = levels[level].ply_secondary_movement;
+        pop_move();
+        if (encore())
+          nbply = parent_ply[nbply];
+        else
+        {
+          post_move_iteration_end();
+          finply();
+          levels[level].ply_secondary_movement = 0;
+        }
       }
     }
     else
