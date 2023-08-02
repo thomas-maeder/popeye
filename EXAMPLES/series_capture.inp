@@ -1,0 +1,10 @@
+begin
+
+protocol series_capture.ref
+
+pieces white kd4 rg2 sg4 black kf3 bh1h2 pe3g3
+stipulation h#2
+condition seriescapture
+
+end
+

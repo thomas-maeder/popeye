@@ -1,0 +1,34 @@
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   S   .   4
+|                                   |
+3   .   .   .   .  -P  -K  -P   .   3
+|                                   |
+2   .   .   .   .   .   .   R  -B   2
+|                                   |
+1   .   .   .   .   .   .   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 5
+            SeriesCapture
+
+  1.Kf3*g2-g1 Kd4*e3-e2   2.g3-g2 Sg4*h2-f3 #
+  1.Kf3*g4-h4 Kd4*e3-f4   2.Bh2-g1 Rg2*g1*h1 #
+  add_to_move_generation_stack:      214853
+                     play_move:      171295
+ is_white_king_square_attacked:       26507
+ is_black_king_square_attacked:      178214
+
+solution finished.
+
+
