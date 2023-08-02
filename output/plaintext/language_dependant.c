@@ -957,7 +957,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*216*/ "NoirMinDister",
     /*217*/ "BlancMaxDister",
     /*218*/ "BlancMinDister",
-	/*219*/ "SerieCapture"
+    /*219*/ "SerieCapture"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1179,7 +1179,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*216*/ "SchwarzerMinDister",
     /*217*/ "WeisserMaxDister",
     /*218*/ "WeisserMinDister",
-	/*219*/ "SerienSchlag"
+    /*219*/ "SerienSchlag"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1401,7 +1401,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*216*/ "BlackMinDister",
     /*217*/ "WhiteMaxDister",
     /*218*/ "WhiteMinDister",
-	/*219*/ "SeriesCapture"
+    /*219*/ "SeriesCapture"
   }
 };
 
