@@ -172,6 +172,20 @@ static void play_secondary_movement(void)
   TraceFunctionResultEnd();
 }
 
+static void delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++level;
+  post_move_iteration_solve_delegate(si);
+  --level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -196,18 +210,16 @@ void series_capture_solve(slice_index si)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
-    ++level;
-
     if (post_move_am_i_iterating())
     {
       play_secondary_movement();
-      post_move_iteration_solve_delegate(si);
+      delegate(si);
       if (!post_move_iteration_is_locked())
         advance_secondary_movement_ply();
     }
     else
     {
-      post_move_iteration_solve_delegate(si);
+      delegate(si);
       if (solve_result==previous_move_is_illegal
           || is_in_check(SLICE_STARTER(si))
           || is_in_check(advers(SLICE_STARTER(si))))
@@ -215,8 +227,6 @@ void series_capture_solve(slice_index si)
       else
         initialize_secondary_movement_ply(si);
     }
-
-    --level;
   }
   else
     pipe_solve_delegate(si);
