@@ -106,7 +106,10 @@ static slice_index const move_slice_rank_order[] =
     STInfluencerWalkChanger,
     STBeforePawnPromotion, /* pawn created by influence */
     STLandingAfterPawnPromotion,
+    STBeforeSeriesCapture,
+    STSeriesCaptureFork,
     STSeriesCapture,
+    STLandingAfterSeriesCapture,
     STBeforePawnPromotion, /* pawn moved by Series Capture */
     STLandingAfterPawnPromotion,
     STDynastyKingSquareUpdater,

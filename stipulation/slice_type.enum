@@ -479,7 +479,10 @@
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
     ENUMERATOR(STMarscirceRemoveCapturer),                              \
+    ENUMERATOR(STBeforeSeriesCapture),                                  \
+    ENUMERATOR(STSeriesCaptureFork),                                    \
     ENUMERATOR(STSeriesCapture),                                        \
+    ENUMERATOR(STLandingAfterSeriesCapture),                            \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
     ENUMERATOR(STMagicPiecesRecolorer),                                 \
