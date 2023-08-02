@@ -158,9 +158,8 @@ void finply(void)
   TraceValue("%u",nbply);
   TraceValue("%u",ply_watermark);
   TraceEOL();
-//  assert(nbply==ply_watermark);
-//  --ply_watermark;
-  ply_watermark = nbply-1;
+  assert(nbply==ply_watermark);
+  --ply_watermark;
 
   nbply = ply_stack[--ply_stack_pointer];
 
