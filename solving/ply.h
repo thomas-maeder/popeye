@@ -61,13 +61,6 @@ void nextply(Side side);
  */
 void siblingply(Side side);
 
-/* Start a new ply as a child of the current ply, making the child the new
- * current ply
- * The ply will only support move generation, not for play
- * @param side the side at the move in the child ply
- */
-void auxiliaryply(Side side);
-
 /* End the current ply, making the previous current ply the current ply again */
 void finply(void);
 

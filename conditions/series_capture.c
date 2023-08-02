@@ -128,7 +128,7 @@ static void initialize_secondary_movement_ply(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  auxiliaryply(SLICE_STARTER(si));
+  nextply(SLICE_STARTER(si));
   levels[level].ply_secondary_movement = nbply;
   generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
   detect_end_of_secondary_movement_ply();

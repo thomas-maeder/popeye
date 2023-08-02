@@ -106,39 +106,6 @@ void siblingply(Side side)
   TraceFunctionResultEnd();
 }
 
-/* Start a new ply as a child of the current ply, making the child the new
- * current ply
- * The ply will only support move generation, not for play
- * @param side the side at the move in the child ply
- */
-void auxiliaryply(Side side)
-{
-  ply const elder = nbply;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(ply_watermark<maxply);
-
-  ply_stack[ply_stack_pointer++] = nbply;
-  nbply = ply_watermark+1;
-  current_move[nbply] = current_move[ply_watermark];
-  current_move_id[nbply] = current_move_id[ply_watermark];
-  ++ply_watermark;
-
-  parent_ply[nbply] = elder;
-
-  TraceValue("%u",elder);
-  TraceValue("%u",parent_ply[nbply]);
-  TraceValue("%u",nbply);
-  TraceEOL();
-
-  trait[nbply] = side;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Copy the current ply, making the copy the new current ply */
 void copyply(void)
 {
