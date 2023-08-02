@@ -137,7 +137,6 @@ void series_capture_solve(slice_index si)
         {
           post_move_iteration_end();
           finply();
-          levels[level].ply_secondary_movement = 0;
         }
       }
     }
@@ -145,13 +144,13 @@ void series_capture_solve(slice_index si)
     {
       post_move_iteration_solve_delegate(si);
       if (solve_result==previous_move_is_illegal
+          || is_in_check(SLICE_STARTER(si))
           || is_in_check(advers(SLICE_STARTER(si))))
-        post_move_iteration_cancel();
+        post_move_iteration_end();
       else
       {
         move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
         auxiliaryply(SLICE_STARTER(si));
-        assert(levels[level].ply_secondary_movement==0);
         levels[level].ply_secondary_movement = nbply;
         generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
         if (encore())
@@ -160,7 +159,6 @@ void series_capture_solve(slice_index si)
         {
           post_move_iteration_end();
           finply();
-          levels[level].ply_secondary_movement = 0;
         }
       }
     }
