@@ -80,6 +80,98 @@ void solving_instrument_series_capture(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void switch_to_secondary_movement_ply(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nbply = levels[level].ply_secondary_movement;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void switch_to_regular_ply(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nbply = parent_ply[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void detect_end_of_secondary_movement_ply(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (encore())
+    switch_to_regular_ply();
+  else
+  {
+    post_move_iteration_end();
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void initialize_secondary_movement_ply(slice_index si)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  auxiliaryply(SLICE_STARTER(si));
+  levels[level].ply_secondary_movement = nbply;
+  generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
+  detect_end_of_secondary_movement_ply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void advance_secondary_movement_ply(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  switch_to_secondary_movement_ply();
+  pop_move();
+  detect_end_of_secondary_movement_ply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void play_secondary_movement(void)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(levels[level].ply_secondary_movement);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_capture = move_gen_top->capture;
+  square const sq_departure = move_gen_top->departure;
+  square const sq_arrival = move_gen_top->arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (!is_no_capture(sq_capture))
+    move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
+                                         sq_capture);
+  move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
+                                        sq_departure,
+                                        sq_arrival);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -108,37 +200,10 @@ void series_capture_solve(slice_index si)
 
     if (post_move_am_i_iterating())
     {
-      numecoup const curr = CURRMOVE_OF_PLY(levels[level].ply_secondary_movement);
-      move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-      square const sq_capture = move_gen_top->capture;
-      square const sq_departure = move_gen_top->departure;
-      square const sq_arrival = move_gen_top->arrival;
-
-      TraceValue("%u",level);
-      TraceValue("%u",levels[level].ply_secondary_movement);
-      TraceEOL();
-
-      if (!is_no_capture(sq_capture))
-        move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
-                                             sq_capture);
-      move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
-                                            sq_departure,
-                                            sq_arrival);
-      move_effect_journal_base[levels[level].ply_secondary_movement+1] = move_effect_journal_base[nbply+1];
+      play_secondary_movement();
       post_move_iteration_solve_delegate(si);
-
       if (!post_move_iteration_is_locked())
-      {
-        nbply = levels[level].ply_secondary_movement;
-        pop_move();
-        if (encore())
-          nbply = parent_ply[nbply];
-        else
-        {
-          post_move_iteration_end();
-          finply();
-        }
-      }
+        advance_secondary_movement_ply();
     }
     else
     {
@@ -148,19 +213,7 @@ void series_capture_solve(slice_index si)
           || is_in_check(advers(SLICE_STARTER(si))))
         post_move_iteration_end();
       else
-      {
-        move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-        auxiliaryply(SLICE_STARTER(si));
-        levels[level].ply_secondary_movement = nbply;
-        generate_moves_for_piece(move_effect_journal[movement].u.piece_movement.to);
-        if (encore())
-          nbply = parent_ply[nbply];
-        else
-        {
-          post_move_iteration_end();
-          finply();
-        }
-      }
+        initialize_secondary_movement_ply(si);
     }
 
     --level;
