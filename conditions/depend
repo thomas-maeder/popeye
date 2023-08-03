@@ -5666,8 +5666,7 @@ conditions/series_capture$(OBJ_SUFFIX): conditions/series_capture.c \
  solving/post_move_iteration.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/pipe.h solving/binary.h \
  solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/check.h pieces/walks/pawns/promotion.h \
- stipulation/slice_insertion.h debugging/assert.h
+ solving/check.h debugging/assert.h
 conditions/series_capture.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -5727,6 +5726,4 @@ solving/move_generator.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
 solving/check.h:
-pieces/walks/pawns/promotion.h:
-stipulation/slice_insertion.h:
 debugging/assert.h:

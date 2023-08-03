@@ -14,7 +14,6 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/check.h"
-#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -116,8 +115,6 @@ void solving_instrument_series_capture(slice_index si)
                                     series_capture_inserters,
                                     nr_series_capture_inserters);
   stip_traverse_structure(si,&st);
-
-  promotion_insert_slice_sequence(si,STSeriesCapture,&move_insert_slices);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
