@@ -109,6 +109,8 @@ static slice_index const move_slice_rank_order[] =
     STBeforeSeriesCapture,
     STSeriesCaptureFork,
     STSeriesCapture,
+    STBeforePawnPromotion, /* pawn moved by Series Capture */
+    STLandingAfterPawnPromotion,
     STSeriesCaptureRecursor,
     STLandingAfterSeriesCapture,
     STBeforePawnPromotion, /* pawn moved by Series Capture */

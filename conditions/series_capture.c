@@ -46,6 +46,8 @@ static void insert_series_capture(slice_index si, stip_structure_traversal *st)
     slice_index const landing = alloc_pipe(STLandingAfterSeriesCapture);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const recursor = alloc_fork_slice(STSeriesCaptureRecursor,proxy1);
+    slice_index const after = alloc_pipe(STLandingAfterPawnPromotion);
+    slice_index const before = alloc_pipe(STBeforePawnPromotion);
     slice_index const series = alloc_pipe(STSeriesCapture);
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy2);
@@ -53,7 +55,9 @@ static void insert_series_capture(slice_index si, stip_structure_traversal *st)
     pipe_append(si,landing);
     pipe_append(si,fork);
     pipe_append(proxy2,series);
-    pipe_append(series,recursor);
+    pipe_link(after,recursor);
+    pipe_link(before,after);
+    pipe_link(series,before);
     pipe_set_successor(proxy1,series);
     pipe_set_successor(recursor,landing);
   }
@@ -81,7 +85,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitor ultraschachzwang_enforcer_inserters[] =
+static structure_traversers_visitor series_capture_inserters[] =
 {
   { STGoalMateReachedTester,     &stip_structure_visitor_noop           },
   { STMove,                      &instrument_move                       },
@@ -91,9 +95,9 @@ static structure_traversers_visitor ultraschachzwang_enforcer_inserters[] =
 
 enum
 {
-  nr_ultraschachzwang_enforcer_inserters =
-      (sizeof ultraschachzwang_enforcer_inserters
-       / sizeof ultraschachzwang_enforcer_inserters[0])
+  nr_series_capture_inserters =
+      (sizeof series_capture_inserters
+       / sizeof series_capture_inserters[0])
 };
 
 /* Instrument the solving machinery with Series Capture
@@ -109,8 +113,8 @@ void solving_instrument_series_capture(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
-                                    ultraschachzwang_enforcer_inserters,
-                                    nr_ultraschachzwang_enforcer_inserters);
+                                    series_capture_inserters,
+                                    nr_series_capture_inserters);
   stip_traverse_structure(si,&st);
 
   promotion_insert_slice_sequence(si,STSeriesCapture,&move_insert_slices);

@@ -212,3 +212,71 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S  -K   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 3
+            SeriesCapture
+
+   1.Ka1-b2 !
+
+   1.Ka1-a2 !
+
+   1.Ka1-b1 !
+
+   1.a6-a7 + !
+
+   1.a6*b7 !
+
+   1.a6*b7*a8=Q + !
+
+   1.a6*b7*a8=S !
+
+   1.a6*b7*a8=S-b6 !
+
+   1.a6*b7*a8=S-c7 !
+
+   1.a6*b7*a8=R + !
+
+   1.a6*b7*a8=B !
+
+   1.a6*b7*a8=B-h1 !
+
+   1.a6*b7*a8=B-g2 !
+
+   1.a6*b7*a8=B-f3 !
+
+   1.a6*b7*a8=B-e4 !
+
+   1.a6*b7*a8=B-d5 !
+
+   1.a6*b7*a8=B-c6 !
+
+   1.a6*b7*a8=B-b7 !
+
+  add_to_move_generation_stack:          15
+                     play_move:          18
+ is_white_king_square_attacked:          23
+ is_black_king_square_attacked:          24
+
+solution finished.
+
+

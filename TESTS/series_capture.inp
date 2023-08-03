@@ -36,5 +36,11 @@ stip #1
 condition seriescapture
 option nowk
 
+next
+
+pieces white pa6 ka1 black kb8 pb7 sa8
+stip ~1
+condition seriescapture
+
 end
 
