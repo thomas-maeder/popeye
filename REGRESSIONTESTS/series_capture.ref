@@ -24,10 +24,11 @@
 
   1.Kf3*g2-g1 Kd4*e3-e2   2.g3-g2 Sg4*h2-f3 #
   1.Kf3*g4-h4 Kd4*e3-f4   2.Bh2-g1 Rg2*g1*h1 #
-  add_to_move_generation_stack:      214853
-                     play_move:      171295
- is_white_king_square_attacked:       26507
- is_black_king_square_attacked:      178214
+  1.Kf3*g4-h4 Kd4*e3-f4   2.Bh2-g1 Rg2*g3*g1*h1 #
+  add_to_move_generation_stack:      340704
+                     play_move:      262785
+ is_white_king_square_attacked:       41617
+ is_black_king_square_attacked:      273807
 
 solution finished.
 

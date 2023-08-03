@@ -482,6 +482,7 @@
     ENUMERATOR(STBeforeSeriesCapture),                                  \
     ENUMERATOR(STSeriesCaptureFork),                                    \
     ENUMERATOR(STSeriesCapture),                                        \
+    ENUMERATOR(STSeriesCaptureRecursor),                                \
     ENUMERATOR(STLandingAfterSeriesCapture),                            \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \

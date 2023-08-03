@@ -30,14 +30,36 @@
 
    1.Bb1*c2*d3 !
 
+   1.Bb1*c2*d3-b1 !
+
+   1.Bb1*c2*d3-c2 !
+
+   1.Bb1*c2*d3-f1 !
+
+   1.Bb1*c2*d3-e2 !
+
+   1.Bb1*c2*d3-h7 !
+
+   1.Bb1*c2*d3-g6 !
+
+   1.Bb1*c2*d3-f5 !
+
+   1.Bb1*c2*d3-e4 !
+
+   1.Bb1*c2*d3-a6 !
+
+   1.Bb1*c2*d3-b5 !
+
+   1.Bb1*c2*d3-c4 !
+
    1.Bb1*c2-a4 !
 
    1.Bb1*c2-b3 !
 
    1.Bb1-a2 !
 
-  add_to_move_generation_stack:           7
-                     play_move:           7
+  add_to_move_generation_stack:          18
+                     play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -114,8 +136,8 @@ solution finished.
 
   1.f7-f5 g5*f6 ep.*e7 z
   1.f7-f6 g5*f6*e7 z
-  add_to_move_generation_stack:          14
-                     play_move:          14
+  add_to_move_generation_stack:          16
+                     play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -185,7 +207,7 @@ solution finished.
   add_to_move_generation_stack:          13
                      play_move:          13
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          16
+ is_black_king_square_attacked:          17
 
 solution finished.
 

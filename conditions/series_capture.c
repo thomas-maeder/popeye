@@ -24,6 +24,7 @@ static unsigned int level;
 typedef struct
 {
   square sq_arrival;
+  boolean recurse;
   ply ply_secondary_movement;
 } level_state_type;
 
@@ -37,14 +38,18 @@ static void insert_series_capture(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const landing = alloc_pipe(STLandingAfterSeriesCapture);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const recursor = alloc_fork_slice(STSeriesCaptureRecursor,proxy1);
     slice_index const series = alloc_pipe(STSeriesCapture);
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy);
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy2);
 
     pipe_append(si,landing);
     pipe_append(si,fork);
-    pipe_append(proxy,series);
-    pipe_set_successor(series,landing);
+    pipe_append(proxy2,series);
+    pipe_append(series,recursor);
+    pipe_set_successor(proxy1,series);
+    pipe_set_successor(recursor,landing);
   }
 
   stip_traverse_structure_children(si,st);
@@ -103,6 +108,33 @@ void solving_instrument_series_capture(slice_index si)
   stip_traverse_structure(si,&st);
 
   promotion_insert_slice_sequence(si,STSeriesCapture,&move_insert_slices);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void series_capture_recursor_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++level;
+  post_move_iteration_solve_delegate(si);
+  --level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -206,20 +238,6 @@ static void advance_secondary_movement_ply(void)
   TraceFunctionResultEnd();
 }
 
-static void delegate(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++level;
-  post_move_iteration_solve_delegate(si);
-  --level;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void recurse(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -251,7 +269,7 @@ static void play_secondary_movement(slice_index si)
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
-    delegate(si);
+    pipe_solve_delegate(si);
   }
   else
   {
@@ -295,7 +313,7 @@ void series_capture_solve(slice_index si)
   }
   else
   {
-    delegate(si);
+    pipe_solve_delegate(si);
     if (solve_result==previous_move_is_illegal
         || is_in_check(SLICE_STARTER(si))
         || is_in_check(advers(SLICE_STARTER(si))))

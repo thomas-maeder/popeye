@@ -1280,6 +1280,10 @@ void dispatch(slice_index si)
       series_capture_solve(si);
       break;
 
+    case STSeriesCaptureRecursor:
+      series_capture_recursor_solve(si);
+      break;
+
     case STSentinellesInserter:
       sentinelles_inserter_solve(si);
       break;

@@ -107,7 +107,8 @@ static slice_type const fork_slice_types[] =
     STMoveForPieceGeneratorTwoPaths,
     STIsSquareObservedTwoPaths,
     STOpponentMovesFewMovesPrioriser,
-    STSeriesCaptureFork
+    STSeriesCaptureFork,
+    STSeriesCaptureRecursor
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -287,7 +288,8 @@ static slice_type const binary_slice_types[] =
     STVaultingKingIsSquareObserved,
     STMoveForPieceGeneratorTwoPaths,
     STIsSquareObservedTwoPaths,
-    STSeriesCaptureFork
+    STSeriesCaptureFork,
+    STSeriesCaptureRecursor
 };
 
 static slice_type const testing_pipe_slice_types[] =
