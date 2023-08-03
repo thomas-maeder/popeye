@@ -24,7 +24,6 @@ static unsigned int level;
 typedef struct
 {
   square sq_arrival;
-  boolean recurse;
   ply ply_secondary_movement;
 } level_state_type;
 
