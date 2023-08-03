@@ -23,7 +23,7 @@ static unsigned int level;
 
 typedef struct
 {
-  square sq_arrival;
+  square recurse_from;
   ply ply_secondary_movement;
 } level_state_type;
 
@@ -132,7 +132,12 @@ void series_capture_recursor_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   ++level;
-  post_move_iteration_solve_delegate(si);
+
+  if (levels[level].recurse_from==initsquare)
+    pipe_solve_delegate(si);
+  else
+    fork_solve_delegate(si);
+
   --level;
 
   TraceFunctionExit(__func__);
@@ -163,8 +168,16 @@ void series_capture_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  levels[level].sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  binary_solve_if_then_else(si,type==move_effect_piece_removal);
+  assert(levels[level].recurse_from==initsquare);
+
+  if (type==move_effect_piece_removal)
+  {
+    levels[level].recurse_from = move_effect_journal[movement].u.piece_movement.to;
+    fork_solve_delegate(si);
+    levels[level].recurse_from = initsquare;
+  }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -217,7 +230,7 @@ static void initialize_secondary_movement_ply(slice_index si)
 
   nextply(SLICE_STARTER(si));
   levels[level].ply_secondary_movement = nbply;
-  generate_moves_for_piece(levels[level].sq_arrival);
+  generate_moves_for_piece(levels[level].recurse_from);
   detect_end_of_secondary_movement_ply();
 
   TraceFunctionExit(__func__);
@@ -232,20 +245,6 @@ static void advance_secondary_movement_ply(void)
   switch_to_secondary_movement_ply();
   pop_move();
   detect_end_of_secondary_movement_ply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void recurse(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++level;
-  post_move_iteration_solve_recurse(si);
-  --level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -268,7 +267,7 @@ static void play_secondary_movement(slice_index si)
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
   }
   else
   {
@@ -277,8 +276,9 @@ static void play_secondary_movement(slice_index si)
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
-    levels[level+1].sq_arrival = sq_arrival;
-    recurse(si);
+    levels[level+1].recurse_from = sq_arrival;
+    post_move_iteration_solve_delegate(si);
+    levels[level+1].recurse_from = initsquare;
   }
 
   TraceFunctionExit(__func__);
@@ -312,7 +312,7 @@ void series_capture_solve(slice_index si)
   }
   else
   {
-    pipe_solve_delegate(si);
+    post_move_iteration_solve_delegate(si);
     if (solve_result==previous_move_is_illegal
         || is_in_check(SLICE_STARTER(si))
         || is_in_check(advers(SLICE_STARTER(si))))
