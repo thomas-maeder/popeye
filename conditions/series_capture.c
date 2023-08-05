@@ -220,8 +220,12 @@ void series_capture_journal_fixer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  // TODO find a more reasonable upper boundary
-  for (ply = nbply+1; ply+1<maxply; ++ply)
+  /* can we find a simpler method for this? */
+  nextply(trait[nbply]);
+  ply = nbply;
+  finply();
+
+  for (; ply>nbply; --ply)
     move_effect_journal_base[ply+1] = move_effect_journal_base[nbply+1];
 
   pipe_solve_delegate(si);
