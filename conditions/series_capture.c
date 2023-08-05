@@ -33,7 +33,13 @@ typedef struct
   ply ply_secondary_movement;
 } level_state_type;
 
-static level_state_type levels[maxply+1];
+/* we need 1 level per capture - if we want to mix in Circe etc., that can be many levels */
+
+enum {
+  levels_capacity = maxply*nr_squares_on_board
+};
+
+static level_state_type levels[levels_capacity];
 
 static void insert_series_capture(slice_index si, stip_structure_traversal *st)
 {
@@ -147,6 +153,7 @@ void series_capture_recursor_solve(slice_index si)
   TraceEOL();
 
   ++level;
+  assert(level<levels_capacity);
 
   TraceValue("%u",level);
   TraceValue("%u",levels[level].status);
@@ -181,6 +188,7 @@ void series_capture_recursor_solve(slice_index si)
   TraceValue("%u",levels[level].status);
   TraceEOL();
 
+  assert(level>0);
   --level;
 
   TraceValue("%u",level);
