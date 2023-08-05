@@ -112,7 +112,7 @@ static slice_index const move_slice_rank_order[] =
     STBeforePawnPromotion, /* pawn moved by Series Capture */
     STLandingAfterPawnPromotion,
     STSeriesCaptureRecursor,
-    STLandingAfterPawnPromotion,
+    STLandingAfterSeriesCapture,
     STDynastyKingSquareUpdater,
     STLostPiecesRemover,
     STLandingAfterMovePlay,
@@ -129,6 +129,7 @@ static slice_index const move_slice_rank_order[] =
     STOwnKingCaptureAvoider,
     STOpponentKingCaptureAvoider,
     STCastlingRightsAdjuster,
+    STSeriesCaptureJournalFixer,
     STBlackChecks,
     STImitatorDetectIllegalMoves,
     STSingleBoxType1LegalityTester,

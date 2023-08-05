@@ -484,6 +484,7 @@
     ENUMERATOR(STSeriesCapture),                                        \
     ENUMERATOR(STSeriesCaptureRecursor),                                \
     ENUMERATOR(STLandingAfterSeriesCapture),                            \
+    ENUMERATOR(STSeriesCaptureJournalFixer),                            \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
     ENUMERATOR(STMagicPiecesRecolorer),                                 \

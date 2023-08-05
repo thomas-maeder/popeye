@@ -131,6 +131,11 @@ void redo_move_effects(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_top);
+  TraceValue("%u",top);
+  TraceEOL();
+
   assert(parent_top<=top);
 
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
@@ -241,8 +246,7 @@ void move_effect_journal_undoer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_base[nbply+1] = move_effect_journal_base[parent_ply[nbply]+1];
-  move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   pipe_solve_delegate(si);
 
   undo_move_effects();
