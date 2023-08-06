@@ -56,4 +56,12 @@ condition andernach seriescapture
 stip ~1
 option movenumbers
 
+next
+
+remark added movement according to changed type
+pieces white pb2 black pa3 sc3 pe4
+condition proteanchess seriescapture
+stipulation ~1
+
 end
+

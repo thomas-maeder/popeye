@@ -330,3 +330,64 @@ both sides need a king
 solution finished.
 
 
+added movement according to changed type
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -P   .  -S   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+            ProteanChess
+            SeriesCapture
+both sides need a king
+
+   1.b2-b4 !
+
+   1.b2-b3 !
+
+   1.b2*c3=S !
+
+   1.b2*c3=S-a2 !
+
+   1.b2*c3=S-b1 !
+
+   1.b2*c3=S-d1 !
+
+   1.b2*c3=S-e2 !
+
+   1.b2*c3=S-e4 !
+
+   1.b2*c3=S-d5 !
+
+   1.b2*c3=S-b5 !
+
+   1.b2*c3=S-a4 !
+
+   1.b2*a3=PP !
+
+   1.b2*a3=PP-a2 !
+
+  add_to_move_generation_stack:          13
+                     play_move:          13
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
