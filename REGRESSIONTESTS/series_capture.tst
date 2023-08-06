@@ -343,7 +343,7 @@ added movement according to changed type
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   .   .   .   .   .   .   4
+4   .   .   .   .  -P   .   .   .   4
 |                                   |
 3  -P   .  -S   .   .   .   .   .   3
 |                                   |
@@ -352,7 +352,7 @@ added movement according to changed type
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          1 + 2
+  ~1                          1 + 3
             ProteanChess
             SeriesCapture
 both sides need a king
@@ -371,7 +371,23 @@ both sides need a king
 
    1.b2*c3=S-e2 !
 
-   1.b2*c3=S-e4 !
+   1.b2*c3=S*e4 !
+
+   1.b2*c3=S*e4-c3 !
+
+   1.b2*c3=S*e4-d2 !
+
+   1.b2*c3=S*e4-f2 !
+
+   1.b2*c3=S*e4-g3 !
+
+   1.b2*c3=S*e4-g5 !
+
+   1.b2*c3=S*e4-f6 !
+
+   1.b2*c3=S*e4-d6 !
+
+   1.b2*c3=S*e4-c5 !
 
    1.b2*c3=S-d5 !
 
@@ -383,8 +399,8 @@ both sides need a king
 
    1.b2*a3=PP-a2 !
 
-  add_to_move_generation_stack:          13
-                     play_move:          13
+  add_to_move_generation_stack:          21
+                     play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
