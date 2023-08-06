@@ -251,6 +251,7 @@ void series_capture_fork_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_type const type = move_effect_journal[capture].type;
 
@@ -264,9 +265,10 @@ void series_capture_fork_solve(slice_index si)
 
   assert(levels[level].recurse_from==initsquare);
 
-  if (type==move_effect_piece_removal)
+  if (type==move_effect_piece_removal
+      && TSTFLAG(being_solved.spec[to],trait[nbply]))
   {
-    levels[level].recurse_from = move_effect_journal[movement].u.piece_movement.to;
+    levels[level].recurse_from = to;
     fork_solve_delegate(si);
     levels[level].recurse_from = initsquare;
   }

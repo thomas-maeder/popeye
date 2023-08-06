@@ -1,3 +1,4 @@
+basics
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -66,6 +67,7 @@
 solution finished.
 
 
+promotion after added movement
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -110,6 +112,7 @@ solution finished.
 solution finished.
 
 
+added movement after en passant capture
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -144,6 +147,7 @@ solution finished.
 solution finished.
 
 
+added movement after promotion
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -178,6 +182,7 @@ solution finished.
 solution finished.
 
 
+deliver mate with added movement
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -212,6 +217,7 @@ solution finished.
 solution finished.
 
 
+stop series if added movement gives check
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -276,6 +282,50 @@ solution finished.
                      play_move:          18
  is_white_king_square_attacked:          23
  is_black_king_square_attacked:          24
+
+solution finished.
+
+
+no added movement if moving piece has changed color
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -P   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           AndernachChess
+            SeriesCapture
+both sides need a king
+
+  1  (b2-b4 )
+   1.b2-b4 !
+
+  2  (b2-b3 )
+   1.b2-b3 !
+
+  3  (b2*c3=b )
+   1.b2*c3=b !
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 
 solution finished.
 
