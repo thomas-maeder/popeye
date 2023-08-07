@@ -108,6 +108,7 @@ static slice_type const fork_slice_types[] =
     STIsSquareObservedTwoPaths,
     STOpponentMovesFewMovesPrioriser,
     STSeriesCaptureFork,
+    STSeriesCapture,
     STSeriesCaptureRecursor
 };
 
@@ -289,6 +290,7 @@ static slice_type const binary_slice_types[] =
     STMoveForPieceGeneratorTwoPaths,
     STIsSquareObservedTwoPaths,
     STSeriesCaptureFork,
+    STSeriesCapture,
     STSeriesCaptureRecursor
 };
 

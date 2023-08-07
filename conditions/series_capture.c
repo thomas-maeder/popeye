@@ -46,16 +46,18 @@ static void insert_series_capture(slice_index si, stip_structure_traversal *st)
     slice_index const recursor = alloc_fork_slice(STSeriesCaptureRecursor,proxy1);
     slice_index const after = alloc_pipe(STLandingAfterPawnPromotion);
     slice_index const before = alloc_pipe(STBeforePawnPromotion);
-    slice_index const series = alloc_pipe(STSeriesCapture);
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy2);
+    slice_index const series = alloc_fork_slice(STSeriesCapture,proxy2);
+    slice_index const proxy3 = alloc_proxy_slice();
+    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy3);
 
     pipe_append(si,landing);
     pipe_append(si,fork);
-    pipe_append(proxy2,series);
+    pipe_append(proxy3,series);
     pipe_link(after,recursor);
     pipe_link(before,after);
-    pipe_link(series,before);
+    pipe_link(proxy2,before);
+    pipe_set_successor(series,landing);
     pipe_set_successor(proxy1,series);
     pipe_set_successor(recursor,landing);
   }
@@ -216,6 +218,8 @@ void series_capture_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",level);TraceEOL();
+
   assert(levels[level].recurse_from==initsquare);
 
   if (type==move_effect_piece_removal
@@ -316,7 +320,7 @@ static void play_secondary_movement(slice_index si)
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
-    post_move_iteration_solve_delegate(si);
+    post_move_iteration_solve_fork(si);
   }
   else
   {
@@ -326,7 +330,7 @@ static void play_secondary_movement(slice_index si)
                                           sq_departure,
                                           sq_arrival);
     levels[level+1].recurse_from = sq_arrival;
-    post_move_iteration_solve_delegate(si);
+    post_move_iteration_solve_fork(si);
     levels[level+1].recurse_from = initsquare;
   }
 
@@ -361,7 +365,10 @@ void series_capture_solve(slice_index si)
   }
   else
   {
+    ++level;
     post_move_iteration_solve_delegate(si);
+    --level;
+
     if (solve_result==previous_move_is_illegal
         || is_in_check(SLICE_STARTER(si))
         || is_in_check(advers(SLICE_STARTER(si))))
