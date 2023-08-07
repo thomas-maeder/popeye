@@ -23,7 +23,6 @@ static unsigned int level;
 typedef struct
 {
   square recurse_from;
-  ply ply_secondary_movement;
 } level_state_type;
 
 /* we need 1 level per capture - if we want to mix in Circe etc., that can be many levels */
@@ -33,6 +32,8 @@ enum {
 };
 
 static level_state_type levels[levels_capacity];
+
+static boolean is_ply_secondary[maxply+1];
 
 static void insert_series_capture(slice_index si, stip_structure_traversal *st)
 {
@@ -139,6 +140,10 @@ void solving_instrument_series_capture(slice_index si)
  */
 void series_capture_recursor_solve(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_type const capture_type = move_effect_journal[capture].type;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -146,7 +151,7 @@ void series_capture_recursor_solve(slice_index si)
   ++level;
   assert(level<levels_capacity);
 
-  if (levels[level].recurse_from==initsquare)
+  if (capture_type==move_effect_no_piece_removal)
     pipe_solve_delegate(si);
   else
     fork_solve_delegate(si);
@@ -173,21 +178,23 @@ void series_capture_recursor_solve(slice_index si)
  */
 void series_capture_journal_fixer_solve(slice_index si)
 {
-  ply ply;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* can we find a simpler method for this? */
-  nextply(trait[nbply]);
-  ply = nbply;
-  finply();
+  TraceValue("%u",nbply);
+  TraceValue("%u",is_ply_secondary[nbply]);
+  TraceEOL();
 
-  for (; ply>nbply; --ply)
-    move_effect_journal_base[ply+1] = move_effect_journal_base[nbply+1];
-
-  pipe_solve_delegate(si);
+  if (is_ply_secondary[nbply])
+  {
+    move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
+    --nbply;
+    series_capture_journal_fixer_solve(si);
+    ++nbply;
+  }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -209,10 +216,10 @@ void series_capture_journal_fixer_solve(slice_index si)
 void series_capture_fork_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_type const capture_type = move_effect_journal[capture].type;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const to = move_effect_journal[movement].u.piece_movement.to;
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_type const type = move_effect_journal[capture].type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -222,7 +229,9 @@ void series_capture_fork_solve(slice_index si)
 
   assert(levels[level].recurse_from==initsquare);
 
-  if (type==move_effect_piece_removal
+  is_ply_secondary[nbply] = false;
+
+  if (capture_type==move_effect_piece_removal
       && TSTFLAG(being_solved.spec[to],trait[nbply]))
   {
     levels[level].recurse_from = to;
@@ -231,17 +240,6 @@ void series_capture_fork_solve(slice_index si)
   }
   else
     pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void switch_to_secondary_movement_ply(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  nbply = levels[level].ply_secondary_movement;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -282,7 +280,7 @@ static void initialize_secondary_movement_ply(slice_index si)
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
-  levels[level].ply_secondary_movement = nbply;
+  is_ply_secondary[nbply] = true;
   generate_moves_for_piece(levels[level].recurse_from);
   detect_end_of_secondary_movement_ply();
 
@@ -295,7 +293,6 @@ static void advance_secondary_movement_ply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  switch_to_secondary_movement_ply();
   pop_move();
   detect_end_of_secondary_movement_ply();
 
@@ -305,7 +302,7 @@ static void advance_secondary_movement_ply(void)
 
 static void play_secondary_movement(slice_index si)
 {
-  numecoup const curr = CURRMOVE_OF_PLY(levels[level].ply_secondary_movement);
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
   square const sq_departure = move_gen_top->departure;
@@ -315,8 +312,11 @@ static void play_secondary_movement(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+
   if (is_no_capture(sq_capture))
   {
+    move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
@@ -359,8 +359,12 @@ void series_capture_solve(slice_index si)
 
   if (post_move_am_i_iterating())
   {
+    ++nbply;
     play_secondary_movement(si);
-    if (!post_move_iteration_is_locked())
+
+    if (post_move_iteration_is_locked())
+      --nbply;
+    else
       advance_secondary_movement_ply();
   }
   else
