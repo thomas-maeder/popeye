@@ -20,15 +20,8 @@
 
 static unsigned int level;
 
-typedef enum
-{
-  without_added_movement,
-  with_added_movement
-} level_status_type;
-
 typedef struct
 {
-  level_status_type status;
   square recurse_from;
   ply ply_secondary_movement;
 } level_state_type;
@@ -148,52 +141,16 @@ void series_capture_recursor_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
-
   ++level;
   assert(level<levels_capacity);
 
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
-
   if (levels[level].recurse_from==initsquare)
-  {
     pipe_solve_delegate(si);
-
-    TraceValue("%u",level);
-    TraceValue("%u",levels[level-1].status);
-    TraceEOL();
-
-    if (levels[level-1].status==without_added_movement)
-    {
-      if (solve_result==previous_move_is_illegal
-          || is_in_check(SLICE_STARTER(si))
-          || is_in_check(advers(SLICE_STARTER(si))))
-        ;
-      else
-        levels[level-1].status = with_added_movement;
-    }
-  }
   else
-  {
-    assert(levels[level-1].status==with_added_movement);
     fork_solve_delegate(si);
-  }
-
-
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
 
   assert(level>0);
   --level;
-
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -259,10 +216,6 @@ void series_capture_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
-
   assert(levels[level].recurse_from==initsquare);
 
   if (type==move_effect_piece_removal
@@ -312,7 +265,6 @@ static void detect_end_of_secondary_movement_ply(void)
   {
     post_move_iteration_end();
     finply();
-    levels[level].status = without_added_movement;
   }
 
   TraceFunctionExit(__func__);
@@ -325,7 +277,6 @@ static void initialize_secondary_movement_ply(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(levels[level].status==with_added_movement);
   nextply(SLICE_STARTER(si));
   levels[level].ply_secondary_movement = nbply;
   generate_moves_for_piece(levels[level].recurse_from);
@@ -340,7 +291,6 @@ static void advance_secondary_movement_ply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(levels[level].status==with_added_movement);
   switch_to_secondary_movement_ply();
   pop_move();
   detect_end_of_secondary_movement_ply();
@@ -403,30 +353,22 @@ void series_capture_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
-
   if (post_move_am_i_iterating())
   {
-    assert(levels[level].status==with_added_movement);
     play_secondary_movement(si);
     if (!post_move_iteration_is_locked())
       advance_secondary_movement_ply();
   }
   else
   {
-    assert(levels[level].status==without_added_movement);
     post_move_iteration_solve_delegate(si);
-    if (levels[level].status==without_added_movement)
+    if (solve_result==previous_move_is_illegal
+        || is_in_check(SLICE_STARTER(si))
+        || is_in_check(advers(SLICE_STARTER(si))))
       post_move_iteration_end();
     else
       initialize_secondary_movement_ply(si);
   }
-
-  TraceValue("%u",level);
-  TraceValue("%u",levels[level].status);
-  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
