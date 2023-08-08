@@ -2,6 +2,7 @@
 #include "position/position.h"
 #include "position/effects/piece_removal.h"
 #include "position/effects/piece_movement.h"
+#include "position/effects/utils.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -270,14 +271,17 @@ void series_capture_fork_solve(slice_index si)
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_type const capture_type = move_effect_journal[capture].type;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const to = move_effect_journal[movement].u.piece_movement.to;
+  square const original_to = move_effect_journal[movement].u.piece_movement.to;
+  Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+  PieceIdType const moving_id = GetPieceId(moving_spec);
+  square const eventual_to = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,original_to);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (capture_type==move_effect_piece_removal
-      && TSTFLAG(being_solved.spec[to],trait[nbply]))
+      && TSTFLAG(being_solved.spec[eventual_to],trait[nbply]))
   {
     if (post_move_am_i_iterating())
     {
@@ -298,7 +302,7 @@ void series_capture_fork_solve(slice_index si)
           || is_in_check(advers(SLICE_STARTER(si))))
         post_move_iteration_end();
       else
-        initialize_secondary_movement_ply(si,to);
+        initialize_secondary_movement_ply(si,eventual_to);
     }
   }
   else

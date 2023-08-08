@@ -72,5 +72,12 @@ stip ze81
 condition seriescapture circe
 option nowk nobk
 
+next
+
+remark the combination with AntiCirce is natural now
+pieces white pc6 black pd7e3
+stipulation ~1
+condition seriescapture anticirce
+
 end
 

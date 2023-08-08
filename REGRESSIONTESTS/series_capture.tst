@@ -443,3 +443,52 @@ the combination with Circe brings surprises
 solution finished.
 
 
+the combination with AntiCirce is natural now
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+              AntiCirce
+            SeriesCapture
+both sides need a king
+
+   1.c6-c7 !
+
+   1.c6*d7[wPd7->d2] !
+
+   1.c6*d7[wPd7->d2]-d4 !
+
+   1.c6*d7[wPd7->d2]-d3 !
+
+   1.c6*d7[wPd7->d2]*e3[wPe3->e2] !
+
+   1.c6*d7[wPd7->d2]*e3[wPe3->e2]-e4 !
+
+   1.c6*d7[wPd7->d2]*e3[wPe3->e2]-e3 !
+
+  add_to_move_generation_stack:           7
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

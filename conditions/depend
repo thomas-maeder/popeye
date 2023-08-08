@@ -5649,7 +5649,7 @@ conditions/series_capture$(OBJ_SUFFIX): conditions/series_capture.c \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  position/effects/piece_removal.h solving/move_effect_journal.h \
- solving/ply.h position/effects/piece_movement.h \
+ solving/ply.h position/effects/piece_movement.h position/effects/utils.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -5697,6 +5697,7 @@ position/effects/piece_removal.h:
 solving/move_effect_journal.h:
 solving/ply.h:
 position/effects/piece_movement.h:
+position/effects/utils.h:
 solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
