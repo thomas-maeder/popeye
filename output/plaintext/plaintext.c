@@ -584,6 +584,7 @@ find_piece_removal(output_plaintext_move_context_type const *context,
     if (move_effect_journal[m].type==move_effect_piece_removal
         && move_effect_journal[m].reason!=move_effect_reason_regular_capture
         && move_effect_journal[m].reason!=move_effect_reason_ep_capture
+        && move_effect_journal[m].reason!=move_effect_reason_series_capture
         && GetPieceId(move_effect_journal[m].u.piece_removal.flags)==id_added)
       return m;
 
