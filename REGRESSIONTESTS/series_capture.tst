@@ -433,7 +433,7 @@ the combination with Circe brings surprises
                 Circe
             SeriesCapture
 
-   1.Bb1*d3[+bPd7]*f5[bPf5->f7]*d7-e8 z !
+   1.Bb1*d3[+bPd7]*f5[+bPf7]*d7-e8 z !
 
   add_to_move_generation_stack:          31
                      play_move:          31
