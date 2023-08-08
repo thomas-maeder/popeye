@@ -18,21 +18,6 @@
 
 #include "debugging/assert.h"
 
-static unsigned int level;
-
-typedef struct
-{
-  square recurse_from;
-} level_state_type;
-
-/* we need 1 level per capture - if we want to mix in Circe etc., that can be many levels */
-
-enum {
-  levels_capacity = maxply*nr_squares_on_board
-};
-
-static level_state_type levels[levels_capacity];
-
 static boolean is_ply_secondary[maxply+1];
 
 static void insert_series_capture(slice_index si, stip_structure_traversal *st)
@@ -148,16 +133,10 @@ void series_capture_recursor_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++level;
-  assert(level<levels_capacity);
-
   if (capture_type==move_effect_no_piece_removal)
     pipe_solve_delegate(si);
   else
     fork_solve_delegate(si);
-
-  assert(level>0);
-  --level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -227,17 +206,11 @@ void series_capture_fork_solve(slice_index si)
 
   TraceValue("%u",level);TraceEOL();
 
-  assert(levels[level].recurse_from==initsquare);
-
   is_ply_secondary[nbply] = false;
 
   if (capture_type==move_effect_piece_removal
       && TSTFLAG(being_solved.spec[to],trait[nbply]))
-  {
-    levels[level].recurse_from = to;
     fork_solve_delegate(si);
-    levels[level].recurse_from = initsquare;
-  }
   else
     pipe_solve_delegate(si);
 
@@ -273,15 +246,16 @@ static void detect_end_of_secondary_movement_ply(void)
   TraceFunctionResultEnd();
 }
 
-static void initialize_secondary_movement_ply(slice_index si)
+static void initialize_secondary_movement_ply(slice_index si, square from)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceSquare(from);
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
   is_ply_secondary[nbply] = true;
-  generate_moves_for_piece(levels[level].recurse_from);
+  generate_moves_for_piece(from);
   detect_end_of_secondary_movement_ply();
 
   TraceFunctionExit(__func__);
@@ -329,9 +303,7 @@ static void play_secondary_movement(slice_index si)
     move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
                                           sq_departure,
                                           sq_arrival);
-    levels[level+1].recurse_from = sq_arrival;
     post_move_iteration_solve_fork(si);
-    levels[level+1].recurse_from = initsquare;
   }
 
   TraceFunctionExit(__func__);
@@ -369,16 +341,18 @@ void series_capture_solve(slice_index si)
   }
   else
   {
-    ++level;
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const next_from = move_effect_journal[movement].u.piece_movement.to;
+
     post_move_iteration_solve_delegate(si);
-    --level;
 
     if (solve_result==previous_move_is_illegal
         || is_in_check(SLICE_STARTER(si))
         || is_in_check(advers(SLICE_STARTER(si))))
       post_move_iteration_end();
     else
-      initialize_secondary_movement_ply(si);
+      initialize_secondary_movement_ply(si,next_from);
   }
 
   TraceFunctionExit(__func__);
