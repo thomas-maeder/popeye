@@ -20,35 +20,53 @@
 
 static boolean is_ply_secondary[maxply+1];
 
-static void insert_series_capture(slice_index si, stip_structure_traversal *st)
+static void remember_landing(slice_index si, stip_structure_traversal *st)
 {
+  slice_index * const recursion_landing = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(*recursion_landing==no_slice);
+
+  *recursion_landing = si;
+  stip_traverse_structure_children(si,st);
+  *recursion_landing = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_series_capture(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const recursion_landing = st->param;
+  slice_index const save_recursion_landing = *recursion_landing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(*recursion_landing!=no_slice);
+  assert(SLICE_TYPE(*recursion_landing)==STSeriesCaptureRecursionLanding);
+
   {
     slice_index const landing = alloc_pipe(STLandingAfterSeriesCapture);
     slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const recursor = alloc_fork_slice(STSeriesCaptureRecursor,proxy1);
-    slice_index const after = alloc_pipe(STLandingAfterPawnPromotion);
-    slice_index const before = alloc_pipe(STBeforePawnPromotion);
+    slice_index const series = alloc_fork_slice(STSeriesCapture,proxy1);
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const series = alloc_fork_slice(STSeriesCapture,proxy2);
-    slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy3);
+    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy2);
 
     pipe_append(si,landing);
     pipe_append(si,fork);
-    pipe_append(proxy3,series);
-    pipe_link(after,recursor);
-    pipe_link(before,after);
-    pipe_link(proxy2,before);
+    pipe_append(proxy2,series);
+    pipe_set_successor(proxy1,*recursion_landing);
     pipe_set_successor(series,landing);
-    pipe_set_successor(proxy1,series);
-    pipe_set_successor(recursor,landing);
   }
 
+  *recursion_landing = no_slice;
   stip_traverse_structure_children(si,st);
+  *recursion_landing = save_recursion_landing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -62,10 +80,16 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STSeriesCaptureRecursionLanding),
         alloc_pipe(STBeforeSeriesCapture),
         alloc_pipe(STSeriesCaptureJournalFixer)
     };
-    move_insert_slices(si,st->context,prototypes,2);
+
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    move_insert_slices(si,st->context,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
@@ -76,10 +100,11 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor series_capture_inserters[] =
 {
-  { STGoalMateReachedTester,     &stip_structure_visitor_noop           },
-  { STMove,                      &instrument_move                       },
-  { STBeforeSeriesCapture,       &insert_series_capture                 },
-  { STKingCaptureLegalityTester, &stip_traverse_structure_children_pipe }
+  { STGoalMateReachedTester,         &stip_structure_visitor_noop           },
+  { STMove,                          &instrument_move                       },
+  { STSeriesCaptureRecursionLanding, &remember_landing                      },
+  { STBeforeSeriesCapture,           &insert_series_capture                 },
+  { STKingCaptureLegalityTester,     &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -95,48 +120,17 @@ enum
 void solving_instrument_series_capture(slice_index si)
 {
   stip_structure_traversal st;
+  slice_index recursion_landing = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&recursion_landing);
   stip_structure_traversal_override(&st,
                                     series_capture_inserters,
                                     nr_series_capture_inserters);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void series_capture_recursor_solve(slice_index si)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_type const capture_type = move_effect_journal[capture].type;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (capture_type==move_effect_no_piece_removal)
-    pipe_solve_delegate(si);
-  else
-    fork_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -204,10 +198,6 @@ void series_capture_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",level);TraceEOL();
-
-  is_ply_secondary[nbply] = false;
-
   if (capture_type==move_effect_piece_removal
       && TSTFLAG(being_solved.spec[to],trait[nbply]))
     fork_solve_delegate(si);
@@ -238,6 +228,7 @@ static void detect_end_of_secondary_movement_ply(void)
     switch_to_regular_ply();
   else
   {
+    is_ply_secondary[nbply] = false;
     post_move_iteration_end();
     finply();
   }

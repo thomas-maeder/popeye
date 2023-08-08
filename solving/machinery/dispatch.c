@@ -1280,10 +1280,6 @@ void dispatch(slice_index si)
       series_capture_solve(si);
       break;
 
-    case STSeriesCaptureRecursor:
-      series_capture_recursor_solve(si);
-      break;
-
     case STSeriesCaptureJournalFixer:
       series_capture_journal_fixer_solve(si);
       break;
