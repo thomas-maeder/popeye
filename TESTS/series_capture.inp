@@ -78,6 +78,28 @@ remark the combination with AntiCirce is natural now
 pieces white pc6 black pd7e3
 stipulation ~1
 condition seriescapture anticirce
+option nowk nobk
+
+next
+
+pieces white sc5 black sd7
+stipulation ~1
+condition seriescapture norsk
+option nowk nobk
+
+next
+
+pieces white pc6 black pd7
+stipulation ~1
+condition seriescapture wormhole d7g4
+option nowk nobk
+
+next
+
+pieces white pc6 black pd7
+stipulation ~1
+condition seriescapture einstein
+option nowk nobk
 
 end
 

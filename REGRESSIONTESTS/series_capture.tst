@@ -468,7 +468,6 @@ the combination with AntiCirce is natural now
   ~1                          1 + 2
               AntiCirce
             SeriesCapture
-both sides need a king
 
    1.c6-c7 !
 
@@ -486,6 +485,189 @@ both sides need a king
 
   add_to_move_generation_stack:           7
                      play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -S   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   S   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+             NorskSjakk
+            SeriesCapture
+
+   1.Sc5-a4=Q !
+
+   1.Sc5-b3=Q !
+
+   1.Sc5-d3=Q !
+
+   1.Sc5-e4=Q !
+
+   1.Sc5-e6=Q !
+
+   1.Sc5*d7=Q !
+
+   1.Sc5*d7=Q-a4=S !
+
+   1.Sc5*d7=Q-b5=S !
+
+   1.Sc5*d7=Q-c6=S !
+
+   1.Sc5*d7=Q-h3=S !
+
+   1.Sc5*d7=Q-g4=S !
+
+   1.Sc5*d7=Q-f5=S !
+
+   1.Sc5*d7=Q-e6=S !
+
+   1.Sc5*d7=Q-e8=S !
+
+   1.Sc5*d7=Q-c8=S !
+
+   1.Sc5*d7=Q-d1=S !
+
+   1.Sc5*d7=Q-d2=S !
+
+   1.Sc5*d7=Q-d3=S !
+
+   1.Sc5*d7=Q-d4=S !
+
+   1.Sc5*d7=Q-d5=S !
+
+   1.Sc5*d7=Q-d6=S !
+
+   1.Sc5*d7=Q-a7=S !
+
+   1.Sc5*d7=Q-b7=S !
+
+   1.Sc5*d7=Q-c7=S !
+
+   1.Sc5*d7=Q-d8=S !
+
+   1.Sc5*d7=Q-h7=S !
+
+   1.Sc5*d7=Q-g7=S !
+
+   1.Sc5*d7=Q-f7=S !
+
+   1.Sc5*d7=Q-e7=S !
+
+   1.Sc5-b7=Q !
+
+   1.Sc5-a6=Q !
+
+  add_to_move_generation_stack:          31
+                     play_move:          31
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           Wormholes g4 d7
+            SeriesCapture
+
+   1.c6-c7 !
+
+   1.c6*d7[wPd7->g4] !
+
+   1.c6*d7[wPd7->g4]-g5 !
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+            EinsteinChess
+            SeriesCapture
+
+   1.c6-c7 !
+
+   1.c6*d7=S !
+
+   1.c6*d7=S-b6 !
+
+   1.c6*d7=S-c5 !
+
+   1.c6*d7=S-e5 !
+
+   1.c6*d7=S-f6 !
+
+   1.c6*d7=S-f8 !
+
+   1.c6*d7=S-b8 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
