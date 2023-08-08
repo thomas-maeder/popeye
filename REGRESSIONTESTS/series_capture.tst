@@ -407,3 +407,39 @@ both sides need a king
 solution finished.
 
 
+the combination with Circe brings surprises
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ze81                        1 + 2
+                Circe
+            SeriesCapture
+
+   1.Bb1*d3[+bPd7]*f5[bPf5->f7]*d7-e8 z !
+
+  add_to_move_generation_stack:          31
+                     play_move:          31
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -63,5 +63,14 @@ pieces white pb2 black pa3 sc3 pe4
 condition proteanchess seriescapture
 stipulation ~1
 
+next
+
+remark the combination with Circe brings surprises
+pieces white bb1
+black pf5d3
+stip ze81
+condition seriescapture circe
+option nowk nobk
+
 end
 
