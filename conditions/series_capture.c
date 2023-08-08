@@ -18,8 +18,6 @@
 
 #include "debugging/assert.h"
 
-static boolean is_ply_secondary[maxply+1];
-
 static void remember_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const recursion_landing = st->param;
@@ -151,15 +149,15 @@ void solving_instrument_series_capture(slice_index si)
  */
 void series_capture_journal_fixer_solve(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_reason_type const reason = move_effect_journal[movement].reason;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",is_ply_secondary[nbply]);
-  TraceEOL();
-
-  if (is_ply_secondary[nbply])
+  if (reason==move_effect_reason_series_capture)
   {
     move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
     --nbply;
@@ -228,7 +226,6 @@ static void detect_end_of_secondary_movement_ply(void)
     switch_to_regular_ply();
   else
   {
-    is_ply_secondary[nbply] = false;
     post_move_iteration_end();
     finply();
   }
@@ -245,7 +242,6 @@ static void initialize_secondary_movement_ply(slice_index si, square from)
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
-  is_ply_secondary[nbply] = true;
   generate_moves_for_piece(from);
   detect_end_of_secondary_movement_ply();
 
@@ -280,22 +276,15 @@ static void play_secondary_movement(slice_index si)
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
 
   if (is_no_capture(sq_capture))
-  {
     move_effect_journal_do_no_piece_removal();
-    move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
-                                          sq_departure,
-                                          sq_arrival);
-    post_move_iteration_solve_fork(si);
-  }
   else
-  {
     move_effect_journal_do_piece_removal(move_effect_reason_series_capture,
                                          sq_capture);
-    move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
-                                          sq_departure,
-                                          sq_arrival);
-    post_move_iteration_solve_fork(si);
-  }
+
+  move_effect_journal_do_piece_movement(move_effect_reason_series_capture,
+                                        sq_departure,
+                                        sq_arrival);
+  post_move_iteration_solve_fork(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
