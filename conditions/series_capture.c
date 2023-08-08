@@ -50,16 +50,12 @@ static void insert_series_capture(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const landing = alloc_pipe(STLandingAfterSeriesCapture);
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const series = alloc_fork_slice(STSeriesCapture,proxy1);
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy2);
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const fork = alloc_fork_slice(STSeriesCaptureFork,proxy);
 
     pipe_append(si,landing);
     pipe_append(si,fork);
-    pipe_append(proxy2,series);
-    pipe_set_successor(proxy1,*recursion_landing);
-    pipe_set_successor(series,landing);
+    pipe_set_successor(proxy,*recursion_landing);
   }
 
   *recursion_landing = no_slice;
@@ -171,41 +167,6 @@ void series_capture_journal_fixer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void series_capture_fork_solve(slice_index si)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_type const capture_type = move_effect_journal[capture].type;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const to = move_effect_journal[movement].u.piece_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (capture_type==move_effect_piece_removal
-      && TSTFLAG(being_solved.spec[to],trait[nbply]))
-    fork_solve_delegate(si);
-  else
-    pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void switch_to_regular_ply(void)
 {
   TraceFunctionEntry(__func__);
@@ -303,37 +264,45 @@ static void play_secondary_movement(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void series_capture_solve(slice_index si)
+void series_capture_fork_solve(slice_index si)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_type const capture_type = move_effect_journal[capture].type;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_am_i_iterating())
+  if (capture_type==move_effect_piece_removal
+      && TSTFLAG(being_solved.spec[to],trait[nbply]))
   {
-    ++nbply;
-    play_secondary_movement(si);
+    if (post_move_am_i_iterating())
+    {
+      ++nbply;
+      play_secondary_movement(si);
 
-    if (post_move_iteration_is_locked())
-      --nbply;
+      if (post_move_iteration_is_locked())
+        --nbply;
+      else
+        advance_secondary_movement_ply();
+    }
     else
-      advance_secondary_movement_ply();
+    {
+      post_move_iteration_solve_delegate(si);
+
+      if (solve_result==previous_move_is_illegal
+          || is_in_check(SLICE_STARTER(si))
+          || is_in_check(advers(SLICE_STARTER(si))))
+        post_move_iteration_end();
+      else
+        initialize_secondary_movement_ply(si,to);
+    }
   }
   else
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const next_from = move_effect_journal[movement].u.piece_movement.to;
-
-    post_move_iteration_solve_delegate(si);
-
-    if (solve_result==previous_move_is_illegal
-        || is_in_check(SLICE_STARTER(si))
-        || is_in_check(advers(SLICE_STARTER(si))))
-      post_move_iteration_end();
-    else
-      initialize_secondary_movement_ply(si,next_from);
-  }
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

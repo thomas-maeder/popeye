@@ -109,7 +109,6 @@ static slice_index const move_slice_rank_order[] =
     STLandingAfterPawnPromotion,
     STBeforeSeriesCapture,
     STSeriesCaptureFork,
-    STSeriesCapture,
     STLandingAfterSeriesCapture,
     STDynastyKingSquareUpdater,
     STLostPiecesRemover,

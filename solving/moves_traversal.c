@@ -443,7 +443,7 @@ static slice_type const dubiously_traversed_slice_types[] =
     STNoShortVariations,
     STMaxNrNonTrivial,
     STMaxThreatLength,
-    STSeriesCapture
+    STSeriesCaptureFork
 };
 
 enum { nr_dubiously_traversed_slice_types = sizeof dubiously_traversed_slice_types
