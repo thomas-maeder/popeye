@@ -286,50 +286,6 @@ stop series if added movement gives check
 solution finished.
 
 
-no added movement if moving piece has changed color
-
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .  -P   .   .   .   .   .   3
-|                                   |
-2   .   P   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  ~1                          1 + 1
-           AndernachChess
-            SeriesCapture
-both sides need a king
-
-  1  (b2-b4 )
-   1.b2-b4 !
-
-  2  (b2-b3 )
-   1.b2-b3 !
-
-  3  (b2*c3=b )
-   1.b2*c3=b !
-
-  add_to_move_generation_stack:           3
-                     play_move:           3
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-
-solution finished.
-
-
 added movement according to changed type
 
 
@@ -777,6 +733,50 @@ solution finished.
 
   add_to_move_generation_stack:          25
                      play_move:          25
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+combination with Andernach chess is not fruitful, but hey, you asked for it...
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -P   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           AndernachChess
+            SeriesCapture
+both sides need a king
+
+  1  (b2-b4 )
+   1.b2-b4 !
+
+  2  (b2-b3 )
+   1.b2-b3 !
+
+  3  (b2*c3=b )
+   1.b2*c3=b !
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
