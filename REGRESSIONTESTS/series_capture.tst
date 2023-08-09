@@ -739,7 +739,7 @@ solution finished.
 solution finished.
 
 
-combination with Andernach chess is not fruitful, but hey, you asked for it...
+the combination with Andernach chess is not fruitful, but hey, you asked for it...
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -777,6 +777,44 @@ both sides need a king
 
   add_to_move_generation_stack:           3
                      play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+nor is the combination with Kamikaze pieces...
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -P   .   .   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+             Kamikaze b3
+            SeriesCapture
+
+   1.kPb3-b4 !
+
+   1.kPb3*c4[-wkPc4] !
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

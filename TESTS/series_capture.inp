@@ -109,11 +109,19 @@ option nowk nobk movenumbers start 10
 
 next
 
-remark combination with Andernach chess is not fruitful, but hey, you asked for it...
+remark the combination with Andernach chess is not fruitful, but hey, you asked for it...
 pieces white pb2 black pc3
 condition andernach seriescapture
 stip ~1
 option movenumbers
+
+next
+
+remark ...nor is the combination with Kamikaze pieces...
+pieces white kamikaze pb3 black pc4
+stip ~1
+condition seriescapture 
+option nowk nobk
 
 end
 

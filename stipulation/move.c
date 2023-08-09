@@ -48,8 +48,8 @@ static slice_index const move_slice_rank_order[] =
     STGhostChessGhostRememberer,
     STHauntedChessGhostRememberer,
     STHaanChessHoleInserter,
-    STKamikazeCapturingPieceRemover, /* avoid promotions of a vanishing pawn */
     STSeriesCaptureRecursionLanding,
+    STKamikazeCapturingPieceRemover, /* avoid promotions of a vanishing pawn */
     STChameleonArrivingAdjuster,
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
