@@ -1272,6 +1272,10 @@ void dispatch(slice_index si)
       circe_cage_futile_captures_remover_solve(si);
       break;
 
+    case STSeriesCapturePlyRewinder:
+      series_capture_ply_rewinder_solve(si);
+      break;
+
     case STSeriesCaptureFork:
       series_capture_fork_solve(si);
       break;

@@ -9,6 +9,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "stipulation/proxy.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "solving/binary.h"
@@ -93,9 +94,34 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_ply_rewinder(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STSeriesCapturePlyRewinder)
+    };
+
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor series_capture_inserters[] =
 {
   { STGoalMateReachedTester,         &stip_structure_visitor_noop           },
+  { STDonePriorisingMoves,           &insert_ply_rewinder                   },
   { STMove,                          &instrument_move                       },
   { STSeriesCaptureRecursionLanding, &remember_landing                      },
   { STBeforeSeriesCapture,           &insert_series_capture                 },
@@ -126,6 +152,49 @@ void solving_instrument_series_capture(slice_index si)
                                     series_capture_inserters,
                                     nr_series_capture_inserters);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void series_capture_ply_rewinder_solve(slice_index si)
+{
+  ply const save_nbply = nbply;
+  ply current_ply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  nextply(nbply);
+  current_ply = nbply;
+  finply();
+
+  TraceValue("%u",save_nbply);
+  TraceValue("%u",nbply);
+  TraceValue("%u",current_ply);
+  TraceEOL();
+
+  nbply = current_ply-1;
+
+  assert(nbply>=save_nbply);
+  while (nbply>save_nbply)
+    finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

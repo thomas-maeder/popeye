@@ -793,6 +793,49 @@ solution finished.
 solution finished.
 
 
+some antagonistic play
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   B  -K   8
+|                                   |
+7   .   .   P   .  -P   .   .   P   7
+|                                   |
+6   .   .   .  -P   .   .   .   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 3
+            SeriesCapture
+
+   1.c7-c8=S ! threat:
+          2.Sc8*d6-f7 #
+          2.Sc8*e7-g6 #
+      1...d6-d5
+          2.Sc8*e7-g6 #
+      1...e7-e5
+          2.Sc8*d6-f7 #
+      1...e7-e6
+          2.Sc8*d6-f7 #
+
+  add_to_move_generation_stack:         671
+                     play_move:         557
+ is_white_king_square_attacked:          68
+ is_black_king_square_attacked:         589
+
+solution finished.
+
+
 the combination with Andernach chess is not fruitful, but hey, you asked for it...
 
 

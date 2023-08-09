@@ -116,6 +116,14 @@ option nowk nobk movenumbers start 11
 
 next
 
+remark some antagonistic play
+pieces white ka1 bg8 pc7 ph6h7 black kh8 pd6e7
+stipulation #2
+condition seriescapture
+option vari
+
+next
+
 remark the combination with Andernach chess is not fruitful, but hey, you asked for it...
 pieces white pb2 black pc3
 condition andernach seriescapture
