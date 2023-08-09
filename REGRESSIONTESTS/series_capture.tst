@@ -447,14 +447,14 @@ solution finished.
 |                                   |
 4   .   .   .   .   .   .   .   .   4
 |                                   |
-3   .   .   .   .   .   .   .   .   3
+3   .   .   .   .   .   .   .  -P   3
 |                                   |
 2   .   .   .   .   .   .   .   .   2
 |                                   |
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          1 + 1
+  ~1                          1 + 2
              NorskSjakk
             SeriesCapture
 
@@ -476,7 +476,15 @@ solution finished.
 
    1.Sc5*d7=Q-c6=S !
 
-   1.Sc5*d7=Q-h3=S !
+   1.Sc5*d7=Q*h3=S !
+
+   1.Sc5*d7=Q*h3=S-f2=Q !
+
+   1.Sc5*d7=Q*h3=S-g1=Q !
+
+   1.Sc5*d7=Q*h3=S-g5=Q !
+
+   1.Sc5*d7=Q*h3=S-f4=Q !
 
    1.Sc5*d7=Q-g4=S !
 
@@ -520,8 +528,8 @@ solution finished.
 
    1.Sc5-a6=Q !
 
-  add_to_move_generation_stack:          31
-                     play_move:          31
+  add_to_move_generation_stack:          35
+                     play_move:          35
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

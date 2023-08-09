@@ -74,7 +74,7 @@ option nowk nobk
 
 next
 
-pieces white sc5 black sd7
+pieces white sc5 black sd7 ph3
 stipulation ~1
 condition seriescapture norsk
 option nowk nobk
