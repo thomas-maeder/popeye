@@ -739,6 +739,60 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+             HaanerChess
+            SeriesCapture
+
+ 11  (Bg2*c6-d7 )
+   1.Bg2*c6-d7 !
+
+ 12  (Bg2*c6*a8 )
+   1.Bg2*c6*a8 !
+
+ 13  (Bg2*c6*a8-b7 )
+   1.Bg2*c6*a8-b7 !
+
+ 14  (Bg2*c6-b7 )
+   1.Bg2*c6-b7 !
+
+ 15  (Bg2-d5 )
+   1.Bg2-d5 !
+
+ 16  (Bg2-e4 )
+   1.Bg2-e4 !
+
+ 17  (Bg2-f3 )
+   1.Bg2-f3 !
+
+  add_to_move_generation_stack:          17
+                     play_move:          17
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
 the combination with Andernach chess is not fruitful, but hey, you asked for it...
 
 

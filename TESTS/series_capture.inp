@@ -109,6 +109,13 @@ option nowk nobk movenumbers start 10
 
 next
 
+pieces white bg2 black sa8 pc6
+stip ~1
+condition haan seriescapture
+option nowk nobk movenumbers start 11
+
+next
+
 remark the combination with Andernach chess is not fruitful, but hey, you asked for it...
 pieces white pb2 black pc3
 condition andernach seriescapture
