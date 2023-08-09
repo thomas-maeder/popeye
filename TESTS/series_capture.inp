@@ -83,7 +83,7 @@ next
 
 pieces white pc6 black pd7
 stipulation ~1
-condition seriescapture wormhole d7g4
+condition seriescapture wormhole d7g4g5
 option nowk nobk
 
 next

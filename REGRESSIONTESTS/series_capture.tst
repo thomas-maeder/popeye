@@ -550,17 +550,21 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-           Wormholes g4 d7
+         Wormholes g4 g5 d7
             SeriesCapture
 
    1.c6-c7 !
 
    1.c6*d7[wPd7->g4] !
 
-   1.c6*d7[wPd7->g4]-g5 !
+   1.c6*d7[wPd7->g4]-g5[wPg5->d7] !
 
-  add_to_move_generation_stack:           3
-                     play_move:           3
+   1.c6*d7[wPd7->g5] !
+
+   1.c6*d7[wPd7->g5]-g6 !
+
+  add_to_move_generation_stack:           4
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
