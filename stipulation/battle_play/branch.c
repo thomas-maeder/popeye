@@ -241,6 +241,7 @@ static slice_index const slice_rank_order[] =
   STKillerMovePrioriser,
   STOpponentMovesFewMovesPrioriser,
   STDonePriorisingMoves,
+  STSeriesCapturePlyRewinder,
   STMove,
   STDummyMove,
   STDefensePlayed,

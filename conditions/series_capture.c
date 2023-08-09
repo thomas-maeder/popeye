@@ -121,7 +121,7 @@ static void insert_ply_rewinder(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitor series_capture_inserters[] =
 {
   { STGoalMateReachedTester,         &stip_structure_visitor_noop           },
-  { STDonePriorisingMoves,           &insert_ply_rewinder                   },
+  { STDoneGeneratingMoves,           &insert_ply_rewinder                   },
   { STMove,                          &instrument_move                       },
   { STSeriesCaptureRecursionLanding, &remember_landing                      },
   { STBeforeSeriesCapture,           &insert_series_capture                 },
