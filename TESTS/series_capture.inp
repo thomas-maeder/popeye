@@ -54,6 +54,7 @@ remark added movement according to changed type
 pieces white pb2 black pa3 sc3 pe4
 condition proteanchess seriescapture
 stipulation ~1
+option nowk nobk
 
 next
 
@@ -128,7 +129,7 @@ remark the combination with Andernach chess is not fruitful, but hey, you asked 
 pieces white pb2 black pc3
 condition andernach seriescapture
 stip ~1
-option movenumbers
+option nowk nobk movenumbers
 
 next
 

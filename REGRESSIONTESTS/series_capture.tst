@@ -311,7 +311,6 @@ added movement according to changed type
   ~1                          1 + 3
             ProteanChess
             SeriesCapture
-both sides need a king
 
    1.b2-b4 !
 
@@ -895,7 +894,6 @@ the combination with Andernach chess is not fruitful, but hey, you asked for it.
   ~1                          1 + 1
            AndernachChess
             SeriesCapture
-both sides need a king
 
   1  (b2-b4 )
    1.b2-b4 !
