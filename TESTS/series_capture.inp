@@ -108,5 +108,12 @@ stipulation ~1
 condition seriescapture breton
 option nowk nobk movenumber start 16
 
+next
+
+pieces white cham sa1 black pa4b3
+stipulation ~1
+condition seriescapture
+option nowk nobk movenumbers start 10
+
 end
 

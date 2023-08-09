@@ -371,23 +371,9 @@ both sides need a king
 
    1.b2*c3=S-e2 !
 
-   1.b2*c3=S*e4 !
+   1.b2*c3=S*e4=PP !
 
-   1.b2*c3=S*e4-c3 !
-
-   1.b2*c3=S*e4-d2 !
-
-   1.b2*c3=S*e4-f2 !
-
-   1.b2*c3=S*e4-g3 !
-
-   1.b2*c3=S*e4-g5 !
-
-   1.b2*c3=S*e4-f6 !
-
-   1.b2*c3=S*e4-d6 !
-
-   1.b2*c3=S*e4-c5 !
+   1.b2*c3=S*e4=PP-e3 !
 
    1.b2*c3=S-d5 !
 
@@ -399,8 +385,8 @@ both sides need a king
 
    1.b2*a3=PP-a2 !
 
-  add_to_move_generation_stack:          21
-                     play_move:          21
+  add_to_move_generation_stack:          14
+                     play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -710,6 +696,87 @@ solution finished.
 
   add_to_move_generation_stack:           8
                      play_move:          18
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+            Chameleon a1
+            SeriesCapture
+
+ 10  (cSa1*b3=cB-c4=cR )
+   1.cSa1*b3=cB-c4=cR !
+
+ 11  (cSa1*b3=cB*a4=cR )
+   1.cSa1*b3=cB*a4=cR !
+
+ 12  (cSa1*b3=cB*a4=cR-a1=cQ )
+   1.cSa1*b3=cB*a4=cR-a1=cQ !
+
+ 13  (cSa1*b3=cB*a4=cR-a2=cQ )
+   1.cSa1*b3=cB*a4=cR-a2=cQ !
+
+ 14  (cSa1*b3=cB*a4=cR-a3=cQ )
+   1.cSa1*b3=cB*a4=cR-a3=cQ !
+
+ 15  (cSa1*b3=cB*a4=cR-a8=cQ )
+   1.cSa1*b3=cB*a4=cR-a8=cQ !
+
+ 16  (cSa1*b3=cB*a4=cR-a7=cQ )
+   1.cSa1*b3=cB*a4=cR-a7=cQ !
+
+ 17  (cSa1*b3=cB*a4=cR-a6=cQ )
+   1.cSa1*b3=cB*a4=cR-a6=cQ !
+
+ 18  (cSa1*b3=cB*a4=cR-a5=cQ )
+   1.cSa1*b3=cB*a4=cR-a5=cQ !
+
+ 19  (cSa1*b3=cB*a4=cR-h4=cQ )
+   1.cSa1*b3=cB*a4=cR-h4=cQ !
+
+ 20  (cSa1*b3=cB*a4=cR-g4=cQ )
+   1.cSa1*b3=cB*a4=cR-g4=cQ !
+
+ 21  (cSa1*b3=cB*a4=cR-f4=cQ )
+   1.cSa1*b3=cB*a4=cR-f4=cQ !
+
+ 22  (cSa1*b3=cB*a4=cR-e4=cQ )
+   1.cSa1*b3=cB*a4=cR-e4=cQ !
+
+ 23  (cSa1*b3=cB*a4=cR-d4=cQ )
+   1.cSa1*b3=cB*a4=cR-d4=cQ !
+
+ 24  (cSa1*b3=cB*a4=cR-c4=cQ )
+   1.cSa1*b3=cB*a4=cR-c4=cQ !
+
+ 25  (cSa1*b3=cB*a4=cR-b4=cQ )
+   1.cSa1*b3=cB*a4=cR-b4=cQ !
+
+  add_to_move_generation_stack:          25
+                     play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
