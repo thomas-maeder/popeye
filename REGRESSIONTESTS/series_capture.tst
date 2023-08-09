@@ -573,11 +573,11 @@ solution finished.
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7   .   .   .  -P   .   .   .   .   7
+7   .   .   .   .   .  -P   .   .   7
 |                                   |
-6   .   .   P   .   .   .   .   .   6
+6   .   .   .  -P   .   .   .   .   6
 |                                   |
-5   .   .   .   .   .   .   .   .   5
+5   .   .   P   .   .   .   .   .   5
 |                                   |
 4   .   .   .   .   .   .   .   .   4
 |                                   |
@@ -588,28 +588,50 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          1 + 1
+  ~1                          1 + 2
             EinsteinChess
             SeriesCapture
 
-   1.c6-c7 !
+   1.c5-c6 !
 
-   1.c6*d7=S !
+   1.c5*d6=S !
 
-   1.c6*d7=S-b6 !
+   1.c5*d6=S-b5=P !
 
-   1.c6*d7=S-c5 !
+   1.c5*d6=S-c4=P !
 
-   1.c6*d7=S-e5 !
+   1.c5*d6=S-e4=P !
 
-   1.c6*d7=S-f6 !
+   1.c5*d6=S-f5=P !
 
-   1.c6*d7=S-f8 !
+   1.c5*d6=S*f7=B !
 
-   1.c6*d7=S-b8 !
+   1.c5*d6=S*f7=B-a2=S !
 
-  add_to_move_generation_stack:           8
-                     play_move:           8
+   1.c5*d6=S*f7=B-b3=S !
+
+   1.c5*d6=S*f7=B-c4=S !
+
+   1.c5*d6=S*f7=B-d5=S !
+
+   1.c5*d6=S*f7=B-e6=S !
+
+   1.c5*d6=S*f7=B-h5=S !
+
+   1.c5*d6=S*f7=B-g6=S !
+
+   1.c5*d6=S*f7=B-g8=S !
+
+   1.c5*d6=S*f7=B-e8=S !
+
+   1.c5*d6=S-e8=P !
+
+   1.c5*d6=S-c8=P !
+
+   1.c5*d6=S-b7=P !
+
+  add_to_move_generation_stack:          19
+                     play_move:          19
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
