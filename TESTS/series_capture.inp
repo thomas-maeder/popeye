@@ -101,5 +101,12 @@ stipulation ~1
 condition seriescapture einstein
 option nowk nobk
 
+next
+
+pieces white pc5c6e6 black pd6e7
+stipulation ~1
+condition seriescapture breton
+option nowk nobk movenumber start 16
+
 end
 

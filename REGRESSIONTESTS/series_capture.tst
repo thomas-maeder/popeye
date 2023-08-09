@@ -674,3 +674,45 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   P  -P   P   .   .   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          3 + 2
+               Breton
+            SeriesCapture
+
+ 16  (c5*d6[-wPe6]*e7[-wPc6]-e8=B )
+   1.c5*d6[-wPe6]*e7[-wPc6]-e8=B !
+
+ 17  (c5*d6[-wPe6]*e7[-wPe7] )
+   1.c5*d6[-wPe6]*e7[-wPe7] !
+
+ 18  (c6-c7 )
+   1.c6-c7 !
+
+  add_to_move_generation_stack:           8
+                     play_move:          18
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

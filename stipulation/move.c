@@ -52,8 +52,8 @@ static slice_index const move_slice_rank_order[] =
     STChameleonArrivingAdjuster,
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
-    STBretonApplier,
     STSeriesCaptureRecursionLanding,
+    STBretonApplier,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,
     STHauntedChessGhostSummoner,

@@ -248,6 +248,11 @@ static void play_secondary_movement(slice_index si)
                                         sq_arrival);
   post_move_iteration_solve_fork(si);
 
+  /* A nested iteration (e.g. the search for the next Breton victim) may have
+   * found that this move is not playable, and we may therefore not have reached
+   * our journal fixer; let's do its job here, just in case: */
+  move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
