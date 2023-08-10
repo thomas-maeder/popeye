@@ -869,6 +869,83 @@ some antagonistic play
 solution finished.
 
 
+some series play
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .  -P   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#3                      2 + 5
+            SeriesCapture
+
+  1.c2*d3-d4   2.d4*e5-e6   3.e6*f7-f8=Q #
+  add_to_move_generation_stack:         295
+                     play_move:         297
+ is_white_king_square_attacked:          82
+ is_black_king_square_attacked:         320
+
+solution finished.
+
+
+parry series
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-#3                     2 + 5
+            SeriesCapture
+
+a) 
+
+  add_to_move_generation_stack:         312
+                     play_move:         283
+ is_white_king_square_attacked:          86
+ is_black_king_square_attacked:         316
+
+b) phser-#3  
+
+  1.c2*d3-d4   2.d4*e5*f6-f7 + Kg8-h8   3.f7-f8=Q #
+  add_to_move_generation_stack:         399
+                     play_move:         377
+ is_white_king_square_attacked:          99
+ is_black_king_square_attacked:         406
+
+solution finished.
+
+
 the combination with Andernach chess is not fruitful, but hey, you asked for it...
 
 

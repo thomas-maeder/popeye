@@ -125,6 +125,21 @@ option vari
 
 next
 
+remark some series play
+pieces white ka1 pc2 black kh8 pd3e5f7h7
+stipulation ser-#3
+condition seriescapture
+
+next
+
+remark parry series
+pieces white ka1 pc2 black kg8 pd3e5f6h7
+stipulation pser-#3
+condition seriescapture
+twin stipulation phser-#3
+
+next
+
 remark the combination with Andernach chess is not fruitful, but hey, you asked for it...
 pieces white pb2 black pc3
 condition andernach seriescapture
