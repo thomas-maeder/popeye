@@ -743,3 +743,48 @@ no solution in Breton
 solution finished.
 
 
+
+            Thomas Maeder
+      1729 Julia's Fairies 2023
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   Q   .  -B   .  -S  -R  -Q   8
+|                                   |
+7   .   P   .   .   P   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 6
+              Breton PY
+
+a) 
+
+  1.Qh8*f6[-bSf8] e7*d8=B[-wBd8]   2.Rg8-c8 b7*c8=Q #
+  add_to_move_generation_stack:     1257715
+                     play_move:      908397
+ is_white_king_square_attacked:      125220
+ is_black_king_square_attacked:      907149
+
+b) wRb8  
+
+  1.Rg8*g2[-bBd8] e7*f8=S[-wSf8]   2.Qh8-c8 b7*c8=R #
+  add_to_move_generation_stack:      768512
+                     play_move:      625311
+ is_white_king_square_attacked:       74699
+ is_black_king_square_attacked:      624251
+
+solution finished.
+
+

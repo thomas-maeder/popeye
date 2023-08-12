@@ -127,10 +127,21 @@ author Bruno Stucker & Thomas Maeder
 origin 9486 Ph\'enix 11/2022
 remark no solution in Breton
 Stipulation h#2
-Condition Breton PY
+Condition breton py
 Pieces
   white  Pe2 Kh1 Sb1 Bd1 Ra5f4
   black  Qh6 Rc3 Bb2 Pc2 Kc1 Sh2
+
+next
+
+author Thomas Maeder
+origin 1729 Julia's Fairies 2023
+Stipulation h#2
+Condition breton py
+Pieces
+  white  Pb7e7 Sf6 Ke3 Bg2 Qb8
+  black  Rg8 Qh8 Kc4 Pe6 Bd8 Sf8
+Twin Add white Rb8
 
 end
 
