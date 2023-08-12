@@ -39,6 +39,7 @@
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "pieces/walks/hamster.h"
 
 #include "debugging/assert.h"
 
@@ -213,7 +214,7 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*157 */  saltador_check,
 /*158 */  maohopper_check,
 /*159 */  moahopper_check,
-/*160 */  hunter_check,
+/*160*/  contrahamster_check,
 /*161 */  hunter_check,
 /*162 */  hunter_check,
 /*163 */  hunter_check,
@@ -222,7 +223,8 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*166 */  hunter_check,
 /*167 */  hunter_check,
 /*168 */  hunter_check,
-/*168 */  hunter_check
+/*168 */  hunter_check,
+/*169 */  hunter_check,
 };
 
 void track_back_from_target_according_to_observer_walk(slice_index si)

@@ -323,7 +323,6 @@ output/plaintext/protocol.h:
 solving/fork.h:
 solving/observation.h:
 pieces/walks/vectors.h:
-solving/ply.h:
 solving/temporary_hacks.h:
 debugging/assert.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \

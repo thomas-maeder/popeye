@@ -143,6 +143,7 @@
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/lostpieces.h"
+#include "conditions/series_capture.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -1270,6 +1271,18 @@ void dispatch(slice_index si)
 
     case STCageCirceFutileCapturesRemover:
       circe_cage_futile_captures_remover_solve(si);
+      break;
+
+    case STSeriesCapturePlyRewinder:
+      series_capture_ply_rewinder_solve(si);
+      break;
+
+    case STSeriesCaptureFork:
+      series_capture_fork_solve(si);
+      break;
+
+    case STSeriesCaptureJournalFixer:
+      series_capture_journal_fixer_solve(si);
       break;
 
     case STSentinellesInserter:

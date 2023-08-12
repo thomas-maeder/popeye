@@ -1,0 +1,47 @@
+
+          Stephen Emmerson
+             Unpublished
+       N.B. minor dual in (b)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -M   .   .  -G  -K -EA -SW   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         0 + 5
+  HurdleColourChanging a8 d8 f8 g8
+
+a) 
+
+  1.hccMa8-e7[d8=w] hccGd8-f6[e7=w]   2.hccSWg8-g7[f8=w] hccEAf8-g6[f6=b]   3.hccSWg7-f7[f6=w] hccEAg6-e6[f7=w] #
+  add_to_move_generation_stack:       10820
+                     play_move:        7342
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        7157
+
+b) bhccMa8-->h8  
+
+  1.hccEAf8-g7[g8=w] hccSWg8-f8[g7=w]   2.hccMh8-g6[g7=b] hccSWf8-f7   3.hccMg6-f8[g7=w] hccSWf7-e7[f8=w] #
+  1.hccEAf8-g7[g8=w] hccSWg8-f8[g7=w]   2.hccMh8-g6[g7=b] hccSWf8-f7   3.hccMg6-f8[g7=w] hccSWf7-e7 #
+  add_to_move_generation_stack:       23323
+                     play_move:       15574
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:       15209
+
+solution finished.
+
+

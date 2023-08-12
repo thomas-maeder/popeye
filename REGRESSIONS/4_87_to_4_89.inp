@@ -15,14 +15,14 @@ pieces white ba1 black sb2 neutral sh6
 stipulation x1
 condition breton
 option nowk nobk
-twin condition breton Popeye
+twin condition breton py
 
 next
 
 title capturing pawn's fate is determined before promotion in the original Breton definition
 pieces white pb7 black sa8 pc8
 stipulation x1
-condition breton popeye
+condition breton py
 option nowk nobk
 twin condition breton
 

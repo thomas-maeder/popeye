@@ -1080,45 +1080,48 @@ solving/move_generator.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
 pieces/walks/hamster$(OBJ_SUFFIX): pieces/walks/hamster.c pieces/walks/hamster.h \
- position/position.h position/board.h utilities/bitmask.h position/side.h \
- position/side.enum.h position/side.enum position/color.h \
+ utilities/boolean.h solving/observation.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h \
+ stipulation/slice_type.enum position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum solving/machinery/dispatch.h pieces/walks/vectors.h \
+ solving/ply.h debugging/trace.h solving/temporary_hacks.h solving/fork.h \
+ solving/machinery/solve.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
- pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h solving/move_generator.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
- output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
- debugging/trace.h solving/ply.h debugging/measure.h \
+ position/castling_rights.h solving/move_generator.h debugging/measure.h \
  output/plaintext/protocol.h
 pieces/walks/hamster.h:
-position/position.h:
-position/board.h:
-utilities/bitmask.h:
-position/side.h:
-position/side.enum.h:
-position/side.enum:
-position/color.h:
-position/color.enum.h:
-position/color.enum:
-position/pieceid.h:
-pieces/pieces.h:
 utilities/boolean.h:
-pieces/walks/vectors.h:
-position/castling_rights.h:
-solving/move_generator.h:
-solving/machinery/solve.h:
+solving/observation.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
+position/board.h:
+utilities/bitmask.h:
 stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
 stipulation/slice_type.enum:
+position/side.h:
+position/side.enum.h:
+position/side.enum:
+pieces/pieces.h:
 output/mode.h:
 output/mode.enum.h:
 output/mode.enum:
 solving/machinery/dispatch.h:
-debugging/trace.h:
+pieces/walks/vectors.h:
 solving/ply.h:
+debugging/trace.h:
+solving/temporary_hacks.h:
+solving/fork.h:
+solving/machinery/solve.h:
+position/position.h:
+position/color.h:
+position/color.enum.h:
+position/color.enum:
+position/pieceid.h:
+position/castling_rights.h:
+solving/move_generator.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
 pieces/walks/bouncer$(OBJ_SUFFIX): pieces/walks/bouncer.c pieces/walks/bouncer.h \

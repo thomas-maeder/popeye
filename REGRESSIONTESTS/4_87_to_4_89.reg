@@ -64,7 +64,7 @@ a)
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
-b) Breton Popeye  
+b) Breton PY  
 
    1.Ba1*b2[-nSh6] x !
 
@@ -99,7 +99,7 @@ capturing pawn's fate is determined before promotion in the original Breton defi
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 2
-            Breton Popeye
+              Breton PY
 
 a) 
 

@@ -129,6 +129,7 @@ typedef enum
   move_effect_reason_removal_of_invisible,
   move_effect_reason_revelation_of_invisible,
   move_effect_reason_role_exchange,
+  move_effect_reason_series_capture,
   move_effect_reason_darkside,
 
   move_effect_reason_diagram_setup,
