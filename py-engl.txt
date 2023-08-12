@@ -462,7 +462,7 @@ commands expect further parameters. Lets start with the simpler commands:
 		AntipodeanImmunChess	ImmunChess Antipodes
 		EquipollentsImmunChess	ImmunChess Equipollents
 
-	After Breton, Adverse can be indicated.
+	After Breton, Adverse or PY can be indicated.
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:

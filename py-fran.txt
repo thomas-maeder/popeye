@@ -467,7 +467,7 @@ simples:
 		ImmunAntipoden		Immun Antipodes
 		ImmunEquipollents	Immun Equipollents
 
-	Apres Breton, Adverse peut etre indique.
+	Apres Breton, Adverse or PY peuvent etre indiques.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:

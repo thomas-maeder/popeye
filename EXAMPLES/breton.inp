@@ -121,5 +121,16 @@ stipulation #2
 condition breton
 option vari
 
+next
+
+author Bruno Stucker & Thomas Maeder
+origin 9486 Ph\'enix 11/2022
+remark no solution in Breton
+Stipulation h#2
+Condition Breton PY
+Pieces
+  white  Pe2 Kh1 Sb1 Bd1 Ra5f4
+  black  Qh6 Rc3 Bb2 Pc2 Kc1 Sh2
+
 end
 

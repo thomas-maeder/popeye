@@ -706,3 +706,40 @@ solution finished.
 solution finished.
 
 
+no solution in Breton
+
+    Bruno Stucker & Thomas Maeder
+        9486 Ph\'enix 11/2022
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -Q   6
+|                                   |
+5   R   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   R   .   .   4
+|                                   |
+3   .   .  -R   .   .   .   .   .   3
+|                                   |
+2   .  -B  -P   .   P   .   .  -S   2
+|                                   |
+1   .   S  -K   B   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 6
+              Breton PY
+
+  1.c2*d1=B[-bBd1] Ra5-c5   2.Rc3-c2 Rf4-f1 #
+  1.c2*b1=S[-bSb1] Rf4-c4   2.Qh6-d2 Ra5-a1 #
+  add_to_move_generation_stack:     1235322
+                     play_move:     1216722
+ is_white_king_square_attacked:       29085
+ is_black_king_square_attacked:     1215074
+
+solution finished.
+
+

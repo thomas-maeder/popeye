@@ -481,7 +481,7 @@ Kommandos:
 		AntipodenImmunSchach	ImmunSchach Antipoden
 		EquipollentsImmunSchach	Immunschach Equipollents
 
-	Nach Breton kann optional Advers angegben werden.
+	Nach Breton kann optional Advers oder PY angegben werden.
 
  - Option: Alles, was zur Wirkung kommen soll, ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
