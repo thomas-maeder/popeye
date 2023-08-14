@@ -64,5 +64,15 @@ white Pb6 Kc8
 black Pa7 Ka8
 twin stipulation =1
 
+next
+
+title another test case
+Stipulation +1
+Condition GenevaChess PhantomChess
+Pieces
+white Kc8 Qb1
+black Pa7 Ka8
+twin stipulation =1
+
 EndProblem
 

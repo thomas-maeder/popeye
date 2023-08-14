@@ -319,3 +319,58 @@ b) =1
 solution finished.
 
 
+
+          another test case
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   Q   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          2 + 2
+            PhantomChess
+             GenevaChess
+
+a) 
+
+   1.Qb1-d1-f3 + !
+
+   1.Qb1-d1-d5 + !
+
+   1.Qb1-e4 + !
+
+   1.Qb1-b8 + !
+
+   1.Qb1-b7 + !
+
+   1.Qb1-h1 + !
+
+  add_to_move_generation_stack:          47
+                     play_move:          47
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          38
+
+b) =1  
+
+  add_to_move_generation_stack:         223
+                     play_move:         190
+ is_white_king_square_attacked:          37
+ is_black_king_square_attacked:         123
+
+solution finished.
+
+
