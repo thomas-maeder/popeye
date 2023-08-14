@@ -53,5 +53,16 @@ pieces white ka1 black kg8 sh8
 stip hr#2.5
 option movenumbers
 
-end
+next
+
+title combination of Geneva and Phantom had a bug in check detection
+origin Github Issue #354
+Stipulation +1
+Condition GenevaChess PhantomChess
+Pieces
+white Pb6 Kc8
+black Pa7 Ka8
+twin stipulation =1
+
+EndProblem
 
