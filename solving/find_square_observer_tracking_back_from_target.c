@@ -246,6 +246,10 @@ enum { nr_ortho_walks = sizeof ortho_walks / sizeof ortho_walks[0] };
 
 void determine_observer_walk(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
     unsigned int i;
 
@@ -256,7 +260,11 @@ void determine_observer_walk(slice_index si)
       TraceEOL();
       pipe_is_square_observed_delegate(si);
       if (observation_result)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
+      }
     }
   }
 
@@ -270,7 +278,14 @@ void determine_observer_walk(slice_index si)
       TraceEOL();
       pipe_is_square_observed_delegate(si);
       if (observation_result)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
+      }
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
