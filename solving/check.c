@@ -67,6 +67,7 @@ static boolean no_king_check_tester_is_in_check(slice_index si,
     return pipe_is_in_check_recursive_delegate(si,side_in_check);
 }
 
+#include "conditions/marscirce/marscirce.h"
 static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
                                                                           Side side_in_check)
 {
@@ -79,6 +80,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   push_observation_target(being_solved.king_square[side_in_check]);
+  marscirce_rebirth_square[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id] = initsquare;
   result = pipe_is_in_check_recursive_delegate(si,side_in_check);
   finply();
 
