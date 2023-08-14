@@ -792,6 +792,11 @@ void push_observation_target(square sq_target)
 
   ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].id = current_move_id[nbply];
+  ++current_move_id[nbply];
+  TraceValue("%u",CURRMOVE_OF_PLY(nbply));
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
