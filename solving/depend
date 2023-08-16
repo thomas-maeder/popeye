@@ -1699,8 +1699,9 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  conditions/extinction.h conditions/sat.h solving/move_effect_journal.h \
  conditions/vogtlaender.h conditions/antikings.h \
  conditions/make_and_take.h solving/move_generator.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/marscirce/phantom.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -1710,16 +1711,15 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/slice_insertion.h solving/machinery/twin.h solving/pipe.h \
- solving/find_move.h \
- solving/find_square_observer_tracking_back_from_target.h \
- solving/castling.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h \
- conditions/marscirce/marscirce.h conditions/circe/circe.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h
+ conditions/circe/relevant_side.h stipulation/pipe.h solving/pipe.h \
+ solving/find_move.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ solving/castling.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h debugging/assert.h
 solving/check.h:
 utilities/boolean.h:
 position/side.h:
@@ -1757,10 +1757,11 @@ conditions/vogtlaender.h:
 conditions/antikings.h:
 conditions/make_and_take.h:
 solving/move_generator.h:
+conditions/marscirce/phantom.h:
 solving/observation.h:
 solving/temporary_hacks.h:
 solving/fork.h:
-stipulation/pipe.h:
+conditions/circe/circe.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
 stipulation/slice_structural_type.h:
@@ -1775,6 +1776,13 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 stipulation/slice_insertion.h:
 solving/machinery/twin.h:
+conditions/circe/rebirth_square_occupied.h:
+conditions/circe/reborn_piece.h:
+conditions/circe/rebirth_square.h:
+conditions/circe/relevant_capture.h:
+conditions/circe/relevant_piece.h:
+conditions/circe/relevant_side.h:
+stipulation/pipe.h:
 solving/pipe.h:
 solving/find_move.h:
 solving/find_square_observer_tracking_back_from_target.h:
@@ -1783,14 +1791,6 @@ output/plaintext/message.h:
 output/message.h:
 input/plaintext/language.h:
 debugging/assert.h:
-conditions/marscirce/marscirce.h:
-conditions/circe/circe.h:
-conditions/circe/rebirth_square_occupied.h:
-conditions/circe/reborn_piece.h:
-conditions/circe/rebirth_square.h:
-conditions/circe/relevant_capture.h:
-conditions/circe/relevant_piece.h:
-conditions/circe/relevant_side.h:
 solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  solving/find_square_observer_tracking_back_from_target.c \
  solving/find_square_observer_tracking_back_from_target.h \

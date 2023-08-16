@@ -6,6 +6,7 @@
 #include "conditions/vogtlaender.h"
 #include "conditions/antikings.h"
 #include "conditions/make_and_take.h"
+#include "conditions/marscirce/phantom.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -67,7 +68,6 @@ static boolean no_king_check_tester_is_in_check(slice_index si,
     return pipe_is_in_check_recursive_delegate(si,side_in_check);
 }
 
-#include "conditions/marscirce/marscirce.h"
 static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
                                                                           Side side_in_check)
 {
@@ -80,7 +80,6 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   push_observation_target(being_solved.king_square[side_in_check]);
-  marscirce_rebirth_square[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id] = initsquare;
   result = pipe_is_in_check_recursive_delegate(si,side_in_check);
   finply();
 
@@ -224,6 +223,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
       break;
 
+    case STPhantomKingSquareObservationTesterPlyInitialiser:
+      result = phantom_king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
+      break;
+
     case STAntikingsCheckTester:
       result = antikings_check_tester_is_in_check(si,side_in_check);
       break;
@@ -301,6 +304,7 @@ static slice_index const slice_rank_order[] =
     STStrictSATCheckTester,
     STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest,
     STKingSquareObservationTesterPlyInitialiser,
+    STPhantomKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
     STKingCapturedObservationGuard,
     STMakeTakeLimitMoveGenerationMakeWalk,
