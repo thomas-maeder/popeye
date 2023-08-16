@@ -10,7 +10,9 @@ position/effects/board_transformation$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h debugging/assert.h
+ position/color.enum pieces/walks/vectors.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h debugging/assert.h
 position/effects/board_transformation.h:
 solving/move_effect_journal.h:
 solving/machinery/solve.h:
@@ -39,6 +41,10 @@ position/color.h:
 position/color.enum.h:
 position/color.enum:
 pieces/walks/vectors.h:
+pieces/walks/pawns/en_passant.h:
+solving/observation.h:
+solving/temporary_hacks.h:
+solving/fork.h:
 debugging/assert.h:
 position/effects/flags_change$(OBJ_SUFFIX): position/effects/flags_change.c \
  position/effects/flags_change.h solving/move_effect_journal.h \
