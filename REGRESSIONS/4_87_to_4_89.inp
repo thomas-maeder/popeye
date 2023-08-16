@@ -74,5 +74,13 @@ white Kc8 Qb1
 black Pa7 Ka8
 twin stipulation =1
 
-EndProblem
+next
+
+title Popeye didn't revolve the en passant information while revolving the board, resulting in an attempt of the pawn to capture itself en passant
+Stipulation hep1
+Option nowk nobk MoveNumbers
+Condition ActuatedRevolvingBoard
+Pieces neutral  Pd7
+
+end
 
