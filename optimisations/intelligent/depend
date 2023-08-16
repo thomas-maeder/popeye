@@ -16,8 +16,9 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/observation.h solving/temporary_hacks.h solving/fork.h \
  solving/proofgames.h solving/castling.h solving/check.h \
- debugging/measure.h solving/pipe.h stipulation/help_play/branch.h \
- stipulation/fork.h stipulation/structure_traversal.h stipulation/slice.h \
+ debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+ stipulation/help_play/branch.h stipulation/fork.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
