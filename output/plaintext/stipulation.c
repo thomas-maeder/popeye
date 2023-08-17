@@ -481,7 +481,8 @@ static structure_traversers_visitor const visitors[] = {
     { STEndOfBranchForced, &write_end_forced },
     { STGoalReachedTester, &write_goal_reached },
     { STGoalConstraintTester, &stip_traverse_structure_children_pipe },
-    { STAnd, &write_and }
+    { STAnd, &write_and },
+    { STIfThenElse, &stip_structure_visitor_noop }
 };
 enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
 

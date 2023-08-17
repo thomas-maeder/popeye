@@ -1140,10 +1140,10 @@ solution finished.
   1...d3-d2 #
 
   1.Sh2-f3   2.Sf3-h2 d3-d2 #
-  add_to_move_generation_stack:         255
-                     play_move:         197
- is_white_king_square_attacked:         196
- is_black_king_square_attacked:          81
+  add_to_move_generation_stack:         260
+                     play_move:         202
+ is_white_king_square_attacked:         206
+ is_black_king_square_attacked:          82
 
 solution finished.
 
