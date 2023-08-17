@@ -82,5 +82,13 @@ Option nowk nobk MoveNumbers
 Condition ActuatedRevolvingBoard
 Pieces neutral  Pd7
 
-end
+next
+
+author Bj\"orn Enemark
+stipulation S=2
+pieces white Qg6 black Kc7
+option vari nowk
+twin stipulation pser-s=2
+
+End
 

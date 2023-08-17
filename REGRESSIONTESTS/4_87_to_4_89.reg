@@ -409,3 +409,55 @@ Popeye didn't revolve the en passant information while revolving the board, resu
 solution finished.
 
 
+
+           Bj\"orn Enemark
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -K   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   Q   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s=2                         1 + 1
+
+a) 
+
+   1.Qg6-c6 + !
+      1...Kc7-d8
+          2.Qc6-d7 +
+              2...Kd8*d7 =
+      1...Kc7-b8
+          2.Qc6-b7 +
+              2...Kb8*b7 =
+
+  add_to_move_generation_stack:       19036
+                     play_move:        2314
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1714
+
+b) pser-s=2  
+
+  1.Qg6-c6 + Kc7-d8   2.Qc6-d7 + Kd8*d7 =
+  1.Qg6-c6 + Kc7-b8   2.Qc6-b7 + Kb8*b7 =
+  1.Qg6-c6 + Kc7*c6 =
+  add_to_move_generation_stack:       19755
+                     play_move:        2368
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1793
+
+solution finished.
+
+
