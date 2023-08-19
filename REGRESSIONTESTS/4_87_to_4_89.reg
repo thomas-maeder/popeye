@@ -22,10 +22,10 @@
   h#5                        6 + 13
 
   1.g4*f3 ep. g2-g4   2.Ke4-d5 g4*f5   3.Kd5-c6 f5*e6   4.Kc6-b7 e6*d7   5.Kb7-a8 d7*c8=Q #
-  add_to_move_generation_stack:      109397
-                     play_move:      106317
- is_white_king_square_attacked:        3864
- is_black_king_square_attacked:       20686
+  add_to_move_generation_stack:      109399
+                     play_move:      106318
+ is_white_king_square_attacked:       52283
+ is_black_king_square_attacked:       57846
 
 solution finished.
 

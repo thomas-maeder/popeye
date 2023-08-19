@@ -73,10 +73,10 @@ Intelligent mode didn't find solutions ending in an ep capture where the capturi
   h#1                         5 + 5
 
   1.c7-c5 d5*c6 ep. #
-  add_to_move_generation_stack:          97
-                     play_move:          92
- is_white_king_square_attacked:           6
- is_black_king_square_attacked:          38
+  add_to_move_generation_stack:         102
+                     play_move:          94
+ is_white_king_square_attacked:           7
+ is_black_king_square_attacked:          97
 
 solution finished.
 
@@ -253,10 +253,10 @@ the last versions of Popeye couldn't solve this
   h#1                         6 + 4
 
   1.Sf4*h5 Qh8*h5 #
-  add_to_move_generation_stack:        1190
-                     play_move:         977
- is_white_king_square_attacked:          58
- is_black_king_square_attacked:         312
+  add_to_move_generation_stack:        2972
+                     play_move:        1607
+ is_white_king_square_attacked:         454
+ is_black_king_square_attacked:        1659
 
 solution finished.
 

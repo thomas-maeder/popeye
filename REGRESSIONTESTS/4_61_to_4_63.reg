@@ -95,10 +95,10 @@ recent Popeye versions didn't find this any more
   h=0.5                      2 + 11
 
   1...Kc5-b6 =
-  add_to_move_generation_stack:         161
-                     play_move:         176
- is_white_king_square_attacked:           1
- is_black_king_square_attacked:         142
+  add_to_move_generation_stack:         203
+                     play_move:         203
+ is_white_king_square_attacked:          36
+ is_black_king_square_attacked:         201
 
 solution finished.
 

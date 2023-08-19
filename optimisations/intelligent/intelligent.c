@@ -430,6 +430,9 @@ static void GenerateBlackKing(slice_index si)
 
 void IntelligentRegulargoal_types(slice_index si)
 {
+//  if (MovesLeft[White]==7)
+//    TraceSetMaxLevel(ULONG_MAX);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 

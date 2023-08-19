@@ -124,8 +124,6 @@ static slice_index const slice_rank_order[] =
   STRestartGuard,
   STKeepMatingFilter,
   STIntelligentLimitNrSolutionsPerTargetPosLimiter,
-  STGoalReachableGuardFilterMate,
-  STGoalReachableGuardFilterStalemate,
   STGoalReachableGuardFilterProof,
   STGoalReachableGuardFilterProofFairy,
   STEndOfRoot,
@@ -160,7 +158,9 @@ static slice_index const slice_rank_order[] =
   STTrue,
   STIntelligentImmobilisationCounter,
   STFlightsquaresCounter,
-  STCheckZigzagLanding
+  STCheckZigzagLanding,
+  STGoalReachableGuardFilterMate,
+  STGoalReachableGuardFilterStalemate
 };
 
 enum
