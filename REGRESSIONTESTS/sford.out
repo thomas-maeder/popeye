@@ -260,12 +260,12 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   Schwarz 2hh[#]              3 + 3
 
-  1.Kb7-a8 Sd5-c7 #
   1.Kb7-a8 Sd5-b6 #
-  add_to_move_generation_stack:         288
-                     play_move:         216
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:         216
+  1.Kb7-a8 Sd5-c7 #
+  add_to_move_generation_stack:          74
+                     play_move:          74
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          32
 
 Loesung beendet.
 
@@ -1503,10 +1503,10 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
   Schwarz 1h[-14hh[#]]h       2 + 4
 
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 #
-  add_to_move_generation_stack:      426358
-                     play_move:      417174
- is_white_king_square_attacked:      187965
- is_black_king_square_attacked:      231403
+  add_to_move_generation_stack:      414343
+                     play_move:      413939
+ is_white_king_square_attacked:       29487
+ is_black_king_square_attacked:       39377
 
 Loesung beendet.
 
@@ -1538,10 +1538,10 @@ h#8 1.0;1.1;...
   Schwarz 1h[-14hh[#]]h       2 + 5
 
   1.Df3-f8   1.Tg2-g7 Ld7-a4   2.Kh6-g6 Kh1-g2   3.Kg6-f7 + Kg2-f3   4.b6-b5 Kf3-e4   5.Kf7-e8 Ke4-d5   6.Tg7-f7 Kd5-c6   7.b5-b4 Kc6-c7 #
-  add_to_move_generation_stack:     2866615
-                     play_move:     2809305
- is_white_king_square_attacked:     1236491
- is_black_king_square_attacked:     1587612
+  add_to_move_generation_stack:     2792745
+                     play_move:     2792745
+ is_white_king_square_attacked:      154076
+ is_black_king_square_attacked:      271897
 
 Loesung beendet.
 

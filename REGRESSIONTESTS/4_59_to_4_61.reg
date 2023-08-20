@@ -26,13 +26,13 @@ a white piece that prevents a guarding piece from giving check
   1.Bc2-e4 Qb3*d1   2.Ke6*d5 Qd1-b3 #
   1.Ra7-d7 Ra6*a8   2.Ke6*d6 Ra8-a6 #
   1.Qd1-h1 Qb3*c2   2.Qh1*d5 Qc2-f5 #
-  1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S #
   1.Ra8-d8 Ra6*a7   2.Rd8*d6 Ra7-e7 #
   1.Ra7-f7 g6*f7   2.Ra8-e8 f7*e8=Q #
-  add_to_move_generation_stack:     2059315
-                     play_move:     1848381
- is_white_king_square_attacked:      552317
- is_black_king_square_attacked:     1427492
+  1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S #
+  add_to_move_generation_stack:     1402440
+                     play_move:     1430434
+ is_white_king_square_attacked:       38638
+ is_black_king_square_attacked:      146367
 
 solution finished.
 
@@ -65,13 +65,13 @@ the one that would give check without it
   1.Bf2-d4 Qg3*e1   2.Kd6*e5 Qe1-g3 #
   1.Qe1-a1 Qg3*f2   2.Qa1*e5 Qf2-c5 #
   1.Rh7-b7 a6*b7   2.Rh8-c8 b7*c8=S #
-  1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 #
   1.Rh7-c7 b6*c7   2.Rh8-d8 c7*d8=Q #
+  1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 #
   1.Rh7-e7 Rh6*h8   2.Kd6*e6 Rh8-h6 #
-  add_to_move_generation_stack:     2358833
-                     play_move:     1973883
- is_white_king_square_attacked:      612833
- is_black_king_square_attacked:     1522522
+  add_to_move_generation_stack:     1525449
+                     play_move:     1555904
+ is_white_king_square_attacked:       41560
+ is_black_king_square_attacked:      171038
 
 solution finished.
 
@@ -101,10 +101,10 @@ don't miss double checks with promoted front piece ...
   h#2.5                       2 + 4
 
   1...b7-b8=S   2.Kb4-a4 Sb8-d7   3.b5-b4 Sd7-c5 #
-  add_to_move_generation_stack:       11271
-                     play_move:       11063
+  add_to_move_generation_stack:       10131
+                     play_move:       10510
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        6072
+ is_black_king_square_attacked:         954
 
 solution finished.
 
@@ -134,10 +134,10 @@ solution finished.
   h#2.5                       2 + 6
 
   1...d7-d8=R   2.Kb3-a3 Rd8-d6   3.Qb4-b3 Rd6-a6 #
-  add_to_move_generation_stack:       47383
-                     play_move:       44304
+  add_to_move_generation_stack:       42254
+                     play_move:       42249
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       37660
+ is_black_king_square_attacked:        3697
 
 solution finished.
 

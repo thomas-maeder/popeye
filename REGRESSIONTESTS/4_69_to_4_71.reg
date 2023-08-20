@@ -349,10 +349,10 @@ solution finished.
   h#1.5                       2 + 4
              HalfDuplex
 
-  add_to_move_generation_stack:         193
-                     play_move:         166
- is_white_king_square_attacked:          67
- is_black_king_square_attacked:         120
+  add_to_move_generation_stack:         163
+                     play_move:         146
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          39
 
 solution finished.
 

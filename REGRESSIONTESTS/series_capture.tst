@@ -941,7 +941,7 @@ b) phser-#3
   add_to_move_generation_stack:         399
                      play_move:         377
  is_white_king_square_attacked:          99
- is_black_king_square_attacked:         406
+ is_black_king_square_attacked:         467
 
 solution finished.
 

@@ -509,10 +509,10 @@ Popeye 4.63 and 4.65 only printed the first solution
   1.a2-a1=S Kb2*a1   2.b5-b4 Ka1-b2 =
   1.a2-a1=R Kb2*a1   2.b5-b4 Ka1-b2 =
   1.a2-a1=B + Kb2*a1   2.b5-b4 Ka1-b2 =
-  add_to_move_generation_stack:         503
-                     play_move:         502
- is_white_king_square_attacked:         135
- is_black_king_square_attacked:         422
+  add_to_move_generation_stack:         406
+                     play_move:         430
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         230
 
 solution finished.
 

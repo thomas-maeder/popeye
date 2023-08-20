@@ -303,18 +303,18 @@ Loesung beendet.
 a) 
 
   1.Kc5-d4 0-0-0 +   2.Kd4-c3 Td1-e1   3.Sb5-d4 Te1-e3 #
-  add_to_move_generation_stack:        6746
-                     play_move:        6744
- is_white_king_square_attacked:        2485
- is_black_king_square_attacked:        4433
+  add_to_move_generation_stack:        6742
+                     play_move:        6742
+ is_white_king_square_attacked:         454
+ is_black_king_square_attacked:         192
 
 b) sLb5  
 
   1.Kc5-b6 0-0-0   2.Kb6-a5 Kc1-c2   3.Ka5-a4 Td1-a1 #
   add_to_move_generation_stack:        7914
                      play_move:        7914
- is_white_king_square_attacked:        2901
- is_black_king_square_attacked:        5200
+ is_white_king_square_attacked:         535
+ is_black_king_square_attacked:         221
 
 Loesung beendet.
 
@@ -2579,16 +2579,16 @@ a)
   1.0-0 Kd1-c1   2.Kg8-h8 Kc1-b2   3.Tf8-g8 Ta1-h1 #
   add_to_move_generation_stack:       12852
                      play_move:       12840
- is_white_king_square_attacked:        2523
- is_black_king_square_attacked:       10764
+ is_white_king_square_attacked:         832
+ is_black_king_square_attacked:         891
 
 b) Spiegelung a1<-->h1  
 
   1.Ta8-c8 0-0   2.Tc8-c7 Tf1-a1   3.Kd8-c8 Ta1-a8 #
   add_to_move_generation_stack:        6562
                      play_move:        6549
- is_white_king_square_attacked:        1814
- is_black_king_square_attacked:        4954
+ is_white_king_square_attacked:         639
+ is_black_king_square_attacked:         286
 
 Loesung beendet.
 
@@ -2621,18 +2621,18 @@ Loesung beendet.
 a) 
 
   1...Kf4-g4   2.0-0 Kg4-h5   3.Da8-h1 + Kh5-g6   4.Dh1-h8 Sf5-e7 #
-  add_to_move_generation_stack:        1083
-                     play_move:        1082
- is_white_king_square_attacked:         655
- is_black_king_square_attacked:         449
+  add_to_move_generation_stack:        1070
+                     play_move:        1070
+ is_white_king_square_attacked:          62
+ is_black_king_square_attacked:          98
 
 b) sDa8<-->sTh8  
 
   1...Kf4-e4   2.Dh8-h2 Ke4-d5   3.0-0-0 + Kd5-c6   4.Dh2-b8 Sf5-e7 #
-  add_to_move_generation_stack:         991
-                     play_move:         982
- is_white_king_square_attacked:         487
- is_black_king_square_attacked:         526
+  add_to_move_generation_stack:         976
+                     play_move:         976
+ is_white_king_square_attacked:          46
+ is_black_king_square_attacked:          85
 
 Loesung beendet.
 
@@ -3671,10 +3671,10 @@ RochadenGegenseitigAusschliessend h1h8
 
   1.e7-e5 0-0   2.Ke8-e7 Tf1-d1   3.Ke7-d6 Ld2-b4 #
   1.0-0 Th1-f1   2.Kg8-h7 Tf1-f4   3.Kh7-h6 Tf4*h4 #
-  add_to_move_generation_stack:    16660561
-                     play_move:    16329139
- is_white_king_square_attacked:     7157129
- is_black_king_square_attacked:    10459526
+  add_to_move_generation_stack:    16069071
+                     play_move:    16063007
+ is_white_king_square_attacked:     1227530
+ is_black_king_square_attacked:     1414094
 
 Loesung beendet.
 
