@@ -10,18 +10,32 @@
 
 void dont_try_observing_with_non_existing_walk(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   if (being_solved.number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
     pipe_is_square_observed_delegate(si);
   else
     observation_result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   if (being_solved.number_of_pieces[White][observing_walk[nbply]]+being_solved.number_of_pieces[Black][observing_walk[nbply]]>0)
     pipe_is_square_observed_delegate(si);
   else
     observation_result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean observation_by_rook_tested[maxply+1];

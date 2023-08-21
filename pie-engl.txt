@@ -160,3 +160,4 @@ se DL Senora (argentinian Queen)
 fa TL Faro (argentinian Rook)
 lo LL Loco (argentinian Bishop)
 sa SL Saltador (argentinian Knight)
+hc HC ContraHamster

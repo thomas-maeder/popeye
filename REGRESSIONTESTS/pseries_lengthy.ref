@@ -1,0 +1,34 @@
+
+    Dan Meinking & George Sphicas
+     StrateGems 47, 2009, no. 4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   S   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-h#14                   3 + 2
+
+  1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 #
+  add_to_move_generation_stack:   180611069
+                     play_move:   180543973
+ is_white_king_square_attacked:    51165821
+ is_black_king_square_attacked:    94587665
+
+solution finished.
+
+

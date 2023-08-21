@@ -238,7 +238,8 @@ void find_potential_promotion_square(square *candidate,
     switch (move_effect_journal[promotion_horizon[nbply]].type)
     {
       case move_effect_piece_movement:
-        if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_moving_piece_movement)
+        if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_moving_piece_movement
+            || move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_series_capture)
         {
           *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
           *as_side = trait[nbply];

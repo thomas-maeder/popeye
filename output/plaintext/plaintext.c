@@ -343,6 +343,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
   switch (move_effect_journal[curr].reason)
   {
     case move_effect_reason_andernach_chess:
+    case move_effect_reason_darkside:
     case move_effect_reason_volage_side_change:
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
@@ -546,6 +547,27 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       }
       break;
 
+    case move_effect_reason_series_capture:
+    {
+      move_effect_journal_index_type const capture = curr-1;
+      move_effect_type const capture_type = move_effect_journal[capture].type;
+
+      next_context(context,capture,"","");
+      if (capture_type==move_effect_piece_removal)
+      {
+        (*context->engine->fputc)('*',context->file);
+        WriteSquare(context->engine,context->file,
+                    move_effect_journal[capture].u.piece_removal.on);
+      }
+      else
+      {
+        (*context->engine->fputc)('-',context->file);
+        WriteSquare(context->engine,context->file,
+                    move_effect_journal[curr].u.piece_movement.to);
+      }
+      break;
+    }
+
     default:
       break;
   }
@@ -563,6 +585,7 @@ find_piece_removal(output_plaintext_move_context_type const *context,
     if (move_effect_journal[m].type==move_effect_piece_removal
         && move_effect_journal[m].reason!=move_effect_reason_regular_capture
         && move_effect_journal[m].reason!=move_effect_reason_ep_capture
+        && move_effect_journal[m].reason!=move_effect_reason_series_capture
         && GetPieceId(move_effect_journal[m].u.piece_removal.flags)==id_added)
       return m;
 
@@ -661,6 +684,10 @@ static void write_piece_removal(output_plaintext_move_context_type *context,
     case move_effect_reason_pawn_promotion:
       /* ... nor for the removal of a pawn promoted to imitator ... */
     case move_effect_reason_volcanic_remember:
+      break;
+
+    case move_effect_reason_series_capture:
+      /* write_piece_movement() deals with this */
       break;
 
     default:

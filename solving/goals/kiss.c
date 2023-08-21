@@ -12,21 +12,36 @@
  * whether a kiss goal has just been reached
  */
 
-static boolean is_naked(square candidate, square pos_kisser)
+static boolean is_naked(square pos_kissed, square pos_kisser)
 {
   int x;
   int y;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(pos_kissed);
+  TraceSquare(pos_kisser);
+  TraceFunctionParamListEnd();
+
   for (x = dir_left; x<=dir_right; ++x)
     for (y = dir_down; y<=dir_up; y += onerow)
     {
-      square const s1 = candidate+x+y;
-      if (s1!=candidate && s1!=pos_kisser
-          && !is_square_blocked(s1)
-          && get_walk_of_piece_on_square(s1)!=Empty)
+      square const pos_clothing = pos_kissed+x+y;
+      TraceSquare(pos_clothing);TraceEOL();
+
+      if (pos_clothing!=pos_kissed && pos_clothing!=pos_kisser
+          && !is_square_blocked(pos_clothing)
+          && get_walk_of_piece_on_square(pos_clothing)!=Empty)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResult("%u",false);
+        TraceFunctionResultEnd();
         return false;
+      }
     }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",true);
+  TraceFunctionResultEnd();
   return true;
 }
 
@@ -36,24 +51,36 @@ static boolean is_kiss(void)
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-  square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                            moving_id,
-                                                                            sq_arrival);
+  square const pos_kisser = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                   moving_id,
+                                                                                   sq_arrival);
   int x;
   int y;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   for (x = dir_left; x<=dir_right; ++x)
     for (y = dir_down; y<=dir_up; y += onerow)
     {
-      square const s = pos+x+y;
-      if (s!=pos
-          && !is_square_blocked(s)
-          && get_walk_of_piece_on_square(s)!=Empty
-          && GetPieceId(being_solved.spec[s])==id_to_be_kissed
-          && is_naked(s,pos))
+      square const pos_kissed = pos_kisser+x+y;
+      TraceSquare(pos_kissed);TraceEOL();
+      if (pos_kissed!=pos_kisser
+          && !is_square_blocked(pos_kissed)
+          && get_walk_of_piece_on_square(pos_kissed)!=Empty
+          && GetPieceId(being_solved.spec[pos_kissed])==id_to_be_kissed
+          && is_naked(pos_kissed,pos_kisser))
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResult("%u",true);
+        TraceFunctionResultEnd();
         return true;
+      }
     }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",false);
+  TraceFunctionResultEnd();
   return false;
 }
 

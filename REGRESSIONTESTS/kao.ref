@@ -1,0 +1,78 @@
+
+             S. Emmerson
+             Unpublished
+       KnightHopper = short NH
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  KP   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -P  -R  -Q   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .  -Q   .  -S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-=8                      2 + 5
+both sides need a king
+
+  1.KPh8*f4   2.Kf5-e6   3.KPf4-d8   4.Ke6-f7   5.KPd8*h6   6.Kf7*g6   7.Kg6-f5   8.KPh6*d4 =
+  add_to_move_generation_stack:        4548
+                     play_move:        1076
+ is_white_king_square_attacked:         920
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+             S. Emmerson
+             Unpublished
+Kao = 'Chinese Knight' ( = short Nao)
+or, S-move / KP(KnightHopper)-capture
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -P   .   .   .   .   .   5
+|                                   |
+4   .  -P   P  -P   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .  KO   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 4
+
+      1...d4-d3
+          2.KOg2-e3 #
+
+   1.KOg2-e1 ! zugzwang.
+      1...d4-d3
+          2.KOe1*c5 #
+
+  add_to_move_generation_stack:         334
+                     play_move:         294
+ is_white_king_square_attacked:          54
+ is_black_king_square_attacked:         297
+
+solution finished.
+
+

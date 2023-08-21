@@ -1,0 +1,158 @@
+begin
+
+prot series_capture.tst
+
+remark basics
+pieces white bb1
+black pc2d3
+stip ~1
+condition seriescapture
+option nowk nobk
+
+next
+
+remark promotion after added movement
+pieces white pd6 black pe7
+stipulation ~1
+condition seriescapture
+option nowk nobk
+
+next
+
+remark added movement after en passant capture
+pieces white pg5 black pe7f7
+stipulation hze71
+condition seriescapture
+option nowk nobk
+
+next
+
+remark added movement after promotion
+pieces white pb7 black sa8
+stipulation zb61
+condition seriescapture
+option nowk nobk
+
+next
+
+remark deliver mate with added movement
+pieces white pe5h6 black kh8 bg8 pf6g7h7
+stip #1
+condition seriescapture
+option nowk
+
+next
+
+remark stop series if added movement gives check
+pieces white pa6 ka1 black kb8 pb7 sa8
+stip ~1
+condition seriescapture
+
+next
+
+remark added movement according to changed type
+pieces white pb2 black pa3 sc3 pe4
+condition proteanchess seriescapture
+stipulation ~1
+option nowk nobk
+
+next
+
+remark the combination with Circe brings surprises
+pieces white bb1
+black pf5d3
+stip ze81
+condition seriescapture circe
+option nowk nobk
+
+next
+
+remark the combination with AntiCirce is natural now
+pieces white pc6 black pd7e3
+stipulation ~1
+condition seriescapture anticirce
+option nowk nobk
+
+next
+
+pieces white sc5 black sd7 ph3
+stipulation ~1
+condition seriescapture norsk
+option nowk nobk
+
+next
+
+pieces white pc6 black pd7
+stipulation ~1
+condition seriescapture wormhole d7g4g5
+option nowk nobk
+
+next
+
+pieces white pc5 black pd6f7
+stipulation ~1
+condition seriescapture einstein
+option nowk nobk
+
+next
+
+pieces white pc5c6e6 black pd6e7
+stipulation ~1
+condition seriescapture breton
+option nowk nobk movenumber start 16
+
+next
+
+pieces white cham sa1 black pa4b3
+stipulation ~1
+condition seriescapture
+option nowk nobk movenumbers start 10
+
+next
+
+pieces white bg2 black sa8 pc6
+stip ~1
+condition haan seriescapture
+option nowk nobk movenumbers start 11
+
+next
+
+remark some antagonistic play
+pieces white ka1 bg8 pc7 ph6h7 black kh8 pd6e7
+stipulation #2
+condition seriescapture
+option vari
+
+next
+
+remark some series play
+pieces white ka1 pc2 black kh8 pd3e5f7h7
+stipulation ser-#3
+condition seriescapture
+
+next
+
+remark parry series
+pieces white ka1 pc2 black kg8 pd3e5f6h7
+stipulation pser-#3
+condition seriescapture
+twin stipulation phser-#3
+
+next
+
+remark the combination with Andernach chess is not fruitful, but hey, you asked for it...
+pieces white pb2 black pc3
+condition andernach seriescapture
+stip ~1
+option nowk nobk movenumbers
+
+next
+
+remark ...nor is the combination with Kamikaze pieces...
+pieces white kamikaze pb3 black pc4
+stip ~1
+condition seriescapture 
+option nowk nobk
+
+end
+

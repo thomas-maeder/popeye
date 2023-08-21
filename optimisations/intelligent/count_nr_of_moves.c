@@ -65,13 +65,13 @@ static unsigned int white_king(square from_square, square to_square)
 
   if (testcastling && from_square==square_e1)
   {
-    if (TSTCASTLINGFLAGMASK(White,ra_cancastle&castling_flags_no_castling))
+    if (TSTCASTLINGFLAGMASK(White,ra_cancastle)==ra_cancastle)
     {
       unsigned int const withcast = king_no_castling(square_c1,to_square);
       if (withcast<result)
         result = withcast;
     }
-    if (TSTCASTLINGFLAGMASK(White,rh_cancastle&castling_flags_no_castling))
+    if (TSTCASTLINGFLAGMASK(White,rh_cancastle)==rh_cancastle)
     {
       unsigned int const withcast = king_no_castling(square_g1,to_square);
       if (withcast<result)

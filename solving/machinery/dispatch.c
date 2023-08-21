@@ -41,6 +41,7 @@
 #include "conditions/circe/parachute.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
+#include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/influencer.h"
@@ -142,6 +143,7 @@
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/lostpieces.h"
+#include "conditions/series_capture.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -1271,6 +1273,18 @@ void dispatch(slice_index si)
       circe_cage_futile_captures_remover_solve(si);
       break;
 
+    case STSeriesCapturePlyRewinder:
+      series_capture_ply_rewinder_solve(si);
+      break;
+
+    case STSeriesCaptureFork:
+      series_capture_fork_solve(si);
+      break;
+
+    case STSeriesCaptureJournalFixer:
+      series_capture_journal_fixer_solve(si);
+      break;
+
     case STSentinellesInserter:
       sentinelles_inserter_solve(si);
       break;
@@ -1301,6 +1315,10 @@ void dispatch(slice_index si)
 
     case STAntiAndernachSideChanger:
       antiandernach_side_changer_solve(si);
+      break;
+
+    case STDarksideSideChanger:
+      darkside_side_changer_solve(si);
       break;
 
     case STChameleonPursuitSideChanger:

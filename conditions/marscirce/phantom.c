@@ -7,6 +7,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "solving/check.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
@@ -17,6 +18,30 @@
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"
+
+/* Determine whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean phantom_king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
+                                                                           Side side_in_check)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  marscirce_rebirth_square[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id] = initsquare;
+  result = pipe_is_in_check_recursive_delegate(si,side_in_check);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 circe_variant_type phantom_variant;
 
@@ -247,6 +272,8 @@ void solving_initialise_phantom(slice_index si)
                              STMarsCirceConsideringObserverRebirth,
                              STMarsIterateObservers,
                              alloc_pipe(STMarsCirceIsSquareObservedEnforceRexInclusive));
+
+  solving_instrument_check_testing(si,STPhantomKingSquareObservationTesterPlyInitialiser);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

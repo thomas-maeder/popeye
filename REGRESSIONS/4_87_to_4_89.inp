@@ -15,14 +15,14 @@ pieces white ba1 black sb2 neutral sh6
 stipulation x1
 condition breton
 option nowk nobk
-twin condition breton Popeye
+twin condition breton py
 
 next
 
 title capturing pawn's fate is determined before promotion in the original Breton definition
 pieces white pb7 black sa8 pc8
 stipulation x1
-condition breton popeye
+condition breton py
 option nowk nobk
 twin condition breton
 
@@ -53,5 +53,42 @@ pieces white ka1 black kg8 sh8
 stip hr#2.5
 option movenumbers
 
-end
+next
+
+title combination of Geneva and Phantom had a bug in check detection
+origin Github Issue #354
+Stipulation +1
+Condition GenevaChess PhantomChess
+Pieces
+white Pb6 Kc8
+black Pa7 Ka8
+twin stipulation =1
+
+next
+
+title another test case
+Stipulation +1
+Condition GenevaChess PhantomChess
+Pieces
+white Kc8 Qb1
+black Pa7 Ka8
+twin stipulation =1
+
+next
+
+title Popeye didn't revolve the en passant information while revolving the board, resulting in an attempt of the pawn to capture itself en passant
+Stipulation hep1
+Option nowk nobk MoveNumbers
+Condition ActuatedRevolvingBoard
+Pieces neutral  Pd7
+
+next
+
+author Bj\"orn Enemark
+stipulation S=2
+pieces white Qg6 black Kc7
+option vari nowk
+twin stipulation pser-s=2
+
+End
 

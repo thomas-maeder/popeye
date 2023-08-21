@@ -1,0 +1,20 @@
+begin
+
+protocol series_capture.ref
+
+author Tadashi Wakashima
+origin Sake Tourney 2023 example
+pieces white kd4 rg2 sg4 black kf3 bh1h2 pe3g3
+stipulation h#2
+condition seriescapture
+
+next
+
+author Tadashi Wakashima
+origin Sake Tourney 2023 example
+pieces white kc7 rf1 pe2 black ke8 qb4 be7h3 sc6f6 pg5
+stipulation h#2
+condition seriescapture
+
+end
+

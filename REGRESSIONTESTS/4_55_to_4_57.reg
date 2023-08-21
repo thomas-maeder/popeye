@@ -1140,10 +1140,10 @@ solution finished.
   1...d3-d2 #
 
   1.Sh2-f3   2.Sf3-h2 d3-d2 #
-  add_to_move_generation_stack:         255
-                     play_move:         197
- is_white_king_square_attacked:         196
- is_black_king_square_attacked:          81
+  add_to_move_generation_stack:         260
+                     play_move:         202
+ is_white_king_square_attacked:         206
+ is_black_king_square_attacked:          82
 
 solution finished.
 
@@ -1212,7 +1212,7 @@ solution finished.
   1.g6-g5   2.g5-g4 d6-d7 #
   add_to_move_generation_stack:          75
                      play_move:          68
- is_white_king_square_attacked:          13
+ is_white_king_square_attacked:          14
  is_black_king_square_attacked:          69
 
 solution finished.
@@ -1248,7 +1248,7 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          15
+ is_black_king_square_attacked:          16
 
 solution finished.
 
@@ -1283,7 +1283,7 @@ solution finished.
   add_to_move_generation_stack:         326
                      play_move:         254
  is_white_king_square_attacked:         239
- is_black_king_square_attacked:         116
+ is_black_king_square_attacked:         118
 
 solution finished.
 

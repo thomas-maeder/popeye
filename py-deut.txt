@@ -266,6 +266,7 @@ Kommandos:
 	SchwarzerMinDister
 	WeisserMaxDister
 	WeisserMinDister
+	SerienSchlag
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -400,7 +401,7 @@ Kommandos:
 	Bestimmung der Wiedergeburtsfelder:
 		Equipollents
 		Parrain		(== Equipollents LetzterZug)
-		ContraParrain	(== Equipollents Spiegel LetzterZug)
+		KontraParrain	(== Equipollents Spiegel LetzterZug)
 		Reihe
 		File
 		Symmetrie
@@ -480,7 +481,7 @@ Kommandos:
 		AntipodenImmunSchach	ImmunSchach Antipoden
 		EquipollentsImmunSchach	Immunschach Equipollents
 
-	Nach Breton kann optional Advers angegben werden.
+	Nach Breton kann optional Advers oder PY angegben werden.
 
  - Option: Alles, was zur Wirkung kommen soll, ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
@@ -1058,6 +1059,7 @@ aufwendiger ist das Kommando
 	gu	Grosser Baumhuepfer
 	h       Heuschrecke   
 	ha      Hamster                         0,1+1,1 180 Grad Huepfer
+	hk      KontraHamster
 	he	Hase                            Lion Variante des Kaenguruhs
 	hl      Laeuferheuschrecke   
 	hn      Nachtreiterheuschrecke
@@ -1296,4 +1298,4 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   abgebrochen werden.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green

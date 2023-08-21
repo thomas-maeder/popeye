@@ -289,8 +289,7 @@ optimisations/ohneschach/stop_if_check$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/check.h debugging/measure.h \
- output/plaintext/protocol.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
@@ -349,8 +348,6 @@ solving/has_solution_type.enum:
 solving/check.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 stipulation/pipe.h:
 

@@ -263,6 +263,7 @@ simples:
 	NoirMinDister
 	BlancMaxDister
 	BlancMinDister
+	SerieCapture
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -466,7 +467,7 @@ simples:
 		ImmunAntipoden		Immun Antipodes
 		ImmunEquipollents	Immun Equipollents
 
-	Apres Breton, Adverse peut etre indique.
+	Apres Breton, Adverse or PY peuvent etre indiques.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
@@ -1040,6 +1041,7 @@ suivante est un peu plus compliquee:
 	gn      gnou noctambule
 	gt      girl-scout
 	ha      ("hamster")
+	hc      ContraHamster
 	im      imperatrice   
 	ka      kangourou
 	kl      kangourou lion
@@ -1254,5 +1256,5 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   avec la cle CTRL-C.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green
 
