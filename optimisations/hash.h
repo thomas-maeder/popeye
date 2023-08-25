@@ -25,7 +25,7 @@ typedef unsigned char byte;
 
 enum
 {
-  hashbuf_length = 256
+  hashbuf_length = 512
 };
 
 typedef union

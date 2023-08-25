@@ -102,9 +102,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  ((size_t)1024)
+#define fxfMAXSIZE  ((size_t)4096)
 #else
-#define fxfMAXSIZE  ((size_t)2048)  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  ((size_t)8192)  /* this is needed only when sizeof(void*)==8 */
 #endif
 
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */

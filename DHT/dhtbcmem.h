@@ -16,7 +16,7 @@
  */
 
 typedef struct BCMemValue {
-	unsigned char	Leng;
+	unsigned short	Leng;
 	unsigned char	Data[1];
 } BCMemValue;
 
