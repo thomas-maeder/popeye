@@ -4,9 +4,10 @@ protocol series_capture.ref
 
 author Tadashi Wakashima
 origin Sake Tourney 2023 example
-pieces white kd4 rg2 sg4 black kf3 bh1h2 pe3g3
+pieces white kd4 rg2 sg4 black kf3 rh1 pe3g3h2
 stipulation h#2
 condition seriescapture
+twin move h2 h4
 
 next
 
