@@ -111,6 +111,8 @@ typedef struct {
 } dhtValueProcedures;
 
 #if defined(REGISTER_SIMPLE)
+/* dhtSimple verifies equality by comparing unsigned_integer members;
+   keys should be stored to unsigned_integer members, cast if needed */
 extern dhtValueProcedures dhtSimpleProcs;
 #endif /*REGISTER_SIMPLE*/
 #if defined(REGISTER_STRING)
