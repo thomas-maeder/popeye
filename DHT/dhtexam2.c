@@ -4,7 +4,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany  
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 
@@ -23,6 +23,8 @@ int main(int argc, char *argv[]) {
 
 	int cnt, EntryCnt= 0;
 	long int tmp;
+	dhtKey k;
+	dhtValue v;
 
 	struct dummy {
 		long l1;
@@ -82,7 +84,9 @@ int main(int argc, char *argv[]) {
 	for (cnt=0; cnt<EntryCnt; cnt++) {
 		dm.l1= cnt;
 		dm.l2= -cnt;
-		if (dhtEnterElement(ht, (dhtValue)&mv, (dhtValue)&dm) == dhtNilElement) {
+		k.key_data.object_pointer= &mv;
+		v.value_data.object_pointer= &dm;
+		if (dhtEnterElement(ht, k, v) == dhtNilElement) {
 			fprintf(stderr, "%s: Sorry, failed to enter %d-th element\n", argv[0], cnt);
 			exit(5);
 		}

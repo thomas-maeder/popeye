@@ -11,20 +11,23 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "debugging/assert.h"
 #include "dhtvalue.h"
 #include "dht.h"
 
-static unsigned long ConvertString(dhtConstValue v)
+static dhtHashValue ConvertString(dhtKey k)
 {
     /* I found this hash function on 
      *   http://ourworld.compuserve.com/homepages/bob_jenkins/doobs.htm
      * There are other functions, but this one is has some advantages:
-     *    - its small
-     *	  - independant from word sizes
+     *    - it's small
+     *	  - independent from word sizes
      *	  - needs no initialisation
      */
-    unsigned char const *s= (unsigned char const *)v;
-    unsigned long hash= 0;
+    unsigned char const *s= (unsigned char const *)k.key_data.object_pointer;
+    unsigned long hash;
+    assert(!!s);
+    hash= 0;
     while (*s) {
 	hash+= *s++;
 	hash+= hash << 10;
@@ -33,32 +36,42 @@ static unsigned long ConvertString(dhtConstValue v)
     hash+= hash << 3;
     hash^= hash >> 11;
     hash+= hash << 15;
-    return hash;
+    return (dhtHashValue)hash;
 }
 
-static int EqualString(dhtConstValue v1, dhtConstValue v2)
+static int EqualString(dhtKey v1, dhtKey v2)
 {
-	if (strcmp((char const *)v1, (char const *)v2))
-		return 0;
-	else
-		return 1;
+	char const *s1= (char const *)v1.key_data.object_pointer;
+	char const *s2= (char const *)v2.key_data.object_pointer;
+	assert(s1 && s2);
+	return !strcmp(s1, s2);
 }
 
-static dhtConstValue	DupString(dhtConstValue v)
+static int	DupString(dhtKeyOrValue v, dhtKeyOrValue *output)
 {
 	char *nv;
-	nv= (char *)fxfAlloc(strlen((char const *)v)+1);
-	if (nv!=0)
-		strcpy(nv, (char const *)v);
-	return (dhtConstValue)nv;
+	assert(!!output);
+	char const *original= (char const *)v.object_pointer;
+	assert(!!original);
+	nv= (char *)fxfAlloc(strlen(original)+1);
+	if (nv) {
+		strcpy(nv, original);
+		output->object_pointer = nv;
+		return 0;
+	}
+	return 1;
 }
-static void	FreeString(dhtValue v)
+static void	FreeString(dhtKeyOrValue v)
 {
-	fxfFree(v, strlen((char const *)v)+1);
+	char *s= (char *)v.object_pointer;
+	if (s)
+		fxfFree(s, strlen(s)+1);
 }
-static void	DumpString(dhtConstValue v, FILE *f)
+static void	DumpString(dhtKeyOrValue v, FILE *f)
 {
-	fputs((char const *)v,f);
+	char const *s= (char const *)v.object_pointer;
+	assert(s && f);
+	fputs(s,f);
 }
 
 dhtValueProcedures dhtStringProcs = {

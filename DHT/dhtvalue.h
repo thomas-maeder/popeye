@@ -11,6 +11,17 @@
  * and in place.
  */
 #include <stdio.h>
+#ifdef __cplusplus
+#    if __cplusplus >= 201103L
+#        include <cstdint>
+#    endif
+#    include <csignal>
+#elif defined(__STDC_VERSION__)
+#    if __STDC_VERSION__ >= 199901L
+#        include <stdint.h>
+#    endif
+#    include <signal.h>
+#endif
 
 #if defined(FXF)
 #include "fxf.h"
@@ -52,16 +63,51 @@ typedef enum {
 
 extern char const *dhtValueTypeToString[dhtValueTypeCnt];
 
-typedef void *dhtValue;
-typedef void const *dhtConstValue;
+typedef union {
+#ifdef __cplusplus
+#    if __cplusplus >= 201103L
+	::std::uintmax_t unsigned_integer;
+	::std::intmax_t signed_integer;
+#    else
+    unsigned long int unsigned_integer;
+	long int signed_integer;
+#    endif
+    bool boolean;
+     ::std::sig_atomic_t atomic_integer;
+#else
+#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	uintmax_t unsigned_integer;
+	intmax_t signed_integer;
+	_Bool boolean;
+#    else
+    unsigned long int unsigned_integer;
+	long int signed_integer;
+	int boolean; // What else?
+#    endif
+    sig_atomic_t atomic_integer;
+#endif
+    const volatile void * object_pointer;
+	char character;
+	void (*function_pointer)(void);
+	long double floating_point;
+} dhtKeyOrValue;
+
+typedef struct {
+	dhtKeyOrValue key_data;
+} dhtKey;
+
+typedef struct {
+	dhtKeyOrValue value_data;
+} dhtValue;
+
 typedef unsigned long dhtHashValue;
 
 typedef struct {
-  dhtHashValue (*Hash)(dhtConstValue);
-	int		(*Equal)(dhtConstValue, dhtConstValue);
-	dhtConstValue	(*Dup)(dhtConstValue);
-	void		(*Free)(dhtValue);
-	void		(*Dump)(dhtConstValue, FILE *);
+    dhtHashValue	(*Hash)(dhtKey);
+	int				(*Equal)(dhtKey, dhtKey);
+	int				(*Dup)(dhtKeyOrValue, dhtKeyOrValue *); // should return 0 on success (and store the copied value at the second argument) and nonzero on error
+	void			(*Free)(dhtKeyOrValue);
+	void			(*Dump)(dhtKeyOrValue, FILE *);
 } dhtValueProcedures;
 
 #if defined(REGISTER_SIMPLE)

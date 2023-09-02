@@ -1,70 +1,47 @@
 DHT/dht$(OBJ_SUFFIX): DHT/dht.c debugging/assert.h utilities/boolean.h \
  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h debugging/trace.h
-
 debugging/assert.h:
-
 utilities/boolean.h:
-
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dht.h:
-
 debugging/trace.h:
-DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
- DHT/dht.h
-
+DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c debugging/assert.h DHT/dhtvalue.h DHT/fxf.h \
+ DHT/dhtcmem.h DHT/dht.h
+debugging/assert.h:
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dhtcmem.h:
-
 DHT/dht.h:
-DHT/dhtmem$(OBJ_SUFFIX): DHT/dhtmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtmem.h \
- DHT/dht.h
-
+DHT/dhtmem$(OBJ_SUFFIX): DHT/dhtmem.c debugging/assert.h DHT/dhtvalue.h DHT/fxf.h \
+ DHT/dhtmem.h DHT/dht.h
+debugging/assert.h:
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dhtmem.h:
-
 DHT/dht.h:
-DHT/dhtsimpl$(OBJ_SUFFIX): DHT/dhtsimpl.c DHT/dhtvalue.h DHT/fxf.h
-
+DHT/dhtsimpl$(OBJ_SUFFIX): DHT/dhtsimpl.c debugging/assert.h DHT/dhtvalue.h \
+ DHT/fxf.h
+debugging/assert.h:
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-DHT/dhtstrng$(OBJ_SUFFIX): DHT/dhtstrng.c DHT/dhtvalue.h DHT/fxf.h DHT/dht.h
-
+DHT/dhtstrng$(OBJ_SUFFIX): DHT/dhtstrng.c debugging/assert.h DHT/dhtvalue.h \
+ DHT/fxf.h DHT/dht.h
+debugging/assert.h:
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dht.h:
 DHT/dhtvalue$(OBJ_SUFFIX): DHT/dhtvalue.c DHT/dhtvalue.h DHT/fxf.h DHT/dht.h
-
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dht.h:
 DHT/dhtbcmem$(OBJ_SUFFIX): DHT/dhtbcmem.c debugging/assert.h DHT/dhtvalue.h \
  DHT/fxf.h DHT/dhtbcmem.h DHT/dht.h
-
 debugging/assert.h:
-
 DHT/dhtvalue.h:
-
 DHT/fxf.h:
-
 DHT/dhtbcmem.h:
-
 DHT/dht.h:
 DHT/fxf$(OBJ_SUFFIX): DHT/fxf.c debugging/assert.h DHT/fxf.h
-
 debugging/assert.h:
-
 DHT/fxf.h:

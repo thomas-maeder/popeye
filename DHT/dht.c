@@ -396,14 +396,14 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
 typedef struct
 {
-    dhtHashValue (*Hash)(dhtConstValue);
-    int     (*Equal)(dhtConstValue, dhtConstValue);
-    dhtConstValue    (*DupKey)(dhtConstValue);
-    dhtConstValue    (*DupData)(dhtConstValue);
-    void        (*FreeKey)(dhtValue);
-    void        (*FreeData)(dhtValue);
-    void        (*DumpData)(dhtConstValue,FILE *);
-    void        (*DumpKey)(dhtConstValue,FILE *);
+    dhtHashValue (*Hash)(dhtKey);
+    int         (*Equal)(dhtKey, dhtKey);
+    int         (*DupKey)(dhtKeyOrValue, dhtKeyOrValue *);
+    int         (*DupData)(dhtKeyOrValue, dhtKeyOrValue *);
+    void        (*FreeKey)(dhtKeyOrValue);
+    void        (*FreeData)(dhtKeyOrValue);
+    void        (*DumpData)(dhtKeyOrValue,FILE *);
+    void        (*DumpKey)(dhtKeyOrValue,FILE *);
 } Procedures;
 
 typedef struct dht {
@@ -559,8 +559,8 @@ void dhtDestroy(HashTable *ht)
     while (b)
     {
       InternHsElement *tmp= b;
-      (ht->procs.FreeKey)((dhtValue)b->HsEl.Key);
-      (ht->procs.FreeData)((dhtValue)b->HsEl.Data);
+      (ht->procs.FreeKey)(b->HsEl.Key.key_data);
+      (ht->procs.FreeData)(b->HsEl.Data.value_data);
       b= b->Next;
       FreeInternHsElement(tmp);
     }
@@ -599,9 +599,9 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
     while (b)
     {
       fprintf(f, "%*s    ", ind, "");
-      (ht->procs.DumpKey)(b->HsEl.Key, f);
+      (ht->procs.DumpKey)(b->HsEl.Key.key_data, f);
       fputs("->", f);
-      (ht->procs.DumpData)(b->HsEl.Data, f);
+      (ht->procs.DumpData)(b->HsEl.Data.value_data, f);
       b= b->Next;
       fputc('\n', f);
       hcnt++;
@@ -796,14 +796,18 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   shrinkDirTable(&ht->DirTab);
 }
 
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
+LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
 {
   uLong h;
   InternHsElement **phe;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+  TraceFunctionParam("%jx",(unsigned long long)key.key_data.unsigned_integer);
+#else
+  TraceFunctionParam("%lx",(unsigned long)key.key_data.unsigned_integer);
+#endif
   TraceFunctionParamListEnd();
 
   h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
@@ -827,14 +831,18 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   return phe;
 }
 
-void dhtRemoveElement(HashTable *ht, dhtConstValue key)
+void dhtRemoveElement(HashTable *ht, dhtKey key)
 {
   MYNAME(dhtRemoveElement)
   InternHsElement **phe, *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+  TraceFunctionParam("%jx",(unsigned long long)key.key_data.unsigned_integer);
+#else
+  TraceFunctionParam("%lx",(unsigned long)key.key_data.unsigned_integer);
+#endif
   TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht, key);
@@ -849,8 +857,8 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
       ht->NextStep= ht->NextStep->Next;
 
     *phe= he->Next;
-    (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
-    (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
+    (ht->procs.FreeData)(he->HsEl.Data.value_data);
+    (ht->procs.FreeKey)(he->HsEl.Key.key_data);
     FreeInternHsElement(he);
     ht->KeyCount--;
     if (ActualLoadFactor(ht) < ht->MinLoadFactor)
@@ -877,21 +885,24 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
   TraceFunctionResultEnd();
 }
 
-dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data)
+dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 {
   InternHsElement **phe, *he;
-  dhtConstValue KeyV;
-  dhtConstValue DataV;
+  dhtKey KeyV;
+  dhtValue DataV;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
-  TraceFunctionParam("%p",(void const *)data);
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+  TraceFunctionParam("%jx",(unsigned long long)key.key_data.unsigned_integer);
+  TraceFunctionParam("%jx",(unsigned long long)data.value_data.unsigned_integer);
+#else
+  TraceFunctionParam("%lx",(unsigned long)key.key_data.unsigned_integer);
+  TraceFunctionParam("%lx",(unsigned long)data.value_data.unsigned_integer);
+#endif
   TraceFunctionParamListEnd();
 
-  assert(key!=0);
-  KeyV = (ht->procs.DupKey)(key);
-  if (KeyV==0)
+  if ((ht->procs.DupKey)(key.key_data, &KeyV.key_data))
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
@@ -900,10 +911,9 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
     return dhtNilElement;
   }
 
-  DataV = data==0 ? 0 : (ht->procs.DupData)(data);
-  if (data!=0 && DataV==0)
+  if ((ht->procs.DupData)(data.value_data, &DataV.value_data))
   {
-    (ht->procs.FreeKey)((dhtValue)KeyV);
+    (ht->procs.FreeKey)(KeyV.key_data);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",(void *)dhtNilElement);
@@ -923,8 +933,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
     TraceEOL();
     if (he==0)
     {
-      (ht->procs.FreeKey)((dhtValue)KeyV);
-      (ht->procs.FreeData)((dhtValue)DataV);
+      (ht->procs.FreeKey)(KeyV.key_data);
+      (ht->procs.FreeData)(DataV.value_data);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
@@ -941,9 +951,9 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
   else
   {
     if (ht->DtaPolicy == dhtCopy)
-      (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
+      (ht->procs.FreeData)(he->HsEl.Data.value_data);
     if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
+      (ht->procs.FreeKey)(he->HsEl.Key.key_data);
   }
 
   he->HsEl.Key = KeyV;
@@ -975,7 +985,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
   return &he->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
+dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   InternHsElement **phe;
   dhtElement *result;

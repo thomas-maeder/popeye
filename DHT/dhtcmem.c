@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "debugging/assert.h"
 #include "dhtvalue.h"
 #include "dhtcmem.h"
 #include "dht.h"
@@ -22,10 +23,14 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
+static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
-  uLong leng= ((CompactMemVal const *)m)->Leng;
-  uChar const *s= ((CompactMemVal const *)m)->Data;
+  CompactMemVal const * const toBeConverted = (CompactMemVal const *)m.key_data.object_pointer;
+  uLong leng;
+  uChar const *s;
+  assert(!!toBeConverted);
+  leng= toBeConverted->Leng;
+  s= toBeConverted->Data;
   dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
@@ -39,39 +44,80 @@ static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
   return hash;
 }
 
-static int EqualCompactMemoryValue(dhtConstValue v1, dhtConstValue v2)
+static int EqualCompactMemoryValue(dhtKey v1, dhtKey v2)
 {
-  if (((CompactMemVal const *)v1)->Leng != ((CompactMemVal const *)v2)->Leng)
+  CompactMemVal const * const value1 = (CompactMemVal const *)v1.key_data.object_pointer;
+  CompactMemVal const * const value2 = (CompactMemVal const *)v2.key_data.object_pointer;
+  assert(value1 && value2);
+  if (value1->Leng != value2->Leng)
     return 0;
-  if (memcmp(((CompactMemVal const *)v1)->Data,
-             ((CompactMemVal const *)v2)->Data, ((CompactMemVal const *)v1)->Leng))
-    return 0;
-  else
-    return 1;
+  return !memcmp(value1->Data, value2->Data, value1->Leng*sizeof value1->Data[0]);
 }
 
-static dhtConstValue DupCompactMemoryValue(dhtConstValue v)
+static int DupCompactMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
 {
-  CompactMemVal *cm= NewCompactMemVal(((CompactMemVal const *)v)->Leng);
-  if (cm) {
-    cm->Leng= ((CompactMemVal const *)v)->Leng;
-    memcpy(cm->Data, ((CompactMemVal const *)v)->Data, cm->Leng);
-    return (dhtValue)cm;
+  CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
+  size_t const size_of_element = sizeof v->Data[0];
+  size_t const num_elements_in_Data = (num_bytes_in_Data / size_of_element);
+  size_t const remainder = (num_bytes_in_Data % size_of_element);
+  size_t size = sizeof *v;
+  CompactMemVal *result;
+  uLong length;
+
+  assert(!!v);
+
+  length = v->Leng;
+  if (length > num_elements_in_Data)
+  {
+    size_t const num_new_elements = (length - num_elements_in_Data);
+    if (num_new_elements > (((size_t)-1) - size + remainder) / size_of_element)
+      return 1;
+    size += ((num_new_elements * size_of_element) - remainder);
   }
-  return (dhtValue)cm;
+
+  result = (CompactMemVal *)fxfAlloc(size);
+  if (result)
+  {
+    result->Leng = length;
+    memcpy(result->Data,v->Data,(length*size_of_element));
+    output->object_pointer = result;
+    return 0;
+  }
+
+  return 1;
 }
 
-static void FreeCompactMemoryValue(dhtValue v)
+static void FreeCompactMemoryValue(dhtKeyOrValue kv)
 {
-  FreeCompactMemVal(v);
+  CompactMemVal *v = (CompactMemVal *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
+  size_t const size_of_element = sizeof v->Data[0];
+  size_t const num_elements_in_Data = (num_bytes_in_Data / size_of_element);
+  size_t const remainder = (num_bytes_in_Data % size_of_element);
+  size_t size = sizeof *v;
+  uLong length;
+  if (v)
+  {
+    length = v->Leng;
+    if (length > num_elements_in_Data)
+    {
+      size_t const num_new_elements = (length - num_elements_in_Data);
+      assert(num_new_elements <= ((((size_t)-1) - size + remainder) / size_of_element));
+      size += ((num_new_elements * size_of_element) - remainder);
+    }
+    fxfFree(v,size);
+  }
 }
 
-static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
+static void DumpCompactMemoryValue(dhtKeyOrValue kv, FILE *f)
 {
+  CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
   uLong i;
-  fprintf(f, "(%lu)", ((CompactMemVal const *)v)->Leng);
-  for (i=0; i<((CompactMemVal const *)v)->Leng; i++)
-    fprintf(f, "%02x", ((CompactMemVal const *)v)->Data[i] & 0xff);
+  assert(v && f);
+  fprintf(f, "(%lu)", v->Leng);
+  for (i=0; i<v->Leng; i++)
+    fprintf(f, "%02x", (v->Data[i] & 0xffU));
 }
 
 dhtValueProcedures dhtCompactMemoryProcs = {

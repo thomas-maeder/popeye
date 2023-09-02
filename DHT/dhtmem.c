@@ -16,6 +16,7 @@
 #  include <mem.h>
 #endif /*__BORLANDC__*/
 
+#include "debugging/assert.h"
 #include "dhtvalue.h"
 #include "dhtmem.h"
 #include "dht.h"
@@ -23,10 +24,13 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static dhtHashValue HashMemoryValue(dhtConstValue v)
+static dhtHashValue HashMemoryValue(dhtKey k)
 {
-  uLong leng= ((MemVal const *)v)->Leng;
-  uChar const *s= ((MemVal const *)v)->Data;
+  MemVal const * toBeHashed = (MemVal const *)k.key_data.object_pointer;
+  assert(!!toBeHashed);
+  assert(toBeHashed->Data || !toBeHashed->Leng);
+  uLong leng= toBeHashed->Leng;
+  uChar const *s= toBeHashed->Data;
   dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
@@ -39,43 +43,62 @@ static dhtHashValue HashMemoryValue(dhtConstValue v)
   hash+= hash << 15;
   return hash;
 }
-static int EqualMemoryValue(dhtConstValue v1, dhtConstValue v2)
+static int EqualMemoryValue(dhtKey v1, dhtKey v2)
 {
-  if (((MemVal const *)v1)->Leng != ((MemVal const *)v2)->Leng)
+  MemVal const * value1 = (MemVal const *)v1.key_data.object_pointer;
+  MemVal const * value2 = (MemVal const *)v2.key_data.object_pointer;
+
+  assert(value1 && value2);
+  assert(value1->Data || !value1->Leng);
+  assert(value2->Data || !value2->Leng);
+  if (value1->Leng != value2->Leng)
     return 0;
-  if (memcmp(((MemVal const *)v1)->Data, ((MemVal const *)v2)->Data, ((MemVal const *)v1)->Leng))
-    return 0;
-  else
+  if (!value1->Leng) // avoid the potential undefined behavior of using memcmp on NULL pointers
     return 1;
+  return !memcmp(value1->Data, value2->Data, value1->Leng*sizeof value1->Data[0]);
 }
-
-static dhtConstValue	DupMemoryValue(dhtConstValue v)
+static int DupMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
 {
+  MemVal const *v= (MemVal const *)kv.object_pointer;
   MemVal *mv;
-
+  assert(!!v);
   mv= NewMemVal;
   if (mv) {
-    mv->Data= (unsigned char *)fxfAlloc(((MemVal const *)v)->Leng);
-    if (mv->Data) {
-      mv->Leng= ((MemVal const *)v)->Leng;
-      memcpy(mv->Data, ((MemVal const *)v)->Data, mv->Leng);
-      return (dhtValue)mv;
+    mv->Leng= v->Leng;
+    if (mv->Leng) {
+      mv->Data= (uChar *)fxfAlloc(mv->Leng);
+      if (mv->Data) {
+        memcpy(mv->Data, v->Data, mv->Leng*sizeof mv->Data[0]);
+        output->object_pointer = mv;
+        return 0;
+      } else {
+        FreeMemVal(mv);
+        return 1;
+      }
     } else {
-      FreeMemVal(mv);
-      mv = NilMemVal;
+      mv->Data= NULL; // NULL is a valid pointer if Leng == 0
+      output->object_pointer= mv;
+      return 0;
     }
   }
-  return (dhtValue)mv;
+  return 1;
 }
-static void	FreeMemoryValue(dhtValue v)
+static void	FreeMemoryValue(dhtKeyOrValue kv)
 {
-  DeleteMemVal(v);
+  MemVal *v= (MemVal *)kv.object_pointer;
+  if (v) {
+    fxfFree(v->Data, v->Leng*sizeof v->Data[0]);
+    fxfFree(v, sizeof *v);
+  }
 }
-static void	DumpMemoryValue(dhtConstValue v, FILE *f) {
+static void	DumpMemoryValue(dhtKeyOrValue kv, FILE *f) {
+  MemVal const * v= (MemVal *)kv.object_pointer;
   uLong i;
-  fprintf(f, "(%lu)", ((MemVal const *)v)->Leng);
-  for (i=0; i<((MemVal const *)v)->Leng; i++)
-    fprintf(f, "%02x", ((MemVal const *)v)->Data[i] & 0xff);
+  assert(v && f);
+  assert(v->Data || !v->Leng);
+  fprintf(f, "(%lu)", v->Leng);
+  for (i=0; i<v->Leng; i++)
+    fprintf(f, "%02x", (v->Data[i] & 0xffU));
 }
 
 dhtValueProcedures dhtMemoryProcs = {

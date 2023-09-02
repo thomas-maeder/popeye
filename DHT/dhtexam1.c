@@ -4,7 +4,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany  
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 
@@ -115,6 +115,8 @@ int main(int argc, char *argv[]) {
 	struct hostent	*host;
 	int		i;
 	char		*hostsfile;
+	dhtKey k;
+	dhtValue v;
 
 
 	if (argc > 1) {
@@ -194,14 +196,18 @@ int main(int argc, char *argv[]) {
 		*/
 		InetAddr= *(uLong *)h; 
 
-		if (dhtLookupElement(NameToInet, (dhtValue)HostName)) {
+		k.key_data.object_pointer = HostName;
+		if (dhtLookupElement(NameToInet, k)) {
 			fprintf(stderr, "Hostname %s already entered\n", host->h_name);
 		}
-		dhtEnterElement(NameToInet, (dhtValue)HostName, (dhtValue)InetAddr);
-		if (dhtLookupElement(InetToName, (dhtValue)InetAddr)) {
+		v.value_data.unsigned_integer = InetAddr;
+		dhtEnterElement(NameToInet, k, v);
+		k.key_data.unsigned_integer = InetAddr; 
+		if (dhtLookupElement(InetToName, k)) {
 			fprintf(stderr, "InetAddr 0x%08lx already entered\n", InetAddr);
 		}
-		dhtEnterElement(InetToName, (dhtValue)InetAddr, (dhtValue)HostName);
+		v.value_data.object_pointer = HostName;
+		dhtEnterElement(InetToName, k, v);
 	}
 #if defined(FXF)
 	fputs("fxf-Info after filling the hash tables\n",stderr);
@@ -219,7 +225,7 @@ int main(int argc, char *argv[]) {
 	fDumpMallinfo(stderr);
 	*/
 
-	fputs("Testing if we get alle entries from NameToInet via GetFirst and GetNext...\n",stderr); 
+	fputs("Testing if we get all entries from NameToInet via GetFirst and GetNext...\n",stderr); 
 	he= dhtGetFirstElement(NameToInet);
 	i= 0;
 	while (he) {
@@ -239,33 +245,35 @@ int main(int argc, char *argv[]) {
 
 	he= dhtGetFirstElement(NameToInet);
 	while (he) {
-		uLong adr= (uLong)he->Data;
+		uLong adr= (uLong)he->Data.value_data.unsigned_integer;
 		char *Name;
 #if defined(USE_MEMVAL)
 		strncpy(str,
-		  (char *)((MemVal *)he->Key)->Data,
-		  ((MemVal *)he->Key)->Leng);
-		str[((MemVal *)he->Key)->Leng]='\0';
+		  (char *)((MemVal *)he->Key.object_pointer)->Data,
+		  ((MemVal *)he->Key.object_pointer)->Leng);
+		str[((MemVal *)he->Key.object_pointer)->Leng]='\0';
 		Name= str;
 #else
-		Name= (char *)he->Key;
+		Name= (char *)he->Key.key_data.object_pointer;
 #endif /*USE_MEMVAL*/
 		printf("%3u.%3u.%3u.%3u = %s   ", BYT(adr), BYT(adr>>8),
 			BYT(adr>>16), BYT(adr>>24), Name);
 
 		dhtRemoveElement(NameToInet, he->Key);
-		dhtRemoveElement(InetToName, he->Data);
+		k.key_data = he->Data.value_data;
+		dhtRemoveElement(InetToName, k);
 		printf("   Deleting and checking consistency (Load=%lu... ", dhtKeyCount(NameToInet));
 		i=0;
 		hhe= dhtGetFirstElement(NameToInet);
 		fputs("    ", stdout); fflush(stdout);
 		while (hhe) {
-			dhtElement *he1= dhtLookupElement(InetToName, hhe->Data);
-			if (strcmp((char *)he1->Data, (char *)hhe->Key) != 0) {
+			k.key_data = hhe->Data.value_data;
+			dhtElement *he1= dhtLookupElement(InetToName, k);
+			if (strcmp((char *)he1->Data.value_data.object_pointer, (char *)hhe->Key.key_data.object_pointer) != 0) {
 				puts("\nSorry, Mismatch");
 				exit(1);
 			}
-			if (he1->Key != hhe->Data) {
+			if (he1->Key.key_data.unsigned_integer != hhe->Data.value_data.unsigned_integer) {
 				puts("\nSorry, Mismatch");
 				exit(2);
 			}

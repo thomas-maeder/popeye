@@ -13,6 +13,7 @@
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
+#include <stddef.h>
 
 #if defined(TESTHASH)
 #       if !defined(HASHRATE)

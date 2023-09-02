@@ -19,9 +19,9 @@ typedef struct MemVal {
 	unsigned long	Leng;
 	unsigned char	*Data;
 } MemVal;
-#define NilMemVal	(MemVal *)0
-#define NewMemVal	(MemVal *)fxfAlloc(sizeof(MemVal))
+#define NilMemVal	((MemVal *)0)
+#define NewMemVal	((MemVal *)fxfAlloc(sizeof(MemVal)))
 #define FreeMemVal(v)	fxfFree(v, sizeof(MemVal))
-#define DeleteMemVal(v)	if (((MemVal const *)(v))!=NilMemVal) fxfFree(((MemVal const *)(v))->Data, ((MemVal const *)(v))->Leng), FreeMemVal(v)
+#define DeleteMemVal(v)	do {if (((MemVal const *)(v))!=NilMemVal) fxfFree(((MemVal const *)(v))->Data, ((MemVal const *)(v))->Leng), FreeMemVal(v);} while (0)
 
 #endif /*DHTMEM_INCLUDED*/
