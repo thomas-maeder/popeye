@@ -30,12 +30,12 @@ dhtElement *dhtEnterElement(struct dht *, dhtKey key, dhtValue data);
 unsigned int dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
 void	      dhtDestroy	(struct dht *);
 void	      dhtDump		(struct dht *, FILE *);
-void	      dhtDumpIndented	(int i, struct dht *, FILE *);
+void	      dhtDumpIndented	(int ind, struct dht *, FILE *);
 void	      dhtRemoveElement	(struct dht *, dhtKey key);
 dhtElement   *dhtLookupElement	(struct dht *, dhtKey key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
-unsigned long dhtKeyCount	(struct dht *);
+unsigned long dhtKeyCount	(struct dht const *);
 char const   *dhtErrorMsg	(void);
 
 extern char dhtError[];

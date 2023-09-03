@@ -436,7 +436,7 @@ typedef struct dht {
 #define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
 #endif /*OVERFLOW_SAVE*/
 
-unsigned long dhtKeyCount(dht *h)
+unsigned long dhtKeyCount(dht const *h)
 {
   return h->KeyCount;
 }

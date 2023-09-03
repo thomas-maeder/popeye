@@ -95,11 +95,10 @@ static void FreeCompactMemoryValue(dhtValue kv)
   size_t const size_of_element = sizeof v->Data[0];
   size_t const num_elements_in_Data = (num_bytes_in_Data / size_of_element);
   size_t const remainder = (num_bytes_in_Data % size_of_element);
-  size_t size = sizeof *v;
-  uLong length;
   if (v)
   {
-    length = v->Leng;
+    size_t size = sizeof *v;
+    uLong length = v->Leng;
     if (length > num_elements_in_Data)
     {
       size_t const num_new_elements = (length - num_elements_in_Data);
