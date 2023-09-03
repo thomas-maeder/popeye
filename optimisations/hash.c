@@ -1190,6 +1190,13 @@ static void ProofLargeEncodePiece(byte **bp,
   ++*bp;
 }
 
+#define SIGNAL_OUT_OF_ROOM_IN_HASHBUFFER do { \
+                                           fprintf(stderr, "Internal Popeye limit reached in function %s in file %s.", __func__, __FILE__); \
+                                           fputs("Please share with the developers so this limit can be increased or potentially eliminated.\n", stderr) \
+                                           fputs("Computation is now aborting.\n", stderr); \
+                                           exit(1); \
+                                         } while (0)
+
 static void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
@@ -1244,8 +1251,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  hb->cmv.Leng = (bp-hb->cmv.Data);
 }
 
 static unsigned int TellCommonEncodePosLeng(unsigned int len,
@@ -1545,8 +1552,8 @@ static void LargeEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  hb->cmv.Leng = (bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1609,8 +1616,8 @@ static void SmallEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  hb->cmv.Leng = (bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -67,21 +67,18 @@ static int DupBCMemValue(dhtValue kv, dhtValue *output)
   BCMemValue const *original = (BCMemValue const *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *original) - offsetof(BCMemValue, Data));
   size_t const size_of_element = sizeof original->Data[0];
-  size_t const num_elements_in_Data = (num_bytes_in_Data / size_of_element);
-  size_t const remainder = (num_bytes_in_Data % size_of_element);
-  size_t size = sizeof *original;
   BCMemValue *result;
-  unsigned char length;
+  unsigned short length;
+  size_t size = sizeof *original;
 
   assert(!!original);
 
   length = original->Leng;
-  if (length > num_elements_in_Data)
+  if (length > (num_bytes_in_Data / size_of_element))
   {
-    size_t const num_new_elements = (length - num_elements_in_Data);
-    if (num_new_elements > (((size_t)-1) - size + remainder) / size_of_element)
+    if (length > ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element))
       return 1;
-    size += ((num_new_elements * size_of_element) - remainder);
+    size += ((length * size_of_element) - num_bytes_in_Data);
   }
 
   result = (BCMemValue *)fxfAlloc(size);
@@ -101,17 +98,14 @@ static void FreeBCMemValue(dhtValue kv)
   BCMemValue *freed = (BCMemValue *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *freed) - offsetof(BCMemValue, Data));
   size_t const size_of_element = sizeof freed->Data[0];
-  size_t const num_elements_in_Data = (num_bytes_in_Data / size_of_element);
-  size_t const remainder = (num_bytes_in_Data % size_of_element);
   if (freed)
   {
     size_t size = sizeof *freed;
-    unsigned char length = freed->Leng;
-    if (length > num_elements_in_Data)
+    unsigned short length = freed->Leng;
+    if (length > (num_bytes_in_Data / size_of_element))
     {
-      size_t const num_new_elements = (length - num_elements_in_Data);
-      assert(num_new_elements <= ((((size_t)-1) - size + remainder) / size_of_element));
-      size += ((num_new_elements * size_of_element) - remainder);
+      assert(length <= ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element));
+      size += ((length * size_of_element) - num_bytes_in_Data);
     }
     fxfFree(freed,size);
   }

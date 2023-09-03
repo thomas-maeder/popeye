@@ -12,6 +12,8 @@
 #include "DHT/dhtbcmem.h"
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
+#include "position/underworld.h"
+#include "position/position.h"
 #include "solving/ply.h"
 #include <stddef.h>
 
@@ -26,13 +28,16 @@ typedef unsigned char byte;
 
 enum
 {
-  hashbuf_length = 256
+  MAX_LENGTH_OF_ENCODING = (((nr_rows_on_board * nr_files_on_board) + underworld_capacity) * 6) +
+			                     19 + maxinum + maxply,
+  hashbuf_padding = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) -
+                    (sizeof(BCMemValue) - offsetof(BCMemValue, Data))
 };
 
-typedef union
+typedef struct
 {
     BCMemValue cmv;
-    byte buffer[hashbuf_length];
+    byte cmv_Data_padding[hashbuf_padding];
 } HashBuffer;
 
 extern HashBuffer hashBuffers[maxply+1];
