@@ -33,12 +33,12 @@
   }
 static unsigned long ConvertSimpleValue(dhtKey k)
 {
-  unsigned long a, b, c;
-  c = 0x9e3779b97f4a7c13LL;
+  unsigned long long a, b, c;
+  c = 0x9e3779b97f4a7c13LLU;
   a = k.value.unsigned_integer<<1;
   b = k.value.unsigned_integer;
   mix(a,b,c);
-  return c;
+  return (unsigned long)c;
 }
 #else
 static unsigned long ConvertSimpleValue(dhtKey k)
