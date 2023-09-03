@@ -25,7 +25,7 @@
 
 static dhtHashValue ConvertBCMemValue(dhtKey m)
 {
-  BCMemValue const * const toBeConverted = (BCMemValue const *)m.key_data.object_pointer;
+  BCMemValue const * const toBeConverted = (BCMemValue const *)m.value.object_pointer;
   unsigned int leng;
   unsigned char const *s;
   assert(!!toBeConverted);
@@ -50,8 +50,8 @@ static dhtHashValue ConvertBCMemValue(dhtKey m)
 
 static int EqualBCMemValue(dhtKey v1, dhtKey v2)
 {
-  BCMemValue const * const value1 = (BCMemValue const *)v1.key_data.object_pointer;
-  BCMemValue const * const value2 = (BCMemValue const *)v2.key_data.object_pointer;
+  BCMemValue const * const value1 = (BCMemValue const *)v1.value.object_pointer;
+  BCMemValue const * const value2 = (BCMemValue const *)v2.value.object_pointer;
   unsigned int length;
   assert(value1 && value2)
   
@@ -62,7 +62,7 @@ static int EqualBCMemValue(dhtKey v1, dhtKey v2)
   return !memcmp(value1->Data, value2->Data, length*sizeof value1->Data[0]);
 }
 
-static int DupBCMemValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
+static int DupBCMemValue(dhtValue kv, dhtValue *output)
 {
   BCMemValue const *original = (BCMemValue const *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *original) - offsetof(BCMemValue, Data));
@@ -96,7 +96,7 @@ static int DupBCMemValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
   return 1;
 }
 
-static void FreeBCMemValue(dhtKeyOrValue kv)
+static void FreeBCMemValue(dhtValue kv)
 {
   BCMemValue *freed = (BCMemValue *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *freed) - offsetof(BCMemValue, Data));
@@ -118,16 +118,16 @@ static void FreeBCMemValue(dhtKeyOrValue kv)
   }
 }
 
-static void DumpBCMemValue(dhtKeyOrValue kv, FILE *f)
+static void DumpBCMemValue(dhtValue kv, FILE *f)
 {
   BCMemValue const *toBeDumped = (BCMemValue const *)kv.object_pointer;
-  unsigned int length;
+  int length;
   int i;
 
   assert(toBeDumped && f);
 
   length = toBeDumped->Leng;
-  fprintf(f, "(%d)", (int)toBeDumped->Leng);
+  fprintf(f, "(%d)", length);
   for (i=0; i<length; i++)
     fprintf(f, "%02x", (toBeDumped->Data[i] & 0xffU));
 }

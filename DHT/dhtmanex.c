@@ -61,21 +61,21 @@ int main( )
     	info_to_enter->age= Age;
     	info_to_enter->room= Room;
     	/* the string will be duplicated the info not */
-        k.key_data.object_pointer = string_to_enter;
-        v.value_data.object_pointer = info_to_enter;
+        k.value.object_pointer = string_to_enter;
+        v.object_pointer = info_to_enter;
     	dhtEnterElement(OurTable, k, v);
     }
 
     /* access table */
     while (scanf("%127s", name_to_find) != EOF) {
-    k.key_data.object_pointer = name_to_find;
+    k.value.object_pointer = name_to_find;
 	he= dhtLookupElement(OurTable, k);
 	if (he != dhtNilElement) {
 	    /* if item is in the table */
 	    (void)printf("found %s, age = %d, room = %d\n",
-			(char *)he->Key.key_data.object_pointer,
-			((struct info *)he->Data.value_data.object_pointer)->age,
-			((struct info *)he->Data.value_data.object_pointer)->room);
+			(char *)he->Key.value.object_pointer,
+			((struct info *)he->Data.object_pointer)->age,
+			((struct info *)he->Data.object_pointer)->room);
 	} else {
 	    (void)printf("no such employee %s\n", name_to_find);
 	}
@@ -83,7 +83,7 @@ int main( )
     /* now delete all struct info in the table */
     he= dhtGetFirstElement(OurTable);
     while (he) {
-    	free(he->Data.value_data.object_pointer);
+    	free(he->Data.object_pointer);
 	he= dhtGetNextElement(OurTable);
     }
     /* now destroy the whole table */

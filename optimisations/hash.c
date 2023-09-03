@@ -649,16 +649,16 @@ static void set_value_attack_nosuccess(dhtElement *e,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->Data.value_data.unsigned_integer);
-  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)e->Data.value_data.unsigned_integer;
+  tmp = (data_type)e->Data.unsigned_integer;
   tmp &= ~mask;
   tmp |= bits;
-  e->Data.value_data.unsigned_integer = tmp;
-  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -681,16 +681,16 @@ static void set_value_attack_success(dhtElement *e,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->Data.value_data.unsigned_integer);
-  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)e->Data.value_data.unsigned_integer;
+  tmp = (data_type)e->Data.unsigned_integer;
   tmp &= ~mask;
   tmp |= bits;
-  e->Data.value_data.unsigned_integer = tmp;
-  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -712,16 +712,16 @@ static void set_value_help(dhtElement *e,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void *)&e->Data.value_data.unsigned_integer);
-  TraceValue("pre:0x%08x ",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p ",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:0x%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("0x%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  tmp = (data_type)e->Data.value_data.unsigned_integer;
+  tmp = (data_type)e->Data.unsigned_integer;
   tmp &= ~mask;
   tmp |= bits;
-  e->Data.value_data.unsigned_integer = tmp;
-  TraceValue("post:0x%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:0x%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -732,12 +732,12 @@ static hash_value_type get_value_attack_success(dhtElement const *e,
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  data_type const result = (((data_type)e->Data.value_data.unsigned_integer) & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void const *)&e->Data.value_data.unsigned_integer);
-  TraceValue("%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p",(void const *)&e->Data.unsigned_integer);
+  TraceValue("%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -751,12 +751,12 @@ static hash_value_type get_value_attack_nosuccess(dhtElement const *e,
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  data_type const result = (((data_type)e->Data.value_data.unsigned_integer) & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void const *)&e->Data.value_data.unsigned_integer);
-  TraceValue("%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p",(void const *)&e->Data.unsigned_integer);
+  TraceValue("%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -770,13 +770,13 @@ static hash_value_type get_value_help(dhtElement const *e,
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const  mask = slice_properties[si].u.h.maskNoSucc;
-  data_type const result = (((data_type)e->Data.value_data.unsigned_integer) & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void const *)&e->Data.value_data.unsigned_integer);
-  TraceValue("0x%08x",(unsigned int)(data_type)e->Data.value_data.unsigned_integer);
+  TraceValue("%p ",(void const *)&e->Data.unsigned_integer);
+  TraceValue("0x%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -1793,7 +1793,7 @@ static void inithash(slice_index si)
 
   init_slice_properties(si);
 
-  template_element.Data.value_data.unsigned_integer = 0;
+  template_element.Data.unsigned_integer = 0;
   init_elements(&template_element);
 
   is_table_uncompressed = true;     /* V3.60  TLi */
@@ -2190,7 +2190,7 @@ static void addtohash_battle_nosuccess(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  hb.key_data.object_pointer = &hashBuffers[nbply];
+  hb.value.object_pointer = &hashBuffers[nbply];
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
@@ -2230,7 +2230,7 @@ static void addtohash_battle_success(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  hb.key_data.object_pointer = &hashBuffers[nbply];
+  hb.value.object_pointer = &hashBuffers[nbply];
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
@@ -2313,7 +2313,7 @@ void attack_hashed_tester_solve(slice_index si)
 
   (*encode)(min_length,validity_value);
 
-  k.key_data.object_pointer = &hashBuffers[nbply];
+  k.value.object_pointer = &hashBuffers[nbply];
   he = dhtLookupElement(pyhash,k);
   if (he==dhtNilElement)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
@@ -2383,7 +2383,7 @@ static boolean inhash_help(slice_index si)
 
   ifHASHRATE(use_all++);
 
-  hb.key_data.object_pointer = &hashBuffers[nbply];
+  hb.value.object_pointer = &hashBuffers[nbply];
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
@@ -2414,7 +2414,7 @@ static void addtohash_help(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  hb.key_data.object_pointer = &hashBuffers[nbply];
+  hb.value.object_pointer = &hashBuffers[nbply];
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     he = allocDHTelement(hb);

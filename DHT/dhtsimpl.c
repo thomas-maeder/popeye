@@ -31,19 +31,19 @@
     b -= c; b -= a; b ^= (a<<18);               \
     c -= a; c -= b; c ^= (b>>22);               \
   }
-static unsigned long ConvertSimpleValue(dhtKey v)
+static unsigned long ConvertSimpleValue(dhtKey k)
 {
   unsigned long a, b, c;
   c = 0x9e3779b97f4a7c13LL;
-  a = v.unsigned_integer<<1;
-  b = v.unsigned_integer;
+  a = k.value.unsigned_integer<<1;
+  b = k.value.unsigned_integer;
   mix(a,b,c);
   return c;
 }
 #else
 static unsigned long ConvertSimpleValue(dhtKey k)
 {
-  unsigned long c = k.key_data.unsigned_integer;
+  unsigned long c = k.value.unsigned_integer;
   unsigned long a = 0;
   unsigned long b = 0x9e3779b9U;
   a -= c;
@@ -62,22 +62,22 @@ static unsigned long ConvertSimpleValue(dhtKey k)
 
 static int EqualSimpleValue(dhtKey k1, dhtKey k2)
 {
-  return (k1.key_data.unsigned_integer == k2.key_data.unsigned_integer);
+  return (k1.value.unsigned_integer == k2.value.unsigned_integer);
 }
 
-static int DupSimpleValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
+static int DupSimpleValue(dhtValue kv, dhtValue *output)
 {
   assert(!!output);
   output->unsigned_integer = kv.unsigned_integer;
   return 0;
 }
 
-static void FreeSimpleValue(dhtKeyOrValue kv)
+static void FreeSimpleValue(dhtValue kv)
 {
   (void)kv;
 }
 
-static void DumpSimpleValue(dhtKeyOrValue kv, FILE *f)
+static void DumpSimpleValue(dhtValue kv, FILE *f)
 {
   assert(!!f);
   fprintf(f, "%08lx", (unsigned long)kv.unsigned_integer);

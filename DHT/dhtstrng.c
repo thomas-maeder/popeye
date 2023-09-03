@@ -24,7 +24,7 @@ static dhtHashValue ConvertString(dhtKey k)
      *	  - independent from word sizes
      *	  - needs no initialisation
      */
-    unsigned char const *s= (unsigned char const *)k.key_data.object_pointer;
+    unsigned char const *s= (unsigned char const *)k.value.object_pointer;
     unsigned long hash;
     assert(!!s);
     hash= 0;
@@ -41,13 +41,13 @@ static dhtHashValue ConvertString(dhtKey k)
 
 static int EqualString(dhtKey v1, dhtKey v2)
 {
-	char const *s1= (char const *)v1.key_data.object_pointer;
-	char const *s2= (char const *)v2.key_data.object_pointer;
+	char const *s1= (char const *)v1.value.object_pointer;
+	char const *s2= (char const *)v2.value.object_pointer;
 	assert(s1 && s2);
 	return !strcmp(s1, s2);
 }
 
-static int	DupString(dhtKeyOrValue v, dhtKeyOrValue *output)
+static int	DupString(dhtValue v, dhtValue *output)
 {
 	char *nv;
 	assert(!!output);
@@ -61,13 +61,13 @@ static int	DupString(dhtKeyOrValue v, dhtKeyOrValue *output)
 	}
 	return 1;
 }
-static void	FreeString(dhtKeyOrValue v)
+static void	FreeString(dhtValue v)
 {
 	char *s= (char *)v.object_pointer;
 	if (s)
 		fxfFree(s, strlen(s)+1);
 }
-static void	DumpString(dhtKeyOrValue v, FILE *f)
+static void	DumpString(dhtValue v, FILE *f)
 {
 	char const *s= (char const *)v.object_pointer;
 	assert(s && f);

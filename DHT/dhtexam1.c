@@ -196,17 +196,17 @@ int main(int argc, char *argv[]) {
 		*/
 		InetAddr= *(uLong *)h; 
 
-		k.key_data.object_pointer = HostName;
+		k.value.object_pointer = HostName;
 		if (dhtLookupElement(NameToInet, k)) {
 			fprintf(stderr, "Hostname %s already entered\n", host->h_name);
 		}
-		v.value_data.unsigned_integer = InetAddr;
+		v.unsigned_integer = InetAddr;
 		dhtEnterElement(NameToInet, k, v);
-		k.key_data.unsigned_integer = InetAddr; 
+		k.value.unsigned_integer = InetAddr; 
 		if (dhtLookupElement(InetToName, k)) {
 			fprintf(stderr, "InetAddr 0x%08lx already entered\n", InetAddr);
 		}
-		v.value_data.object_pointer = HostName;
+		v.object_pointer = HostName;
 		dhtEnterElement(InetToName, k, v);
 	}
 #if defined(FXF)
@@ -245,35 +245,35 @@ int main(int argc, char *argv[]) {
 
 	he= dhtGetFirstElement(NameToInet);
 	while (he) {
-		uLong adr= (uLong)he->Data.value_data.unsigned_integer;
+		uLong adr= (uLong)he->Data.unsigned_integer;
 		char *Name;
 #if defined(USE_MEMVAL)
 		strncpy(str,
-		  (char *)((MemVal *)he->Key.object_pointer)->Data,
-		  ((MemVal *)he->Key.object_pointer)->Leng);
-		str[((MemVal *)he->Key.object_pointer)->Leng]='\0';
+		  (char *)((MemVal *)he->Key.value.object_pointer)->Data,
+		  ((MemVal *)he->Key.value.object_pointer)->Leng);
+		str[((MemVal *)he->Key.value.object_pointer)->Leng]='\0';
 		Name= str;
 #else
-		Name= (char *)he->Key.key_data.object_pointer;
+		Name= (char *)he->Key.value.object_pointer;
 #endif /*USE_MEMVAL*/
 		printf("%3u.%3u.%3u.%3u = %s   ", BYT(adr), BYT(adr>>8),
 			BYT(adr>>16), BYT(adr>>24), Name);
 
 		dhtRemoveElement(NameToInet, he->Key);
-		k.key_data = he->Data.value_data;
+		k.value = he->Data;
 		dhtRemoveElement(InetToName, k);
 		printf("   Deleting and checking consistency (Load=%lu... ", dhtKeyCount(NameToInet));
 		i=0;
 		hhe= dhtGetFirstElement(NameToInet);
 		fputs("    ", stdout); fflush(stdout);
 		while (hhe) {
-			k.key_data = hhe->Data.value_data;
+			k.value = hhe->Data;
 			dhtElement *he1= dhtLookupElement(InetToName, k);
-			if (strcmp((char *)he1->Data.value_data.object_pointer, (char *)hhe->Key.key_data.object_pointer) != 0) {
+			if (strcmp((char const *)he1->Data.object_pointer, (char const *)hhe->Key.value.object_pointer) != 0) {
 				puts("\nSorry, Mismatch");
 				exit(1);
 			}
-			if (he1->Key.key_data.unsigned_integer != hhe->Data.value_data.unsigned_integer) {
+			if (he1->Key.value.unsigned_integer != hhe->Data.unsigned_integer) {
 				puts("\nSorry, Mismatch");
 				exit(2);
 			}

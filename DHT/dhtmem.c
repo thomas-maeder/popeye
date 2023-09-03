@@ -26,7 +26,7 @@ typedef unsigned char uChar;
 
 static dhtHashValue HashMemoryValue(dhtKey k)
 {
-  MemVal const * toBeHashed = (MemVal const *)k.key_data.object_pointer;
+  MemVal const * toBeHashed = (MemVal const *)k.value.object_pointer;
   assert(!!toBeHashed);
   assert(toBeHashed->Data || !toBeHashed->Leng);
   uLong leng= toBeHashed->Leng;
@@ -45,8 +45,8 @@ static dhtHashValue HashMemoryValue(dhtKey k)
 }
 static int EqualMemoryValue(dhtKey v1, dhtKey v2)
 {
-  MemVal const * value1 = (MemVal const *)v1.key_data.object_pointer;
-  MemVal const * value2 = (MemVal const *)v2.key_data.object_pointer;
+  MemVal const * value1 = (MemVal const *)v1.value.object_pointer;
+  MemVal const * value2 = (MemVal const *)v2.value.object_pointer;
 
   assert(value1 && value2);
   assert(value1->Data || !value1->Leng);
@@ -57,7 +57,7 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
     return 1;
   return !memcmp(value1->Data, value2->Data, value1->Leng*sizeof value1->Data[0]);
 }
-static int DupMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
+static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
   MemVal const *v= (MemVal const *)kv.object_pointer;
   MemVal *mv;
@@ -83,7 +83,7 @@ static int DupMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
   }
   return 1;
 }
-static void	FreeMemoryValue(dhtKeyOrValue kv)
+static void	FreeMemoryValue(dhtValue kv)
 {
   MemVal *v= (MemVal *)kv.object_pointer;
   if (v) {
@@ -91,7 +91,7 @@ static void	FreeMemoryValue(dhtKeyOrValue kv)
     fxfFree(v, sizeof *v);
   }
 }
-static void	DumpMemoryValue(dhtKeyOrValue kv, FILE *f) {
+static void	DumpMemoryValue(dhtValue kv, FILE *f) {
   MemVal const * v= (MemVal *)kv.object_pointer;
   uLong i;
   assert(v && f);

@@ -374,7 +374,7 @@ void *fxfAlloc(size_t size) {
   static char const * const myname= "fxfAlloc";
 #endif
   SizeHead *sh;
-  char *ptr;
+  char *ptr= Nil(char);
 
   TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));

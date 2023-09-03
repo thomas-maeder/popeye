@@ -90,24 +90,20 @@ typedef union {
 	char character;
 	void (*function_pointer)(void);
 	long double floating_point;
-} dhtKeyOrValue;
-
-typedef struct {
-	dhtKeyOrValue key_data;
-} dhtKey;
-
-typedef struct {
-	dhtKeyOrValue value_data;
 } dhtValue;
+
+typedef struct {
+	dhtValue value;
+} dhtKey;
 
 typedef unsigned long dhtHashValue;
 
 typedef struct {
     dhtHashValue	(*Hash)(dhtKey);
 	int				(*Equal)(dhtKey, dhtKey);
-	int				(*Dup)(dhtKeyOrValue, dhtKeyOrValue *); // should return 0 on success (and store the copied value at the second argument) and nonzero on error
-	void			(*Free)(dhtKeyOrValue);
-	void			(*Dump)(dhtKeyOrValue, FILE *);
+	int				(*Dup)(dhtValue, dhtValue *); // should return 0 on success (and store the copied value at the second argument) and nonzero on error
+	void			(*Free)(dhtValue);
+	void			(*Dump)(dhtValue, FILE *);
 } dhtValueProcedures;
 
 #if defined(REGISTER_SIMPLE)

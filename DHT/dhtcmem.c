@@ -25,7 +25,7 @@ typedef unsigned char uChar;
 
 static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
-  CompactMemVal const * const toBeConverted = (CompactMemVal const *)m.key_data.object_pointer;
+  CompactMemVal const * const toBeConverted = (CompactMemVal const *)m.value.object_pointer;
   uLong leng;
   uChar const *s;
   assert(!!toBeConverted);
@@ -46,15 +46,15 @@ static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 
 static int EqualCompactMemoryValue(dhtKey v1, dhtKey v2)
 {
-  CompactMemVal const * const value1 = (CompactMemVal const *)v1.key_data.object_pointer;
-  CompactMemVal const * const value2 = (CompactMemVal const *)v2.key_data.object_pointer;
+  CompactMemVal const * const value1 = (CompactMemVal const *)v1.value.object_pointer;
+  CompactMemVal const * const value2 = (CompactMemVal const *)v2.value.object_pointer;
   assert(value1 && value2);
   if (value1->Leng != value2->Leng)
     return 0;
   return !memcmp(value1->Data, value2->Data, value1->Leng*sizeof value1->Data[0]);
 }
 
-static int DupCompactMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
+static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
 {
   CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
@@ -88,7 +88,7 @@ static int DupCompactMemoryValue(dhtKeyOrValue kv, dhtKeyOrValue *output)
   return 1;
 }
 
-static void FreeCompactMemoryValue(dhtKeyOrValue kv)
+static void FreeCompactMemoryValue(dhtValue kv)
 {
   CompactMemVal *v = (CompactMemVal *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
@@ -110,7 +110,7 @@ static void FreeCompactMemoryValue(dhtKeyOrValue kv)
   }
 }
 
-static void DumpCompactMemoryValue(dhtKeyOrValue kv, FILE *f)
+static void DumpCompactMemoryValue(dhtValue kv, FILE *f)
 {
   CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
   uLong i;
