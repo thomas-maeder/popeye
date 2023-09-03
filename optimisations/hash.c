@@ -631,7 +631,7 @@ static void init_slice_properties(slice_index si)
 /* Pseudo hash table element - template for fast initialization of
  * newly created actual table elements
  */
-static dhtElement template_element = {0};
+static dhtElement template_element;
 
 
 static void set_value_attack_nosuccess(dhtElement *e,
