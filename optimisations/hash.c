@@ -1769,7 +1769,8 @@ static boolean is_proofgame(slice_index si)
  */
 boolean is_hashtable_allocated(void)
 {
-  return fxfInitialised();
+  return !!fxfInitialised(); /* !! just in case fxfInitialised returns a nonzero value other than 1
+                                and boolean is some type that won't automatically convert it to 1. */
 }
 
 /* Initialise the hashing machinery for the current stipulation
