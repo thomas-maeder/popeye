@@ -148,6 +148,10 @@ static hash_value_type minimalElementValueAfterCompression;
 static unsigned int nr_hash_slices;
 static slice_index hash_slices[max_nr_slices];
 
+enum {
+  NUM_ELEMENTS_IN_HASHBUFFER = ((sizeof(HashBuffer) - offsetof(BCMemValue, Data))/sizeof(byte)),
+  ENSURE_HASHBUFFER_DATA_HAS_AT_LEAST_NR_ROWS_ON_BOARD_ENTRIES = 1/(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board)
+};
 
 HashBuffer hashBuffers[maxply+1];
 
@@ -1192,7 +1196,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   byte *bp = position+nr_rows_on_board;
 
   /* clear the bits for storing the position of pieces */
-  memset(position, 0, nr_rows_on_board);
+  memset(position, 0, nr_rows_on_board * sizeof *position);
 
   {
     boolean even = false;
@@ -1512,7 +1516,7 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionParamListEnd();
 
   /* clear the bits for storing the position of pieces */
-  memset(position,0,nr_rows_on_board);
+  memset(position,0,nr_rows_on_board * sizeof *position);
 
   for (row=0; row<nr_rows_on_board; row++, a_square+= onerow)
   {
