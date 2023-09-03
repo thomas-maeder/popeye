@@ -121,13 +121,13 @@ static void FreeBCMemValue(dhtValue kv)
 static void DumpBCMemValue(dhtValue kv, FILE *f)
 {
   BCMemValue const *toBeDumped = (BCMemValue const *)kv.object_pointer;
-  int length;
-  int i;
+  unsigned int length;
+  unsigned int i;
 
   assert(toBeDumped && f);
 
   length = toBeDumped->Leng;
-  fprintf(f, "(%d)", length);
+  fprintf(f, "(%u)", length);
   for (i=0; i<length; i++)
     fprintf(f, "%02x", (toBeDumped->Data[i] & 0xffU));
 }
