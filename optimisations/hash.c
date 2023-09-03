@@ -148,7 +148,8 @@ static hash_value_type minimalElementValueAfterCompression;
 static unsigned int nr_hash_slices;
 static slice_index hash_slices[max_nr_slices];
 
-enum {
+enum
+{
   NUM_ELEMENTS_IN_HASHBUFFER = ((sizeof(HashBuffer) - offsetof(BCMemValue, Data))/sizeof(byte)),
   ENSURE_HASHBUFFER_DATA_HAS_AT_LEAST_NR_ROWS_ON_BOARD_ENTRIES = 1/(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board)
 };
