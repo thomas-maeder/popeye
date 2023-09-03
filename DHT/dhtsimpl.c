@@ -33,8 +33,13 @@
   }
 static unsigned long ConvertSimpleValue(dhtKey k)
 {
+#  if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
   unsigned long long a, b, c;
   c = 0x9e3779b97f4a7c13LLU;
+#  else
+  unsigned long a, b, c;
+  c = 0x9e3779b97f4a7c13LU;
+#  endif
   a = k.value.unsigned_integer<<1;
   b = k.value.unsigned_integer;
   mix(a,b,c);
