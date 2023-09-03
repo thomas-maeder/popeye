@@ -4,7 +4,7 @@
  *  Institut fuer Informatik, TU Muenchen, Germany  
  *  bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 #include "debugging/assert.h"
