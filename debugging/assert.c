@@ -25,7 +25,7 @@ void assert_impl(char const *assertion, const char *file, int line)
 #if !defined(NDEBUG)
 
 #ifdef __CYGWIN__
-  __assert(assertion,line,file);
+  __assert(file,line,assertion);
 #else
 #    if defined(_WIN32) || defined(_WIN64)
   /* why can't these guys do anything in a standard conforming way??? */
