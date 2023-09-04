@@ -29,15 +29,16 @@ typedef unsigned char byte;
 enum
 {
   MAX_LENGTH_OF_ENCODING = (((nr_rows_on_board * nr_files_on_board) + underworld_capacity) * 6) +
-			                     19 + maxinum + maxply,
-  hashbuf_padding = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) -
-                    (sizeof(BCMemValue) - offsetof(BCMemValue, Data))
+			                     18 + maxinum + (1 + maxply),
+/* MAX_LENGTH_OF_ENCODING = (((nr_rows_on_board * nr_files_on_board) + underworld_capacity) * 6) +
+	                          18 + maxinum + (en_passant_top[nbply] - en_passant_top[nbply-1]), */
+  hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
 };
 
-typedef struct
+typedef union
 {
     BCMemValue cmv;
-    byte cmv_Data_padding[hashbuf_padding];
+    byte buffer[hashbuf_length];
 } HashBuffer;
 
 extern HashBuffer hashBuffers[maxply+1];
