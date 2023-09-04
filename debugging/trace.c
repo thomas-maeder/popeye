@@ -473,7 +473,7 @@ void TraceCurrentHashBuffer(void)
     HashBuffer const *hb = &hashBuffers[nbply];
     unsigned int i;
 
-    printf(" #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
+    printf(" #%lu nbply:%u Leng:%u ",level,nbply,(unsigned int)hb->cmv.Leng);
     for (i = 0; i<hb->cmv.Leng; ++i)
       printf("%02x ",(unsigned int)hb->cmv.Data[i]);
     putchar('\n');
