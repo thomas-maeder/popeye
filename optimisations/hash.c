@@ -1190,13 +1190,6 @@ static void ProofLargeEncodePiece(byte **bp,
   ++*bp;
 }
 
-#define SIGNAL_OUT_OF_ROOM_IN_HASHBUFFER do { \
-                                           fprintf(stderr, "Internal Popeye limit reached in function %s in file %s.", __func__, __FILE__); \
-                                           fputs("Please share with the developers so this limit can be increased or potentially eliminated.\n", stderr) \
-                                           fputs("Computation is now aborting.\n", stderr); \
-                                           exit(1); \
-                                         } while (0)
-
 static byte *SmallEncodePiece(byte *bp,
                               int row, int col,
                               piece_walk_type pienam, Flags pspec)
