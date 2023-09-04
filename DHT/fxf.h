@@ -2,6 +2,7 @@
 #define FXF_H
 
 #include <stddef.h>
+#include <stdio.h>
 
 size_t fxfInit(size_t Size); /* returns the number of bytes actually allocated */
 int fxfInitialised(void);
