@@ -1251,7 +1251,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp-hb->cmv.Data);
 }
 
@@ -1552,7 +1552,7 @@ static void LargeEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
@@ -1616,7 +1616,7 @@ static void SmallEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=USHRT_MAX);
+  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);
