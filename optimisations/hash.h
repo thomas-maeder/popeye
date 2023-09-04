@@ -29,7 +29,7 @@ typedef unsigned char byte;
 enum
 {
   MAX_LENGTH_OF_ENCODING = (((nr_rows_on_board * nr_files_on_board) + underworld_capacity) * 6) +
-			                     18 + maxinum + (1 + maxply),
+			                     18 + maxinum + nr_rows_on_board + (1 + maxply),
 /* MAX_LENGTH_OF_ENCODING = (((nr_rows_on_board * nr_files_on_board) + underworld_capacity) * 6) +
 	                          18 + maxinum + (en_passant_top[nbply] - en_passant_top[nbply-1]), */
   hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
