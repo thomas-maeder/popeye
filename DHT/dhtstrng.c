@@ -58,12 +58,14 @@ static int	DupString(dhtValue v, dhtValue *output)
 		return 0;
 	}
 	len = strlen(original);
-	assert(len < ((size_t)-1));
-	nv= (char *)fxfAlloc(len+1);
-	if (nv) {
-		memcpy(nv, original, len+1);
-		output->object_pointer = nv;
-		return 0;
+	if (len < ((size_t)-1)) {
+  	    nv= (char *)fxfAlloc(len+1);
+	    if (nv) {
+		    memcpy(nv, original, len);
+			nv[len] = '\0';
+		    output->object_pointer = nv;
+		    return 0;
+		}
 	}
 	return 1;
 }

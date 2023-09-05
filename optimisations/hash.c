@@ -1328,6 +1328,14 @@ static byte *CommonEncode(byte *bp,
   return bp;
 } /* CommonEncode */
 
+#define SIGNAL_HASHBUFFER_OVERFLOW do { \
+                                       fprintf(stderr, "ERROR: HashBuffer overflow detected in function %s in %s\n" \
+                                                       "This is an internal limit of Popeye.\n" \
+                                                       "Please notify the developers so this limit can be raised or potentially eliminated.\n" \
+                                                       "Popeye will now abort.\n", __func__, __FILE__); \
+                                       abort(); \
+                                   } while (0)
+
 static void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
@@ -1382,7 +1390,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
+  if ((bp - hb->cmv.Data) > MAX_LENGTH_OF_ENCODING)
+    SIGNAL_HASHBUFFER_OVERFLOW;
   hb->cmv.Leng = (bp-hb->cmv.Data);
 }
 
@@ -1563,7 +1572,8 @@ static void LargeEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
+  if ((bp - hb->cmv.Data) > MAX_LENGTH_OF_ENCODING)
+    SIGNAL_HASHBUFFER_OVERFLOW;
   hb->cmv.Leng = bp-hb->cmv.Data;
 
   TraceFunctionExit(__func__);
@@ -1609,7 +1619,8 @@ static void SmallEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=MAX_LENGTH_OF_ENCODING);
+  if ((bp - hb->cmv.Data) > MAX_LENGTH_OF_ENCODING)
+    SIGNAL_HASHBUFFER_OVERFLOW;
   hb->cmv.Leng = (bp-hb->cmv.Data);
 
   TraceFunctionExit(__func__);

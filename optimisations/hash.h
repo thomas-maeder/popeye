@@ -105,6 +105,7 @@ typedef unsigned char byte;
    let the compiler perform the arithmetic.
 */
 
+#if 0
 enum {
   MAX_EN_PASSANT_TOP_DIFFERENCE = maxply + 1, // TODO: Improve this!
   COMMONENCODE_MAX =   16
@@ -135,6 +136,14 @@ enum
   ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX),
   hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
 };
+#else
+enum
+{
+  hashbuf_length = 256,
+  MAX_LENGTH_OF_ENCODING = (hashbuf_length - offsetof(BCMemValue, Data))/sizeof(byte),
+  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX),
+};
+#endif
 
 typedef union
 {
