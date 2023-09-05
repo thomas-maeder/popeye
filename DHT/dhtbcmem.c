@@ -53,7 +53,7 @@ static int EqualBCMemValue(dhtKey v1, dhtKey v2)
   BCMemValue const * const value1 = (BCMemValue const *)v1.value.object_pointer;
   BCMemValue const * const value2 = (BCMemValue const *)v2.value.object_pointer;
   unsigned int length;
-  assert(value1 && value2)
+  assert(value1 && value2);
   
   length = value1->Leng;
   if (length != value2->Leng)
@@ -71,7 +71,12 @@ static int DupBCMemValue(dhtValue kv, dhtValue *output)
   unsigned short length;
   size_t size = sizeof *original;
 
-  assert(!!original);
+  assert(!!output);
+  if (!original)
+  {
+    output->object_pointer = NULL;
+    return 0;
+  }
 
   length = original->Leng;
   if (length > (num_bytes_in_Data / size_of_element))

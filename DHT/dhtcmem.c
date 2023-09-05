@@ -63,7 +63,12 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
   CompactMemVal *result;
   uLong length;
 
-  assert(!!v);
+  assert(!!output);
+  if (!v)
+  {
+    output->object_pointer = NilCompactMemVal;
+    return 0;
+  }
 
   length = v->Leng;
   if (length > (num_bytes_in_Data / size_of_element))

@@ -55,13 +55,18 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
     return 0;
   if (!value1->Leng) // avoid the potential undefined behavior of using memcmp on NULL pointers
     return 1;
+  assert(value1->Leng <= (((size_t)-1)/sizeof value1->Data[0]));
   return !memcmp(value1->Data, value2->Data, value1->Leng*sizeof value1->Data[0]);
 }
 static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
   MemVal const *v= (MemVal const *)kv.object_pointer;
   MemVal *mv;
-  assert(!!v);
+  assert(!!output);
+  if (!v) {
+    output->object_pointer = NilMemVal;
+    return 0;
+  }
   mv= NewMemVal;
   if (mv) {
     mv->Leng= v->Leng;

@@ -73,7 +73,7 @@ static int EqualSimpleValue(dhtKey k1, dhtKey k2)
 static int DupSimpleValue(dhtValue kv, dhtValue *output)
 {
   assert(!!output);
-  output->unsigned_integer = kv.unsigned_integer;
+  *output = kv;
   return 0;
 }
 
@@ -85,9 +85,8 @@ static void FreeSimpleValue(dhtValue kv)
 static void DumpSimpleValue(dhtValue kv, FILE *f)
 {
   assert(!!f);
-  fprintf(f, "%08lx", (unsigned long)kv.unsigned_integer);
+  fprintf(f, "%08jx", kv.unsigned_integer);
 }
-
 
 dhtValueProcedures dhtSimpleProcs =
 {

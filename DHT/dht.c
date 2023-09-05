@@ -804,7 +804,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",(unsigned long long)key.value.unsigned_integer);
+  TraceFunctionParam("%jx",key.value.unsigned_integer);
 #else
   TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
 #endif
@@ -839,7 +839,7 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",(unsigned long long)key.value.unsigned_integer);
+  TraceFunctionParam("%jx",key.value.unsigned_integer);
 #else
   TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
 #endif
@@ -894,8 +894,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",(unsigned long long)key.value.unsigned_integer);
-  TraceFunctionParam("%jx",(unsigned long long)data.unsigned_integer);
+  TraceFunctionParam("%jx",key.value.unsigned_integer);
+  TraceFunctionParam("%jx",data.unsigned_integer);
 #else
   TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
   TraceFunctionParam("%lx",(unsigned long)data.unsigned_integer);

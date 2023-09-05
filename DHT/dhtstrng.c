@@ -19,7 +19,7 @@ static dhtHashValue ConvertString(dhtKey k)
 {
     /* I found this hash function on 
      *   http://ourworld.compuserve.com/homepages/bob_jenkins/doobs.htm
-     * There are other functions, but this one is has some advantages:
+     * There are other functions, but this one has some advantages:
      *    - it's small
      *	  - independent from word sizes
      *	  - needs no initialisation
@@ -50,12 +50,18 @@ static int EqualString(dhtKey v1, dhtKey v2)
 static int	DupString(dhtValue v, dhtValue *output)
 {
 	char *nv;
-	assert(!!output);
+	size_t len;
 	char const *original= (char const *)v.object_pointer;
-	assert(!!original);
-	nv= (char *)fxfAlloc(strlen(original)+1);
+	assert(!!output);
+	if (!original) {
+		output->object_pointer = NULL;
+		return 0;
+	}
+	len = strlen(original);
+	assert(len < ((size_t)-1));
+	nv= (char *)fxfAlloc(len+1);
 	if (nv) {
-		strcpy(nv, original);
+		memcpy(nv, original, len+1);
 		output->object_pointer = nv;
 		return 0;
 	}
@@ -65,7 +71,11 @@ static void	FreeString(dhtValue v)
 {
 	char *s= (char *)v.object_pointer;
 	if (s)
-		fxfFree(s, strlen(s)+1);
+	{
+		size_t const len = strlen(s);
+		assert(len < ((size_t)-1));
+		fxfFree(s, len+1);
+	}
 }
 static void	DumpString(dhtValue v, FILE *f)
 {
