@@ -34,9 +34,9 @@ static dhtHashValue HashMemoryValue(dhtKey k)
   dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
-	hash+= s[i];
-	hash+= hash << 10;
-	hash^= hash >> 6;
+    hash+= s[i];
+    hash+= hash << 10;
+    hash^= hash >> 6;
   }
   hash+= hash << 3;
   hash^= hash >> 11;
@@ -88,7 +88,7 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   }
   return 1;
 }
-static void	FreeMemoryValue(dhtValue kv)
+static void FreeMemoryValue(dhtValue kv)
 {
   MemVal *v= (MemVal *)kv.object_pointer;
   if (v) {
@@ -96,7 +96,7 @@ static void	FreeMemoryValue(dhtValue kv)
     fxfFree(v, sizeof *v);
   }
 }
-static void	DumpMemoryValue(dhtValue kv, FILE *f) {
+static void DumpMemoryValue(dhtValue kv, FILE *f) {
   MemVal const * v= (MemVal *)kv.object_pointer;
   uLong i;
   assert(v && f);

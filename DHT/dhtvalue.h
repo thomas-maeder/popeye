@@ -66,33 +66,33 @@ extern char const *dhtValueTypeToString[dhtValueTypeCnt];
 typedef union {
 #ifdef __cplusplus
 #    if __cplusplus >= 201103L
-	::std::uintmax_t unsigned_integer;
-	::std::intmax_t signed_integer;
+    ::std::uintmax_t unsigned_integer;
+    ::std::intmax_t signed_integer;
 #    else
     unsigned long int unsigned_integer;
-	long int signed_integer;
+    long int signed_integer;
 #    endif
     bool boolean;
      ::std::sig_atomic_t atomic_integer;
 #else
 #    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-	uintmax_t unsigned_integer;
-	intmax_t signed_integer;
-	_Bool boolean;
+    uintmax_t unsigned_integer;
+    intmax_t signed_integer;
+    _Bool boolean;
 #    else
     unsigned long int unsigned_integer;
-	long int signed_integer;
-	int boolean; // What else?
+    long int signed_integer;
+    int boolean; // What else?
 #    endif
     sig_atomic_t atomic_integer;
 #endif
     const volatile void * object_pointer;
-	char character;
-	void (*function_pointer)(void);
+    char character;
+    void (*function_pointer)(void);
 
 /* fxfAlloc can't currently handle the alignment requirements of long double.
    TODO: Update fxfAlloc so this isn't a concern. */
-//	long double floating_point; 
+//      long double floating_point; 
 } dhtValue;
 
 typedef struct {
@@ -102,7 +102,7 @@ typedef struct {
 typedef unsigned long dhtHashValue;
 
 typedef struct {
-    dhtHashValue	(*Hash)(dhtKey);
+	dhtHashValue	(*Hash)(dhtKey);
 	int				(*Equal)(dhtKey, dhtKey);
 	int				(*Dup)(dhtValue, dhtValue *); // should return 0 on success (and store the copied value at the second argument) and nonzero on error
 	void			(*Free)(dhtValue);

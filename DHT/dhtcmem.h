@@ -14,8 +14,8 @@
  * It is allocated via one malloc call.
  */
 typedef struct CompactMemVal {
-	unsigned long	Leng;
-	unsigned char	Data[1];
+	unsigned long Leng;
+	unsigned char Data[1];
 } CompactMemVal;
 #define NilCompactMemVal	((CompactMemVal *)0)
 #define NewCompactMemVal(n)	((CompactMemVal *)fxfAlloc(sizeof(CompactMemVal)+(n)*sizeof(uChar)))

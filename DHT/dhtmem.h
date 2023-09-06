@@ -16,8 +16,8 @@
  * hash-table is needed.
  */
 typedef struct MemVal {
-	unsigned long	Leng;
-	unsigned char	*Data;
+	unsigned long  Leng;
+	unsigned char *Data;
 } MemVal;
 #define NilMemVal	((MemVal *)0)
 #define NewMemVal	((MemVal *)fxfAlloc(sizeof(MemVal)))

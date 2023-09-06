@@ -16,8 +16,8 @@
  */
 
 typedef struct BCMemValue {
-	unsigned short	Leng;
-	unsigned char	Data[1];
+	unsigned short Leng;
+	unsigned char  Data[1];
 } BCMemValue;
 
 #endif /*DHTBCMEM_INCLUDED*/
