@@ -33,15 +33,15 @@ typedef unsigned char byte;
    - ProofEncode <=   nr_rows_on_board
                     + "num nonempty squares (found by looping over nr_rows_on_board and nr_files_on_board)" * max(ProofLargeEncodePiece, ProofSmallEncodePiece)
                     + 1
-			              + nr_ghosts * SmallEncodePiece
-			              + CommonEncode
+                    + nr_ghosts * SmallEncodePiece
+                    + CommonEncode
    - LargeEncode =   nr_rows_on_board
                    + "num nonempty squares (found by looping over nr_rows_on_board and nr_files_on_board)" * LargeEncodePiece
                    + nr_ghosts * LargeEncodePiece
-			             + CommonEncode
+                   + CommonEncode
    - SmallEncode =   "num nonempty squares (found by looping over nr_rows_on_board and nr_files_on_board)" * SmallEncodePiece
                    + nr_ghosts * SmallEncodePiece
-					         + CommonEncode
+                   + CommonEncode
    TellLargeEncodePosLeng =   8
                             + "num nonempty squares (found by looping boardnum until 0 is found)" * bytes_per_piece
                             + (sizeof BGL_values[White] + sizeof BGL_values[Black]) * !!CondFlag[BGL]
@@ -61,12 +61,12 @@ typedef unsigned char byte;
    - LargeEncode <=   nr_rows_on_board
                     + (nr_rows_on_board * nr_files_on_board) * LargeEncodePiece
                     + nr_ghosts * LargeEncodePiece
-			              + CommonEncode
+                    + CommonEncode
    - ProofEncode <=   nr_rows_on_board
                     + (nr_rows_on_board * nr_files_on_board) * max(ProofLargeEncodePiece, ProofSmallEncodePiece)
                     + 1
-			              + nr_ghosts * SmallEncodePiece
-			              + CommonEncode
+                    + nr_ghosts * SmallEncodePiece
+                    + CommonEncode
    Meanwhile, inspection reveals that:
    - ProofLargeEncodePiece = 2
    - ProofSmallEncodePiece <= 1
@@ -88,12 +88,12 @@ typedef unsigned char byte;
    - LargeEncode <=   nr_rows_on_board
                     + (nr_rows_on_board * nr_files_on_board) * (1 + bytes_per_spec)
                     + nr_ghosts * (1 + bytes_per_spec)
-			              + CommonEncode
+                    + CommonEncode
    - ProofEncode <=   nr_rows_on_board
                     + (nr_rows_on_board * nr_files_on_board) * 2
                     + 1
-			              + nr_ghosts * (2 + bytes_per_spec)
-			              + CommonEncode
+                    + nr_ghosts * (2 + bytes_per_spec)
+                    + CommonEncode
    We need to bound the remaining non-constants.  We have
    - nr_ghosts <= underworld_capacity
    - bytes_per_spec <= 4
@@ -105,7 +105,6 @@ typedef unsigned char byte;
    let the compiler perform the arithmetic.
 */
 
-#if 0
 enum {
   MAX_EN_PASSANT_TOP_DIFFERENCE = maxply + 1, // TODO: Improve this!
   COMMONENCODE_MAX =   16
@@ -136,7 +135,10 @@ enum
   ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX),
   hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
 };
-#else
+
+#if 0
+/* Previously hashbuf_length was the below constant.
+   MAX_LENGTH_OF_ENCODING wasn't computed or used but should have been. */
 enum
 {
   hashbuf_length = 256,
