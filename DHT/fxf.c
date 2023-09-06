@@ -35,6 +35,33 @@
 #  define SIZE_T_PRINTF_SPECIFIER "lu"
 #endif
 
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#  define MAX_ALIGNMENT _Alignof(max_align_t)
+#elif (defined(__cplusplus) && (__cplusplus >= 201103L))
+#  define MAX_ALIGNMENT alignof(max_align_t)
+#else
+#  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#    include <stdint.h>
+#  endif
+union MAX_ALIGNED_TYPE {
+#  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+  uintmax_t unsigned_integer;
+#  elif defined(LLONG_MAX) /* We have long long integer types. */
+  unsigned long long int unsigned_integer;
+#  else
+  unsigned long int unsigned_integer;
+#  endif
+  const volatile void * object_pointer;
+  void (*function_pointer)(void);  
+  long double floating_point;
+};
+#  define MAX_ALIGNMENT sizeof(union MAX_ALIGNED_TYPE)
+#endif
+
+enum {
+  ENSURE_MAX_ALIGNMENT_IS_POWER_OF_TWO = 1/(!(MAX_ALIGNMENT & (MAX_ALIGNMENT - 1U)))
+};
+
 #if !defined(Nil) && !defined(New) && !defined(nNew) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
 #  define New(type)      ((type *)malloc(sizeof(type)))
@@ -68,7 +95,7 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size) {
 /* FiXed and Fast malloc, free
  * As the name tells: this code implements on top of traditional
  * malloc/realloc/free a fast version, that relies on a lot of
- * allocation/delallocation of fixed sized blocks of memory. For
+ * allocation/deallocation of fixed sized blocks of memory. For
  * each size of memory we keep a head pointer and all freed chunks
  * of memory is threaded on this list. If memory of this size
  * is requested, we drag it from the list, otherwise we carve it
@@ -80,7 +107,7 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size) {
 typedef struct {
     unsigned long  MallocCount;
     unsigned long  FreeCount;
-    char *    FreeHead;
+    void *    FreeHead;
 } SizeHead;
 
 #if defined(DOS)
@@ -360,8 +387,8 @@ void fxfReset(void)
  * SPARC, HPPA, MIPS. We wouldn't need this when running on an
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
-#define PTRMASK            (sizeof(char *)-1)
-#define ALIGNED_MINSIZE    (sizeof(char *)+PTRMASK)
+#define PTRMASK            (MAX_ALIGNMENT-1)
+#define ALIGNED_MINSIZE    (MAX_ALIGNMENT+PTRMASK)
 #define ALIGN(ptr)         (((size_t)ptr+PTRMASK) & (~PTRMASK))
 
 #define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
@@ -395,7 +422,7 @@ void *fxfAlloc(size_t size) {
 
   sh= &SizeData[size];
   if (sh->FreeHead) {
-    ptr= sh->FreeHead;
+    ptr= (char *)sh->FreeHead;
     sh->FreeHead= GetNextPtr(ptr);
     sh->FreeCount--;
     sh->MallocCount++;
@@ -474,7 +501,7 @@ void fxfFree(void *ptr, size_t size)
     }
     else {
       SetRange((char *)ptr-Arena,size);
-      *(char **)ALIGN(ptr)= sh->FreeHead;
+      *(char **)ALIGN(ptr)= (char *)sh->FreeHead;
       sh->FreeHead= ptr;
       ++sh->FreeCount;
       --sh->MallocCount;
@@ -491,7 +518,7 @@ void fxfFree(void *ptr, size_t size)
     }
     else {
       SetRange((char *)ptr-Arena,size);
-      *(char **)ptr= sh->FreeHead;
+      *(char **)ptr= (char *)sh->FreeHead;
       sh->FreeHead= ptr;
       ++sh->FreeCount;
       --sh->MallocCount;
