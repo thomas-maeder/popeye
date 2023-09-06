@@ -89,7 +89,10 @@ typedef union {
     const volatile void * object_pointer;
 	char character;
 	void (*function_pointer)(void);
-	long double floating_point;
+
+/* fxfAlloc can't currently handle the alignment requirements of long double.
+   TODO: Update fxfAlloc so this isn't a concern. */
+//	long double floating_point; 
 } dhtValue;
 
 typedef struct {
