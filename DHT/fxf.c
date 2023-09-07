@@ -389,7 +389,7 @@ void fxfReset(void)
  */
 #define PTRMASK            (MAX_ALIGNMENT-1)
 #define ALIGNED_MINSIZE    (MAX_ALIGNMENT+PTRMASK)
-#define ALIGN(ptr)         (((size_t)ptr+PTRMASK) & (~PTRMASK))
+#define ALIGN(ptr)         ((((size_t)(ptr))+PTRMASK) & (~PTRMASK))
 
 #define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
@@ -433,13 +433,17 @@ void *fxfAlloc(size_t size) {
   }
   else {
     /* we have to allocate a new piece */
-    size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
+    size_t sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
     TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
-        ptr= BotFreePtr;
-        BotFreePtr+= size;
+        char * const BotFreePtrAligned= (char *)ALIGN(BotFreePtr);
+        sizeCurrentSeg= (size_t)(TopFreePtr-BotFreePtrAligned);
+        if (sizeCurrentSeg<size)
+          goto SEGMENT_NOT_LARGE_ENOUGH;
+        ptr= BotFreePtrAligned;
+        BotFreePtr= BotFreePtrAligned+size;
       }
       else {
         /* aligned */
@@ -452,6 +456,7 @@ void *fxfAlloc(size_t size) {
     }
     else
     {
+SEGMENT_NOT_LARGE_ENOUGH:
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
         TMDBG(fputs(" next seg", stdout));
