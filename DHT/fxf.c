@@ -392,7 +392,7 @@ void fxfReset(void)
 #define ALIGN(ptr)         ((((size_t)(ptr))+PTRMASK) & (~PTRMASK))
 
 #define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
-#define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
+#define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= (ptr)
 
 #define TMDBG(x) if (0) x
 
