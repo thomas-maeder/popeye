@@ -499,8 +499,8 @@ void fxfFree(void *ptr, size_t size)
   if (size&PTRMASK) {
     /* unaligned size */
     TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
-    if ((char *)ptr+size == BotFreePtr) {
-      BotFreePtr-= size;
+    if ((char *)ALIGN((char *)ptr+size) == BotFreePtr) {
+      BotFreePtr= (char *)ptr;
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
       --sh->MallocCount;
     }
