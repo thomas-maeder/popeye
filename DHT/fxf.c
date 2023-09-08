@@ -417,6 +417,7 @@ void *fxfAlloc(size_t size) {
   if (size<fxfMINSIZE)
     size= fxfMINSIZE;
 
+  size= ALIGN_SIZE_T(size);
   if (size>fxfMAXSIZE)
   {
     ERROR_LOG3("%s: size=%" SIZE_T_PRINTF_SPECIFIER " > %" SIZE_T_PRINTF_SPECIFIER "\n",
@@ -425,7 +426,6 @@ void *fxfAlloc(size_t size) {
                (size_t_printf_type) fxfMAXSIZE);
     return Nil(char);
   }
-  size= ALIGN_SIZE_T(size);
 
   sh= &SizeData[(size/MAX_ALIGNMENT) - 1];
   if (sh->FreeHead) {
@@ -490,12 +490,12 @@ void fxfFree(void *ptr, size_t size)
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size < fxfMINSIZE)
     size= fxfMINSIZE;
+  size= ALIGN_SIZE_T(size);
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
             myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
-  size= ALIGN_SIZE_T(size);
   sh= &SizeData[(size/MAX_ALIGNMENT)-1];
   if (size&PTRMASK) {
     /* unaligned size */
