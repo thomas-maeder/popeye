@@ -54,16 +54,16 @@ static int	DupString(dhtValue v, dhtValue *output)
 	char const *original= (char const *)v.object_pointer;
 	assert(!!output);
 	if (!original) {
-		output->object_pointer = NULL;
+		output->object_pointer= NULL;
 		return 0;
 	}
-	len = strlen(original);
-	if (len < ((size_t)-1)) {
-		nv= (char *)fxfAlloc(len+1);
+	len= strlen(original);
+	if ((len < ((size_t)-1)) && !original[len]) {
+		++len;
+		nv= (char *)fxfAlloc(len);
 		if (nv) {
 			memcpy(nv, original, len);
-			nv[len] = '\0';
-			output->object_pointer = nv;
+			output->object_pointer= nv;
 			return 0;
 		}
 	}
@@ -74,7 +74,7 @@ static void	FreeString(dhtValue v)
 	char *s= (char *)v.object_pointer;
 	if (s)
 	{
-		size_t const len = strlen(s);
+		size_t const len= strlen(s);
 		assert(len < ((size_t)-1));
 		fxfFree(s, len+1);
 	}
@@ -86,7 +86,7 @@ static void	DumpString(dhtValue v, FILE *f)
 	fputs(s,f);
 }
 
-dhtValueProcedures dhtStringProcs = {
+dhtValueProcedures dhtStringProcs= {
 	ConvertString,
 	EqualString,
 	DupString,

@@ -113,7 +113,7 @@ typedef struct {
 #if defined(DOS)
 /* MSDOS 16 Bit support (maxmemory <= 1 MB) */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (32000 & ~MAX_ALIGNMENT)
+#define ARENA_SEG_SIZE  (32000 & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "MSDOS"
 #define OSMAXMEM "1 MB"
@@ -121,7 +121,7 @@ typedef struct {
 /* Win95/Win98/WinME can only allocate chunks up to 255 MB */
 /* maxmemory <= 768 MB */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (1000000 & ~MAX_ALIGNMENT)
+#define ARENA_SEG_SIZE  (1000000 & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((768*1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "Win95/Win98/WinME"
 #define OSMAXMEM "768 MB"
@@ -129,9 +129,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  (((size_t)1024) & ~MAX_ALIGNMENT)
+#define fxfMAXSIZE  (((size_t)1024) & ~(MAX_ALIGNMENT - 1U))
 #else
-#define fxfMAXSIZE  (((size_t)2048) & ~MAX_ALIGNMENT)  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  (((size_t)2048) & ~(MAX_ALIGNMENT - 1U))  /* this is needed only when sizeof(void*)==8 */
 #endif
 
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -287,7 +287,7 @@ size_t fxfInit(size_t Size) {
   if (Size < MAX_ALIGNMENT)
     Size= MAX_ALIGNMENT;
   else
-    Size&= ~MAX_ALIGNMENT;
+    Size&= ~(MAX_ALIGNMENT - 1U);
   if ((Arena=nNew(Size, char)) == Nil(char)) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
                myname, (size_t_printf_type) Size);
@@ -394,7 +394,7 @@ void fxfReset(void)
  * SPARC, HPPA, MIPS. We wouldn't need this when running on an
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
-#define PTRMASK            (MAX_ALIGNMENT-1)
+#define PTRMASK            (MAX_ALIGNMENT-1U)
 #define ALIGNED_MINSIZE    (MAX_ALIGNMENT+PTRMASK)
 #define ALIGN_SIZE_T(s)    (((s)+PTRMASK) & (~PTRMASK))
 #define ALIGN(ptr)         ((void *)ALIGN_SIZE_T((size_t)ptr))
@@ -559,8 +559,8 @@ size_t fxfTotal(void) {
   size_t i;
   for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
     if (hd->MallocCount+hd->FreeCount>0) {
-      UsedBytes+= hd->MallocCount*(i+1)*MAX_ALIGNMENT;
-      FreeBytes+= hd->FreeCount*(i+1)*MAX_ALIGNMENT;
+      UsedBytes+= hd->MallocCount*(i+1U)*MAX_ALIGNMENT;
+      FreeBytes+= hd->FreeCount*(i+1U)*MAX_ALIGNMENT;
     }
   }
 
@@ -595,11 +595,11 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount+hd->FreeCount>0) {
-        fprintf(f, "%12zu  %10lu%10lu\n", (i+1)*MAX_ALIGNMENT, hd->MallocCount, hd->FreeCount);
+        fprintf(f, "%12zu  %10lu%10lu\n", (i+1U)*MAX_ALIGNMENT, hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
-        UsedBytes+= hd->MallocCount*(i+1)*MAX_ALIGNMENT;
+        UsedBytes+= hd->MallocCount*(i+1U)*MAX_ALIGNMENT;
         nrFree+= hd->FreeCount;
-        FreeBytes+= hd->FreeCount*(i+1)*MAX_ALIGNMENT;
+        FreeBytes+= hd->FreeCount*(i+1U)*MAX_ALIGNMENT;
       }
     }
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
