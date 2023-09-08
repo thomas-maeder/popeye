@@ -113,7 +113,7 @@ typedef struct {
 #if defined(DOS)
 /* MSDOS 16 Bit support (maxmemory <= 1 MB) */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  32000
+#define ARENA_SEG_SIZE  (32000 & ~MAX_ALIGNMENT)
 #define ARENA_SEG_COUNT ((1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "MSDOS"
 #define OSMAXMEM "1 MB"
@@ -121,7 +121,7 @@ typedef struct {
 /* Win95/Win98/WinME can only allocate chunks up to 255 MB */
 /* maxmemory <= 768 MB */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  1000000
+#define ARENA_SEG_SIZE  (1000000 & ~MAX_ALIGNMENT)
 #define ARENA_SEG_COUNT ((768*1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "Win95/Win98/WinME"
 #define OSMAXMEM "768 MB"
@@ -129,9 +129,9 @@ typedef struct {
 
 /* The maximum size an fxfAlloc can handle */
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  ((size_t)1024)
+#define fxfMAXSIZE  (((size_t)1024) & ~MAX_ALIGNMENT)
 #else
-#define fxfMAXSIZE  ((size_t)2048)  /* this is needed only when sizeof(void*)==8 */
+#define fxfMAXSIZE  (((size_t)2048) & ~MAX_ALIGNMENT)  /* this is needed only when sizeof(void*)==8 */
 #endif
 
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -140,7 +140,10 @@ enum
   fxfMINSIZE = sizeof(size_t)
 };
 
-static SizeHead SizeData[fxfMAXSIZE+1];
+/* Below we'll ensure that allocation sizes are all multiples of MAX_ALIGNMENT in the range
+     [MAX_ALIGNMENT, fxfMAXSIZE].
+   If we divide by MAX_ALIGNMENT and subtract 1, we get the range 0, 1, 2, ..., fxfMAXSIZE/MAX_ALIGNMENT - 1. */
+static SizeHead SizeData[fxfMAXSIZE/MAX_ALIGNMENT];
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
@@ -281,6 +284,10 @@ size_t fxfInit(size_t Size) {
 #endif
   if (Arena)
     free(Arena);
+  if (Size < MAX_ALIGNMENT)
+    Size= MAX_ALIGNMENT;
+  else
+    Size&= ~MAX_ALIGNMENT;
   if ((Arena=nNew(Size, char)) == Nil(char)) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
                myname, (size_t_printf_type) Size);
@@ -372,8 +379,8 @@ void fxfReset(void)
 
 #if !defined(NDEBUG)
   {
-    unsigned int i;
-    for (i = 1; i<=50; ++i)
+    size_t i;
+    for (i = 0; i<(sizeof(SizeData)/sizeof(*SizeData)); ++i)
       assert(SizeData[i].MallocCount==0);
   }
 #endif
@@ -389,7 +396,8 @@ void fxfReset(void)
  */
 #define PTRMASK            (MAX_ALIGNMENT-1)
 #define ALIGNED_MINSIZE    (MAX_ALIGNMENT+PTRMASK)
-#define ALIGN(ptr)         ((((size_t)(ptr))+PTRMASK) & (~PTRMASK))
+#define ALIGN_SIZE_T(s)    (((s)+PTRMASK) & (~PTRMASK))
+#define ALIGN(ptr)         ((void *)ALIGN_SIZE_T((size_t)ptr))
 
 #define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= (ptr)
@@ -407,7 +415,7 @@ void *fxfAlloc(size_t size) {
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
 
   if (size<fxfMINSIZE)
-    size = fxfMINSIZE;
+    size= fxfMINSIZE;
 
   if (size>fxfMAXSIZE)
   {
@@ -417,10 +425,9 @@ void *fxfAlloc(size_t size) {
                (size_t_printf_type) fxfMAXSIZE);
     return Nil(char);
   }
-  if ( (size&PTRMASK) && size<ALIGNED_MINSIZE)
-    size= ALIGNED_MINSIZE;
+  size= ALIGN_SIZE_T(size);
 
-  sh= &SizeData[size];
+  sh= &SizeData[(size/MAX_ALIGNMENT) - 1];
   if (sh->FreeHead) {
     ptr= (char *)sh->FreeHead;
     sh->FreeHead= GetNextPtr(ptr);
@@ -433,17 +440,13 @@ void *fxfAlloc(size_t size) {
   }
   else {
     /* we have to allocate a new piece */
-    size_t sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
+    size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
     TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
-        char * const BotFreePtrAligned= (char *)ALIGN(BotFreePtr);
-        sizeCurrentSeg= (size_t)(TopFreePtr-BotFreePtrAligned);
-        if (sizeCurrentSeg<size)
-          goto SEGMENT_NOT_LARGE_ENOUGH;
-        ptr= BotFreePtrAligned;
-        BotFreePtr= BotFreePtrAligned+size;
+        ptr= BotFreePtr;
+        BotFreePtr+= size;
       }
       else {
         /* aligned */
@@ -456,7 +459,6 @@ void *fxfAlloc(size_t size) {
     }
     else
     {
-SEGMENT_NOT_LARGE_ENOUGH:
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
         TMDBG(fputs(" next seg", stdout));
@@ -486,16 +488,15 @@ void fxfFree(void *ptr, size_t size)
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
 #endif
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
+  if (size < fxfMINSIZE)
+    size= fxfMINSIZE;
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
             myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
-  if (size < fxfMINSIZE)
-    size= fxfMINSIZE;
-  if ((size&PTRMASK) && size<ALIGNED_MINSIZE)
-    size= ALIGNED_MINSIZE;
-  sh= &SizeData[size];
+  size= ALIGN_SIZE_T(size);
+  sh= &SizeData[(size/MAX_ALIGNMENT)-1];
   if (size&PTRMASK) {
     /* unaligned size */
     TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
