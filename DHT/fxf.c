@@ -380,7 +380,7 @@ void fxfReset(void)
 #if !defined(NDEBUG)
   {
     size_t i;
-    for (i = 0; i<(sizeof(SizeData)/sizeof(*SizeData)); ++i)
+    for (i = 0; i<((sizeof SizeData)/(sizeof *SizeData)); ++i)
       assert(SizeData[i].MallocCount==0);
   }
 #endif
@@ -417,7 +417,6 @@ void *fxfAlloc(size_t size) {
   if (size<fxfMINSIZE)
     size= fxfMINSIZE;
 
-  size= ALIGN_SIZE_T(size);
   if (size>fxfMAXSIZE)
   {
     ERROR_LOG3("%s: size=%" SIZE_T_PRINTF_SPECIFIER " > %" SIZE_T_PRINTF_SPECIFIER "\n",
@@ -426,6 +425,8 @@ void *fxfAlloc(size_t size) {
                (size_t_printf_type) fxfMAXSIZE);
     return Nil(char);
   }
+
+  size= ALIGN_SIZE_T(size);
 
   sh= &SizeData[(size/MAX_ALIGNMENT) - 1];
   if (sh->FreeHead) {
@@ -490,12 +491,12 @@ void fxfFree(void *ptr, size_t size)
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
   if (size < fxfMINSIZE)
     size= fxfMINSIZE;
-  size= ALIGN_SIZE_T(size);
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
             myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
+  size= ALIGN_SIZE_T(size);
   sh= &SizeData[(size/MAX_ALIGNMENT)-1];
   if (size&PTRMASK) {
     /* unaligned size */
@@ -555,11 +556,11 @@ size_t fxfTotal(void) {
   size_t UsedBytes = 0;
   size_t FreeBytes = 0;
 
-  unsigned int i;
-  for (i=0; i<=fxfMAXSIZE; i++,hd++) {
+  size_t i;
+  for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
     if (hd->MallocCount+hd->FreeCount>0) {
-      UsedBytes+= hd->MallocCount*i;
-      FreeBytes+= hd->FreeCount*i;
+      UsedBytes+= hd->MallocCount*(i+1)*MAX_ALIGNMENT;
+      FreeBytes+= hd->FreeCount*(i+1)*MAX_ALIGNMENT;
     }
   }
 
@@ -590,15 +591,15 @@ void fxfInfo(FILE *f) {
     size_t UsedBytes = 0;
     size_t FreeBytes = 0;
 
-    unsigned int i;
+    size_t i;
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
-    for (i=0; i<=fxfMAXSIZE; i++,hd++) {
+    for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount+hd->FreeCount>0) {
-        fprintf(f, "%12u  %10lu%10lu\n", i, hd->MallocCount, hd->FreeCount);
+        fprintf(f, "%12zu  %10lu%10lu\n", (i+1)*MAX_ALIGNMENT, hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
-        UsedBytes+= hd->MallocCount*i;
+        UsedBytes+= hd->MallocCount*(i+1)*MAX_ALIGNMENT;
         nrFree+= hd->FreeCount;
-        FreeBytes+= hd->FreeCount*i;
+        FreeBytes+= hd->FreeCount*(i+1)*MAX_ALIGNMENT;
       }
     }
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
