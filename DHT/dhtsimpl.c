@@ -85,7 +85,12 @@ static void FreeSimpleValue(dhtValue kv)
 static void DumpSimpleValue(dhtValue kv, FILE *f)
 {
   assert(!!f);
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || \
+    (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
   fprintf(f, "%08jx", kv.unsigned_integer);
+#else
+  fprintf(f, "%08lx", kv.unsigned_integer);
+#endif
 }
 
 dhtValueProcedures dhtSimpleProcs =
