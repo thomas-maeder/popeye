@@ -71,14 +71,16 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   if (mv) {
     mv->Leng= v->Leng;
     if (mv->Leng) {
-      mv->Data= (uChar *)fxfAlloc(mv->Leng);
-      if (mv->Data) {
-        memcpy(mv->Data, v->Data, mv->Leng*sizeof mv->Data[0]);
-        output->object_pointer = mv;
-        return 0;
-      } else {
-        FreeMemVal(mv);
-        return 1;
+      if (mv->Leng <= (((size_t)-1)/(sizeof mv->Data[0]))) {
+        mv->Data= (uChar *)fxfAlloc(mv->Leng*sizeof mv->Data[0]);
+        if (mv->Data) {
+          memcpy(mv->Data, v->Data, mv->Leng*sizeof mv->Data[0]);
+          output->object_pointer = mv;
+          return 0;
+        } else {
+          FreeMemVal(mv);
+          return 1;
+        }
       }
     } else {
       mv->Data= NULL; // NULL is a valid pointer if Leng == 0
@@ -92,6 +94,7 @@ static void FreeMemoryValue(dhtValue kv)
 {
   MemVal *v= (MemVal *)kv.object_pointer;
   if (v) {
+    assert(v->Leng <= (((size_t)-1)/(sizeof v->Data[0])));
     fxfFree(v->Data, v->Leng*sizeof v->Data[0]);
     fxfFree(v, sizeof *v);
   }
