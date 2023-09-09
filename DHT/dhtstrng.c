@@ -75,7 +75,7 @@ static void	FreeString(dhtValue v)
 	if (s)
 	{
 		size_t const len= strlen(s);
-		assert(len < ((size_t)-1));
+		assert((len < ((size_t)-1)) && !s[len]);
 		fxfFree(s, len+1);
 	}
 }

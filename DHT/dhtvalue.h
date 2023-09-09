@@ -89,7 +89,9 @@ typedef union {
     const volatile void * object_pointer;
     char character;
     void (*function_pointer)(void);
-    long double floating_point; 
+#ifdef DHTVALUE_NEEDS_FLOATING_POINT
+    long double floating_point;
+#endif
 } dhtValue;
 
 typedef struct {
