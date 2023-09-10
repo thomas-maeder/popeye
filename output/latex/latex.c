@@ -710,9 +710,9 @@ static boolean FindFairyWalks(boolean colour_has_piece[nr_piece_walks][nr_colour
     piece_walk_type p;
     for (p = Empty; p < nr_piece_walks; ++p)
     {
-      colour_has_piece[p][colour_white] = false;
-      colour_has_piece[p][colour_black] = false;
-      colour_has_piece[p][colour_neutral] = false;
+      Colour c;
+      for (c = 0; c!=nr_colours; ++c)
+        colour_has_piece[p][c] = false;
     }
   }
 
