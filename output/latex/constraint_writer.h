@@ -1,4 +1,4 @@
-#if !defined(OUTPUT_LATEX_CONSTRAINTL_WRITER_H)
+#if !defined(OUTPUT_LATEX_CONSTRAINT_WRITER_H)
 #define OUTPUT_LATEX_CONSTRAINT_WRITER_H
 
 #include "solving/machinery/solve.h"
