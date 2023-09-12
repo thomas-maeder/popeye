@@ -57,25 +57,30 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
   assert(data1 || !length);
   data2 = value2->Data;
   assert(data2 || !value2->Leng);
-  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length)));
+  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length*sizeof *data1)));
 }
 static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
   MemVal const *v= (MemVal const *)kv.object_pointer;
+  unsigned char const *data;
+  unsigned long length;
   MemVal *mv;
   assert(!!output);
   if (!v) {
     output->object_pointer = NilMemVal;
     return 0;
   }
+  length= v->Leng;
+  data= v->Data;
+  assert(data || !length);
   mv= NewMemVal;
   if (mv) {
-    mv->Leng= v->Leng;
-    if (mv->Leng) {
-      if (mv->Leng <= (((size_t)-1)/(sizeof mv->Data[0]))) {
-        mv->Data= (uChar *)fxfAlloc(mv->Leng*sizeof mv->Data[0]);
+    mv->Leng= length;
+    if (length) {
+      if (length <= (((size_t)-1)/(sizeof *data))) {
+        mv->Data= (uChar *)fxfAlloc(length*sizeof *data);
         if (mv->Data) {
-          memcpy(mv->Data, v->Data, mv->Leng*sizeof mv->Data[0]);
+          memcpy(mv->Data, data, length*sizeof *data);
           output->object_pointer = mv;
           return 0;
         } else {
