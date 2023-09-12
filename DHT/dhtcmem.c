@@ -68,7 +68,6 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
   size_t size = sizeof *v;
   CompactMemVal *result;
   uLong length;
-  unsigned char const *data;
 
   assert(!!output);
   if (!v)
@@ -78,8 +77,6 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
   }
 
   length = v->Leng;
-  data = v->Data;
-  assert(data || !length);
   if (length > (num_bytes_in_Data / size_of_element))
   {
     if (length > ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element))
@@ -91,7 +88,7 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
   if (result)
   {
     result->Leng = length;
-    memcpy(result->Data,data,(length*size_of_element));
+    memcpy(result->Data,v->Data,(length*size_of_element));
     output->object_pointer = result;
     return 0;
   }
