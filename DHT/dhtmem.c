@@ -24,6 +24,10 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
+enum {
+  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof NilMemVal->Data[0])
+};
+
 static dhtHashValue HashMemoryValue(dhtKey k)
 {
   MemVal const * toBeHashed = (MemVal const *)k.value.object_pointer;
@@ -47,9 +51,9 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
 {
   MemVal const * value1 = (MemVal const *)v1.value.object_pointer;
   MemVal const * value2 = (MemVal const *)v2.value.object_pointer;
-  unsigned long length;
-  unsigned char const *data1;
-  unsigned char const *data2;
+  uLong length;
+  uChar const *data1;
+  uChar const *data2;
 
   assert(value1 && value2);
   length = value1->Leng;
@@ -57,13 +61,13 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
   assert(data1 || !length);
   data2 = value2->Data;
   assert(data2 || !value2->Leng);
-  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length*sizeof *data1)));
+  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length)));
 }
 static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
   MemVal const *v= (MemVal const *)kv.object_pointer;
-  unsigned char const *data;
-  unsigned long length;
+  uChar const *data;
+  uLong length;
   MemVal *mv;
   assert(!!output);
   if (!v) {
@@ -77,16 +81,14 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   if (mv) {
     mv->Leng= length;
     if (length) {
-      if (length <= (((size_t)-1)/(sizeof *data))) {
-        mv->Data= (uChar *)fxfAlloc(length*sizeof *data);
-        if (mv->Data) {
-          memcpy(mv->Data, data, length*sizeof *data);
-          output->object_pointer = mv;
-          return 0;
-        } else {
-          FreeMemVal(mv);
-          return 1;
-        }
+      mv->Data= (uChar *)fxfAlloc(length);
+      if (mv->Data) {
+        memcpy(mv->Data, data, length);
+        output->object_pointer = mv;
+        return 0;
+      } else {
+        FreeMemVal(mv);
+        return 1;
       }
     } else {
       mv->Data= NULL; // NULL is a valid pointer if Leng == 0
@@ -100,8 +102,7 @@ static void FreeMemoryValue(dhtValue kv)
 {
   MemVal *v= (MemVal *)kv.object_pointer;
   if (v) {
-    assert(v->Leng <= (((size_t)-1)/(sizeof v->Data[0])));
-    fxfFree(v->Data, v->Leng*sizeof v->Data[0]);
+    fxfFree(v->Data, v->Leng);
     fxfFree(v, sizeof *v);
   }
 }

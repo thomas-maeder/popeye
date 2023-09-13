@@ -23,6 +23,10 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
+enum {
+  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof NilCompactMemVal->Data[0])
+};
+
 static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
   CompactMemVal const * const toBeConverted = (CompactMemVal const *)m.value.object_pointer;
@@ -48,23 +52,16 @@ static int EqualCompactMemoryValue(dhtKey v1, dhtKey v2)
 {
   CompactMemVal const * const value1 = (CompactMemVal const *)v1.value.object_pointer;
   CompactMemVal const * const value2 = (CompactMemVal const *)v2.value.object_pointer;
-  unsigned long length;
-  unsigned char const *data1;
-  unsigned char const *data2;
+  uLong length;
   assert(value1 && value2);
   length = value1->Leng;
-  data1 = value1->Data;
-  assert(data1 || !length);
-  data2 = value2->Data;
-  assert(data2 || !value2->Leng);
-  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length*sizeof *data1)));
+  return ((length == value2->Leng) && !memcmp(value1->Data, value2->Data, length));
 }
 
 static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
 {
   CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
-  size_t const size_of_element = sizeof v->Data[0];
   size_t size = sizeof *v;
   CompactMemVal *result;
   uLong length;
@@ -77,18 +74,18 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
   }
 
   length = v->Leng;
-  if (length > (num_bytes_in_Data / size_of_element))
+  if (length > num_bytes_in_Data)
   {
-    if (length > ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element))
+    if (length > (((size_t)-1) - size + num_bytes_in_Data))
       return 1;
-    size += ((length * size_of_element) - num_bytes_in_Data);
+    size += (length - num_bytes_in_Data);
   }
 
   result = (CompactMemVal *)fxfAlloc(size);
   if (result)
   {
     result->Leng = length;
-    memcpy(result->Data,v->Data,(length*size_of_element));
+    memcpy(result->Data,v->Data,length);
     output->object_pointer = result;
     return 0;
   }
@@ -100,15 +97,14 @@ static void FreeCompactMemoryValue(dhtValue kv)
 {
   CompactMemVal *v = (CompactMemVal *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
-  size_t const size_of_element = sizeof v->Data[0];
   if (v)
   {
     size_t size = sizeof *v;
     uLong length = v->Leng;
-    if (length > (num_bytes_in_Data / size_of_element))
+    if (length > num_bytes_in_Data)
     {
-      assert(length <= ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element));
-      size += ((length * size_of_element) - num_bytes_in_Data);
+      assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
+      size += (length - num_bytes_in_Data);
     }
     fxfFree(v,size);
   }

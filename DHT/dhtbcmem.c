@@ -23,18 +23,22 @@
 #include "dhtbcmem.h"
 #include "dht.h"
 
+enum {
+  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof ((BCMemValue const *)NULL)->Data[0])
+};
+
 static dhtHashValue ConvertBCMemValue(dhtKey m)
 {
   BCMemValue const * const toBeConverted = (BCMemValue const *)m.value.object_pointer;
-  unsigned int leng;
+  unsigned short leng;
   unsigned char const *s;
   assert(!!toBeConverted);
   leng = toBeConverted->Leng;
   s = toBeConverted->Data;
   dhtHashValue hash = 0;
 
-  unsigned int i;
-  for (i=0; i<leng; i++)
+  unsigned short i;
+  for (i=0; i<leng; ++i)
   {
     hash += s[i];
     hash += hash << 10;
@@ -52,24 +56,17 @@ static int EqualBCMemValue(dhtKey v1, dhtKey v2)
 {
   BCMemValue const * const value1 = (BCMemValue const *)v1.value.object_pointer;
   BCMemValue const * const value2 = (BCMemValue const *)v2.value.object_pointer;
-  unsigned int length;
-  unsigned char const *data1;
-  unsigned char const *data2;
+  unsigned short length;
   assert(value1 && value2);
   length = value1->Leng;
-  data1 = value1->Data;
-  assert(data1 || !length);
-  data2 = value2->Data;
-  assert(data2 || !value2->Leng);
 
-  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length*sizeof *data1)));
+  return ((length == value2->Leng) && !memcmp(value1->Data, value2->Data, length));
 }
 
 static int DupBCMemValue(dhtValue kv, dhtValue *output)
 {
   BCMemValue const *original = (BCMemValue const *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *original) - offsetof(BCMemValue, Data));
-  size_t const size_of_element = sizeof original->Data[0];
   BCMemValue *result;
   unsigned short length;
   size_t size = sizeof *original;
@@ -82,18 +79,18 @@ static int DupBCMemValue(dhtValue kv, dhtValue *output)
   }
 
   length = original->Leng;
-  if (length > (num_bytes_in_Data / size_of_element))
+  if (length > num_bytes_in_Data)
   {
-    if (length > ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element))
+    if (length > (((size_t)-1) - size + num_bytes_in_Data))
       return 1;
-    size += ((length * size_of_element) - num_bytes_in_Data);
+    size += (length - num_bytes_in_Data);
   }
 
   result = (BCMemValue *)fxfAlloc(size);
   if (result)
   {
     result->Leng = length;
-    memcpy(result->Data,original->Data,(length*size_of_element));
+    memcpy(result->Data,original->Data,length);
     output->object_pointer = result;
     return 0;
   }
@@ -105,15 +102,14 @@ static void FreeBCMemValue(dhtValue kv)
 {
   BCMemValue *freed = (BCMemValue *)kv.object_pointer;
   size_t const num_bytes_in_Data = ((sizeof *freed) - offsetof(BCMemValue, Data));
-  size_t const size_of_element = sizeof freed->Data[0];
   if (freed)
   {
     size_t size = sizeof *freed;
     unsigned short length = freed->Leng;
-    if (length > (num_bytes_in_Data / size_of_element))
+    if (length > num_bytes_in_Data)
     {
-      assert(length <= ((((size_t)-1) - size + num_bytes_in_Data) / size_of_element));
-      size += ((length * size_of_element) - num_bytes_in_Data);
+      assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
+      size += (length - num_bytes_in_Data);
     }
     fxfFree(freed,size);
   }
@@ -122,8 +118,8 @@ static void FreeBCMemValue(dhtValue kv)
 static void DumpBCMemValue(dhtValue kv, FILE *f)
 {
   BCMemValue const *toBeDumped = (BCMemValue const *)kv.object_pointer;
-  unsigned int length;
-  unsigned int i;
+  unsigned short length;
+  unsigned short i;
 
   assert(toBeDumped && f);
 
