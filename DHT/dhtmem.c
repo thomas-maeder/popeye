@@ -37,7 +37,7 @@ static dhtHashValue HashMemoryValue(dhtKey k)
   uChar const *s= toBeHashed->Data;
   dhtHashValue hash= 0;
   uLong i;
-  for (i=0; i<leng; i++) {
+  for (i=0; i<leng; ++i) {
     hash+= s[i];
     hash+= hash << 10;
     hash^= hash >> 6;
