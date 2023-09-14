@@ -80,6 +80,7 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
   MemVal const *v= (MemVal const *)kv.object_pointer;
   uChar const *data;
+  uChar *newBuffer;
   uLong length;
   MemVal *mv;
   assert(!!output);
@@ -90,13 +91,16 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   length= v->Leng;
   data= v->Data;
   assert(data || !length);
+  if (length > ((size_t)-1))
+    return 1;
   mv= NewMemVal;
   if (mv) {
     mv->Leng= length;
     if (length) {
-      mv->Data= (uChar *)fxfAlloc(length);
-      if (mv->Data) {
-        memcpy(mv->Data, data, length);
+      newBuffer= (uChar *)fxfAlloc(length);
+      if (newBuffer) {
+        memcpy(newBuffer, data, length);
+        mv->Data = newBuffer;
         output->object_pointer = mv;
         return 0;
       } else {
