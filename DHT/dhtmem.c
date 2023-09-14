@@ -64,7 +64,7 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
 
   if (length != value2->Leng)
     return 0;
-  if (!length)
+  if (!length) // We'll check this here to avoid (maybe) passing NULL as an argument to memcmp.
     return 1;
   while (length > ((size_t)-1))
   {
