@@ -53,9 +53,23 @@ static int EqualCompactMemoryValue(dhtKey v1, dhtKey v2)
   CompactMemVal const * const value1 = (CompactMemVal const *)v1.value.object_pointer;
   CompactMemVal const * const value2 = (CompactMemVal const *)v2.value.object_pointer;
   uLong length;
+  unsigned char const *data1;
+  unsigned char const *data2;
   assert(value1 && value2);
   length = value1->Leng;
-  return ((length == value2->Leng) && !memcmp(value1->Data, value2->Data, length));
+  if (length != value2->Leng)
+    return 0;
+  data1 = value1->Data;
+  data2 = value2->Data;
+  while (length > ((size_t)-1))
+  {
+    if (memcmp(data1, data2, ((size_t)-1)))
+      return 0;
+    data1 += ((size_t)-1);
+    data2 += ((size_t)-1);
+    length -= ((size_t)-1);
+  }
+  return !memcmp(data1, data2, length);
 }
 
 static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)

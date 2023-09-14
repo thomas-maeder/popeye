@@ -61,7 +61,20 @@ static int EqualMemoryValue(dhtKey v1, dhtKey v2)
   assert(data1 || !length);
   data2 = value2->Data;
   assert(data2 || !value2->Leng);
-  return ((length == value2->Leng) && !(length && memcmp(data1, data2, length)));
+
+  if (length != value2->Leng)
+    return 0;
+  if (!length)
+    return 1;
+  while (length > ((size_t)-1))
+  {
+    if (memcmp(data1, data2, ((size_t)-1)))
+      return 0;
+    data1+= ((size_t)-1);
+    data2+= ((size_t)-1);
+    length-= ((size_t)-1);
+  }
+  return !memcmp(data1, data2, length);
 }
 static int DupMemoryValue(dhtValue kv, dhtValue *output)
 {
