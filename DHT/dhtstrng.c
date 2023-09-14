@@ -26,12 +26,14 @@ static dhtHashValue ConvertString(dhtKey k)
 	 */
 	unsigned char const *s= (unsigned char const *)k.value.object_pointer;
 	unsigned long hash;
+	unsigned char tmp;
 	assert(!!s);
 	hash= 0;
-	while (*s) {
-		hash+= *s++;
+	while ((tmp= *s)) {
+		hash+= tmp;
 		hash+= hash << 10;
 		hash^= hash >> 6;
+		++s;
 	}
 	hash+= hash << 3;
 	hash^= hash >> 11;
