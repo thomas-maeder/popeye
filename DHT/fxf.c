@@ -19,18 +19,26 @@
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
     (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
 #  include <stddef.h>
+#  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
+#    ifdef UINTPTR_MAX
+   typedef uintptr_t pointer_to_int_type;
+#    else
+   typedef uintmax_t pointer_to_int_type;
+#    endif
 #  define PTRDIFF_T_PRINTF_SPECIFIER "td"
 #  define SIZE_T_PRINTF_SPECIFIER "zu"
 #elif defined(LLONG_MAX) /* We have long long integer types. */
    typedef long long int ptrdiff_t_printf_type;
    typedef unsigned long long int size_t_printf_type;
+   typedef unsigned long long int pointer_to_int_type;
 #  define PTRDIFF_T_PRINTF_SPECIFIER "lld"
 #  define SIZE_T_PRINTF_SPECIFIER "llu"
 #else /* We don't have long long integer types. */
    typedef long int ptrdiff_t_printf_type;
    typedef unsigned long int size_t_printf_type;
+   typedef unsigned long int pointer_to_int_type;
 #  define PTRDIFF_T_PRINTF_SPECIFIER "ld"
 #  define SIZE_T_PRINTF_SPECIFIER "lu"
 #endif
@@ -59,13 +67,14 @@ union MAX_ALIGNED_TYPE {
 #endif
 
 enum {
-  ENSURE_MAX_ALIGNMENT_IS_POWER_OF_TWO = 1/(!(MAX_ALIGNMENT & (MAX_ALIGNMENT - 1U)))
+  ENSURE_MAX_ALIGNMENT_IS_POWER_OF_TWO = 1/(!(MAX_ALIGNMENT & (MAX_ALIGNMENT - 1U))),
 };
 
-#if !defined(Nil) && !defined(New) && !defined(nNew) /* TODO: Is this the correct check for all of the below lines? */
+#if !defined(Nil) && !defined(New) && !defined(nNew) && !defined(nNewCallc) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
 #  define New(type)      ((type *)malloc(sizeof(type)))
 #  define nNew(n, type)  ((type *)nNewImpl(n,sizeof(type)))
+#  define nNewCalloc(n, type)  ((type *)calloc(n,sizeof(type)))
 static inline void * nNewImpl(size_t const nmemb, size_t const size) {
   return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : malloc(nmemb*size));
 }
@@ -140,10 +149,7 @@ enum
   fxfMINSIZE = sizeof(size_t)
 };
 
-/* Below we'll ensure that allocation sizes are all multiples of MAX_ALIGNMENT in the range
-     [MAX_ALIGNMENT, fxfMAXSIZE].
-   If we divide by MAX_ALIGNMENT and subtract 1, we get the range 0, 1, 2, ..., fxfMAXSIZE/MAX_ALIGNMENT - 1. */
-static SizeHead SizeData[fxfMAXSIZE/MAX_ALIGNMENT];
+static SizeHead SizeData[fxfMAXSIZE - 1];
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
@@ -311,11 +317,7 @@ size_t fxfInit(size_t Size) {
     Size = ((Size+31)>>5); 
   }
 
-  FreeMap= nNew(Size, FreeMapType); /* TODO: Can/Should we replace this allocation+memset with a call to calloc? */
-  if (FreeMap)
-  {
-    memset(FreeMap, '\0', Size*(sizeof *FreeMap));
-  }
+  FreeMap= nNewCalloc(Size, FreeMapType);
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
 
@@ -395,12 +397,8 @@ void fxfReset(void)
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
 #define PTRMASK            (MAX_ALIGNMENT-1U)
-#define ALIGNED_MINSIZE    (MAX_ALIGNMENT+PTRMASK)
-#define ALIGN_SIZE_T(s)    (((s)+PTRMASK) & (~PTRMASK))
-#define ALIGN(ptr)         ((void *)ALIGN_SIZE_T((size_t)ptr))
 
-#define  GetNextPtr(ptr)       (*(char **)ALIGN(ptr))
-#define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= (ptr)
+#define  GetNextPtr(ptr)       (*(void **)(ptr))
 
 #define TMDBG(x) if (0) x
 
@@ -414,6 +412,9 @@ void *fxfAlloc(size_t size) {
   TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
 
+  if (!size)
+    return Nil(void);
+
   if (size<fxfMINSIZE)
     size= fxfMINSIZE;
 
@@ -423,45 +424,120 @@ void *fxfAlloc(size_t size) {
                myname,
                (size_t_printf_type) size,
                (size_t_printf_type) fxfMAXSIZE);
-    return Nil(char);
+    return Nil(void);
   }
 
-  size= ALIGN_SIZE_T(size);
-
-  sh= &SizeData[(size/MAX_ALIGNMENT) - 1];
+  sh= &SizeData[size - 1];
   if (sh->FreeHead) {
+#ifdef SEGMENTED
+    int ptrSegment;
+#endif
     ptr= (char *)sh->FreeHead;
-    sh->FreeHead= GetNextPtr(ptr);
+    sh->FreeHead= ((size < sizeof(void *)) ? Nil(void) : GetNextPtr(ptr));
     sh->FreeCount--;
     sh->MallocCount++;
+#ifdef SEGMENTED
+    for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
+      pointer_to_int_type tmp= (pointer_to_int_type)ptr;
+      pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
+      if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
+        break;
+    }
+    ClrRange((char *)ptr-Arena[ptrSegnemtn], size);
+    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)(ptr-Arena[ptrSegment]),sh->MallocCount));
+#else
     ClrRange((char *)ptr-Arena, size);
-#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
     TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
 #endif
   }
   else {
     /* we have to allocate a new piece */
-    size_t const sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
+    size_t sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
     TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
-        /* not aligned */
+        /* not fully aligned */
+        size_t needed_alignment_mask= PTRMASK;
+        while (needed_alignment_mask >= size)
+          needed_alignment_mask>>= 1;
+        pointer_to_int_type curBottomInt= (pointer_to_int_type)BotFreePtr;
+        if (curBottomInt & needed_alignment_mask) {
+          size_t const numBytesToAdd= (needed_alignment_mask - (curBottomInt & needed_alignment_mask)) + 1U;
+          if (numBytesToAdd > (sizeCurrentSeg-size))
+            goto NEXT_SEGMENT;
+          do {
+            pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
+            SizeHead *cur_sh= &SizeData[cur_alignment - 1];
+#ifdef SEGMENTED
+            SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
+#else
+            SetRange((char *)BotFreePtr-Arena,cur_alignment);
+#endif
+            if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
+              if (cur_alignment >= sizeof(void *))
+                *(void **)BotFreePtr= cur_sh->FreeHead;
+              cur_sh->FreeHead= BotFreePtr;
+              ++cur_sh->FreeCount;
+              TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+            }
+            BotFreePtr+= cur_alignment;
+            curBottomInt+= cur_alignment;
+          } while (curBottomInt & needed_alignment_mask);
+        }
         ptr= BotFreePtr;
         BotFreePtr+= size;
       }
       else {
-        /* aligned */
+        /* fully aligned */
         ptr= TopFreePtr-= size;
       }
       sh->MallocCount++;
-#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
+#ifdef SEGMENTED
+      TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,(ptrdiff_t_printf_type)(ptr-Arena[CurrentSeg]),sh->MallocCount));
+#else
       TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
 #endif
     }
     else
     {
+NEXT_SEGMENT:
 #if defined(SEGMENTED)
-      if ((CurrentSeg+1) < ArenaSegCnt) {
+      if (CurrentSeg < (ArenaSegCnt-1)) {
+        pointer_to_int_type curBottomInt= (pointer_to_int_type)BotFreePtr;
+        while (curBottomInt & PTRMASK) {
+          pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
+          SizeHead *cur_sh= &SizeData[cur_alignment - 1];
+#ifdef SEGMENTED
+          SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
+#else
+          SetRange((char *)BotFreePtr-Arena,cur_alignment);
+#endif
+          if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
+            if (cur_alignment >= sizeof(void *))
+              *(void **)BotFreePtr= cur_sh->FreeHead;
+            cur_sh->FreeHead= BotFreePtr;
+            ++cur_sh->FreeCount;
+            TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+          }
+          BotFreePtr+= cur_alignment;
+          curBottomInt+= cur_alignment;
+        }
+        if (BotFreePtr < TopFreePtr) {
+          size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
+          SizeHead *cur_sh= &SizeData[cur_size - 1];
+#ifdef SEGMENTED
+          SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_size);
+#else
+          SetRange((char *)BotFreePtr-Arena,cur_size);
+#endif
+          if ((cur_size >= sizeof(void *)) || !cur_sh->FreeCount) {
+            if (cur_size >= sizeof(void *))
+              *(void **)BotFreePtr= cur_sh->FreeHead;
+            cur_sh->FreeHead= BotFreePtr;
+            ++cur_sh->FreeCount;
+            TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+          }
+        }
         TMDBG(fputs(" next seg", stdout));
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
@@ -485,10 +561,22 @@ void fxfFree(void *ptr, size_t size)
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-#if !defined(SEGMENTED) /* TODO: What should we output in the SEGMENTED case? */
+#ifdef SEGMENTED
+  int ptrSegment;
+  for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
+    pointer_to_int_type tmp= (pointer_to_int_type)ptr;
+    pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
+    if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
+      break;
+  }
+  TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena[ptrSegment]),(size_t_printf_type)size));
+#else
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
 #endif
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
+  assert(ptr || !size);
+  if (!ptr)
+    return;
   if (size < fxfMINSIZE)
     size= fxfMINSIZE;
   if (size > fxfMAXSIZE) {
@@ -496,27 +584,33 @@ void fxfFree(void *ptr, size_t size)
             myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
-  size= ALIGN_SIZE_T(size);
-  sh= &SizeData[(size/MAX_ALIGNMENT)-1];
+  sh= &SizeData[size - 1];
   if (size&PTRMASK) {
-    /* unaligned size */
+    /* not fully aligned size */
     TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
-    if ((char *)ALIGN((char *)ptr+size) == BotFreePtr) {
+    if (((char *)ptr+size) == BotFreePtr) {
       BotFreePtr= (char *)ptr;
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(TopFreePtr-BotFreePtr)));
       --sh->MallocCount;
     }
     else {
+#ifdef SEGMENTED
+      SetRange((char *)ptr-Arena[ptrSegment],size);
+#else
       SetRange((char *)ptr-Arena,size);
-      *(char **)ALIGN(ptr)= (char *)sh->FreeHead;
-      sh->FreeHead= ptr;
-      ++sh->FreeCount;
-      --sh->MallocCount;
-      TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
+#endif
+      if ((size >= sizeof(void *)) || !sh->FreeHead) {
+        if (size >= sizeof(void *))
+          *(void **)ptr= sh->FreeHead;
+        sh->FreeHead= ptr;
+        ++sh->FreeCount;
+        --sh->MallocCount;
+        TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
+      }
     }
   }
   else {
-    /* aligned size */
+    /* fully aligned size */
     TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-TopFreePtr)));
     if ((char *)ptr == TopFreePtr) {
       TopFreePtr+= size;
@@ -524,12 +618,19 @@ void fxfFree(void *ptr, size_t size)
       --sh->MallocCount;
     }
     else {
+#ifdef SEGMENTED
+      SetRange((char *)ptr-Arena[ptrSegment],size);
+#else
       SetRange((char *)ptr-Arena,size);
-      *(char **)ptr= (char *)sh->FreeHead;
-      sh->FreeHead= ptr;
-      ++sh->FreeCount;
-      --sh->MallocCount;
-      TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
+#endif
+      if ((size >= sizeof(void *)) || !sh->FreeCount) {
+        if (size >= sizeof(void *))
+          *(void **)ptr= sh->FreeHead;
+        sh->FreeHead= ptr;
+        ++sh->FreeCount;
+        --sh->MallocCount;
+        TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
+      }
     }
   }
   TMDBG(printf(" MallocCount:%lu",sh->MallocCount));
@@ -559,8 +660,8 @@ size_t fxfTotal(void) {
   size_t i;
   for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
     if (hd->MallocCount+hd->FreeCount>0) {
-      UsedBytes+= hd->MallocCount*(i+1U)*MAX_ALIGNMENT;
-      FreeBytes+= hd->FreeCount*(i+1U)*MAX_ALIGNMENT;
+      UsedBytes+= hd->MallocCount*(i+1U);
+      FreeBytes+= hd->FreeCount*(i+1U);
     }
   }
 
@@ -595,11 +696,11 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount+hd->FreeCount>0) {
-        fprintf(f, "%12zu  %10lu%10lu\n", (i+1U)*MAX_ALIGNMENT, hd->MallocCount, hd->FreeCount);
+        fprintf(f, "%12zu  %10lu%10lu\n", i+1U, hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
-        UsedBytes+= hd->MallocCount*(i+1U)*MAX_ALIGNMENT;
+        UsedBytes+= hd->MallocCount*(i+1U);
         nrFree+= hd->FreeCount;
-        FreeBytes+= hd->FreeCount*(i+1U)*MAX_ALIGNMENT;
+        FreeBytes+= hd->FreeCount*(i+1U);
       }
     }
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
