@@ -172,15 +172,15 @@ void output_plaintext_print_time(char const *header, char const *trail)
 #if !defined(OSTYPE)
 #  if defined(C370)
 #    define OSTYPE "MVS"
-#  elseif defined(DOS)
+#  elif defined(DOS)
 #    define OSTYPE "DOS"
-#  elseif defined(ATARI)
+#  elif defined(ATARI)
 #    define OSTYPE "ATARI"
-#  elseif defined(_WIN98)
+#  elif defined(_WIN98)
 #    define OSTYPE "WINDOWS98"
-#  elseif defined(_WIN16) || defined(_WIN32)
+#  elif defined(_WIN16) || defined(_WIN32)
 #    define OSTYPE "WINDOWS"
-#  elseif defined(__unix)
+#  elif defined(__unix)
 #    if defined(__GO32__)
 #      define OSTYPE "DOS"
 #    else
