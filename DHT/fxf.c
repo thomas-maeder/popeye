@@ -63,12 +63,8 @@ union MAX_ALIGNED_TYPE {
   void (*function_pointer)(void);  
   long double floating_point;
 };
-#  define MAX_ALIGNMENT sizeof(union MAX_ALIGNED_TYPE)
+#  define MAX_ALIGNMENT (sizeof(union MAX_ALIGNED_TYPE) & -sizeof(union MAX_ALIGNED_TYPE))
 #endif
-
-enum {
-  ENSURE_MAX_ALIGNMENT_IS_POWER_OF_TWO = 1/(!(MAX_ALIGNMENT & (MAX_ALIGNMENT - 1U))),
-};
 
 #if !defined(Nil) && !defined(New) && !defined(nNew) && !defined(nNewCallc) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
@@ -146,10 +142,17 @@ typedef struct {
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 enum
 {
-  fxfMINSIZE = sizeof(size_t)
+  fxfMINSIZE = sizeof(void *)
 };
+#define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
+#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
+                                                                                                                               (Of course, they're probably the same.)
+                                                                                                                               TODO: Can we compute what we want at compile time and just use it? */
+static size_t MIN_ALIGNMENT= MIN_ALIGNMENT_UNDERESTIMATE; /* for now */
 
-static SizeHead SizeData[fxfMAXSIZE - 1];
+static SizeHead SizeData[1 + (fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
+                                                                                        Maximum allocation is fxfMAXSIZE.
+                                                                                        All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
@@ -323,6 +326,10 @@ size_t fxfInit(size_t Size) {
 
   memset(SizeData, '\0', sizeof(SizeData));
 
+  MIN_ALIGNMENT= MAX_ALIGNMENT;
+  while (MIN_ALIGNMENT > fxfMINSIZE)
+    MIN_ALIGNMENT>>= 1;
+
   return GlobalSize;
 }
 
@@ -397,6 +404,7 @@ void fxfReset(void)
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
 #define PTRMASK            (MAX_ALIGNMENT-1U)
+#define ALIGN_TO_MINIMUM(s)  (((s) + (MIN_ALIGNMENT - 1U)) & ~(MIN_ALIGNMENT - 1U))
 
 #define  GetNextPtr(ptr)       (*(void **)(ptr))
 
@@ -427,7 +435,10 @@ void *fxfAlloc(size_t size) {
     return Nil(void);
   }
 
-  sh= &SizeData[size - 1];
+  // Round up to a multiple of MIN_ALIGNMENT
+  size= ALIGN_TO_MINIMUM(size);
+
+  sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (sh->FreeHead) {
 #ifdef SEGMENTED
     int ptrSegment;
@@ -467,18 +478,20 @@ void *fxfAlloc(size_t size) {
             goto NEXT_SEGMENT;
           do {
             pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
-            SizeHead *cur_sh= &SizeData[cur_alignment - 1];
 #ifdef SEGMENTED
             SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
 #else
             SetRange((char *)BotFreePtr-Arena,cur_alignment);
 #endif
-            if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
-              if (cur_alignment >= sizeof(void *))
-                *(void **)BotFreePtr= cur_sh->FreeHead;
-              cur_sh->FreeHead= BotFreePtr;
-              ++cur_sh->FreeCount;
-              TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+            if (cur_alignment >= fxfMINSIZE) {
+              SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+              if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
+                if (cur_alignment >= sizeof(void *))
+                  *(void **)BotFreePtr= cur_sh->FreeHead;
+                cur_sh->FreeHead= BotFreePtr;
+                ++cur_sh->FreeCount;
+                TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+              }
             }
             BotFreePtr+= cur_alignment;
             curBottomInt+= cur_alignment;
@@ -506,36 +519,40 @@ NEXT_SEGMENT:
         pointer_to_int_type curBottomInt= (pointer_to_int_type)BotFreePtr;
         while (curBottomInt & PTRMASK) {
           pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
-          SizeHead *cur_sh= &SizeData[cur_alignment - 1];
 #ifdef SEGMENTED
           SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
 #else
           SetRange((char *)BotFreePtr-Arena,cur_alignment);
 #endif
-          if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
-            if (cur_alignment >= sizeof(void *))
-              *(void **)BotFreePtr= cur_sh->FreeHead;
-            cur_sh->FreeHead= BotFreePtr;
-            ++cur_sh->FreeCount;
-            TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+          if (cur_alignment >= fxfMINSIZE) {
+            SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+            if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
+              if (cur_alignment >= sizeof(void *))
+                *(void **)BotFreePtr= cur_sh->FreeHead;
+              cur_sh->FreeHead= BotFreePtr;
+              ++cur_sh->FreeCount;
+              TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+            }
           }
           BotFreePtr+= cur_alignment;
           curBottomInt+= cur_alignment;
         }
         if (BotFreePtr < TopFreePtr) {
           size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
-          SizeHead *cur_sh= &SizeData[cur_size - 1];
 #ifdef SEGMENTED
           SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_size);
 #else
           SetRange((char *)BotFreePtr-Arena,cur_size);
 #endif
-          if ((cur_size >= sizeof(void *)) || !cur_sh->FreeCount) {
-            if (cur_size >= sizeof(void *))
-              *(void **)BotFreePtr= cur_sh->FreeHead;
-            cur_sh->FreeHead= BotFreePtr;
-            ++cur_sh->FreeCount;
-            TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+          if (cur_size >= fxfMINSIZE) {
+            SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+            if ((cur_size >= sizeof(void *)) || !cur_sh->FreeCount) {
+              if (cur_size >= sizeof(void *))
+                *(void **)BotFreePtr= cur_sh->FreeHead;
+              cur_sh->FreeHead= BotFreePtr;
+              ++cur_sh->FreeCount;
+              TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+            }
           }
         }
         TMDBG(fputs(" next seg", stdout));
@@ -584,7 +601,8 @@ void fxfFree(void *ptr, size_t size)
             myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
     exit(-5);
   }
-  sh= &SizeData[size - 1];
+  size= ALIGN_TO_MINIMUM(size);
+  sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (size&PTRMASK) {
     /* not fully aligned size */
     TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(BotFreePtr-(char const*)ptr)));
@@ -652,6 +670,9 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   return nptr;
 }
 
+#define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + \
+                                   ((fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U))))
+
 size_t fxfTotal(void) {
   SizeHead const *hd = SizeData;
   size_t UsedBytes = 0;
@@ -660,8 +681,8 @@ size_t fxfTotal(void) {
   size_t i;
   for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
     if (hd->MallocCount+hd->FreeCount>0) {
-      UsedBytes+= hd->MallocCount*(i+1U);
-      FreeBytes+= hd->FreeCount*(i+1U);
+      UsedBytes+= hd->MallocCount*SIZEDATA_INDEX_TO_SIZE(i);
+      FreeBytes+= hd->FreeCount*SIZEDATA_INDEX_TO_SIZE(i);
     }
   }
 
@@ -696,7 +717,7 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount+hd->FreeCount>0) {
-        fprintf(f, "%12zu  %10lu%10lu\n", i+1U, hd->MallocCount, hd->FreeCount);
+        fprintf(f, "%12zu  %10lu%10lu\n", SIZEDATA_INDEX_TO_SIZE(i), hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
         UsedBytes+= hd->MallocCount*(i+1U);
         nrFree+= hd->FreeCount;
