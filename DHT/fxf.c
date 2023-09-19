@@ -437,7 +437,6 @@ void *fxfAlloc(size_t size) {
 
   // Round up to a multiple of MIN_ALIGNMENT
   size= ALIGN_TO_MINIMUM(size);
-
   sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (sh->FreeHead) {
 #ifdef SEGMENTED
@@ -463,7 +462,11 @@ void *fxfAlloc(size_t size) {
   }
   else {
     /* we have to allocate a new piece */
-    size_t sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
+    size_t sizeCurrentSeg;
+#ifdef SEGMENTED
+START_LOOKING_FOR_CHUNK:
+#endif
+    sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
     TMDBG(printf(" sizeCurrentSeg:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)sizeCurrentSeg));
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
@@ -551,7 +554,7 @@ NEXT_SEGMENT:
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
         TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
-        ptr= fxfAlloc(size);
+        goto START_LOOKING_FOR_CHUNK;
       }
       else
         ptr= Nil(char);
