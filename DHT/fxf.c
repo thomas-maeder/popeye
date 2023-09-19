@@ -471,18 +471,18 @@ void *fxfAlloc(size_t size) {
         size_t needed_alignment_mask= PTRMASK;
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
-        pointer_to_int_type curBottomInt= (pointer_to_int_type)BotFreePtr;
-        if (curBottomInt & needed_alignment_mask) {
-          size_t const numBytesToAdd= (needed_alignment_mask - (curBottomInt & needed_alignment_mask)) + 1U;
+#ifdef SEGMENTED
+        size_t curBottomIndex= ((char *)BotFreePtr - Arena[CurrentSeg]);
+#else
+        size_t curBottomIndex= ((char *)BotFreePtr - Arena);
+#endif
+        if (curBottomIndex & needed_alignment_mask) {
+          size_t const numBytesToAdd= (needed_alignment_mask - (curBottomIndex & needed_alignment_mask)) + 1U;
           if (numBytesToAdd > (sizeCurrentSeg-size))
             goto NEXT_SEGMENT;
           do {
-            pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
-#ifdef SEGMENTED
-            SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
-#else
-            SetRange((char *)BotFreePtr-Arena,cur_alignment);
-#endif
+            size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
+            SetRange(curBottomIndex,cur_alignment);
             if (cur_alignment >= fxfMINSIZE) {
               SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
               if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
@@ -494,8 +494,8 @@ void *fxfAlloc(size_t size) {
               }
             }
             BotFreePtr+= cur_alignment;
-            curBottomInt+= cur_alignment;
-          } while (curBottomInt & needed_alignment_mask);
+            curBottomIndex+= cur_alignment;
+          } while (curBottomIndex & needed_alignment_mask);
         }
         ptr= BotFreePtr;
         BotFreePtr+= size;
@@ -516,14 +516,10 @@ void *fxfAlloc(size_t size) {
 NEXT_SEGMENT:
 #if defined(SEGMENTED)
       if (CurrentSeg < (ArenaSegCnt-1)) {
-        pointer_to_int_type curBottomInt= (pointer_to_int_type)BotFreePtr;
-        while (curBottomInt & PTRMASK) {
-          pointer_to_int_type const cur_alignment= (curBottomInt & -curBottomInt);
-#ifdef SEGMENTED
-          SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_alignment);
-#else
-          SetRange((char *)BotFreePtr-Arena,cur_alignment);
-#endif
+        size_t curBottomIndex= ((char *)BotFreePtr - Arena[CurrentSeg]);
+        while (curBottomIndex & PTRMASK) {
+          size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
+          SetRange(curBottomIndex,cur_alignment);
           if (cur_alignment >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
             if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
@@ -535,15 +531,11 @@ NEXT_SEGMENT:
             }
           }
           BotFreePtr+= cur_alignment;
-          curBottomInt+= cur_alignment;
+          curBottomIndex+= cur_alignment;
         }
         if (BotFreePtr < TopFreePtr) {
           size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
-#ifdef SEGMENTED
           SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_size);
-#else
-          SetRange((char *)BotFreePtr-Arena,cur_size);
-#endif
           if (cur_size >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
             if ((cur_size >= sizeof(void *)) || !cur_sh->FreeCount) {
