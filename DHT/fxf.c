@@ -437,6 +437,7 @@ void *fxfAlloc(size_t size) {
   if (sh->FreeHead) {
 #if defined(SEGMENTED)
     int ptrSegment;
+    ptrdiff_t_printf_type ptrIndex= -1; 
 #endif
     ptr= sh->FreeHead;
     if (size < sizeof sh->FreeHead)
@@ -446,13 +447,15 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
 #if defined(SEGMENTED)
-    for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
+    for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
       pointer_to_int_type tmp= (pointer_to_int_type)ptr;
       pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
-      if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
+      if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
+        ptrIndex= (tmp - segment_begin);
         break;
+      }
     }
-    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)((char *)ptr-Arena[ptrSegment]),sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,ptrIndex,sh->MallocCount));
 #else
 #  if defined(FREEMAP)
     ClrRange((char *)ptr-Arena, size);
@@ -575,13 +578,16 @@ void fxfFree(void *ptr, size_t size)
 
 #if defined(SEGMENTED)
   int ptrSegment;
-  for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
+  ptrdiff_t_printf_type ptrIndex= -1;
+  for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
     pointer_to_int_type tmp= (pointer_to_int_type)ptr;
     pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
-    if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
+    if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
+      ptrIndex= (tmp - segment_begin);
       break;
+    }
   }
-  TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena[ptrSegment]),(size_t_printf_type)size));
+  TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,ptrIndex,(size_t_printf_type)size));
 #else
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
 #endif
