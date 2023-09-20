@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #if defined(__TURBOC__)
 #  include <mem.h>
@@ -406,8 +407,6 @@ void fxfReset(void)
 #define PTRMASK            (MAX_ALIGNMENT-1U)
 #define ALIGN_TO_MINIMUM(s)  (((s) + (MIN_ALIGNMENT - 1U)) & ~(MIN_ALIGNMENT - 1U))
 
-#define  GetNextPtr(ptr)       (*(void **)(ptr))
-
 #define TMDBG(x) if (0) x
 
 void *fxfAlloc(size_t size) {
@@ -443,7 +442,10 @@ void *fxfAlloc(size_t size) {
     int ptrSegment;
 #endif
     ptr= (char *)sh->FreeHead;
-    sh->FreeHead= ((size < sizeof(void *)) ? Nil(void) : GetNextPtr(ptr));
+    if (size < sizeof sh->FreeHead)
+      sh->FreeHead= Nil(void);
+    else
+      memcpy(&sh->FreeHead, ptr, sizeof sh->FreeHead);
     sh->FreeCount--;
     sh->MallocCount++;
 #ifdef SEGMENTED
@@ -453,7 +455,7 @@ void *fxfAlloc(size_t size) {
       if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
         break;
     }
-    ClrRange((char *)ptr-Arena[ptrSegnemtn], size);
+    ClrRange((char *)ptr-Arena[ptrSegment], size);
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)(ptr-Arena[ptrSegment]),sh->MallocCount));
 #else
     ClrRange((char *)ptr-Arena, size);
@@ -488,9 +490,9 @@ START_LOOKING_FOR_CHUNK:
             SetRange(curBottomIndex,cur_alignment);
             if (cur_alignment >= fxfMINSIZE) {
               SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
-              if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
-                if (cur_alignment >= sizeof(void *))
-                  *(void **)BotFreePtr= cur_sh->FreeHead;
+              if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+                if (cur_alignment >= sizeof cur_sh->FreeHead)
+                  memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
                 cur_sh->FreeHead= BotFreePtr;
                 ++cur_sh->FreeCount;
                 TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
@@ -525,9 +527,9 @@ NEXT_SEGMENT:
           SetRange(curBottomIndex,cur_alignment);
           if (cur_alignment >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
-            if ((cur_alignment >= sizeof(void *)) || !cur_sh->FreeCount) {
-              if (cur_alignment >= sizeof(void *))
-                *(void **)BotFreePtr= cur_sh->FreeHead;
+            if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+              if (cur_alignment >= sizeof cur_sh->FreeHead)
+                memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
               cur_sh->FreeHead= BotFreePtr;
               ++cur_sh->FreeCount;
               TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
@@ -541,9 +543,9 @@ NEXT_SEGMENT:
           SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_size);
           if (cur_size >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
-            if ((cur_size >= sizeof(void *)) || !cur_sh->FreeCount) {
-              if (cur_size >= sizeof(void *))
-                *(void **)BotFreePtr= cur_sh->FreeHead;
+            if ((cur_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+              if (cur_size >= sizeof cur_sh->FreeHead)
+                memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
               cur_sh->FreeHead= BotFreePtr;
               ++cur_sh->FreeCount;
               TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
@@ -612,9 +614,9 @@ void fxfFree(void *ptr, size_t size)
 #else
       SetRange((char *)ptr-Arena,size);
 #endif
-      if ((size >= sizeof(void *)) || !sh->FreeHead) {
-        if (size >= sizeof(void *))
-          *(void **)ptr= sh->FreeHead;
+      if ((size >= sizeof sh->FreeHead) || !sh->FreeHead) {
+        if (size >= sizeof sh->FreeHead)
+          memcpy(ptr, &sh->FreeHead, sizeof sh->FreeHead);
         sh->FreeHead= ptr;
         ++sh->FreeCount;
         --sh->MallocCount;
@@ -636,9 +638,9 @@ void fxfFree(void *ptr, size_t size)
 #else
       SetRange((char *)ptr-Arena,size);
 #endif
-      if ((size >= sizeof(void *)) || !sh->FreeCount) {
-        if (size >= sizeof(void *))
-          *(void **)ptr= sh->FreeHead;
+      if ((size >= sizeof sh->FreeHead) || !sh->FreeCount) {
+        if (size >= sizeof sh->FreeHead)
+          memcpy(ptr, &sh->FreeHead, sizeof sh->FreeHead);
         sh->FreeHead= ptr;
         ++sh->FreeCount;
         --sh->MallocCount;
