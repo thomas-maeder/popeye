@@ -562,7 +562,7 @@ namespace eval format {
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-                    nonterminal movesLine { space+ movesSequence }
+                    nonterminal movesLine { movesSequence }
                     nonterminal line { movesLine | moveNumberLine }
                     nonterminal block { line+ }
                 }
