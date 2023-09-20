@@ -23,7 +23,7 @@
 #  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
-#    ifdef UINTPTR_MAX
+#    if defined(UINTPTR_MAX)
    typedef uintptr_t pointer_to_int_type;
 #    else
    typedef uintmax_t pointer_to_int_type;
@@ -255,9 +255,6 @@ void PrintFreeMap(FILE *f) {
       fputc('?', f);
   }
 }
-#else
-static void SetRange(size_t x, size_t l) { (void) x; (void) l; }
-static void ClrRange(size_t x, size_t l) { (void) x; (void) l; }
 #endif /*FREEMAP, !SEGMENTED*/
 
 size_t fxfInit(size_t Size) {
@@ -438,7 +435,7 @@ void *fxfAlloc(size_t size) {
   size= ALIGN_TO_MINIMUM(size);
   sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (sh->FreeHead) {
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
     int ptrSegment;
 #endif
     ptr= sh->FreeHead;
@@ -448,24 +445,25 @@ void *fxfAlloc(size_t size) {
       memcpy(&sh->FreeHead, ptr, sizeof sh->FreeHead);
     sh->FreeCount--;
     sh->MallocCount++;
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
     for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
       pointer_to_int_type tmp= (pointer_to_int_type)ptr;
       pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
       if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
         break;
     }
-    ClrRange((char *)ptr-Arena[ptrSegment], size);
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)((char *)ptr-Arena[ptrSegment]),sh->MallocCount));
 #else
+#  if defined(FREEMAP)
     ClrRange((char *)ptr-Arena, size);
+#  endif
     TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)((char *)ptr-Arena),sh->MallocCount));
 #endif
   }
   else {
     /* we have to allocate a new piece */
     size_t sizeCurrentSeg;
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
 START_LOOKING_FOR_CHUNK:
 #endif
     sizeCurrentSeg = (size_t)(TopFreePtr-BotFreePtr);
@@ -476,7 +474,7 @@ START_LOOKING_FOR_CHUNK:
         size_t needed_alignment_mask= PTRMASK;
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
         size_t curBottomIndex= (BotFreePtr - Arena[CurrentSeg]);
 #else
         size_t curBottomIndex= (BotFreePtr - Arena);
@@ -487,7 +485,9 @@ START_LOOKING_FOR_CHUNK:
             goto NEXT_SEGMENT;
           do {
             size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
+#if defined(FREEMAP) && !defined(SEGMENTED)
             SetRange(curBottomIndex,cur_alignment);
+#endif
             if (cur_alignment >= fxfMINSIZE) {
               SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
               if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
@@ -510,7 +510,7 @@ START_LOOKING_FOR_CHUNK:
         ptr= (TopFreePtr-= size);
       }
       sh->MallocCount++;
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
       TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,(ptrdiff_t_printf_type)((char *)ptr-Arena[CurrentSeg]),sh->MallocCount));
 #else
       TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)((char *)ptr-Arena),sh->MallocCount));
@@ -524,7 +524,6 @@ NEXT_SEGMENT:
         size_t curBottomIndex= (BotFreePtr - Arena[CurrentSeg]);
         while (curBottomIndex & PTRMASK) {
           size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
-          SetRange(curBottomIndex,cur_alignment);
           if (cur_alignment >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
             if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
@@ -540,7 +539,6 @@ NEXT_SEGMENT:
         }
         if (BotFreePtr < TopFreePtr) {
           size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
-          SetRange(BotFreePtr-Arena[CurrentSeg],cur_size);
           if (cur_size >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
             if ((cur_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
@@ -575,7 +573,7 @@ void fxfFree(void *ptr, size_t size)
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-#ifdef SEGMENTED
+#if defined(SEGMENTED)
   int ptrSegment;
   for (ptrSegment= CurrentSeg; ptrSegment > 0; --ptrSegment) {
     pointer_to_int_type tmp= (pointer_to_int_type)ptr;
@@ -609,9 +607,7 @@ void fxfFree(void *ptr, size_t size)
       --sh->MallocCount;
     }
     else {
-#ifdef SEGMENTED
-      SetRange((char *)ptr-Arena[ptrSegment],size);
-#else
+#if defined(FREEMAP) && !defined(SEGMENTED)
       SetRange((char *)ptr-Arena,size);
 #endif
       if ((size >= sizeof sh->FreeHead) || !sh->FreeHead) {
@@ -633,9 +629,7 @@ void fxfFree(void *ptr, size_t size)
       --sh->MallocCount;
     }
     else {
-#ifdef SEGMENTED
-      SetRange((char *)ptr-Arena[ptrSegment],size);
-#else
+#if defined(FREEMAP) && !defined(SEGMENTED)
       SetRange((char *)ptr-Arena,size);
 #endif
       if ((size >= sizeof sh->FreeHead) || !sh->FreeCount) {
