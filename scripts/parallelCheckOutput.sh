@@ -7,6 +7,27 @@
 #
 # Pass -all as only option to test all output files
 
+die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
+needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
+
+CORES=*3/4
+
+# cf. https://stackoverflow.com/questions/402377/using-getopts-to-process-long-and-short-command-line-options
+while getopts c:-: OPT; do
+  # support long options: https://stackoverflow.com/a/28466267/519360
+  if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
+    OPT="${OPTARG%%=*}"       # extract long option name
+    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
+    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
+  fi
+  case "$OPT" in
+    c | cores )    needs_arg; CORES="$OPTARG" ;;
+    ??* )          die "Illegal option --$OPT" ;;  # bad long option
+    ? )            exit 2 ;;  # bad short option (error reported via getopts)
+  esac
+done
+shift $((OPTIND-1)) # remove parsed options and args from $@ list
+
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
 
@@ -15,13 +36,18 @@ POPEYEDIR=${SCRIPTDIR}/..
 # command to be invoked in parallel
 _cmd="${POPEYEDIR}/scripts/checkDiffOutput.sh"
 
-NRCPUS=$(cat /proc/cpuinfo | grep processor | tail --lines=1 | tr '\t' ' ' | tr --squeeze-repeats ' ' | cut --delimiter=' ' --fields=3)
 
-PMAX=$(($NRCPUS-2))
-if [[ $PMAX<0 ]]
+# number of processors
+CORES_AVAILABLE=$(nproc --all)
+CORES_REQUESTED=$((($CORES_AVAILABLE$CORES)%$CORES_AVAILABLE))
+
+if [ $CORES_REQUESTED -eq 0 ]
 then
-    PMAX=1
+        echo "0 cores requested" >&2
+        exit 1
 fi
+
+PMAX=$CORES_REQUESTED
 
 #DEBUG=1
 
