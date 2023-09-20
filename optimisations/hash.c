@@ -42,7 +42,7 @@
  ** for more details. Two procedures are used:
  **   dhtLookupElement: This procedure delivers
  ** a nil pointer, when the given position is not in the hashtable,
- ** or a pointer to a hashelement.
+ ** or a pointer to a hashElement.
  **   dhtEnterElement:  This procedure enters an encoded position
  ** with its values into the hashtable.
  **
@@ -56,7 +56,7 @@
  ** in 5 moves", since the former can be recomputed faster. For the other
  ** type of information ("solvable") the comparison is the other way round.
  ** The compression of the table is an expensive operation, in a lot
- ** of exeperiments it has shown to be quite effective in keeping the
+ ** of experiments it has shown to be quite effective in keeping the
  ** most valuable information, and speeds up the computation time
  ** considerably. But to be of any use, there must be enough memory to
  ** to store more than 800 positions.
@@ -64,7 +64,7 @@
  ** There seems to be no real penalty in using hashing, even if the
  ** hit ratio is very small and only about 5%, it speeds up the
  ** computation time by 30%.
- ** I changed the output of hashstat, since its really informative
+ ** I changed the output of hashstat, since it's really informative
  ** to see the hit rate.
  **
  ** inithash()
@@ -1774,8 +1774,12 @@ static boolean is_proofgame(slice_index si)
  */
 boolean is_hashtable_allocated(void)
 {
+#ifdef FXF
   return !!fxfInitialised(); /* !! just in case fxfInitialised returns a nonzero value other than 1
                                 and boolean is some type that won't automatically convert it to 1. */
+#else
+  return hashtable_kilos>0;
+#endif
 }
 
 /* Initialise the hashing machinery for the current stipulation
