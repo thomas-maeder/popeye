@@ -455,10 +455,10 @@ void *fxfAlloc(size_t size) {
       if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
         break;
     }
-    ClrRange((char *)ptr-Arena[ptrSegment], size);
+    ClrRange(ptr-Arena[ptrSegment], size);
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)(ptr-Arena[ptrSegment]),sh->MallocCount));
 #else
-    ClrRange((char *)ptr-Arena, size);
+    ClrRange(ptr-Arena, size);
     TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
 #endif
   }
@@ -477,9 +477,9 @@ START_LOOKING_FOR_CHUNK:
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
 #ifdef SEGMENTED
-        size_t curBottomIndex= ((char *)BotFreePtr - Arena[CurrentSeg]);
+        size_t curBottomIndex= (BotFreePtr - Arena[CurrentSeg]);
 #else
-        size_t curBottomIndex= ((char *)BotFreePtr - Arena);
+        size_t curBottomIndex= (BotFreePtr - Arena);
 #endif
         if (curBottomIndex & needed_alignment_mask) {
           size_t const numBytesToAdd= (needed_alignment_mask - (curBottomIndex & needed_alignment_mask)) + 1U;
@@ -521,7 +521,7 @@ START_LOOKING_FOR_CHUNK:
 NEXT_SEGMENT:
 #if defined(SEGMENTED)
       if (CurrentSeg < (ArenaSegCnt-1)) {
-        size_t curBottomIndex= ((char *)BotFreePtr - Arena[CurrentSeg]);
+        size_t curBottomIndex= (BotFreePtr - Arena[CurrentSeg]);
         while (curBottomIndex & PTRMASK) {
           size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
           SetRange(curBottomIndex,cur_alignment);
@@ -540,7 +540,7 @@ NEXT_SEGMENT:
         }
         if (BotFreePtr < TopFreePtr) {
           size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
-          SetRange((char *)BotFreePtr-Arena[CurrentSeg],cur_size);
+          SetRange(BotFreePtr-Arena[CurrentSeg],cur_size);
           if (cur_size >= fxfMINSIZE) {
             SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
             if ((cur_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
@@ -566,7 +566,7 @@ NEXT_SEGMENT:
       TMDBG(printf(" ptr:%p\n",(void *)ptr));
     }
   }
-  DBG((df, "%p\n", (void *) ptr));
+  DBG((df, "%p\n", (void *)ptr));
   return ptr;
 }
 
@@ -587,7 +587,7 @@ void fxfFree(void *ptr, size_t size)
 #else
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)(((char const*)ptr)-Arena),(size_t_printf_type)size));
 #endif
-  DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *) ptr, (size_t_printf_type) size));
+  DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
   assert(ptr || !size);
   if (!ptr)
     return;
