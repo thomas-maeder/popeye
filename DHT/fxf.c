@@ -414,7 +414,7 @@ void *fxfAlloc(size_t size) {
   static char const * const myname= "fxfAlloc";
 #endif
   SizeHead *sh;
-  char *ptr= Nil(char);
+  void *ptr= Nil(void);
 
   TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
@@ -441,7 +441,7 @@ void *fxfAlloc(size_t size) {
 #ifdef SEGMENTED
     int ptrSegment;
 #endif
-    ptr= (char *)sh->FreeHead;
+    ptr= sh->FreeHead;
     if (size < sizeof sh->FreeHead)
       sh->FreeHead= Nil(void);
     else
@@ -455,11 +455,11 @@ void *fxfAlloc(size_t size) {
       if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE))
         break;
     }
-    ClrRange(ptr-Arena[ptrSegment], size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)(ptr-Arena[ptrSegment]),sh->MallocCount));
+    ClrRange((char *)ptr-Arena[ptrSegment], size);
+    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)((char *)ptr-Arena[ptrSegment]),sh->MallocCount));
 #else
-    ClrRange(ptr-Arena, size);
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+    ClrRange((char *)ptr-Arena, size);
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)((char *)ptr-Arena),sh->MallocCount));
 #endif
   }
   else {
@@ -507,13 +507,13 @@ START_LOOKING_FOR_CHUNK:
       }
       else {
         /* fully aligned */
-        ptr= TopFreePtr-= size;
+        ptr= (TopFreePtr-= size);
       }
       sh->MallocCount++;
 #ifdef SEGMENTED
-      TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,(ptrdiff_t_printf_type)(ptr-Arena[CurrentSeg]),sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,(ptrdiff_t_printf_type)((char *)ptr-Arena[CurrentSeg]),sh->MallocCount));
 #else
-      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)(ptr-Arena),sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)((char *)ptr-Arena),sh->MallocCount));
 #endif
     }
     else
@@ -559,14 +559,14 @@ NEXT_SEGMENT:
         goto START_LOOKING_FOR_CHUNK;
       }
       else
-        ptr= Nil(char);
+        ptr= Nil(void);
 #else /*SEGMENTED*/
-      ptr= Nil(char);
+      ptr= Nil(void);
 #endif /*!SEGMENTED*/
-      TMDBG(printf(" ptr:%p\n",(void *)ptr));
+      TMDBG(printf(" ptr:%p\n", ptr));
     }
   }
-  DBG((df, "%p\n", (void *)ptr));
+  DBG((df, "%p\n", ptr));
   return ptr;
 }
 
