@@ -131,6 +131,11 @@ void redo_move_effects(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_top);
+  TraceValue("%u",top);
+  TraceEOL();
+
   assert(parent_top<=top);
 
   for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)

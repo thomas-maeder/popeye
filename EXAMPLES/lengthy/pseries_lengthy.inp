@@ -1,0 +1,13 @@
+begin
+
+protocol pseries_lengthy.ref
+
+author Dan Meinking & George Sphicas
+origin StrateGems 47, 2009, no. 4
+pieces white kb7 sc3 pe2
+       black kf1 pg7
+stipulation pser-h#14
+option intelligent
+
+end
+

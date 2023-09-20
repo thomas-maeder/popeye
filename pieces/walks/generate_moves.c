@@ -339,6 +339,10 @@ void generate_moves_for_piece_based_on_walk(void)
       hamster_generate_moves();
       break;
 
+    case ContraHamster:
+      contrahamster_generate_moves();
+      break;
+
     case UbiUbi:
       ubiubi_generate_moves();
       break;

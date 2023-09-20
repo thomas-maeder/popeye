@@ -1493,7 +1493,7 @@ void verify_position(slice_index si)
         {
           /* only fairy pieces until now ! */
           disable_orthodox_mating_move_optimisation(nr_sides);
-          if (p!=Hamster)
+          if (true||p!=Hamster)
           {
             checkpieces[check_piece_index] = p;
             is_check_piece[p] = true;
@@ -1836,6 +1836,32 @@ void verify_position(slice_index si)
 
   if (CondFlag[breton])
     disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[series_capture])
+  {
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
+    if (CondFlag[ghostchess]
+        || CondFlag[hauntedchess]
+        || CondFlag[madras]
+        || CondFlag[eiffel]
+        || CondFlag[partialparalysis]
+        || TSTFLAG(some_pieces_flags,Paralysing)
+        || CondFlag[backhome]
+        || CondFlag[backtoback]
+        || CondFlag[takemake]
+        || CondFlag[maketake]
+        || CondFlag[mars] || CondFlag[marsmirror]
+        || CondFlag[koeko]
+        || TSTFLAG(some_pieces_flags,Uncapturable)
+        || total_invisible_number>0
+        || mummer_strictness[Black]!=mummer_strictness_none
+        || mummer_strictness[White]!=mummer_strictness_none)
+    {
+      output_plaintext_message(NonsenseCombination);
+      return;
+    }
+  }
 
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]

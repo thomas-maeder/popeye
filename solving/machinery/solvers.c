@@ -63,6 +63,7 @@
 #include "conditions/kobul.h"
 #include "conditions/andernach.h"
 #include "conditions/antiandernach.h"
+#include "conditions/darkside.h"
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
@@ -123,6 +124,7 @@
 #include "conditions/synchronous.h"
 #include "conditions/must_capture.h"
 #include "conditions/lostpieces.h"
+#include "conditions/series_capture.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -415,6 +417,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
 
+  if (CondFlag[darkside])
+    solving_insert_darkside(si);
+
   if (CondFlag[breton])
     solving_insert_breton(si);
 
@@ -503,6 +508,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[chamchess])
     chameleon_chess_initialise_solving(si);
+
+  if (CondFlag[series_capture])
+    solving_instrument_series_capture(si);
 
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
   promotion_instrument_solving_default(si);

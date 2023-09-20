@@ -1,0 +1,47 @@
+
+Ofer Comay, Paz Einat, Menachem Witztum
+Trofeul e4-e5 section C 2020, 1st place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -B   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -P   7
+|                                   |
+6   .  -Q   .   .   .   .  -K  -S   6
+|                                   |
+5   .  -R   .  -S   .   .   .  -R   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   Q   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 9
+              DarkSide
+
+a) 
+
+  1.Sd5*e3=w Se3-g2   2.Qb6-g1=w Sg2-h4 #
+  1.Qb6-d4=w Qb2-g2 +   2.Kg6-f5 Qg2-e4 #
+  1.Kg6-f5 Qb2-g2   2.Qb6-d4=w Qg2-e4 #
+  add_to_move_generation_stack:      630600
+                     play_move:      451300
+ is_white_king_square_attacked:       84106
+ is_black_king_square_attacked:      449769
+
+b) bSh6-->f6  
+
+  1.Rb5*b2=w Rb2-c2   2.Qb6-b1=w Rc2-g2 #
+  add_to_move_generation_stack:      630377
+                     play_move:      444227
+ is_white_king_square_attacked:       85698
+ is_black_king_square_attacked:      442721
+
+solution finished.
+
+

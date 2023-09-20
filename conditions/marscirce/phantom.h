@@ -22,6 +22,14 @@ void phantom_reset_variant(circe_variant_type *variant);
  */
 void phantom_avoid_duplicate_moves(slice_index si);
 
+/* Determine whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean phantom_king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
+                                                                           Side side_in_check);
+
 /* Inialise the solving machinery with Phantom Chess
  * @param si identifies root slice of solving machinery
  */

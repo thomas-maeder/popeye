@@ -11,7 +11,7 @@
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
  * @param followed_id id of the piece to be followed
- * @param pos position of the piece after the inital capture removal and piece movement have taken place
+ * @param pos position of the piece after the initial capture removal and piece movement have taken place
  * @return the position of the piece with the "other" effect applied
  *         initsquare if the piece is not on the board after the "other" effects
  */

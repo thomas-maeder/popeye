@@ -6,6 +6,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
+#include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
@@ -107,7 +108,6 @@ static void generate_make_for_one_take(numecoup take_current,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-#include "solving/post_move_iteration.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

@@ -479,6 +479,12 @@
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
     ENUMERATOR(STMarscirceRemoveCapturer),                              \
+    ENUMERATOR(STSeriesCapturePlyRewinder),                             \
+    ENUMERATOR(STSeriesCaptureRecursionLanding),                        \
+    ENUMERATOR(STBeforeSeriesCapture),                                  \
+    ENUMERATOR(STSeriesCaptureFork),                                    \
+    ENUMERATOR(STLandingAfterSeriesCapture),                            \
+    ENUMERATOR(STSeriesCaptureJournalFixer),                            \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
     ENUMERATOR(STMagicPiecesRecolorer),                                 \
@@ -494,6 +500,7 @@
     ENUMERATOR(STSnekCircleSubstitutor),                                \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
+    ENUMERATOR(STDarksideSideChanger),                                  \
     ENUMERATOR(STBretonApplier),                                        \
     ENUMERATOR(STBretonPopeyeApplier),                                  \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
@@ -529,6 +536,7 @@
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \
+    ENUMERATOR(STPhantomKingSquareObservationTesterPlyInitialiser),     \
     ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator),              \
     ENUMERATOR(STMoveForPieceGeneratorAlternativePath),                 \
     ENUMERATOR(STMoveForPieceGeneratorStandardPath),                    \

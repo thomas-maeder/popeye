@@ -2,41 +2,41 @@
 #
 
 # Include file for makefile.unx for compiling on a Unix-ish platform
-# (including MacOS X) for MacOS X (i686) using the Gnu Compiler
-# collection's C compiler.
+# (including MacOS X) for that same platform using the Intell C/C++
+# compiler.
+# I.e. host platform is equal to target platform.
+
+# This file was successfully tested using version 11.0 on Linux/x86_64
 
 # Requirements:
 #
 # The following tools can be used to produce executables for the host
 # and target plarform and can be found in the $PATH
-#
-# Target tools:
-# - i686-apple-darwin9-gcc
-# - i686-apple-darwin9-ar
-# - i686-apple-darwin9-ranlib
-# - i686-apple-darwin9-strip
-#
-# Host tools:
-# - gcc
+# Following the Intel oneAPI instructions you must have "sourced" /opt/intel/oneapi/setvars.sh 
+# in e.g. bash or zsh or equivalent to setup the environment
+# - icx
+# - ar
+# - ranlib
+# - strip
 
 
 # Compiler selection
 # ==================
 
 # Compiler for creating executables on host
-CCHOST=gcc
+CCHOST=icx
 
 # Linker for creating executables on host
-LDHOST=gcc
+LDHOST=icx
 
 # Compiler for creating executables on target
-CCTARGET=i686-apple-darwin9-gcc
+CCTARGET=icx
 
 # Linker for creating executables on target
-LDTARGET=i686-apple-darwin9-gcc
+LDTARGET=icx
 
 # Strip utility to remove unnecessary symbols from executable
-STRIPTARGET=i686-apple-darwin9-strip
+STRIPTARGET=strip
 
 
 # Librarian
@@ -45,27 +45,23 @@ STRIPTARGET=i686-apple-darwin9-strip
 # A library is called archive on Unix-ish platforms
 
 # Archive generator
-ARCHIVER = i686-apple-darwin9-ar rv
+ARCHIVER = ar rv
 
 # Archive index generator
-ARCHIVE_INDEXER = i686-apple-darwin9-ranlib
+ARCHIVE_INDEXER = ranlib
 
 
 # Compiler options
 # ================
 
 # Select warning level
-WARN=-W -Wall -pedantic -Wno-unused-parameter -Wdeclaration-after-statement
+WARN=-Wcomment -Wdeprecated -Wextra-tokens -Wformat -Wformat-security -Wmain -Wmissing-declarations -Wmissing-prototypes -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wtrigraphs -Wuninitialized -Wunused-function -Wunused-variable
 
 # Select whether to produce an executable with debugging and profiling
 # info
 #DBG=-pg
-#DBG=-g
-DBG=
-
-# Indicate target architecture to compiler
-#ARCH=-m64		# 64-Bit gcc
-ARCH=
+#DBG=-debug all
+DBG=-debug none
 
 # Select target compiler optimization level
 CCOPTIM=-O3
@@ -83,9 +79,6 @@ OBJFILE=-o
 
 # Option for defining a C preprocessor macro
 DEFINEMACRO=-D
-
-# you may need to thange this
-INCLUDEPATHS=-I/home/maeder/IMCROSS/mac/include
 
 
 # Linker options
@@ -109,13 +102,8 @@ OBJ_SUFFIX=.o
 # suffix for libraries
 LIB_SUFFIX=lib.a
 
-# Popeye executable file name stem
-EXE_PLATFORM_MARK=macos
-
-
-# Meta information
-# ----------------
-OSTYPE="MacOS X"
+# suffix for executables
+EXE_SUFFIX=
 
 
 # Selector for platform-specific files

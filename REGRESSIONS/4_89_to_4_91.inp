@@ -1,0 +1,13 @@
+begin
+
+prot 4_89_to_4_91.reg
+
+title Series Capture proof games weren't solved due to a misapplied "opimization"
+author Andrew Buchanan
+origin issue #378
+fors rsbqkbsr/p1pppppp/1P6/8/8/8/1PPPPPPP/RSBQKBSR
+stipulation dia1.5
+condition seriescapture
+
+end
+

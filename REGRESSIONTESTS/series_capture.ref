@@ -1,0 +1,81 @@
+
+          Tadashi Wakashima
+      Sake Tourney 2023 example
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   S   .   4
+|                                   |
+3   .   .   .   .  -P  -K  -P   .   3
+|                                   |
+2   .   .   .   .   .   .   R  -P   2
+|                                   |
+1   .   .   .   .   .   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 5
+            SeriesCapture
+
+a) 
+
+  1.Kf3*g2-g1 Kd4*e3-e2   2.g3-g2 Sg4*h2-f3 #
+  add_to_move_generation_stack:      571547
+                     play_move:      434697
+ is_white_king_square_attacked:       71496
+ is_black_king_square_attacked:      454515
+
+b) bPh2-->h4  
+
+  1.Kf3*g4-h3 Kd4*e3-f3   2.Rh1-g1 Rg2*g1-h1 #
+  add_to_move_generation_stack:      352562
+                     play_move:      270811
+ is_white_king_square_attacked:       43687
+ is_black_king_square_attacked:      282171
+
+solution finished.
+
+
+
+         Toshimasa Fujiwara
+      Sake Tourney 2023 example
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   K   .  -B   .   .   .   7
+|                                   |
+6   .   .  -S   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .  -Q   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 7
+            SeriesCapture
+
+  1.Bh3-d7 e2-e4   2.Sf6-d5 + e4*d5*c6*d7 #
+  1.Sc6-d8 e2-e3   2.Qb4-f4 + e3*f4*g5*f6*e7*d8=Q #
+  add_to_move_generation_stack:     1738372
+                     play_move:     1623425
+ is_white_king_square_attacked:      235032
+ is_black_king_square_attacked:     1685288
+
+solution finished.
+
+

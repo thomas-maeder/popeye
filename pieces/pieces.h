@@ -170,7 +170,8 @@ typedef enum
   Saltador,              /* 157 */
   MaoHopper,             /* 158 */
   MoaHopper,             /* 159 */
-  Hunter0,               /* 160 */
+  ContraHamster,         /* 160 */
+  Hunter0,               /* 161 */
 
   nr_piece_walks = Hunter0+max_nr_hunter_walks
 } piece_walk_type;

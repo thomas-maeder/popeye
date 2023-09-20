@@ -1,0 +1,36 @@
+
+           Andrew Buchanan
+             issue #378
+Series Capture proof games weren't solved due to a misapplied "opimization"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia1.5                    16 + 15
+            SeriesCapture
+
+  1.a2-a4 b7-b5   2.a4*b5-b6 dia
+  add_to_move_generation_stack:        2110
+                     play_move:        2110
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:          97
+
+solution finished.
+
+

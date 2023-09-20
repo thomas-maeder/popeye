@@ -237,8 +237,10 @@ typedef enum
   blmindister,            /* 216 */
   whmaxdister,            /* 217 */
   whmindister,            /* 218 */
+  series_capture,         /* 219 */
+  darkside,               /* 220 */
 
-  CondCount               /* 219 */
+  CondCount               /* 221 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

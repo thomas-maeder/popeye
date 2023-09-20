@@ -261,6 +261,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	BlackMinDister
 	WhiteMaxDister
 	WhiteMinDister
+	SeriesCapture
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -461,7 +462,7 @@ commands expect further parameters. Lets start with the simpler commands:
 		AntipodeanImmunChess	ImmunChess Antipodes
 		EquipollentsImmunChess	ImmunChess Equipollents
 
-	After Breton, Adverse can be indicated.
+	After Breton, Adverse or PY can be indicated.
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
@@ -1026,6 +1027,7 @@ sstipulation). A little bit more elaborate are the commands
 	gr      gnurider
 	gt      girlscout
 	ha      hamster
+	hc      ContraHamster
 	k       king
 	ka      kangaroo
 	kh      kinghopper

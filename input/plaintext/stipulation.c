@@ -815,6 +815,7 @@ static char *ParsePlay(char *tok,
       solving_impose_starter(proxy_next,Black);
       select_output_mode(proxy,output_mode_line);
       battle_branch_insert_defense_check_zigzag(proxy);
+      battle_branch_insert_self_end_of_branch_goal(proxy,proxy_next);
     }
   }
 

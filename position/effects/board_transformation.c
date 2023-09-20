@@ -1,5 +1,6 @@
 #include "position/effects/board_transformation.h"
 #include "position/position.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "debugging/assert.h"
 
 static void transformBoard(SquareTransformation transformation)
@@ -44,6 +45,9 @@ static void transformBoard(SquareTransformation transformation)
   /* imitators */
   for (i= 0; i<maxinum; i++)
     being_solved.isquare[i]= transformSquare(t_isquare[i], transformation);
+
+  for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
+    en_passant_multistep_over[i] = transformSquare(en_passant_multistep_over[i], transformation);
 }
 
 /* Add transforming the board to the current move of the current ply

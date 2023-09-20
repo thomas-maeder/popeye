@@ -23,9 +23,10 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/slice_insertion.h stipulation/boolean/or.h \
  solving/observation.h solving/ply.h solving/temporary_hacks.h \
- solving/fork.h solving/move_generator.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/conditional_pipe.h solving/pipe.h debugging/assert.h
+ solving/fork.h solving/move_generator.h debugging/measure.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/conditional_pipe.h solving/pipe.h \
+ debugging/assert.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -124,6 +125,8 @@ solving/temporary_hacks.h:
 solving/fork.h:
 
 solving/move_generator.h:
+
+debugging/measure.h:
 
 solving/has_solution_type.h:
 
@@ -255,7 +258,7 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum pieces/attributes/paralysing/paralysing.h \
- solving/check.h solving/pipe.h debugging/assert.h
+ solving/check.h debugging/measure.h solving/pipe.h debugging/assert.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -331,6 +334,8 @@ pieces/attributes/paralysing/paralysing.h:
 
 solving/check.h:
 
+debugging/measure.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -346,7 +351,7 @@ pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/pipe.h
+ debugging/measure.h solving/pipe.h
 
 pieces/attributes/paralysing/remove_captures.h:
 
@@ -403,5 +408,7 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/measure.h:
 
 solving/pipe.h:

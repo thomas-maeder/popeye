@@ -279,7 +279,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','l'},   /* Saltador */
     /*158*/ {'a','s'},   /* MaoSauteur */
-    /*159*/ {'o','s'}    /* MoaSauteur */
+    /*159*/ {'o','s'},   /* MoaSauteur */
+    /*160*/ {'h','c'}    /* ContraHamster */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -440,7 +441,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
-    /*159*/ {'o','h'}    /* MoaHopper */
+    /*159*/ {'o','h'},   /* MoaSauteur */
+    /*160*/ {'h','k'}    /* KontraHamster */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -601,7 +603,8 @@ static PieTable PieNamString[LanguageCount] =
     /*156*/ {'l','o'},   /* Loco */
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
-    /*159*/ {'o','h'}    /* MoaHopper */
+    /*159*/ {'o','h'},   /* MoaSauteur */
+    /*160*/ {'h','c'}    /* ContraHamster */
   }
 };
 
@@ -953,7 +956,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*215*/ "NoirMaxDister",
     /*216*/ "NoirMinDister",
     /*217*/ "BlancMaxDister",
-    /*218*/ "BlancMinDister"
+    /*218*/ "BlancMinDister",
+    /*219*/ "SerieCapture",
+    /*220*/ "DarkSide"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1174,7 +1179,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*215*/ "SchwarzerMaxDister",
     /*216*/ "SchwarzerMinDister",
     /*217*/ "WeisserMaxDister",
-    /*218*/ "WeisserMinDister"
+    /*218*/ "WeisserMinDister",
+    /*219*/ "SerienSchlag",
+    /*220*/ "DarkSide"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1395,7 +1402,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*215*/ "BlackMaxDister",
     /*216*/ "BlackMinDister",
     /*217*/ "WhiteMaxDister",
-    /*218*/ "WhiteMinDister"
+    /*218*/ "WhiteMinDister",
+    /*219*/ "SeriesCapture",
+    /*220*/ "DarkSide"
   }
 };
 
@@ -1934,17 +1943,17 @@ static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCo
     /* French */
     "Adverse",
     "Chromatique",
-    "Popeye"
+    "PY"
   },{
     /* German */
     "Advers",
     "Chromatisch",
-    "Popeye"
+    "PY"
   },{
     /* English */
     "Adverse",
     "Chromatic",
-    "Popeye"
+    "PY"
   }
 };
 

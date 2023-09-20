@@ -4,37 +4,21 @@ platform/unix/maxmem$(OBJ_SUFFIX): platform/unix/maxmem.c platform/maxmem.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum
-
 platform/maxmem.h:
-
 utilities/boolean.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h platform/platform.h \
@@ -52,91 +36,48 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  position/color.enum pieces/walks/vectors.h output/plaintext/pieces.h \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
  debugging/assert.h
-
 platform/maxtime_impl.h:
-
 platform/maxtime.h:
-
 utilities/boolean.h:
-
 platform/platform.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
-
 optimisations/hash.h:
-
 DHT/dhtbcmem.h:
-
 solving/machinery/solve.h:
-
 solving/machinery/dispatch.h:
-
 debugging/trace.h:
-
 solving/ply.h:
-
 solving/move_effect_journal.h:
-
 position/castling_rights.h:
-
 position/pieceid.h:
-
 solving/move_generator.h:
-
 debugging/measure.h:
-
 output/plaintext/protocol.h:
-
 output/plaintext/plaintext.h:
-
 output/output.h:
-
 output/plaintext/position.h:
-
 position/position.h:
-
 position/color.h:
-
 position/color.enum.h:
-
 position/color.enum:
-
 pieces/walks/vectors.h:
-
 output/plaintext/pieces.h:
-
 output/plaintext/message.h:
-
 output/message.h:
-
 input/plaintext/language.h:
-
 debugging/assert.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/timer.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -144,49 +85,28 @@ platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/timer.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum \
  position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
  output/mode.h output/mode.enum.h output/mode.enum
-
 platform/timer.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 utilities/boolean.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
 platform/unix/priority$(OBJ_SUFFIX): platform/unix/priority.c platform/priority.h
-
 platform/priority.h:
 platform/unix/beep$(OBJ_SUFFIX): platform/unix/beep.c platform/beep.h \
  utilities/boolean.h platform/beep_impl.h
-
 platform/beep.h:
-
 utilities/boolean.h:
-
 platform/beep_impl.h:
 platform/unix/tmpfile$(OBJ_SUFFIX): platform/unix/tmpfile.c platform/tmpfile.h
-
 platform/tmpfile.h:

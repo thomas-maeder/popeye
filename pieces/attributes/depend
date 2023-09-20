@@ -97,8 +97,6 @@ solving/move_generator.h:
 
 debugging/measure.h:
 
-output/plaintext/protocol.h:
-
 pieces/walks/pawns/promotion.h:
 
 solving/move_effect_journal.h:
@@ -174,10 +172,9 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/slice_insertion.h stipulation/move.h \
  position/effects/side_change.h solving/move_effect_journal.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h optimisations/orthodox_check_directions.h \
- output/plaintext/message.h output/message.h input/plaintext/language.h \
- debugging/assert.h
+ solving/move_generator.h debugging/measure.h solving/pipe.h \
+ optimisations/orthodox_check_directions.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h debugging/assert.h
 
 pieces/attributes/magic.h:
 
@@ -282,8 +279,6 @@ solving/find_square_observer_tracking_back_from_target.h:
 solving/move_generator.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 solving/pipe.h:
 
@@ -563,7 +558,7 @@ pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h solving/pipe.h
+ debugging/measure.h solving/pipe.h
 
 pieces/attributes/uncapturable.h:
 
@@ -661,8 +656,6 @@ solving/move_generator.h:
 
 debugging/measure.h:
 
-output/plaintext/protocol.h:
-
 solving/pipe.h:
 pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisible.c \
  pieces/attributes/total_invisible.h position/pieceid.h pieces/pieces.h \
@@ -693,11 +686,11 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  stipulation/branch.h stipulation/pipe.h stipulation/proxy.h \
  stipulation/slice_insertion.h stipulation/help_play/branch.h \
  stipulation/goals/slice_insertion.h solving/check.h debugging/measure.h \
- output/plaintext/protocol.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/machinery/slack_length.h solving/move_generator.h solving/pipe.h \
- solving/castling.h output/plaintext/plaintext.h output/output.h \
- output/plaintext/pieces.h optimisations/orthodox_square_observation.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/machinery/slack_length.h \
+ solving/move_generator.h solving/pipe.h solving/castling.h \
+ output/plaintext/plaintext.h output/output.h output/plaintext/pieces.h \
+ optimisations/orthodox_square_observation.h \
  optimisations/orthodox_check_directions.h options/movenumbers.h \
  pieces/attributes/total_invisible/consumption.h \
  pieces/attributes/total_invisible/taboo.h \
@@ -824,8 +817,6 @@ stipulation/goals/slice_insertion.h:
 solving/check.h:
 
 debugging/measure.h:
-
-output/plaintext/protocol.h:
 
 solving/has_solution_type.h:
 
