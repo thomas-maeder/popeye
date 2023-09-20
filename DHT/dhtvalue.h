@@ -14,11 +14,15 @@
 #ifdef __cplusplus
 #    if __cplusplus >= 201103L
 #        include <cstdint>
+#    else
+#        include <climits>
 #    endif
 #    include <csignal>
 #elif defined(__STDC_VERSION__)
 #    if __STDC_VERSION__ >= 199901L
 #        include <stdint.h>
+#    else
+#        include <limits.h>
 #    endif
 #    include <signal.h>
 #endif
@@ -68,6 +72,9 @@ typedef union {
 #    if __cplusplus >= 201103L
     ::std::uintmax_t unsigned_integer;
     ::std::intmax_t signed_integer;
+#    elif defined(LLONG_MAX)
+    unsigned long long int unsigned_integer;
+    long long int signed_integer;
 #    else
     unsigned long int unsigned_integer;
     long int signed_integer;
@@ -80,8 +87,13 @@ typedef union {
     intmax_t signed_integer;
     _Bool boolean;
 #    else
+#        if defined(LLONG_MAX)
+    unsigned long long int unsigned_integer;
+    long long int signed_integer;
+#        else
     unsigned long int unsigned_integer;
     long int signed_integer;
+#        endif
     int boolean; // What else?
 #    endif
     sig_atomic_t atomic_integer;

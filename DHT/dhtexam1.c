@@ -62,7 +62,7 @@ uLong inet_addr(char *cp) {
 	return addr;
 }
 
-struct hostent *gethent(char *file)
+struct hostent *gethent(char const *file)
 {
 	static struct hostent host;
 	char *p;
