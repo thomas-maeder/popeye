@@ -255,11 +255,11 @@ void PrintFreeMap(FILE *f) {
 }
 #endif /*FREEMAP, !SEGMENTED*/
 
-static ptrdiff_t_printf_type pointerDifference(void const *ptr1, void const *ptr2) {
+static inline ptrdiff_t_printf_type pointerDifference(void const *ptr1, void const *ptr2) {
   return (((char const *)ptr1) - ((char const *)ptr2));
 }
 
-static void * stepPointer(void *ptr, ptrdiff_t_printf_type step) {
+static inline void * stepPointer(void *ptr, ptrdiff_t_printf_type step) {
   return (void *)(((char *)ptr) + step);
 }
 
@@ -277,7 +277,8 @@ size_t fxfInit(size_t Size) {
     Arena[ArenaSegCnt]= Nil(void);
   }
   while (ArenaSegCnt < maxSegCnt) {
-    if (!(Arena[ArenaSegCnt]= nNewUntyped(ARENA_SEG_SIZE, char)))
+    Arena[ArenaSegCnt]= nNewUntyped(ARENA_SEG_SIZE, char);
+    if (!Arena[ArenaSegCnt])
       break;
     ++ArenaSegCnt;
   }
@@ -301,7 +302,8 @@ size_t fxfInit(size_t Size) {
     Size= MAX_ALIGNMENT;
   else
     Size&= ~(MAX_ALIGNMENT - 1U);
-  if (!(Arena=nNewUntyped(Size, char))) {
+  Arena= nNewUntyped(Size, char);
+  if (!Arena) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
                myname, (size_t_printf_type) Size);
     BotFreePtr= Arena;
