@@ -3,7 +3,6 @@
 #include "debugging/assert.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 
 #if defined(__TURBOC__)
@@ -19,7 +18,6 @@
 
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
     (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
-#  include <stddef.h>
 #  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
