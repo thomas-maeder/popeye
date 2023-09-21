@@ -23,7 +23,6 @@
 #  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
-#  define MAX_HASHTABLE_SIZE PTRDIFF_MAX
 #    if defined(UINTPTR_MAX)
    typedef uintptr_t pointer_to_int_type;
 #    else
@@ -35,14 +34,12 @@
    typedef long long int ptrdiff_t_printf_type;
    typedef unsigned long long int size_t_printf_type;
    typedef unsigned long long int pointer_to_int_type;
-#  define MAX_HASHTABLE_SIZE LLONG_MAX
 #  define PTRDIFF_T_PRINTF_SPECIFIER "lld"
 #  define SIZE_T_PRINTF_SPECIFIER "llu"
 #else /* We don't have long long integer types. */
    typedef long int ptrdiff_t_printf_type;
    typedef unsigned long int size_t_printf_type;
    typedef unsigned long int pointer_to_int_type;
-#  define MAX_HASHTABLE_SIZE LONG_MAX
 #  define PTRDIFF_T_PRINTF_SPECIFIER "ld"
 #  define SIZE_T_PRINTF_SPECIFIER "lu"
 #endif
@@ -273,12 +270,7 @@ size_t fxfInit(size_t Size) {
   static char const * const myname= "fxfInit";
 #endif
 #if defined(SEGMENTED)
-  size_t maxSegCnt;
-#endif
-  if (Size > MAX_HASHTABLE_SIZE)
-    Size = MAX_HASHTABLE_SIZE;
-#if defined(SEGMENTED)
-  maxSegCnt= (Size / ARENA_SEG_SIZE);
+  size_t maxSegCnt= (Size / ARENA_SEG_SIZE);
   if (maxSegCnt > ARENA_SEG_COUNT)
     maxSegCnt= ARENA_SEG_COUNT;
   while (ArenaSegCnt > maxSegCnt) {
