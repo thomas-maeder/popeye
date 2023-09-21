@@ -588,7 +588,6 @@ void fxfFree(void *ptr, size_t size)
 #if defined(SEGMENTED)
   int ptrSegment;
 #endif
-  assert(ptr || !size);
   if (!ptr)
     return;
 #if defined(SEGMENTED)
