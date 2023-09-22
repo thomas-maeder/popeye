@@ -150,25 +150,25 @@ proc decomposeExpr {expr {end ""}} {
     set result {}
 
     while {$expr!=""} {
-	set firstChar [string range $expr 0 0]
-	if {$firstChar=="("} {
-	    lassign [decomposeExpr [string range $expr 1 "end"] ")"] nested expr
-	    lappend result [list "(" $nested ")"]
-	} elseif {$firstChar=="\["} {
-	    lassign [decomposeExpr [string range $expr 1 "end"] "]"] nested expr
-	    lappend result [list "\[" $nested "\]"]
-	} elseif {$firstChar=="\\"} {
-	    set escapedChar [string range $expr 0 1]
-	    set expr [string range $expr 2 "end"]
-	    lappend result $escapedChar
-	} else {
-	    set expr [string range $expr 1 "end"]
-	    if {$firstChar==$end} {
-		return [list $result $expr]
-	    } else {
-		lappend result $firstChar
-	    }
-	}
+        set firstChar [string range $expr 0 0]
+        if {$firstChar=="("} {
+            lassign [decomposeExpr [string range $expr 1 "end"] ")"] nested expr
+            lappend result [list "(" $nested ")"]
+        } elseif {$firstChar=="\["} {
+            lassign [decomposeExpr [string range $expr 1 "end"] "]"] nested expr
+            lappend result [list "\[" $nested "\]"]
+        } elseif {$firstChar=="\\"} {
+            set escapedChar [string range $expr 0 1]
+            set expr [string range $expr 2 "end"]
+            lappend result $escapedChar
+        } else {
+            set expr [string range $expr 1 "end"]
+            if {$firstChar==$end} {
+                return [list $result $expr]
+            } else {
+                lappend result $firstChar
+            }
+        }
     }
 
     return [list $result ""]
@@ -186,19 +186,19 @@ proc nonterminal {name production} {
         switch -regexp -matchvar matches -- $token {
             ^([[:alnum:]_:]+)([?*+]|{.*})?$ {
                 set name [lindex $matches 1]
-		set value [uplevel v $name]
+                set value [uplevel v $name]
                 set quantifier [lindex $matches 2]
-		set decomposition [lindex [decomposeExpr $value] 0]
-		if {[lsearch -exact $decomposition "|"]!=-1} {
-		    append result "(?:$value)"
-		} elseif {$quantifier==""} {
-		    append result $value
-		} elseif {[llength $decomposition]<=1} {
-		    append result $value
-		} else {
-		    append result "(?:$value)"
-		}
-		append result $quantifier
+                set decomposition [lindex [decomposeExpr $value] 0]
+                if {[lsearch -exact $decomposition "|"]!=-1} {
+                    append result "(?:$value)"
+                } elseif {$quantifier==""} {
+                    append result $value
+                } elseif {[llength $decomposition]<=1} {
+                    append result $value
+                } else {
+                    append result "(?:$value)"
+                }
+                append result $quantifier
             }
             default {
                 append result $token
@@ -388,14 +388,7 @@ namespace eval format {
         terminal castlingQ "0-0-0"
         terminal castlingK "0-0"
         terminal pieceAttributeShortcut "(?:"
-        foreach p [l pieceAttributeShortcuts] {
-            if {[string length $p]==1} {
-                append pieceAttributeShortcut "$p?"
-            } else {
-                append pieceAttributeShortcut "(?:$p)?"
-            }
-        }
-        append pieceAttributeShortcut ")"
+        terminal pieceAttributeShortcut "(?:(?:[join [l pieceAttributeShortcuts] )?(?:])?)"
         terminal enPassant { ep[.]}
         terminal vulcanization "->v"
         terminal promotionIndicator "="
@@ -452,7 +445,10 @@ namespace eval format {
         nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
         nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
         nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
-        nonterminal regularMove { otherPieceEffect* movingPieceMovement enPassant? imitatorMovement? promotion* otherPieceEffect* bglBalance? checkIndicator? }
+        nonterminal movementAddons { enPassant? imitatorMovement? promotion* otherPieceEffect* }
+        nonterminal movingPieceMovementWithEffects { movingPieceMovement movementAddons }
+        nonterminal seriesCaptureStep { movementTo movementAddons }
+        nonterminal regularMove { otherPieceEffect* movingPieceMovementWithEffects seriesCaptureStep* bglBalance? checkIndicator? }
         nonterminal move { roleExchange | space ellipsis | regularMove }
 
         nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space paren_close eol }
@@ -562,8 +558,7 @@ namespace eval format {
 
                 # regular play of h#n
                 namespace eval noEllipsis {
-                    nonterminal movesLine { movesSequence }
-                    nonterminal line { movesLine | moveNumberLine }
+                    nonterminal line { movesSequence | moveNumberLine }
                     nonterminal block { line+ }
                 }
 
@@ -615,8 +610,7 @@ namespace eval format {
             nonterminal simplexPart { emptyLine illegalSelfCheck | emptyLine forcedReflexMove+ | tree::block | line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
 
-            # the + should be {1,2} (2*simplex = duplex), but that would make the expression too complex
-            nonterminal solvingResult { problemignoredMsgs | simplex+ }
+            nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
             nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remark::block? }
         }
 
