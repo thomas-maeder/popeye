@@ -298,10 +298,7 @@ size_t fxfInit(size_t Size) {
 #endif
   if (Arena)
     free(Arena);
-  if (Size < MAX_ALIGNMENT)
-    Size= MAX_ALIGNMENT;
-  else
-    Size&= ~(MAX_ALIGNMENT - 1U);
+  Size&= ~(MAX_ALIGNMENT - 1U);
   Arena= nNewUntyped(Size, char);
   if (!Arena) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
