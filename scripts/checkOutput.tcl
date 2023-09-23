@@ -2,15 +2,7 @@
 
 # Usage: $argv0 INPUTFILEPATH | diff -y --width=200 INPUTFILEPATH -
 
-set inputfile [lindex $argv 0]
-
-if {[llength $argv]>1} {
-    set sections [split [lindex $argv 1] ","]
-} else {
-    set sections {}
-}
-
-switch -re $inputfile {
+switch -re [lindex $argv 0] {
     ".*[.]out$" {
         set language "german"
     }
@@ -24,6 +16,8 @@ switch -re $inputfile {
         exit 1
     }
 }
+
+set inputfiles $argv
 
 namespace eval german {
     set endOfSolution "Loesung beendet."
@@ -678,36 +672,26 @@ namespace eval format {
     }
 }
 
-set f [open $inputfile "r"]
-set input [read $f]
-close $f
-
-proc printSection {debugPrefix section} {
-    if {[lindex $::sections 0]=="debug"} {
-        foreach line [split [regsub "\n$" $section ""] "\n"] {
-            puts "$debugPrefix:$line@"
-        }
-    } else {
-        puts -nonewline $section
-    }
-}
-
 proc handleTextBeforeSolution {beforesol} {
+    set result {}
+    
     if {[regexp $format::beforesolution::block $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
         && ([regexp -- {[^[:space:]]} $inputerrors]
             || [regexp -- {[^[:space:]]} $remark]
             || [regexp -- {[^[:space:]]} $board])} {
-        printSection "i" $inputerrors
-        printSection "r" $remark
-        printSection "a" $authoretc
-        printSection "ba" $boardA
-        printSection "b" $board
-        printSection "ca" $caption
-        printSection "co" $conditions
-        printSection "d" $duplex
-        printSection "g" $gridboard
-        printSection "z" $zeroposition
+        lappend result "i" $inputerrors
+        lappend result "r" $remark
+        lappend result "a" $authoretc
+        lappend result "ba" $boardA
+        lappend result "b" $board
+        lappend result "ca" $caption
+        lappend result "co" $conditions
+        lappend result "d" $duplex
+        lappend result "g" $gridboard
+        lappend result "z" $zeroposition
     }
+
+    return $result
 }
 
 proc handleSolutionWithoutTwinning {beforeFooter} {
@@ -718,12 +702,14 @@ proc handleSolutionWithoutTwinning {beforeFooter} {
     # output created with option noboard and yield "interesting" results
     if {[regexp -- $noboardExpr $beforeFooter -  beforesol solution]
         || [regexp -- $withBoardExpr $beforeFooter - beforesol solution]} {
-        handleTextBeforeSolution $beforesol
-        printSection "s" $solution
+        set result [handleTextBeforeSolution $beforesol]
+        lappend result "s" $solution
     } else {
         # input error ...
-        handleTextBeforeSolution $beforeFooter
+        set result [handleTextBeforeSolution $beforeFooter]
     }
+
+    return $result
 }
 
 proc makeSegments {beforeFooter twinningIndices} {
@@ -740,50 +726,81 @@ proc makeSegments {beforeFooter twinningIndices} {
 }
 
 proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
+    set result {}
+    
     set segments [makeSegments $beforeFooter $twinningIndices]
     set firstTwin true
     set beforeSolution [lindex $segments 0]
     foreach {twinning solution} [lrange $segments 1 "end"] {
         if {[regexp $format::solution::untwinned::block $solution]} {
             if {$firstTwin} {
-                handleTextBeforeSolution $beforeSolution
+                set result [concat $result [handleTextBeforeSolution $beforeSolution]]
                 set firstTwin false
             }
-            printSection "t" $twinning
-            printSection "s" $solution
+            lappend result "t" $twinning
+            lappend result "s" $solution
         } else {
             append beforeSolution "$twinning$solution"
         }
     }
     if {$firstTwin} {
         # there was some "fake twinning" in a text field
-        handleSolutionWithoutTwinning $beforeFooter
+        set result [concat $result [handleSolutionWithoutTwinning $beforeFooter]]
     }
+
+    return $result
 }
 
-if {[llength $sections]==0 || [lindex $sections 0]=="debug"} {
+set differences {}
+
+foreach inputfile [glob $inputfiles] {
+    set f [open $inputfile "r"]
+    set input [read $f]
+    close $f
+
+    set result {}
+
     set footerIndices [regexp -all -indices -inline $format::footer::block $input]
     set nextProblemStart 0
     foreach footerIndexPair $footerIndices {
-        lassign $footerIndexPair footerStart footerEnd
-        set footer [string range $input $footerStart $footerEnd]
-        set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
-        set nextProblemStart [expr {$footerEnd+1}]
-        set twinningIndices [regexp -all -inline -indices $format::solution::twinned::separator $beforeFooter]
-        if {[llength $twinningIndices]==0} {
-            handleSolutionWithoutTwinning $beforeFooter
-        } else {
-            handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices
-        }
-        printSection "f" $footer
+	lassign $footerIndexPair footerStart footerEnd
+	set footer [string range $input $footerStart $footerEnd]
+	set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
+	set nextProblemStart [expr {$footerEnd+1}]
+	set twinningIndices [regexp -all -inline -indices $format::solution::twinned::separator $beforeFooter]
+	if {[llength $twinningIndices]==0} {
+	    set result [concat $result [handleSolutionWithoutTwinning $beforeFooter]]
+	} else {
+	    set result [concat $result [handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices]]
+	}
+	lappend result "f" $footer
     }
-} else {
-    set expr ""
-    foreach section $sections {
-        append expr [set format::${section}::block]
+
+    set resultText ""
+    foreach {section text} $result {
+	append resultText $text
     }
-    foreach match [regexp -all -inline $expr $input] {
-        puts -nonewline $match
-        puts "===="
+
+    set tmpfilename [exec mktemp]
+
+    set f [open $tmpfilename "w"]
+    puts -nonewline $f $resultText
+    close $f
+
+    set pipe [open "| diff $inputfile $tmpfilename" "r"]
+    
+    set currentDifferences {}
+    while {[gets $pipe line]>=0} {
+    	lappend currentDifferences $line
     }
+
+    if {[catch {close $pipe} cres e]} {
+	lappend differences $inputfile
+	set differences [concat $differences $currentDifferences]
+	lappend differences ""
+    }
+
+    file delete $tmpfilename
 }
+
+puts -nonewline [join $differences "\n"]

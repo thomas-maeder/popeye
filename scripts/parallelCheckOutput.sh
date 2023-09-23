@@ -34,7 +34,7 @@ POPEYEDIR=${SCRIPTDIR}/..
 . ${SCRIPTDIR}/parallelTester.lib
 
 # command to be invoked in parallel
-_cmd="${POPEYEDIR}/scripts/checkDiffOutput.sh"
+_cmd="${POPEYEDIR}/scripts/checkOutput.tcl"
 
 
 # number of processors
@@ -49,19 +49,9 @@ fi
 
 PMAX=$CORES_REQUESTED
 
-#DEBUG=1
-
-# create and dispatch jobs
-for item in $*
-do
-  echo "$item"
-done | dispatchWork
-
-if [ "$1" = "-all" ]
-then
-    for item in ${POPEYEDIR}/REGRESSIONTESTS//*
-    do
-	echo "$item"
-    done | dispatchWork
-fi
-
+(
+    echo "REGRESSIONTESTS/*.out"
+    echo "REGRESSIONTESTS/*.ref"
+    echo "REGRESSIONTESTS/*.reg"
+    echo "REGRESSIONTESTS/*.tst"
+) | dispatchWork
