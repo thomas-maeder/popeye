@@ -50,8 +50,10 @@ fi
 PMAX=$CORES_REQUESTED
 
 (
-    echo "REGRESSIONTESTS/*.out"
-    echo "REGRESSIONTESTS/*.ref"
+    echo "REGRESSIONTESTS/[a-g]*.out"
+    echo "REGRESSIONTESTS/[h-z]*.out"
+    echo "REGRESSIONTESTS/[a-m]*.ref"
+    echo "REGRESSIONTESTS/[n-z]*.ref"
     echo "REGRESSIONTESTS/*.reg"
     echo "REGRESSIONTESTS/*.tst"
 ) | dispatchWork
