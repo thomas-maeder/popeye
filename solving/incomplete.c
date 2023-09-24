@@ -35,7 +35,7 @@ solving_completeness_type problem_solving_completeness(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(SLICE_TYPE(si)==STProblemSolvingIncomplete);
-  result = (SLICE_U(si).flag_handler.value ? solving_partial : solving_complete);
+  result = ((SLICE_U(si).value_handler.value == solving_complete) ? solving_complete : solving_partial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
