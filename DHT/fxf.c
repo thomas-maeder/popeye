@@ -21,25 +21,29 @@
 #  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
-#    if defined(UINTPTR_MAX)
-   typedef uintptr_t pointer_to_int_type;
-#    else
-   typedef uintmax_t pointer_to_int_type;
-#    endif
+#  define MAX_POINTER_DIFFERENCE PTRDIFF_MAX
+#  if defined(UINTPTR_MAX)
+   typedef uintptr_t convert_pointer_to_int_type;
+#  else
+   typedef uintmax_t convert_pointer_to_int_type;
+#  endif
 #  define PTRDIFF_T_PRINTF_SPECIFIER "td"
 #  define SIZE_T_PRINTF_SPECIFIER "zu"
-#elif defined(LLONG_MAX) /* We have long long integer types. */
+#else
+#  define MAX_POINTER_DIFFERENCE (((size_t)-1)>>1) /* just a guess */
+#  if defined(LLONG_MAX) /* We have long long integer types. */
    typedef long long int ptrdiff_t_printf_type;
    typedef unsigned long long int size_t_printf_type;
-   typedef unsigned long long int pointer_to_int_type;
-#  define PTRDIFF_T_PRINTF_SPECIFIER "lld"
-#  define SIZE_T_PRINTF_SPECIFIER "llu"
-#else /* We don't have long long integer types. */
+   typedef unsigned long long int convert_pointer_to_int_type;
+#    define PTRDIFF_T_PRINTF_SPECIFIER "lld"
+#    define SIZE_T_PRINTF_SPECIFIER "llu"
+#  else /* We don't have long long integer types. */
    typedef long int ptrdiff_t_printf_type;
    typedef unsigned long int size_t_printf_type;
-   typedef unsigned long int pointer_to_int_type;
-#  define PTRDIFF_T_PRINTF_SPECIFIER "ld"
-#  define SIZE_T_PRINTF_SPECIFIER "lu"
+   typedef unsigned long int convert_pointer_to_int_type;
+#    define PTRDIFF_T_PRINTF_SPECIFIER "ld"
+#    define SIZE_T_PRINTF_SPECIFIER "lu"
+#  endif
 #endif
 
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
@@ -114,10 +118,12 @@ typedef struct {
     void *    FreeHead;
 } SizeHead;
 
+#define CLIP_TO_MAX_POINTER_DIFFERENCE(x) (((x) > MAX_POINTER_DIFFERENCE) ? MAX_POINTER_DIFFERENCE : (x))
+
 #if defined(DOS)
 /* MSDOS 16 Bit support (maxmemory <= 1 MB) */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (32000 & ~(MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(32000) & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "MSDOS"
 #define OSMAXMEM "1 MB"
@@ -125,7 +131,7 @@ typedef struct {
 /* Win95/Win98/WinME can only allocate chunks up to 255 MB */
 /* maxmemory <= 768 MB */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (1000000 & ~(MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(1000000) & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((768*1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "Win95/Win98/WinME"
 #define OSMAXMEM "768 MB"
@@ -147,7 +153,7 @@ enum
 #define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
                                                                                                                                (Of course, they're probably the same.)
                                                                                                                                TODO: Can we compute what we want at compile time and just use it? */
-static size_t MIN_ALIGNMENT= MIN_ALIGNMENT_UNDERESTIMATE; /* for now */
+static size_t min_alignment= 0; /* for now */
 
 static SizeHead SizeData[1 + (fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
                                                                                         Maximum allocation is fxfMAXSIZE.
@@ -255,11 +261,11 @@ void PrintFreeMap(FILE *f) {
 }
 #endif /*FREEMAP, !SEGMENTED*/
 
-static inline ptrdiff_t_printf_type pointerDifference(void const *ptr1, void const *ptr2) {
+static inline ptrdiff_t pointerDifference(void const *ptr1, void const *ptr2) {
   return (((char const *)ptr1) - ((char const *)ptr2));
 }
 
-static inline void * stepPointer(void *ptr, ptrdiff_t_printf_type step) {
+static inline void * stepPointer(void *ptr, ptrdiff_t step) {
   return (void *)(((char *)ptr) + step);
 }
 
@@ -298,18 +304,20 @@ size_t fxfInit(size_t Size) {
 #endif
   if (Arena)
     free(Arena);
+  if (Size > MAX_POINTER_DIFFERENCE)
+    Size= MAX_POINTER_DIFFERENCE;
   Size&= ~(MAX_ALIGNMENT - 1U);
   Arena= nNewUntyped(Size, char);
   if (!Arena) {
     ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
-               myname, (size_t_printf_type) Size);
+               myname, (size_t_printf_type)Size);
     BotFreePtr= Arena;
     TopFreePtr= Arena;
     GlobalSize= 0;
     return GlobalSize;
   }
   BotFreePtr= Arena;
-  TopFreePtr= stepPointer(Arena, (ptrdiff_t_printf_type)Size);
+  TopFreePtr= stepPointer(Arena, (ptrdiff_t)Size);
   GlobalSize= Size;
 
 #if defined(FREEMAP)
@@ -329,9 +337,12 @@ size_t fxfInit(size_t Size) {
 
   memset(SizeData, '\0', sizeof SizeData);
 
-  MIN_ALIGNMENT= MAX_ALIGNMENT;
-  while (MIN_ALIGNMENT > fxfMINSIZE)
-    MIN_ALIGNMENT>>= 1;
+  if (!min_alignment)
+  {
+    min_alignment= MAX_ALIGNMENT;
+    while (min_alignment > fxfMINSIZE)
+      min_alignment>>= 1;
+  }
 
   return GlobalSize;
 }
@@ -381,7 +392,7 @@ void fxfReset(void)
   BotFreePtr= Arena;
   TopFreePtr= Arena;
   if (TopFreePtr)
-    TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t_printf_type)GlobalSize);
+    TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t)GlobalSize);
 
 #if defined(FREEMAP)
   if (FreeMap)
@@ -407,7 +418,7 @@ void fxfReset(void)
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
 #define PTRMASK            (MAX_ALIGNMENT-1U)
-#define ALIGN_TO_MINIMUM(s)  (((s) + (MIN_ALIGNMENT - 1U)) & ~(MIN_ALIGNMENT - 1U))
+#define ALIGN_TO_MINIMUM(s)  (((s) + (min_alignment - 1U)) & ~(min_alignment - 1U))
 
 #define TMDBG(x) if (0) x
 
@@ -436,13 +447,13 @@ void *fxfAlloc(size_t size) {
     return Nil(void);
   }
 
-  // Round up to a multiple of MIN_ALIGNMENT
+  // Round up to a multiple of min_alignment
   size= ALIGN_TO_MINIMUM(size);
   sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (sh->FreeHead) {
 #if defined(SEGMENTED)
     int ptrSegment;
-    ptrdiff_t_printf_type ptrIndex= -1; 
+    ptrdiff_t ptrIndex= -1; 
 #endif
     ptr= sh->FreeHead;
     if (size < sizeof sh->FreeHead)
@@ -453,19 +464,19 @@ void *fxfAlloc(size_t size) {
     sh->MallocCount++;
 #if defined(SEGMENTED)
     for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
-      pointer_to_int_type tmp= (pointer_to_int_type)ptr;
-      pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
+      convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
+      convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
       if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
         ptrIndex= (tmp - segment_begin);
         break;
       }
     }
-    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,ptrIndex,sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,sh->MallocCount));
 #else
 #  if defined(FREEMAP)
     ClrRange(pointerDifference(ptr, Arena), size);
 #  endif
-    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,pointerDifference(ptr, Arena),sh->MallocCount));
+    TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)pointerDifference(ptr, Arena),sh->MallocCount));
 #endif
   }
   else {
@@ -506,22 +517,22 @@ START_LOOKING_FOR_CHUNK:
                 TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
               }
             }
-            BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t_printf_type)cur_alignment);
+            BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
           } while (curBottomIndex & needed_alignment_mask);
         }
         ptr= BotFreePtr;
-        BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t_printf_type)size);
+        BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)size);
       }
       else {
         /* fully aligned */
-        ptr= (TopFreePtr= stepPointer(TopFreePtr, -(ptrdiff_t_printf_type)size));
+        ptr= (TopFreePtr= stepPointer(TopFreePtr, -(ptrdiff_t)size));
       }
       sh->MallocCount++;
 #if defined(SEGMENTED)
-      TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,pointerDifference(ptr, Arena[CurrentSeg]),sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",CurrentSeg,(ptrdiff_t_printf_type)pointerDifference(ptr, Arena[CurrentSeg]),sh->MallocCount));
 #else
-      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",pointerDifference(ptr,Arena),sh->MallocCount));
+      TMDBG(printf(" current seg ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",(ptrdiff_t_printf_type)pointerDifference(ptr,Arena),sh->MallocCount));
 #endif
     }
     else
@@ -581,7 +592,7 @@ void fxfFree(void *ptr, size_t size)
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
-  ptrdiff_t_printf_type ptrIndex;
+  ptrdiff_t ptrIndex;
 #if defined(SEGMENTED)
   int ptrSegment;
 #endif
@@ -589,8 +600,8 @@ void fxfFree(void *ptr, size_t size)
     return;
 #if defined(SEGMENTED)
   for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
-    pointer_to_int_type tmp= (pointer_to_int_type)ptr;
-    pointer_to_int_type segment_begin= (pointer_to_int_type)Arena[ptrSegment];
+    convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
+    convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
     if (tmp >= segment_begin) {
       ptrIndex= (tmp - segment_begin);
       if (ptrIndex < ARENA_SEG_SIZE)
@@ -599,10 +610,10 @@ void fxfFree(void *ptr, size_t size)
   }
   ptrIndex= -1;
 FOUND_PUTATIVE_SEGMENT:
-  TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,ptrIndex,(size_t_printf_type)size));
+  TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #else
   ptrIndex= pointerDifference(ptr,Arena);
-  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrIndex,(size_t_printf_type)size));
+  TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #endif
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
   if (size < fxfMINSIZE)
@@ -624,10 +635,10 @@ FOUND_PUTATIVE_SEGMENT:
   sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
   if (size&PTRMASK) {
     /* not fully aligned size */
-    TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,pointerDifference(BotFreePtr,ptr)));
-    if (stepPointer(ptr, (ptrdiff_t_printf_type)size) == BotFreePtr) {
+    TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(BotFreePtr,ptr)));
+    if (stepPointer(ptr, (ptrdiff_t)size) == BotFreePtr) {
       BotFreePtr= ptr;
-      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,pointerDifference(TopFreePtr,BotFreePtr)));
+      TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
       --sh->MallocCount;
     }
     else {
@@ -646,10 +657,10 @@ FOUND_PUTATIVE_SEGMENT:
   }
   else {
     /* fully aligned size */
-    TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,pointerDifference(ptr,TopFreePtr)));
+    TMDBG(printf(" ptr-TopFreePtr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(ptr,TopFreePtr)));
     if (ptr == TopFreePtr) {
-      TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t_printf_type)size);
-      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,pointerDifference(TopFreePtr,BotFreePtr)));
+      TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t)size);
+      TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
       --sh->MallocCount;
     }
     else {
