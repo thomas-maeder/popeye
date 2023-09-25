@@ -98,6 +98,7 @@ void mummer_reset_length_measurers(void)
 
   mummer_measure_length[White] = 0;
   mummer_measure_length[Black] = 0;
+  mummer_measure_length[no_side] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
