@@ -98,7 +98,7 @@ void mummer_reset_length_measurers(void)
   TraceFunctionParamListEnd();
 
   for (s=0; s<((sizeof mummer_measure_length)/(sizeof mummer_measure_length[0])); ++s)
-    mummer_measure_length[s] = 0;
+    mummer_measure_length[s] = NULL;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -117,13 +117,13 @@ boolean mummer_set_length_measurer(Side side,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (mummer_measure_length[side]==0)
+  if (mummer_measure_length[side])
+    result = false;
+  else
   {
     mummer_measure_length[side] = measurer;
     result = true;
   }
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
