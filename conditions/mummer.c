@@ -93,12 +93,12 @@ mummer_length_type minimummer_measure_length(void)
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void)
 {
+  int s;
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  mummer_measure_length[White] = 0;
-  mummer_measure_length[Black] = 0;
-  mummer_measure_length[no_side] = 0;
+  for (s=0; s<((sizeof mummer_measure_length)/(sizeof mummer_measure_length[0])); ++s)
+    mummer_measure_length[s] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
