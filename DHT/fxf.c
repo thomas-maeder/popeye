@@ -302,6 +302,9 @@ size_t fxfInit(size_t Size) {
     FreeMap= Nil(FreeMapType);
   }
 #endif
+#if defined(LOG)
+  size_t const orig_Size= Size;
+#endif
   if (Arena)
     free(Arena);
   if (Size > MAX_POINTER_DIFFERENCE)
@@ -309,8 +312,8 @@ size_t fxfInit(size_t Size) {
   Size&= ~(MAX_ALIGNMENT - 1U);
   Arena= nNewUntyped(Size, char);
   if (!Arena) {
-    ERROR_LOG2("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
-               myname, (size_t_printf_type)Size);
+    ERROR_LOG3("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " <= %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
+               myname, (size_t_printf_type)Size, (size_t_printf_type)orig_Size);
     BotFreePtr= Arena;
     TopFreePtr= Arena;
     GlobalSize= 0;
@@ -335,7 +338,12 @@ size_t fxfInit(size_t Size) {
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
 
-  memset(SizeData, '\0', sizeof SizeData);
+  for (Size= 0; Size < ((sizeof SizeData)/(sizeof *SizeData)); ++Size)
+  {
+    SizeData[Size].MallocCount= 0;
+    SizeData[Size].FreeCount= 0;
+    SizeData[Size].FreeHead= Nil(void);
+  }
 
   if (!min_alignment)
   {
@@ -365,7 +373,15 @@ void fxfTeardown(void)
   free(Arena);
   Arena= Nil(void);
 #endif /*SEGMENTED*/
-  memset(SizeData, '\0', sizeof SizeData);
+  {
+    size_t i;
+    for (i= 0; i < ((sizeof SizeData)/(sizeof *SizeData)); ++i)
+    {
+      SizeData[i].MallocCount= 0;
+      SizeData[i].FreeCount= 0;
+      SizeData[i].FreeHead= Nil(void);
+    }
+  }
   GlobalSize= 0;
   TopFreePtr= Nil(void);
   BotFreePtr= Nil(void);
@@ -408,7 +424,15 @@ void fxfReset(void)
   }
 #endif
 
-  memset(SizeData, '\0', sizeof SizeData);
+  {
+    size_t i;
+    for (i= 0; i < ((sizeof SizeData)/(sizeof *SizeData)); ++i)
+    {
+      SizeData[i].MallocCount= 0;
+      SizeData[i].FreeCount= 0;
+      SizeData[i].FreeHead= Nil(void);
+    }
+  }
 }
 
 /* we have to define the following, since some architectures cannot
