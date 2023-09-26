@@ -285,30 +285,34 @@ namespace eval format {
         }
     }
 
+    namespace eval goal {
+        terminal mate "#"
+	terminal stalemate "="
+	terminal dia "dia"
+	terminal aToB "a=>b"
+	terminal targetSquare {z[a-h][1-8]}
+	terminal targetSquareImplicit "z"
+	terminal circuit "ct"
+	terminal exchange "<>"
+	terminal exchangeByRebirth "<>r"
+	terminal check {[+]}
+	terminal doubleStalemate "=="
+	terminal castling "00"
+	terminal pieceWin "%"
+	terminal anyMove "~"
+	terminal bothMate "##"
+	terminal counterMate "##!"
+	terminal autoMate "!="
+	terminal enPassant "ep"
+	terminal capture "x"
+	terminal circuitByRebirth "ctr"
+	terminal chess81 "c81"
+	terminal immobile "#="
+	terminal noMate "!#"
+	terminal kiss {k[a-h][1-8]}
+    }
+
     namespace eval stipulation {
-        terminal goalMate "#"
-	terminal goalStalemate "="
-	terminal goalDia "dia"
-	terminal goalAToB "a=>b"
-	terminal goalTarget {z[a-h][1-8]}
-	terminal goalCircuit "ct"
-	terminal goalExchange "<>"
-	terminal goalExchangeByRebirth "<>r"
-	terminal goalCheck {[+]}
-	terminal goalDoubleStalemate "=="
-	terminal goalCastling "00"
-	terminal goalPieceWin "%"
-	terminal goalAnyMove "~"
-	terminal goalBothMate "##"
-	terminal goalCounterMate "##!"
-	terminal goalAutoMate "!="
-	terminal goalEnPassant "ep"
-	terminal goalCapture "x"
-	terminal goalCircuitByRebirth "ctr"
-	terminal goalChess81 "c81"
-	terminal goalImmobile "#="
-	terminal goalNoMate "!#"
-	terminal goalKiss {k[a-h][1-8]}
         terminal exactPrefix {exact-}
         terminal introPrefix {[[:digit:]]+->}
         terminal parryPrefix {ph?}
@@ -326,29 +330,29 @@ namespace eval format {
         terminal nontrivialSuffix {;[[:digit:]]+,[[:digit:]]+}
 
 	nonterminal goal {
-	    goalMate
-	    | goalStalemate
-	    | goalDia
-	    | goalAToB
-	    | goalTarget
-	    | goalCircuit
-	    | goalExchange
-	    | goalExchangeByRebirth
-	    | goalCheck
-	    | goalDoubleStalemate
-	    | goalCastling
-	    | goalPieceWin
-	    | goalAnyMove
-	    | goalBothMate
-	    | goalCounterMate
-	    | goalAutoMate
-	    | goalEnPassant
-	    | goalCapture
-	    | goalCircuitByRebirth
-	    | goalChess81
-	    | goalImmobile
-	    | goalNoMate
-	    | goalKiss
+	    goal::mate
+	    | goal::stalemate
+	    | goal::dia
+	    | goal::aToB
+	    | goal::targetSquare
+	    | goal::circuit
+	    | goal::exchange
+	    | goal::exchangeByRebirth
+	    | goal::check
+	    | goal::doubleStalemate
+	    | goal::castling
+	    | goal::pieceWin
+	    | goal::anyMove
+	    | goal::bothMate
+	    | goal::counterMate
+	    | goal::autoMate
+	    | goal::enPassant
+	    | goal::capture
+	    | goal::circuitByRebirth
+	    | goal::chess81
+	    | goal::immobile
+	    | goal::noMate
+	    | goal::kiss
 	}
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
@@ -441,29 +445,6 @@ namespace eval format {
         terminal bglNone "-"
         terminal bglDividedBy "/"
         terminal checkIndicator { [+]}
-        terminal goalMate "#"
-	terminal goalStalemate "="
-	terminal goalDia "dia"
-	terminal goalAToB "a=>b"
-	terminal goalTargetImplicit "z"
-	terminal goalCircuit "ct"
-	terminal goalExchange "<>"
-	# TODO why is there no goalExchangeByRebirth?
-	terminal goalCheck {[+]}
-	terminal goalDoubleStalemate "=="
-	terminal goalCastling "00"
-	terminal goalPieceWin "%"
-	terminal goalAnyMove "~"
-	terminal goalBothMate "##"
-	terminal goalCounterMate "##!"
-	terminal goalAutoMate "!="
-	terminal goalEnPassant "ep"
-	terminal goalCapture "x"
-	terminal goalCircuitByRebirth "ctr"
-	terminal goalChess81 "c81"
-	terminal goalImmobile "#="
-	terminal goalNoMate "!#"
-	terminal goalKiss {k[a-h][1-8]}
         terminal moveNumber {[1-9][0-9]*}
         terminal nrPositions {[[:digit:]]+}
         terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
@@ -478,29 +459,30 @@ namespace eval format {
         terminal kingmissing "[l kingmissing]"
         terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
+	# TODO why is there no goal::exchangeByRebirth here?
 	nonterminal goal {
-	    goalMate
-	    | goalStalemate
-	    | goalDia
-	    | goalAToB
-	    | goalTargetImplicit
-	    | goalCircuit
-	    | goalExchange
-	    | goalCheck
-	    | goalDoubleStalemate
-	    | goalCastling
-	    | goalPieceWin
-	    | goalAnyMove
-	    | goalBothMate
-	    | goalCounterMate
-	    | goalAutoMate
-	    | goalEnPassant
-	    | goalCapture
-	    | goalCircuitByRebirth
-	    | goalChess81
-	    | goalImmobile
-	    | goalNoMate
-	    | goalKiss
+	    goal::mate
+	    | goal::stalemate
+	    | goal::dia
+	    | goal::aToB
+	    | goal::targetSquareImplicit
+	    | goal::circuit
+	    | goal::exchange
+	    | goal::check
+	    | goal::doubleStalemate
+	    | goal::castling
+	    | goal::pieceWin
+	    | goal::anyMove
+	    | goal::bothMate
+	    | goal::counterMate
+	    | goal::autoMate
+	    | goal::enPassant
+	    | goal::capture
+	    | goal::circuitByRebirth
+	    | goal::chess81
+	    | goal::immobile
+	    | goal::noMate
+	    | goal::kiss
 	}
 	nonterminal goalIndicator { space goal }
 
