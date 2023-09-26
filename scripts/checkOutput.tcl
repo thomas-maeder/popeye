@@ -286,7 +286,29 @@ namespace eval format {
     }
 
     namespace eval stipulation {
-        terminal goal {\#|=|dia|a=>b|z[a-h][1-8]|ct|<>|<>r|[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k[a-h][1-8]}
+        terminal goalMate "#"
+	terminal goalStalemate "="
+	terminal goalDia "dia"
+	terminal goalAToB "a=>b"
+	terminal goalTarget {z[a-h][1-8]}
+	terminal goalCircuit "ct"
+	terminal goalExchange "<>"
+	terminal goalExchangeByRebirth "<>r"
+	terminal goalCheck {[+]}
+	terminal goalDoubleStalemate "=="
+	terminal goalCastling "00"
+	terminal goalPieceWin "%"
+	terminal goalAnyMove "~"
+	terminal goalBothMate "##"
+	terminal goalCounterMate "##!"
+	terminal goalAutoMate "!="
+	terminal goalEnPassant "ep"
+	terminal goalCapture "x"
+	terminal goalCircuitByRebirth "ctr"
+	terminal goalChess81 "c81"
+	terminal goalImmobile "#="
+	terminal goalNoMate "!#"
+	terminal goalKiss {k[a-h][1-8]}
         terminal exactPrefix {exact-}
         terminal introPrefix {[[:digit:]]+->}
         terminal parryPrefix {ph?}
@@ -303,6 +325,31 @@ namespace eval format {
         terminal maxflightSuffix {/[[:digit:]]+}
         terminal nontrivialSuffix {;[[:digit:]]+,[[:digit:]]+}
 
+	nonterminal goal {
+	    goalMate
+	    | goalStalemate
+	    | goalDia
+	    | goalAToB
+	    | goalTarget
+	    | goalCircuit
+	    | goalExchange
+	    | goalExchangeByRebirth
+	    | goalCheck
+	    | goalDoubleStalemate
+	    | goalCastling
+	    | goalPieceWin
+	    | goalAnyMove
+	    | goalBothMate
+	    | goalCounterMate
+	    | goalAutoMate
+	    | goalEnPassant
+	    | goalCapture
+	    | goalCircuitByRebirth
+	    | goalChess81
+	    | goalImmobile
+	    | goalNoMate
+	    | goalKiss
+	}
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
         nonterminal genericSeriesPrefix { introPrefix? parryPrefix? seriesPrefix }
@@ -394,8 +441,29 @@ namespace eval format {
         terminal bglNone "-"
         terminal bglDividedBy "/"
         terminal checkIndicator { [+]}
-        # yes, this is slightly different from stipulation::goal!
-        terminal goal " (?:\#|=|dia|a=>b|z|ct|<>|\[+]|==|00|%|~|\#\#|\#\#!|!=|ep|x|ctr|c81|\#=|!\#|k\[a-h]\[1-8])"
+        terminal goalMate "#"
+	terminal goalStalemate "="
+	terminal goalDia "dia"
+	terminal goalAToB "a=>b"
+	terminal goalTargetImplicit "z"
+	terminal goalCircuit "ct"
+	terminal goalExchange "<>"
+	# TODO why is there no goalExchangeByRebirth?
+	terminal goalCheck {[+]}
+	terminal goalDoubleStalemate "=="
+	terminal goalCastling "00"
+	terminal goalPieceWin "%"
+	terminal goalAnyMove "~"
+	terminal goalBothMate "##"
+	terminal goalCounterMate "##!"
+	terminal goalAutoMate "!="
+	terminal goalEnPassant "ep"
+	terminal goalCapture "x"
+	terminal goalCircuitByRebirth "ctr"
+	terminal goalChess81 "c81"
+	terminal goalImmobile "#="
+	terminal goalNoMate "!#"
+	terminal goalKiss {k[a-h][1-8]}
         terminal moveNumber {[1-9][0-9]*}
         terminal nrPositions {[[:digit:]]+}
         terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
@@ -409,6 +477,32 @@ namespace eval format {
         terminal forcedReflexMoveIndicator {[?]![?]}
         terminal kingmissing "[l kingmissing]"
         terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
+
+	nonterminal goal {
+	    goalMate
+	    | goalStalemate
+	    | goalDia
+	    | goalAToB
+	    | goalTargetImplicit
+	    | goalCircuit
+	    | goalExchange
+	    | goalCheck
+	    | goalDoubleStalemate
+	    | goalCastling
+	    | goalPieceWin
+	    | goalAnyMove
+	    | goalBothMate
+	    | goalCounterMate
+	    | goalAutoMate
+	    | goalEnPassant
+	    | goalCapture
+	    | goalCircuitByRebirth
+	    | goalChess81
+	    | goalImmobile
+	    | goalNoMate
+	    | goalKiss
+	}
+	nonterminal goalIndicator { space goal }
 
         nonterminal ordinalNumber { naturalNumber period }
 
@@ -460,7 +554,7 @@ namespace eval format {
             }; # TODO be more explicit
         }
 
-        nonterminal forcedReflexMove { space+ ordinalNumber move goal space forcedReflexMoveIndicator eol }
+        nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
             terminal zugzwang " [l zugzwang]"
@@ -476,12 +570,12 @@ namespace eval format {
             # in condition "lost pieces", lost pieces of the attacker may be removed
             nonterminal zugzwangOrThreat { zugzwang | threat otherPieceEffect? }
 
-            nonterminal keySuccessSuffix { undec | goal? space keySuccess zugzwangOrThreat? }
+            nonterminal keySuccessSuffix { undec | goalIndicator? space keySuccess zugzwangOrThreat? }
             nonterminal keyLine { space space space attack keySuccessSuffix eol }
 
-            nonterminal attackSuffix { undec | goal | zugzwangOrThreat }
+            nonterminal attackSuffix { undec | goalIndicator | zugzwangOrThreat }
             nonterminal attackLine { space+ attack attackSuffix? eol }
-            nonterminal defenseSuffix { undec | goal }
+            nonterminal defenseSuffix { undec | goalIndicator }
             nonterminal defenseLine { space+ defense defenseSuffix? eol }
 
             # TODO should Popeye write an empty line before the check indicator?
@@ -493,7 +587,7 @@ namespace eval format {
             nonterminal postKeyPlay { checkOrZugzwangOrThreatLine? postKeyPlayLine* }
 
             nonterminal refutation {
-                space+ defense goal? space refutationIndicator eol
+                space+ defense goalIndicator? space refutationIndicator eol
                 forcedReflexMove?
             }
 
@@ -521,7 +615,7 @@ namespace eval format {
         }
 
         namespace eval line {
-            nonterminal moveSuffix { undec eol | goal }
+            nonterminal moveSuffix { undec eol | goalIndicator }
             nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
             nonterminal numberedHalfMove { space+ ordinalNumber move }
             nonterminal unnumberedHalfMove { space+ move }
