@@ -28,22 +28,24 @@ namespace eval german {
     set threat "Drohung:"
     set but "Aber"
     # yes, some shortcuts are ambiguous
-    set pieceAttributeShortcuts {
-        {[wsn]}
-        k
-        k
-        p
-        c
-        j
-        v
-        b
-        hn
-        sfw
-        p
-        m
-        u
-        p
-        f
+    namespace eval pieceAttributeShortcut {
+        set white "w"
+        set black "s"
+        set neutral "n"
+        set royal "k"
+        set kamikaze "k"
+        set paralyzing "p"
+        set chameleon "c"
+        set jigger "j"
+        set volage "v"
+        set functionary "b"
+        set halfneutral "hn"
+        set hurdleColourChanging "sfw"
+        set protean "p"
+        set magic "m"
+        set uncapturable "u"
+        set patrol "p"
+        set frischauf "f"
     }
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
@@ -75,22 +77,24 @@ namespace eval english {
     set threat "threat:"
     set but "but"
     # yes, some shortcuts are ambiguous - not the same as in German
-    set pieceAttributeShortcuts {
-        {[wbn]}
-        r
-        k
-        p
-        c
-        j
-        v
-        f
-        hn
-        hcc
-        p
-        m
-        u
-        p
-        f
+    namespace eval pieceAttributeShortcut {
+        set white "w"
+        set black "b"
+        set neutral "n"
+        set royal "r"
+        set kamikaze "k"
+        set paralyzing "p"
+        set chameleon "c"
+        set jigger "j"
+        set volage "v"
+        set functionary "f"
+        set halfneutral "hn"
+        set hurdleColourChanging "hcc"
+        set protean "p"
+        set magic "m"
+        set uncapturable "u"
+        set patrol "p"
+        set frischauf "f"
     }
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
@@ -434,7 +438,64 @@ namespace eval format {
         terminal captureOrNot {[-*]}
         terminal castlingQ "0-0-0"
         terminal castlingK "0-0"
-        terminal pieceAttributeShortcut "(?:(?:[join [l pieceAttributeShortcuts] )?(?:])?)"
+	namespace eval pieceAttributeShortcut {
+	    terminal white [l pieceAttributeShortcut::white]
+	    terminal black [l pieceAttributeShortcut::black]
+	    terminal neutral [l pieceAttributeShortcut::neutral]
+	    terminal royal [l pieceAttributeShortcut::royal]
+	    terminal kamikaze [l pieceAttributeShortcut::kamikaze]
+	    terminal paralyzing [l pieceAttributeShortcut::paralyzing]
+	    terminal chameleon [l pieceAttributeShortcut::chameleon]
+	    terminal jigger [l pieceAttributeShortcut::jigger]
+	    terminal volage [l pieceAttributeShortcut::volage]
+	    terminal functionary [l pieceAttributeShortcut::functionary]
+	    terminal halfneutral [l pieceAttributeShortcut::halfneutral]
+	    terminal hurdleColourChanging [l pieceAttributeShortcut::hurdleColourChanging]
+	    terminal protean [l pieceAttributeShortcut::protean]
+	    terminal magic [l pieceAttributeShortcut::magic]
+	    terminal uncapturable [l pieceAttributeShortcut::uncapturable]
+	    terminal patrol [l pieceAttributeShortcut::patrol]
+	    terminal frischauf [l pieceAttributeShortcut::frischauf]
+
+	    nonterminal colour { white | black | neutral }
+
+	    nonterminal combined {
+		colour?
+		royal?
+		kamikaze?
+		paralyzing?
+		chameleon?
+		jigger?
+		volage?
+		functionary?
+		halfneutral?
+		hurdleColourChanging?
+		protean?
+		magic?
+		uncapturable?
+		patrol?
+		frischauf?
+	    }
+
+	    nonterminal combinedColourImplicit {
+		neutral?
+		royal?
+		kamikaze?
+		paralyzing?
+		chameleon?
+		jigger?
+		volage?
+		functionary?
+		halfneutral?
+		hurdleColourChanging?
+		protean?
+		magic?
+		uncapturable?
+		patrol?
+		frischauf?
+	    }
+	}
+
         terminal enPassant { ep[.]}
         terminal vulcanization "->v"
         terminal promotionIndicator "="
@@ -494,15 +555,15 @@ namespace eval format {
         nonterminal walkPawnImplicit { board::walkChar{0,2} hunterSuffix? }
 
         nonterminal movementTo { captureOrNot square }
-        nonterminal movementFromTo { pieceAttributeShortcut walkPawnImplicit square movementTo }
-        nonterminal castlingPartnerMovement { castlingPartnerSeparator movementFromTo }
+        nonterminal movementFromTo { pieceAttributeShortcut::combinedColourImplicit walkPawnImplicit square movementTo }
+        nonterminal castlingPartnerMovement { castlingPartnerSeparator pieceAttributeShortcut::combined walkPawnImplicit square movementTo }
         nonterminal movementBasic { movementFromTo castlingPartnerMovement? | castlingQ | castlingK }
         nonterminal movementComposite { movementBasic movementTo* }
         nonterminal messignyExchange { walk square pieceExchangeIndicator walk square }
-        nonterminal promotion { promotionIndicator pieceAttributeShortcut walk? }
+        nonterminal promotion { promotionIndicator pieceAttributeShortcut::combined walk? }
         nonterminal pieceChangement { square promotion }
-        nonterminal pieceSpec { pieceAttributeShortcut walk square }
-        nonterminal pieceMovement { pieceSpec pieceMovementIndicator pieceAttributeShortcut walk? square promotion* vulcanization? }
+        nonterminal pieceSpec { pieceAttributeShortcut::combined walk square }
+        nonterminal pieceMovement { pieceSpec pieceMovementIndicator pieceAttributeShortcut::combined walk? square promotion* vulcanization? }
         nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
         nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
         nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
