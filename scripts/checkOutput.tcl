@@ -438,6 +438,31 @@ namespace eval format {
         terminal captureOrNot {[-*]}
         terminal castlingQ "0-0-0"
         terminal castlingK "0-0"
+        terminal enPassant { ep[.]}
+        terminal vulcanization "->v"
+        terminal promotionIndicator "="
+        terminal pieceAdditionIndicator {[+]}
+        terminal pieceRemovalIndicator "-"
+        terminal pieceMovementIndicator "->"
+        terminal pieceExchangeIndicator "<->"
+        terminal bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
+        terminal bglNone "-"
+        terminal bglDividedBy "/"
+        terminal checkIndicator { [+]}
+        terminal moveNumber {[1-9][0-9]*}
+        terminal nrPositions {[[:digit:]]+}
+        terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
+        terminal undec " (?:[l legalityUndecidable]|[l refutationUndecidable])"
+        terminal imitatorSign "I"
+        terminal castlingPartnerSeparator "/"
+        terminal roleExchange " [l roleExchange]"
+        terminal potentialPositionsIn "[l potentialPositionsIn]"
+        terminal totalInvisibleMovePrefix "TI~"
+        terminal totalInvisibleMoveSuffix "-~"
+        terminal forcedReflexMoveIndicator {[?]![?]}
+        terminal kingmissing "[l kingmissing]"
+        terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
+
 	namespace eval pieceAttributeShortcut {
 	    terminal white [l pieceAttributeShortcut::white]
 	    terminal black [l pieceAttributeShortcut::black]
@@ -476,31 +501,6 @@ namespace eval format {
 		frischauf?
 	    }
 	}
-
-        terminal enPassant { ep[.]}
-        terminal vulcanization "->v"
-        terminal promotionIndicator "="
-        terminal pieceAdditionIndicator {[+]}
-        terminal pieceRemovalIndicator "-"
-        terminal pieceMovementIndicator "->"
-        terminal pieceExchangeIndicator "<->"
-        terminal bglNumber {[[:digit:]]+(?:[.][[:digit:]]{1,2})?}
-        terminal bglNone "-"
-        terminal bglDividedBy "/"
-        terminal checkIndicator { [+]}
-        terminal moveNumber {[1-9][0-9]*}
-        terminal nrPositions {[[:digit:]]+}
-        terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        terminal undec " (?:[l legalityUndecidable]|[l refutationUndecidable])"
-        terminal imitatorSign "I"
-        terminal castlingPartnerSeparator "/"
-        terminal roleExchange " [l roleExchange]"
-        terminal potentialPositionsIn "[l potentialPositionsIn]"
-        terminal totalInvisibleMovePrefix "TI~"
-        terminal totalInvisibleMoveSuffix "-~"
-        terminal forcedReflexMoveIndicator {[?]![?]}
-        terminal kingmissing "[l kingmissing]"
-        terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
 	# TODO why is there no goal::exchangeByRebirth here?
 	nonterminal goal {
