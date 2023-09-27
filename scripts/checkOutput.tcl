@@ -434,7 +434,6 @@ namespace eval format {
         terminal captureOrNot {[-*]}
         terminal castlingQ "0-0-0"
         terminal castlingK "0-0"
-        terminal pieceAttributeShortcut "(?:"
         terminal pieceAttributeShortcut "(?:(?:[join [l pieceAttributeShortcuts] )?(?:])?)"
         terminal enPassant { ep[.]}
         terminal vulcanization "->v"
