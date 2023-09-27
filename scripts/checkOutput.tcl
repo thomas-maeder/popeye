@@ -64,8 +64,8 @@ namespace eval german {
     set tryplayNotApplicable "Verfuehrung nicht anwendbar"
     set duplex "Duplex"
     set halfduplex "HalbDuplex"
-    set inputError "Eingabe-Fehler"
-    set offendingItem "Stoerende Eingabe"
+    set inputError "Eingabe-Fehler:"
+    set offendingItem "Stoerende Eingabe: "
 }
 
 namespace eval english {
@@ -113,8 +113,8 @@ namespace eval english {
     set tryplayNotApplicable "try play not applicable"
     set duplex "Duplex"
     set halfduplex "HalfDuplex"
-    set inputError "input-error"
-    set offendingItem "offending item"
+    set inputError "input-error:"
+    set offendingItem "offending item: "
 }
 
 # syntactic sugar for looking up language dependant strings
@@ -323,15 +323,18 @@ namespace eval format {
         terminal seriesPrefix {ser-}
         terminal helpPrefix "h"
         terminal paren_open {[(]}
-            terminal paren_close {[)]}
+        terminal paren_close {[)]}
         terminal reciPrefix {reci-h}
         terminal selfPrefix "s"
         terminal reflexPrefix {(?:semi-)?r}
         terminal length {[[:digit:]]+(?:[.]5)?}
-        terminal side "[l white]|[l black]"
+        terminal sideWhite [l white]
+        terminal sideBlack [l black]
         terminal maxthreatSuffix {/[[:digit:]]*}
         terminal maxflightSuffix {/[[:digit:]]+}
         terminal nontrivialSuffix {;[[:digit:]]+,[[:digit:]]+}
+
+        nonterminal side { sideWhite | sideBlack }
 
 	nonterminal goal {
 	    goal::mate
@@ -358,6 +361,7 @@ namespace eval format {
 	    | goal::noMate
 	    | goal::kiss
 	}
+
         nonterminal helpselfPrefix { helpPrefix selfPrefix }
         nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
         nonterminal genericSeriesPrefix { introPrefix? parryPrefix? seriesPrefix }
@@ -418,8 +422,10 @@ namespace eval format {
     }
 
     namespace eval duplex {
-        terminal duplexOrHalf "[l duplex]|[l halfduplex]"
+        terminal duplex [l duplex]
+        terminal halfduplex [l halfduplex]
 
+        nonterminal duplexOrHalf { duplex | halfduplex }
         nonterminal line { space* duplexOrHalf eol }
         nonterminal block { line? }
     }
@@ -452,15 +458,16 @@ namespace eval format {
         terminal moveNumber {[1-9][0-9]*}
         terminal nrPositions {[[:digit:]]+}
         terminal nrMoves {[[:digit:]]+[+][[:digit:]]+}
-        terminal undec " (?:[l legalityUndecidable]|[l refutationUndecidable])"
+        terminal legalityUndecidable [l legalityUndecidable]
+        terminal refutationUndecidable [l refutationUndecidable]
         terminal imitatorSign "I"
         terminal castlingPartnerSeparator "/"
-        terminal roleExchange " [l roleExchange]"
-        terminal potentialPositionsIn "[l potentialPositionsIn]"
+        terminal roleExchange [l roleExchange]
+        terminal potentialPositionsIn [l potentialPositionsIn]
         terminal totalInvisibleMovePrefix "TI~"
         terminal totalInvisibleMoveSuffix "-~"
         terminal forcedReflexMoveIndicator {[?]![?]}
-        terminal kingmissing "[l kingmissing]"
+        terminal kingmissing [l kingmissing]
         terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
 	namespace eval pieceAttributeShortcut {
@@ -501,6 +508,8 @@ namespace eval format {
 		frischauf?
 	    }
 	}
+
+        nonterminal undec { legalityUndecidable | refutationUndecidable }
 
 	# TODO why is there no goal::exchangeByRebirth here?
 	nonterminal goal {
@@ -571,7 +580,7 @@ namespace eval format {
         nonterminal movingPieceMovementWithEffects { movingPieceMovement movementAddons }
         nonterminal seriesCaptureStep { movementTo movementAddons }
         nonterminal regularMove { otherPieceEffect* movingPieceMovementWithEffects seriesCaptureStep* bglBalance? checkIndicator? }
-        nonterminal move { roleExchange | space ellipsis | regularMove }
+        nonterminal move { space roleExchange | space ellipsis | regularMove }
 
         nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space paren_close eol }
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
@@ -591,25 +600,25 @@ namespace eval format {
         nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
-            terminal zugzwang " [l zugzwang]"
-            terminal threat " [l threat]"
+            terminal zugzwang [l zugzwang]
+            terminal threat [l threat]
             terminal refutationIndicator "!"
-            terminal refutesIndicator "[l refutes]"
+            terminal refutesIndicator [l refutes]
             terminal keySuccess {[?!]}
-            terminal but "[l but]"
+            terminal but [l but]
 
             nonterminal attack { ordinalNumber move }
             nonterminal defense { naturalNumber ellipsis move }
 
             # in condition "lost pieces", lost pieces of the attacker may be removed
-            nonterminal zugzwangOrThreat { zugzwang | threat otherPieceEffect? }
+            nonterminal zugzwangOrThreat { space zugzwang | space threat otherPieceEffect? }
 
-            nonterminal keySuccessSuffix { undec | goalIndicator? space keySuccess zugzwangOrThreat? }
+            nonterminal keySuccessSuffix { space undec | goalIndicator? space keySuccess zugzwangOrThreat? }
             nonterminal keyLine { space space space attack keySuccessSuffix eol }
 
-            nonterminal attackSuffix { undec | goalIndicator | zugzwangOrThreat }
+            nonterminal attackSuffix { space undec | goalIndicator | zugzwangOrThreat }
             nonterminal attackLine { space+ attack attackSuffix? eol }
-            nonterminal defenseSuffix { undec | goalIndicator }
+            nonterminal defenseSuffix { space undec | goalIndicator }
             nonterminal defenseLine { space+ defense defenseSuffix? eol }
 
             # TODO should Popeye write an empty line before the check indicator?
@@ -649,7 +658,7 @@ namespace eval format {
         }
 
         namespace eval line {
-            nonterminal moveSuffix { undec eol | goalIndicator }
+            nonterminal moveSuffix { space undec eol | goalIndicator }
             nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
             nonterminal numberedHalfMove { space+ ordinalNumber move }
             nonterminal unnumberedHalfMove { space+ move }
@@ -692,8 +701,8 @@ namespace eval format {
 
             namespace eval seriesplay {
                 # TODO while not in help play?
-                terminal setplayNotApplicable "[l setplayNotApplicable]"
-                terminal tryplayNotApplicable "[l tryplayNotApplicable]"
+                terminal setplayNotApplicable [l setplayNotApplicable]
+                terminal tryplayNotApplicable [l tryplayNotApplicable]
 
                 nonterminal optionNotApplicable { setplayNotApplicable | tryplayNotApplicable }
                 nonterminal optionNotApplicableLine { optionNotApplicable eol* }
@@ -713,12 +722,12 @@ namespace eval format {
         nonterminal kingMissingLine { kingmissing eol }
 
         namespace eval untwinned {
-            terminal toofairy "[l toofairy]"
-            terminal nonsensecombination "[l nonsensecombination]"
-            terminal conditionSideUndecidable "[l conditionSideUndecidable]"
-            terminal problemignored "[l problemignored]"
-            terminal illegalSelfCheck "[l illegalSelfCheck]"
-            terminal intelligentAndFairy "[l intelligentAndFairy]"
+            terminal toofairy [l toofairy]
+            terminal nonsensecombination [l nonsensecombination]
+            terminal conditionSideUndecidable [l conditionSideUndecidable]
+            terminal problemignored [l problemignored]
+            terminal illegalSelfCheck [l illegalSelfCheck]
+            terminal intelligentAndFairy [l intelligentAndFairy]
 
             nonterminal errorLines {
                 toofairy eol
@@ -749,8 +758,8 @@ namespace eval format {
     }
 
     namespace eval footer {
-        terminal endOfSolution "[l endOfSolution]"
-        terminal partialSolution "[l partialSolution]"
+        terminal endOfSolution [l endOfSolution]
+        terminal partialSolution [l partialSolution]
 
         # TODO why inconsistent?
         nonterminal solutionEnd { eol endOfSolution | partialSolution }
@@ -758,7 +767,7 @@ namespace eval format {
     }
 
     namespace eval zeroposition {
-        terminal zeroposition "[l zeroposition]"
+        terminal zeroposition [l zeroposition]
 
         nonterminal block { emptyLine zeroposition eol emptyLine }
     }
@@ -781,8 +790,8 @@ namespace eval format {
     }
 
     namespace eval inputerror {
-        terminal inputError "[l inputError]:"
-        terminal offendingItem "[l offendingItem]: "
+        terminal inputError [l inputError]
+        terminal offendingItem [l offendingItem]
 
         nonterminal block {
             inputError lineText+ eol
