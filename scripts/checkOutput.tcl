@@ -459,26 +459,7 @@ namespace eval format {
 
 	    nonterminal colour { white | black | neutral }
 
-	    nonterminal combined {
-		colour?
-		royal?
-		kamikaze?
-		paralyzing?
-		chameleon?
-		jigger?
-		volage?
-		functionary?
-		halfneutral?
-		hurdleColourChanging?
-		protean?
-		magic?
-		uncapturable?
-		patrol?
-		frischauf?
-	    }
-
-	    nonterminal combinedColourImplicit {
-		neutral?
+	    nonterminal nonColour {
 		royal?
 		kamikaze?
 		paralyzing?
@@ -555,15 +536,24 @@ namespace eval format {
         nonterminal walkPawnImplicit { board::walkChar{0,2} hunterSuffix? }
 
         nonterminal movementTo { captureOrNot square }
-        nonterminal movementFromTo { pieceAttributeShortcut::combinedColourImplicit walkPawnImplicit square movementTo }
-        nonterminal castlingPartnerMovement { castlingPartnerSeparator pieceAttributeShortcut::combined walkPawnImplicit square movementTo }
+        nonterminal movementFromTo { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
+        nonterminal castlingPartnerMovement { castlingPartnerSeparator pieceAttributeShortcut::colour pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
         nonterminal movementBasic { movementFromTo castlingPartnerMovement? | castlingQ | castlingK }
         nonterminal movementComposite { movementBasic movementTo* }
         nonterminal messignyExchange { walk square pieceExchangeIndicator walk square }
-        nonterminal promotion { promotionIndicator pieceAttributeShortcut::combined walk? }
+        nonterminal promotion { promotionIndicator pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk? }
         nonterminal pieceChangement { square promotion }
-        nonterminal pieceSpec { pieceAttributeShortcut::combined walk square }
-        nonterminal pieceMovement { pieceSpec pieceMovementIndicator pieceAttributeShortcut::combined walk? square promotion* vulcanization? }
+        nonterminal pieceSpec { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk square }
+        nonterminal pieceMovement {
+	    pieceSpec
+	    pieceMovementIndicator
+	    pieceAttributeShortcut::colour?
+	    pieceAttributeShortcut::nonColour
+	    walk?
+	    square
+	    promotion*
+	    vulcanization?
+	}
         nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
         nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
         nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
