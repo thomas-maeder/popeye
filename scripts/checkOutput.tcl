@@ -361,16 +361,18 @@ namespace eval format {
         nonterminal recihelpPrefix { reciPrefix recigoal? }
         nonterminal alternatePrefix { helpPrefix | recihelpPrefix | selfPrefix | helpselfPrefix | reflexPrefix | helpreflexPrefix }
         nonterminal playPrefix { exactPrefix? genericSeriesPrefix? alternatePrefix? }
-        nonterminal stipulation_traditional { playPrefix goal length }
+        nonterminal traditional { playPrefix goal length }
 
-        nonterminal stipulation_structured { side space nonspace+ }; # TODO
+	# structured stipulations are recursive, which can't be represented by
+	# regular expressions
+        nonterminal structured { side space nonspace+ }
 
         nonterminal maxSuffix { maxthreatSuffix maxflightSuffix? }
-        nonterminal suffix { maxSuffix? nontrivialSuffix? }; # TODO order of suffixes?
+        nonterminal suffix { maxSuffix? nontrivialSuffix? }
 
-        nonterminal stipulation { stipulation_traditional | stipulation_structured }
+        nonterminal combined { traditional | structured }
 
-        nonterminal block { stipulation suffix }
+        nonterminal block { combined suffix }
     }
         
     namespace eval pieceControl {
