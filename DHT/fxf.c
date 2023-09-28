@@ -150,14 +150,16 @@ enum
   fxfMINSIZE = sizeof(void *)
 };
 #define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
-#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
-                                                                                                                               (Of course, they're probably the same.)
-                                                                                                                               TODO: Can we compute what we want at compile time and just use it? */
-static size_t min_alignment= 0; /* for now */
+#define MIN_ALIGNMENT_UNDERESTIMATE ((fxfMINSIZE > 0) ? \
+                                     ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) : \
+                                     1) /* We'd prefer the top bit, but we'll compute that during fxfInit.
+                                           (Of course, they're probably the same.)
+                                           TODO: Can we compute what we want at compile time and just use it? */
+static size_t min_alignment= (fxfMINSIZE <= 0); /* for now */
 
-static SizeHead SizeData[1 + (fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
-                                                                                        Maximum allocation is fxfMAXSIZE.
-                                                                                        All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
+static SizeHead SizeData[1 + (fxfMAXSIZE - ((fxfMINSIZE > 0) ? fxfMINSIZE : 0))/MIN_ALIGNMENT_UNDERESTIMATE]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
+                                                                                                                 Maximum allocation is fxfMAXSIZE.
+                                                                                                                 All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
