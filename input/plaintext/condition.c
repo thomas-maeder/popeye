@@ -118,10 +118,10 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
      in - and all other cases return infinity (no limit) */
 
-  char* curptr;
-  for (curptr = inptr; memchr("0123456789.,-", *curptr, ((sizeof "0123456789.,-") - 1)); ++curptr)
-                    /* memchr(...) replaces the previous check: isdigit((unsigned char)*curptr) || *curptr == '.' || *curptr == ',' || *curptr == '-')) */
-    ; // do nothing; the increment above is enough
+  char* curptr = inptr;
+  while (memchr("0123456789.,-", *curptr, ((sizeof "0123456789.,-") - 1)))
+      /* memchr(...) replaces the previous check: isdigit((unsigned char)*curptr) || *curptr == '.' || *curptr == ',' || *curptr == '-')) */
+    ++curptr;
 
   {
     size_t len;
