@@ -149,6 +149,13 @@ enum
 {
   fxfMINSIZE = sizeof(void *)
 };
+
+enum {
+  ENSURE_FXFMINSIZE_GE_0 = 1/(fxfMINSIZE >= 0),
+  ENSURE_FXFMAXSIZE_GT_0 = 1/(fxfMAXSIZE > 0),
+  ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE)
+};
+
 #define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
 #define MIN_ALIGNMENT_UNDERESTIMATE ((fxfMINSIZE > 0) ? \
                                      ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) : \
