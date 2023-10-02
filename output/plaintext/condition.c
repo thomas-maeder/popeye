@@ -647,53 +647,58 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         case magicsquare:
         {
           square i;
+          int j;
           if (magic_square_type==ConditionType2)
             written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeTab[ConditionType2]);
 
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), MagicSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j), MagicSq))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
 
         case whforsqu:
         case whconforsqu:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), WhForcedSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i;
+          int j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j), WhForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
         case blforsqu:
         case blconforsqu:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), BlForcedSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i;
+          int j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j), BlForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
 
         case whprom_sq:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), WhPromSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i;
+          int j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j), WhPromSq))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
         case blprom_sq:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), BlPromSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i;
+          int j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j), BlPromSq))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
 
@@ -707,9 +712,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         case wormholes:
         {
           square i;
-          for (i = square_a1; i<=square_h8; ++i)
-            if (TSTFLAG(sq_spec(i),Wormhole))
-              written += append_to_CondLine_square(&CondLine,written,i);
+          int j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= 0; j<nr_files_on_board; ++j)
+              if (TSTFLAG(sq_spec(i+j),Wormhole))
+                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
           break;
         }
 

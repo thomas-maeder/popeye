@@ -307,12 +307,14 @@ void wormhole_initialse_solving(slice_index si)
 
   {
     square s;
-    for (s = square_a1; s<=square_h8; ++s)
-      if (TSTFLAG(sq_spec(s),Wormhole))
-      {
-        wormhole_positions[nr_wormholes] = s;
-        ++nr_wormholes;
-      }
+    int j;
+    for (s = square_a1; s<=square_a8; s += (square_a2 - square_a1))
+      for (j = 0; j<nr_files_on_board; ++j)
+        if (TSTFLAG(sq_spec(s+j),Wormhole))
+        {
+          wormhole_positions[nr_wormholes] = (square)(s+j);
+          ++nr_wormholes;
+        }
   }
 
   {
