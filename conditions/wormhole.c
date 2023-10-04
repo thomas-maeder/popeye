@@ -306,18 +306,11 @@ void wormhole_initialse_solving(slice_index si)
   nr_wormholes = 0;
 
   {
-    square s;
-    int j;
+    square s, j;
     for (s = square_a1; s<=square_a8; s += (square_a2 - square_a1))
-      for (j = 0; j<nr_files_on_board; ++j)
-      {
-        square cur_square = (square)(s + j * (square_b1 - square_a1));
-        if (TSTFLAG(sq_spec(cur_square),Wormhole))
-        {
-          wormhole_positions[nr_wormholes] = cur_square;
-          ++nr_wormholes;
-        }
-      }
+      for (j = (square_a1 - square_a1); j<=(square_h1 - square_a1); j += (square_b1 - square_a1))
+        if (TSTFLAG(sq_spec(s + j),Wormhole))
+          wormhole_positions[nr_wormholes++] = s + j;
   }
 
   {
