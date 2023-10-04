@@ -653,8 +653,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j), MagicSq))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square), MagicSq))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
 
@@ -665,8 +668,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           int j;
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j), WhForcedSq))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square), WhForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
         case blforsqu:
@@ -676,8 +682,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           int j;
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j), BlForcedSq))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square), BlForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
 
@@ -687,8 +696,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           int j;
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j), WhPromSq))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square), WhPromSq))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
         case blprom_sq:
@@ -697,8 +709,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           int j;
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j), BlPromSq))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square), BlPromSq))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
 
@@ -715,8 +730,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           int j;
           for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
             for (j= 0; j<nr_files_on_board; ++j)
-              if (TSTFLAG(sq_spec(i+j),Wormhole))
-                written += append_to_CondLine_square(&CondLine,written,(square)(i+j));
+            {
+              square cur_square= (square)(i+j*(square_b1-square_a1));
+              if (TSTFLAG(sq_spec(cur_square),Wormhole))
+                written += append_to_CondLine_square(&CondLine,written,cur_square);
+            }
           break;
         }
 
