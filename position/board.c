@@ -80,7 +80,7 @@ square const boardnum[65] = {
   /* eighth  rank */      368, 369, 370, 371, 372, 373, 374, square_h8,
   /* end marker   */    0};
 
-SquareFlags zzzan[(one_row + 1) + (square_h8 - square_a1 + 1) + (one_row + 1)];
+SquareFlags zzzan[(onerow + 1) + (square_h8 - square_a1 + 1) + (onerow + 1)];
 
 int zzzao[square_h8 - square_a1 + 1];
 

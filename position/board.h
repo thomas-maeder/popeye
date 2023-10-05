@@ -225,8 +225,8 @@ enum
   max_castling = queenside_castling
 };
 
-extern SquareFlags zzzan[(one_row + 1) + (square_h8 - square_a1 + 1) + (one_row + 1)]; // for this array we need slack rows above and below
-#define sq_spec(n)      (zzzan[(n) - (square_a1 - (one_row + 1))])
+extern SquareFlags zzzan[(onerow + 1) + (square_h8 - square_a1 + 1) + (onerow + 1)]; // for this array we need slack rows above and below
+#define sq_spec(n)      (zzzan[(n) - (square_a1 - (onerow + 1))])
 
 extern int         zzzao[square_h8 - square_a1 + 1];
 #define sq_num(n)       (zzzao[(n) - square_a1])
