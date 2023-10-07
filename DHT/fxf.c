@@ -501,8 +501,8 @@ void *fxfAlloc(size_t size) {
 #if defined(SEGMENTED)
     ptrSegment= CurrentSeg;
     if (CurrentSeg) {
+      convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
       do {
-        convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
         convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
         if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
           ptrIndex= (tmp - segment_begin);
@@ -644,8 +644,8 @@ void fxfFree(void *ptr, size_t size)
 #if defined(SEGMENTED)
   ptrSegment= CurrentSeg;
   if (CurrentSeg) {
+    convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
     do {
-      convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
       convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
       if (tmp >= segment_begin) {
         ptrIndex= (tmp - segment_begin);
