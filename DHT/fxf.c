@@ -489,7 +489,7 @@ void *fxfAlloc(size_t size) {
   if (sh->FreeHead) {
 #if defined(SEGMENTED)
     int ptrSegment;
-    ptrdiff_t ptrIndex= -1; 
+    ptrdiff_t ptrIndex; 
 #endif
     ptr= sh->FreeHead;
     if (size < sizeof sh->FreeHead)
@@ -500,17 +500,20 @@ void *fxfAlloc(size_t size) {
     sh->MallocCount++;
 #if defined(SEGMENTED)
     ptrSegment= CurrentSeg;
-    if (ptrSegment)
+    if (CurrentSeg) {
       do {
         convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
         convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
         if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
           ptrIndex= (tmp - segment_begin);
-          break;
+          goto FOUND_PUTATIVE_SEGMENT;
+
         }
-      } while (--ptrSegment >= 0);
-    else
-      ptrIndex= pointerDifference(ptr, Arena[ptrSegment]);
+      } while (0 <= --ptrSegment);
+      ptrIndex= -1;
+    } else
+      ptrIndex= pointerDifference(ptr, Arena[0]);
+FOUND_PUTATIVE_SEGMENT:
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,sh->MallocCount));
 #else
 #  if defined(FREEMAP)
@@ -639,16 +642,20 @@ void fxfFree(void *ptr, size_t size)
   if (!ptr)
     return;
 #if defined(SEGMENTED)
-  for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
-    convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
-    convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
-    if (tmp >= segment_begin) {
-      ptrIndex= (tmp - segment_begin);
-      if (ptrIndex < ARENA_SEG_SIZE)
-        goto FOUND_PUTATIVE_SEGMENT;
-    }
-  }
-  ptrIndex= -1;
+  ptrSegment= CurrentSeg;
+  if (CurrentSeg) {
+    do {
+      convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
+      convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
+      if (tmp >= segment_begin) {
+        ptrIndex= (tmp - segment_begin);
+        if (ptrIndex < ARENA_SEG_SIZE)
+          goto FOUND_PUTATIVE_SEGMENT;
+      }
+    } while (0 <= --ptrSegment);
+    ptrIndex= -1;
+  } else
+    ptrIndex= pointerDifference(ptr, Arena[0]);
 FOUND_PUTATIVE_SEGMENT:
   TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #else
