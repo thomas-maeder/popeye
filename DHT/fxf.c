@@ -54,19 +54,22 @@
 #  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #    include <stdint.h>
 #  endif
-union MAX_ALIGNED_TYPE {
+struct GET_MAX_ALIGNMENT_TYPE {
+  unsigned char c;
+  union {
 #  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-  uintmax_t unsigned_integer;
+    uintmax_t unsigned_integer;
 #  elif defined(LLONG_MAX) /* We have long long integer types. */
-  unsigned long long int unsigned_integer;
+    unsigned long long int unsigned_integer;
 #  else
-  unsigned long int unsigned_integer;
+    unsigned long int unsigned_integer;
 #  endif
-  const volatile void * object_pointer;
-  void (*function_pointer)(void);  
-  long double floating_point;
+    const volatile void * object_pointer;
+    void (*function_pointer)(void);  
+    long double floating_point;
+  } max_aligned_union;
 };
-#  define MAX_ALIGNMENT (sizeof(union MAX_ALIGNED_TYPE) & -sizeof(union MAX_ALIGNED_TYPE))
+#  define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
 #endif
 
 #if !defined(Nil) && !defined(New) && !defined(nNewUntyped) && !defined(nNewCallocUntyped) /* TODO: Is this the correct check for all of the below lines? */
@@ -496,14 +499,18 @@ void *fxfAlloc(size_t size) {
     sh->FreeCount--;
     sh->MallocCount++;
 #if defined(SEGMENTED)
-    for (ptrSegment= CurrentSeg; ptrSegment >= 0; --ptrSegment) {
-      convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
-      convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
-      if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
-        ptrIndex= (tmp - segment_begin);
-        break;
-      }
-    }
+    ptrSegment= CurrentSeg;
+    if (ptrSegment)
+      do {
+        convert_pointer_to_int_type tmp= (convert_pointer_to_int_type)ptr;
+        convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
+        if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
+          ptrIndex= (tmp - segment_begin);
+          break;
+        }
+      } while (--ptrSegment >= 0);
+    else
+      ptrIndex= pointerDifference(ptr, Arena[ptrSegment]);
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,sh->MallocCount));
 #else
 #  if defined(FREEMAP)
@@ -717,11 +724,18 @@ FOUND_PUTATIVE_SEGMENT:
 void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   void *nptr;
   if (!ptr)
+  {
+    assert(!OldSize);
     return fxfAlloc(NewSize);
+  }
   if (!NewSize)
+  {
     fxfFree(ptr, OldSize);
+    return Nil(void);
+  }
+  /* TODO: return ptr if the block is large enough and we can safely fxfFree unused space */
   nptr= fxfAlloc(NewSize);
-  if (NewSize && nptr)
+  if (nptr)
   {
     memcpy(nptr, ptr, ((NewSize < OldSize) ? NewSize : OldSize));
     fxfFree(ptr, OldSize);
