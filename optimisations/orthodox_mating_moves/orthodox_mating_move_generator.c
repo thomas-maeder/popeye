@@ -205,7 +205,7 @@ static void king_nonneutral(square sq_king, Side side)
       if (abs(dir)!=abs_dir_battery)
       {
         curr_generation->arrival = curr_generation->departure+dir;
-        if (move_diff_code[abs(sq_king-curr_generation->arrival)]>1+1)
+        if (squared_distance_between_squares(sq_king,curr_generation->arrival)>1+1)
         {
           if (is_square_empty(curr_generation->arrival))
             push_move_no_capture();
@@ -249,12 +249,12 @@ static void knight(square sq_king, Side side)
 
   {
     numvec const abs_dir_battery = detect_battery(sq_king,side);
-    numvec vec_to_king = abs(sq_king-sq_departure);
+    move_diff_type const dist_to_king = squared_distance_between_squares(sq_king,sq_departure);
 
     if (abs_dir_battery!=0
         || (SquareCol(sq_departure)==SquareCol(sq_king)
-            && move_diff_code[vec_to_king]<=move_diff_code[square_a3-square_e1]
-            && move_diff_code[vec_to_king]!=move_diff_code[square_a3-square_c1]))
+            && dist_to_king<=squared_distance_between_squares(square_a3,square_e1)
+            && dist_to_king!=squared_distance_between_squares(square_a3,square_c1)))
     {
       vec_index_type vec_index;
       for (vec_index = vec_knight_start; vec_index<=vec_knight_end; ++vec_index)
@@ -399,14 +399,14 @@ static void simple_rider_indirectly_approach_king(square sq_king,
                                                   piece_walk_type rider_walk)
 {
   square const sq_departure = curr_generation->departure;
-  move_diff_type const OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
+  move_diff_type const OriginalDistance = squared_distance_between_squares(sq_departure,sq_king);
   vec_index_type vec_index;
   for (vec_index = index_start; vec_index<=index_end; ++vec_index)
   {
     numvec const dir = vec[vec_index];
     curr_generation->arrival = sq_departure+dir;
     if (!is_square_blocked(curr_generation->arrival)
-        && move_diff_code[abs(curr_generation->arrival-sq_king)]<OriginalDistance)
+        && squared_distance_between_squares(curr_generation->arrival,sq_king)<OriginalDistance)
     {
       /* The rider must move closer to the king! */
       numvec dir_to_king = CheckDir(rider_walk)[sq_king-curr_generation->arrival];

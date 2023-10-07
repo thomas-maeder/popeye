@@ -80,7 +80,7 @@ static boolean guards_from(square white_king_square)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = move_diff_code[abs(white_king_square-being_solved.king_square[Black])]<9;
+  result = squared_distance_between_squares(white_king_square,being_solved.king_square[Black])<9;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

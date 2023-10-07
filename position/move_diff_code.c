@@ -1,8 +1,10 @@
 #include "position/move_diff_code.h"
+#include "position/board.h"
 
+#include <stdlib.h>
 #include <limits.h>
 
-move_diff_type const move_diff_code[square_h8 - square_a1 + 1]=
+static move_diff_type const move_diff_code[(square_h8 - square_a1 + 1) + (onerow + 1)]=
 {
   /* left/right   */        0,   1,   4,   9,  16,  25,  36,  49,
   /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
@@ -25,5 +27,13 @@ move_diff_type const move_diff_code[square_h8 - square_a1 + 1]=
   /* 6 right up   */       36,  37,  40,  45,  52,  61,  72,  85,
   /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
   /* 7 left  up   */            98,  85,  74,  65,  58,  53,  50,
-  /* 7 right up   */       49,  50,  53,  58,  65,  74,  85,  98
+  /* 7 right up   */       49,  50,  53,  58,  65,  74,  85,  98,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX
 };
+
+move_diff_type squared_distance_between_squares(square sq1, square sq2)
+{
+  return move_diff_code[abs(sq1 - sq2)];
+}

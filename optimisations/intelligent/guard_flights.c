@@ -34,7 +34,7 @@ static void init_guard_dirs_rider(piece_walk_type guarder,
                                   numvec dir)
 {
   square const start = flight+dir;
-  if (move_diff_code[abs(being_solved.king_square[Black]-start)]<=2)
+  if (squared_distance_between_squares(being_solved.king_square[Black],start)<=2)
   {
     /* start is a flight, too.
      * GuardDir will be initialised from start in this dir */
@@ -208,7 +208,7 @@ void init_guard_dirs(square black_king_pos)
  */
 static boolean white_king_guards_flight(square from)
 {
-  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-from)];
+  move_diff_type const diff = squared_distance_between_squares(being_solved.king_square[Black],from);
   boolean const result = diff>3 && diff<=8;
 
   TraceFunctionEntry(__func__);
@@ -245,7 +245,7 @@ static void remember_to_keep_guard_line_open(square from, square to,
   /* the guard line only needs to be kept open up to the flight closest to
    * from; e.g. reset to to c1 with from:a1 to:e1 being_solved.king_square[Black]:d2
    */
-  for (s = to-dir; s!=from && move_diff_code[abs(being_solved.king_square[Black]-s)]<=2; s -= dir)
+  for (s = to-dir; s!=from && squared_distance_between_squares(being_solved.king_square[Black],s)<=2; s -= dir)
     to = s;
 
   remember_to_keep_rider_line_open(from,to,dir,delta);
@@ -476,7 +476,7 @@ static void promoted_queen(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
+  switch (squared_distance_between_squares(being_solved.king_square[Black],guard_from))
   {
     case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
@@ -529,7 +529,7 @@ static void promoted_rook(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
+  switch (squared_distance_between_squares(being_solved.king_square[Black],guard_from))
   {
     case 1+0: /* e.g. Ka2 Rb2 */
       /* uninterceptable check */
@@ -566,7 +566,7 @@ static void promoted_rook(slice_index si, square guard_from)
  */
 static void promoted_bishop(slice_index si, square guard_from)
 {
-  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
+  move_diff_type const diff = squared_distance_between_squares(being_solved.king_square[Black],guard_from);
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -671,7 +671,7 @@ static void queen(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
+  switch (squared_distance_between_squares(being_solved.king_square[Black],guard_from))
   {
     case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
@@ -727,7 +727,7 @@ static void rook(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
+  switch (squared_distance_between_squares(being_solved.king_square[Black],guard_from))
   {
     case 1+0: /* e.g. Ka2 Rb2 */
       /* uninterceptable check */
@@ -766,7 +766,7 @@ static void rook(slice_index si, square guard_from)
  */
 static void bishop(slice_index si, square guard_from)
 {
-  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
+  move_diff_type const diff = squared_distance_between_squares(being_solved.king_square[Black],guard_from);
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
