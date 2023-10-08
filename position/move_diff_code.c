@@ -54,11 +54,11 @@ move_diff_type squared_distance_between_squares(square const sq1, square const s
       (col1 < nr_of_slack_files_left_of_board) ||
       (col1 >= (nr_of_slack_files_left_of_board + nr_files_on_board)))
   {
+    assert((col2 >= nr_of_slack_files_left_of_board) &&
+           (col2 < (nr_of_slack_files_left_of_board + nr_files_on_board)));
     row = (sq2 / onerow);
     assert((row >= nr_of_slack_rows_below_board) &&
-           (row < (nr_of_slack_rows_below_board + nr_rows_on_board)) &&
-           (col2 >= nr_of_slack_files_left_of_board) &&
-           (col2 < (nr_of_slack_files_left_of_board + nr_files_on_board)));
+           (row < (nr_of_slack_rows_below_board + nr_rows_on_board)));
   }
 #endif
   return move_diff_code[abs(sq1 - sq2)];
