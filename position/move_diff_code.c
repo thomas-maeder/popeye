@@ -43,19 +43,19 @@ move_diff_type squared_distance_between_squares(square const sq1, square const s
   assert((sq2 >= (square_a1 - 1 - onerow)) &&
          (sq2 <= (square_h8 + 1 + onerow)));
   col1 = (sq1 % onerow);
-  assert((col1 >= (nr_of_slack_files_left_of_board - 1)) &&
-         (col1 <= (nr_of_slack_files_left_of_board + nr_files_on_board)));
+  assert((col1 >= (left_file - 1)) &&
+         (col1 <= (right_file + 1)));
   col2 = (sq2 % onerow);
-  assert((col2 >= (nr_of_slack_files_left_of_board - 1)) &&
-         (col2 <= (nr_of_slack_files_left_of_board + nr_files_on_board)));
+  assert((col2 >= (left_file - 1)) &&
+         (col2 <= (right_file + 1)));
   assert(((sq1 >= square_a1) &&
           (sq1 <= square_h8) &&
-          (col1 >= nr_of_slack_files_left_of_board) &&
-          (col1 < (nr_of_slack_files_left_of_board + nr_files_on_board))) ||
+          (col1 >= left_file) &&
+          (col1 <= right_file)) ||
          ((sq2 >= square_a1) &&
           (sq2 <= square_h8) &&
-          (col2 >= nr_of_slack_files_left_of_board) &&
-          (col2 < (nr_of_slack_files_left_of_board + nr_files_on_board))));
+          (col2 >= left_file) &&
+          (col2 <= right_file)));
 #endif
   return move_diff_code[abs(sq1 - sq2)];
 }
