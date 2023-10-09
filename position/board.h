@@ -226,10 +226,11 @@ enum
 };
 
 extern SquareFlags zzzan[(onerow + 1) + (square_h8 - square_a1 + 1) + (onerow + 1)]; /* for this array we need slack entries all around the board */
-#define sq_spec(n)      (zzzan[(n) - (square_a1 - (onerow + 1))])
+#define sq_spec(n)      zzzan[get_zzzan_index(n)]
+int get_zzzan_index(square s);
 
 extern int         zzzao[square_h8 - square_a1 + 1];
-#define sq_num(n)       (zzzao[(n) - square_a1])
+#define sq_num(n)       zzzao[(n) - square_a1]
 
 #define NoEdge(i)       TSTFLAG(sq_spec(i), NoEdgeSq)
 #define SquareCol(i)    TSTFLAG(sq_spec(i), SqColor)

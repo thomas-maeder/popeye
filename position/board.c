@@ -84,6 +84,19 @@ SquareFlags zzzan[(onerow + 1) + (square_h8 - square_a1 + 1) + (onerow + 1)];
 
 int zzzao[square_h8 - square_a1 + 1];
 
+int get_zzzan_index(square const s)
+{
+#ifndef NDEBUG
+  int col;
+  assert((s >= (square_a1 - 1 - onerow)) &&
+         (s <= (square_h8 + 1 + onerow)));
+  col = (s % onerow);
+  assert((col >= (left_file - 1)) &&
+         (col <= (right_file + 1)));
+#endif
+  return (s - (square_a1 - (onerow + 1)));
+}
+
 /* Calculate a square transformation
  * @param sq square to be reflected
  * @param transformation transformation to be performed
