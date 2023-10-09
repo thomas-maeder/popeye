@@ -137,6 +137,7 @@ ARCH=                   # use platform default
 CCOPTIM=-O3
 # -fprofile-use
 # -fprofile-generate
+# -flto
 
 # Option for producing dependency information in makefile format
 DEPEND=-MM -MP
@@ -170,7 +171,7 @@ LDOPTIM=-O3
 EXEFILE=-o 
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects

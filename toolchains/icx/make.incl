@@ -65,6 +65,7 @@ DBG=-debug none
 
 # Select target compiler optimization level
 CCOPTIM=-O3
+# -ipo
 
 # Option for producing dependency information in makefile format
 DEPEND=-MM -MP
@@ -93,7 +94,7 @@ LDOPTIM=-O3
 EXEFILE=-o 
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects

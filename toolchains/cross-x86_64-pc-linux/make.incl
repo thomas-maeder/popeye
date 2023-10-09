@@ -48,7 +48,7 @@ TARGETLIBS=-lwinmm
 # implement option maxtime)
 
 
-# Platform spedific file names and suffixes
+# Platform-specific file names and suffixes
 # ====================================
 
 # suffix for objects
