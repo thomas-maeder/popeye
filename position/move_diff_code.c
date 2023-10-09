@@ -37,7 +37,7 @@ static move_diff_type const move_diff_code[(square_h8 + 1 + onerow) - square_a1 
 move_diff_type squared_distance_between_squares(square const sq1, square const sq2)
 {
 #ifndef NDEBUG
-  int row, col1, col2;
+  int col1, col2;
   assert((sq1 >= (square_a1 - 1 - onerow)) &&
          (sq1 <= (square_h8 + 1 + onerow)));
   assert((sq2 >= (square_a1 - 1 - onerow)) &&
@@ -48,18 +48,14 @@ move_diff_type squared_distance_between_squares(square const sq1, square const s
   col2 = (sq2 % onerow);
   assert((col2 >= (nr_of_slack_files_left_of_board - 1)) &&
          (col2 <= (nr_of_slack_files_left_of_board + nr_files_on_board)));
-  row = (sq1 / onerow);
-  if ((row < nr_of_slack_rows_below_board) ||
-      (row >= (nr_of_slack_rows_below_board + nr_rows_on_board)) ||
-      (col1 < nr_of_slack_files_left_of_board) ||
-      (col1 >= (nr_of_slack_files_left_of_board + nr_files_on_board)))
-  {
-    assert((col2 >= nr_of_slack_files_left_of_board) &&
-           (col2 < (nr_of_slack_files_left_of_board + nr_files_on_board)));
-    row = (sq2 / onerow);
-    assert((row >= nr_of_slack_rows_below_board) &&
-           (row < (nr_of_slack_rows_below_board + nr_rows_on_board)));
-  }
+  assert(((sq1 >= square_a1) &&
+          (sq1 <= square_h8) &&
+          (col1 >= nr_of_slack_files_left_of_board) &&
+          (col1 < (nr_of_slack_files_left_of_board + nr_files_on_board))) ||
+         ((sq2 >= square_a1) &&
+          (sq2 <= square_h8) &&
+          (col2 >= nr_of_slack_files_left_of_board) &&
+          (col2 < (nr_of_slack_files_left_of_board + nr_files_on_board))));
 #endif
   return move_diff_code[abs(sq1 - sq2)];
 }
