@@ -164,6 +164,7 @@ OTHER+=-std=c99
 LDOPTIM=-O3
 # -fprofile-use
 # -fprofile-generate
+# -flto
 
 # Option for naming objectfile
 # NOTE: the trailing blank on the following line is relevant (at least

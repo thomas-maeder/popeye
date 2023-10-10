@@ -96,6 +96,7 @@ DEFINEMACRO=-D
 
 # Select target linker optimization level
 LDOPTIM=-O3
+# -ipo
 
 # Option for naming objectfile
 # NOTE: the trailing blank on the following line is relevant (at least
