@@ -654,12 +654,15 @@ void fxfFree(void *ptr, size_t size)
       }
     } while (0 <= --ptrSegment);
     ptrIndex= -1;
-  } else
+  } else {
     ptrIndex= pointerDifference(ptr, Arena[0]);
+    assert((ptrIndex >= 0) && (ptrIndex < ARENA_SEG_SIZE));
+  }
 FOUND_PUTATIVE_SEGMENT:
   TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #else
   ptrIndex= pointerDifference(ptr,Arena);
+  assert((ptrIndex >= 0) && (ptrIndex < GlobalSize));
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #endif
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
@@ -672,11 +675,22 @@ FOUND_PUTATIVE_SEGMENT:
   }
   size= ALIGN_TO_MINIMUM(size);
 #if !defined(NDEBUG)
-  if (ptrIndex > 0) {
-    size_t needed_alignment= MAX_ALIGNMENT;
-    while (needed_alignment > size)
-      needed_alignment>>= 1;
-    assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
+#  if defined(SEGMENTED)
+  if (!CurrentSeg) /* Otherwise we'd be relying on converting to convert_pointer_to_int_type,
+                      and such calculations aren't guaranteed to provide exactly what we need. */
+  {
+    assert(size <= (ARENA_SEG_SIZE - ptrIndex))
+#  else
+  {
+    assert(size <= (GlobalSize - ptrIndex))
+#endif
+    if (ptrIndex > 0)
+    {
+      size_t needed_alignment= MAX_ALIGNMENT;
+      while (needed_alignment > size)
+        needed_alignment>>= 1;
+      assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
+    }
   }
 #endif
   sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
@@ -735,6 +749,39 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
     assert(!OldSize);
     return fxfAlloc(NewSize);
   }
+#if !defined(NDEBUG)
+#  if defined(SEGMENTED)
+  if (!CurrentSeg) /* Otherwise we'd be relying on converting to convert_pointer_to_int_type,
+                      and such calculations aren't guaranteed to provide exactly what we need. */
+  {
+    ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena[0]);
+    assert(ptrIndex < ARENA_SEG_SIZE);
+#  else
+  {
+    ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena);
+    assert(ptrIndex < GlobalSize);
+#  endif
+    assert(ptrIndex >= 0); 
+    if (ptrIndex > 0)
+    {
+      size_t allocatedSize= OldSize;
+      size_t needed_alignment;
+      if (allocatedSize < fxfMINSIZE)
+        allocatedSize= fxfMINSIZE;
+      assert(allocatedSize <= fxfMAXSIZE);
+      allocatedSize= ALIGN_TO_MINIMUM(allocatedSize);
+#  if defined(SEGMENTED)
+      assert(allocatedSize <= (ARENA_SEG_SIZE - ptrIndex));
+#  else
+      assert(allocatedSize <= (GlobalSize - ptrIndex));
+#  endif
+      needed_alignment= MAX_ALIGNMENT;
+      while (needed_alignment > allocatedSize)
+        needed_alignment>>= 1;
+      assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
+    }
+  }                  
+#endif
   if (!NewSize)
   {
     fxfFree(ptr, OldSize);
