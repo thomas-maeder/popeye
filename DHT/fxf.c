@@ -681,10 +681,10 @@ FOUND_PUTATIVE_SEGMENT:
   if (!CurrentSeg) /* Otherwise we'd be relying on converting to convert_pointer_to_int_type,
                       and such calculations aren't guaranteed to provide exactly what we need. */
   {
-    assert(size <= (ARENA_SEG_SIZE - ptrIndex))
+    assert(size <= (ARENA_SEG_SIZE - ptrIndex));
 #  else
   {
-    assert(size <= (GlobalSize - ptrIndex))
+    assert(size <= (GlobalSize - ptrIndex));
 #endif
     if (ptrIndex > 0)
     {
