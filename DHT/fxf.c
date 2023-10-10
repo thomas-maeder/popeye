@@ -274,10 +274,12 @@ void PrintFreeMap(FILE *f) {
 #endif /*FREEMAP, !SEGMENTED*/
 
 static inline ptrdiff_t pointerDifference(void const *ptr1, void const *ptr2) {
+  assert(ptr1 && ptr2);
   return (((char const *)ptr1) - ((char const *)ptr2));
 }
 
 static inline void * stepPointer(void *ptr, ptrdiff_t step) {
+  assert(!!ptr);
   return (void *)(((char *)ptr) + step);
 }
 
@@ -507,7 +509,6 @@ void *fxfAlloc(size_t size) {
         if ((tmp >= segment_begin) && ((tmp - segment_begin) < ARENA_SEG_SIZE)) {
           ptrIndex= (tmp - segment_begin);
           goto FOUND_PUTATIVE_SEGMENT;
-
         }
       } while (0 <= --ptrSegment);
       ptrIndex= -1;
@@ -533,13 +534,14 @@ START_LOOKING_FOR_CHUNK:
     if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not fully aligned */
+        size_t curBottomIndex;
         size_t needed_alignment_mask= PTRMASK;
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
 #if defined(SEGMENTED)
-        size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
+        curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
 #else
-        size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena);
+        curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena);
 #endif
         if (curBottomIndex & needed_alignment_mask) {
           size_t const numBytesToAdd= (needed_alignment_mask - (curBottomIndex & needed_alignment_mask)) + 1U;
