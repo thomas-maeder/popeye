@@ -789,7 +789,14 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
     fxfFree(ptr, OldSize);
     return Nil(void);
   }
-  /* TODO: return ptr if the block is large enough and we can safely fxfFree unused space */
+  /* TODO: It may be worth trying to return ptr if ALIGN_TO_MINIMUM(OldSize) >= NewSize.
+     To go along with this, we'd have to carefully add any excess to the free store.
+     In the !defined(SEGMENTED) case this is likely easy, but in the defined(SEGMENTED)
+     case it may be difficult.  Regardless, the computations to set this up -- or even
+     determine if it's possible -- are kind of annoying, and they'd only be worthwhile
+     if we hit this possibility frequently (and if the alternative below is expensive
+     or proves impossible).  This all would need to be investigated.
+  */
   nptr= fxfAlloc(NewSize);
   if (nptr)
   {
