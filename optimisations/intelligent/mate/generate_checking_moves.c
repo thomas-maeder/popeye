@@ -284,7 +284,7 @@ static void by_unpromoted_pawn(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!TSTFLAGMASK(sq_spec(check_from),prom_square)
-      && GuardDir[Pawn-Pawn][check_from].dir==guard_dir_check_uninterceptable
+      && GuardDir(Pawn,check_from)->dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
     occupy_square(check_from,Pawn,checker_flags);

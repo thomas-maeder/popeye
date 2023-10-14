@@ -17,7 +17,13 @@
 /* index of guarding piece currently being placed */
 unsigned int index_of_guarding_piece;
 
-guard_dir_struct GuardDir[5][maxsquare+4];
+static guard_dir_struct GuardDirArray[5][maxsquare+4];
+static guard_dir_struct const DummyGuardDir;
+
+guard_dir_struct const * GuardDir(piece_walk_type p, square s) {
+  assert(((p >= Pawn) && (p < (Pawn + 5))) || (p == Dummy));
+  return ((p == Dummy) ? &DummyGuardDir : &GuardDirArray[p - Pawn][s]);
+}
 
 static void init_guard_dirs_leaper(piece_walk_type guarder,
                                    square target,
@@ -25,8 +31,9 @@ static void init_guard_dirs_leaper(piece_walk_type guarder,
                                    numvec value)
 {
   vec_index_type i;
+  assert((guarder >= Pawn) && (guarder < (Pawn + 5)));
   for (i = start; i <= end; ++i)
-    GuardDir[guarder-Pawn][target+vec[i]].dir = value;
+    GuardDirArray[guarder-Pawn][target+vec[i]].dir = value;
 }
 
 static void init_guard_dirs_rider(piece_walk_type guarder,
@@ -37,15 +44,16 @@ static void init_guard_dirs_rider(piece_walk_type guarder,
   if (move_diff_code[abs(being_solved.king_square[Black]-start)]<=2)
   {
     /* start is a flight, too.
-     * GuardDir will be initialised from start in this dir */
+     * GuardDirArray will be initialised from start in this dir */
   }
   else
   {
     square s;
+    assert((guarder >= Pawn) && (guarder < (Pawn + 5)));
     for (s = start; is_square_empty(s); s += dir)
     {
-      GuardDir[guarder-Pawn][s].dir = -dir;
-      GuardDir[guarder-Pawn][s].target = flight;
+      GuardDirArray[guarder-Pawn][s].dir = -dir;
+      GuardDirArray[guarder-Pawn][s].target = flight;
     }
   }
 }
@@ -169,10 +177,10 @@ static void init_guard_dirs_knight(square black_king_pos)
 
 static void init_guard_dir_pawn(square flight, numvec dir)
 {
-  GuardDir[Pawn-Pawn][flight+dir_down+dir_left].dir = dir;
-  GuardDir[Pawn-Pawn][flight+dir_down+dir_left].target = flight;
-  GuardDir[Pawn-Pawn][flight+dir_down+dir_right].dir = dir;
-  GuardDir[Pawn-Pawn][flight+dir_down+dir_right].target = flight;
+  GuardDirArray[Pawn-Pawn][flight+dir_down+dir_left].dir = dir;
+  GuardDirArray[Pawn-Pawn][flight+dir_down+dir_left].target = flight;
+  GuardDirArray[Pawn-Pawn][flight+dir_down+dir_right].dir = dir;
+  GuardDirArray[Pawn-Pawn][flight+dir_down+dir_right].target = flight;
 }
 
 static void init_guard_dirs_pawn(square black_king_pos)
@@ -194,7 +202,7 @@ static void init_guard_dirs_pawn(square black_king_pos)
  */
 void init_guard_dirs(square black_king_pos)
 {
-  memset(GuardDir, 0, sizeof GuardDir);
+  memset(GuardDirArray, 0, sizeof GuardDirArray);
   init_guard_dirs_queen(black_king_pos);
   init_guard_dirs_rook(black_king_pos);
   init_guard_dirs_bishop(black_king_pos);
@@ -340,7 +348,7 @@ static void place_rider(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    int const dir = GuardDir[rider_type-Pawn][guard_from].dir;
+    int const dir = GuardDir(rider_type,guard_from)->dir;
 
     TraceValue("%d",dir);
     TraceValue("%d",guard_dir_check_uninterceptable);
@@ -354,7 +362,7 @@ static void place_rider(slice_index si,
 
       case guard_dir_guard_uninterceptable:
       {
-        square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        square const guarded = GuardDir(rider_type,guard_from)->target;
         TraceSquare(guarded);
         TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
         TraceWalk(get_walk_of_piece_on_square(guarded));
@@ -378,7 +386,7 @@ static void place_rider(slice_index si,
 
       default:
       {
-        square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        square const guarded = GuardDir(rider_type,guard_from)->target;
         TraceSquare(guarded);
         TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
         TraceEOL();
@@ -430,7 +438,7 @@ static void place_knight(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
+  if (GuardDir(Knight,guard_from)->dir==guard_dir_guard_uninterceptable)
   {
     occupy_square(guard_from,Knight,white[index_of_guarding_piece].flags);
     intelligent_continue_guarding_flights(si);
@@ -453,7 +461,7 @@ static void unpromoted_pawn(slice_index si, square guard_from)
   TraceFunctionParamListEnd();
 
   if (!TSTFLAGMASK(sq_spec(guard_from),BIT(WhBaseSq)|BIT(WhPromSq))
-      && GuardDir[Pawn-Pawn][guard_from].dir==guard_dir_guard_uninterceptable
+      && GuardDir(Pawn,guard_from)->dir==guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
   {
