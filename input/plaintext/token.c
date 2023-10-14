@@ -123,7 +123,11 @@ static void NextChar(void)
 fpos_t InputGetPosition(void)
 {
   fpos_t result;
-  fgetpos(InputMirror,&result);
+  if (fgetpos(InputMirror,&result))
+  {
+    perror("fgetpos");
+    exit(1);
+  }
   return result;
 }
 
@@ -131,14 +135,26 @@ void InputStartReplay(fpos_t pos)
 {
   memcpy(savedTokenLine, TokenLine, sizeof TokenLine);
   Input = InputMirror;
-  fgetpos(InputMirror,&mirrorEnd);
-  fsetpos(Input,&pos);
+  if (fgetpos(InputMirror,&mirrorEnd))
+  {
+    perror("fgetpos");
+    exit(1);
+  }
+  if (fsetpos(Input,&pos))
+  {
+    perror("fsetpos");
+    exit(1);
+  }
 }
 
 void InputEndReplay(void)
 {
   Input = InputOriginal;
-  fsetpos(InputMirror,&mirrorEnd);
+  if (fsetpos(InputMirror,&mirrorEnd))
+  {
+    perror("fsetpos");
+    exit(1);
+  }
   memcpy(TokenLine, savedTokenLine, sizeof TokenLine);
 }
 
