@@ -31,7 +31,7 @@ typedef struct
 /* index of guarding piece currently being placed */
 extern unsigned int index_of_guarding_piece;
 
-/* lookup a guard direction GuardDir(Queen, some_square) */
+/* lookup doing something like GuardDir(Queen, some_square) */
 guard_dir_struct const * GuardDir(piece_walk_type p, square s);
 
 /* Initialise GuardDir
