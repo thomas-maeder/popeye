@@ -208,6 +208,7 @@ void init_guard_dirs(square black_king_pos)
   init_guard_dirs_bishop(black_king_pos);
   init_guard_dirs_knight(black_king_pos);
   init_guard_dirs_pawn(black_king_pos);
+  /* Dummies can't guard anything, so we don't have to do anything for them. */
 }
 
 /* Does the white king guard a flight
