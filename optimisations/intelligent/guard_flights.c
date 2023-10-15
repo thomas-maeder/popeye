@@ -21,7 +21,9 @@ static guard_dir_struct GuardDirArray[5][maxsquare+4];
 static guard_dir_struct const DummyGuardDir;
 
 guard_dir_struct const * GuardDir(piece_walk_type p, square s) {
-  assert(((p >= Pawn) && (p < (Pawn + 5))) || (p == Dummy));
+  assert(((p >= Pawn) &&
+          (p < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0]))))) ||
+         (p == Dummy));
   return ((p == Dummy) ? &DummyGuardDir : &GuardDirArray[p - Pawn][s]);
 }
 
@@ -31,7 +33,8 @@ static void init_guard_dirs_leaper(piece_walk_type guarder,
                                    numvec value)
 {
   vec_index_type i;
-  assert((guarder >= Pawn) && (guarder < (Pawn + 5)));
+  assert((guarder >= Pawn) &&
+         (guarder < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0])))));
   for (i = start; i <= end; ++i)
     GuardDirArray[guarder-Pawn][target+vec[i]].dir = value;
 }
@@ -49,7 +52,8 @@ static void init_guard_dirs_rider(piece_walk_type guarder,
   else
   {
     square s;
-    assert((guarder >= Pawn) && (guarder < (Pawn + 5)));
+    assert((guarder >= Pawn) &&
+           (guarder < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0])))));
     for (s = start; is_square_empty(s); s += dir)
     {
       GuardDirArray[guarder-Pawn][s].dir = -dir;
