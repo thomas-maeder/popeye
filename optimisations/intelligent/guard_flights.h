@@ -32,7 +32,7 @@ typedef struct
 extern unsigned int index_of_guarding_piece;
 
 /* lookup doing something like GuardDir(Queen, some_square) */
-guard_dir_struct const * GuardDir(piece_walk_type p, square s);
+guard_dir_struct GuardDir(piece_walk_type p, square s);
 
 /* Initialise GuardDir
  * @param black_king_pos position of black king

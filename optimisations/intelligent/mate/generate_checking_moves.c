@@ -284,7 +284,7 @@ static void by_unpromoted_pawn(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!TSTFLAGMASK(sq_spec(check_from),prom_square)
-      && GuardDir(Pawn,check_from)->dir==guard_dir_check_uninterceptable
+      && GuardDir(Pawn,check_from).dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
     occupy_square(check_from,Pawn,checker_flags);
@@ -359,13 +359,12 @@ static void by_knight(slice_index si,
 
 void intelligent_mate_generate_checking_moves(slice_index si)
 {
-  unsigned int index;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_masses(White,1,piece_gives_check))
   {
+    unsigned int index;
     for (index = 1; index<MaxPiece[White]; ++index)
     {
       square const *bnp;

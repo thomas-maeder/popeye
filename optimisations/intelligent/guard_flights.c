@@ -20,11 +20,12 @@ unsigned int index_of_guarding_piece;
 static guard_dir_struct GuardDirArray[5][maxsquare+4];
 static guard_dir_struct const DummyGuardDir;
 
-guard_dir_struct const * GuardDir(piece_walk_type p, square s) {
+guard_dir_struct GuardDir(piece_walk_type p, square s)
+{
   assert(((p >= Pawn) &&
           (p < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0]))))) ||
          (p == Dummy));
-  return ((p == Dummy) ? &DummyGuardDir : &GuardDirArray[p - Pawn][s]);
+  return ((p == Dummy) ? DummyGuardDir : GuardDirArray[p - Pawn][s]);
 }
 
 static void init_guard_dirs_leaper(piece_walk_type guarder,
@@ -353,13 +354,13 @@ static void place_rider(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    int const dir = GuardDir(rider_type,guard_from)->dir;
+    guard_dir_struct const guard_dir = GuardDir(rider_type,guard_from);
 
-    TraceValue("%d",dir);
+    TraceValue("%d",guard_dir.dir);
     TraceValue("%d",guard_dir_check_uninterceptable);
     TraceEOL();
 
-    switch (dir)
+    switch (guard_dir.dir)
     {
       case guard_dir_check_uninterceptable:
       case 0:
@@ -367,7 +368,7 @@ static void place_rider(slice_index si,
 
       case guard_dir_guard_uninterceptable:
       {
-        square const guarded = GuardDir(rider_type,guard_from)->target;
+        square const guarded = guard_dir.target;
         TraceSquare(guarded);
         TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
         TraceWalk(get_walk_of_piece_on_square(guarded));
@@ -391,11 +392,11 @@ static void place_rider(slice_index si,
 
       default:
       {
-        square const guarded = GuardDir(rider_type,guard_from)->target;
+        square const guarded = guard_dir.target;
         TraceSquare(guarded);
         TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
         TraceEOL();
-        if (!TSTFLAG(being_solved.spec[guarded],Black) && is_line_empty(guard_from,guarded,dir))
+        if (!TSTFLAG(being_solved.spec[guarded],Black) && is_line_empty(guard_from,guarded,guard_dir.dir))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
@@ -443,7 +444,7 @@ static void place_knight(slice_index si, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (GuardDir(Knight,guard_from)->dir==guard_dir_guard_uninterceptable)
+  if (GuardDir(Knight,guard_from).dir==guard_dir_guard_uninterceptable)
   {
     occupy_square(guard_from,Knight,white[index_of_guarding_piece].flags);
     intelligent_continue_guarding_flights(si);
@@ -466,7 +467,7 @@ static void unpromoted_pawn(slice_index si, square guard_from)
   TraceFunctionParamListEnd();
 
   if (!TSTFLAGMASK(sq_spec(guard_from),BIT(WhBaseSq)|BIT(WhPromSq))
-      && GuardDir(Pawn,guard_from)->dir==guard_dir_guard_uninterceptable
+      && GuardDir(Pawn,guard_from).dir==guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
   {
