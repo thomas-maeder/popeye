@@ -18,10 +18,10 @@
 unsigned int index_of_guarding_piece;
 
 static guard_dir_struct GuardDirArray[5][maxsquare+4];
-static guard_dir_struct const DummyGuardDir;
 
 guard_dir_struct GuardDir(piece_walk_type p, square s)
 {
+  static guard_dir_struct const DummyGuardDir;
   assert(((p >= Pawn) &&
           (p < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0]))))) ||
          (p == Dummy));
