@@ -31,7 +31,7 @@ static mummer_length_type mum_length[maxply+1];
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
-static mummer_length_measurer_type mummer_measure_length[nr_sides];
+static mummer_length_measurer_type mummer_measure_length[nr_sides+1];
 
 mummer_strictness_type mummer_strictness[nr_sides];
 
@@ -93,11 +93,12 @@ mummer_length_type minimummer_measure_length(void)
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void)
 {
+  int s;
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  mummer_measure_length[White] = 0;
-  mummer_measure_length[Black] = 0;
+  for (s = 0; s < nr_sides; ++s)
+    mummer_measure_length[s] = NULL;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -116,13 +117,14 @@ boolean mummer_set_length_measurer(Side side,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (mummer_measure_length[side]==0)
+  assert(side <= nr_sides);
+  if (mummer_measure_length[side])
+    result = false;
+  else
   {
     mummer_measure_length[side] = measurer;
     result = true;
   }
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -223,6 +225,8 @@ void mummer_bookkeeper_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(SLICE_STARTER(si) < nr_sides);
+  assert(!!mummer_measure_length[SLICE_STARTER(si)]);
   current_length = (*mummer_measure_length[SLICE_STARTER(si)])();
   TraceValue("%u",current_length);
   TraceValue("%u",mum_length[parent_ply[nbply]]);
@@ -275,6 +279,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(SLICE_STARTER(si) <= nr_sides);
   if (mummer_measure_length[SLICE_STARTER(si)])
   {
     if (state->ultra_capturing_king)
@@ -548,6 +553,8 @@ boolean ultra_mummer_validate_observation(slice_index si)
 
   conditional_pipe_solve_delegate(temporary_hack_ultra_mummer_length_measurer[side_observing]);
 
+  assert(side_observing < nr_sides);
+  assert(!!mummer_measure_length[side_observing]);
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 
   if (result)
