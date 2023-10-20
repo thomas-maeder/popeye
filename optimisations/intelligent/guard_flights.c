@@ -21,17 +21,17 @@ static guard_dir_struct GuardDirArray[5][maxsquare+4];
 
 guard_dir_struct GuardDir(piece_walk_type p, square s)
 {
-  static guard_dir_struct const DummyGuardDir = {0};
-  assert(((p >= Pawn) &&
-          (p < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0]))))) ||
-         (p == Dummy));
   if (p == Dummy)
   {
     guard_dir_struct const DummyGuardDir = {0};
     return DummyGuardDir;
   }
   else
+  {
+    assert((p >= Pawn) &&
+           (p < (Pawn + ((sizeof GuardDirArray)/(sizeof GuardDirArray[0])))));
     return GuardDirArray[p - Pawn][s];
+  }
 }
 
 static void init_guard_dirs_leaper(piece_walk_type guarder,
