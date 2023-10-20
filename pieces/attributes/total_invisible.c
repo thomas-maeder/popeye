@@ -439,9 +439,7 @@ static void adapt_pre_capture_effect(void)
         {
           if (is_square_empty(sq_addition))
           {
-            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
             piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
             PieceIdType const id_added = GetPieceId(flags_added);
 
             TraceText("addition of a castling partner - not yet revealed\n");
@@ -842,7 +840,7 @@ static void subsitute_goal_guard(slice_index si,
 }
 
 static void instrument_replay_branch(slice_index si,
-                                     stip_structure_traversal *st)
+                                     stip_structure_traversal const *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
