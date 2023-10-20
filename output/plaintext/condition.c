@@ -51,12 +51,12 @@
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
-  unsigned int i;
+  unsigned int walk_index;
   unsigned int result = 0;
 
-  for (i = 0; i!=nr_walks; ++i)
+  for (walk_index = 0; walk_index!=nr_walks; ++walk_index)
   {
-    piece_walk_type const walk = walks[i];
+    piece_walk_type const walk = walks[walk_index];
 
     if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
     {
