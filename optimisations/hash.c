@@ -357,7 +357,7 @@ static void slice_property_offset_shifter(slice_index si,
  * @param delta indicates how much to shift the value offsets
  */
 static void shift_offsets(slice_index si,
-                          stip_structure_traversal *st,
+                          stip_structure_traversal const *st,
                           unsigned int delta)
 {
   unsigned int i;
