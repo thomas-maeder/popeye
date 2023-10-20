@@ -470,14 +470,15 @@ static void generate_move_reaching_goal(void)
   square square_a = square_a1;
   Side const side_at_move = trait[nbply];
   square const OpponentsKing = side_at_move==White ? being_solved.king_square[Black] : being_solved.king_square[White];
-  int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (OpponentsKing!=initsquare)
+  {
     /* Don't try to "optimize" by hand. The double-loop is tested as
      * the fastest way to compute (due to compiler-optimizations!) */
+    int i;
     for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
     {
       int j;
@@ -526,6 +527,7 @@ static void generate_move_reaching_goal(void)
             }
         }
       }
+    }
   }
 
   TraceFunctionExit(__func__);
