@@ -21,6 +21,8 @@ static guard_dir_struct GuardDirArray[5][maxsquare+4];
 
 guard_dir_struct GuardDir(piece_walk_type p, square s)
 {
+  assert((s >= 0) &&
+         (s < ((sizeof GuardDirArray[0])/(sizeof GuardDirArray[0][0]))));
   if (p == Dummy)
   {
     guard_dir_struct const DummyGuardDir = {0};
