@@ -840,7 +840,7 @@ static void subsitute_goal_guard(slice_index si,
 }
 
 static void instrument_replay_branch(slice_index si,
-                                     stip_structure_traversal const *st)
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
