@@ -30,6 +30,7 @@
 #if defined(FXF)
 #include "fxf.h"
 #else
+#include <stdlib.h>
 #define	fxfAlloc(x)		malloc(x)
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
