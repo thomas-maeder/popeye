@@ -1215,7 +1215,7 @@ void imitator_pawn_promoter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_promoter(slice_index si, stip_structure_traversal *st)
+static void insert_promoter(slice_index si, stip_structure_traversal const *st)
 {
   slice_index const * const landing = st->param;
 

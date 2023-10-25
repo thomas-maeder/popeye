@@ -63,7 +63,7 @@ void circe_solving_instrument_april(slice_index si,
  */
 void april_chess_fork_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

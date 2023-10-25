@@ -96,7 +96,7 @@ char const *get_goal_symbol(goal_type type)
   return result;
 }
 
-static goalInputConfig_t const *detectGoalType(char *tok)
+static goalInputConfig_t const *detectGoalType(char const *tok)
 {
   goalInputConfig_t const *gic;
 
@@ -135,7 +135,7 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
     TraceValue("%s",tok);
     TraceEOL();
 
-    switch (gic->goal)
+    switch (goal.type)
     {
       case goal_target:
       {
@@ -153,7 +153,6 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
       case goal_mate_or_stale:
       {
-        Goal const goal = { goal_mate_or_stale, initsquare };
         slice_index const immobile_tester = alloc_goal_immobile_reached_tester_system();
         pipe_link(proxy,alloc_goal_reached_tester_slice(goal,immobile_tester));
         break;
@@ -161,7 +160,6 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 
       case goal_mate:
       {
-        Goal const goal = { goal_mate, initsquare };
         slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
         pipe_link(proxy,alloc_goal_reached_tester_slice(goal,mate_tester));
         break;

@@ -24,7 +24,7 @@ typedef struct
   slice_type joint_type;
 } insertion_state_type;
 
-static void insert_fork(slice_index si, stip_structure_traversal *st)
+static void insert_fork(slice_index si, stip_structure_traversal const *st)
 {
   insertion_state_type const * const state = st->param;
   slice_index const proxy = alloc_proxy_slice();

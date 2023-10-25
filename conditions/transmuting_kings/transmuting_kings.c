@@ -92,7 +92,6 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
 boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
-  piece_walk_type const *ptrans;
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   Side const side_moving = trait[nbply];
   square const sq_king = being_solved.king_square[side_moving];
@@ -103,6 +102,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
 
   if (sq_king!=initsquare)
   {
+    piece_walk_type const *ptrans;
     for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
       if (transmuting_kings_is_king_transmuting_as(*ptrans))
       {

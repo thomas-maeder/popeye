@@ -48,7 +48,7 @@ void circe_solving_instrument_nocapture_bypass(slice_index si,
  */
 void circe_capture_fork_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_type const type = move_effect_journal[capture].type;

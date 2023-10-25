@@ -106,7 +106,7 @@ static void remember_instrumentation_not_necessary(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean is_instrumentation_needed(slice_index si, stip_structure_traversal *st)
+static boolean is_instrumentation_needed(slice_index si, stip_structure_traversal const *st)
 {
   boolean result = true;
   stip_structure_traversal st_nested;

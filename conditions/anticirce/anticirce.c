@@ -85,7 +85,7 @@ void anticirce_remove_capturer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+    circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               GetPieceId(context->relevant_spec),
                                                                               context->rebirth_from);

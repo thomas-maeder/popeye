@@ -50,7 +50,7 @@ typedef struct
  */
 static void HandleAddedPiece(square s, void *param)
 {
-  piece_addition_settings * const settings = param;
+  piece_addition_settings const * const settings = param;
 
   if (!is_square_empty(s))
   {
@@ -288,7 +288,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
  * @param colour_is_mandatory is a colour indication mandatory or optional?
  * @return the detected colour, 0 if none is detected
  */
-Flags ParseColour(char *tok, boolean colour_is_mandatory)
+Flags ParseColour(char const *tok, boolean colour_is_mandatory)
 {
   Colour const colour = GetUniqIndex(nr_colours,ColourTab,tok);
   if (colour==nr_colours)

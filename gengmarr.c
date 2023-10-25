@@ -193,10 +193,10 @@ int main(int argc, char *argv[])
   }
   else
   {
-    position game_array;
-    initialise_game_array(&game_array);
+    position initial_game_array;
+    initialise_game_array(&initial_game_array);
 
-    dump_position_initialiser(&game_array,argv[0],output_stream);
+    dump_position_initialiser(&initial_game_array,argv[0],output_stream);
 
     if (fclose(output_stream)==EOF)
     {

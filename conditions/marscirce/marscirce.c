@@ -167,7 +167,7 @@ void marscirce_remember_rebirth(slice_index si)
  */
 void marscirce_remove_capturer_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_departure = context->rebirth_from;
   piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
   Flags flags;
@@ -415,7 +415,7 @@ void marscirce_iterate_observers(slice_index si)
  */
 void marscirce_is_square_observed_enforce_rex_exclusive(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);

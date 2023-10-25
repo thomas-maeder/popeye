@@ -524,7 +524,7 @@ static void HandleImitatorPosition(square pos, void *param)
 
 static void HandleGridCell(square cell, void *param)
 {
-  unsigned int * const currentgridnum = param;
+  unsigned int const * const currentgridnum = param;
 
   ClearGridNum(cell);
   sq_spec(cell) += *currentgridnum << Grid;
@@ -532,7 +532,7 @@ static void HandleGridCell(square cell, void *param)
 
 static void HandleSquaresWithFlag(square sq, void *param)
 {
-  SquareFlags * const flag = param;
+  SquareFlags const * const flag = param;
   SETFLAG(sq_spec(sq),*flag);
 }
 

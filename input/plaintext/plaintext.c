@@ -6,7 +6,7 @@
 /* iterate until we detect an input token that identifies the user's language
  * @return the detected language
  */
-static Language detect_user_language(char *tok)
+static Language detect_user_language(char const *tok)
 {
   Language result = LanguageCount;
 

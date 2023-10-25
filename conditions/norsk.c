@@ -84,7 +84,7 @@ void norsk_arriving_adjuster_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  square sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
 
   TraceFunctionEntry(__func__);
@@ -93,12 +93,12 @@ void norsk_arriving_adjuster_solve(slice_index si)
 
   if (!find_promotion(sq_arrival))
   {
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-    piece_walk_type const norsked = get_walk_of_piece_on_square(pos);
-    piece_walk_type const norsked_to_walk = norsk_walk(norsked);
+    PieceIdType moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                        moving_id,
+                                                                        sq_arrival);
+    piece_walk_type norsked = get_walk_of_piece_on_square(pos);
+    piece_walk_type norsked_to_walk = norsk_walk(norsked);
 
     if (norsked!=norsked_to_walk)
       move_effect_journal_do_walk_change(move_effect_reason_norsk_chess,
@@ -109,13 +109,13 @@ void norsk_arriving_adjuster_solve(slice_index si)
       move_effect_journal_index_type const partner_movement = find_castling_partner_movement();
       if (partner_movement!=base)
       {
-        square const sq_arrival = move_effect_journal[partner_movement].u.piece_movement.to;
-        PieceIdType const moving_id = GetPieceId(move_effect_journal[partner_movement].u.piece_movement.movingspec);
-        square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                                  moving_id,
-                                                                                  sq_arrival);
-        piece_walk_type const norsked = get_walk_of_piece_on_square(pos);
-        piece_walk_type const norsked_to_walk = norsk_walk(norsked);
+        sq_arrival = move_effect_journal[partner_movement].u.piece_movement.to;
+        moving_id = GetPieceId(move_effect_journal[partner_movement].u.piece_movement.movingspec);
+        pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                     moving_id,
+                                                                     sq_arrival);
+        norsked = get_walk_of_piece_on_square(pos);
+        norsked_to_walk = norsk_walk(norsked);
 
         if (norsked!=norsked_to_walk)
           move_effect_journal_do_walk_change(move_effect_reason_norsk_chess,

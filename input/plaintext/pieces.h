@@ -32,7 +32,7 @@ char *ParsePieces(char *tok);
  * @param colour_is_mandatory is a colour indication mandatory or optional?
  * @return the detected colour (if any)
  */
-Flags ParseColour(char *tok, boolean colour_is_mandatory);
+Flags ParseColour(char const *tok, boolean colour_is_mandatory);
 
 /* Advance the input stream to the next token, then parse 0 to n non-colour piece flags.
  * @param flags where to save the detected flags

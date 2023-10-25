@@ -1193,7 +1193,7 @@ static char *ParseStructuredStip_expression(char *tok,
  * @param tok input token
  * @return starter; no_side if starter couldn't be parsed
  */
-static Side ParseStructuredStip_starter(char *tok)
+static Side ParseStructuredStip_starter(char const *tok)
 {
   Side result = no_side;
   Side ps;

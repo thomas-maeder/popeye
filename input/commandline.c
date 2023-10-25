@@ -62,13 +62,12 @@ static int parseCommandlineOptions(int argc, char *argv[])
     else if (strcmp(argv[idx], "-maxtrace")==0)
     {
 #if defined(DOTRACE)
-      trace_level max_trace_level;
       char *end;
 
       idx++;
       if (idx<argc)
       {
-        max_trace_level = strtoul(argv[idx], &end, 10);
+        trace_level const max_trace_level = strtoul(argv[idx], &end, 10);
         if (*end==0)
           TraceSetMaxLevel(max_trace_level);
         else

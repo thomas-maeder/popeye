@@ -79,8 +79,6 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
  */
 void take_make_circe_collect_rebirth_squares_solve(slice_index si)
 {
-  numecoup i;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -88,6 +86,7 @@ void take_make_circe_collect_rebirth_squares_solve(slice_index si)
   if (CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply))
   {
     solve_result = MOVE_HAS_SOLVED_LENGTH();
+    numecoup i;
 
     for (i = CURRMOVE_OF_PLY(nbply); i>MOVEBASE_OF_PLY(nbply); --i)
     {
