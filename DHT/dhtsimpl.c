@@ -37,6 +37,9 @@ static unsigned long ConvertSimpleValue(dhtKey k)
   unsigned long long a, b, c;
   c = 0x9e3779b97f4a7c13LLU;
 #  else
+#    if !((((-1LU) >> 31) >> 31) >> 1)
+#        error "ERROR: unable to build dhtsimpl.c due to lack of a sufficiently-large integer type."
+#    endif
   unsigned long a, b, c;
   c = 0x9e3779b97f4a7c13LU;
 #  endif
