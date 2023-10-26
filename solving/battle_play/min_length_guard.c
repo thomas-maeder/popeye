@@ -160,14 +160,14 @@ static void insert_nested_min_length(slice_index si,
   if (st->context==stip_traversal_context_defense
       && state->defense_min_length>slack_length+1)
   {
-    slice_index const prototype = alloc_min_length_optimiser_slice(state->defense_length-1,
-                                                                   state->defense_min_length-1);
+    slice_index prototype = alloc_min_length_optimiser_slice(state->defense_length-1,
+                                                             state->defense_min_length-1);
     defense_branch_insert_slices(si,&prototype,1);
 
     if (st->activity==stip_traversal_activity_testing)
     {
-      slice_index const prototype = alloc_min_length_guard(state->defense_length-1,
-                                                           state->defense_min_length-1);
+      prototype = alloc_min_length_guard(state->defense_length-1,
+                                         state->defense_min_length-1);
       defense_branch_insert_slices(si,&prototype,1);
     }
   }

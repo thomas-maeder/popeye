@@ -929,7 +929,6 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
           if (!TSTFLAG(sq_spec(sq_departure),basesq)
               && !TSTFLAG(sq_spec(sq_departure),promsq))
           {
-            square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
             if (ForwardPromSq(side_playing,sq_arrival))
             {
               move_effect_journal_index_type const promotion = movement+1;

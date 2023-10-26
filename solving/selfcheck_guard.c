@@ -182,7 +182,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
 static void instrument_negated_tester(slice_index si,
                                       stip_structure_traversal *st)
 {
-  in_branch_insertion_state_type * const state = st->param;
+  in_branch_insertion_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

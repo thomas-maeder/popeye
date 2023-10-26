@@ -935,8 +935,6 @@ void deal_with_illegal_checks(void)
     done_intercepting_illegal_checks();
   else
   {
-    Side const side_in_check = trait[nbply-1];
-    square const king_pos = being_solved.king_square[side_in_check];
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_pos);
 
     if (k!=0)

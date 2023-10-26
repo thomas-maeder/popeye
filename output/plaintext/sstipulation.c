@@ -215,7 +215,7 @@ static void write_next_branch(slice_index si, stip_structure_traversal *st,
 
 static void write_end_of_branch(slice_index si, stip_structure_traversal *st)
 {
-  state_type * const state = st->param;
+  state_type const * const state = st->param;
 
   if (state->branch_position==write_state_begin)
   {
@@ -238,7 +238,7 @@ static void write_end_of_branch_forced(slice_index si, stip_structure_traversal 
 
 static void write_constraint_tester(slice_index si, stip_structure_traversal *st)
 {
-  state_type * const state = st->param;
+  state_type const * const state = st->param;
 
   if (state->branch_position==write_state_begin)
   {

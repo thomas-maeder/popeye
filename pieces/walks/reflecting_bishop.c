@@ -72,7 +72,6 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
     return false;
   else
   {
-    numvec k1;
     square const sq_reflection = find_end_of_line(intermediate_square,k);
     piece_walk_type const p1 = get_walk_of_piece_on_square(sq_reflection);
 
@@ -80,7 +79,7 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
     {
       square const sq_departure = sq_reflection-k;
 
-      k1= 5;
+      numvec k1= 5;
       while (vec[k1]!=k)
         k1++;
 

@@ -34,7 +34,6 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
   if (move_effect_journal[movement].u.piece_movement.moving==Pawn
       && ForwardPromSq(side,sq_arrival))
   {
-    PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
     move_effect_journal_index_type const promotion = movement+1;
     pieces_pawns_promotion_sequence_type sequence = {
         pieces_pawns_promotee_chain_orthodox,

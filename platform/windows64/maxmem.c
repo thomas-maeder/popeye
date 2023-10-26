@@ -7,7 +7,6 @@
  */
 unsigned long platform_guess_reasonable_maxmemory(void)
 {
-  unsigned long const one_giga = 1024ul*1024ul;
   unsigned long result = one_giga;
 
   MEMORYSTATUSEX memstatEx;

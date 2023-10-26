@@ -987,7 +987,7 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
  * @return NullPieceId iff the revealed piece was already allocated
  *         the id of the revealed piece allocated by this function otherwise
  */
-static PieceIdType add_revelation_effect(square s, revelation_status_type * const status)
+static PieceIdType add_revelation_effect(square s, revelation_status_type const * const status)
 {
   PieceIdType result = NullPieceId;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1516,7 +1516,6 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           }
           else if (TSTFLAG(being_solved.spec[on],side_revealed))
           {
-            square const on = entry->u.piece_addition.added.on;
             Flags const spec_on_board = being_solved.spec[on];
             PieceIdType const id_on_board = GetPieceId(spec_on_board);
             purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
@@ -1612,7 +1611,6 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           PieceIdType const id_original = GetPieceId(entry->u.revelation_of_placed_piece.flags_original);
           purpose_type const purpose_original = motivation[id_original].last.purpose;
 
-          square const on = entry->u.revelation_of_placed_piece.on;
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
 
           if (id_revealed==id_on_board)

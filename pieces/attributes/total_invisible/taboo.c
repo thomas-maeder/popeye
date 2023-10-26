@@ -518,8 +518,6 @@ static square find_taboo_violation_rider(move_effect_journal_index_type movement
   int const diff_move = sq_arrival - sq_departure;
   int const dir_move = CheckDir(walk)[diff_move];
 
-  square s;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",movement);
   TraceWalk(walk);
@@ -538,6 +536,7 @@ static square find_taboo_violation_rider(move_effect_journal_index_type movement
   }
   else
   {
+    square s;
     assert(dir_move!=0);
     for (s = sq_departure+dir_move; s!=sq_arrival; s += dir_move)
       if (!is_square_empty (s))

@@ -214,7 +214,7 @@ static void insert_visit_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    branch_slice_insertion_state_type * const state = st->param;
+    branch_slice_insertion_state_type const * const state = st->param;
     unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank!=no_slice_rank)
       insert_before(si,rank,st);
@@ -581,7 +581,7 @@ void slice_insertion_prepare_factored_order(slice_index si,
                                             unsigned int nr_order,
                                             unsigned int nr_exit_slice_types)
 {
-  branch_slice_insertion_state_type * const state = st->param;
+  branch_slice_insertion_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

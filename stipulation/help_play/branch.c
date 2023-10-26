@@ -386,7 +386,7 @@ static void and_immobility(slice_index si, stip_structure_traversal *st)
  */
 static void or_immobility(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const goal_implies_immobility = st->param;
+  boolean const * const goal_implies_immobility = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -103,9 +103,9 @@ static void WriteGrid(void)
   int row, column;
   char    HLine[40];
 
-  static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
-  static char HorizL[]="%c                                   %c\n";
-  static char BlankL[]="|                                   |\n";
+  char const *BorderL="+---a---b---c---d---e---f---g---h---+\n";
+  char const *HorizL="%c                                   %c\n";
+  char const *BlankL="|                                   |\n";
 
   protocol_fputc('\n',stdout);
   protocol_fprintf(stdout,"%s",BorderL);

@@ -814,8 +814,6 @@ void generate_castling(void)
 
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
-    castling_rights_type allowed_castlings = 0;
-
     square const square_a = side==White ? square_a1 : square_a8;
     square const square_c = square_a+file_c;
     square const square_d = square_a+file_d;
@@ -827,6 +825,8 @@ void generate_castling(void)
     /* avoid castling with the wrong king in conditions like Royal dynasty */
     if (curr_generation->departure==square_e)
     {
+      castling_rights_type allowed_castlings = 0;
+
       /* 0-0 */
       if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
           && are_squares_empty(square_e,square_h,dir_right))

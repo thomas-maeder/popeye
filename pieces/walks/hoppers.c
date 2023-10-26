@@ -720,16 +720,13 @@ boolean nonstop_equistopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   /* check by non-stop equistopper? */
-  square sq_hurdle;
   square const *bnp;
-  numvec vector;
-  square sq_departure;
 
   for (bnp= boardnum; *bnp; bnp++)
   {
-    sq_departure= *bnp;
-    vector= sq_target-sq_departure;
-    sq_hurdle= sq_target+vector;
+    square sq_departure= *bnp;
+    numvec vector= sq_target-sq_departure;
+    square sq_hurdle= sq_target+vector;
     if (!is_square_empty(sq_hurdle)
         && !is_square_blocked(sq_hurdle)
         && sq_target!=sq_departure
