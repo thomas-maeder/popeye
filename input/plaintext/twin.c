@@ -164,7 +164,7 @@ static char *ParseTwinningRotate(void)
 
 static char *ParseTwinningMirror(void)
 {
-  char *tok = ReadNextTokStr();
+  char const *tok = ReadNextTokStr();
   TwinningMirrorType indexx = GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
   if (indexx>TwinningMirrorCount)
@@ -213,7 +213,7 @@ static void do_shift(square from, square to)
   for (bnp = boardnum; *bnp; bnp++)
     if (!is_square_empty(*bnp))
     {
-      square const to = *bnp + vector;
+      to = *bnp + vector;
       board[to] = get_walk_of_piece_on_square(*bnp);
       spec[to] = being_solved.spec[*bnp];
       set_walk_of_piece_on_square(*bnp, Empty);
@@ -270,8 +270,8 @@ static char *ParseTwinningShift(void)
   }
   else
   {
-    char *tok = ReadNextTokStr();
     square sq2;
+    tok = ReadNextTokStr();
     tok = ParseSquare(tok,&sq2);
 
     if (sq2==initsquare)
@@ -312,7 +312,7 @@ static void HandleRemovalSquare(square s, void *dummy)
 static char *ParseTwinningRemove(void)
 {
   char * const squares_tok = ReadNextTokStr();
-  char *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
+  char const *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
   if (tok==squares_tok)
     output_plaintext_input_error_message(MissngSquareList);
   else if (*tok!=0)
@@ -715,7 +715,6 @@ static void protocol_close_wrapper(void)
 
 static char *ReadTrace(void)
 {
-  static boolean need_to_schedule_protocol_close = true;
   if (ReadToEndOfLine())
   {
     {
@@ -724,6 +723,7 @@ static char *ReadTrace(void)
         output_plaintext_input_error_message(WrOpenError);
       else
       {
+        static boolean need_to_schedule_protocol_close = true;
         if (need_to_schedule_protocol_close)
         {
           if (atexit(&protocol_close_wrapper))
@@ -808,7 +808,6 @@ static char *ReadLaTeXToken(slice_index start)
 static void ReadInitialTwin(slice_index start)
 {
   char *tok;
-  InitialTwinToken result;
   boolean more_input = true;
 
   TraceFunctionEntry(__func__);
@@ -819,7 +818,7 @@ static void ReadInitialTwin(slice_index start)
 
   while (more_input)
   {
-    result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
+    InitialTwinToken const result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>InitialTwinTokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq);

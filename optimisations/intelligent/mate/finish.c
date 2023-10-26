@@ -23,14 +23,13 @@
  */
 static void place_any_black_piece_on(slice_index si, square placed_on)
 {
-  unsigned int placed_index;
-
   TraceFunctionEntry(__func__);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
+    unsigned int placed_index;
     for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
       if (black[placed_index].usage==piece_is_unused)
       {

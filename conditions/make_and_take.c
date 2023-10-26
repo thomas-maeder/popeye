@@ -365,7 +365,7 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   square const sq_make_departure = curr_generation->departure;
   piece_walk_type walk_victim;
   ply const generating_for = nbply;
-  square const sq_opposite_king_castling_departure = trait[nbply]==White ? square_e8 : square_e1;
+  // square const sq_opposite_king_castling_departure = trait[nbply]==White ? square_e8 : square_e1; // TODO: Should we be using this value for something?
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

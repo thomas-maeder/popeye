@@ -41,7 +41,6 @@ static void finalise_blocking(slice_index si)
 /* block the next king flight */
 static void block_next_flight(slice_index si)
 {
-  unsigned int i;
   unsigned int const current_flight = nr_king_flights_to_be_blocked-1;
   square const to_be_blocked = king_flights_to_be_blocked[current_flight];
 
@@ -54,6 +53,7 @@ static void block_next_flight(slice_index si)
   TraceEOL();
   if (nr_reasons_for_staying_empty[to_be_blocked]==0)
   {
+    unsigned int i;
     for (i = 1; i<MaxPiece[Black]; i++)
       if (black[i].usage==piece_is_unused)
       {

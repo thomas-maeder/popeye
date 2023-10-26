@@ -100,7 +100,7 @@ typedef struct
 
 static void insert_null_move_handler(slice_index si, stip_structure_traversal *st)
 {
-  init_struct * const initialiser = st->param;
+  init_struct const * const initialiser = st->param;
   slice_index const proxy = alloc_proxy_slice();
   slice_index const prototype = alloc_null_move_player_slice(proxy);
 
@@ -131,7 +131,7 @@ static void instrument_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_landing(slice_index si, stip_structure_traversal *st)
+static void insert_landing(slice_index si, stip_structure_traversal const *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
   move_insert_slices(si,st->context,&prototype,1);
@@ -147,7 +147,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   if (initialiser->side==no_side || initialiser->side==SLICE_STARTER(si))
   {
-    init_struct * const initialiser = st->param;
     slice_index const save_landing = initialiser->landing;
 
     initialiser->landing = no_slice;

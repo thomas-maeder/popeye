@@ -336,13 +336,13 @@ static void WriteTwinning(unsigned int twin_number, boolean continued)
   {
     move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
     move_effect_journal_index_type const base = continued ? last_horizon : move_effect_journal_base[ply_twinning];
-    move_effect_journal_index_type curr;
-    boolean written_on_last_entry = false;
 
     assert(base<=top);
 
     if (base<top)
     {
+      move_effect_journal_index_type curr;
+      boolean written_on_last_entry = false;
       if (continued)
         twinning_pos += (unsigned int)fprintf(twinning, "%s", "+");
 

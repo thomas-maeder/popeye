@@ -147,7 +147,6 @@ slice_index alloc_intelligent_proof(void)
 static unsigned int KingMovesNeeded(Side side)
 {
   unsigned int needed;
-  unsigned int cast;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side);
@@ -166,6 +165,7 @@ static unsigned int KingMovesNeeded(Side side)
 
     if (TSTCASTLINGFLAGMASK(side,k_cancastle))
     {
+      unsigned int cast;
       square const square_base = side==White ? square_a1 : square_a8;
 
       assert(needed!=KingMoveBlocked);
@@ -327,19 +327,18 @@ static void OfficerMovesFromTo(piece_walk_type p,
       assert(*moves!=UINT_MAX);
       if (*moves > 1)
       {
-        square    sqi, sqj;
         stip_length_type testmov;
         stip_length_type testmin = current_length;
         vec_index_type i;
         for (i= vec_knight_start; i<=vec_knight_end; ++i)
         {
-          sqi= from+vec[i];
+          square sqi= from+vec[i];
           if (!blocked_by_pawn(sqi) && !is_square_blocked(sqi))
           {
             vec_index_type j;
             for (j= vec_knight_start; j<=vec_knight_end; j++)
             {
-              sqj= to+vec[j];
+              square sqj= to+vec[j];
               if (!blocked_by_pawn(sqj) && !is_square_blocked(sqj))
               {
                 testmov = minimum_number_knight_moves[abs(sqi-sqj)]+2;
@@ -516,7 +515,6 @@ static stip_length_type ArrangeListedPieces(PieceList2 *pl,
     result = current_length;
     for (i = 0; i<pl[0].Nbr; ++i)
     {
-      stip_length_type Diff2;
       int const id = pl[0].id[i];
       if (taken[id] || pl[0].captures[i]>CapturesAllowed)
       {
@@ -524,6 +522,7 @@ static stip_length_type ArrangeListedPieces(PieceList2 *pl,
       }
       else
       {
+        stip_length_type Diff2;
         taken[id] = true;
         Diff2 = (pl[0].moves[i]
                  + ArrangeListedPieces(pl+1,
@@ -551,7 +550,7 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
                                       stip_length_type CapturesRequired)
 {
   stip_length_type result;
-  PieceList * const to = &ProofOfficers[camp];
+  PieceList const * const to = &ProofOfficers[camp];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",CapturesAllowed);
@@ -565,7 +564,7 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
     result = 0;
   else
   {
-    PieceList * const from = &PiecesToBeArranged[camp];
+    PieceList const * const from = &PiecesToBeArranged[camp];
     PieceList2 pl[16];
     boolean taken[16];
     int ito;
@@ -614,12 +613,9 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
                                      Side   camp,
                                      stip_length_type *CapturesRequired)
 {
-  int       ifrom, ito;
   stip_length_type moves, captures, Diff;
-  PieceList2    pl[8];
-  boolean   taken[8];
-  PieceList *from = &PawnsToBeArranged[camp];
-  PieceList *to = &ProofPawns[camp];
+  PieceList const *from = &PawnsToBeArranged[camp];
+  PieceList const *to = &ProofPawns[camp];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",CapturesAllowed);
@@ -633,6 +629,9 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
   }
   else
   {
+    int       ifrom, ito;
+    PieceList2    pl[8];
+    boolean   taken[8];
     for (ito= 0; ito < to->Nbr; ito++)
     {
       pl[ito].Nbr= 0;
@@ -679,7 +678,6 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
 
 static boolean FairyImpossible(void)
 {
-  square const *bnp;
   square sq;
   unsigned int   Nbr[nr_sides];
   unsigned int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
@@ -887,6 +885,7 @@ static boolean FairyImpossible(void)
 
   if (!CondFlag[arc])
   {
+    square const *bnp;
     TraceText("testing if there are enough remaining moves");TraceEOL();
     MovesAvailable *= 2;
 
@@ -1298,9 +1297,6 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
 static void InitialiseKingMoves(Side side)
 {
   square const *bnp;
-  square sq;
-  unsigned int MoveNbr;
-  boolean   GoOn;
   square const square_base = side==White ? square_a1 : square_a8;
   square const square_opponent_base = side==White ? square_a8 : square_a1;
   square const square_pawn_base = side==White ? square_a2 : square_a7;
@@ -1323,6 +1319,9 @@ static void InitialiseKingMoves(Side side)
   else
   {
     boolean const trivial_validation = is_observation_trivially_validated(advers(side));
+    square sq;
+    unsigned int MoveNbr;
+    boolean   GoOn;
 
     /* set all squares to a maximum */
     for (bnp = boardnum; *bnp; ++bnp)
@@ -1403,7 +1402,6 @@ static void InitialiseKingMoves(Side side)
               || CondFlag[supertrans_king]
               || (CondFlag[vault_king] && vaulting_kings_transmuting[side]))
           {
-            vec_index_type k;
             for (k= vec_knight_end; k>=vec_knight_start; k--)
             {
               sq = *bnp+vec[k];

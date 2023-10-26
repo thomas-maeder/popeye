@@ -46,7 +46,7 @@ static void insert_maxsolutions_help_filter(slice_index si,
 
 static void insert_guard_and_counter(slice_index si, stip_structure_traversal *st)
 {
-  insertion_struct * const insertion = st->param;
+  insertion_struct const * const insertion = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

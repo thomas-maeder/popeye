@@ -70,8 +70,6 @@ char const *LaTeXWalk(piece_walk_type walk)
 char *ParseLaTeXPieces(void)
 {
   char *tok;
-  piece_walk_type walk;
-  int i;
 
   /* don't delete all this. Since both arrays are declared static,
    * they are initialized to NULL.
@@ -93,7 +91,7 @@ char *ParseLaTeXPieces(void)
   if (strlen(tok) < 3)
     while (true)
     {
-      walk = GetPieNamIndex((char)tolower((unsigned char)tok[0]), ((strlen(tok) == 1) ? ' ' : (char)tolower((unsigned char)tok[1])));
+      piece_walk_type walk = GetPieNamIndex((char)tolower((unsigned char)tok[0]), ((strlen(tok) == 1) ? ' ' : (char)tolower((unsigned char)tok[1])));
 
       if (walk==nr_piece_walks)
         return tok;
@@ -107,6 +105,7 @@ char *ParseLaTeXPieces(void)
       tok = ReadNextTokStr();
       LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       if (LaTeXPiecesAbbr[walk]!=0) { /* TODO: What should we do if LaTeXPiecesAbbr[walk]==0? */
+        int i;
         for (i = 0; tok[i]; ++i) {
           /* to avoid compiler warnings below made "better readable" */
           /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */

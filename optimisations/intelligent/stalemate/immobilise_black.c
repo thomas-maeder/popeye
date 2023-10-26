@@ -206,10 +206,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   int const dir = CheckDir(Queen)[diff];
   if (diff==dir)
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const closest_flight = sq_departure+dir;
     boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
                                        && nr_reasons_for_staying_empty[closest_flight]==0

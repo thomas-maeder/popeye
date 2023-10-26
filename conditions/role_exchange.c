@@ -164,7 +164,7 @@ typedef struct
 
 static void insert_role_exchange_handler(slice_index si, stip_structure_traversal const *st)
 {
-  init_struct * const initialiser = st->param;
+  init_struct const * const initialiser = st->param;
   slice_index const proxy = alloc_proxy_slice();
   slice_index const prototype = alloc_role_exchange_player_slice(proxy);
 

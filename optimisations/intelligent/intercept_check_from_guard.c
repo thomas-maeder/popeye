@@ -200,7 +200,6 @@ static void officer(slice_index si,
 void intercept_check_on_guarded_square(slice_index si,
                                        square to_be_intercepted)
 {
-  unsigned int intercepter_index;
   boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(being_solved.king_square[Black]);
 
   TraceFunctionEntry(__func__);
@@ -209,6 +208,7 @@ void intercept_check_on_guarded_square(slice_index si,
 
   if (intelligent_reserve_masses(White,1,piece_intercepts_check_from_guard))
   {
+    unsigned int intercepter_index;
     for (intercepter_index = 1;
          intercepter_index<MaxPiece[White];
          ++intercepter_index)
