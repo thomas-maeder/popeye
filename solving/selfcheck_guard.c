@@ -122,7 +122,7 @@ enum
 };
 
 static boolean is_goal_move_oriented(slice_index goal_reached_tester,
-                                     stip_structure_traversal *st)
+                                     stip_structure_traversal const *st)
 {
   boolean result = true;
   stip_structure_traversal st_nested;

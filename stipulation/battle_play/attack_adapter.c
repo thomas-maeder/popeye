@@ -140,7 +140,7 @@ static void remember_defense(slice_index si,
  * @return true iff there is a defense move on the normal path
  */
 static boolean find_defense_in_normal_path(slice_index adapter,
-                                           stip_structure_traversal *st)
+                                           stip_structure_traversal const *st)
 {
   boolean result = false;
   stip_structure_traversal st_nested;

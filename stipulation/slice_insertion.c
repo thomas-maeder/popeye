@@ -108,7 +108,7 @@ unsigned int get_slice_rank(slice_type type,
 
 static void start_nested_insertion_traversal(slice_index si,
                                              branch_slice_insertion_state_type *state,
-                                             stip_structure_traversal *outer)
+                                             stip_structure_traversal const *outer)
 {
   stip_structure_traversal st_nested;
 

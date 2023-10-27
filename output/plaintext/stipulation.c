@@ -18,7 +18,7 @@ typedef struct
     Goal reci_goal;
 } state_type;
 
-static boolean is_pser(slice_index si, stip_structure_traversal *st)
+static boolean is_pser(slice_index si, stip_structure_traversal const *st)
 {
   boolean result;
 
@@ -134,7 +134,7 @@ static boolean is_intro_series(slice_index si)
   return result;
 }
 
-static boolean is_help_play_implicit(slice_index si, stip_structure_traversal *st)
+static boolean is_help_play_implicit(slice_index si, stip_structure_traversal const *st)
 {
   boolean result = false;
   state_type const * const state = st->param;
@@ -321,7 +321,7 @@ static void write_help_adapter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static boolean skip_quodlibet_direct(slice_index si, stip_structure_traversal *st)
+static boolean skip_quodlibet_direct(slice_index si, stip_structure_traversal const *st)
 {
   slice_index const goal = branch_find_slice(STEndOfBranchGoal,si,st->context);
   slice_index const forced = branch_find_slice(STEndOfBranchForced,si,st->context);
@@ -359,7 +359,7 @@ static void detect_constrained_attack(slice_index si, stip_structure_traversal *
     stip_traverse_structure_children(si,st);
 }
 
-static boolean is_attack_constrained(slice_index si, stip_structure_traversal *st)
+static boolean is_attack_constrained(slice_index si, stip_structure_traversal const *st)
 {
   boolean result = false;
 

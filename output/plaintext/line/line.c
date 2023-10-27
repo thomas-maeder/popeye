@@ -156,7 +156,7 @@ enum
  * @return minimum distance
  */
 static stip_length_type min_distance_to_goal(slice_index end_of_branch,
-                                             stip_structure_traversal *st)
+                                             stip_structure_traversal const *st)
 {
   stip_length_type result = UINT_MAX;
   stip_structure_traversal st_nested;

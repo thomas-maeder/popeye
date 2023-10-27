@@ -462,7 +462,7 @@ typedef struct
     slice_index landing;
 } alternative_move_player_installation_state_type;
 
-static void insert_handler(slice_index si, stip_structure_traversal *st)
+static void insert_handler(slice_index si, stip_structure_traversal const *st)
 {
   alternative_move_player_installation_state_type const * const state = st->param;
   slice_index const proxy = alloc_proxy_slice();
@@ -474,7 +474,7 @@ static void insert_handler(slice_index si, stip_structure_traversal *st)
   move_insert_slices(si,st->context,&prototype,1);
 }
 
-static void insert_landing(slice_index si, stip_structure_traversal *st)
+static void insert_landing(slice_index si, stip_structure_traversal const *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
   move_insert_slices(si,st->context,&prototype,1);

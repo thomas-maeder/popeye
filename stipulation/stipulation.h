@@ -260,7 +260,7 @@ struct stip_structure_traversal;
  *       or st can be further modified for some special copy operation
  */
 void init_deep_copy(struct stip_structure_traversal *st,
-                    struct stip_structure_traversal *st_parent,
+                    struct stip_structure_traversal const *st_parent,
                     stip_deep_copies_type *copies);
 
 /* structure holding state in traversals for

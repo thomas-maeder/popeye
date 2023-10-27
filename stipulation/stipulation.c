@@ -494,7 +494,7 @@ static void deep_copy_zigzag_jump(slice_index si, stip_structure_traversal *st)
  *       or st can be further modified for some special copy operation
  */
 void init_deep_copy(stip_structure_traversal *st,
-                    stip_structure_traversal *st_parent,
+                    stip_structure_traversal const *st_parent,
                     stip_deep_copies_type *copies)
 {
   slice_index i;

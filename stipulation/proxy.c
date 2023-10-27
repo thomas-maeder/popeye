@@ -27,7 +27,7 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
-static void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
+static void proxy_slice_resolve(slice_index *si, stip_structure_traversal const *st)
 {
   boolean (* const is_resolved_proxy)[max_nr_slices] = st->param;
 

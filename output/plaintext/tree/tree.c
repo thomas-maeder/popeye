@@ -89,7 +89,7 @@ static void insert_writer_for_move_in_parent(slice_index si,
 }
 
 static void do_insert_move_writer_attack(slice_index si,
-                                         stip_structure_traversal *st)
+                                         stip_structure_traversal const *st)
 {
   slice_index const prototypes[] =
   {
@@ -118,7 +118,7 @@ static void do_insert_move_writer_attack(slice_index si,
 }
 
 static void do_insert_move_writer_defense(slice_index si,
-                                          stip_structure_traversal *st)
+                                          stip_structure_traversal const *st)
 {
   slice_index const prototypes[] =
   {

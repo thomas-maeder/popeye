@@ -62,7 +62,7 @@ static void count_move_slice(slice_index si, stip_structure_traversal *st)
 }
 
 static unsigned int count_move_slices_in_normal_path(slice_index si,
-                                                     stip_structure_traversal *st)
+                                                     stip_structure_traversal const *st)
 {
   unsigned int result = 0;
   stip_structure_traversal st_nested;

@@ -98,7 +98,7 @@ typedef struct
     Side side;
 } init_struct;
 
-static void insert_null_move_handler(slice_index si, stip_structure_traversal *st)
+static void insert_null_move_handler(slice_index si, stip_structure_traversal const *st)
 {
   init_struct const * const initialiser = st->param;
   slice_index const proxy = alloc_proxy_slice();
