@@ -14,7 +14,7 @@
  */
 void leaper_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean leapers_check(vec_index_type b, vec_index_type c, validator_id evaluate);
+boolean leapers_check(vec_index_type kanf, vec_index_type kend, validator_id evaluate);
 
 boolean king_check(validator_id evaluate);
 boolean knight_check(validator_id evaluate);

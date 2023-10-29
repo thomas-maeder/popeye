@@ -67,7 +67,7 @@ void attack_branch_prepare_slice_insertion_behind_proxy(slice_index proxy,
  * @param base used instead of proxy for determining the current position in the
  *             sequence of slices
  */
-void attack_branch_insert_slices_behind_proxy(slice_index si,
+void attack_branch_insert_slices_behind_proxy(slice_index proxy,
                                               slice_index const prototypes[],
                                               unsigned int nr_prototypes,
                                               slice_index base);
@@ -123,17 +123,17 @@ void battle_branch_insert_slices_nested(slice_index adapter,
                                         unsigned int nr_prototypes);
 
 /* Produce slices representing set play.
- * @param si identifies the successor of the slice representing the
+ * @param adapter identifies the successor of the slice representing the
  *           move(s) not played in set play
  * @param state address of structure holding state
  */
-void battle_branch_make_setplay(slice_index si, spin_off_state_type *state);
+void battle_branch_make_setplay(slice_index adapter, spin_off_state_type *state);
 
 /* Make the postkey play representation of a non-postkey play representation
- * @param root_proxy identifies root proxy slice
+ * @param adapter identifies adapter slice into battle branch
  * @return identifier to adapter slice into postkey representation
  */
-slice_index battle_branch_make_postkeyplay(slice_index si);
+slice_index battle_branch_make_postkeyplay(slice_index adapter);
 
 /* Remove a slice while converting the stipulation to postkey only play
  * @param si slice index
@@ -157,10 +157,10 @@ void battle_branch_make_root_slices(slice_index adapter,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies the adapter slice at the beginning of the branch
  * @param state address of structure holding state
  */
-void battle_make_root(slice_index si, spin_off_state_type *state);
+void battle_make_root(slice_index adapter, spin_off_state_type *state);
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)

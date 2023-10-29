@@ -25,9 +25,9 @@ void help_adapter_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
- * @param si identifies the root from which to apply set play
+ * @param adapter identifies slice where to start
  * @param st address of structure representing traversal
  */
-void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
+void help_adapter_apply_setplay(slice_index adapter, stip_structure_traversal *st);
 
 #endif

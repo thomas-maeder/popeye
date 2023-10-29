@@ -20,7 +20,7 @@ square generate_moves_on_line_segment(square sq_base, vec_index_type k);
  */
 void rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean riders_check(vec_index_type b, vec_index_type c, validator_id evaluate);
+boolean riders_check(vec_index_type kanf, vec_index_type kend, validator_id evaluate);
 
 boolean rook_check(validator_id evaluate);
 boolean queen_check(validator_id evaluate);

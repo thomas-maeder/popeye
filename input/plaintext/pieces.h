@@ -42,12 +42,12 @@ char *ParsePieceFlags(Flags *flags);
 
 /* Parse a piece walk
  * @param tok where to parse from
- * @param name where to write the detected walk to
+ * @param walk where to write the detected walk to
  * @return position immediately behind the walk (no white space needed between
  *         walk and squares in pieces)
  * @note assigns nr_piece_walks to *walk if tok doesn't contain a
  *       recognisable piece walk shortcut
  */
-char *ParsePieceWalk(char *tok, piece_walk_type *name);
+char *ParsePieceWalk(char *tok, piece_walk_type *walk);
 
 #endif

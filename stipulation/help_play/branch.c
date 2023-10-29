@@ -312,7 +312,7 @@ static void increase_min_length(slice_index si)
 }
 
 /* Shorten a help branch by 1 half move
- * @param identifies entry slice of branch to be shortened
+ * @param adapter identifies entry slice of branch to be shortened
  */
 void help_branch_shorten(slice_index adapter)
 {

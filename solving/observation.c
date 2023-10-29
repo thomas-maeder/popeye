@@ -844,15 +844,15 @@ void observation_branch_insert_slices(slice_index si,
  * @param type type of slice to insert
  */
 void is_square_observed_insert_slice(slice_index testing,
-                                     slice_index prototype)
+                                     slice_index type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
-  TraceFunctionParam("%u",prototype);
+  TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
   insert_slice(testing,
-               prototype,
+               type,
                is_square_observed_slice_rank_order,
                nr_is_square_observed_slice_rank_order_elmts);
 

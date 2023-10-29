@@ -491,21 +491,21 @@ enum { nr_visitors = sizeof visitors / sizeof visitors[0] };
  * @param si identiifes the entry slice into the stipulation
  * @return number of characters written
  */
-unsigned int WriteStipulation(FILE *file, slice_index stipulation)
+unsigned int WriteStipulation(FILE *file, slice_index si)
 {
   state_type state = { file, 0, UINT_MAX, structure_traversal_level_top, { no_goal, initsquare } };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(stipulation);
+  TraceStipulation(si);
 
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,&state);
     stip_structure_traversal_override(&st,visitors,nr_visitors);
-    stip_traverse_structure(stipulation,&st);
+    stip_traverse_structure(si,&st);
   }
 
   TraceFunctionExit(__func__);

@@ -240,10 +240,10 @@ void replace_observation_target(square sq_target);
  */
 void pop_all(void);
 
-/* Remove duplicate moves at the top of the move_generation_stack.
- * @param start start position of range where to look for duplicates
+/* Remove duplicate moves generated for a single piece.
+ * @param last_move_of_prev_piece index of last move of previous piece
  */
-void remove_duplicate_moves_of_single_piece(numecoup start);
+void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece);
 
 /* Priorise a move in the move generation stack
  * @param priorised index in the move generation stack of the move to be

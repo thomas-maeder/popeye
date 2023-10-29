@@ -2000,19 +2000,19 @@ static void get_stipulation_root(slice_index si, stip_structure_traversal* st)
  * @param start entry slice into the input branch
  * @return entry slice into the stipulation
  */
-slice_index input_find_stipulation(slice_index si)
+slice_index input_find_stipulation(slice_index start)
 {
   slice_index result = no_slice;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,STStartOfCurrentTwin,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,STStipulationCopier,&get_stipulation_root);
-  stip_traverse_structure(si,&st);
+  stip_traverse_structure(start,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

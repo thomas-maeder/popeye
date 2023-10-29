@@ -19,7 +19,7 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check);
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean is_in_check(Side a);
+boolean is_in_check(Side side_in_check);
 
 /* Instrument check testing with a slice type
  * @param identifies where to start instrumentation

@@ -84,22 +84,22 @@ static void remember_move_ids_of_castlings_as_makes(square sq_capture,
  * @return true iff side_in_check is in check according to slice si
  */
 boolean make_and_take_limit_move_generation_make_walk_is_in_check(slice_index si,
-                                                                  Side side_observed)
+                                                                  Side side_in_check)
 {
   boolean result;
 
   piece_walk_type const save_max_victim = max_victim;
-  square const sq_king = being_solved.king_square[side_observed];
+  square const sq_king = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_observed);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
   assert(sq_king!=initsquare);
   max_victim = get_walk_of_piece_on_square(sq_king);
 
-  result = pipe_is_in_check_recursive_delegate(si,side_observed);
+  result = pipe_is_in_check_recursive_delegate(si,side_in_check);
 
   max_victim = save_max_victim;
 
@@ -365,7 +365,7 @@ void make_and_take_generate_captures_by_walk_solve(slice_index si)
   square const sq_make_departure = curr_generation->departure;
   piece_walk_type walk_victim;
   ply const generating_for = nbply;
-  // square const sq_opposite_king_castling_departure = trait[nbply]==White ? square_e8 : square_e1; // TODO: Should we be using this value for something?
+  /* square const sq_opposite_king_castling_departure = trait[nbply]==White ? square_e8 : square_e1; */ /* TODO: Should we be using this value for something? */
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -466,7 +466,7 @@ void make_and_take_move_castling_partner(slice_index si)
 }
 
 /* Determine whether a particular move starts with castling as a make part
- * @param ply the ply that the move is played in
+ * @param the_ply the ply that the move is played in
  * @param move_id the id of the move
  * @return kingside_castling, queenside_castling or initsquare
  */

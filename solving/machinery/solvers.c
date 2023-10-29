@@ -201,82 +201,82 @@
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */
-void build_solvers1(slice_index si)
+void build_solvers1(slice_index solving_machinery)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
-  goal_prerequisite_guards_initialse_solving(si);
+  goal_prerequisite_guards_initialse_solving(solving_machinery);
 
-  insert_temporary_hacks(si);
+  insert_temporary_hacks(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() and
    * solving_insert_move_generators() because flight counting machinery needs
    * selfcheck guards and move generators */
   if (OptFlag[solflights])
-    solving_insert_maxflight_guards(si);
+    solving_insert_maxflight_guards(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() because the
    * instrumentation of the goal filters inserts or slices of
    * which both branches need selfcheck guards */
   if (CondFlag[circe])
-    solving_insert_circe_goal_filters(si);
+    solving_insert_circe_goal_filters(solving_machinery);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
-    solving_insert_kamikaze(si);
+    solving_insert_kamikaze(solving_machinery);
 
   if (total_invisible_number>0)
-    solving_instrument_total_invisible(si);
+    solving_instrument_total_invisible(solving_machinery);
 
   /* must come before solving_apply_setplay() */
-  solving_insert_root_slices(si);
-  solving_insert_intro_slices(si);
+  solving_insert_root_slices(solving_machinery);
+  solving_insert_intro_slices(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() because the set play
    * branch needs a selfcheck guard */
   if (OptFlag[solapparent] && !OptFlag[restart]
-      && !solving_apply_setplay(si))
+      && !solving_apply_setplay(solving_machinery))
     output_plaintext_message(SetPlayNotApplicable);
 
-  retro_instrument_solving_default(si);
+  retro_instrument_solving_default(solving_machinery);
 
   if (CondFlag[lastcapture])
   {
-    retro_instrument_retractor(si,STRetroRetractLastCapture);
-    retro_substitute_last_move_player(si,STRetroRedoLastCapture);
+    retro_instrument_retractor(solving_machinery,STRetroRetractLastCapture);
+    retro_substitute_last_move_player(solving_machinery,STRetroRedoLastCapture);
   }
   else if (OptFlag[enpassant])
   {
-    retro_instrument_retractor(si,STRetroUndoLastPawnMultistep);
-    retro_substitute_last_move_player(si,STRetroRedoLastPawnMultistep);
+    retro_instrument_retractor(solving_machinery,STRetroUndoLastPawnMultistep);
+    retro_substitute_last_move_player(solving_machinery,STRetroRedoLastPawnMultistep);
   }
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
-  if (!init_intelligent_mode(si))
+  if (!init_intelligent_mode(solving_machinery))
     output_plaintext_message(IntelligentRestricted);
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
    */
   if (CondFlag[ohneschach])
-    ohneschach_insert_check_guards(si);
+    ohneschach_insert_check_guards(solving_machinery);
 
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
    */
-  solving_insert_selfcheck_guards(si);
-  solving_insert_move_generators(si);
+  solving_insert_selfcheck_guards(solving_machinery);
+  solving_insert_move_generators(solving_machinery);
 
   if (OptFlag[keepmating])
-    solving_insert_keepmating_filters(si);
+    solving_insert_keepmating_filters(solving_machinery);
 
   if (CondFlag[amu])
-    solving_insert_amu_mate_filters(si);
+    solving_insert_amu_mate_filters(solving_machinery);
 
   if (CondFlag[whiteultraschachzwang]
       || CondFlag[blackultraschachzwang])
-    ultraschachzwang_initialise_solving(si);
+    ultraschachzwang_initialise_solving(solving_machinery);
 
   if (CondFlag[ohneschach])
   {
@@ -290,28 +290,28 @@ void build_solvers1(slice_index si)
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
-    maff_replace_immobility_testers(si);
+    maff_replace_immobility_testers(solving_machinery);
   else if (CondFlag[OWU])
-    owu_replace_immobility_testers(si);
+    owu_replace_immobility_testers(solving_machinery);
   else
-    immobility_testers_substitute_king_first(si);
+    immobility_testers_substitute_king_first(solving_machinery);
 
   if (CondFlag[exclusive])
-    optimise_away_unnecessary_selfcheckguards(si);
+    optimise_away_unnecessary_selfcheckguards(solving_machinery);
 
   if (CondFlag[singlebox])
     switch (SingleBoxType)
     {
       case ConditionType1:
-        singlebox_type1_initialise_solving(si);
+        singlebox_type1_initialise_solving(solving_machinery);
         break;
 
       case ConditionType2:
-        stip_insert_singlebox_type2(si);
+        stip_insert_singlebox_type2(solving_machinery);
         break;
 
       case ConditionType3:
-        stip_insert_singlebox_type3(si);
+        stip_insert_singlebox_type3(solving_machinery);
         break;
 
       default:
@@ -319,375 +319,375 @@ void build_solvers1(slice_index si)
     }
 
   if (CondFlag[exclusive])
-    solving_insert_exclusive_chess(si);
+    solving_insert_exclusive_chess(solving_machinery);
 
-  solving_insert_king_capture_avoiders(si);
+  solving_insert_king_capture_avoiders(solving_machinery);
 
   if (CondFlag[isardam])
-    solving_insert_isardam_legality_testers(si);
+    solving_insert_isardam_legality_testers(solving_machinery);
 
   if (CondFlag[patience])
-    solving_insert_patience_chess(si);
+    solving_insert_patience_chess(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Paralysing))
-    paralysing_initialise_solving(si);
+    paralysing_initialise_solving(solving_machinery);
 
   if (CondFlag[strictSAT])
-    strictsat_initialise_solving(si);
+    strictsat_initialise_solving(solving_machinery);
   else if (CondFlag[SAT])
-    sat_initialise_solving(si);
+    sat_initialise_solving(solving_machinery);
 
   if (OptFlag[nullmoves])
-    nullmoves_initialise_solving(si,no_side);
+    nullmoves_initialise_solving(solving_machinery,no_side);
 
   if (CondFlag[role_exchange])
-    role_exchange_initialise_solving(si,no_side);
+    role_exchange_initialise_solving(solving_machinery,no_side);
 
   if (CondFlag[schwarzschacher])
-    blackchecks_initialise_solving(si);
+    blackchecks_initialise_solving(solving_machinery);
 
   if (CondFlag[masand])
-    solving_insert_masand(si);
+    solving_insert_masand(solving_machinery);
 
   if (CondFlag[influencer])
-    solving_insert_influencer(si);
+    solving_insert_influencer(solving_machinery);
 
   if (CondFlag[masand_generalised])
-    solving_insert_masand_generalised(si);
+    solving_insert_masand_generalised(solving_machinery);
 
   if (CondFlag[dynasty])
-    dynasty_initialise_solving(si);
+    dynasty_initialise_solving(solving_machinery);
 
-  solving_insert_king_oscillators(si);
+  solving_insert_king_oscillators(solving_machinery);
 
   if (CondFlag[messigny])
-    solving_insert_messigny(si);
+    solving_insert_messigny(solving_machinery);
 
   if (CondFlag[arc])
-    solving_insert_actuated_revolving_centre(si);
+    solving_insert_actuated_revolving_centre(solving_machinery);
 
   if (CondFlag[actrevolving])
-    solving_insert_actuated_revolving_board(si);
+    solving_insert_actuated_revolving_board(solving_machinery);
 
   if (CondFlag[circe])
   {
-    circe_initialise_solving(si,&circe_variant,STMove,&move_insert_slices,STCirceConsideringRebirth);
+    circe_initialise_solving(solving_machinery,&circe_variant,STMove,&move_insert_slices,STCirceConsideringRebirth);
 
     if (circe_variant.is_rex_inclusive)
-      circe_rex_inclusive_initialise_check_validation(si);
+      circe_rex_inclusive_initialise_check_validation(solving_machinery);
 
     if (TSTFLAG(some_pieces_flags,Kamikaze))
-      circe_kamikaze_initialise_solving(si);
+      circe_kamikaze_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[sentinelles])
-    solving_insert_sentinelles_inserters(si);
+    solving_insert_sentinelles_inserters(solving_machinery);
 
   if (CondFlag[anticirce])
   {
-    anticirce_initialise_solving(si);
+    anticirce_initialise_solving(solving_machinery);
 
     if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
-      magic_square_type2_initialise_solving(si);
+      magic_square_type2_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[duellist])
-    solving_insert_duellists(si);
+    solving_insert_duellists(solving_machinery);
 
   if (CondFlag[hauntedchess])
-    solving_insert_haunted_chess(si);
+    solving_insert_haunted_chess(solving_machinery);
 
   if (CondFlag[ghostchess])
-    solving_insert_ghost_chess(si);
+    solving_insert_ghost_chess(solving_machinery);
 
   if (kobul_who[White] || kobul_who[Black])
-    solving_insert_kobul_king_substitutors(si);
+    solving_insert_kobul_king_substitutors(solving_machinery);
 
   if (CondFlag[snekchess])
-    solving_insert_snek_chess(si);
+    solving_insert_snek_chess(solving_machinery);
   if (CondFlag[snekcirclechess])
-    solving_insert_snekcircle_chess(si);
+    solving_insert_snekcircle_chess(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
-    solving_insert_half_neutral_recolorers(si);
+    solving_insert_half_neutral_recolorers(solving_machinery);
 
   if (CondFlag[andernach])
-    solving_insert_andernach(si);
+    solving_insert_andernach(solving_machinery);
 
   if (CondFlag[antiandernach])
-    solving_insert_antiandernach(si);
+    solving_insert_antiandernach(solving_machinery);
 
   if (CondFlag[darkside])
-    solving_insert_darkside(si);
+    solving_insert_darkside(solving_machinery);
 
   if (CondFlag[breton])
-    solving_insert_breton(si);
+    solving_insert_breton(solving_machinery);
 
   if (CondFlag[champursue])
-    solving_insert_chameleon_pursuit(si);
+    solving_insert_chameleon_pursuit(solving_machinery);
 
   if (CondFlag[norsk])
-    solving_insert_norsk_chess(si);
+    solving_insert_norsk_chess(solving_machinery);
 
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
-    solving_insert_protean_chess(si);
+    solving_insert_protean_chess(solving_machinery);
 
-  solving_initialise_castling(si);
+  solving_initialise_castling(solving_machinery);
 
   if (CondFlag[extinction])
   {
-    castling_generation_test_departure(si);
-    extinction_initialise_solving(si);
+    castling_generation_test_departure(solving_machinery);
+    extinction_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[losingchess])
   {
-    castling_generation_test_departure(si);
-    solving_instrument_check_testing(si,STNoCheckConceptCheckTester);
+    castling_generation_test_departure(solving_machinery);
+    solving_instrument_check_testing(solving_machinery,STNoCheckConceptCheckTester);
   }
 
   if (CondFlag[einstein])
-    solving_insert_einstein_moving_adjusters(si);
+    solving_insert_einstein_moving_adjusters(solving_machinery);
 
   if (CondFlag[reveinstein])
-    solving_insert_reverse_einstein_moving_adjusters(si);
+    solving_insert_reverse_einstein_moving_adjusters(solving_machinery);
 
   if (CondFlag[antieinstein])
-    anti_einstein_instrument_solving(si);
+    anti_einstein_instrument_solving(solving_machinery);
 
   if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
-    solving_insert_einstein_en_passant_adjusters(si);
+    solving_insert_einstein_en_passant_adjusters(solving_machinery);
 
   if (CondFlag[traitor])
-    solving_insert_traitor_side_changers(si);
+    solving_insert_traitor_side_changers(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Volage))
-    solving_insert_volage_side_changers(si);
+    solving_insert_volage_side_changers(solving_machinery);
 
   if (CondFlag[magicsquare])
-    solving_insert_magic_square(si);
+    solving_insert_magic_square(solving_machinery);
 
   if (CondFlag[wormholes])
-    wormhole_initialse_solving(si);
+    wormhole_initialse_solving(solving_machinery);
 
   if (CondFlag[dbltibet])
-    solving_insert_double_tibet(si);
+    solving_insert_double_tibet(solving_machinery);
   else if (CondFlag[tibet])
-    solving_insert_tibet(si);
+    solving_insert_tibet(solving_machinery);
 
   if (CondFlag[degradierung])
-    solving_insert_degradierung(si);
+    solving_insert_degradierung(solving_machinery);
 
-  en_passant_initialise_solving(si);
+  en_passant_initialise_solving(solving_machinery);
 
   if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
   {
-    move_generator_instrument_for_alternative_paths(si,nr_sides);
+    move_generator_instrument_for_alternative_paths(solving_machinery,nr_sides);
 
-    stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+    stip_instrument_moves(solving_machinery,STMarsCirceMoveToRebirthSquare);
     move_effect_journal_register_pre_capture_effect();
   }
 
   if (CondFlag[phantom])
-    solving_initialise_phantom(si);
+    solving_initialise_phantom(solving_machinery);
   else if (CondFlag[plus])
-    solving_initialise_plus(si);
+    solving_initialise_plus(solving_machinery);
   else
   {
     if (CondFlag[antimars])
-      solving_initialise_antimars(si);
+      solving_initialise_antimars(solving_machinery);
     if (CondFlag[mars])
-      solving_initialise_marscirce(si);
+      solving_initialise_marscirce(solving_machinery);
   }
 
   if (CondFlag[maketake])
-    solving_insert_make_and_take(si);
+    solving_insert_make_and_take(solving_machinery);
 
   if (CondFlag[linechamchess])
-    solving_insert_line_chameleon_chess(si);
+    solving_insert_line_chameleon_chess(solving_machinery);
 
   if (CondFlag[chamchess])
-    chameleon_chess_initialise_solving(si);
+    chameleon_chess_initialise_solving(solving_machinery);
 
   if (CondFlag[series_capture])
-    solving_instrument_series_capture(si);
+    solving_instrument_series_capture(solving_machinery);
 
-  promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
-  promotion_instrument_solving_default(si);
+  promotion_insert_slice_sequence(solving_machinery,STMove,&move_insert_slices);
+  promotion_instrument_solving_default(solving_machinery);
 
   /* this has to come after all promotion_insert_slice_sequence() invokations
    * to support for promotion into Chameleon
    */
   if (TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_initialise_solving(si);
+    chameleon_initialise_solving(solving_machinery);
 
   if ((CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
       && !CondFlag[chameleonsequence])
     chameleon_init_sequence_implicit(&chameleon_walk_sequence);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
-    solving_insert_hurdle_colour_changers(si);
+    solving_insert_hurdle_colour_changers(solving_machinery);
 
   if (CondFlag[haanerchess])
-    solving_insert_haan_chess(si);
+    solving_insert_haan_chess(solving_machinery);
 
   if (CondFlag[castlingchess] || CondFlag[rokagogo])
-    solving_insert_castling_chess(si,CondFlag[rokagogo]);
+    solving_insert_castling_chess(solving_machinery,CondFlag[rokagogo]);
 
   if (CondFlag[amu])
-    solving_insert_amu_attack_counter(si);
+    solving_insert_amu_attack_counter(solving_machinery);
 
   if (OptFlag[mutuallyexclusivecastling])
-    solving_insert_mutual_castling_rights_adjusters(si);
+    solving_insert_mutual_castling_rights_adjusters(solving_machinery);
 
   if (CondFlag[imitators])
-    solving_insert_imitator(si);
+    solving_insert_imitator(solving_machinery);
 
   if (CondFlag[football])
-    solving_insert_football_chess(si);
+    solving_insert_football_chess(solving_machinery);
 
   if (CondFlag[platzwechselrochade])
-    exchange_castling_initialise_solving(si);
+    exchange_castling_initialise_solving(solving_machinery);
 
-  solving_insert_post_move_iteration(si);
+  solving_insert_post_move_iteration(solving_machinery);
 
   if (CondFlag[BGL])
-    bgl_initialise_solving(si);
+    bgl_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Patrol))
-    patrol_initialise_solving(si);
+    patrol_initialise_solving(solving_machinery);
   if (CondFlag[ultrapatrouille])
-    ultrapatrol_initialise_solving(si);
+    ultrapatrol_initialise_solving(solving_machinery);
 
   if (CondFlag[lortap])
-    lortap_initialise_solving(si);
+    lortap_initialise_solving(solving_machinery);
 
   if (CondFlag[provocateurs])
-    provocateurs_initialise_solving(si);
+    provocateurs_initialise_solving(solving_machinery);
 
   if (CondFlag[immun])
-    immune_initialise_solving(si);
+    immune_initialise_solving(solving_machinery);
 
   if (CondFlag[woozles])
-    woozles_initialise_solving(si);
+    woozles_initialise_solving(solving_machinery);
   if (CondFlag[biwoozles])
-    biwoozles_initialise_solving(si);
+    biwoozles_initialise_solving(solving_machinery);
   if (CondFlag[heffalumps])
-    heffalumps_initialise_solving(si);
+    heffalumps_initialise_solving(solving_machinery);
   if (CondFlag[biheffalumps])
-    biheffalumps_initialise_solving(si);
+    biheffalumps_initialise_solving(solving_machinery);
 
   if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
-    solving_insert_nocapture(si);
+    solving_insert_nocapture(solving_machinery);
 
   if (CondFlag[nowhiteprom] || CondFlag[noblackprom])
-    solving_insert_nopromotions(si);
+    solving_insert_nopromotions(solving_machinery);
 
   if (CondFlag[geneva])
-    geneva_initialise_solving(si);
+    geneva_initialise_solving(solving_machinery);
 
   if (CondFlag[contactgrid])
-    contact_grid_initialise_solving(si);
+    contact_grid_initialise_solving(solving_machinery);
   else if (CondFlag[koeko])
-    koeko_initialise_solving(si);
+    koeko_initialise_solving(solving_machinery);
   else if (CondFlag[antikoeko])
-    antikoeko_initialise_solving(si);
+    antikoeko_initialise_solving(solving_machinery);
   else if (CondFlag[newkoeko])
-    newkoeko_initialise_solving(si);
+    newkoeko_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Jigger))
-    jigger_initialise_solving(si);
+    jigger_initialise_solving(solving_machinery);
 
   if (CondFlag[monochro])
-      monochrome_initialise_solving(si);
+      monochrome_initialise_solving(solving_machinery);
   if (CondFlag[bichro])
-      bichrome_initialise_solving(si);
+      bichrome_initialise_solving(solving_machinery);
 
   if (CondFlag[superguards])
-    superguards_initialise_solving(si);
+    superguards_initialise_solving(solving_machinery);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
-    solving_insert_edgemover(si);
+    solving_insert_edgemover(solving_machinery);
 
   if (CondFlag[gridchess])
-    grid_initialise_solving(si);
+    grid_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Uncapturable))
-    solving_insert_uncapturable(si);
+    solving_insert_uncapturable(solving_machinery);
 
   if (CondFlag[takemake])
-    solving_insert_take_and_make(si);
+    solving_insert_take_and_make(solving_machinery);
 
   if (OptFlag[noshort])
-    solving_insert_no_short_variations_filters(si);
+    solving_insert_no_short_variations_filters(solving_machinery);
 
-  solving_optimise_dead_end_slices(si);
+  solving_optimise_dead_end_slices(solving_machinery);
 
-  solving_remove_irrelevant_constraints(si);
+  solving_remove_irrelevant_constraints(solving_machinery);
 
   if (OptFlag[movenbr])
-    solving_insert_restart_guards(si);
+    solving_insert_restart_guards(solving_machinery);
 
-  solving_insert_continuation_solvers(si);
+  solving_insert_continuation_solvers(solving_machinery);
 
-  solving_insert_find_shortest_solvers(si);
+  solving_insert_find_shortest_solvers(solving_machinery);
 
   if (total_invisible_number==0)
   {
-    solving_optimise_with_orthodox_mating_move_generators(si);
-    solving_optimise_with_goal_non_reacher_removers(si);
+    solving_optimise_with_orthodox_mating_move_generators(solving_machinery);
+    solving_optimise_with_goal_non_reacher_removers(solving_machinery);
   }
 
   if (!OptFlag[solvariantes])
-    solving_insert_play_suppressors(si);
+    solving_insert_play_suppressors(solving_machinery);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    solving_insert_threat_boundaries(si);
+    solving_insert_threat_boundaries(solving_machinery);
 
-  solving_spin_off_testers(si);
+  solving_spin_off_testers(solving_machinery);
 
-  mummer_initialise_solving(si);
+  mummer_initialise_solving(solving_machinery);
 
   if (CondFlag[blmaxdister] || CondFlag[blmindister] || CondFlag[whmaxdister] || CondFlag[whmindister])
-    dister_initialise_solving(si);
+    dister_initialise_solving(solving_machinery);
 
   if (CondFlag[ohneschach])
   {
-    ohneschach_optimise_away_redundant_immobility_tests(si);
-    ohneschach_optimise_away_immobility_tests_help(si);
-    ohneschach_optimise_immobility_testers(si);
+    ohneschach_optimise_away_redundant_immobility_tests(solving_machinery);
+    ohneschach_optimise_away_immobility_tests_help(solving_machinery);
+    ohneschach_optimise_immobility_testers(solving_machinery);
   }
 
   if (total_invisible_number==0)
   {
     if (is_hashtable_allocated())
-      solving_insert_hashing(si);
+      solving_insert_hashing(solving_machinery);
   }
 
-  solving_instrument_help_ends_of_branches(si);
+  solving_instrument_help_ends_of_branches(solving_machinery);
 
-  solving_insert_setplay_solvers(si);
+  solving_insert_setplay_solvers(solving_machinery);
 
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    solving_insert_try_solvers(si);
+    solving_insert_try_solvers(solving_machinery);
 
-  solving_insert_trivial_variation_filters(si);
+  solving_insert_trivial_variation_filters(solving_machinery);
 
-  solving_insert_min_length(si);
+  solving_insert_min_length(solving_machinery);
 
   if (OptFlag[nontrivial])
-    solving_insert_max_nr_nontrivial_guards(si);
+    solving_insert_max_nr_nontrivial_guards(solving_machinery);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    solving_insert_threat_handlers(si);
+    solving_insert_threat_handlers(solving_machinery);
 
   if (CondFlag[lostpieces])
-    solving_insert_lostpieces(si);
+    solving_insert_lostpieces(solving_machinery);
 
   if (OptFlag[degeneratetree])
-    solving_insert_degenerate_tree_guards(si);
+    solving_insert_degenerate_tree_guards(solving_machinery);
 
-  pipe_solve_delegate(si);
+  pipe_solve_delegate(solving_machinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -696,132 +696,132 @@ void build_solvers1(slice_index si)
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */
-void build_solvers2(slice_index si)
+void build_solvers2(slice_index solving_machinery)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
   if (OptFlag[solmenaces]
-      && !solving_insert_maxthreatlength_guards(si))
+      && !solving_insert_maxthreatlength_guards(solving_machinery))
     output_plaintext_message(ThreatOptionAndExactStipulationIncompatible);
 
   if (CondFlag[republican])
-    solving_insert_republican_king_placers(si);
+    solving_insert_republican_king_placers(solving_machinery);
 
-  and_enable_shortcut_logic(si);
+  and_enable_shortcut_logic(solving_machinery);
 
-  solving_insert_avoid_unsolvable_forks(si);
+  solving_insert_avoid_unsolvable_forks(solving_machinery);
 
-  solving_insert_move_iterators(si);
+  solving_insert_move_iterators(solving_machinery);
 
-  stip_instrument_moves(si,STKingSquareUpdater);
+  stip_instrument_moves(solving_machinery,STKingSquareUpdater);
 
   if (TSTFLAG(some_pieces_flags,Magic))
-    solving_insert_magic_pieces_recolorers(si);
+    solving_insert_magic_pieces_recolorers(solving_machinery);
 
   if (CondFlag[vogt])
-    vogtlaender_initalise_solving(si);
+    vogtlaender_initalise_solving(solving_machinery);
 
   if (CondFlag[bicolores])
-    bicolores_initalise_solving(si);
+    bicolores_initalise_solving(solving_machinery);
 
   if (CondFlag[antikings])
-    antikings_initalise_solving(si);
+    antikings_initalise_solving(solving_machinery);
 
   if (CondFlag[madras])
-    madrasi_initialise_solving(si);
+    madrasi_initialise_solving(solving_machinery);
 
   if (CondFlag[partialparalysis])
-    partial_paralysis_initialise_solving(si);
+    partial_paralysis_initialise_solving(solving_machinery);
 
-  solving_initialise_hunters(si);
+  solving_initialise_hunters(solving_machinery);
 
   if (CondFlag[eiffel])
-    eiffel_initialise_solving(si);
+    eiffel_initialise_solving(solving_machinery);
 
   if (CondFlag[disparate])
-    disparate_initialise_solving(si);
+    disparate_initialise_solving(solving_machinery);
 
   if (CondFlag[central])
-    central_initialise_solving(si);
+    central_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Beamtet))
-    beamten_initialise_solving(si);
+    beamten_initialise_solving(solving_machinery);
 
   if (CondFlag[whvault_king])
-    vaulting_kings_initalise_solving(si,White);
+    vaulting_kings_initalise_solving(solving_machinery,White);
   if (CondFlag[blvault_king])
-    vaulting_kings_initalise_solving(si,Black);
+    vaulting_kings_initalise_solving(solving_machinery,Black);
 
   if (CondFlag[whsupertrans_king])
-    supertransmuting_kings_initialise_solving(si,White);
+    supertransmuting_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[blsupertrans_king])
-    supertransmuting_kings_initialise_solving(si,Black);
+    supertransmuting_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[whtrans_king])
-    transmuting_kings_initialise_solving(si,White);
+    transmuting_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[bltrans_king])
-    transmuting_kings_initialise_solving(si,Black);
+    transmuting_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[whrefl_king])
-    reflective_kings_initialise_solving(si,White);
+    reflective_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[blrefl_king])
-    reflective_kings_initialise_solving(si,Black);
+    reflective_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[annan])
-    annan_initialise_solving(si);
+    annan_initialise_solving(solving_machinery);
   if (CondFlag[nanna])
-    nanna_initialise_solving(si);
+    nanna_initialise_solving(solving_machinery);
 
   if (CondFlag[bolero])
-    solving_initialise_bolero(si);
+    solving_initialise_bolero(solving_machinery);
   if (CondFlag[bolero_inverse])
-    solving_initialise_bolero_inverse(si);
+    solving_initialise_bolero_inverse(solving_machinery);
 
   if (CondFlag[pointreflection])
-    point_reflection_initialise_solving(si);
+    point_reflection_initialise_solving(solving_machinery);
 
 #if defined(DOTRACE)
-  solving_insert_move_tracers(si);
+  solving_insert_move_tracers(solving_machinery);
 #endif
 
 #if defined(DOMEASURE)
-  solving_insert_move_counters(si);
+  solving_insert_move_counters(solving_machinery);
 #endif
 
   if (CondFlag[shieldedkings])
-    shielded_kings_initialise_solving(si);
+    shielded_kings_initialise_solving(solving_machinery);
 
   if (CondFlag[brunner])
-    brunner_initialise_solving(si);
+    brunner_initialise_solving(solving_machinery);
 
   if (CondFlag[backhome])
-    backhome_initialise_solving(si);
+    backhome_initialise_solving(solving_machinery);
 
   if (CondFlag[facetoface])
-    facetoface_initialise_solving(si);
+    facetoface_initialise_solving(solving_machinery);
   if (CondFlag[backtoback])
-    backtoback_initialise_solving(si);
+    backtoback_initialise_solving(solving_machinery);
   if (CondFlag[cheektocheek])
-    cheektocheek_initialise_solving(si);
+    cheektocheek_initialise_solving(solving_machinery);
 
-  goal_kiss_init_piece_id(si);
+  goal_kiss_init_piece_id(solving_machinery);
 
-  solving_impose_starter(si,SLICE_STARTER(si));
-  solving_optimise_with_countnropponentmoves(si);
+  solving_impose_starter(solving_machinery,SLICE_STARTER(solving_machinery));
+  solving_optimise_with_countnropponentmoves(solving_machinery);
 
-  solving_optimise_with_killer_moves(si);
+  solving_optimise_with_killer_moves(solving_machinery);
 
   if (is_piece_neutral(some_pieces_flags))
-    solving_optimise_by_detecting_retracted_moves(si);
+    solving_optimise_by_detecting_retracted_moves(solving_machinery);
 
-  optimise_is_square_observed(si);
-  optimise_is_in_check(si);
+  optimise_is_square_observed(solving_machinery);
+  optimise_is_in_check(solving_machinery);
 
-  solving_impose_starter(si,SLICE_STARTER(si));
+  solving_impose_starter(solving_machinery,SLICE_STARTER(solving_machinery));
 
-  pipe_solve_delegate(si);
+  pipe_solve_delegate(solving_machinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

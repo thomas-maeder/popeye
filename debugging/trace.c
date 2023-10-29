@@ -65,9 +65,9 @@ void TraceCallStack(FILE *file)
 }
 #endif
 
-void TraceSetMaxLevel(trace_level tl)
+void TraceSetMaxLevel(trace_level max_trace_level)
 {
-  max_level = tl;
+  max_level = max_trace_level;
 }
 
 void TraceSuppressPointerValues(void)
@@ -714,7 +714,7 @@ enum
   nr_tracers = sizeof tracers / sizeof tracers[0]
 };
 
-void TraceStipulation(slice_index si)
+void TraceStipulation(slice_index start_slice)
 {
   if (do_trace && (level<=max_level))
   {
@@ -730,7 +730,7 @@ void TraceStipulation(slice_index si)
       trace_level const save_max_level = max_level;
       max_level = 0; /* avoid tracing during traversal */
       puts("stipulation structure:");
-      stip_traverse_structure(si,&st);
+      stip_traverse_structure(start_slice,&st);
       max_level = save_max_level;
     }
   }

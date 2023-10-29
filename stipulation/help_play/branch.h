@@ -17,9 +17,9 @@ slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length);
 
 /* Shorten a help branch by 1 half move
- * @param identifies entry slice of branch to be shortened
+ * @param adapter identifies entry slice of branch to be shortened
  */
-void help_branch_shorten(slice_index si);
+void help_branch_shorten(slice_index adapter);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch

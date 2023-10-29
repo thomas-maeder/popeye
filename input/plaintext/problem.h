@@ -10,6 +10,6 @@ extern char ActAward[256];
 
 /* Handle (read, solve, write) the current problem
  */
-void input_plaintext_problem_handle(slice_index start);
+void input_plaintext_problem_handle(slice_index si);
 
 #endif

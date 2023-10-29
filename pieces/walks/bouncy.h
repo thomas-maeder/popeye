@@ -8,8 +8,8 @@
 #include "solving/observation.h"
 
 void clearedgestraversed(void);
-boolean traversed(square edgesq);
-void settraversed(square edgesq);
+boolean traversed(square edge_square);
+void settraversed(square edge_square);
 
 /* Generate moves for a bouncy night
  */
