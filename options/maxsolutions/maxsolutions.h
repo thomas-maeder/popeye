@@ -31,7 +31,7 @@ void reset_nr_found_solutions_per_phase(void);
 
 /* Increase the number of found solutions by 1
  */
-void increase_nr_found_solutions(slice_index interruption);
+void increase_nr_found_solutions(slice_index si);
 
 /* Have we found the maximum allowed number of solutions since the
  * last invokation of reset_nr_found_solutions()?

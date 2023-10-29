@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-void WriteBGLNumber(char* a, long int b);
+void WriteBGLNumber(char* buf, long int num);
 
 typedef enum
 {

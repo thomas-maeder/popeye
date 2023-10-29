@@ -13,11 +13,11 @@
 #include <string.h>
 
 boolean WriteSpec(output_engine_type const * engine, FILE *file,
-                  Flags sp, piece_walk_type p, boolean printcolours)
+                  Flags pspec, piece_walk_type p, boolean printcolours)
 {
   boolean result = false;
 
-  if (is_piece_neutral(sp))
+  if (is_piece_neutral(pspec))
   {
     (*engine->fputc)(tolower((unsigned char)ColourTab[colour_neutral][0]),file);
     result = true;
@@ -26,21 +26,21 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
   {
     if (areColorsSwapped)
     {
-      if (TSTFLAG(sp,White))
+      if (TSTFLAG(pspec,White))
         (*engine->fputc)(tolower((unsigned char)ColourTab[colour_black][0]),file);
-      if (TSTFLAG(sp,Black))
+      if (TSTFLAG(pspec,Black))
         (*engine->fputc)(tolower((unsigned char)ColourTab[colour_white][0]),file);
     }
     else
     {
-      if (TSTFLAG(sp,White))
+      if (TSTFLAG(pspec,White))
         (*engine->fputc)(tolower((unsigned char)ColourTab[colour_white][0]),file);
-      if (TSTFLAG(sp,Black))
+      if (TSTFLAG(pspec,Black))
         (*engine->fputc)(tolower((unsigned char)ColourTab[colour_black][0]),file);
     }
   }
 
-  if (!(TSTFLAG(sp,Chameleon)) || total_invisible_number==0)
+  if (!(TSTFLAG(pspec,Chameleon)) || total_invisible_number==0)
   {
     piece_flag_type spname;
     for (spname = (piece_flag_type)((unsigned int)nr_sides); spname<nr_piece_flags; ++spname)
@@ -48,7 +48,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
           && (spname!=Patrol || !CondFlag[patrouille])
           && (spname!=Beamtet || !CondFlag[beamten])
           && (spname!=Royal || !is_king(p))
-          && TSTFLAG(sp, spname))
+          && TSTFLAG(pspec, spname))
       {
         char const *curr = PieSpTab[spname-nr_sides];
         while (*curr!=0)

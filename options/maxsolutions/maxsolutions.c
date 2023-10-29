@@ -18,7 +18,7 @@
 static unsigned int nr_solutions_found_in_phase;
 
 /* maximum number of allowed solutions found in the current phase */
-static unsigned int max_nr_solutions_per_phase = UINT_MAX;
+static unsigned int max_nr_allowed_solutions_in_current_phase = UINT_MAX;
 
 typedef struct
 {
@@ -229,11 +229,11 @@ void maxsolutions_problem_instrumenter_solve(slice_index si)
  * @param si identifies the slice where to start instrumenting
  * @param max_nr_solutions_per_phase
  */
-void maxsolutions_instrument_problem(slice_index si, unsigned int i)
+void maxsolutions_instrument_problem(slice_index si, unsigned int max_nr_solutions_per_phase)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",i);
+  TraceFunctionParam("%u",max_nr_solutions_per_phase);
   TraceFunctionParamListEnd();
 
   {
@@ -244,7 +244,7 @@ void maxsolutions_instrument_problem(slice_index si, unsigned int i)
     SLICE_NEXT2(prototype) = interruption;
     assert(interruption!=no_slice);
     slice_insertion_insert(si,&prototype,1);
-    max_nr_solutions_per_phase = i;
+    max_nr_allowed_solutions_in_current_phase = max_nr_solutions_per_phase;
   }
 
   TraceFunctionExit(__func__);
@@ -283,7 +283,7 @@ void increase_nr_found_solutions(slice_index si)
 }
 
 /* Have we found the maximum allowed number of solutions since the
- * last invokation of reset_nr_found_solutions()?
+ * last invocation of reset_nr_found_solutions()?
  * @return true iff the allowed maximum number of solutions have been found
  */
 boolean max_nr_solutions_found_in_phase(void)
@@ -293,7 +293,7 @@ boolean max_nr_solutions_found_in_phase(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = nr_solutions_found_in_phase>=max_nr_solutions_per_phase;
+  result = nr_solutions_found_in_phase>=max_nr_allowed_solutions_in_current_phase;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

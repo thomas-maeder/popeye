@@ -35,7 +35,7 @@ typedef enum
 
 /* Iterate over the twins of a problem
  */
-void input_plaintext_twins_handle(slice_index start);
+void input_plaintext_twins_handle(slice_index si);
 
 void input_plaintext_initial_twin_reader_solve(slice_index si);
 

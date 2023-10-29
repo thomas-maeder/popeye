@@ -151,11 +151,11 @@ void intelligent_nr_solutions_per_target_position_problem_instrumenter_solve(sli
  * @param max_nr_solutions_per_target_position
  */
 void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index si,
-                                                                     unsigned long i)
+                                                                     unsigned long max_nr_solutions_per_target_position)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",i);
+  TraceFunctionParam("%u",max_nr_solutions_per_target_position);
   TraceFunctionParamListEnd();
 
   {
@@ -164,7 +164,7 @@ void intelligent_nr_solutions_per_target_position_instrument_solving(slice_index
                                                        stip_traversal_context_intro);
     slice_index const prototype = alloc_pipe(STIntelligentSolutionsPerTargetPosProblemInstrumenter);
     SLICE_NEXT2(prototype) = interruption;
-    SLICE_U(prototype).value_handler.value = i;
+    SLICE_U(prototype).value_handler.value = max_nr_solutions_per_target_position;
     assert(interruption!=no_slice);
     slice_insertion_insert(si,&prototype,1);
   }
