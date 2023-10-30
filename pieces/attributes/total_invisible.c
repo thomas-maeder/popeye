@@ -295,8 +295,8 @@ void insert_invisible_capturer(void)
 
       PieceIdType const id = GetPieceId(flags_added);
 
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
 #if !defined(NDEBUG)
+      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
       square const to = move_effect_journal[movement].u.piece_movement.to;
 #endif
 
