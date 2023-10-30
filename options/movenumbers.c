@@ -34,6 +34,7 @@ static void write_history_recursive(ply ply)
 {
   if (ply>ply_retro_move+1)
   {
+    assert(ply < ((sizeof parent_ply)/(sizeof *parent_ply)));
     write_history_recursive(parent_ply[ply]);
     putchar(':');
   }

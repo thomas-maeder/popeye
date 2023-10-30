@@ -635,7 +635,9 @@ square find_taboo_violation(void)
       move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
+#if !defined(NDEBUG)
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+#endif
 
       assert(sq_departure!=move_by_invisible);
       assert(sq_departure!=capture_by_invisible);

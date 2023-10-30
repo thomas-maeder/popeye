@@ -729,7 +729,9 @@ void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entr
 void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.revelation_of_placed_piece.on;
+#if !defined(NDEBUG)
   piece_walk_type const walk_revealed = entry->u.revelation_of_placed_piece.walk_revealed;
+#endif
   Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
   Flags const flags_original = entry->u.revelation_of_placed_piece.flags_original;
   PieceIdType const id_original = GetPieceId(flags_original);
@@ -775,8 +777,10 @@ void reveal_placed(move_effect_journal_entry_type const *entry)
 void unreveal_placed(move_effect_journal_entry_type const *entry)
 {
   square const on = entry->u.revelation_of_placed_piece.on;
+#if !defined(NDEBUG)
   piece_walk_type const walk_revealed = entry->u.revelation_of_placed_piece.walk_revealed;
   Flags const flags_revealed = entry->u.revelation_of_placed_piece.flags_revealed;
+#endif
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1182,7 +1186,9 @@ void update_revelations(void)
     else
     {
       PieceIdType const id = GetPieceId(being_solved.spec[s]);
+#if !defined(NDEBUG)
       square const first_on = motivation[id].first.on;
+#endif
 
       assert(id!=NullPieceId);
       assert(is_on_board(first_on));

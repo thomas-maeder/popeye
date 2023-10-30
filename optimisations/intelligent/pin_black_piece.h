@@ -22,11 +22,12 @@ void intelligent_pin_pinnable_black_piece(slice_index si,
                                           int pin_dir,
                                           void (*go_on)(slice_index si));
 
-/* Pin a mobile black piece
- * @param dir_to_touble_maker direction from king to piece to be pinned
+/* Pin a black piece
+ * @param piece_pos position of piece to be pinned
+ * @param go_on how to go on
  */
 void intelligent_pin_black_piece(slice_index si,
-                                 square position_of_trouble_maker,
+                                 square piece_pos,
                                  void (*go_on)(slice_index si));
 
 #endif

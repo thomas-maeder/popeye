@@ -90,15 +90,15 @@ static void instrument_goal_reached_tester(slice_index si,
 static void min_distance_to_goal_battle(slice_index si,
                                         stip_structure_traversal *st)
 {
-  stip_length_type * const min_distance_to_goal = st->param;
+  stip_length_type * const cur_min_ptr = st->param;
   stip_length_type const min_dist = SLICE_U(si).branch.length-slack_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_dist<*min_distance_to_goal)
-    *min_distance_to_goal = min_dist;
+  if (min_dist<*cur_min_ptr)
+    *cur_min_ptr = min_dist;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -107,15 +107,15 @@ static void min_distance_to_goal_battle(slice_index si,
 static void min_distance_to_goal_help(slice_index si,
                                         stip_structure_traversal *st)
 {
-  stip_length_type * const min_distance_to_goal = st->param;
+  stip_length_type * const cur_min_ptr = st->param;
   stip_length_type const min_dist = SLICE_U(si).branch.length-slack_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_dist<*min_distance_to_goal)
-    *min_distance_to_goal = min_dist;
+  if (min_dist<*cur_min_ptr)
+    *cur_min_ptr = min_dist;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -124,13 +124,13 @@ static void min_distance_to_goal_help(slice_index si,
 static void min_distance_to_goal_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
-  stip_length_type * const min_distance_to_goal = st->param;
+  stip_length_type * const cur_min_ptr = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *min_distance_to_goal = 0;
+  *cur_min_ptr = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

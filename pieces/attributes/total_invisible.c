@@ -114,7 +114,9 @@ void recurse_into_child_ply(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+#if !defined(NDEBUG)
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+#endif
   move_effect_journal_index_type const save_top = move_effect_journal_base[nbply+1];
 
   TraceFunctionEntry(__func__);
@@ -294,7 +296,9 @@ void insert_invisible_capturer(void)
       PieceIdType const id = GetPieceId(flags_added);
 
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+#if !defined(NDEBUG)
       square const to = move_effect_journal[movement].u.piece_movement.to;
+#endif
 
       assert(sq_addition!=to);
       assert(is_square_empty(sq_addition));

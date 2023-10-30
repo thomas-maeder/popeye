@@ -21,7 +21,9 @@ static boolean is_move_still_playable(slice_index si)
   {
     Side const side = SLICE_STARTER(si);
     move_effect_journal_index_type const base = move_effect_journal_base[ply_replayed];
+#if !defined(NDEBUG)
     move_effect_journal_index_type const precapture = base;
+#endif
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;

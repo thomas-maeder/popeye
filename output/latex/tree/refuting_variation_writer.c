@@ -7,6 +7,7 @@
 #include "output/latex/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
+#include "debugging/assert.h"
 
 /* Allocate a STOutputLaTeXTreeRefutingVariationWriter slice.
  * @return index of allocated slice
@@ -38,7 +39,10 @@ static unsigned int depth(ply p)
   if (p<=ply_retro_move)
     return 0;
   else
+  {
+    assert(p < ((sizeof parent_ply)/(sizeof *parent_ply)));
     return depth(parent_ply[p])+1;
+  }
 }
 
 static void write_refuting_varation(FILE *file, unsigned move_depth)

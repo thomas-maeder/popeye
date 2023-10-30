@@ -62,7 +62,7 @@ void push_decision_random_move_impl(char const *file, unsigned int line, decisio
 void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose);
 void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose);
 void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int dir, decision_purpose_type purpose);
+void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose);
 void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 void push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose);
 void push_decision_walk_impl(char const *file, unsigned int line, PieceIdType id, piece_walk_type walk, decision_purpose_type purpose, Side side);

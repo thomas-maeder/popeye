@@ -57,12 +57,14 @@ char const *LaTeXWalk(piece_walk_type walk)
 {
   if (walk > Bishop)
   {
-    if (LaTeXPiecesAbbr[walk] == NULL)
+    assert(walk < ((sizeof LaTeXPiecesAbbr)/(sizeof *LaTeXPiecesAbbr)));
+    if (LaTeXPiecesAbbr[walk])
+      return LaTeXPiecesAbbr[walk];
+    else
     {
       output_plaintext_error_message(UndefLatexPiece);
       return "??";
-    } else
-      return LaTeXPiecesAbbr[walk];
+    }
   } else
     return LaTeXStdPie[walk];
 }

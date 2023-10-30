@@ -74,7 +74,7 @@ FILE *platform_open_tmpfile(void)
   }
 }
 
-static tmpfiles_list_type **find_elmt(FILE *file)
+static tmpfiles_list_type **find_elmt(FILE const *file)
 {
   tmpfiles_list_type **result = &tmpfiles_list;
 

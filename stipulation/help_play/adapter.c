@@ -84,21 +84,21 @@ static unsigned int count_move_slices_in_normal_path(slice_index si,
 
 /* Attempt to add set play to an solve stipulation (battle play, not
  * postkey only)
- * @param si identifies the root from which to apply set play
+ * @param adapter identifies the root from which to apply set play
  * @param st address of structure representing traversal
  */
-void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
+void help_adapter_apply_setplay(slice_index adapter, stip_structure_traversal *st)
 {
   spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  if (count_move_slices_in_normal_path(si,st)==3)
-    help_branch_make_setplay(si,state);
+  if (count_move_slices_in_normal_path(adapter,st)==3)
+    help_branch_make_setplay(adapter,state);
   else
-    series_branch_make_setplay(si,state);
+    series_branch_make_setplay(adapter,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
