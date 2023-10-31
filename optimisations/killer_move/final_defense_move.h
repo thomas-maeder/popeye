@@ -18,7 +18,7 @@
  *        optimised
  */
 void killer_move_optimise_final_defense_move(slice_index si,
-                                             stip_structure_traversal *st);
+                                             stip_structure_traversal const *st);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

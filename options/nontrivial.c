@@ -295,7 +295,7 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
 }
 
 static slice_index spin_off_counting_slices(slice_index si,
-                                            stip_structure_traversal *st)
+                                            stip_structure_traversal const *st)
 {
   stip_deep_copies_type copies;
   stip_structure_traversal st_nested;

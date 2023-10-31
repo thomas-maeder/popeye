@@ -35,7 +35,7 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
  *        optimised
  */
 void killer_move_optimise_final_defense_move(slice_index si,
-                                             stip_structure_traversal *st)
+                                             stip_structure_traversal const *st)
 {
   stip_structure_traversal st_nested;
   stip_deep_copies_type copies1;
