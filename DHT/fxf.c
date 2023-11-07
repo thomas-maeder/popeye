@@ -634,7 +634,9 @@ NEXT_SEGMENT:
 
 void fxfFree(void *ptr, size_t size)
 {
+#if defined(LOG) || defined(DEBUG)
   static char const * const myname= "fxfFree";
+#endif
   SizeHead *sh;
 
   ptrdiff_t ptrIndex;
@@ -643,6 +645,7 @@ void fxfFree(void *ptr, size_t size)
 #endif
   if (!ptr)
     return;
+  assert(!!size);
 #if defined(SEGMENTED)
   ptrSegment= CurrentSeg;
   if (CurrentSeg) {
@@ -657,7 +660,7 @@ void fxfFree(void *ptr, size_t size)
     } while (0 <= --ptrSegment);
     ptrIndex= -1;
   } else {
-    ptrIndex= pointerDifference(ptr, Arena[0]);
+    ptrIndex= pointerDifference(ptr,Arena[0]);
     assert((ptrIndex >= 0) && (ptrIndex < ARENA_SEG_SIZE));
   }
 FOUND_PUTATIVE_SEGMENT:
@@ -670,11 +673,7 @@ FOUND_PUTATIVE_SEGMENT:
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
   if (size < fxfMINSIZE)
     size= fxfMINSIZE;
-  if (size > fxfMAXSIZE) {
-    fprintf(stderr, "%s: size=%" SIZE_T_PRINTF_SPECIFIER " >= %" SIZE_T_PRINTF_SPECIFIER "\n",
-            myname, (size_t_printf_type) size, (size_t_printf_type) fxfMAXSIZE);
-    exit(-5);
-  }
+  assert(size <= fxfMAXSIZE);
   size= ALIGN_TO_MINIMUM(size);
 #if !defined(NDEBUG)
 #  if defined(SEGMENTED)
@@ -682,9 +681,11 @@ FOUND_PUTATIVE_SEGMENT:
                       and such calculations aren't guaranteed to provide exactly what we need. */
   {
     assert(size <= (ARENA_SEG_SIZE - ptrIndex));
+    assert(((ptrIndex + size) <= pointerDifference(BotFreePtr,Arena[0])) || (ptr >= TopFreePtr));
 #  else
   {
     assert(size <= (GlobalSize - ptrIndex));
+    assert(((ptrIndex + size) <= pointerDifference(BotFreePtr,Arena)) || (ptr >= TopFreePtr));
 #endif
     if (ptrIndex > 0)
     {
