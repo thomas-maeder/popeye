@@ -210,7 +210,7 @@ void output_plaintext_print_version_info(FILE *file)
     char const * const ENSURE_OSTYPE_IS_CHAR_PTR = &*OSTYPE;
     (void)ENSURE_OSTYPE_IS_CHAR_PTR;
     fprintf(file,"Popeye %s-%uBit v%.2f",
-            OSTYPE,platform_guess_bitness(),VERSION);
+            OSTYPE,platform_guess_bitness(),(double)(VERSION));
     format_allocated_memory(file,platform_get_allocated_memory());
     fputc('\n',file);
     fflush(file);
