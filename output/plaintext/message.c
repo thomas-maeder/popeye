@@ -201,17 +201,14 @@ static void format_allocated_memory(FILE *file, maxmem_kilos_type allocated)
     fprintf(file, " (%lu KB)", allocated);
 }
 
-static void ensure_OSTYPE_is_char_const_pointer(char const *ptr) {
-  (void)ptr;
-}
-
 /* Print information about the program version, platform, maximum memory ...
  */
 void output_plaintext_print_version_info(FILE *file)
 {
   if (!is_variable_output_suppressed)
   {
-    ensure_OSTYPE_is_char_const_pointer(&*OSTYPE); /* TODO: Make this a compile-time check, if possible. */
+    char const * const ENSURE_OSTYPE_IS_CHAR_CONST_PTR = &*OSTYPE;
+    (void)ENSURE_OSTYPE_IS_CHAR_CONST_PTR;
     fprintf(file,"Popeye %s-%uBit v%.2f",
             OSTYPE,platform_guess_bitness(),VERSION);
     format_allocated_memory(file,platform_get_allocated_memory());
