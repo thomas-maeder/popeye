@@ -715,6 +715,7 @@ static void protocol_close_wrapper(void)
 
 static char *ReadTrace(void)
 {
+  static boolean need_to_schedule_protocol_close = true;
   if (ReadToEndOfLine())
   {
     {
@@ -723,7 +724,6 @@ static char *ReadTrace(void)
         output_plaintext_input_error_message(WrOpenError);
       else
       {
-        static boolean need_to_schedule_protocol_close = true;
         if (need_to_schedule_protocol_close)
         {
           if (atexit(&protocol_close_wrapper))

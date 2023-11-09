@@ -99,7 +99,7 @@ static void WriteCastlingMutuallyExclusive(void)
 
 static void WriteGrid(void)
 {
-  square square, square_a;
+  square cur_square, square_a;
   int row, column;
   char    HLine[40];
 
@@ -116,11 +116,11 @@ static void WriteGrid(void)
        row++, square_a += dir_down) {
     sprintf(HLine, HorizL, (int) getBoardRowLabel((nr_rows_on_board-1)-row), (int) getBoardRowLabel((nr_rows_on_board-1)-row));
 
-    for (column=0, square= square_a;
+    for (column=0, cur_square= square_a;
          column<nr_files_on_board;
-         column++, square += dir_right)
+         column++, cur_square += dir_right)
     {
-      unsigned char g = (unsigned char)((GridNum(square))%100);
+      unsigned char g = (unsigned char)((GridNum(cur_square))%100);
       HLine[fileWidth*column+3]= (char)(g>9 ? (g/10)+'0' : ' ');
       HLine[fileWidth*column+4]= (char)((g%10)+'0');
     }
@@ -141,11 +141,11 @@ static void WritePiecesWithAttribute(position const *pos, piece_flag_type sp)
   for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int column;
-    square square = square_a;
+    square cur_square = square_a;
 
-    for (column = 1; column<=nr_files_on_board; ++column, square += dir_right)
-      if (TSTFLAG(pos->spec[square],sp))
-        AppendSquare(squares,square);
+    for (column = 1; column<=nr_files_on_board; ++column, cur_square += dir_right)
+      if (TSTFLAG(pos->spec[cur_square],sp))
+        AppendSquare(squares,cur_square);
   }
 
   protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpTab[sp-nr_sides],squares);
@@ -171,13 +171,13 @@ static void WriteRoyalPiecePositions(position const *pos)
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int column;
-    square square = square_a;
+    square cur_square = square_a;
 
-    for (column = 0; column!=nr_files_on_board; ++column, square += dir_right)
-      if (TSTFLAG(pos->spec[square],Royal)
-          && !is_king(pos->board[square]))
+    for (column = 0; column!=nr_files_on_board; ++column, cur_square += dir_right)
+      if (TSTFLAG(pos->spec[cur_square],Royal)
+          && !is_king(pos->board[cur_square]))
       {
-        AppendSquare(squares,square);
+        AppendSquare(squares,cur_square);
         ++nr_royals;
       }
   }
@@ -195,15 +195,15 @@ static void DoPieceCounts(position const *pos,
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int column;
-    square square = square_a;
+    square cur_square = square_a;
 
-    for (column = 0; column!=nr_files_on_board; ++column, square += dir_right)
+    for (column = 0; column!=nr_files_on_board; ++column, cur_square += dir_right)
     {
-      if (is_piece_neutral(pos->spec[square]))
+      if (is_piece_neutral(pos->spec[cur_square]))
         ++piece_per_colour[colour_neutral];
-      else if (TSTFLAG(pos->spec[square],Black))
+      else if (TSTFLAG(pos->spec[cur_square],Black))
         ++piece_per_colour[colour_black];
-      else if (TSTFLAG(pos->spec[square],White))
+      else if (TSTFLAG(pos->spec[cur_square],White))
         ++piece_per_colour[colour_white];
     }
   }
@@ -282,11 +282,11 @@ static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
 static void WriteRegularCells(position const *pos, square square_a)
 {
   unsigned int column;
-  square square;
+  square cur_square;
 
-  for (column = 0,  square = square_a;
+  for (column = 0,  cur_square = square_a;
       column!=nr_files_on_board;
-       ++column, square += dir_right)
+       ++column, cur_square += dir_right)
   {
     char cell[fileWidth+1];
     char *pos_in_cell = cell + (sizeof cell)/2;
@@ -295,20 +295,20 @@ static void WriteRegularCells(position const *pos, square square_a)
 
     if (CondFlag[gridchess] && !OptFlag[suppressgrid])
     {
-      if (is_on_board(square+dir_left)
-          && GridLegal(square, square+dir_left))
+      if (is_on_board(cur_square+dir_left)
+          && GridLegal(cur_square, cur_square+dir_left))
         cell[0] = '|';
     }
 
-    if (is_square_occupied_by_imitator(pos,square))
+    if (is_square_occupied_by_imitator(pos,cur_square))
       pos_in_cell[0] = 'I';
-    else if (pos->board[square]==Invalid)
+    else if (pos->board[cur_square]==Invalid)
       pos_in_cell[0] = ' ';
-    else if (pos->board[square]==Empty)
+    else if (pos->board[cur_square]==Empty)
       pos_in_cell[0] = '.';
     else
     {
-      piece_walk_type const walk = pos->board[square];
+      piece_walk_type const walk = pos->board[cur_square];
       if (walk<Hunter0 || walk>=Hunter0+max_nr_hunter_walks)
         pos_in_cell = WriteWalkRtoL(pos_in_cell,walk);
       else
@@ -320,9 +320,9 @@ static void WriteRegularCells(position const *pos, square square_a)
         pos_in_cell = WriteWalkRtoL(pos_in_cell,huntertypes[hunterIndex].away);
       }
 
-      if (is_piece_neutral(pos->spec[square]))
+      if (is_piece_neutral(pos->spec[cur_square]))
         pos_in_cell[0] = '=';
-      else if (TSTFLAG(pos->spec[square],Black))
+      else if (TSTFLAG(pos->spec[cur_square],Black))
         pos_in_cell[0] = '-';
     }
 
@@ -333,13 +333,13 @@ static void WriteRegularCells(position const *pos, square square_a)
 static void WriteBaseCells(position const *pos, square square_a)
 {
   unsigned int column;
-  square square;
+  square cur_square;
 
-  for (column = 0, square = square_a;
+  for (column = 0, cur_square = square_a;
       column!=nr_files_on_board;
-       ++column, square += dir_right)
+       ++column, cur_square += dir_right)
   {
-    piece_walk_type const walk = pos->board[square];
+    piece_walk_type const walk = pos->board[cur_square];
 
     char cell[fileWidth+1];
     char *pos_in_cell = cell + (sizeof cell)/2;
@@ -348,8 +348,8 @@ static void WriteBaseCells(position const *pos, square square_a)
 
     if (CondFlag[gridchess] && !OptFlag[suppressgrid])
     {
-      if (is_on_board(square+dir_down)
-          && GridLegal(square,square+dir_down))
+      if (is_on_board(cur_square+dir_down)
+          && GridLegal(cur_square,cur_square+dir_down))
       {
         pos_in_cell[-1] = '-';
         pos_in_cell[0] = '-';
