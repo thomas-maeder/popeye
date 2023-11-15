@@ -206,6 +206,8 @@ proc nonterminal {name production} {
     append result ")"
 }
 
+puts "preparing Popeye output grammar parser"
+
 namespace eval format {
     terminal eol {\n}
     terminal emptyLine {\n}
@@ -774,19 +776,17 @@ namespace eval format {
 
     namespace eval problem {
         nonterminal noNonboardBlock {
-            ( authoretc::block )
-            ( boardA::block? )
-            ( board::block )
-            ( caption::block )
-            ( conditions::block )
-            ( duplex::block )
-            ( gridboard::block? )
-            ( zeroposition::block? )
+            authoretc::block
+            boardA::block?
+            board::block
+            caption::block
+            conditions::block
+            duplex::block
+            gridboard::block?
+            zeroposition::block?
         }
 
-        # applying this gives an "expression is too complex" error :-(
-        # dividing the input at recognized problem footers is also much, much faster...
-        nonterminal block { ( remark::block noNonboardBlock? ( solution::block ) ( footer::block ) ) }
+        nonterminal block { remark::block noNonboardBlock? solution::block footer::block }
     }
 
     namespace eval inputerror {
@@ -809,129 +809,34 @@ namespace eval format {
     }
 }
 
-proc handleTextBeforeSolution {beforesol} {
-    set result {}
-    
-    if {[regexp $format::beforesolution::block $beforesol - inputerrors remark authoretc boardA board caption conditions duplex gridboard zeroposition]
-        && ([regexp -- {[^[:space:]]} $inputerrors]
-            || [regexp -- {[^[:space:]]} $remark]
-            || [regexp -- {[^[:space:]]} $board])} {
-        lappend result "i" $inputerrors
-        lappend result "r" $remark
-        lappend result "a" $authoretc
-        lappend result "ba" $boardA
-        lappend result "b" $board
-        lappend result "ca" $caption
-        lappend result "co" $conditions
-        lappend result "d" $duplex
-        lappend result "g" $gridboard
-        lappend result "z" $zeroposition
-    }
-
-    return $result
-}
-
-proc handleSolutionWithoutTwinning {beforeFooter} {
-    set noboardExpr "^()($format::solution::untwinned::block)\$"
-    # make sure that the board caption, conditions or whatever comes last ends with a newline character
-    set withBoardExpr "^(.*?\n)($format::solution::untwinned::block)\$"
-    # we have to test using the noboard expression first - the with board expression will match some
-    # output created with option noboard and yield "interesting" results
-    if {[regexp -- $noboardExpr $beforeFooter -  beforesol solution]
-        || [regexp -- $withBoardExpr $beforeFooter - beforesol solution]} {
-        set result [handleTextBeforeSolution $beforesol]
-        lappend result "s" $solution
-    } else {
-        # input error ...
-        set result [handleTextBeforeSolution $beforeFooter]
-    }
-
-    return $result
-}
-
-proc makeSegments {beforeFooter twinningIndices} {
-    set segments {}
-    set startOfNextSegment 0
-    foreach pair $twinningIndices {
-        lassign $pair twinningStart twinningEnd
-        lappend segments [string range $beforeFooter $startOfNextSegment [expr {$twinningStart-1}]]
-        lappend segments [string range $beforeFooter $twinningStart $twinningEnd]
-        set startOfNextSegment [expr {$twinningEnd+1}]
-    }
-    lappend segments [string range $beforeFooter $startOfNextSegment "end"]
-    return $segments
-}
-
-proc handleSolutionWithPresumableTwinning {beforeFooter twinningIndices} {
-    set result {}
-    
-    set segments [makeSegments $beforeFooter $twinningIndices]
-    set firstTwin true
-    set beforeSolution [lindex $segments 0]
-    foreach {twinning solution} [lrange $segments 1 "end"] {
-        if {[regexp $format::solution::untwinned::block $solution]} {
-            if {$firstTwin} {
-                set result [concat $result [handleTextBeforeSolution $beforeSolution]]
-                set firstTwin false
-            }
-            lappend result "t" $twinning
-            lappend result "s" $solution
-        } else {
-            append beforeSolution "$twinning$solution"
-        }
-    }
-    if {$firstTwin} {
-        # there was some "fake twinning" in a text field
-        set result [concat $result [handleSolutionWithoutTwinning $beforeFooter]]
-    }
-
-    return $result
-}
-
-set differences {}
-
 foreach inputfile [glob $inputfiles] {
+    puts "parsing input file: $inputfile"
+    
+    set differ [open "| diff $inputfile -" "r+"]
+
     set f [open $inputfile "r"]
     set input [read $f]
     close $f
 
-    set result {}
+    set problemIndices [regexp -all -indices -inline $format::problem::block $input]
 
-    set footerIndices [regexp -all -indices -inline $format::footer::block $input]
-    set nextProblemStart 0
-    foreach footerIndexPair $footerIndices {
-	lassign $footerIndexPair footerStart footerEnd
-	set footer [string range $input $footerStart $footerEnd]
-	set beforeFooter [string range $input $nextProblemStart [expr {$footerStart-1}]]
-	set nextProblemStart [expr {$footerEnd+1}]
-	set twinningIndices [regexp -all -inline -indices $format::solution::twinned::separator $beforeFooter]
-	if {[llength $twinningIndices]==0} {
-	    set result [concat $result [handleSolutionWithoutTwinning $beforeFooter]]
-	} else {
-	    set result [concat $result [handleSolutionWithPresumableTwinning $beforeFooter $twinningIndices]]
-	}
-	lappend result "f" $footer
+    foreach problemIndexPair $problemIndices {
+	lassign $problemIndexPair problemStart problemEnd
+	set problem [string range $input $problemStart $problemEnd]
+	puts -nonewline $differ $problem
     }
 
-    set resultText ""
-    foreach {section text} $result {
-	append resultText $text
-    }
-
-    set pipe [open "| diff $inputfile -" "r+"]
-    puts -nonewline $pipe $resultText
-    chan close $pipe "write"
+    chan close $differ "write"
     
-    set currentDifferences {}
-    while {[gets $pipe line]>=0} {
-    	lappend currentDifferences $line
+    set differences {}
+    while {[gets $differ line]>=0} {
+	lappend differences $line
     }
 
-    if {[catch {close $pipe} cres e]} {
-	lappend differences $inputfile
-	set differences [concat $differences $currentDifferences]
-	lappend differences ""
+    if {[catch {
+	close $differ
+    } cres e]} {
+	puts "differences found:"
+	puts [join $differences "\n"]
     }
 }
-
-puts -nonewline [join $differences "\n"]
