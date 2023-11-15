@@ -416,7 +416,6 @@ namespace eval format {
             emptyLine
             tomoveLine
             emptyLine
-            emptyLine
         }
     }
 
@@ -776,6 +775,16 @@ namespace eval format {
         nonterminal block { emptyLine zeroposition eol emptyLine }
     }
 
+    namespace eval inputerror {
+        terminal inputError [l inputError]
+        terminal offendingItem [l offendingItem]
+
+        nonterminal block {
+            inputError lineText+ eol
+            offendingItem lineText+ eol
+        }
+    }
+
     namespace eval problem {
         nonterminal noNonboardBlock {
             meta::block
@@ -788,26 +797,7 @@ namespace eval format {
             zeroposition::block?
         }
 
-        nonterminal block { remarkOrValidationError::block noNonboardBlock? solution::block footer::block }
-    }
-
-    namespace eval inputerror {
-        terminal inputError [l inputError]
-        terminal offendingItem [l offendingItem]
-
-        nonterminal block {
-            inputError lineText+ eol
-            offendingItem lineText+ eol
-        }
-    }
-
-    namespace eval beforesolution {
-        nonterminal block {
-            ^
-            ( inputerror::block* )
-            ( remarkOrValidationError::block? )
-            problem::noNonboardBlock?
-        }
+        nonterminal block { inputerror::block* remarkOrValidationError::block noNonboardBlock? solution::block? footer::block }
     }
 }
 
