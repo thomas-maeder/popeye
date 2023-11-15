@@ -217,7 +217,8 @@ namespace eval format {
     terminal nonspace {[^ ]}
     terminal period {[.]}
 
-    namespace eval remark {
+    # we can't distinguish remarks (in the input) and error messages produced during validation
+    namespace eval remarkOrValidationError {
         nonterminal remark { lineText+ }
         nonterminal remarkLine { remark eol }
 
@@ -745,7 +746,7 @@ namespace eval format {
             nonterminal simplex { simplexPart+ measurementsBlock }
 
             nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
-            nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remark::block? }
+            nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remarkOrValidationError::block? }
         }
 
         namespace eval twinned {
@@ -787,7 +788,7 @@ namespace eval format {
             zeroposition::block?
         }
 
-        nonterminal block { remark::block noNonboardBlock? solution::block footer::block }
+        nonterminal block { remarkOrValidationError::block noNonboardBlock? solution::block footer::block }
     }
 
     namespace eval inputerror {
@@ -804,7 +805,7 @@ namespace eval format {
         nonterminal block {
             ^
             ( inputerror::block* )
-            ( remark::block? )
+            ( remarkOrValidationError::block? )
             problem::noNonboardBlock?
         }
     }

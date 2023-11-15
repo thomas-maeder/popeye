@@ -35,6 +35,7 @@ solution finished.
 
 HurdleColourChanging only allowed with certain hoppers
 
+
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
