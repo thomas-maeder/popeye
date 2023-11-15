@@ -31,7 +31,7 @@
 #include "fxf.h"
 #else
 #include <stdlib.h>
-#define	fxfAlloc(x)		malloc(x)
+#define	fxfAlloc(x)		malloc(x) /* TODO: Should we track allocations to ensure that we never allocate more than GlobalSize total byte(s)? */
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
 
