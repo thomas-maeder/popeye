@@ -810,7 +810,7 @@ namespace eval format {
     }
 }
 
-foreach inputfile [glob $inputfiles] {
+foreach inputfile $inputfiles {
     puts "parsing input file: $inputfile"
     
     set differ [open "| diff $inputfile -" "r+"]
