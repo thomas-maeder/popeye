@@ -918,13 +918,9 @@ foreach inputfile [glob $inputfiles] {
 	append resultText $text
     }
 
-    set tmpfilename [exec mktemp]
-
-    set f [open $tmpfilename "w"]
-    puts -nonewline $f $resultText
-    close $f
-
-    set pipe [open "| diff $inputfile $tmpfilename" "r"]
+    set pipe [open "| diff $inputfile -" "r+"]
+    puts -nonewline $pipe $resultText
+    chan close $pipe "write"
     
     set currentDifferences {}
     while {[gets $pipe line]>=0} {
@@ -936,8 +932,6 @@ foreach inputfile [glob $inputfiles] {
 	set differences [concat $differences $currentDifferences]
 	lappend differences ""
     }
-
-    file delete $tmpfilename
 }
 
 puts -nonewline [join $differences "\n"]
