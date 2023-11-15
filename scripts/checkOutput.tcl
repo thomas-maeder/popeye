@@ -592,7 +592,9 @@ namespace eval format {
             terminal continued {[+]}
             terminal label {[[:lower:]][)]}
 
-            nonterminal additionalLine { space lineText+ eol }
+            # TODO is this always a validation error (e.g. option threat not applicable)?
+            # TODO messages like "the side to play can capture..." have a hard-coded leading newline, so additionalLine can be empty
+            nonterminal additionalLine { lineText* eol }
             nonterminal block {
                 emptyLine
                 continued? label space lineText* eol
