@@ -221,16 +221,16 @@ namespace eval format {
         nonterminal remark { lineText+ }
         nonterminal remarkLine { remark eol }
 
-        nonterminal block { remarkLine+ emptyLine* }
+        nonterminal block { remarkLine* }
     }
 
-    namespace eval authoretc {
+    namespace eval meta {
         nonterminal leadingBlanks { space* }
 
         nonterminal authorOriginAwardTitle { lineText+ }
         nonterminal authorOriginAwardTitleLine { leadingBlanks authorOriginAwardTitle eol }
 
-        nonterminal block { emptyLine? authorOriginAwardTitleLine* emptyLine }
+        nonterminal block { emptyLine authorOriginAwardTitleLine* }
     }
 
     namespace eval board {
@@ -270,6 +270,7 @@ namespace eval format {
         nonterminal linePair { spaceLine piecesLine }
 
         nonterminal block {
+            emptyLine
             columns
             linePair+
             spaceLine
@@ -776,7 +777,7 @@ namespace eval format {
 
     namespace eval problem {
         nonterminal noNonboardBlock {
-            authoretc::block
+            meta::block
             boardA::block?
             board::block
             caption::block
