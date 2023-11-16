@@ -62,8 +62,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   zg71                        1 + 2
            Make&TakeChess
-
-the side to play can capture the king  add_to_move_generation_stack:          40
+the side to play can capture the king
+  add_to_move_generation_stack:          40
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

@@ -118,7 +118,10 @@ void white_to_play_stipulation_modifier_solve(slice_index si)
     if (stipulation_root_hook!=no_slice)
     {
       if (!apply_whitetoplay(stipulation_root_hook))
+      {
         output_plaintext_message(WhiteToPlayNotApplicable);
+        output_plaintext_verifie_message(NewLine);
+      }
     }
   }
 

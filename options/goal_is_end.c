@@ -255,7 +255,10 @@ void goal_is_end_stipulation_modifier_solve(slice_index si)
     if (stipulation_root_hook!=no_slice)
     {
       if (!insert_testers(stipulation_root_hook))
+      {
         output_plaintext_message(GoalIsEndNotApplicable);
+        output_plaintext_verifie_message(NewLine);
+      }
     }
   }
 

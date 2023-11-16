@@ -21,8 +21,8 @@ White at the move, but Black in check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#3                     2 + 1
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1

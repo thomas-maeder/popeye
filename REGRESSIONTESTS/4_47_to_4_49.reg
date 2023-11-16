@@ -326,6 +326,7 @@ solution finished.
                      play_move:          75
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          76
+
 Partial solution
 
 
@@ -363,6 +364,7 @@ Partial solution
                      play_move:         513
  is_white_king_square_attacked:         135
  is_black_king_square_attacked:         446
+
 Partial solution
 
 

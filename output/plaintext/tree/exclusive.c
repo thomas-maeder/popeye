@@ -34,6 +34,7 @@ static void SignalExclusiveRefutedUndecidable(void)
   output_plaintext_tree_write_move();
   protocol_fputc(' ',stdout);
   output_plaintext_message(ExclusiveRefutedUndecidable);
+  output_plaintext_message(NewLine);
   protocol_fputc('\n',stdout);
   solve_result = previous_move_is_illegal;
 }
@@ -43,6 +44,7 @@ static void SignalChecklessUndecidable(void)
   output_plaintext_tree_write_move();
   protocol_fputc(' ',stdout);
   output_plaintext_message(ChecklessUndecidable);
+  output_plaintext_message(NewLine);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

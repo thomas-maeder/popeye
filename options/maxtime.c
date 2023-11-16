@@ -161,6 +161,7 @@ void maxtime_set(slice_index si)
   else
   {
     output_plaintext_verifie_message(NoMaxTime);
+    output_plaintext_message(NewLine);
     pipe_solve_delegate(si);
   }
 

@@ -133,7 +133,10 @@ char *ParsePieceWalkToken(char *tok, piece_walk_type *result)
         {
           *result = hunter_make_type(away,home);
           if (*result==nr_piece_walks)
+          {
             output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+            output_plaintext_message(NewLine);
+          }
         }
 
         return ReadNextTokStr();
@@ -192,7 +195,10 @@ char *ParsePieceWalk(char *tok, piece_walk_type *walk)
         {
           *walk = hunter_make_type(away,home);
           if (*walk==nr_piece_walks)
+          {
             output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+            output_plaintext_message(NewLine);
+          }
         }
       }
     }

@@ -53,6 +53,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
     output_plaintext_line_write_line(goal_mate);
     protocol_fputc(' ',stdout);
     output_plaintext_message(ExclusiveRefutedUndecidable);
+    output_plaintext_message(NewLine);
     solve_result = previous_move_is_illegal;
   }
   else
@@ -65,6 +66,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
     {
       protocol_fputc(' ',stdout);
       output_plaintext_message(ChecklessUndecidable);
+      output_plaintext_message(NewLine);
     }
   }
 

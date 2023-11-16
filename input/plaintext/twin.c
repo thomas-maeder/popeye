@@ -89,6 +89,7 @@ static char *ParseTwinningMove(void)
   {
     WriteSquare(&output_plaintext_engine,stderr,sq1);
     output_plaintext_error_message(NothingToRemove);
+    output_plaintext_message(NewLine);
   }
   else
   {
@@ -123,11 +124,13 @@ static char *ParseTwinningExchange(void)
   {
     WriteSquare(&output_plaintext_engine,stderr,sq1);
     output_plaintext_error_message(NothingToRemove);
+    output_plaintext_message(NewLine);
   }
   else if (is_square_empty(sq2))
   {
     WriteSquare(&output_plaintext_engine,stderr,sq2);
     output_plaintext_error_message(NothingToRemove);
+    output_plaintext_message(NewLine);
   }
   else
     move_effect_journal_do_piece_exchange(move_effect_reason_diagram_setup,
@@ -291,7 +294,10 @@ static char *ParseTwinningShift(void)
         move_effect_journal_do_twinning_shift(sq1,sq2);
       }
       else
+      {
+        output_plaintext_error_message(NewLine);
         output_plaintext_error_message(PieceOutside);
+      }
 
       return ReadNextTokStr();
     }
@@ -306,6 +312,7 @@ static void HandleRemovalSquare(square s, void *dummy)
   {
     WriteSquare(&output_plaintext_engine,stderr,s);
     output_plaintext_error_message(NothingToRemove);
+    output_plaintext_message(NewLine);
   }
 }
 
@@ -505,6 +512,7 @@ static char *ParseTwinning(char *tok,
         case TwinningContinued:
         {
           output_plaintext_message(ContinuedFirst);
+          output_plaintext_verifie_message(NewLine);
           tok = ReadNextTokStr();
           break;
         }
@@ -892,6 +900,7 @@ static void ReadInitialTwin(slice_index start)
           {
             WriteSquare(&output_plaintext_engine,stdout,underworld[ghost_idx].on);
             output_plaintext_message(OverwritePiece);
+            output_plaintext_message(NewLine);
           }
           break;
         }
@@ -1133,7 +1142,10 @@ static boolean detect_and_impose(slice_index stipulation_root_hook)
   solving_impose_starter(stipulation_root_hook,
                          SLICE_STARTER(stipulation_root_hook));
   if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
+  {
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
+    output_plaintext_verifie_message(NewLine);
+  }
   else
     result = true;
 

@@ -118,7 +118,10 @@ void quodlibet_stipulation_modifier_solve(slice_index si)
     if (stipulation_root_hook!=no_slice)
     {
       if (!transform(stipulation_root_hook))
+      {
         output_plaintext_message(QuodlibetNotApplicable);
+        output_plaintext_verifie_message(NewLine);
+      }
     }
   }
 

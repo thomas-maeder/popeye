@@ -60,10 +60,13 @@ char const *LaTeXWalk(piece_walk_type walk)
     if (LaTeXPiecesAbbr[walk] == NULL)
     {
       output_plaintext_error_message(UndefLatexPiece);
+      output_plaintext_message(NewLine);
       return "??";
-    } else
+    }
+    else
       return LaTeXPiecesAbbr[walk];
-  } else
+  }
+  else
     return LaTeXStdPie[walk];
 }
 

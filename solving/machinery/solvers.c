@@ -236,7 +236,10 @@ void build_solvers1(slice_index si)
    * branch needs a selfcheck guard */
   if (OptFlag[solapparent] && !OptFlag[restart]
       && !solving_apply_setplay(si))
+  {
     output_plaintext_message(SetPlayNotApplicable);
+    output_plaintext_verifie_message(NewLine);
+  }
 
   retro_instrument_solving_default(si);
 
@@ -254,7 +257,10 @@ void build_solvers1(slice_index si)
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
   if (!init_intelligent_mode(si))
+  {
     output_plaintext_message(IntelligentRestricted);
+    output_plaintext_message(NewLine);
+  }
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
@@ -704,7 +710,10 @@ void build_solvers2(slice_index si)
 
   if (OptFlag[solmenaces]
       && !solving_insert_maxthreatlength_guards(si))
+  {
     output_plaintext_message(ThreatOptionAndExactStipulationIncompatible);
+    output_plaintext_message(NewLine);
+  }
 
   if (CondFlag[republican])
     solving_insert_republican_king_placers(si);

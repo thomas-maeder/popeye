@@ -67,6 +67,7 @@ void output_plaintext_problem_writer_solve(slice_index si)
           assert(0);
           break;
       }
+      output_plaintext_message(NewLine);
       output_plaintext_message(completeness_msg);
     }
   }

@@ -21,8 +21,8 @@ White at the move, but Black in check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1.5                       2 + 1
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -53,8 +53,8 @@ h#1 with set play, but black king is in check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 1
-
 the side to play can capture the king
+
   1.Kb8-a8 Sc4-b6 #
   add_to_move_generation_stack:          21
                      play_move:          18

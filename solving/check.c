@@ -104,6 +104,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
        && has_detected_king_capture!=twin_id)
    {
      output_plaintext_message(KingCaptureDetected);
+     output_plaintext_message(NewLine);
      has_detected_king_capture = twin_id;
      result = false;
    }

@@ -47,6 +47,7 @@ solution (which is a short solution in 1->ser-h#3)
                      play_move:        2365
  is_white_king_square_attacked:         607
  is_black_king_square_attacked:        2356
+
 Partial solution
 
 
@@ -900,6 +901,7 @@ only example so far of a help stipulation with option stoponshort
                      play_move:         158
  is_white_king_square_attacked:         150
  is_black_king_square_attacked:           0
+
 Partial solution
 
 
@@ -932,6 +934,7 @@ only example so far of a series stipulation with option stoponshort
                      play_move:          10
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          10
+
 Partial solution
 
 
@@ -1074,6 +1077,7 @@ solution finished.
                      play_move:       53540
  is_white_king_square_attacked:        2674
  is_black_king_square_attacked:        2985
+
 Partial solution
 
 

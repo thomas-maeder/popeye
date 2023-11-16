@@ -52,6 +52,7 @@ void ohneschach_detect_undecidable_goal_solve(slice_index si)
     ohneschach_undecidable_goal_detected[nbply+1] = false;
     solve_result = previous_move_is_illegal;
     output_plaintext_message(ChecklessUndecidable);
+    output_plaintext_message(NewLine);
   }
   else
     pipe_solve_delegate(si);

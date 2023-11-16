@@ -29,6 +29,7 @@
                      play_move:     8997914
  is_white_king_square_attacked:     2650582
  is_black_king_square_attacked:     8922012
+
 Partielle Loesung
 
 
@@ -64,6 +65,7 @@ Partielle Loesung
                      play_move:    13150642
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:    11750516
+
 Partielle Loesung
 
 
@@ -106,6 +108,7 @@ b) wKc1-->b3
                      play_move:    19219067
  is_white_king_square_attacked:     4503607
  is_black_king_square_attacked:    19185708
+
 Partielle Loesung
 
 
@@ -189,6 +192,7 @@ Motto: Viele Koeche verderben den Brei
                      play_move:     7690515
  is_white_king_square_attacked:      425185
  is_black_king_square_attacked:     7368777
+
 Partielle Loesung
 
 
@@ -225,6 +229,7 @@ Partielle Loesung
                      play_move:    25014067
  is_white_king_square_attacked:     5211971
  is_black_king_square_attacked:    24998281
+
 Partielle Loesung
 
 
@@ -258,6 +263,7 @@ Partielle Loesung
                      play_move:     7902141
  is_white_king_square_attacked:      535927
  is_black_king_square_attacked:     7442195
+
 Partielle Loesung
 
 
@@ -292,6 +298,7 @@ Partielle Loesung
                      play_move:    10066016
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     9656214
+
 Partielle Loesung
 
 
@@ -562,6 +569,7 @@ Loesung beendet.
                      play_move:    17086662
  is_white_king_square_attacked:    17025959
  is_black_king_square_attacked:    15491689
+
 Partielle Loesung
 
 
@@ -596,6 +604,7 @@ Partielle Loesung
                      play_move:    17881873
  is_white_king_square_attacked:    17753529
  is_black_king_square_attacked:    17254881
+
 Partielle Loesung
 
 
@@ -631,6 +640,7 @@ Partielle Loesung
                      play_move:    16450480
  is_white_king_square_attacked:    16351465
  is_black_king_square_attacked:    14978354
+
 Partielle Loesung
 
 
@@ -666,6 +676,7 @@ Partielle Loesung
                      play_move:    15609911
  is_white_king_square_attacked:    15419242
  is_black_king_square_attacked:    14578618
+
 Partielle Loesung
 
 
@@ -700,6 +711,7 @@ Partielle Loesung
                      play_move:    16512630
  is_white_king_square_attacked:    16503657
  is_black_king_square_attacked:    15338415
+
 Partielle Loesung
 
 
@@ -773,6 +785,7 @@ b) sKa7-->b1
                      play_move:     5808833
  is_white_king_square_attacked:      282766
  is_black_king_square_attacked:     5774184
+
 Partielle Loesung
 
 

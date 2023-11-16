@@ -373,8 +373,8 @@ j) +wSa7  +bBb3
  is_black_king_square_attacked:         797
 
 k) +wSa7  +bBb2  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -408,8 +408,8 @@ o) +wSa7  +bBc4
  is_black_king_square_attacked:         960
 
 p) +wSa7  +bBc3  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -443,8 +443,8 @@ t) +wSa7  +bBd5
  is_black_king_square_attacked:        1045
 
 u) +wSa7  +bBd4  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -478,8 +478,8 @@ y) +wSa7  +bBe6
  is_black_king_square_attacked:         970
 
 z) +wSa7  +bBe5  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -513,8 +513,8 @@ z4) +wSa7  +bBf7
  is_black_king_square_attacked:         799
 
 z5) +wSa7  +bBf6  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -548,8 +548,8 @@ z9) +wSa7  +bBf2
  is_black_king_square_attacked:         832
 
 z10) +wSa7  +bBg7  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -695,8 +695,8 @@ z30) +wSa5  +bBb3
  is_black_king_square_attacked:         919
 
 z31) +wSa5  +bBb2  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -730,8 +730,8 @@ z35) +wSa5  +bBc4
  is_black_king_square_attacked:        1125
 
 z36) +wSa5  +bBc3  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -765,8 +765,8 @@ z40) +wSa5  +bBd5
  is_black_king_square_attacked:        1222
 
 z41) +wSa5  +bBd4  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -800,8 +800,8 @@ z45) +wSa5  +bBe6
  is_black_king_square_attacked:        1156
 
 z46) +wSa5  +bBe5  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -835,8 +835,8 @@ z50) +wSa5  +bBf7
  is_black_king_square_attacked:         943
 
 z51) +wSa5  +bBf6  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -870,8 +870,8 @@ z55) +wSa5  +bBf2
  is_black_king_square_attacked:        1036
 
 z56) +wSa5  +bBg7  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1017,8 +1017,8 @@ z76) +wSa4  +bBb3
  is_black_king_square_attacked:         951
 
 z77) +wSa4  +bBb2  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1052,8 +1052,8 @@ z81) +wSa4  +bBc4
  is_black_king_square_attacked:        1203
 
 z82) +wSa4  +bBc3  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1087,8 +1087,8 @@ z86) +wSa4  +bBd5
  is_black_king_square_attacked:        1317
 
 z87) +wSa4  +bBd4  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1122,8 +1122,8 @@ z91) +wSa4  +bBe6
  is_black_king_square_attacked:        1203
 
 z92) +wSa4  +bBe5  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1157,8 +1157,8 @@ z96) +wSa4  +bBf7
  is_black_king_square_attacked:         991
 
 z97) +wSa4  +bBf6  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1192,8 +1192,8 @@ z101) +wSa4  +bBf2
  is_black_king_square_attacked:         988
 
 z102) +wSa4  +bBg7  
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -1970,6 +1970,7 @@ consider previous cage after advancing type of promotee
                      play_move:         855
  is_white_king_square_attacked:         786
  is_black_king_square_attacked:          34
+
 Partial solution
 
 
@@ -2115,6 +2116,7 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
                      play_move:        6607
  is_white_king_square_attacked:        2159
  is_black_king_square_attacked:        6180
+
 Partial solution
 
 

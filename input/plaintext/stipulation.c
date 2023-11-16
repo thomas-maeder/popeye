@@ -850,6 +850,7 @@ static char *ParsePlay(char *tok,
         {
           /* at least 2 half moves requried for a reciprocal stipulation */
           output_plaintext_input_error_message(StipNotSupported);
+          output_plaintext_verifie_message(NewLine);
           result = 0;
         }
         else if (length==2)

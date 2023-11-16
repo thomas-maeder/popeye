@@ -341,7 +341,10 @@ static void filter_postkey_play(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->level==structure_traversal_level_top) /* i.e. not set play */
+  {
     output_plaintext_message(TryPlayNotApplicable);
+    output_plaintext_verifie_message(NewLine);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -355,6 +358,7 @@ static void filter_complex_sstip(slice_index si,
   TraceFunctionParamListEnd();
 
   output_plaintext_message(TryPlayNotApplicable);
+  output_plaintext_verifie_message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -75,7 +75,7 @@ typedef enum
   Threat                                            = 54,
   But                                               = 55,
   TimeString                                        = 56,
-  MateInOne                                         = 57,
+  MateInOne                                         = 57, /* TODO: unsued! */
   NewLine                                           = 58,
   ImitWFairy                                        = 59,
   ManyImitators                                     = 60,
@@ -98,8 +98,8 @@ typedef enum
   PieceOutside                                      = 77,
   ContinuedFirst                                    = 78,
   Refutation                                        = 79,
-  NoFrischAufPromPiece                              = 80,
-  ProofAndFairyConditions                           = 81,
+  NoFrischAufPromPiece                              = 80, /* TODO: unsued! */
+  ProofAndFairyConditions                           = 81, /* TODO: unsued! */
   IsardamAndMadrasi                                 = 82,
   ChecklessUndecidable                              = 83,
   OverwritePiece                                    = 84,
@@ -108,7 +108,7 @@ typedef enum
   NonsenseCombination                               = 87,
   VogtlanderandIsardam                              = 88,
   AssassinandOthers                                 = 89,
-  RepublicanandnotMate                              = 90,
+  RepublicanandnotMate                              = 90, /* TODO: unsued! */
   IncrementHashRateLevel                            = 91,
   DecrementHashRateLevel                            = 92,
   IntelligentRestricted                             = 93,
@@ -122,7 +122,7 @@ typedef enum
   LosingChessNotInCheckOrMateStipulations           = 101,
   TakeMakeAndFairy                                  = 102,
   MagicAndFairyPieces                               = 103,
-  TooManyMagic                                      = 104,
+  TooManyMagic                                      = 104, /* TODO: unsued! */
   NoRepublicanWithConditionsDependingOnCheck        = 105,
   CantDecideWhoIsAtTheMove                          = 106,
   ThreatOptionAndExactStipulationIncompatible       = 107,
@@ -132,9 +132,9 @@ typedef enum
   PostKeyPlayNotApplicable                          = 111,
   QuodlibetNotApplicable                            = 112,
   GoalIsEndNotApplicable                            = 113,
-  GoalIsEndAndQuodlibetIncompatible                 = 114,
+  GoalIsEndAndQuodlibetIncompatible                 = 114, /* TODO: unsued! */
   CantDecideOnSideWhichConditionAppliesTo           = 115,
-  NoCageImmuneWithoutCage                           = 116,
+  NoCageImmuneWithoutCage                           = 116, /* TODO: unsued! */
   ExclusiveRefutedUndecidable                       = 117,
   KingCaptureDetected                               = 118,
   InconsistentRetroInformation                      = 119,

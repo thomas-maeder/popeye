@@ -124,11 +124,13 @@ boolean republican_verifie_position(slice_index si)
   if (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction])
   {
     output_plaintext_verifie_message(IncompatibleRoyalSettings);
+    output_plaintext_message(NewLine);
     result = false;
   }
   else if (CondFlag[masand]) /* TODO what else should we prohibit here? */
   {
     output_plaintext_verifie_message(NoRepublicanWithConditionsDependingOnCheck);
+    output_plaintext_verifie_message(NewLine);
     result = false;
   }
   else
@@ -137,6 +139,7 @@ boolean republican_verifie_position(slice_index si)
     if (goal.type==no_goal)
     {
       output_plaintext_verifie_message(StipNotSupported);
+      output_plaintext_verifie_message(NewLine);
       result = false;
     }
     else

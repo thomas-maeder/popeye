@@ -21,8 +21,8 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 1
-
-the side to play can capture the king  add_to_move_generation_stack:           0
+the side to play can capture the king
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -426,8 +426,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
-
 the side to play can capture the king
+
    1.Rc6*c5 ! zugzwang.
       1...Kb8-a8
           2.Rc5-c8 #
@@ -1761,8 +1761,8 @@ solution finished.
   semi-r##!1                  3 + 2
 
       1...Ka3-b2 ##!
-
-the side to play can capture the king  add_to_move_generation_stack:         191
+the side to play can capture the king
+  add_to_move_generation_stack:         191
                      play_move:         185
  is_white_king_square_attacked:          49
  is_black_king_square_attacked:         148

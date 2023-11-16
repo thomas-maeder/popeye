@@ -73,7 +73,10 @@ static void ReadMutuallyExclusiveCastling(slice_index start)
 static void HandleEpSquare(square sq, void *dummy)
 {
   if (en_passant_nr_retro_squares==en_passant_retro_capacity)
+  {
     output_plaintext_message(TooManyEpKeySquares);
+    output_plaintext_verifie_message(NewLine);
+  }
   else
     en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
 }
@@ -317,7 +320,10 @@ char *ParseOpt(slice_index start)
 
       case duplex:
         if (input_is_instrumented_with_duplex(start))
+        {
           output_plaintext_input_error_message(InconsistentDuplexOption);
+          output_plaintext_verifie_message(NewLine);
+        }
         else
         {
           input_instrument_duplex(start,STDuplexSolver);
@@ -327,7 +333,10 @@ char *ParseOpt(slice_index start)
 
       case halfduplex:
         if (input_is_instrumented_with_duplex(start))
+        {
           output_plaintext_input_error_message(InconsistentDuplexOption);
+          output_plaintext_verifie_message(NewLine);
+        }
         else
         {
           input_instrument_duplex(start,STHalfDuplexSolver);

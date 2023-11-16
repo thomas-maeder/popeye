@@ -343,6 +343,7 @@ static void initialise_piece_flags(void)
           CLRFLAG(spec,ColourChange);
           move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
           output_plaintext_error_message(ColourChangeRestricted);
+          output_plaintext_error_message(NewLine);
         }
       }
   }
@@ -747,6 +748,7 @@ void verify_position(slice_index si)
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
     output_plaintext_verifie_message(IncompatibleRoyalSettings);
+    output_plaintext_message(NewLine);
     return;
   }
 
@@ -755,6 +757,7 @@ void verify_position(slice_index si)
     if (OptFlag[solapparent] || CondFlag[schwarzschacher])
     {
       output_plaintext_verifie_message(InconsistentNullMoves);
+      output_plaintext_verifie_message(NewLine);
       return;
     }
   }
@@ -766,6 +769,7 @@ void verify_position(slice_index si)
         || CondFlag[anticirce])
     {
       output_plaintext_verifie_message(TakeMakeAndFairy);
+      output_plaintext_message(NewLine);
       return;
     }
   }
@@ -797,6 +801,7 @@ void verify_position(slice_index si)
         if (TSTFLAG(some_pieces_flags,Magic) && !magic_is_piece_supported(p))
         {
           output_plaintext_verifie_message(MagicAndFairyPieces);
+          output_plaintext_message(NewLine);
           return;
         }
         if (CondFlag[einstein] || CondFlag[reveinstein] || CondFlag[antieinstein])
@@ -885,6 +890,7 @@ void verify_position(slice_index si)
       if (restricted_side==no_side)
       {
         output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
+        output_plaintext_verifie_message(NewLine);
         return;
       }
       else
@@ -1014,6 +1020,7 @@ void verify_position(slice_index si)
       && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
     output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
+    output_plaintext_verifie_message(NewLine);
     return;
   }
   if (CondFlag[whforsqu]
@@ -1084,6 +1091,7 @@ void verify_position(slice_index si)
     if (restricted_side==no_side)
     {
       output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
+      output_plaintext_verifie_message(NewLine);
       return;
     }
     else
@@ -1250,6 +1258,7 @@ void verify_position(slice_index si)
     if ((CondFlag[mars]||CondFlag[antimars])+CondFlag[plus]+CondFlag[phantom]>1)
     {
       output_plaintext_verifie_message(MarsCirceAndOthers);
+      output_plaintext_message(NewLine);
       return;
     }
     else if ((CondFlag[whvault_king] && vaulting_kings_transmuting[White])
@@ -1260,6 +1269,7 @@ void verify_position(slice_index si)
              || CondFlag[sting])
     {
       output_plaintext_verifie_message(MarsCirceAndOthers);
+      output_plaintext_message(NewLine);
       return;
     }
     else
@@ -1290,6 +1300,7 @@ void verify_position(slice_index si)
         || CondFlag[bicolores])             /* others? */
     {
       output_plaintext_verifie_message(AssassinandOthers);
+      output_plaintext_message(NewLine);
       return;
     }
   }
@@ -1388,6 +1399,7 @@ void verify_position(slice_index si)
         || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
     {
       output_plaintext_verifie_message(GhostHauntedChessAndCirceKamikazeHaanIncompatible);
+      output_plaintext_verifie_message(NewLine);
       return;
     }
   }
@@ -1396,6 +1408,7 @@ void verify_position(slice_index si)
       && !en_passant_are_retro_squares_consistent())
   {
     output_plaintext_verifie_message(InconsistentRetroInformation);
+    output_plaintext_verifie_message(NewLine);
     return;
   }
 
@@ -1596,6 +1609,7 @@ void verify_position(slice_index si)
               || CondFlag[sting])))
   {
     output_plaintext_verifie_message(TransmRoyalPieces);
+    output_plaintext_verifie_message(NewLine);
     return;
   }
 
@@ -1610,6 +1624,7 @@ void verify_position(slice_index si)
       && CondFlag[vogt])
   {
     output_plaintext_verifie_message(VogtlanderandIsardam);
+    output_plaintext_message(NewLine);
     return;
   }
 
@@ -1659,6 +1674,7 @@ void verify_position(slice_index si)
         || stip_ends_in(si,goal_mate_or_stale))
     {
       output_plaintext_verifie_message(LosingChessNotInCheckOrMateStipulations);
+      output_plaintext_message(NewLine);
       return;
     }
 
@@ -1703,6 +1719,7 @@ void verify_position(slice_index si)
     if (nr_walk_changing_elements>1)
     {
       output_plaintext_verifie_message(IncompatibleWalkChangingElements);
+      output_plaintext_verifie_message(NewLine);
       return;
     }
   }
@@ -1728,6 +1745,7 @@ void verify_position(slice_index si)
     if (nr_walk_changing_elements>1)
     {
       output_plaintext_verifie_message(IncompatibleWalkChangingElements);
+      output_plaintext_verifie_message(NewLine);
       return;
     }
   }
@@ -1894,6 +1912,7 @@ void verify_position(slice_index si)
         if (CondFlag[cond] && !does_condition_allow_intelligent(cond))
         {
           output_plaintext_message(IntelligentRestricted);
+          output_plaintext_message(NewLine);
           return;
         }
     }
@@ -1912,6 +1931,7 @@ void verify_position(slice_index si)
             && curr_promotee_walk!=Dummy)
         {
           output_plaintext_message(IntelligentRestricted);
+          output_plaintext_message(NewLine);
           return;
         }
       }
@@ -1919,6 +1939,7 @@ void verify_position(slice_index si)
       if (TSTFLAG(some_pieces_flags, Kamikaze))
       {
         output_plaintext_message(IntelligentRestricted);
+        output_plaintext_message(NewLine);
         return;
       }
     }

@@ -85,6 +85,7 @@ void output_plaintext_fatal_message(message_id_t id)
 {
   output_plaintext_error_message(ErrFatal);
   output_plaintext_error_message(NewLine);
+  output_plaintext_error_message(NewLine);
   output_plaintext_error_message(id);
   output_plaintext_error_message(NewLine);
   exit(id);

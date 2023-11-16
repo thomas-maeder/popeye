@@ -190,7 +190,10 @@ void stoponshortsolutions_solving_instrumenter_solve(slice_index si)
   }
 
   if (!insertion.inserted)
+  {
     output_plaintext_message(NoStopOnShortSolutions);
+    output_plaintext_message(NewLine);
+  }
 
   pipe_solve_delegate(si);
 

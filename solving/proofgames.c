@@ -359,7 +359,10 @@ void proof_solve(slice_index si)
 void proof_verify_unique_goal_solve(slice_index si)
 {
   if (find_unique_goal(si).type==no_goal)
+  {
     output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
+    output_plaintext_verifie_message(NewLine);
+  }
   else
     pipe_solve_delegate(si);
 }
@@ -374,7 +377,10 @@ void input_instrument_proof(slice_index start)
   TraceFunctionParamListEnd();
 
   if (input_is_instrumented_with_proof(start))
+  {
     output_plaintext_input_error_message(InconsistentProofTarget);
+    output_plaintext_verifie_message(NewLine);
+  }
   else
   {
     slice_index const prototypes[] = {

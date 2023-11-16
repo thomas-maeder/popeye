@@ -743,7 +743,7 @@ namespace eval format {
                 errorLines
                 problemignored eol
             }
-            nonterminal simplexPart { emptyLine illegalSelfCheck | emptyLine forcedReflexMove+ | tree::block | line::block }
+            nonterminal simplexPart { illegalSelfCheck | emptyLine forcedReflexMove+ | tree::block | line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
 
             nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
@@ -766,9 +766,8 @@ namespace eval format {
         terminal endOfSolution [l endOfSolution]
         terminal partialSolution [l partialSolution]
 
-        # TODO why inconsistent?
-        nonterminal solutionEnd { eol endOfSolution | partialSolution }
-        nonterminal block { solutionEnd eol emptyLine emptyLine }
+        nonterminal solutionEnd { endOfSolution | partialSolution }
+        nonterminal block { eol solutionEnd eol emptyLine emptyLine }
     }
 
     namespace eval zeroposition {

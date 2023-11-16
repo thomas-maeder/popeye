@@ -43,6 +43,7 @@ boolean exclusive_verifie_position(slice_index si)
   if (goal.type==no_goal)
   {
     output_plaintext_verifie_message(StipNotSupported);
+    output_plaintext_verifie_message(NewLine);
     result = false;
   }
   else
