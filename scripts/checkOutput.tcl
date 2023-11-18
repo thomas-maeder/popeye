@@ -721,24 +721,27 @@ namespace eval format {
 	    terminal threatNotApplicable [l threatNotApplicable]
             terminal intelligentAndFairy [l intelligentAndFairy]
 
-            nonterminal errorLines {
+            nonterminal errorLine {
                 toofairy eol
                 | nonsensecombination eol
                 | conditionSideUndecidable eol emptyLine
             }
-            nonterminal problemignoredMsgs {
-                errorLines
+            nonterminal problemignoredMsg {
+                errorLine
                 problemignored eol
             }
             nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
+            nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
 
-	    nonterminal kingMissingLine { kingmissing eol }
-	    nonterminal threatNotApplicableLine { threatNotApplicable eol }
-	    nonterminal intelligentAndFairyLine { intelligentAndFairy eol }
+	    nonterminal warning {
+		kingmissing
+		| threatNotApplicable
+		| intelligentAndFairy
+	    }
+	    nonterminal warningLine { warning eol }
 
-            nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
-            nonterminal block { kingMissingLine? threatNotApplicableLine? intelligentAndFairyLine? solvingResult remarkOrValidationError::block? }
+            nonterminal block { warningLine* solvingResult remarkOrValidationError::block? }
         }
 
         namespace eval twinning {
