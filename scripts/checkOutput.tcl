@@ -50,6 +50,7 @@ namespace eval german {
     set zeroposition "NullStellung"
     set potentialPositionsIn "moegliche Stellungen in"
     set kingmissing "Es fehlt ein weisser oder schwarzer Koenig"
+    set threatNotApplicable "Option \"Drohung\" nicht anwendbar order maximale Laenge der Drohung zu gross"
     set legalityUndecidable "kann nicht entscheiden, ob dieser Zug legal ist."
     set illegalSelfCheck "Die am Zug befindliche Partei kann den Koenig schlagen"
     set roleExchange "Rollentausch"
@@ -99,6 +100,7 @@ namespace eval english {
     set zeroposition "zeroposition"
     set potentialPositionsIn "potential positions in"
     set kingmissing "both sides need a king"
+    set threatNotApplicable "Option \"Threat\" not applicable or indicated maximum threat length too big"
     set illegalSelfCheck "the side to play can capture the king"
     set toofairy "too much fairy chess for neutral pieces"
     set problemignored "problem ignored"
@@ -471,6 +473,7 @@ namespace eval format {
         terminal totalInvisibleMoveSuffix "-~"
         terminal forcedReflexMoveIndicator {[?]![?]}
         terminal kingmissing [l kingmissing]
+	terminal threatNotApplicable [l threatNotApplicable]
         terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
 	namespace eval pieceAttributeShortcut {
@@ -691,7 +694,7 @@ namespace eval format {
             }
 
             namespace eval seriesplay {
-                # TODO while not in help play?
+                # TODO why not in help play?
                 terminal setplayNotApplicable [l setplayNotApplicable]
                 terminal tryplayNotApplicable [l tryplayNotApplicable]
 
@@ -711,6 +714,7 @@ namespace eval format {
         nonterminal measurementsBlock { measurementLine+ }
 
         nonterminal kingMissingLine { kingmissing eol }
+        nonterminal threatNotApplicableLine { threatNotApplicable eol }
 
         namespace eval untwinned {
             terminal toofairy [l toofairy]
@@ -733,7 +737,7 @@ namespace eval format {
             nonterminal simplex { simplexPart+ measurementsBlock }
 
             nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
-            nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remarkOrValidationError::block? }
+            nonterminal block { kingMissingLine? threatNotApplicableLine? intelligentAndFairy? solvingResult remarkOrValidationError::block? }
         }
 
         namespace eval twinning {
@@ -749,14 +753,10 @@ namespace eval format {
         }
 
         namespace eval twinned {
-            # too complex for regexp
             nonterminal twinblock { twinning::block untwinned::block }
             nonterminal block { twinblock+ }
-
-            nonterminal separator { twinning::block }
         }
 
-        # too complex for regexp
         nonterminal block { untwinned::block | twinned::block }
     }
 
