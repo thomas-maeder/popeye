@@ -588,20 +588,6 @@ namespace eval format {
         nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space paren_close eol }
         nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
 
-        namespace eval twinning {
-            terminal continued {[+]}
-            terminal label {[[:lower:]][)]}
-
-            # TODO is this always a validation error (e.g. option threat not applicable)?
-            # TODO messages like "the side to play can capture..." have a hard-coded leading newline, so additionalLine can be empty
-            nonterminal additionalLine { lineText* eol }
-            nonterminal block {
-                emptyLine
-                continued? label space lineText* eol
-                additionalLine*
-            }; # TODO be more explicit
-        }
-
         nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
         namespace eval tree {
@@ -743,11 +729,23 @@ namespace eval format {
                 errorLines
                 problemignored eol
             }
-            nonterminal simplexPart { illegalSelfCheck | emptyLine forcedReflexMove+ | tree::block | line::block }
+            nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
 
             nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
             nonterminal block { kingMissingLine? intelligentAndFairy? solvingResult remarkOrValidationError::block? }
+        }
+
+        namespace eval twinning {
+            terminal continued {[+]}
+            terminal label {[[:lower:]][[:digit:]]*[)]}
+
+            nonterminal additionalLine { space space space+ lineText+ eol }
+            nonterminal block {
+                emptyLine
+                continued? label space lineText* eol
+                additionalLine*
+            }
         }
 
         namespace eval twinned {
