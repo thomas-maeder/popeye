@@ -472,8 +472,6 @@ namespace eval format {
         terminal totalInvisibleMovePrefix "TI~"
         terminal totalInvisibleMoveSuffix "-~"
         terminal forcedReflexMoveIndicator {[?]![?]}
-        terminal kingmissing [l kingmissing]
-	terminal threatNotApplicable [l threatNotApplicable]
         terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
 	namespace eval pieceAttributeShortcut {
@@ -713,15 +711,14 @@ namespace eval format {
         nonterminal measurementLine { measurement eol }
         nonterminal measurementsBlock { measurementLine+ }
 
-        nonterminal kingMissingLine { kingmissing eol }
-        nonterminal threatNotApplicableLine { threatNotApplicable eol }
-
         namespace eval untwinned {
             terminal toofairy [l toofairy]
             terminal nonsensecombination [l nonsensecombination]
             terminal conditionSideUndecidable [l conditionSideUndecidable]
             terminal problemignored [l problemignored]
             terminal illegalSelfCheck [l illegalSelfCheck]
+	    terminal kingmissing [l kingmissing]
+	    terminal threatNotApplicable [l threatNotApplicable]
             terminal intelligentAndFairy [l intelligentAndFairy]
 
             nonterminal errorLines {
@@ -736,8 +733,12 @@ namespace eval format {
             nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
 
+	    nonterminal kingMissingLine { kingmissing eol }
+	    nonterminal threatNotApplicableLine { threatNotApplicable eol }
+	    nonterminal intelligentAndFairyLine { intelligentAndFairy eol }
+
             nonterminal solvingResult { problemignoredMsgs | simplex{1,2} }
-            nonterminal block { kingMissingLine? threatNotApplicableLine? intelligentAndFairy? solvingResult remarkOrValidationError::block? }
+            nonterminal block { kingMissingLine? threatNotApplicableLine? intelligentAndFairyLine? solvingResult remarkOrValidationError::block? }
         }
 
         namespace eval twinning {
