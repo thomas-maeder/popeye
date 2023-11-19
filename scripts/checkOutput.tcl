@@ -724,7 +724,7 @@ namespace eval format {
             nonterminal errorLine {
                 toofairy eol
                 | nonsensecombination eol
-                | conditionSideUndecidable eol emptyLine
+                | conditionSideUndecidable eol
             }
             nonterminal problemignoredMsg {
                 errorLine
