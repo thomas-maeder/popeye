@@ -380,7 +380,6 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
           Paralysierend h3
 Es fehlt ein weisser oder schwarzer Koenig
 
-
    1.Kc2-d3 != !
 
   add_to_move_generation_stack:         121
