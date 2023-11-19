@@ -957,7 +957,7 @@ void post_key_play_stipulation_modifier_solve(slice_index si)
       if (!battle_branch_apply_postkeyplay(stipulation_root_hook))
       {
         output_plaintext_message(PostKeyPlayNotApplicable);
-        output_plaintext_verifie_message(NewLine);
+        output_plaintext_message(NewLine);
       }
     }
   }

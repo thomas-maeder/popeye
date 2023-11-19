@@ -890,7 +890,6 @@ void verify_position(slice_index si)
       if (restricted_side==no_side)
       {
         output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
-        output_plaintext_verifie_message(NewLine);
         return;
       }
       else
@@ -1020,7 +1019,6 @@ void verify_position(slice_index si)
       && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
     output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
-    output_plaintext_verifie_message(NewLine);
     return;
   }
   if (CondFlag[whforsqu]
@@ -1091,7 +1089,6 @@ void verify_position(slice_index si)
     if (restricted_side==no_side)
     {
       output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
-      output_plaintext_verifie_message(NewLine);
       return;
     }
     else

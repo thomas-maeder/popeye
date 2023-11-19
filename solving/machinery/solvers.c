@@ -238,7 +238,7 @@ void build_solvers1(slice_index si)
       && !solving_apply_setplay(si))
   {
     output_plaintext_message(SetPlayNotApplicable);
-    output_plaintext_verifie_message(NewLine);
+    output_plaintext_message(NewLine);
   }
 
   retro_instrument_solving_default(si);
