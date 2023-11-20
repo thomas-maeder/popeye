@@ -721,13 +721,13 @@ namespace eval format {
 	    terminal threatNotApplicable [l threatNotApplicable]
             terminal intelligentAndFairy [l intelligentAndFairy]
 
-            nonterminal errorLine {
-                toofairy eol
-                | nonsensecombination eol
-                | conditionSideUndecidable eol
+            nonterminal error {
+                toofairy
+                | nonsensecombination
+                | conditionSideUndecidable
             }
             nonterminal problemignoredMsg {
-                errorLine
+                error eol
                 problemignored eol
             }
             nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | line::block }
