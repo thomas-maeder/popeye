@@ -61,8 +61,6 @@ namespace eval german {
     set intelligentAndFairy "Intelligent Modus nur im h#/=, ser-#/= und ser-h#/=, wenigen Maerchenbedingungen und keinen Maerchensteinen."
     set refutationUndecidable "Kann nicht entscheiden, ob dieser Zug widerlegt wird"
     set conditionSideUndecidable "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt"
-    set setplayNotApplicable "Satzspiel nicht anwendbar - ignoriert"
-    set tryplayNotApplicable "Verfuehrung nicht anwendbar"
     set duplex "Duplex"
     set halfduplex "HalbDuplex"
     set inputError "Eingabe-Fehler:"
@@ -111,8 +109,6 @@ namespace eval english {
     set conditionSideUndecidable "Can't decide whether condition applies to White or Black"
     set legalityUndecidable "cannot decide if this move is legal or not."
     set roleExchange "RoleExchange"
-    set setplayNotApplicable "SetPlay not applicable - ignored"
-    set tryplayNotApplicable "try play not applicable"
     set duplex "Duplex"
     set halfduplex "HalfDuplex"
     set inputError "input-error:"
@@ -692,20 +688,13 @@ namespace eval format {
             }
 
             namespace eval seriesplay {
-                # TODO why not in help play?
-                terminal setplayNotApplicable [l setplayNotApplicable]
-                terminal tryplayNotApplicable [l tryplayNotApplicable]
-
-                nonterminal optionNotApplicable { setplayNotApplicable | tryplayNotApplicable }
-                nonterminal optionNotApplicableLine { optionNotApplicable eol* }
                 nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
                 nonterminal movesLine { fullMove+ moveSuffix? eol }
                 nonterminal line { movesLine | moveNumberLine }
-                nonterminal block { optionNotApplicableLine? emptyLine line* }
+                nonterminal block { line* }
             }
 
-            # TODO why emptyLine only before help play?
-            nonterminal block { emptyLine helpplay::block | seriesplay::block }
+            nonterminal block { helpplay::block | seriesplay::block }
         }
 
         nonterminal measurementLine { measurement eol }
@@ -730,7 +719,7 @@ namespace eval format {
                 error eol
                 problemignored eol
             }
-            nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | line::block }
+            nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | emptyLine line::block }
             nonterminal simplex { simplexPart+ measurementsBlock }
             nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
 
