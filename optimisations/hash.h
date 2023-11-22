@@ -136,17 +136,6 @@ enum
   hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
 };
 
-#if 0
-/* Previously hashbuf_length was the below constant.
-   MAX_LENGTH_OF_ENCODING wasn't computed or used but should have been. */
-enum
-{
-  hashbuf_length = 256,
-  MAX_LENGTH_OF_ENCODING = (hashbuf_length - offsetof(BCMemValue, Data))/sizeof(byte),
-  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX),
-};
-#endif
-
 typedef union
 {
     BCMemValue cmv;
