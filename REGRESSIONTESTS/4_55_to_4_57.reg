@@ -1352,9 +1352,9 @@ Popeye didn't find a solution since at least 4.37
   ser-h<>13                   3 + 1
               Circe PWC
 
-  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3[+wPh2]   7.Kh3-g2   8.Kg2*g1[+wPg2]   9.Kg1*h2[+wPg1]  10.Kh2*g2[+wPh2]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4
-  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3[+wPh2]   7.Kh3-g2   8.Kg2*h2[+wPg2]   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4
-  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3*h3[+wPg3]   6.Kh3-g2   7.Kg2*g3[+wPg2]   8.Kg3-h2   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4
+  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3[+wPh2]   7.Kh3-g2   8.Kg2*g1[+wPg2]   9.Kg1*h2[+wPg1]  10.Kh2*g2[+wPh2]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4 <>
+  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3[+wPh2]   7.Kh3-g2   8.Kg2*h2[+wPg2]   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4 <>
+  1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3*h3[+wPg3]   6.Kh3-g2   7.Kg2*g3[+wPg2]   8.Kg3-h2   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4 <>
   add_to_move_generation_stack:       55983
                      play_move:       55983
  is_white_king_square_attacked:       20970

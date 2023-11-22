@@ -79,7 +79,7 @@ solution finished.
       1...b5-b4
           2.Rh1-b1
               2...b4-b3
-                  3.kRb2*b3[wkRb3->h1][+bPb7]
+                  3.kRb2*b3[wkRb3->h1][+bPb7] <>
 
   add_to_move_generation_stack:        7145
                      play_move:        7116
@@ -122,13 +122,13 @@ originally occupied by the other exchanger
               2...kPg3-g2
                   3.Rg1-d1
                       3...kPg2-g1=kQ
-                          4.kSh3*g1[wkSg1->g1][+bkQd8]
+                          4.kSh3*g1[wkSg1->g1][+bkQd8] <>
                       3...kPg2-g1=kS
-                          4.kSh3*g1[wkSg1->g1][+bkSb8]
+                          4.kSh3*g1[wkSg1->g1][+bkSb8] <>
                       3...kPg2-g1=kR
-                          4.kSh3*g1[wkSg1->g1][+bkRh8]
+                          4.kSh3*g1[wkSg1->g1][+bkRh8] <>
                       3...kPg2-g1=kB
-                          4.kSh3*g1[wkSg1->g1][+bkBf8]
+                          4.kSh3*g1[wkSg1->g1][+bkBf8] <>
 
   add_to_move_generation_stack:       47249
                      play_move:       46676

@@ -511,7 +511,6 @@ namespace eval format {
 
         nonterminal undec { legalityUndecidable | refutationUndecidable }
 
-	# TODO why is there no goal::exchangeByRebirth here?
 	nonterminal goal {
 	    goal::mate
 	    | goal::stalemate
@@ -531,6 +530,7 @@ namespace eval format {
 	    | goal::enPassant
 	    | goal::capture
 	    | goal::circuitByRebirth
+	    | goal::exchangeByRebirth
 	    | goal::chess81
 	    | goal::immobile
 	    | goal::noMate

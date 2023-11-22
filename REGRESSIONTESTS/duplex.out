@@ -580,13 +580,13 @@ Loesung beendet.
   ser-<>3                     2 + 2
                Duplex
 
-  1.Se2-c1   2.Kd3-e2   3.Sc1-d3
+  1.Se2-c1   2.Kd3-e2   3.Sc1-d3 <>
   add_to_move_generation_stack:         821
                      play_move:         821
  is_white_king_square_attacked:         135
  is_black_king_square_attacked:         114
 
-  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 +
+  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 + <>
   add_to_move_generation_stack:        3025
                      play_move:        3025
  is_white_king_square_attacked:         408
@@ -620,13 +620,13 @@ Loesung beendet.
   ser-<>3                     2 + 2
                Duplex
 
-  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 +
+  1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 + <>
   add_to_move_generation_stack:        3025
                      play_move:        3025
  is_white_king_square_attacked:         425
  is_black_king_square_attacked:         408
 
-  1.Se2-c1   2.Kd3-e2   3.Sc1-d3
+  1.Se2-c1   2.Kd3-e2   3.Sc1-d3 <>
   add_to_move_generation_stack:         821
                      play_move:         821
  is_white_king_square_attacked:         114

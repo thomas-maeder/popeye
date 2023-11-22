@@ -3095,7 +3095,7 @@ a)
 
    1.Kd2*d3[wKd3->e1] ! Zugzwang.
       1...e3-e2
-          2.Ke1-d2
+          2.Ke1-d2 ct
 
   add_to_move_generation_stack:          62
                      play_move:          58
@@ -3105,9 +3105,9 @@ a)
 b) wKd2-->e1  
 
    1.Ke1-d1 ! Drohung:
-          2.Kd1-e1
+          2.Kd1-e1 ct
       1...d3-d2
-          2.Kd1*d2[wKd2->e1]
+          2.Kd1*d2[wKd2->e1] ct
 
   add_to_move_generation_stack:          46
                      play_move:          47
@@ -3142,7 +3142,7 @@ Platzwechsel dank Repuls des schlagenden Steins
   ser-<>3                     2 + 1
               AntiCirce
 
-  1.Kc1-c2   2.Te1-c1   3.Kc2*d3[wKd3->e1]
+  1.Kc1-c2   2.Te1-c1   3.Kc2*d3[wKd3->e1] <>
   add_to_move_generation_stack:        2203
                      play_move:        2233
  is_white_king_square_attacked:         281
@@ -3182,13 +3182,13 @@ Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
               2...e3-e2
                   3.Kc2-d2
                       3...e2-e1=D +
-                          4.Kd2*e1[wKe1->e1]
+                          4.Kd2*e1[wKe1->e1] <>
                       3...e2-e1=S
-                          4.Kd2*e1[wKe1->e1]
+                          4.Kd2*e1[wKe1->e1] <>
                       3...e2-e1=T
-                          4.Kd2*e1[wKe1->e1]
+                          4.Kd2*e1[wKe1->e1] <>
                       3...e2-e1=L +
-                          4.Kd2*e1[wKe1->e1]
+                          4.Kd2*e1[wKe1->e1] <>
 
   add_to_move_generation_stack:       14684
                      play_move:       14644

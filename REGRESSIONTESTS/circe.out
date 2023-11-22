@@ -476,7 +476,7 @@ Loesung beendet.
                 Circe
 
    1.Lc1-h6 !
-      1...g7*h6[+wLc1]
+      1...g7*h6[+wLc1] ctr
 
   add_to_move_generation_stack:           9
                      play_move:           9
@@ -512,7 +512,7 @@ Loesung beendet.
 
    1.h5-h6 ! Zugzwang.
       1...g7*h6
-          2.Kh2-h1[+wBh5]
+          2.Kh2-h1[+wBh5] ctr
 
   add_to_move_generation_stack:          27
                      play_move:          24
@@ -550,7 +550,7 @@ Loesung beendet.
    1.Le2-c4 ! Zugzwang.
       1...d6-d5
           2.Kf1-e2
-              2...d5*c4[+wLf1]
+              2...d5*c4[+wLf1] <>r
 
   add_to_move_generation_stack:         249
                      play_move:         239
