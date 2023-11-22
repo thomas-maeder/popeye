@@ -346,7 +346,6 @@ namespace eval format {
 	    | goal::targetSquare
 	    | goal::circuit
 	    | goal::exchange
-	    | goal::exchangeByRebirth
 	    | goal::check
 	    | goal::doubleStalemate
 	    | goal::castling
@@ -358,6 +357,7 @@ namespace eval format {
 	    | goal::enPassant
 	    | goal::capture
 	    | goal::circuitByRebirth
+	    | goal::exchangeByRebirth
 	    | goal::chess81
 	    | goal::immobile
 	    | goal::noMate
