@@ -20,6 +20,8 @@ switch -re [lindex $argv 0] {
 set inputfiles $argv
 
 namespace eval german {
+    set popeye "Popeye"
+    set time "Zeit"
     set endOfSolution "Loesung beendet."
     set partialSolution "Partielle Loesung"
     set white "Weiss"
@@ -68,6 +70,8 @@ namespace eval german {
 }
 
 namespace eval english {
+    set popeye "Popeye"
+    set time "Time"
     set endOfSolution "solution finished."
     set partialSolution "Partial solution"
     set white "White"
@@ -720,7 +724,7 @@ namespace eval format {
                 problemignored eol
             }
             nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | emptyLine line::block }
-            nonterminal simplex { simplexPart+ measurementsBlock }
+            nonterminal simplex { simplexPart+ measurementsBlock? }
             nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
 
 	    nonterminal warning {
@@ -756,9 +760,18 @@ namespace eval format {
     namespace eval footer {
         terminal endOfSolution [l endOfSolution]
         terminal partialSolution [l partialSolution]
+	terminal time [l time]
+	terminal equals {=}
+	terminal durationSeconds {[[:digit:]]{1,2}[.][[:digit:]]{3} s}
+	terminal durationMinutes {[[:digit:]]{1,2}:[[:digit:]]{2}[.][[:digit:]]{3} m:s}
+	terminal durationHours {[[:digit:]]+:[[:digit:]]{2}:[[:digit:]]{2}[.][[:digit:]]{3} h:m:s}
+
+	nonterminal duration { durationSeconds | durationMinutes | durationHours }
+
+	nonterminal solvingTime { space time space equals space duration }
 
         nonterminal solutionEnd { endOfSolution | partialSolution }
-        nonterminal block { eol solutionEnd eol emptyLine emptyLine }
+        nonterminal block { eol solutionEnd solvingTime? eol emptyLine emptyLine }
     }
 
     namespace eval zeroposition {
@@ -778,6 +791,10 @@ namespace eval format {
     }
 
     namespace eval problem {
+	terminal popeye [l popeye]
+
+	nonterminal popeyeLine { popeye lineText+ eol }
+
         nonterminal noNonboardBlock {
             meta::block
             boardA::block?
@@ -789,7 +806,14 @@ namespace eval format {
             zeroposition::block?
         }
 
-        nonterminal block { inputerror::block* remarkOrValidationError::block noNonboardBlock? solution::block? footer::block }
+	nonterminal block {
+	    popeyeLine?
+	    inputerror::block*
+	    remarkOrValidationError::block
+	    noNonboardBlock?
+	    solution::block?
+	    footer::block
+	}
     }
 }
 
