@@ -72,10 +72,10 @@ void en_passant_forget_multistep(void);
 void move_effect_journal_do_remember_ep(square s);
 
 /* Was a pawn multistep move played in a certain ply?
- * @param ply the ply
- * @return true iff a multi step move was played in ply ply
+ * @param ply_to_check the ply
+ * @return true iff a multi step move was played in ply ply_to_check
  */
-boolean en_passant_was_multistep_played(ply ply);
+boolean en_passant_was_multistep_played(ply ply_to_check);
 
 /* Is an en passant capture possible to a specific square?
  * @param side for which side

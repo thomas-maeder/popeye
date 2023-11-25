@@ -207,15 +207,15 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
 }
 
 /* Was a pawn multistep move played in a certain ply?
- * @param ply the ply
- * @return true iff a multi step move was played in ply ply
+ * @param ply_to_check the ply
+ * @return true iff a multi step move was played in ply ply_to_check
  */
-boolean en_passant_was_multistep_played(ply ply)
+boolean en_passant_was_multistep_played(ply ply_to_check)
 {
-  boolean const result = en_passant_top[nbply]>en_passant_top[nbply-1];
+  boolean const result = en_passant_top[ply_to_check]>en_passant_top[ply_to_check-1];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
+  TraceFunctionParam("%u",ply_to_check);
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
