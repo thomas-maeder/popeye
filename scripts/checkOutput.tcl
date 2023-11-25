@@ -219,6 +219,14 @@ namespace eval format {
     terminal nonspace {[^ ]}
     terminal period {[.]}
 
+    terminal time [l time]
+    terminal equals {=}
+    terminal durationSeconds {[[:digit:]]{1,2}[.][[:digit:]]{3} s}
+    terminal durationMinutes {[[:digit:]]{1,2}:[[:digit:]]{2}[.][[:digit:]]{3} m:s}
+    terminal durationHours {[[:digit:]]+:[[:digit:]]{2}:[[:digit:]]{2}[.][[:digit:]]{3} h:m:s}
+    nonterminal duration { durationSeconds | durationMinutes | durationHours }
+    nonterminal solvingTime { time space equals space duration }
+
     # we can't distinguish remarks (in the input) and error messages produced during validation
     namespace eval remarkOrValidationError {
         nonterminal remark { lineText+ }
@@ -586,8 +594,9 @@ namespace eval format {
         nonterminal regularMove { otherPieceEffect* movingPieceMovementWithEffects seriesCaptureStep* bglBalance? checkIndicator? }
         nonterminal move { space roleExchange | space ellipsis | regularMove }
 
-        nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space paren_close eol }
-        nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves eol }
+        nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space+ solvingTime? paren_close eol }
+        nonterminal solvingTimeIndication { space+ paren_open solvingTime paren_close}
+        nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves solvingTimeIndication? eol }
 
         nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
@@ -760,18 +769,10 @@ namespace eval format {
     namespace eval footer {
         terminal endOfSolution [l endOfSolution]
         terminal partialSolution [l partialSolution]
-	terminal time [l time]
-	terminal equals {=}
-	terminal durationSeconds {[[:digit:]]{1,2}[.][[:digit:]]{3} s}
-	terminal durationMinutes {[[:digit:]]{1,2}:[[:digit:]]{2}[.][[:digit:]]{3} m:s}
-	terminal durationHours {[[:digit:]]+:[[:digit:]]{2}:[[:digit:]]{2}[.][[:digit:]]{3} h:m:s}
-
-	nonterminal duration { durationSeconds | durationMinutes | durationHours }
-
-	nonterminal solvingTime { space time space equals space duration }
+	nonterminal solvingTimeIndication { space solvingTime }
 
         nonterminal solutionEnd { endOfSolution | partialSolution }
-        nonterminal block { eol solutionEnd solvingTime? eol emptyLine emptyLine }
+        nonterminal block { eol solutionEnd solvingTimeIndication? eol emptyLine emptyLine }
     }
 
     namespace eval zeroposition {
