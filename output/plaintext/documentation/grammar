@@ -15,14 +15,14 @@ nonterminal duration { durationSeconds | durationMinutes | durationHours }
 nonterminal solvingTime { time space equals space duration }
 
 # we can't distinguish remarks (in the input) and error messages produced during validation
-scope remarkOrValidationError {
+namespace eval remarkOrValidationError {
     nonterminal remark { lineText+ }
     nonterminal remarkLine { remark eol }
 
     nonterminal block { remarkLine* }
 }
 
-scope meta {
+namespace eval meta {
     nonterminal leadingBlanks { space* }
 
     nonterminal authorOriginAwardTitle { lineText+ }
@@ -31,7 +31,7 @@ scope meta {
     nonterminal block { emptyLine authorOriginAwardTitleLine* }
 }
 
-scope board {
+namespace eval board {
     terminal cornerSign {[+]}
     terminal verticalBorderSign {[|]}
     terminal horizontalBorderSign "-"
@@ -76,7 +76,7 @@ scope board {
     }
 }
 
-scope gridboard {
+namespace eval gridboard {
     terminal cell {  [ [:digit:]][[:digit:]]}
 
     nonterminal cellsline { board::rowNo cell+ space space space board::rowNo eol }
@@ -90,7 +90,7 @@ scope gridboard {
     }
 }
 
-scope goal {
+namespace eval goal {
     terminal mate "#"
     terminal stalemate "="
     terminal dia "dia"
@@ -117,14 +117,14 @@ scope goal {
     terminal kiss {k[a-h][1-8]}
 }
 
-scope stipulation {
+namespace eval stipulation {
     terminal exactPrefix {exact-}
     terminal introPrefix {[[:digit:]]+->}
     terminal parryPrefix {ph?}
     terminal seriesPrefix {ser-}
     terminal helpPrefix "h"
     terminal paren_open {[(]}
-    terminal paren_close {[)]}
+	terminal paren_close {[)]}
     terminal reciPrefix {reci-h}
     terminal selfPrefix "s"
     terminal reflexPrefix {(?:semi-)?r}
@@ -172,8 +172,8 @@ scope stipulation {
     nonterminal playPrefix { exactPrefix? genericSeriesPrefix? alternatePrefix? }
     nonterminal traditional { playPrefix goal length }
 
-        # structured stipulations are recursive, which can't be represented by
-        # regular expressions
+    # structured stipulations are recursive, which can't be represented by
+    # regular expressions
     nonterminal structured { side space nonspace+ }
 
     nonterminal maxSuffix { maxthreatSuffix maxflightSuffix? }
@@ -183,8 +183,8 @@ scope stipulation {
 
     nonterminal block { combined suffix }
 }
-    
-scope pieceControl {
+
+namespace eval pieceControl {
     terminal piecesOfColor {[[:digit:]]+}
     terminal separator { [+] }
     terminal totalInvisiblePseudoWalk "TI"
@@ -195,11 +195,11 @@ scope pieceControl {
     nonterminal block { piecesOfColor separator piecesOfColor piecesNeutral? piecesTotalInvisible? }
 }
 
-scope caption {
+namespace eval caption {
     nonterminal block { space* stipulation::block space* pieceControl::block eol }
 }
 
-scope boardA {
+namespace eval boardA {
     terminal tomoveIndicator "->"
     terminal arrow "=>"
 
@@ -216,12 +216,12 @@ scope boardA {
     }
 }
 
-scope conditions {
+namespace eval conditions {
     nonterminal line { space* lineText+ eol }
     nonterminal block { line* }
 }
 
-scope duplex {
+namespace eval duplex {
     terminal duplex [literal duplex]
     terminal halfduplex [literal halfduplex]
 
@@ -230,10 +230,10 @@ scope duplex {
     nonterminal block { line? }
 }
 
-scope solution {
+namespace eval solution {
     terminal naturalNumber {[1-9][0-9]*}
     terminal paren_open {[(]}
-    terminal paren_close {[)]}
+	terminal paren_close {[)]}
     terminal bracket_open {\[}
     terminal bracket_close {\]}
     terminal ellipsis {[.][.][.]}
@@ -269,7 +269,7 @@ scope solution {
     terminal forcedReflexMoveIndicator {[?]![?]}
     terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
-    scope pieceAttributeShortcut {
+    namespace eval pieceAttributeShortcut {
 	terminal white [literal pieceAttributeShortcut::white]
 	terminal black [literal pieceAttributeShortcut::black]
 	terminal neutral [literal pieceAttributeShortcut::neutral]
@@ -308,252 +308,252 @@ scope solution {
 	}
     }
 
-    nonterminal undec { legalityUndecidable | refutationUndecidable }
+nonterminal undec { legalityUndecidable | refutationUndecidable }
 
-    nonterminal goal {
-	goal::mate
-	| goal::stalemate
-	| goal::dia
-	| goal::aToB
-	| goal::targetSquareImplicit
-	| goal::circuit
-	| goal::exchange
-	| goal::check
-	| goal::doubleStalemate
-	| goal::castling
-	| goal::pieceWin
-	| goal::anyMove
-	| goal::bothMate
-	| goal::counterMate
-	| goal::autoMate
-	| goal::enPassant
-	| goal::capture
-	| goal::circuitByRebirth
-	| goal::exchangeByRebirth
-	| goal::chess81
-	| goal::immobile
-	| goal::noMate
-	| goal::kiss
-    }
-    nonterminal goalIndicator { space goal }
+nonterminal goal {
+    goal::mate
+    | goal::stalemate
+    | goal::dia
+    | goal::aToB
+    | goal::targetSquareImplicit
+    | goal::circuit
+    | goal::exchange
+    | goal::check
+    | goal::doubleStalemate
+    | goal::castling
+    | goal::pieceWin
+    | goal::anyMove
+    | goal::bothMate
+    | goal::counterMate
+    | goal::autoMate
+    | goal::enPassant
+    | goal::capture
+    | goal::circuitByRebirth
+    | goal::exchangeByRebirth
+    | goal::chess81
+    | goal::immobile
+    | goal::noMate
+    | goal::kiss
+}
+nonterminal goalIndicator { space goal }
 
-    nonterminal ordinalNumber { naturalNumber period }
+nonterminal ordinalNumber { naturalNumber period }
 
-    nonterminal hunterSuffix { board::hunterPartsSeparator board::walkChar{1,2} }
-    nonterminal walk { board::walkChar{1,2} hunterSuffix? }
-    nonterminal walkPawnImplicit { board::walkChar{0,2} hunterSuffix? }
+nonterminal hunterSuffix { board::hunterPartsSeparator board::walkChar{1,2} }
+nonterminal walk { board::walkChar{1,2} hunterSuffix? }
+nonterminal walkPawnImplicit { board::walkChar{0,2} hunterSuffix? }
 
-    nonterminal movementTo { captureOrNot square }
-    nonterminal movementFromTo { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
-    nonterminal castlingPartnerMovement { castlingPartnerSeparator pieceAttributeShortcut::colour pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
-    nonterminal movementBasic { movementFromTo castlingPartnerMovement? | castlingQ | castlingK }
-    nonterminal movementComposite { movementBasic movementTo* }
-    nonterminal messignyExchange { walk square pieceExchangeIndicator walk square }
-    nonterminal promotion { promotionIndicator pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk? }
-    nonterminal pieceChangement { square promotion }
-    nonterminal pieceSpec { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk square }
-    nonterminal pieceMovement {
-	pieceSpec
-	pieceMovementIndicator
-	pieceAttributeShortcut::colour?
-	pieceAttributeShortcut::nonColour
-	walk?
-	square
-	promotion*
-	vulcanization?
-    }
-    nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
-    nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
-    nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
-    nonterminal pieceEffect { pieceMovement | pieceAddition | pieceRemoval | pieceChangement | pieceExchange }
-    nonterminal otherPieceEffect { bracket_open pieceEffect bracket_close }
-    nonterminal nextImitatorPosition { comma square }
-    nonterminal imitatorMovement { bracket_open imitatorSign square nextImitatorPosition* bracket_close }
-    nonterminal bglFirstPart { bglNone | bglNumber }
-    nonterminal bglSecondPart { bglDividedBy bglNumber }
-    nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart? paren_close }
-    nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
-    nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
-    nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
-    nonterminal movementAddons { enPassant? imitatorMovement? promotion* otherPieceEffect* }
-    nonterminal movingPieceMovementWithEffects { movingPieceMovement movementAddons }
-    nonterminal seriesCaptureStep { movementTo movementAddons }
-    nonterminal regularMove { otherPieceEffect* movingPieceMovementWithEffects seriesCaptureStep* bglBalance? checkIndicator? }
-    nonterminal move { space roleExchange | space ellipsis | regularMove }
+nonterminal movementTo { captureOrNot square }
+nonterminal movementFromTo { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
+nonterminal castlingPartnerMovement { castlingPartnerSeparator pieceAttributeShortcut::colour pieceAttributeShortcut::nonColour walkPawnImplicit square movementTo }
+nonterminal movementBasic { movementFromTo castlingPartnerMovement? | castlingQ | castlingK }
+nonterminal movementComposite { movementBasic movementTo* }
+nonterminal messignyExchange { walk square pieceExchangeIndicator walk square }
+nonterminal promotion { promotionIndicator pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk? }
+nonterminal pieceChangement { square promotion }
+nonterminal pieceSpec { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk square }
+nonterminal pieceMovement {
+    pieceSpec
+    pieceMovementIndicator
+    pieceAttributeShortcut::colour?
+    pieceAttributeShortcut::nonColour
+    walk?
+    square
+    promotion*
+    vulcanization?
+}
+nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
+nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
+nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
+nonterminal pieceEffect { pieceMovement | pieceAddition | pieceRemoval | pieceChangement | pieceExchange }
+nonterminal otherPieceEffect { bracket_open pieceEffect bracket_close }
+nonterminal nextImitatorPosition { comma square }
+nonterminal imitatorMovement { bracket_open imitatorSign square nextImitatorPosition* bracket_close }
+nonterminal bglFirstPart { bglNone | bglNumber }
+nonterminal bglSecondPart { bglDividedBy bglNumber }
+nonterminal bglBalance { space paren_open bglFirstPart bglSecondPart? paren_close }
+nonterminal totalInvisibleMove { totalInvisibleMovePrefix totalInvisibleMoveSuffix }
+nonterminal totalInvisibleCapture { totalInvisibleMovePrefix capture square }
+nonterminal movingPieceMovement { movementComposite | totalInvisibleMove | totalInvisibleCapture | messignyExchange }
+nonterminal movementAddons { enPassant? imitatorMovement? promotion* otherPieceEffect* }
+nonterminal movingPieceMovementWithEffects { movingPieceMovement movementAddons }
+nonterminal seriesCaptureStep { movementTo movementAddons }
+nonterminal regularMove { otherPieceEffect* movingPieceMovementWithEffects seriesCaptureStep* bglBalance? checkIndicator? }
+nonterminal move { space roleExchange | space ellipsis | regularMove }
 
-    nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space+ solvingTime? paren_close eol }
-    nonterminal solvingTimeIndication { space+ paren_open solvingTime paren_close}
-    nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves solvingTimeIndication? eol }
+nonterminal moveNumberLineNonIntelligent { space* moveNumber space space paren_open move space+ solvingTime? paren_close eol }
+nonterminal solvingTimeIndication { space+ paren_open solvingTime paren_close}
+nonterminal moveNumberLineIntelligent { nrPositions space potentialPositionsIn space nrMoves solvingTimeIndication? eol }
 
-    nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
+nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
-    scope tree {
-        terminal zugzwang [literal zugzwang]
-        terminal threat [literal threat]
-        terminal refutationIndicator "!"
-        terminal refutesIndicator [literal refutes]
-        terminal keySuccess {[?!]}
-        terminal but [literal but]
+namespace eval tree {
+    terminal zugzwang [literal zugzwang]
+    terminal threat [literal threat]
+    terminal refutationIndicator "!"
+    terminal refutesIndicator [literal refutes]
+    terminal keySuccess {[?!]}
+    terminal but [literal but]
 
-        nonterminal attack { ordinalNumber move }
-        nonterminal defense { naturalNumber ellipsis move }
+    nonterminal attack { ordinalNumber move }
+    nonterminal defense { naturalNumber ellipsis move }
 
-        # in condition "lost pieces", lost pieces of the attacker may be removed
-        nonterminal zugzwangOrThreat { space zugzwang | space threat otherPieceEffect? }
+    # in condition "lost pieces", lost pieces of the attacker may be removed
+    nonterminal zugzwangOrThreat { space zugzwang | space threat otherPieceEffect? }
 
-        nonterminal keySuccessSuffix { space undec | goalIndicator? space keySuccess zugzwangOrThreat? }
-        nonterminal keyLine { space space space attack keySuccessSuffix eol }
+    nonterminal keySuccessSuffix { space undec | goalIndicator? space keySuccess zugzwangOrThreat? }
+    nonterminal keyLine { space space space attack keySuccessSuffix eol }
 
-        nonterminal attackSuffix { space undec | goalIndicator | zugzwangOrThreat }
-        nonterminal attackLine { space+ attack attackSuffix? eol }
-        nonterminal defenseSuffix { space undec | goalIndicator }
-        nonterminal defenseLine { space+ defense defenseSuffix? eol }
+    nonterminal attackSuffix { space undec | goalIndicator | zugzwangOrThreat }
+    nonterminal attackLine { space+ attack attackSuffix? eol }
+    nonterminal defenseSuffix { space undec | goalIndicator }
+    nonterminal defenseLine { space+ defense defenseSuffix? eol }
 
-        # TODO should Popeye write an empty line before the check indicator?
-        nonterminal checkOrZugzwangOrThreat { checkIndicator | emptyLine zugzwangOrThreat }
-        nonterminal checkOrZugzwangOrThreatLine { checkOrZugzwangOrThreat eol }
+    # TODO should Popeye write an empty line before the check indicator?
+    nonterminal checkOrZugzwangOrThreat { checkIndicator | emptyLine zugzwangOrThreat }
+    nonterminal checkOrZugzwangOrThreatLine { checkOrZugzwangOrThreat eol }
 
-        nonterminal refutesLine { space+ refutesIndicator eol }
-        nonterminal postKeyPlayLine { defenseLine refutesLine? | attackLine }
-        nonterminal postKeyPlay { checkOrZugzwangOrThreatLine? postKeyPlayLine* }
+    nonterminal refutesLine { space+ refutesIndicator eol }
+    nonterminal postKeyPlayLine { defenseLine refutesLine? | attackLine }
+    nonterminal postKeyPlay { checkOrZugzwangOrThreatLine? postKeyPlayLine* }
 
-        nonterminal refutation {
-            space+ defense goalIndicator? space refutationIndicator eol
-            forcedReflexMove?
-        }
-
-        nonterminal refutationBlock {
-            space+ but eol
-            refutation+
-        }
-
-        nonterminal playAfterKeyLine { defenseLine | attackLine }
-        nonterminal playAfterKeyBlock { playAfterKeyLine+ }
-
-        nonterminal fullPhaseBlock {
-            keyLine
-            playAfterKeyBlock?
-            refutationBlock?
-            emptyLine
-        }
-
-        nonterminal setplayBlock { emptyLine playAfterKeyBlock }
-
-        nonterminal regularPlaySegment { moveNumberLineNonIntelligent | fullPhaseBlock }
-        nonterminal regularplayBlock { emptyLine regularPlaySegment+ }
-
-        nonterminal block { postKeyPlay | setplayBlock? regularplayBlock* }
+    nonterminal refutation {
+	space+ defense goalIndicator? space refutationIndicator eol
+	forcedReflexMove?
     }
 
-    scope line {
-        nonterminal moveSuffix { space undec eol | goalIndicator }
-        nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
-        nonterminal numberedHalfMove { space+ ordinalNumber move }
-        nonterminal unnumberedHalfMove { space+ move }
-
-        scope helpplay {
-            terminal one "1"
-
-            nonterminal movePair { numberedHalfMove unnumberedHalfMove }
-            # this is too generic: it allows lines without any move
-            # requiring >=1 move would be complicated, though
-            nonterminal movesSequence { movePair* numberedHalfMove? moveSuffix? eol}
-
-            # set play of h#n.5
-            scope twoEllipsis {
-                nonterminal firstMovePairSkipped { one ellipsis space+ ellipsis }
-                nonterminal movesLine { space+ firstMovePairSkipped movesSequence }
-                nonterminal line { movesLine | moveNumberLine }
-                nonterminal block { line+ }
-            }
-
-            # set play of h#n or regular play of h#n.5
-            scope oneEllipsis {
-                nonterminal firstMoveSkipped { one ellipsis move }
-                nonterminal movesLine { space+ firstMoveSkipped movesSequence }
-                nonterminal line { movesLine | moveNumberLine }
-                nonterminal block { line+ }
-            }
-
-            # regular play of h#n
-            scope noEllipsis {
-                nonterminal line { movesSequence | moveNumberLine }
-                nonterminal block { line+ }
-            }
-
-            nonterminal block {
-                twoEllipsis::block? emptyLine? oneEllipsis::block
-                | oneEllipsis::block? emptyLine? noEllipsis::block?
-            }
-        }
-
-        scope seriesplay {
-            nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
-            nonterminal movesLine { fullMove+ moveSuffix? eol }
-            nonterminal line { movesLine | moveNumberLine }
-            nonterminal block { line* }
-        }
-
-        nonterminal block { helpplay::block | seriesplay::block }
+    nonterminal refutationBlock {
+	space+ but eol
+	refutation+
     }
 
-    nonterminal measurementLine { measurement eol }
-    nonterminal measurementsBlock { measurementLine+ }
+    nonterminal playAfterKeyLine { defenseLine | attackLine }
+    nonterminal playAfterKeyBlock { playAfterKeyLine+ }
 
-    scope untwinned {
-        terminal toofairy [literal toofairy]
-        terminal nonsensecombination [literal nonsensecombination]
-        terminal conditionSideUndecidable [literal conditionSideUndecidable]
-        terminal problemignored [literal problemignored]
-        terminal illegalSelfCheck [literal illegalSelfCheck]
-        terminal kingmissing [literal kingmissing]
-        terminal threatNotApplicable [literal threatNotApplicable]
-        terminal intelligentAndFairy [literal intelligentAndFairy]
-
-        nonterminal error {
-            toofairy
-            | nonsensecombination
-            | conditionSideUndecidable
-        }
-        nonterminal problemignoredMsg {
-            error eol
-            problemignored eol
-        }
-        nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | emptyLine line::block }
-        nonterminal simplex { simplexPart+ measurementsBlock? }
-        nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
-
-        nonterminal warning {
-            kingmissing
-            | threatNotApplicable
-            | intelligentAndFairy
-        }
-        nonterminal warningLine { warning eol }
-
-        nonterminal block { warningLine* solvingResult remarkOrValidationError::block? }
+    nonterminal fullPhaseBlock {
+	keyLine
+	playAfterKeyBlock?
+	refutationBlock?
+	emptyLine
     }
 
-    scope twinning {
-        terminal continued {[+]}
-        terminal label {[[:lower:]][[:digit:]]*[)]}
+    nonterminal setplayBlock { emptyLine playAfterKeyBlock }
 
-        nonterminal additionalLine { space space space+ lineText+ eol }
-        nonterminal block {
-            emptyLine
-            continued? label space lineText* eol
-            additionalLine*
-        }
-    }
+    nonterminal regularPlaySegment { moveNumberLineNonIntelligent | fullPhaseBlock }
+    nonterminal regularplayBlock { emptyLine regularPlaySegment+ }
 
-    scope twinned {
-        nonterminal twinblock { twinning::block untwinned::block }
-        nonterminal block { twinblock+ }
-    }
-
-    nonterminal block { untwinned::block | twinned::block }
+    nonterminal block { postKeyPlay | setplayBlock? regularplayBlock* }
 }
 
-scope footer {
+namespace eval line {
+    nonterminal moveSuffix { space undec eol | goalIndicator }
+    nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
+    nonterminal numberedHalfMove { space+ ordinalNumber move }
+    nonterminal unnumberedHalfMove { space+ move }
+
+    namespace eval helpplay {
+	terminal one "1"
+
+	nonterminal movePair { numberedHalfMove unnumberedHalfMove }
+	# this is too generic: it allows lines without any move
+	# requiring >=1 move would be complicated, though
+	nonterminal movesSequence { movePair* numberedHalfMove? moveSuffix? eol}
+
+	# set play of h#n.5
+	namespace eval twoEllipsis {
+	    nonterminal firstMovePairSkipped { one ellipsis space+ ellipsis }
+	    nonterminal movesLine { space+ firstMovePairSkipped movesSequence }
+	    nonterminal line { movesLine | moveNumberLine }
+	    nonterminal block { line+ }
+	}
+
+# set play of h#n or regular play of h#n.5
+namespace eval oneEllipsis {
+    nonterminal firstMoveSkipped { one ellipsis move }
+    nonterminal movesLine { space+ firstMoveSkipped movesSequence }
+    nonterminal line { movesLine | moveNumberLine }
+    nonterminal block { line+ }
+}
+
+# regular play of h#n
+namespace eval noEllipsis {
+    nonterminal line { movesSequence | moveNumberLine }
+    nonterminal block { line+ }
+}
+
+nonterminal block {
+    twoEllipsis::block? emptyLine? oneEllipsis::block
+    | oneEllipsis::block? emptyLine? noEllipsis::block?
+}
+}
+
+namespace eval seriesplay {
+    nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
+    nonterminal movesLine { fullMove+ moveSuffix? eol }
+    nonterminal line { movesLine | moveNumberLine }
+    nonterminal block { line* }
+}
+
+nonterminal block { helpplay::block | seriesplay::block }
+}
+
+nonterminal measurementLine { measurement eol }
+nonterminal measurementsBlock { measurementLine+ }
+
+namespace eval untwinned {
+    terminal toofairy [literal toofairy]
+    terminal nonsensecombination [literal nonsensecombination]
+    terminal conditionSideUndecidable [literal conditionSideUndecidable]
+    terminal problemignored [literal problemignored]
+    terminal illegalSelfCheck [literal illegalSelfCheck]
+    terminal kingmissing [literal kingmissing]
+    terminal threatNotApplicable [literal threatNotApplicable]
+    terminal intelligentAndFairy [literal intelligentAndFairy]
+
+    nonterminal error {
+	toofairy
+	| nonsensecombination
+	| conditionSideUndecidable
+    }
+    nonterminal problemignoredMsg {
+	error eol
+	problemignored eol
+    }
+    nonterminal simplexPart { illegalSelfCheck eol | emptyLine forcedReflexMove+ | tree::block | emptyLine line::block }
+    nonterminal simplex { simplexPart+ measurementsBlock? }
+    nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
+
+    nonterminal warning {
+	kingmissing
+	| threatNotApplicable
+	| intelligentAndFairy
+    }
+    nonterminal warningLine { warning eol }
+
+    nonterminal block { warningLine* solvingResult remarkOrValidationError::block? }
+}
+
+namespace eval twinning {
+    terminal continued {[+]}
+    terminal label {[[:lower:]][[:digit:]]*[)]}
+
+nonterminal additionalLine { space space space+ lineText+ eol }
+nonterminal block {
+    emptyLine
+    continued? label space lineText* eol
+    additionalLine*
+}
+}
+
+namespace eval twinned {
+    nonterminal twinblock { twinning::block untwinned::block }
+    nonterminal block { twinblock+ }
+}
+
+nonterminal block { untwinned::block | twinned::block }
+}
+
+namespace eval footer {
     terminal endOfSolution [literal endOfSolution]
     terminal partialSolution [literal partialSolution]
     nonterminal solvingTimeIndication { space solvingTime }
@@ -562,13 +562,13 @@ scope footer {
     nonterminal block { eol solutionEnd solvingTimeIndication? eol emptyLine emptyLine }
 }
 
-scope zeroposition {
+namespace eval zeroposition {
     terminal zeroposition [literal zeroposition]
 
     nonterminal block { emptyLine zeroposition eol emptyLine }
 }
 
-scope inputerror {
+namespace eval inputerror {
     terminal inputError [literal inputError]
     terminal offendingItem [literal offendingItem]
 
@@ -578,7 +578,7 @@ scope inputerror {
     }
 }
 
-scope problem {
+namespace eval problem {
     terminal popeye [literal popeye]
 
     nonterminal popeyeLine { popeye lineText+ eol }
@@ -595,11 +595,11 @@ scope problem {
     }
 
     nonterminal block {
-        popeyeLine?
-        inputerror::block*
-        remarkOrValidationError::block
-        noNonboardBlock?
-        solution::block?
-        footer::block
+	popeyeLine?
+	inputerror::block*
+	remarkOrValidationError::block
+	noNonboardBlock?
+	solution::block?
+	footer::block
     }
 }
