@@ -139,6 +139,7 @@ void en_passant_remember_multistep_over(square s)
 
   assert(s!=initsquare);
 
+  assert((en_passant_top[nbply]-en_passant_top[nbply-1])<MAX_EP_MULTISTEP_OVER_PER_PLY);
   en_passant_multistep_over[en_passant_top[nbply]++] = s;
 
   TraceFunctionExit(__func__);
@@ -171,6 +172,7 @@ void move_effect_journal_do_remember_ep(square s)
 
   entry->u.ep_capture_potential.capture_square = s;
 
+  assert((en_passant_top[nbply]-en_passant_top[nbply-1])<MAX_EP_MULTISTEP_OVER_PER_PLY);
   en_passant_multistep_over[en_passant_top[nbply]++] = s;
 
   TraceFunctionExit(__func__);
@@ -200,6 +202,7 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert((en_passant_top[nbply]-en_passant_top[nbply-1])<MAX_EP_MULTISTEP_OVER_PER_PLY);
   en_passant_multistep_over[en_passant_top[nbply]++] = s;
 
   TraceFunctionExit(__func__);
