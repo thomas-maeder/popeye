@@ -5,6 +5,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "solving/ply.h"
+#include "position/board.h"
 
 /* This module provides implements en passant captures
  */
