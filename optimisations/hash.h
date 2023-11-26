@@ -14,6 +14,7 @@
 #include "solving/machinery/solve.h"
 #include "position/underworld.h"
 #include "position/position.h"
+#include "position/board.h"
 #include "solving/ply.h"
 #include "conditions/bgl.h"
 #include <stddef.h>
