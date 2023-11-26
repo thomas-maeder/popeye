@@ -15,14 +15,14 @@ nonterminal duration { durationSeconds | durationMinutes | durationHours }
 nonterminal solvingTime { time space equals space duration }
 
 # we can't distinguish remarks (in the input) and error messages produced during validation
-namespace eval remarkOrValidationError {
+scope remarkOrValidationError {
     nonterminal remark { lineText+ }
     nonterminal remarkLine { remark eol }
 
     nonterminal block { remarkLine* }
 }
 
-namespace eval meta {
+scope meta {
     nonterminal leadingBlanks { space* }
 
     nonterminal authorOriginAwardTitle { lineText+ }
@@ -31,7 +31,7 @@ namespace eval meta {
     nonterminal block { emptyLine authorOriginAwardTitleLine* }
 }
 
-namespace eval board {
+scope board {
     terminal cornerSign {[+]}
     terminal verticalBorderSign {[|]}
     terminal horizontalBorderSign "-"
@@ -76,7 +76,7 @@ namespace eval board {
     }
 }
 
-namespace eval gridboard {
+scope gridboard {
     terminal cell {  [ [:digit:]][[:digit:]]}
 
     nonterminal cellsline { board::rowNo cell+ space space space board::rowNo eol }
@@ -90,34 +90,34 @@ namespace eval gridboard {
     }
 }
 
-namespace eval goal {
+scope goal {
     terminal mate "#"
-	terminal stalemate "="
-	terminal dia "dia"
-	terminal aToB "a=>b"
-	terminal targetSquare {z[a-h][1-8]}
-	terminal targetSquareImplicit "z"
-	terminal circuit "ct"
-	terminal exchange "<>"
-	terminal exchangeByRebirth "<>r"
-	terminal check {[+]}
-	terminal doubleStalemate "=="
-	terminal castling "00"
-	terminal pieceWin "%"
-	terminal anyMove "~"
-	terminal bothMate "##"
-	terminal counterMate "##!"
-	terminal autoMate "!="
-	terminal enPassant "ep"
-	terminal capture "x"
-	terminal circuitByRebirth "ctr"
-	terminal chess81 "c81"
-	terminal immobile "#="
-	terminal noMate "!#"
-	terminal kiss {k[a-h][1-8]}
+    terminal stalemate "="
+    terminal dia "dia"
+    terminal aToB "a=>b"
+    terminal targetSquare {z[a-h][1-8]}
+    terminal targetSquareImplicit "z"
+    terminal circuit "ct"
+    terminal exchange "<>"
+    terminal exchangeByRebirth "<>r"
+    terminal check {[+]}
+    terminal doubleStalemate "=="
+    terminal castling "00"
+    terminal pieceWin "%"
+    terminal anyMove "~"
+    terminal bothMate "##"
+    terminal counterMate "##!"
+    terminal autoMate "!="
+    terminal enPassant "ep"
+    terminal capture "x"
+    terminal circuitByRebirth "ctr"
+    terminal chess81 "c81"
+    terminal immobile "#="
+    terminal noMate "!#"
+    terminal kiss {k[a-h][1-8]}
 }
 
-namespace eval stipulation {
+scope stipulation {
     terminal exactPrefix {exact-}
     terminal introPrefix {[[:digit:]]+->}
     terminal parryPrefix {ph?}
@@ -137,31 +137,31 @@ namespace eval stipulation {
 
     nonterminal side { sideWhite | sideBlack }
 
-	nonterminal goal {
-	    goal::mate
-	    | goal::stalemate
-	    | goal::dia
-	    | goal::aToB
-	    | goal::targetSquare
-	    | goal::circuit
-	    | goal::exchange
-	    | goal::check
-	    | goal::doubleStalemate
-	    | goal::castling
-	    | goal::pieceWin
-	    | goal::anyMove
-	    | goal::bothMate
-	    | goal::counterMate
-	    | goal::autoMate
-	    | goal::enPassant
-	    | goal::capture
-	    | goal::circuitByRebirth
-	    | goal::exchangeByRebirth
-	    | goal::chess81
-	    | goal::immobile
-	    | goal::noMate
-	    | goal::kiss
-	}
+    nonterminal goal {
+	goal::mate
+	| goal::stalemate
+	| goal::dia
+	| goal::aToB
+	| goal::targetSquare
+	| goal::circuit
+	| goal::exchange
+	| goal::check
+	| goal::doubleStalemate
+	| goal::castling
+	| goal::pieceWin
+	| goal::anyMove
+	| goal::bothMate
+	| goal::counterMate
+	| goal::autoMate
+	| goal::enPassant
+	| goal::capture
+	| goal::circuitByRebirth
+	| goal::exchangeByRebirth
+	| goal::chess81
+	| goal::immobile
+	| goal::noMate
+	| goal::kiss
+    }
 
     nonterminal helpselfPrefix { helpPrefix selfPrefix }
     nonterminal helpreflexPrefix { helpPrefix reflexPrefix }
@@ -172,8 +172,8 @@ namespace eval stipulation {
     nonterminal playPrefix { exactPrefix? genericSeriesPrefix? alternatePrefix? }
     nonterminal traditional { playPrefix goal length }
 
-	# structured stipulations are recursive, which can't be represented by
-	# regular expressions
+        # structured stipulations are recursive, which can't be represented by
+        # regular expressions
     nonterminal structured { side space nonspace+ }
 
     nonterminal maxSuffix { maxthreatSuffix maxflightSuffix? }
@@ -184,7 +184,7 @@ namespace eval stipulation {
     nonterminal block { combined suffix }
 }
     
-namespace eval pieceControl {
+scope pieceControl {
     terminal piecesOfColor {[[:digit:]]+}
     terminal separator { [+] }
     terminal totalInvisiblePseudoWalk "TI"
@@ -195,11 +195,11 @@ namespace eval pieceControl {
     nonterminal block { piecesOfColor separator piecesOfColor piecesNeutral? piecesTotalInvisible? }
 }
 
-namespace eval caption {
+scope caption {
     nonterminal block { space* stipulation::block space* pieceControl::block eol }
 }
 
-namespace eval boardA {
+scope boardA {
     terminal tomoveIndicator "->"
     terminal arrow "=>"
 
@@ -216,12 +216,12 @@ namespace eval boardA {
     }
 }
 
-namespace eval conditions {
+scope conditions {
     nonterminal line { space* lineText+ eol }
     nonterminal block { line* }
 }
 
-namespace eval duplex {
+scope duplex {
     terminal duplex [literal duplex]
     terminal halfduplex [literal halfduplex]
 
@@ -230,7 +230,7 @@ namespace eval duplex {
     nonterminal block { line? }
 }
 
-namespace eval solution {
+scope solution {
     terminal naturalNumber {[1-9][0-9]*}
     terminal paren_open {[(]}
     terminal paren_close {[)]}
@@ -269,73 +269,73 @@ namespace eval solution {
     terminal forcedReflexMoveIndicator {[?]![?]}
     terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
-	namespace eval pieceAttributeShortcut {
-	    terminal white [literal pieceAttributeShortcut::white]
-	    terminal black [literal pieceAttributeShortcut::black]
-	    terminal neutral [literal pieceAttributeShortcut::neutral]
-	    terminal royal [literal pieceAttributeShortcut::royal]
-	    terminal kamikaze [literal pieceAttributeShortcut::kamikaze]
-	    terminal paralyzing [literal pieceAttributeShortcut::paralyzing]
-	    terminal chameleon [literal pieceAttributeShortcut::chameleon]
-	    terminal jigger [literal pieceAttributeShortcut::jigger]
-	    terminal volage [literal pieceAttributeShortcut::volage]
-	    terminal functionary [literal pieceAttributeShortcut::functionary]
-	    terminal halfneutral [literal pieceAttributeShortcut::halfneutral]
-	    terminal hurdleColourChanging [literal pieceAttributeShortcut::hurdleColourChanging]
-	    terminal protean [literal pieceAttributeShortcut::protean]
-	    terminal magic [literal pieceAttributeShortcut::magic]
-	    terminal uncapturable [literal pieceAttributeShortcut::uncapturable]
-	    terminal patrol [literal pieceAttributeShortcut::patrol]
-	    terminal frischauf [literal pieceAttributeShortcut::frischauf]
+    scope pieceAttributeShortcut {
+	terminal white [literal pieceAttributeShortcut::white]
+	terminal black [literal pieceAttributeShortcut::black]
+	terminal neutral [literal pieceAttributeShortcut::neutral]
+	terminal royal [literal pieceAttributeShortcut::royal]
+	terminal kamikaze [literal pieceAttributeShortcut::kamikaze]
+	terminal paralyzing [literal pieceAttributeShortcut::paralyzing]
+	terminal chameleon [literal pieceAttributeShortcut::chameleon]
+	terminal jigger [literal pieceAttributeShortcut::jigger]
+	terminal volage [literal pieceAttributeShortcut::volage]
+	terminal functionary [literal pieceAttributeShortcut::functionary]
+	terminal halfneutral [literal pieceAttributeShortcut::halfneutral]
+	terminal hurdleColourChanging [literal pieceAttributeShortcut::hurdleColourChanging]
+	terminal protean [literal pieceAttributeShortcut::protean]
+	terminal magic [literal pieceAttributeShortcut::magic]
+	terminal uncapturable [literal pieceAttributeShortcut::uncapturable]
+	terminal patrol [literal pieceAttributeShortcut::patrol]
+	terminal frischauf [literal pieceAttributeShortcut::frischauf]
 
-	    nonterminal colour { white | black | neutral }
+	nonterminal colour { white | black | neutral }
 
-	    nonterminal nonColour {
-		royal?
-		kamikaze?
-		paralyzing?
-		chameleon?
-		jigger?
-		volage?
-		functionary?
-		halfneutral?
-		hurdleColourChanging?
-		protean?
-		magic?
-		uncapturable?
-		patrol?
-		frischauf?
-	    }
+	nonterminal nonColour {
+	    royal?
+	    kamikaze?
+	    paralyzing?
+	    chameleon?
+	    jigger?
+	    volage?
+	    functionary?
+	    halfneutral?
+	    hurdleColourChanging?
+	    protean?
+	    magic?
+	    uncapturable?
+	    patrol?
+	    frischauf?
 	}
+    }
 
     nonterminal undec { legalityUndecidable | refutationUndecidable }
 
-	nonterminal goal {
-	    goal::mate
-	    | goal::stalemate
-	    | goal::dia
-	    | goal::aToB
-	    | goal::targetSquareImplicit
-	    | goal::circuit
-	    | goal::exchange
-	    | goal::check
-	    | goal::doubleStalemate
-	    | goal::castling
-	    | goal::pieceWin
-	    | goal::anyMove
-	    | goal::bothMate
-	    | goal::counterMate
-	    | goal::autoMate
-	    | goal::enPassant
-	    | goal::capture
-	    | goal::circuitByRebirth
-	    | goal::exchangeByRebirth
-	    | goal::chess81
-	    | goal::immobile
-	    | goal::noMate
-	    | goal::kiss
-	}
-	nonterminal goalIndicator { space goal }
+    nonterminal goal {
+	goal::mate
+	| goal::stalemate
+	| goal::dia
+	| goal::aToB
+	| goal::targetSquareImplicit
+	| goal::circuit
+	| goal::exchange
+	| goal::check
+	| goal::doubleStalemate
+	| goal::castling
+	| goal::pieceWin
+	| goal::anyMove
+	| goal::bothMate
+	| goal::counterMate
+	| goal::autoMate
+	| goal::enPassant
+	| goal::capture
+	| goal::circuitByRebirth
+	| goal::exchangeByRebirth
+	| goal::chess81
+	| goal::immobile
+	| goal::noMate
+	| goal::kiss
+    }
+    nonterminal goalIndicator { space goal }
 
     nonterminal ordinalNumber { naturalNumber period }
 
@@ -353,15 +353,15 @@ namespace eval solution {
     nonterminal pieceChangement { square promotion }
     nonterminal pieceSpec { pieceAttributeShortcut::colour? pieceAttributeShortcut::nonColour walk square }
     nonterminal pieceMovement {
-	    pieceSpec
-	    pieceMovementIndicator
-	    pieceAttributeShortcut::colour?
-	    pieceAttributeShortcut::nonColour
-	    walk?
-	    square
-	    promotion*
-	    vulcanization?
-	}
+	pieceSpec
+	pieceMovementIndicator
+	pieceAttributeShortcut::colour?
+	pieceAttributeShortcut::nonColour
+	walk?
+	square
+	promotion*
+	vulcanization?
+    }
     nonterminal pieceAddition { pieceAdditionIndicator pieceSpec promotion* vulcanization? }
     nonterminal pieceRemoval { pieceRemovalIndicator pieceSpec }
     nonterminal pieceExchange { pieceSpec pieceExchangeIndicator pieceSpec }
@@ -387,7 +387,7 @@ namespace eval solution {
 
     nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
-    namespace eval tree {
+    scope tree {
         terminal zugzwang [literal zugzwang]
         terminal threat [literal threat]
         terminal refutationIndicator "!"
@@ -445,13 +445,13 @@ namespace eval solution {
         nonterminal block { postKeyPlay | setplayBlock? regularplayBlock* }
     }
 
-    namespace eval line {
+    scope line {
         nonterminal moveSuffix { space undec eol | goalIndicator }
         nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
         nonterminal numberedHalfMove { space+ ordinalNumber move }
         nonterminal unnumberedHalfMove { space+ move }
 
-        namespace eval helpplay {
+        scope helpplay {
             terminal one "1"
 
             nonterminal movePair { numberedHalfMove unnumberedHalfMove }
@@ -460,7 +460,7 @@ namespace eval solution {
             nonterminal movesSequence { movePair* numberedHalfMove? moveSuffix? eol}
 
             # set play of h#n.5
-            namespace eval twoEllipsis {
+            scope twoEllipsis {
                 nonterminal firstMovePairSkipped { one ellipsis space+ ellipsis }
                 nonterminal movesLine { space+ firstMovePairSkipped movesSequence }
                 nonterminal line { movesLine | moveNumberLine }
@@ -468,7 +468,7 @@ namespace eval solution {
             }
 
             # set play of h#n or regular play of h#n.5
-            namespace eval oneEllipsis {
+            scope oneEllipsis {
                 nonterminal firstMoveSkipped { one ellipsis move }
                 nonterminal movesLine { space+ firstMoveSkipped movesSequence }
                 nonterminal line { movesLine | moveNumberLine }
@@ -476,7 +476,7 @@ namespace eval solution {
             }
 
             # regular play of h#n
-            namespace eval noEllipsis {
+            scope noEllipsis {
                 nonterminal line { movesSequence | moveNumberLine }
                 nonterminal block { line+ }
             }
@@ -487,7 +487,7 @@ namespace eval solution {
             }
         }
 
-        namespace eval seriesplay {
+        scope seriesplay {
             nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
             nonterminal movesLine { fullMove+ moveSuffix? eol }
             nonterminal line { movesLine | moveNumberLine }
@@ -500,14 +500,14 @@ namespace eval solution {
     nonterminal measurementLine { measurement eol }
     nonterminal measurementsBlock { measurementLine+ }
 
-    namespace eval untwinned {
+    scope untwinned {
         terminal toofairy [literal toofairy]
         terminal nonsensecombination [literal nonsensecombination]
         terminal conditionSideUndecidable [literal conditionSideUndecidable]
         terminal problemignored [literal problemignored]
         terminal illegalSelfCheck [literal illegalSelfCheck]
-	    terminal kingmissing [literal kingmissing]
-	    terminal threatNotApplicable [literal threatNotApplicable]
+        terminal kingmissing [literal kingmissing]
+        terminal threatNotApplicable [literal threatNotApplicable]
         terminal intelligentAndFairy [literal intelligentAndFairy]
 
         nonterminal error {
@@ -523,17 +523,17 @@ namespace eval solution {
         nonterminal simplex { simplexPart+ measurementsBlock? }
         nonterminal solvingResult { problemignoredMsg | simplex{1,2} }
 
-	    nonterminal warning {
-		kingmissing
-		| threatNotApplicable
-		| intelligentAndFairy
-	    }
-	    nonterminal warningLine { warning eol }
+        nonterminal warning {
+            kingmissing
+            | threatNotApplicable
+            | intelligentAndFairy
+        }
+        nonterminal warningLine { warning eol }
 
         nonterminal block { warningLine* solvingResult remarkOrValidationError::block? }
     }
 
-    namespace eval twinning {
+    scope twinning {
         terminal continued {[+]}
         terminal label {[[:lower:]][[:digit:]]*[)]}
 
@@ -545,7 +545,7 @@ namespace eval solution {
         }
     }
 
-    namespace eval twinned {
+    scope twinned {
         nonterminal twinblock { twinning::block untwinned::block }
         nonterminal block { twinblock+ }
     }
@@ -553,22 +553,22 @@ namespace eval solution {
     nonterminal block { untwinned::block | twinned::block }
 }
 
-namespace eval footer {
+scope footer {
     terminal endOfSolution [literal endOfSolution]
     terminal partialSolution [literal partialSolution]
-	nonterminal solvingTimeIndication { space solvingTime }
+    nonterminal solvingTimeIndication { space solvingTime }
 
     nonterminal solutionEnd { endOfSolution | partialSolution }
     nonterminal block { eol solutionEnd solvingTimeIndication? eol emptyLine emptyLine }
 }
 
-namespace eval zeroposition {
+scope zeroposition {
     terminal zeroposition [literal zeroposition]
 
     nonterminal block { emptyLine zeroposition eol emptyLine }
 }
 
-namespace eval inputerror {
+scope inputerror {
     terminal inputError [literal inputError]
     terminal offendingItem [literal offendingItem]
 
@@ -578,10 +578,10 @@ namespace eval inputerror {
     }
 }
 
-namespace eval problem {
-	terminal popeye [literal popeye]
+scope problem {
+    terminal popeye [literal popeye]
 
-	nonterminal popeyeLine { popeye lineText+ eol }
+    nonterminal popeyeLine { popeye lineText+ eol }
 
     nonterminal noNonboardBlock {
         meta::block
@@ -594,12 +594,12 @@ namespace eval problem {
         zeroposition::block?
     }
 
-	nonterminal block {
-	    popeyeLine?
-	    inputerror::block*
-	    remarkOrValidationError::block
-	    noNonboardBlock?
-	    solution::block?
-	    footer::block
-	}
+    nonterminal block {
+        popeyeLine?
+        inputerror::block*
+        remarkOrValidationError::block
+        noNonboardBlock?
+        solution::block?
+        footer::block
+    }
 }

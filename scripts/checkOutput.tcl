@@ -109,6 +109,10 @@ proc nonterminal {name production} {
     append result ")"
 }
 
+proc scope {name block} {
+    namespace eval $name $block
+}
+
 puts "Popeye output grammar parser: preparing"
 source output/plaintext/documentation/grammar
 
