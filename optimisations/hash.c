@@ -1304,6 +1304,7 @@ static byte *CommonEncode(byte *bp,
   {
     unsigned int i;
 
+    assert((en_passant_top[nbply]-en_passant_top[nbply-1])<=MAX_EN_PASSANT_TOP_DIFFERENCE);
     for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
       *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
   }
