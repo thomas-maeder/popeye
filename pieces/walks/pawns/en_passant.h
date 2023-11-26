@@ -9,9 +9,13 @@
 /* This module provides implements en passant captures
  */
 
-extern square en_passant_multistep_over[maxply];
+enum {
+  MAX_NUM_MULTISTEP_OVER = (nr_rows_on_board - 2) /* A pawn that jumps from the first rank to the last rank would cross this many squares.
+                                                     TODO: Is this a safe maximum?  Can we get away with a smaller value? */
+};
+extern square en_passant_multistep_over[maxply * MAX_NUM_MULTISTEP_OVER];
 
-extern unsigned int en_passant_top[maxply+1];
+extern unsigned int en_passant_top[maxply + 1];
 
 enum
 {
