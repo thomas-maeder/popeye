@@ -49,67 +49,22 @@ proc terminal {name expression} {
     set result $expression
 }
 
-proc decomposeExpr {expr {end ""}} {
-    set result {}
-
-    while {$expr!=""} {
-        set firstChar [string range $expr 0 0]
-        if {$firstChar=="("} {
-            lassign [decomposeExpr [string range $expr 1 "end"] ")"] nested expr
-            lappend result [list "(" $nested ")"]
-        } elseif {$firstChar=="\["} {
-            lassign [decomposeExpr [string range $expr 1 "end"] "]"] nested expr
-            lappend result [list "\[" $nested "\]"]
-        } elseif {$firstChar=="\\"} {
-            set escapedChar [string range $expr 0 1]
-            set expr [string range $expr 2 "end"]
-            lappend result $escapedChar
-        } else {
-            set expr [string range $expr 1 "end"]
-            if {$firstChar==$end} {
-                return [list $result $expr]
-            } else {
-                lappend result $firstChar
-            }
-        }
-    }
-
-    return [list $result ""]
-}
-
 proc nonterminal {name production} {
     upvar $name result
 
     regsub -all {[[:space:]]+} [string trim $production] " " production
 
-    set result "(?:"
+    set result ""
     foreach token [split $production " "] {
-        switch -regexp -matchvar matches -- $token {
-            ^([[:alnum:]_:]+)([?*+]|{.*})?$ {
-                set name [lindex $matches 1]
-                set value [uplevel lookupValue $name]
-                set quantifier [lindex $matches 2]
-                set decomposition [lindex [decomposeExpr $value] 0]
-                if {[lsearch -exact $decomposition "|"]!=-1} {
-                    append result "(?:$value)"
-                } elseif {$quantifier==""} {
-                    append result $value
-                } elseif {[llength $decomposition]<=1} {
-                    append result $value
-                } else {
-                    append result "(?:$value)"
-                }
-                append result $quantifier
-            }
-            default {
-                append result $token
-            }
-        }
+	if {[regexp -- {^([[:alnum:]_:]+)([?*+]|{.*})?$} $token - name quantifier]} {
+	    set value [uplevel lookupValue $name]
+	    append result "(?:$value)$quantifier"
+	} else {
+	    append result $token
+	}
     }
-    append result ")"
 }
 
-puts "Popeye output grammar parser: preparing"
 source output/plaintext/documentation/grammar
 
 puts "Popeye output grammar parser: pre-compiling"
