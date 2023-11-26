@@ -23,14 +23,13 @@ source output/plaintext/documentation/german
 source output/plaintext/documentation/english
 
 
-# syntactic sugar for looking up language dependant strings
-proc l {name} {
+proc literal {name} {
     global language
     return [set ${language}::$name]
 }
 
 # syntactic sugar for looking up variables in ancestor namespaces
-proc v {name} {
+proc lookupValue {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
@@ -88,7 +87,7 @@ proc nonterminal {name production} {
         switch -regexp -matchvar matches -- $token {
             ^([[:alnum:]_:]+)([?*+]|{.*})?$ {
                 set name [lindex $matches 1]
-                set value [uplevel v $name]
+                set value [uplevel lookupValue $name]
                 set quantifier [lindex $matches 2]
                 set decomposition [lindex [decomposeExpr $value] 0]
                 if {[lsearch -exact $decomposition "|"]!=-1} {
@@ -114,7 +113,7 @@ puts "Popeye output grammar parser: preparing"
 source output/plaintext/documentation/grammar
 
 puts "Popeye output grammar parser: pre-compiling"
-regexp -all -indices -inline $format::problem::block ""
+regexp -all -indices -inline $problem::block ""
 
 foreach inputfile $inputfiles {
     puts "Popeye output grammar parser: parsing $inputfile"
@@ -125,7 +124,7 @@ foreach inputfile $inputfiles {
     set input [read $f]
     close $f
 
-    set problemIndices [regexp -all -indices -inline $format::problem::block $input]
+    set problemIndices [regexp -all -indices -inline $problem::block $input]
 
     foreach problemIndexPair $problemIndices {
 	lassign $problemIndexPair problemStart problemEnd
