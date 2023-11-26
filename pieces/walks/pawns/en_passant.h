@@ -11,10 +11,10 @@
  */
 
 enum {
-  MAX_NUM_MULTISTEP_OVER = (nr_rows_on_board - 2) /* A pawn that jumps from the first rank to the last rank would cross this many squares.
-                                                     TODO: Is this a safe maximum?  Can we get away with a smaller value? */
+  MAX_MULTISTEP_OVER_PER_PLY = (nr_rows_on_board - 2) /* A pawn that jumps from the first rank to the last rank would cross this many squares.
+                                                         TODO: Is this a safe maximum?  Can we get away with a smaller value? */
 };
-extern square en_passant_multistep_over[maxply * MAX_NUM_MULTISTEP_OVER];
+extern square en_passant_multistep_over[maxply * MAX_MULTISTEP_OVER_PER_PLY];
 
 extern unsigned int en_passant_top[maxply + 1];
 
