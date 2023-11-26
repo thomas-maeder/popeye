@@ -15,7 +15,7 @@
 
 #include "debugging/assert.h"
 
-square en_passant_multistep_over[maxply * MAX_MULTISTEP_OVER_PER_PLY];
+square en_passant_multistep_over[maxply * MAX_EP_MULTISTEP_OVER_PER_PLY];
 
 unsigned int en_passant_top[maxply + 1];
 
