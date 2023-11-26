@@ -98,22 +98,17 @@ typedef unsigned char byte;
    - nr_ghosts <= underworld_capacity
    - bytes_per_spec <= 4
    - being_solved.number_of_imitators <= maxinum
-   The most annoying quantity to bound is en_passant_top[nbply] - en_passant_top[nbply-1].  There are
-   loops like
-     for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
-       *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
-   and for these to be correct we must have
-     en_passant_top[nbply] < number of elements in en_passant_multistep_over = maxply + 1 (at this time).
-   Meanwhile, en_passant_top[nbply-1] is an unsigned int, hence is >= 0.  From these we infer
-   - en_passant_top[nbply] - en_passant_top[nbply] <= maxply
-   but it's likely that a tighter bound is possible, preferably one that doesn't rely on knowing the
-   number of elements in en_passant_multistep_over.
+   en_passant_top[nbply] - en_passant_top[nbply-1] requires a bit more thought.  It should be an upper
+   bound on the number of en passant squares stored per ply.  For now we'll assume that
+   - en_passant_top[nbply] - en_passant_top[nbply-1] <= nr_rows_on_board - 2
+   as (nr_rows_on_board - 2) is the number of squares that a pawn jumping from the first rank to the
+   last rank would skip over.
    With all of the above, we can determine the maximum bytes that an encoding should take up.  We'll
    let the compiler perform the arithmetic.
 */
 
 enum {
-  MAX_EN_PASSANT_TOP_DIFFERENCE = maxply, /* TODO: Improve this! */
+  MAX_EN_PASSANT_TOP_DIFFERENCE = nr_squares - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
   COMMONENCODE_MAX =   16
                      + sizeof BGL_values[White] + sizeof BGL_values[Black]
                      + maxinum
