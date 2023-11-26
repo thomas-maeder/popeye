@@ -22,8 +22,8 @@ unsigned int en_passant_top[maxply + 1];
 square en_passant_retro_squares[en_passant_retro_capacity];
 unsigned int en_passant_nr_retro_squares;
 
-/* Determine whether the retro information concernng en passant is consistent
- * @return true iff the informatoin is consistent
+/* Determine whether the retro information concerning en passant is consistent
+ * @return true iff the information is consistent
  */
 boolean en_passant_are_retro_squares_consistent(void)
 {
@@ -268,7 +268,7 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
 /* Determine whether side trait[nbply] gives check by p. capture
  * @param dir_capture direction of ep capture
  * @param tester pawn-specific tester function
- * @param evaluate address of evaluater function
+ * @param evaluate address of evaluator function
  * @return true if side trait[nbply] gives check by ep. capture
  */
 boolean en_passant_test_check(numvec dir_capture,

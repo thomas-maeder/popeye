@@ -26,8 +26,8 @@ enum
 extern square en_passant_retro_squares[en_passant_retro_capacity];
 extern unsigned int en_passant_nr_retro_squares;
 
-/* Determine whether the retro information concernng en passant is consistent
- * @return true iff the informatoin is consistent
+/* Determine whether the retro information concerning en passant is consistent
+ * @return true iff the information is consistent
  */
 boolean en_passant_are_retro_squares_consistent(void);
 
@@ -100,7 +100,7 @@ square en_passant_find_capturee(void);
  * @param sq_departure departure square of ep capture
  * @param sq_crossed square crossed by multistep move
  * @param p type of pawn
- * @param evaluate address of evaluater function
+ * @param evaluate address of evaluator function
  * @return true iff side trait[nbply] gives check by ep. capture to sq_arrival
  */
 typedef boolean (*en_passant_check_tester_type)(square sq_departure,
@@ -110,7 +110,7 @@ typedef boolean (*en_passant_check_tester_type)(square sq_departure,
 /* Determine whether side trait[nbply] gives check by p. capture
  * @param dir_capture direction of ep capture
  * @param tester pawn-specific tester function
- * @param evaluate address of evaluater function
+ * @param evaluate address of evaluator function
  * @return true if side trait[nbply] gives check by ep. capture
  */
 boolean en_passant_test_check(numvec dir_capture,
