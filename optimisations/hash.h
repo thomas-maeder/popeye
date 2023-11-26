@@ -108,7 +108,7 @@ typedef unsigned char byte;
 */
 
 enum {
-  MAX_EN_PASSANT_TOP_DIFFERENCE = nr_squares - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
+  MAX_EN_PASSANT_TOP_DIFFERENCE = nr_rows_on_board - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
   COMMONENCODE_MAX =   16
                      + sizeof BGL_values[White] + sizeof BGL_values[Black]
                      + maxinum
