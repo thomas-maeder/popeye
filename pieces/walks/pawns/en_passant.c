@@ -15,6 +15,10 @@
 
 #include "debugging/assert.h"
 
+enum {
+  ENSURE_EP_MULTISTEP_OVER_SIZE_DOESNT_OVERFLOW = 1/(maxply <= ((-1U)/MAX_EP_MULTISTEP_OVER_PER_PLY))
+};
+
 square en_passant_multistep_over[maxply * MAX_EP_MULTISTEP_OVER_PER_PLY];
 
 unsigned int en_passant_top[maxply + 1];
