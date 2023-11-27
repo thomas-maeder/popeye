@@ -120,6 +120,10 @@
 #include "platform/timer.h"
 #endif
 
+enum {
+  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX)
+};
+
 unsigned long hash_max_number_storable_positions = ULONG_MAX;
 
 typedef unsigned int hash_value_type;

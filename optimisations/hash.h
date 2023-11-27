@@ -17,7 +17,6 @@
 #include "position/board.h"
 #include "solving/ply.h"
 #include "conditions/bgl.h"
-#include <stddef.h>
 
 #if defined(TESTHASH)
 #       if !defined(HASHRATE)
@@ -135,7 +134,6 @@ enum
 {
   MAX_LENGTH_OF_ENCODING = ((SMALLENCODE_MAX > LARGEENCODE_MAX) ? ((SMALLENCODE_MAX > PROOFENCODE_MAX) ? SMALLENCODE_MAX : PROOFENCODE_MAX)
                                                                 : ((LARGEENCODE_MAX > PROOFENCODE_MAX) ? LARGEENCODE_MAX : PROOFENCODE_MAX)),
-  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX),
   hashbuf_length = (MAX_LENGTH_OF_ENCODING * sizeof(byte)) + offsetof(BCMemValue, Data)
 };
 
