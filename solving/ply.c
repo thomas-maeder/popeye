@@ -58,7 +58,7 @@ void nextply(Side side)
   TraceValue("%u",move_effect_journal_base[nbply+1]);
   TraceEOL();
 
-  en_passant_top[nbply] = en_passant_top[nbply-1];
+  en_passant_end[nbply] = en_passant_end[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
@@ -104,7 +104,7 @@ void siblingply(Side side)
   TraceValue("%u",move_effect_journal_base[nbply+1]);
   TraceEOL();
 
-  en_passant_top[nbply] = en_passant_top[nbply-1];
+  en_passant_end[nbply] = en_passant_end[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
@@ -145,7 +145,7 @@ void copyply(void)
   TraceValue("%u",move_effect_journal_base[nbply+1]);
   TraceEOL();
 
-  en_passant_top[nbply] = en_passant_top[nbply-1];
+  en_passant_end[nbply] = en_passant_end[nbply-1];
   promotion_horizon[nbply] = move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects-1;
 
   post_move_iteration_init_ply();
