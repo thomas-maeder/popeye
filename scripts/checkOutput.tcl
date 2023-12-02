@@ -28,25 +28,30 @@ proc literal {name} {
     return [set ${language}::$name]
 }
 
+proc normalizeQualifiedName {name} {
+    return [regsub {^::::} $name "::"]
+}
+
 # syntactic sugar for looking up variables in ancestor namespaces
 proc lookupName {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
         if {$scope=="::"} {
-            puts stderr "can't find variable $name from scope $initialscope"
-            exit 1
+            error "can't find variable $name from scope $initialscope"
         } else {
             set scope [namespace parent $scope]
         }
     }
-    return ${scope}::$name
+    return [normalizeQualifiedName ${scope}::$name]
 }
 
 proc terminal {name expression} {
     upvar $name result
+    global resolved
 
     set result $expression
+    set resolved([normalizeQualifiedName [uplevel namespace current]::$name]) $expression
 }
 
 proc nonterminal {name production} {
@@ -58,18 +63,47 @@ proc nonterminal {name production} {
     foreach token [split $production " "] {
 	if {[regexp -- {^([[:alnum:]_:]+)([?*+]|{.*})?$} $token - name quantifier]} {
 	    set name [uplevel lookupName $name]
-	    set value [set $name]
-	    append result "(?:$value)$quantifier"
+	    lappend result [list "name" $name $quantifier]
 	} else {
-	    append result $token
+	    lappend result [list "operator" $token ""]
 	}
     }
 }
 
-source output/plaintext/documentation/grammar
+if {[catch {
+    source output/plaintext/documentation/grammar
+} error]} {
+    puts $errorInfo
+    exit 1
+}
+
+proc resolve {name} {
+    global resolved
+
+    if {![info exists resolved($name)]} {
+	if {![info exists $name]} {
+	    error "name $name is not defined"
+	}
+	foreach element [set $name] {
+	    lassign $element type value quantifier
+	    switch $type {
+		"name" {
+		    resolve $value
+		    append resolved($name) "(?:$resolved($value))$quantifier"
+		}
+		"operator" {
+		    append resolved($name) $value
+		}
+	    }
+	}
+    }
+}
+
+resolve "::output::block"
+
 
 puts "Popeye output grammar parser: pre-compiling"
-regexp -all -indices -inline $output::block ""
+regexp -all -indices -inline $resolved(::output::block) ""
 
 foreach inputfile $inputfiles {
     puts "Popeye output grammar parser: parsing $inputfile"
@@ -80,7 +114,7 @@ foreach inputfile $inputfiles {
     set input [read $f]
     close $f
 
-    set parsed [regexp -inline $output::block $input]
+    set parsed [regexp -inline $resolved(::output::block) $input]
     puts -nonewline $differ [lindex $parsed 0]
 
     chan close $differ "write"
