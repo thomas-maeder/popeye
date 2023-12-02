@@ -579,10 +579,6 @@ namespace eval inputerror {
 }
 
 namespace eval problem {
-    terminal popeye [literal popeye]
-
-    nonterminal popeyeLine { popeye lineText+ eol }
-
     nonterminal noNonboardBlock {
         meta::block
         boardA::block?
@@ -595,11 +591,21 @@ namespace eval problem {
     }
 
     nonterminal block {
-        popeyeLine?
         inputerror::block*
         remarkOrValidationError::block
         noNonboardBlock?
         solution::block?
         footer::block
+    }
+}
+
+namespace eval output {
+    terminal popeye [literal popeye]
+
+    nonterminal popeyeLine { popeye lineText+ eol }
+
+    nonterminal block {
+        popeyeLine?
+        problem::block*
     }
 }

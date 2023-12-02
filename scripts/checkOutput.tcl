@@ -68,7 +68,7 @@ proc nonterminal {name production} {
 source output/plaintext/documentation/grammar
 
 puts "Popeye output grammar parser: pre-compiling"
-regexp -all -indices -inline $problem::block ""
+regexp -all -indices -inline $output::block ""
 
 foreach inputfile $inputfiles {
     puts "Popeye output grammar parser: parsing $inputfile"
@@ -79,13 +79,8 @@ foreach inputfile $inputfiles {
     set input [read $f]
     close $f
 
-    set problemIndices [regexp -all -indices -inline $problem::block $input]
-
-    foreach problemIndexPair $problemIndices {
-	lassign $problemIndexPair problemStart problemEnd
-	set problem [string range $input $problemStart $problemEnd]
-	puts -nonewline $differ $problem
-    }
+    set parsed [regexp -inline $output::block $input]
+    puts -nonewline $differ [lindex $parsed 0]
 
     chan close $differ "write"
     
