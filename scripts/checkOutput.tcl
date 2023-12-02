@@ -29,7 +29,7 @@ proc literal {name} {
 }
 
 # syntactic sugar for looking up variables in ancestor namespaces
-proc lookupValue {name} {
+proc lookupName {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
@@ -40,7 +40,7 @@ proc lookupValue {name} {
             set scope [namespace parent $scope]
         }
     }
-    return [set ${scope}::$name]
+    return ${scope}::$name
 }
 
 proc terminal {name expression} {
@@ -57,7 +57,8 @@ proc nonterminal {name production} {
     set result ""
     foreach token [split $production " "] {
 	if {[regexp -- {^([[:alnum:]_:]+)([?*+]|{.*})?$} $token - name quantifier]} {
-	    set value [uplevel lookupValue $name]
+	    set name [uplevel lookupName $name]
+	    set value [set $name]
 	    append result "(?:$value)$quantifier"
 	} else {
 	    append result $token
