@@ -28,22 +28,18 @@ proc literal {name} {
     return [set ${language}::$name]
 }
 
-proc normalizeQualifiedName {name} {
-    return [regsub {^::::} $name "::"]
-}
-
 # syntactic sugar for looking up variables in ancestor namespaces
 proc lookupName {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
-        if {$scope=="::"} {
+        if {$scope=="::grammar"} {
             error "can't find variable $name from scope $initialscope"
         } else {
             set scope [namespace parent $scope]
         }
     }
-    return [normalizeQualifiedName ${scope}::$name]
+    return ${scope}::$name
 }
 
 proc terminal {name expression} {
@@ -51,7 +47,7 @@ proc terminal {name expression} {
     global resolved
 
     set result $expression
-    set resolved([normalizeQualifiedName [uplevel namespace current]::$name]) $expression
+    set resolved([uplevel namespace current]::$name) $expression
 }
 
 proc nonterminal {name production} {
@@ -71,7 +67,9 @@ proc nonterminal {name production} {
 }
 
 if {[catch {
-    source output/plaintext/documentation/grammar
+    namespace eval grammar {
+	source output/plaintext/documentation/grammar
+    }
 } error]} {
     puts $errorInfo
     exit 1
@@ -99,11 +97,11 @@ proc resolve {name} {
     }
 }
 
-resolve "::output::block"
+resolve "::grammar::output::block"
 
 
 puts "Popeye output grammar parser: pre-compiling"
-regexp -all -indices -inline $resolved(::output::block) ""
+regexp -all -indices -inline $resolved(::grammar::output::block) ""
 
 foreach inputfile $inputfiles {
     puts "Popeye output grammar parser: parsing $inputfile"
@@ -114,7 +112,7 @@ foreach inputfile $inputfiles {
     set input [read $f]
     close $f
 
-    set parsed [regexp -inline $resolved(::output::block) $input]
+    set parsed [regexp -inline $resolved(::grammar::output::block) $input]
     puts -nonewline $differ [lindex $parsed 0]
 
     chan close $differ "write"
