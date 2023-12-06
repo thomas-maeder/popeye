@@ -4,10 +4,11 @@ source output/plaintext/documentation/german
 source output/plaintext/documentation/english
 source output/plaintext/documentation/cmdline.tcl
 
-set options {
-    { language.arg "english" {(-l) output language} }
-    { l.arg "english" {} }
-}
+set languagesRE [join [regsub -all ::language:: [namespace children ::language] ""] "|"]
+
+set options [subst -nocommands -nobackslashes {
+    { language.arg "english" "output language ($languagesRE)" }
+}]
 
 set usageIntro [join {
     {: [options] filepath ...}
@@ -17,8 +18,14 @@ set usageIntro [join {
 
 try {
     array set params [::cmdline::getoptions argv $options $usageIntro]
-    # Note: argv is modified now. The recognized options are
-    # removed from it, leaving the non-option arguments behind.
+
+    if {[regexp -- $languagesRE $params(language)]} {
+	# Note: argv is modified now. The recognized options are
+	# removed from it, leaving the non-option arguments behind.
+	set params(inputfiles) $argv
+    } else {
+	::cmdline::Error [::cmdline::usage $options $usageIntro] USAGE
+    }
 } trap {CMDLINE USAGE} {msg o} {
     # Trap the usage signal, print the message, and exit the application.
     # Note: Other errors are not caught and passed through to higher levels!
@@ -26,10 +33,8 @@ try {
     exit 1
 }
 
-set params(inputfiles) $argv
-
 proc literal {name} {
-    return [set ${::params(language)}::$name]
+    return [set ::language::${::params(language)}::$name]
 }
 
 proc lookupName {name} {
