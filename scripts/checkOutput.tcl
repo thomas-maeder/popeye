@@ -1,34 +1,37 @@
 #! /usr/bin/env tclsh
 
-# Usage: $argv0 INPUTFILEPATH | diff -y --width=200 INPUTFILEPATH -
-
-switch -re [lindex $argv 0] {
-    ".*[.]out$" {
-        set language "german"
-    }
-    ".*[.]tst$" -
-    ".*[.]ref$" -
-    ".*[.]reg$" {
-        set language "english"
-    }
-    default {
-        error "failed to detect language"
-        exit 1
-    }
-}
-
-set inputfiles $argv
-
 source output/plaintext/documentation/german
 source output/plaintext/documentation/english
+source output/plaintext/documentation/cmdline.tcl
 
-
-proc literal {name} {
-    global language
-    return [set ${language}::$name]
+set options {
+    { language.arg "english" {(-l) output language} }
+    { l.arg "english" {} }
 }
 
-# syntactic sugar for looking up variables in ancestor namespaces
+set usageIntro [join {
+    {: [options] filepath ...}
+    {}
+    {options:}
+} "\n"]
+
+try {
+    array set params [::cmdline::getoptions argv $options $usageIntro]
+    # Note: argv is modified now. The recognized options are
+    # removed from it, leaving the non-option arguments behind.
+} trap {CMDLINE USAGE} {msg o} {
+    # Trap the usage signal, print the message, and exit the application.
+    # Note: Other errors are not caught and passed through to higher levels!
+    puts $msg
+    exit 1
+}
+
+set params(inputfiles) $argv
+
+proc literal {name} {
+    return [set ${::params(language)}::$name]
+}
+
 proc lookupName {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
@@ -108,7 +111,7 @@ resolve "::grammar::output::block"
 puts "Popeye output grammar parser: pre-compiling"
 regexp -all -indices -inline $resolved(::grammar::output::block) ""
 
-foreach inputfile $inputfiles {
+foreach inputfile $params(inputfiles) {
     puts "Popeye output grammar parser: parsing $inputfile"
     
     set differ [open "| diff $inputfile -" "r+"]
