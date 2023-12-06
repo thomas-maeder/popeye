@@ -44,10 +44,8 @@ proc lookupName {name} {
 
 proc terminal {name expression} {
     upvar $name result
-    global resolved
 
-    set result $expression
-    set resolved([uplevel namespace current]::$name) $expression
+    set result [list "terminal" $expression]
 }
 
 proc nonterminal {name production} {
@@ -55,15 +53,17 @@ proc nonterminal {name production} {
 
     regsub -all {[[:space:]]+} [string trim $production] " " production
 
-    set result ""
+    set lookedup ""
     foreach token [split $production " "] {
 	if {[regexp -- {^([[:alnum:]_:]+)([?*+]|{.*})?$} $token - name quantifier]} {
 	    set name [uplevel lookupName $name]
-	    lappend result [list "name" $name $quantifier]
+	    lappend lookedup [list "name" $name $quantifier]
 	} else {
-	    lappend result [list "operator" $token ""]
+	    lappend lookedup [list "operator" $token ""]
 	}
     }
+
+    set result [list "nonterminal" $lookedup]
 }
 
 if {[catch {
@@ -79,18 +79,23 @@ proc resolve {name} {
     global resolved
 
     if {![info exists resolved($name)]} {
-	if {![info exists $name]} {
-	    error "name $name is not defined"
-	}
-	foreach element [set $name] {
-	    lassign $element type value quantifier
-	    switch $type {
-		"name" {
-		    resolve $value
-		    append resolved($name) "(?:$resolved($value))$quantifier"
-		}
-		"operator" {
-		    append resolved($name) $value
+	lassign [set $name] type value
+	switch $type {
+	    "terminal" {
+		set resolved($name) $value
+	    }
+	    "nonterminal" {
+		foreach element $value {
+		    lassign $element type value quantifier
+		    switch $type {
+			"name" {
+			    resolve $value
+			    append resolved($name) "(?:$resolved($value))$quantifier"
+			}
+			"operator" {
+			    append resolved($name) $value
+			}
+		    }
 		}
 	    }
 	}
