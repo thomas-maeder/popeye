@@ -15,14 +15,14 @@ nonterminal duration { durationSeconds | durationMinutes | durationHours }
 nonterminal solvingTime { time space equals space duration }
 
 # we can't distinguish remarks (in the input) and error messages produced during validation
-namespace eval remarkOrValidationError {
+scope remarkOrValidationError {
     nonterminal remark { lineText+ }
     nonterminal remarkLine { remark eol }
 
     nonterminal block { remarkLine* }
 }
 
-namespace eval meta {
+scope meta {
     nonterminal leadingBlanks { space* }
 
     nonterminal authorOriginAwardTitle { lineText+ }
@@ -31,7 +31,7 @@ namespace eval meta {
     nonterminal block { emptyLine authorOriginAwardTitleLine* }
 }
 
-namespace eval board {
+scope board {
     terminal cornerSign {[+]}
     terminal verticalBorderSign {[|]}
     terminal horizontalBorderSign "-"
@@ -76,7 +76,7 @@ namespace eval board {
     }
 }
 
-namespace eval gridboard {
+scope gridboard {
     terminal cell {  [ [:digit:]][[:digit:]]}
 
     nonterminal cellsline { board::rowNo cell+ space space space board::rowNo eol }
@@ -90,7 +90,7 @@ namespace eval gridboard {
     }
 }
 
-namespace eval goal {
+scope goal {
     terminal mate "#"
     terminal stalemate "="
     terminal dia "dia"
@@ -117,7 +117,7 @@ namespace eval goal {
     terminal kiss {k[a-h][1-8]}
 }
 
-namespace eval stipulation {
+scope stipulation {
     terminal exactPrefix {exact-}
     terminal introPrefix {[[:digit:]]+->}
     terminal parryPrefix {ph?}
@@ -184,7 +184,7 @@ namespace eval stipulation {
     nonterminal block { combined suffix }
 }
 
-namespace eval pieceControl {
+scope pieceControl {
     terminal piecesOfColor {[[:digit:]]+}
     terminal separator { [+] }
     terminal totalInvisiblePseudoWalk "TI"
@@ -195,11 +195,11 @@ namespace eval pieceControl {
     nonterminal block { piecesOfColor separator piecesOfColor piecesNeutral? piecesTotalInvisible? }
 }
 
-namespace eval caption {
+scope caption {
     nonterminal block { space* stipulation::block space* pieceControl::block eol }
 }
 
-namespace eval boardA {
+scope boardA {
     terminal tomoveIndicator "->"
     terminal arrow "=>"
 
@@ -216,12 +216,12 @@ namespace eval boardA {
     }
 }
 
-namespace eval conditions {
+scope conditions {
     nonterminal line { space* lineText+ eol }
     nonterminal block { line* }
 }
 
-namespace eval duplex {
+scope duplex {
     terminal duplex [literal duplex]
     terminal halfduplex [literal halfduplex]
 
@@ -230,7 +230,7 @@ namespace eval duplex {
     nonterminal block { line? }
 }
 
-namespace eval solution {
+scope solution {
     terminal naturalNumber {[1-9][0-9]*}
     terminal paren_open {[(]}
     terminal paren_close {[)]}
@@ -269,7 +269,7 @@ namespace eval solution {
     terminal forcedReflexMoveIndicator {[?]![?]}
     terminal measurement { *[[:alpha:]_]+: *[[:digit:]]+}
 
-    namespace eval pieceAttributeShortcut {
+    scope pieceAttributeShortcut {
         terminal white [literal pieceAttributeShortcut::white]
         terminal black [literal pieceAttributeShortcut::black]
         terminal neutral [literal pieceAttributeShortcut::neutral]
@@ -387,7 +387,7 @@ namespace eval solution {
 
     nonterminal forcedReflexMove { space+ ordinalNumber move goalIndicator space forcedReflexMoveIndicator eol }
 
-    namespace eval tree {
+    scope tree {
         terminal zugzwang [literal zugzwang]
         terminal threat [literal threat]
         terminal refutationIndicator "!"
@@ -445,13 +445,13 @@ namespace eval solution {
         nonterminal block { postKeyPlay | setplayBlock? regularplayBlock* }
     }
 
-    namespace eval line {
+    scope line {
         nonterminal moveSuffix { space undec eol | goalIndicator }
         nonterminal moveNumberLine { moveNumberLineNonIntelligent | moveNumberLineIntelligent }
         nonterminal numberedHalfMove { space+ ordinalNumber move }
         nonterminal unnumberedHalfMove { space+ move }
 
-        namespace eval helpplay {
+        scope helpplay {
             terminal one "1"
 
             nonterminal movePair { numberedHalfMove unnumberedHalfMove }
@@ -460,7 +460,7 @@ namespace eval solution {
             nonterminal movesSequence { movePair* numberedHalfMove? moveSuffix? eol}
 
             # set play of h#n.5
-            namespace eval twoEllipsis {
+            scope twoEllipsis {
                 nonterminal firstMovePairSkipped { one ellipsis space+ ellipsis }
                 nonterminal movesLine { space+ firstMovePairSkipped movesSequence }
                 nonterminal line { movesLine | moveNumberLine }
@@ -468,7 +468,7 @@ namespace eval solution {
             }
 
             # set play of h#n or regular play of h#n.5
-            namespace eval oneEllipsis {
+            scope oneEllipsis {
                 nonterminal firstMoveSkipped { one ellipsis move }
                 nonterminal movesLine { space+ firstMoveSkipped movesSequence }
                 nonterminal line { movesLine | moveNumberLine }
@@ -476,7 +476,7 @@ namespace eval solution {
             }
 
             # regular play of h#n
-            namespace eval noEllipsis {
+            scope noEllipsis {
                 nonterminal line { movesSequence | moveNumberLine }
                 nonterminal block { line+ }
             }
@@ -487,7 +487,7 @@ namespace eval solution {
             }
         }
 
-        namespace eval seriesplay {
+        scope seriesplay {
             nonterminal fullMove { numberedHalfMove unnumberedHalfMove* }
             nonterminal movesLine { fullMove+ moveSuffix? eol }
             nonterminal line { movesLine | moveNumberLine }
@@ -500,7 +500,7 @@ namespace eval solution {
     nonterminal measurementLine { measurement eol }
     nonterminal measurementsBlock { measurementLine+ }
 
-    namespace eval untwinned {
+    scope untwinned {
         terminal toofairy [literal toofairy]
         terminal nonsensecombination [literal nonsensecombination]
         terminal conditionSideUndecidable [literal conditionSideUndecidable]
@@ -533,7 +533,7 @@ namespace eval solution {
         nonterminal block { warningLine* solvingResult remarkOrValidationError::block? }
     }
 
-    namespace eval twinning {
+    scope twinning {
         terminal continued {[+]}
         terminal label {[[:lower:]][[:digit:]]*[)]}
 
@@ -545,7 +545,7 @@ namespace eval solution {
         }
     }
 
-    namespace eval twinned {
+    scope twinned {
         nonterminal twinblock { twinning::block untwinned::block }
         nonterminal block { twinblock+ }
     }
@@ -553,7 +553,7 @@ namespace eval solution {
     nonterminal block { untwinned::block | twinned::block }
 }
 
-namespace eval footer {
+scope footer {
     terminal endOfSolution [literal endOfSolution]
     terminal partialSolution [literal partialSolution]
     nonterminal solvingTimeIndication { space solvingTime }
@@ -562,13 +562,13 @@ namespace eval footer {
     nonterminal block { eol solutionEnd solvingTimeIndication? eol emptyLine emptyLine }
 }
 
-namespace eval zeroposition {
+scope zeroposition {
     terminal zeroposition [literal zeroposition]
 
     nonterminal block { emptyLine zeroposition eol emptyLine }
 }
 
-namespace eval inputerror {
+scope inputerror {
     terminal inputError [literal inputError]
     terminal offendingItem [literal offendingItem]
 
@@ -578,7 +578,7 @@ namespace eval inputerror {
     }
 }
 
-namespace eval problem {
+scope problem {
     nonterminal noNonboardBlock {
         meta::block
         boardA::block?
@@ -599,7 +599,7 @@ namespace eval problem {
     }
 }
 
-namespace eval output {
+scope output {
     terminal popeye [literal popeye]
 
     nonterminal popeyeLine { popeye lineText+ eol }

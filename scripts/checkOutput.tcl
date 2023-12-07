@@ -33,11 +33,26 @@ try {
     exit 1
 }
 
-proc literal {name} {
+namespace eval ::grammarParser {
+    namespace export literal terminal nonterminal lookupName scope
+}
+
+proc ::grammarParser::scope {name code} {
+    uplevel namespace eval $name "namespace import ::grammarParser::*"
+    uplevel namespace eval $name [list $code]
+}
+
+proc ::grammarParser::literal {name} {
     return [set ::language::${::params(language)}::$name]
 }
 
-proc lookupName {name} {
+proc ::grammarParser::terminal {name expression} {
+    upvar $name result
+
+    set result [list "terminal" $expression]
+}
+
+proc ::grammarParser::lookupName {name} {
     set scope [uplevel namespace current]
     set initialscope $scope
     while {![info exists ${scope}::$name]} {
@@ -50,13 +65,7 @@ proc lookupName {name} {
     return ${scope}::$name
 }
 
-proc terminal {name expression} {
-    upvar $name result
-
-    set result [list "terminal" $expression]
-}
-
-proc nonterminal {name production} {
+proc ::grammarParser::nonterminal {name production} {
     upvar $name result
 
     regsub -all {[[:space:]]+} [string trim $production] " " production
@@ -75,7 +84,7 @@ proc nonterminal {name production} {
 }
 
 if {[catch {
-    namespace eval grammar {
+    ::grammarParser::scope grammar {
 	source output/plaintext/documentation/grammar
     }
 } error]} {
