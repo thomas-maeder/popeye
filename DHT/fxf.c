@@ -141,6 +141,10 @@ typedef struct {
 #endif
 
 /* The maximum size an fxfAlloc can handle */
+/* TODO: It's awkward that this limit seems to be based on what's needed for an external type.
+   Ignoring that, do these macros really accurately determine the maximum we need?
+   Can we instead compute it as an expression involving, say, sizeof(void *) and any other
+   relevant system properties? */
 #if defined(SEGMENTED) || defined(__TURBOC__)
 #define fxfMAXSIZE  (((size_t)1024) & ~(MAX_ALIGNMENT - 1U))
 #else
