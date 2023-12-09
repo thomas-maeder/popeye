@@ -622,17 +622,14 @@ NEXT_SEGMENT:
           curBottomIndex+= cur_alignment;
         }
         curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
-        while ((curBottomIndex >= fxfMINSIZE) && curBottomIndex) {
-          size_t next_chunk_size= ((curBottomIndex > fxfMAXSIZE) ? fxfMAXSIZE : curBottomIndex);
-          SizeHead *cur_sh= &SizeData[(next_chunk_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
-          if ((next_chunk_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
-            if (next_chunk_size >= sizeof cur_sh->FreeHead)
+        if ((curBottomIndex >= fxfMINSIZE) && curBottomIndex) {
+          SizeHead *cur_sh= &SizeData[(curBottomIndex - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+          if ((curBottomIndex >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+            if (curBottomIndex >= sizeof cur_sh->FreeHead)
               memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
             cur_sh->FreeHead= BotFreePtr;
             ++cur_sh->FreeCount;
             TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
-            BotFreePtr= stepPointer(BotFreePtr, next_chunk_size);
-            curBottomIndex-= next_chunk_size;
           }
         }
         TMDBG(fputs(" next seg", stdout));
