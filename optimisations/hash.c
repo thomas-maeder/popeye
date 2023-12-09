@@ -2570,14 +2570,11 @@ void hash_opener_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* assert()s below this line must remain active even in "productive"
- * executables. */
-#undef NDEBUG
-#include <assert.h>
-
 /* Check assumptions made in the hashing module. Abort if one of them
  * isn't met.
  * This is called from checkGlobalAssumptions() once at program start.
+ * NOTE: Currently these are all compile-time checks, but we reserve
+ *       the right to add run-time checks in the future.
  */
 void check_hash_assumptions(void)
 {

@@ -141,20 +141,28 @@ typedef struct {
 #endif
 
 /* The maximum size an fxfAlloc can handle */
-/* TODO: It's awkward that this limit seems to be based on what's needed for an external type.
-   Ignoring that, do these macros really accurately determine the maximum we need?
-   Can we instead compute it as an expression involving, say, sizeof(void *) and any other
-   relevant system properties? */
+/* TODO: Do the macros really accurately determine the maximum we need (apparently 1024 or 2048)?
+         Can we instead compute the needed value(s) with expressions involving, say, sizeof(void *)
+         and any other system properties we have access to?
+*/
+enum 
+{
+  fxfMAXSIZE =
 #if defined(SEGMENTED) || defined(__TURBOC__)
-#define fxfMAXSIZE  (((size_t)1024) & ~(MAX_ALIGNMENT - 1U))
+#  if defined(ARENA_SEG_SIZE)
+               ((((1024 > ARENA_SEG_SIZE) ? ARENA_SEG_SIZE : ((size_t)1024))
+#  else
+               ((((size_t)1024)
+#  endif
 #else
-#define fxfMAXSIZE  (((size_t)2048) & ~(MAX_ALIGNMENT - 1U))  /* this is needed only when sizeof(void*)==8 */
+               ((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
 #endif
+                                + (MAX_ALIGNMENT - 1U)) & ~(MAX_ALIGNMENT - 1U)) /* Round up if necessary. */
+};
 
-/* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 enum
 {
-  fxfMINSIZE = sizeof(void *)
+  fxfMINSIZE = sizeof(void *) /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 };
 
 enum {
@@ -285,6 +293,10 @@ static inline ptrdiff_t pointerDifference(void const *ptr1, void const *ptr2) {
 static inline void * stepPointer(void *ptr, ptrdiff_t step) {
   assert(!!ptr);
   return (void *)(((char *)ptr) + step);
+}
+
+size_t fxfMaxAllocation(void) {
+  return fxfMAXSIZE;
 }
 
 size_t fxfInit(size_t Size) {
@@ -605,17 +617,18 @@ NEXT_SEGMENT:
           BotFreePtr= stepPointer(BotFreePtr, cur_alignment);
           curBottomIndex+= cur_alignment;
         }
-        if (BotFreePtr < TopFreePtr) {
-          size_t cur_size= (size_t)(TopFreePtr-BotFreePtr);
-          if (cur_size >= fxfMINSIZE) {
-            SizeHead *cur_sh= &SizeData[(cur_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
-            if ((cur_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
-              if (cur_size >= sizeof cur_sh->FreeHead)
-                memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
-              cur_sh->FreeHead= BotFreePtr;
-              ++cur_sh->FreeCount;
-              TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
-            }
+        curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
+        while ((curBottomIndex >= fxfMINSIZE) && curBottomIndex) {
+          size_t next_chunk_size= ((curBottomIndex > fxfMAXSIZE) ? fxfMAXSIZE : curBottomIndex);
+          SizeHead *cur_sh= &SizeData[(next_chunk_size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+          if ((next_chunk_size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+            if (next_chunk_size >= sizeof cur_sh->FreeHead)
+              memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
+            cur_sh->FreeHead= BotFreePtr;
+            ++cur_sh->FreeCount;
+            TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
+            BotFreePtr= stepPointer(BotFreePtr, next_chunk_size);
+            curBottomIndex-= next_chunk_size;
           }
         }
         TMDBG(fputs(" next seg", stdout));
