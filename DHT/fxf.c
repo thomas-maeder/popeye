@@ -14,11 +14,7 @@
 #  endif /*DBMALLOC*/
 #endif /*__TURBOC__*/
 
-#endif
-
 #include "fxf.h"
-
-#if defined (FXF)
 
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || /* >= C99   -- We have printf ptrdiff_t/size_t specifiers. */ \
     (defined(__cplusplus) && (__cplusplus >= 201103L))              /* >= C++11 -- We have printf ptrdiff_t/size_t specifiers. */
@@ -887,5 +883,9 @@ void fxfInfo(FILE *f) {
             (size_t_printf_type) (FreeBytes/one_kilo));
   }
 }
+
+#else /*FXF*/
+
+extern unsigned char FXF_C_NONEMPTY_TRANSLATION_UNIT;
 
 #endif /*FXF*/
