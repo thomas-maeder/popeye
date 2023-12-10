@@ -622,7 +622,7 @@ NEXT_SEGMENT:
           curBottomIndex+= cur_alignment;
         }
         curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
-        if ((curBottomIndex >= fxfMINSIZE) && curBottomIndex) {
+        if (curBottomIndex >= ((fxfMINSIZE > 0) ? fxfMINSIZE : 1)) {
           SizeHead *cur_sh= &SizeData[(curBottomIndex - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
           if ((curBottomIndex >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
             if (curBottomIndex >= sizeof cur_sh->FreeHead)
