@@ -182,6 +182,9 @@ static size_t min_alignment= !fxfMINSIZE; /* for now */
 static SizeHead SizeData[1 + ((fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
                                                                                           Maximum allocation is fxfMAXSIZE.
                                                                                           All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
+#define SIZEDATA_SIZE_TO_INDEX(s) (((s) - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)
+#define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + \
+                                   ((fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U))))
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
@@ -503,7 +506,7 @@ void *fxfAlloc(size_t size) {
 
   // Round up to a multiple of min_alignment
   size= ALIGN_TO_MINIMUM(size);
-  sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+  sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   if (sh->FreeHead) {
 #if defined(SEGMENTED)
     int ptrSegment;
@@ -569,7 +572,7 @@ START_LOOKING_FOR_CHUNK:
             SetRange(curBottomIndex,cur_alignment);
 #endif
             if (cur_alignment >= fxfMINSIZE) {
-              SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+              SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
               if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
                 if (cur_alignment >= sizeof cur_sh->FreeHead)
                   memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -605,7 +608,7 @@ NEXT_SEGMENT:
         while (curBottomIndex & PTRMASK) {
           size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
           if (cur_alignment >= fxfMINSIZE) {
-            SizeHead *cur_sh= &SizeData[(cur_alignment - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+            SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
             if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
               if (cur_alignment >= sizeof cur_sh->FreeHead)
                 memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -619,7 +622,7 @@ NEXT_SEGMENT:
         }
         curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
         if (curBottomIndex >= ((fxfMINSIZE > 0) ? fxfMINSIZE : 1)) {
-          SizeHead *cur_sh= &SizeData[(curBottomIndex - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+          SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(curBottomIndex)];
           if ((curBottomIndex >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
             if (curBottomIndex >= sizeof cur_sh->FreeHead)
               memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -710,7 +713,7 @@ FOUND_PUTATIVE_SEGMENT:
     }
   }
 #endif
-  sh= &SizeData[(size - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE];
+  sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   if (size&PTRMASK) {
     /* not fully aligned size */
     TMDBG(printf(" BotFreePtr-ptr:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(BotFreePtr,ptr)));
@@ -820,9 +823,6 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   }
   return nptr;
 }
-
-#define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + \
-                                   ((fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U))))
 
 size_t fxfTotal(void) {
   SizeHead const *hd = SizeData;
