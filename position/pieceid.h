@@ -21,6 +21,11 @@ typedef unsigned long       PieceIdType;
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
 
+enum
+{
+  ENSURE_PIECEIDWIDTH_IS_LARGE_ENOUGH=1/!((MaxPieceId>>(PieceIdWidth-1u))>>1)
+};
+
 extern square PiecePositionsInDiagram[MaxPieceId+1];
 
 #define GetPositionInDiagram(spec)     PiecePositionsInDiagram[GetPieceId(spec)]
