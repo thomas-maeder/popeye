@@ -147,6 +147,7 @@ typedef struct {
 */
 enum 
 {
+  fxfMINSIZE = sizeof(void *), /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
   fxfMAXSIZE =
 #if defined(SEGMENTED) || defined(__TURBOC__)
 #  if defined(ARENA_SEG_SIZE)
@@ -158,11 +159,6 @@ enum
                ((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
 #endif
                                 + (MAX_ALIGNMENT - 1U)) & ~(MAX_ALIGNMENT - 1U)) /* Round up if necessary. */
-};
-
-enum
-{
-  fxfMINSIZE = sizeof(void *) /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 };
 
 enum {
