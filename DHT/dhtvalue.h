@@ -105,6 +105,7 @@ typedef union {
 #ifdef DHTVALUE_NEEDS_FLOATING_POINT
     long double floating_point;
 #endif
+    unsigned char buffer[1]; /* treat as having sizeof(dhtValue) elements */
 } dhtValue;
 
 typedef struct {
