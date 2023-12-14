@@ -162,18 +162,15 @@ enum
 };
 
 enum {
-  ENSURE_FXFMINSIZE_GE_0 = 1/(fxfMINSIZE >= 0),
-  ENSURE_FXFMAXSIZE_GT_0 = 1/(fxfMAXSIZE > 0),
+  ENSURE_FXFMINSIZE_GT_0 = 1/(fxfMINSIZE > 0),
   ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE)
 };
 
 #define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
-#define MIN_ALIGNMENT_UNDERESTIMATE (fxfMINSIZE ? \
-                                     ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) : \
-                                     1) /* We'd prefer the top bit, but we'll compute that during fxfInit.
-                                           (Of course, they're probably the same.)
-                                           TODO: Can we compute what we want at compile time and just use it? */
-static size_t min_alignment= !fxfMINSIZE; /* for now */
+#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > MAX_ALIGNMENT) ? MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
+                                                                                                                               (Of course, they're probably the same.)
+                                                                                                                               TODO: Can we compute what we want at compile time and just use it? */
+static size_t min_alignment= 0; /* for now */
 
 static SizeHead SizeData[1 + ((fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
                                                                                           Maximum allocation is fxfMAXSIZE.
@@ -617,7 +614,7 @@ NEXT_SEGMENT:
           curBottomIndex+= cur_alignment;
         }
         curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
-        if (curBottomIndex >= ((fxfMINSIZE > 0) ? fxfMINSIZE : 1)) {
+        if (curBottomIndex >= fxfMINSIZE) {
           SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(curBottomIndex)];
           if ((curBottomIndex >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
             if (curBottomIndex >= sizeof cur_sh->FreeHead)
