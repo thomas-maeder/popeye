@@ -211,8 +211,12 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ++en_passant_top[nbply];
-  en_passant_multistep_over[en_passant_top[nbply]] = s;
+  TraceValue("%u",nbply);
+  TraceValue("%u",entry->u.ep_capture_potential.ply);
+  TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
+  TraceEOL();
+  ++en_passant_top[entry->u.ep_capture_potential.ply];
+  en_passant_multistep_over[en_passant_top[entry->u.ep_capture_potential.ply]] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
