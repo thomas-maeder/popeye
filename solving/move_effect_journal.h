@@ -251,6 +251,7 @@ typedef struct
         struct
         {
             square capture_square;
+            ply ply; /* TODO this is a hack*/
         } ep_capture_potential;
         struct
         {

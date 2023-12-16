@@ -171,8 +171,12 @@ void move_effect_journal_do_remember_ep(square s)
   TraceFunctionParamListEnd();
 
   entry->u.ep_capture_potential.capture_square = s;
+  entry->u.ep_capture_potential.ply = nbply;
 
   ++en_passant_top[nbply];
+  TraceValue("%u",nbply);
+  TraceValue("%u",en_passant_top[nbply]);
+  TraceEOL();
   en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
@@ -187,7 +191,12 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  --en_passant_top[nbply];
+  TraceValue("%u",nbply);
+  TraceValue("%u",entry->u.ep_capture_potential.ply);
+  TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
+  TraceEOL();
+  assert(en_passant_top[entry->u.ep_capture_potential.ply]>0);
+  --en_passant_top[entry->u.ep_capture_potential.ply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -334,6 +343,9 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   {
     unsigned int i;
 
+    TraceValue("%u",en_passant_top[ply_parent-1]);
+    TraceValue("%u",en_passant_top[ply_parent]);
+    TraceEOL();
     for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
       if (en_passant_multistep_over[i]==s)
       {
