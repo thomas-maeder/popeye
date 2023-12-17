@@ -195,7 +195,8 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
   TraceValue("%u",entry->u.ep_capture_potential.ply);
   TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
   TraceEOL();
-  assert(en_passant_top[entry->u.ep_capture_potential.ply]>0);
+  assert(entry->u.ep_capture_potential.ply>=nbply);
+  assert(en_passant_was_multistep_played(entry->u.ep_capture_potential.ply));
   --en_passant_top[entry->u.ep_capture_potential.ply];
 
   TraceFunctionExit(__func__);
@@ -215,6 +216,7 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
   TraceValue("%u",entry->u.ep_capture_potential.ply);
   TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
   TraceEOL();
+  assert(entry->u.ep_capture_potential.ply>=nbply);
   ++en_passant_top[entry->u.ep_capture_potential.ply];
   en_passant_multistep_over[en_passant_top[entry->u.ep_capture_potential.ply]] = s;
 
@@ -228,7 +230,7 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
  */
 boolean en_passant_was_multistep_played(ply ply)
 {
-  boolean const result = en_passant_top[nbply]>en_passant_top[nbply-1];
+  boolean const result = en_passant_top[ply]>en_passant_top[ply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
