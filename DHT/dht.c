@@ -398,7 +398,7 @@ typedef struct
 {
     dhtHashValue (*Hash)(dhtKey);
     int         (*Equal)(dhtKey, dhtKey);
-    int         (*DupKey)(dhtValue, dhtValue *);
+    int         (*DupKeyValue)(dhtValue, dhtValue *);
     int         (*DupData)(dhtValue, dhtValue *);
     void        (*FreeKey)(dhtValue);
     void        (*FreeData)(dhtValue);
@@ -512,12 +512,12 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 
         if (KeyPolicy==dhtNoCopy)
         {
-          ht->procs.DupKey= dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.DupKeyValue= dhtProcedures[dhtSimpleValue]->Dup;
           ht->procs.FreeKey= dhtProcedures[dhtSimpleValue]->Free;
         }
         else if (KeyPolicy==dhtCopy)
         {
-          ht->procs.DupKey= dhtProcedures[KeyType]->Dup;
+          ht->procs.DupKeyValue= dhtProcedures[KeyType]->Dup;
           ht->procs.FreeKey= dhtProcedures[KeyType]->Free;
         }
 
@@ -902,7 +902,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 #endif
   TraceFunctionParamListEnd();
 
-  if ((ht->procs.DupKey)(key.value, &KeyV.value))
+  if ((ht->procs.DupKeyValue)(key.value, &KeyV.value))
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
