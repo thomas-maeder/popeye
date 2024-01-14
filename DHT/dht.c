@@ -400,10 +400,10 @@ typedef struct
     int         (*Equal)(dhtKey, dhtKey);
     int         (*DupKeyValue)(dhtValue, dhtValue *);
     int         (*DupData)(dhtValue, dhtValue *);
-    void        (*FreeKey)(dhtValue);
+    void        (*FreeKeyValue)(dhtValue);
     void        (*FreeData)(dhtValue);
     void        (*DumpData)(dhtValue,FILE *);
-    void        (*DumpKey)(dhtValue,FILE *);
+    void        (*DumpKeyValue)(dhtValue,FILE *);
 } Procedures;
 
 typedef struct dht {
@@ -508,17 +508,17 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
         ht->procs.Hash=     dhtProcedures[KeyType]->Hash;
         ht->procs.Equal=    dhtProcedures[KeyType]->Equal;
         ht->procs.DumpData= dhtProcedures[DtaType]->Dump;
-        ht->procs.DumpKey=  dhtProcedures[KeyType]->Dump;
+        ht->procs.DumpKeyValue=  dhtProcedures[KeyType]->Dump;
 
         if (KeyPolicy==dhtNoCopy)
         {
           ht->procs.DupKeyValue= dhtProcedures[dhtSimpleValue]->Dup;
-          ht->procs.FreeKey= dhtProcedures[dhtSimpleValue]->Free;
+          ht->procs.FreeKeyValue= dhtProcedures[dhtSimpleValue]->Free;
         }
         else if (KeyPolicy==dhtCopy)
         {
           ht->procs.DupKeyValue= dhtProcedures[KeyType]->Dup;
-          ht->procs.FreeKey= dhtProcedures[KeyType]->Free;
+          ht->procs.FreeKeyValue= dhtProcedures[KeyType]->Free;
         }
 
         if (DataPolicy==dhtNoCopy)
@@ -559,7 +559,7 @@ void dhtDestroy(HashTable *ht)
     while (b)
     {
       InternHsElement *tmp= b;
-      (ht->procs.FreeKey)(b->HsEl.Key.value);
+      (ht->procs.FreeKeyValue)(b->HsEl.Key.value);
       (ht->procs.FreeData)(b->HsEl.Data);
       b= b->Next;
       FreeInternHsElement(tmp);
@@ -599,7 +599,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
     while (b)
     {
       fprintf(f, "%*s    ", ind, "");
-      (ht->procs.DumpKey)(b->HsEl.Key.value, f);
+      (ht->procs.DumpKeyValue)(b->HsEl.Key.value, f);
       fputs("->", f);
       (ht->procs.DumpData)(b->HsEl.Data, f);
       b= b->Next;
@@ -858,7 +858,7 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
 
     *phe= he->Next;
     (ht->procs.FreeData)(he->HsEl.Data);
-    (ht->procs.FreeKey)(he->HsEl.Key.value);
+    (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
     FreeInternHsElement(he);
     ht->KeyCount--;
     if (ActualLoadFactor(ht) < ht->MinLoadFactor)
@@ -913,7 +913,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 
   if ((ht->procs.DupData)(data, &DataV))
   {
-    (ht->procs.FreeKey)(KeyV.value);
+    (ht->procs.FreeKeyValue)(KeyV.value);
     TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",(void *)dhtNilElement);
@@ -933,7 +933,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
     TraceEOL();
     if (he==0)
     {
-      (ht->procs.FreeKey)(KeyV.value);
+      (ht->procs.FreeKeyValue)(KeyV.value);
       (ht->procs.FreeData)(DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
@@ -953,7 +953,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
     if (ht->DtaPolicy == dhtCopy)
       (ht->procs.FreeData)(he->HsEl.Data);
     if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKey)(he->HsEl.Key.value);
+      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
   }
 
   he->HsEl.Key = KeyV;
