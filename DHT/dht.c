@@ -902,7 +902,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 #endif
   TraceFunctionParamListEnd();
 
-  assert(key.value.object_pointer!=0); /* Here we assume that object_pointer is the active member. */
+  assert(key.value.object_pointer!=0); /* TODO: This assert assumes that object_pointer is the active member.
+                                          Is there a more generic test we could do?  Do we need one? */
   if ((ht->procs.DupKeyValue)(key.value, &KeyV.value))
   {
     TraceText("key duplication failed\n");
