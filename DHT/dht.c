@@ -902,6 +902,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 #endif
   TraceFunctionParamListEnd();
 
+  assert(!!key.value.object_pointer);
   if ((ht->procs.DupKeyValue)(key.value, &KeyV.value))
   {
     TraceText("key duplication failed\n");
