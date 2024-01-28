@@ -8,7 +8,7 @@ enum
 {
   NullPieceId = 0,
   MinPieceId = 1,
-  MaxPieceId = 63
+  MaxPieceId = 64
 };
 
 typedef unsigned long       PieceIdType;
@@ -20,6 +20,11 @@ typedef unsigned long       PieceIdType;
 #define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
+
+enum
+{
+  ENSURE_PIECEIDWIDTH_IS_LARGE_ENOUGH=1/!((MaxPieceId>>(PieceIdWidth-1u))>>1)
+};
 
 extern square PiecePositionsInDiagram[MaxPieceId+1];
 

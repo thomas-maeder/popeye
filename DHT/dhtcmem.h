@@ -6,7 +6,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany  
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept
+ * comment with the above copyright notice is kept
  * intact and in place.
  */
 
@@ -14,10 +14,10 @@
  * It is allocated via one malloc call.
  */
 typedef struct CompactMemVal {
-	unsigned long	Leng;
-	unsigned char	Data[1];
+	unsigned long Leng;
+	unsigned char Data[1];
 } CompactMemVal;
-#define NilCompactMemVal	(CompactMemVal *)0
-#define NewCompactMemVal(n)	(CompactMemVal *)fxfAlloc(sizeof(CompactMemVal)+(n)*sizeof(uChar))
+#define NilCompactMemVal	((CompactMemVal *)0)
+#define NewCompactMemVal(n)	((CompactMemVal *)fxfAlloc(sizeof(CompactMemVal)+(n)*sizeof(uChar)))
 #define FreeCompactMemVal(v)	fxfFree(v, sizeof(CompactMemVal)+((CompactMemVal const *)(v))->Leng*sizeof(uChar))
 #endif /*DHTCMEM_INCLUDED*/
