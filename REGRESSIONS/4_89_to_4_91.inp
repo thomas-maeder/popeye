@@ -11,11 +11,11 @@ condition seriescapture
 
 next
 
-title #442 Condition 'AntiCirce File' - reborn Fers rider
-stip =1
-cond AntiCirce File 
-pieces white kh2 qf8 ba8 black kh8 sg8 pb7
-twin add white fra8
+title #442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
+stip x1
+cond Circe File AntiCirce File 
+pieces white kh2 fra8 black kh8 frb7
+option duplex
 
 end
 

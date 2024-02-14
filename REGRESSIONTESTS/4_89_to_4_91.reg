@@ -35,13 +35,13 @@ solution finished.
 
 
 
-#442 Condition 'AntiCirce File' - reborn Fers rider
+#442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
-8   B   .   .   .   .   Q  -S  -K   8
+8  FR   .   .   .   .   .   .  -K   8
 |                                   |
-7   .  -P   .   .   .   .   .   .   7
+7   . -FR   .   .   .   .   .   .   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
@@ -56,24 +56,24 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  =1                          3 + 3
+  x1                          2 + 2
+             Circe File
            AntiCirce File
+               Duplex
 
-a) 
+   1.FRa8*b7[wFRb7->b8][+bFRb1] x !
 
-   1.Ba8*b7[wBb7->b1] = !
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
 
-  add_to_move_generation_stack:          77
-                     play_move:          77
- is_white_king_square_attacked:          25
- is_black_king_square_attacked:          61
+   1.FRb7*a8[bFRa8->a1][+wFRa8] x !
 
-b) wFRa8  
-
-  add_to_move_generation_stack:          77
-                     play_move:          77
- is_white_king_square_attacked:          25
- is_black_king_square_attacked:          61
+  add_to_move_generation_stack:          12
+                     play_move:           1
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           1
 
 solution finished.
 

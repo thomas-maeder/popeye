@@ -1,6 +1,7 @@
 #include "conditions/circe/file.h"
 #include "conditions/circe/circe.h"
 #include "pieces/walks/classification.h"
+#include "pieces/walks/walks.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -25,24 +26,41 @@ void file_circe_determine_rebirth_square_solve(slice_index si)
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
   unsigned int const col_capture = sq_capture % onerow;
+  piece_walk_type const relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(Side,circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side);
+  TraceWalk(relevant_walk);
+  TraceEOL();
+
   if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side==Black)
   {
-    if (is_pawn(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk))
+    if (is_pawn(relevant_walk))
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+1)*onerow;
-    else
+    else if (relevant_walk==standard_walks[Knight]
+             || relevant_walk==standard_walks[Rook]
+             || relevant_walk==standard_walks[Queen]
+             || relevant_walk==standard_walks[Bishop]
+             || relevant_walk==standard_walks[King])
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + nr_of_slack_rows_below_board*onerow;
+    else
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
   else
   {
-    if (is_pawn(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk))
+    if (is_pawn(relevant_walk))
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
-    else
+    else if (relevant_walk==standard_walks[Knight]
+             || relevant_walk==standard_walks[Rook]
+             || relevant_walk==standard_walks[Queen]
+             || relevant_walk==standard_walks[Bishop]
+             || relevant_walk==standard_walks[King])
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
+    else
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + nr_of_slack_rows_below_board*onerow;
   }
 
   pipe_dispatch_delegate(si);
