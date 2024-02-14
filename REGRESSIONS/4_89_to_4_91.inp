@@ -9,5 +9,13 @@ fors rsbqkbsr/p1pppppp/1P6/8/8/8/1PPPPPPP/RSBQKBSR
 stipulation dia1.5
 condition seriescapture
 
+next
+
+title #442 Condition 'AntiCirce File' - reborn Fers rider
+stip =1
+cond AntiCirce File 
+pieces white kh2 qf8 ba8 black kh8 sg8 pb7
+twin add white fra8
+
 end
 
