@@ -34,3 +34,47 @@ Series Capture proof games weren't solved due to a misapplied "opimization"
 solution finished.
 
 
+
+#442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  FR   .   .   .   .   .   .  -K   8
+|                                   |
+7   . -FR   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 2
+             Circe File
+           AntiCirce File
+               Duplex
+
+   1.FRa8*b7[wFRb7->b8][+bFRb1] x !
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
+
+   1.FRb7*a8[bFRa8->a1][+wFRa8] x !
+
+  add_to_move_generation_stack:          12
+                     play_move:           1
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+

@@ -9,5 +9,13 @@ fors rsbqkbsr/p1pppppp/1P6/8/8/8/1PPPPPPP/RSBQKBSR
 stipulation dia1.5
 condition seriescapture
 
+next
+
+title #442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
+stip x1
+cond Circe File AntiCirce File 
+pieces white kh2 fra8 black kh8 frb7
+option duplex
+
 end
 
