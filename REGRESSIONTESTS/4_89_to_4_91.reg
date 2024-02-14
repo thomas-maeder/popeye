@@ -70,8 +70,6 @@ a)
 
 b) wFRa8  
 
-   1.FRa8*b7[wFRb7->b1] = !
-
   add_to_move_generation_stack:          77
                      play_move:          77
  is_white_king_square_attacked:          25
