@@ -1,7 +1,6 @@
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
 #include "position/position.h"
-#include "position/move_diff_code.h"
 #include "position/effects/piece_readdition.h"
 #include "position/effects/piece_movement.h"
 #include "position/effects/null_move.h"

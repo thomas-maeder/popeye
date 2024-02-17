@@ -63,7 +63,7 @@ mummer_length_type maxdister_measure_length(void)
   if (dister_square[0]==initsquare || dister_square[1]==initsquare)
     result = 0;
   else
-    result = move_diff_code[abs(dister_square[0]-dister_square[1])];
+    result = squared_distance_between_squares(dister_square[0],dister_square[1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -123,7 +123,7 @@ mummer_length_type mindister_measure_length(void)
   if (dister_square[0]==initsquare || dister_square[1]==initsquare)
     result = 0;
   else
-    result = 1000-move_diff_code[abs(dister_square[0]-dister_square[1])];
+    result = 1000-squared_distance_between_squares(dister_square[0],dister_square[1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

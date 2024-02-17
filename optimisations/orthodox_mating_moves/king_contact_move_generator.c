@@ -64,7 +64,7 @@ void orthodox_mating_king_contact_generator_solve(slice_index si)
     for (k = vec_queen_start; k<=vec_queen_end; k++)
     {
       curr_generation->arrival = curr_generation->departure+vec[k];
-      if (move_diff_code[abs(sq_mated_king-curr_generation->arrival)]<=1+1)
+      if (squared_distance_between_squares(sq_mated_king,curr_generation->arrival)<=1+1)
       {
         if (is_square_empty(curr_generation->arrival))
             push_move_no_capture();

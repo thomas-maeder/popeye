@@ -1,8 +1,11 @@
 #include "position/move_diff_code.h"
+#include "position/board.h"
+#include "debugging/assert.h"
 
+#include <stdlib.h>
 #include <limits.h>
 
-move_diff_type const move_diff_code[square_h8 - square_a1 + 1]=
+static move_diff_type const move_diff_code[(square_h8 + 1 + onerow) - square_a1 + 1]=
 {
   /* left/right   */        0,   1,   4,   9,  16,  25,  36,  49,
   /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
@@ -25,5 +28,34 @@ move_diff_type const move_diff_code[square_h8 - square_a1 + 1]=
   /* 6 right up   */       36,  37,  40,  45,  52,  61,  72,  85,
   /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
   /* 7 left  up   */            98,  85,  74,  65,  58,  53,  50,
-  /* 7 right up   */       49,  50,  53,  58,  65,  74,  85,  98
+  /* 7 right up   */       49,  50,  53,  58,  65,  74,  85,  98,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX, UINT_MAX,
+  /* dummies      */       UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX,  UINT_MAX
 };
+
+move_diff_type squared_distance_between_squares(square const sq1, square const sq2)
+{
+#ifndef NDEBUG
+  int col1, col2;
+  assert((sq1 >= (square_a1 - 1 - onerow)) &&
+         (sq1 <= (square_h8 + 1 + onerow)));
+  assert((sq2 >= (square_a1 - 1 - onerow)) &&
+         (sq2 <= (square_h8 + 1 + onerow)));
+  col1 = (sq1 % onerow);
+  assert((col1 >= (left_file - 1)) &&
+         (col1 <= (right_file + 1)));
+  col2 = (sq2 % onerow);
+  assert((col2 >= (left_file - 1)) &&
+         (col2 <= (right_file + 1)));
+  assert(((sq1 >= square_a1) &&
+          (sq1 <= square_h8) &&
+          (col1 >= left_file) &&
+          (col1 <= right_file)) ||
+         ((sq2 >= square_a1) &&
+          (sq2 <= square_h8) &&
+          (col2 >= left_file) &&
+          (col2 <= right_file)));
+#endif
+  return move_diff_code[abs(sq1 - sq2)];
+}

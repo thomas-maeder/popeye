@@ -59,7 +59,7 @@ mummer_length_type maximummer_measure_length(void)
       return 25;
 
     case offset_platzwechsel_rochade:
-      return 2 * move_diff_code[abs(sq_arrival-sq_departure)];
+      return 2 * squared_distance_between_squares(sq_arrival,sq_departure);
 
     default:
       switch (get_walk_of_piece_on_square(sq_departure))
@@ -72,10 +72,10 @@ mummer_length_type maximummer_measure_length(void)
 
         default:
           if (sq_capture>offset_platzwechsel_rochade)
-            return (move_diff_code[abs(sq_arrival-sq_departure)]) +
-              (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
+            return squared_distance_between_squares(sq_arrival,sq_departure) +
+              squared_distance_between_squares((sq_capture-maxsquare),(sq_departure+sq_arrival)/2);
           else
-           return (move_diff_code[abs(sq_arrival-sq_departure)]);
+           return squared_distance_between_squares(sq_arrival,sq_departure);
       }
       break;
   }

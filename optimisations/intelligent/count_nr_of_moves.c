@@ -568,7 +568,7 @@ static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece_walk
 
      default:
        /* it's a rider */
-       if (move_diff_code[abs(being_solved.king_square[Black]-to_square)]<3)
+       if (squared_distance_between_squares(being_solved.king_square[Black],to_square)<3)
          result = 2;
        else
          result = 0;
