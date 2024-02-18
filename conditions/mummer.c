@@ -275,6 +275,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(SLICE_STARTER(si)!=no_side);
   if (mummer_measure_length[SLICE_STARTER(si)])
   {
     if (state->ultra_capturing_king)
@@ -410,6 +411,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     stip_structure_traversal_override_by_function(&st_nested,
                                                   slice_function_move_removing_optimiser,
                                                   &skip_copying);
+    assert(state->current_side!=no_side);
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       stip_structure_traversal_override_single(&st_nested,
@@ -432,6 +434,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
 
     stip_traverse_structure(SLICE_NEXT1(si),&st_nested);
 
+    solving_impose_starter_nested(copies[SLICE_NEXT1(si)],st,SLICE_STARTER(SLICE_NEXT1(si)));
     link_to_branch(SLICE_NEXT2(si),copies[SLICE_NEXT1(si)]);
 
     {
@@ -456,6 +459,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
       }
     }
 
+    assert(state->current_side!=no_side);
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       slice_index const prototype = alloc_pipe(STUltraMummerMeasurerDeadend);

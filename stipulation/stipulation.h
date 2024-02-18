@@ -238,6 +238,18 @@ void stip_detect_starter(slice_index si);
  */
 void solving_impose_starter(slice_index si, Side starter);
 
+struct stip_structure_traversal;
+
+/* Impose the starting side on a (new) part of the stipulation during a traversal,
+ * starting with the current context of that traversal
+ * @param si identifies slice where to start
+ * @param parent parent traversel from where to inherit the context
+ * @param starter starting side at the root of the stipulation
+ */
+void solving_impose_starter_nested(slice_index si,
+                                   struct stip_structure_traversal const *parent,
+                                   Side starter);
+
 /* in-place deep copying a stipulation sub-tree
  * @param si root of sub-tree
  * @return index of root of copy
@@ -247,8 +259,6 @@ slice_index stip_deep_copy(slice_index si);
 /* Auxiliary data structure for deep_copy: remembers slice copies already made
  */
 typedef slice_index stip_deep_copies_type[max_nr_slices];
-
-struct stip_structure_traversal;
 
 /* Initialise a structure traversal for a deep copy operation
  * @param st address of the structure to be initialised
