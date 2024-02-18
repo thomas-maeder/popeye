@@ -367,17 +367,20 @@ static void front_check_by_pawn(slice_index si,
   TraceSquare(via);
   TraceFunctionParamListEnd();
 
-  if (TSTFULLFLAGMASK(being_solved.spec[via+2*dir_up],mask))
+  if (is_on_board(via+dir_up))
   {
-    front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_left);
-    front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_right);
-  }
+    if (TSTFULLFLAGMASK(being_solved.spec[via+2*dir_up],mask))
+    {
+      front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_left);
+      front_check_by_unpromoted_pawn(si,index_of_checker,via,dir_up+dir_right);
+    }
 
-  if (TSTFLAG(sq_spec(via+dir_up),WhPromSq))
-  {
-    front_check_by_pawn_promotion_without_capture(si,index_of_checker,via,dir_up);
-    front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_left);
-    front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_right);
+    if (TSTFLAG(sq_spec(via+dir_up),WhPromSq))
+    {
+      front_check_by_pawn_promotion_without_capture(si,index_of_checker,via,dir_up);
+      front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_left);
+      front_check_by_pawn_promotion_with_capture(si,index_of_checker,via,dir_up+dir_right);
+    }
   }
 
   TraceFunctionExit(__func__);
