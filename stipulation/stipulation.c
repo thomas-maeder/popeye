@@ -901,6 +901,31 @@ void solving_impose_starter(slice_index si, Side starter)
   TraceFunctionResultEnd();
 }
 
+/* Impose the starting side on a (new) part of the stipulation during a traversal,
+ * starting with the current context of that traversal
+ * @param si identifies slice where to start
+ * @param parent parent traversel from where to inherit the context
+ * @param starter starting side at the root of the stipulation
+ */
+void solving_impose_starter_nested(slice_index si,
+                                   stip_structure_traversal const *parent,
+                                   Side starter)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,starter);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init_nested(&st,parent,&starter);
+  stip_impose_starter_impl(si,starter,&st);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Are piece ids required for solving the current stipulation?
  */
 boolean stipulation_are_pieceids_required(void)

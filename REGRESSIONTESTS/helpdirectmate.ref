@@ -22,17 +22,17 @@ correction by TM
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           5 + 7
+  Black 4hh[2da[#]]           5 + 7
 
   1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.e6-e5 Qf6*h4 #
   1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.g6-g5 Qf6-d4 #
   1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   3.e5-e4 Qh8-b8 #
   1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   3.g5-g4 Qh8-h6 #
-
   add_to_move_generation_stack:      154384
                      play_move:       39662
  is_white_king_square_attacked:       15601
  is_black_king_square_attacked:       29869
+
 solution finished.
 
 
@@ -59,17 +59,17 @@ solution finished.
 1   K   .   .   R   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           6 + 7
+  Black 4hh[2da[#]]           6 + 7
 
 a) 
 
   1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   3.Sb8-d7 Rb1-b8 #
   1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   3.Kc8-d8 Rb1*b8 #
-
   add_to_move_generation_stack:      461259
                      play_move:      118566
  is_white_king_square_attacked:       50282
  is_black_king_square_attacked:       90476
+
 b) wBe4-->h1  
 
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Kb7-a8 Bh1*c6 #
@@ -78,11 +78,11 @@ b) wBe4-->h1
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-e5 Re8*b8 #
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-f6 Re8*b8 #
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-f8 Re8*b8 #
-
   add_to_move_generation_stack:      290097
                      play_move:       74418
  is_white_king_square_attacked:       31082
  is_black_king_square_attacked:       56020
+
 solution finished.
 
 
@@ -109,7 +109,7 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           8 + 5
+  Black 4hh[2da[#]]           8 + 5
 
 a) 
 
@@ -119,22 +119,22 @@ a)
   1.Ke4-d3 Kb3-a4   2.Kd3-c4 Bb7-a6 +   3.b6-b5 + Ba6*b5 #
   1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   3.Ke4-f5 Ba6-d3 #
   1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   3.Ke4-d5 Ba6-b7 #
-
   add_to_move_generation_stack:      215791
                      play_move:       62884
  is_white_king_square_attacked:       24157
  is_black_king_square_attacked:       53519
+
 b) bPd6-->b5  
 
   1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.f5-f4 Se6*f4 #
   1.Ke4-d3 Kb3-a3   2.Kd3-c4 Se6-f4   3.d5-d4 Bb7-d5 #
   1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   3.d5-d4 Bc8-b7 #
   1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   3.f5-f4 Se6-g5 #
-
   add_to_move_generation_stack:      127442
                      play_move:       38307
  is_white_king_square_attacked:       14935
  is_black_king_square_attacked:       32082
+
 solution finished.
 
 
@@ -161,17 +161,17 @@ solution finished.
 1   S   .   .   .   B   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           9 + 7
+  Black 4hh[2da[#]]           9 + 7
 
   1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-e4 Bg4-f5 #
   1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-c4 Bg4*e2 #
   1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   3.c4-c3 Bd7*b5 #
   1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   3.e4-e3 Bd7-f5 #
-
   add_to_move_generation_stack:       92234
                      play_move:       29633
  is_white_king_square_attacked:       10469
  is_black_king_square_attacked:       24869
+
 solution finished.
 
 
@@ -198,17 +198,17 @@ solution finished.
 1   .   .   .   .   K   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           6 + 4
+  Black 4hh[2da[#]]           6 + 4
 
 a) 
 
   1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   3.Kc4-d4 Rb1-b4 #
   1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   3.d5-d4 Sd7-e5 #
-
   add_to_move_generation_stack:      440898
                      play_move:      127005
  is_white_king_square_attacked:       65997
  is_black_king_square_attacked:       95610
+
 b) bPd3-->e5  
 
   1.Kc3-d3 Rh1-h3 +   2.Kd3-e4 Sd7-f6 +   3.Ke4-f4 Bb6-e3 #
@@ -218,11 +218,11 @@ b) bPd3-->e5
   1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.c6-c5 Sd7-f6 #
   1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   3.Kd4-e4 Rc1-c4 #
   1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   3.e5-e4 Bb6*c5 #
-
   add_to_move_generation_stack:      748623
                      play_move:      204872
  is_white_king_square_attacked:       98152
  is_black_king_square_attacked:      166447
+
 solution finished.
 
 
@@ -249,7 +249,7 @@ solution finished.
 1   .   .   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[2da[#]]           7 + 4
+  Black 4hh[2da[#]]           7 + 4
 
   1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f1 + Sd2*f1 #
   1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f2 Sd2*c4 #
@@ -269,11 +269,11 @@ solution finished.
   1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d5 Sf2*g4 #
   1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-f4 Sf2-d1 #
   1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-e4 Sf2-d1 #
-
   add_to_move_generation_stack:      115947
                      play_move:       26524
  is_white_king_square_attacked:       10700
  is_black_king_square_attacked:       19723
+
 solution finished.
 
 
@@ -300,14 +300,14 @@ solution finished.
 1   S  -B   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[/2da[#]]         2 + 10
+  Black 8hh[/2da[#]]         2 + 10
 
   1.Sh2-f3 Sa1-c2   2.Sf3-d4 Sc2-e3   3.Sd4-b5 Se3-g4   4.Sb5-c7 Sg4-h6
-
   add_to_move_generation_stack:   340556417
                      play_move:    35741869
  is_white_king_square_attacked:    18638547
  is_black_king_square_attacked:    17315899
+
 solution finished.
 
 
@@ -334,16 +334,16 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
 1   .   .   .   .   .   .   .  -K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 4hh[/2da[#]]          2 + 8
+  Black 4hh[/2da[#]]          2 + 8
 
   1.Sf3-d4 + Kf5*f4   2.Sd4-b5 Kf4-g3
   1.Bf4-c1 Kf5-g4   2.Bc1-b2 Kg4*f3
   1.Rb7-b5 Kf5*f4   2.Rb5-c5 Kf4*f3
-
   add_to_move_generation_stack:     3724274
                      play_move:      446560
  is_white_king_square_attacked:      205289
  is_black_king_square_attacked:      299228
+
 solution finished.
 
 
@@ -370,15 +370,15 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 6hh[/2da[#]]          2 + 7
+  Black 6hh[/2da[#]]          2 + 7
 
   1.Bc7-f4 d4*c5   2.Bf4-h6 c5-c6   3.g7-g5 c6*d7
   1.Bd7-f5 d4-d5   2.Bf5-h7 d5-d6   3.g7-g6 d6*c7
-
   add_to_move_generation_stack:     9379938
                      play_move:     1435450
  is_white_king_square_attacked:      491267
  is_black_king_square_attacked:      969650
+
 solution finished.
 
 
@@ -405,25 +405,25 @@ solution finished.
 1   .   .   .   .   B   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[>1a[#]d]d{!1a[#]d}]h 14 + 7
+  Black 3h[3a[>1a[#]d]d{!1a[#]d}]h14 + 7
               AntiCirce
 
 a) 
 
   1.d3-d2 e7-e8=Q   2.d2-d1=B   1.Qe8-d7 a3-a2   2.b7*a8=S[wSa8->b1] a2*b1=R[bRb1->a8] #
-
   add_to_move_generation_stack:    24784865
                      play_move:    33938943
  is_white_king_square_attacked:    21592104
  is_black_king_square_attacked:     2785834
+
 b) bBa8-->b8  
 
   1.a3-a2 e7-e8=R   2.a2-a1=S   1.Re8-e7 d3-d2   2.c7*b8=B[wBb8->c1] d2*c1=Q[bQc1->d8] #
-
   add_to_move_generation_stack:    19005089
                      play_move:    24771470
  is_white_king_square_attacked:    16237460
  is_black_king_square_attacked:     2025015
+
 solution finished.
 
 
@@ -450,7 +450,7 @@ solution finished.
 1   .   .   K   .   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          7 + 11
+  Black 3h[3a[#]d]h          7 + 11
 
   1.Bh1-g2 Bh6-f4   2.Bg2-f1   1.Bd3-g6 + Kh5-g4   2.Qc3*f3 #
   1.f2-f1=S Qc3-c2   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Qc2-g6 #
@@ -504,11 +504,11 @@ solution finished.
   1.c5-c4 Qc3*d4   2.Ra5*e5   1.Qd4*e5 + Kh5-g4   2.Qe5-g5 #
   1.c5-c4 Qc3*d4   2.Ra5*e5   1.Qd4*e5 + Kh5*h6   2.Sh8-f7 #
   1.Kh5-g4 Qc3*d4 +   2.Kg4-g3   1.Sd2-f1 + Kg3-g2   2.Qd4-g4 #
-
   add_to_move_generation_stack:     9050323
                      play_move:     2004450
  is_white_king_square_attacked:      745070
  is_black_king_square_attacked:     1567783
+
 solution finished.
 
 
@@ -535,16 +535,16 @@ solution finished.
 1   .   .   .  -G   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[4ad[#]]h          9 + 11
+  Black 3h[4ad[#]]h          9 + 11
 
   1.Bf5*g6 e5-e6   2.Sh6-f5   1.Gf6-d6 + Sf5*d6   2.Sd2-c4 + Sd6*c4 #
   1.Sh6-g8 Gg6-g3   2.Sg8*f6   1.Gg3-d3 + Gd1*d3 #
   1.Sh6-g8 Gg6-g3   2.Sg8*f6   1.Gg3-d3 + Bf5*d3   2.Sd2-c4 + Bd3*c4 #
-
   add_to_move_generation_stack:     9065305
                      play_move:     4701526
  is_white_king_square_attacked:     4693587
  is_black_king_square_attacked:     2589766
+
 solution finished.
 
 
@@ -571,7 +571,7 @@ solution finished.
 1   .   .   .   .   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[7a[#]d]h           3 + 5
+  Black 3h[7a[#]d]h           3 + 5
 
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-a8   2.Se8-g7 #
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-b7   2.Se8-g7 #
@@ -588,11 +588,11 @@ solution finished.
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Ke6-f5   2.Se8-g7 + Kf5-g6   3.Qd4-d6 #
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 h7-h5   2.Se8-g7 #
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 h7-h6   2.Se8-g7 #
-
   add_to_move_generation_stack:   282524930
                      play_move:   169007022
  is_white_king_square_attacked:   133874907
  is_black_king_square_attacked:    46293115
+
 solution finished.
 
 
@@ -619,7 +619,7 @@ solution finished.
 1   .   .   .  -K   .  -R   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h           5 + 9
+  Black 3h[3a[#]d]h           5 + 9
 
 a) 
 
@@ -635,11 +635,11 @@ a)
   1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q a3-a2   2.Qe8-e2 #
   1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q f5-f4   2.Qe8-e2 #
   1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q g6-g5   2.Qe8-e2 #
-
   add_to_move_generation_stack:     3594312
                      play_move:      774082
  is_white_king_square_attacked:      284379
  is_black_king_square_attacked:      601955
+
 b) bRf1-->e1  
 
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Rb1-a1   2.Qd5-b3 #
@@ -651,11 +651,11 @@ b) bRf1-->e1
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 a3-a2   2.Qd5-b3 #
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 f5-f4   2.Qd5-b3 #
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 g6-g5   2.Qd5-b3 #
-
   add_to_move_generation_stack:     2124576
                      play_move:      501325
  is_white_king_square_attacked:      177252
  is_black_king_square_attacked:      392512
+
 solution finished.
 
 
@@ -682,7 +682,7 @@ solution finished.
 1   .   .   .   K   .   .   .  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 5h[3a[#]d]h           2 + 7
+  Black 5h[3a[#]d]h           2 + 7
 
   1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=Q   2.Sc5-b3 #
   1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=S   2.Sc5-b3 #
@@ -751,11 +751,11 @@ solution finished.
   1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-d7   2.Sf4-h3 #
   1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-b7   2.Sf4-h3 #
   1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-a6   2.Sf4-h3 #
-
   add_to_move_generation_stack:    60592104
                      play_move:     7955941
  is_white_king_square_attacked:     3536328
  is_black_king_square_attacked:     4949232
+
 solution finished.
 
 
@@ -782,7 +782,7 @@ solution finished.
 1   .   .   .   .   .   .   K   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          12 + 5
+  Black 3h[3a[#]d]h          12 + 5
 
 a) 
 
@@ -843,11 +843,11 @@ a)
   1.Qh8-e5 RLb3-b8   2.Kc6-d5   1.Se6-d4 + Kd5-e4   2.RLb8-b4 #
   1.Qh8-e5 RLb3-b7   2.Kc6-d5   1.Se6-d4 + Kd5-c4   2.b2-b3 #
   1.Qh8-e5 RLb3-b7   2.Kc6-d5   1.Se6-d4 + Kd5-e4   2.RLb7-b4 #
-
   add_to_move_generation_stack:    23444348
                      play_move:     8075793
  is_white_king_square_attacked:     1160936
  is_black_king_square_attacked:     7589262
+
 b) bQh8-->h4  bRh2  
 
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 g3-g2   2.Sa6-b8 #
@@ -889,11 +889,11 @@ b) bQh8-->h4  bRh2
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Sa6-b8 #
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Se6-d4 #
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Se6-d8 #
-
   add_to_move_generation_stack:    11922413
                      play_move:     4321262
  is_white_king_square_attacked:      638772
  is_black_king_square_attacked:     4023436
+
 solution finished.
 
 
@@ -920,16 +920,16 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[9a[#]d]h           4 + 1
+  Black 3h[9a[#]d]h           4 + 1
 
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-c1   4.Re3-d3 Kc1-b1   5.Rd3-d1 #
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-d1   4.Kb3-c3 Kd1-c1   5.Re3-e1 #
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3-d4   3.Sd2-f3 + Kd4-d3   4.Re5-e3 #
-
   add_to_move_generation_stack:   201032401
                      play_move:   163475067
  is_white_king_square_attacked:   145563028
  is_black_king_square_attacked:    20193782
+
 solution finished.
 
 
@@ -956,15 +956,15 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h           5 + 4
+  Black 3h[3a[#]d]h           5 + 4
 
   1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5*h4   2.Be5-f6 #
   1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5-f5   2.Rh4*h5 #
-
   add_to_move_generation_stack:      317405
                      play_move:       90432
  is_white_king_square_attacked:       34745
  is_black_king_square_attacked:       72383
+
 solution finished.
 
 
@@ -991,15 +991,15 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 5h[3a[#]d]h           2 + 4
+  Black 5h[3a[#]d]h           2 + 4
 
   1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-c2   2.Sa7-b5 #
   1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-b3   2.Sa7-b5 #
-
   add_to_move_generation_stack:    24169319
                      play_move:     3262178
  is_white_king_square_attacked:     1547915
  is_black_king_square_attacked:     1870262
+
 solution finished.
 
 
@@ -1026,25 +1026,25 @@ solution finished.
 1   .   .  -R  -K   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 9h[3a[#]d]h           2 + 4
+  Black 9h[3a[#]d]h           2 + 4
 
 a) 
 
   1.Kd1-d2 h3-h4   2.Rc1-h1 h4-h5   3.Kd2-e1 h5-h6   4.Ke1-f1 h6-h7   5.Kf1-g1   1.h7-h8=Q Kg1-f1   2.Qh8-a1 #
   1.Kd1-d2 h3-h4   2.Rc1-h1 h4-h5   3.Kd2-e1 h5-h6   4.Ke1-f1 h6-h7   5.Kf1-g1   1.h7-h8=Q f5-f4   2.Qh8-a1 #
-
   add_to_move_generation_stack:  3246970555
                      play_move:   302848204
  is_white_king_square_attacked:   170483837
  is_black_king_square_attacked:   132474921
+
 b) bRc1-->c4  
 
   1.Rc4-g4 h3*g4   2.Kd1-e1 g4-g5   3.Ke1-f1 g5-g6   4.Kf1-g1 g6-g7   5.Kg1-h1   1.g7-g8=Q f5-f4   2.Qg8-g2 #
-
   add_to_move_generation_stack:  2710469819
                      play_move:   263950001
  is_white_king_square_attacked:   149242564
  is_black_king_square_attacked:   114834104
+
 solution finished.
 
 
@@ -1071,14 +1071,14 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 9h[3a[#]d]h           2 + 2
+  Black 9h[3a[#]d]h           2 + 2
 
   1.Kf3-e2 a3-a4   2.Ke2-d1 a4-a5   3.Kd1-c1 a5-a6   4.Kc1-b1 a6-a7   5.Kb1-a1   1.a7-a8=Q Ka1-b1   2.Qa8-h1 #
-
   add_to_move_generation_stack:   119454118
                      play_move:    18254876
  is_white_king_square_attacked:     9260947
  is_black_king_square_attacked:     9008121
+
 solution finished.
 
 
@@ -1105,7 +1105,7 @@ solution finished.
 1   K   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[3a[#]d]h           3 + 6
+  Black 7h[3a[#]d]h           3 + 6
 
   1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-f2   2.Qg8-g3 #
   1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-e3   2.Qg8-g3 #
@@ -1134,11 +1134,11 @@ solution finished.
   1.Kh4-h3 g4*h5   2.d2-d1=B h5-h6   3.e2-e1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 #
   1.Kh4-h3 g4*h5   2.e2-e1=S h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 #
   1.Kh4-h3 g4*h5   2.e2-e1=B h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 #
-
   add_to_move_generation_stack:   641564270
                      play_move:    69205232
  is_white_king_square_attacked:    34584612
  is_black_king_square_attacked:    35992099
+
 solution finished.
 
 
@@ -1165,7 +1165,7 @@ solution finished.
 1   R   .   .   .   K   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 3h[3a[#]d]h          7 + 12
+  Black 3h[3a[#]d]h          7 + 12
 
 a) 
 
@@ -1178,11 +1178,11 @@ a)
   1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-c8   2.Rg1*g4 #
   1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-d8   2.Rg1*g4 #
   1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Kg8-g7   2.Rg1*g4 #
-
   add_to_move_generation_stack:     3374410
                      play_move:      521912
  is_white_king_square_attacked:      275252
  is_black_king_square_attacked:      496088
+
 b) wRa1-->b1  
 
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 c4-c3   2.Rc1*c3 #
@@ -1193,11 +1193,11 @@ b) wRa1-->b1
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-h8   2.Rc1*c4 #
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-g8   2.Rc1*c4 #
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-f8   2.Rc1*c4 #
-
   add_to_move_generation_stack:     4054465
                      play_move:      712156
  is_white_king_square_attacked:      305262
  is_black_king_square_attacked:      679992
+
 solution finished.
 
 
@@ -1224,14 +1224,14 @@ solution finished.
 1   .   .   .   .   .   .   K   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[1ad[#]]h           3 + 4
+  Black 7h[1ad[#]]h           3 + 4
            BlackMaximummer
-
 
   add_to_move_generation_stack:       28092
                      play_move:       27412
  is_white_king_square_attacked:       24081
  is_black_king_square_attacked:        3332
+
 solution finished.
 
 

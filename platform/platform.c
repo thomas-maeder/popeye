@@ -8,7 +8,7 @@
  */
 unsigned int platform_guess_bitness(void)
 {
-#if defined(__unix) || __APPLE__ & __MACH__
+#if defined(__unix) || (__APPLE__ & __MACH__)
 #  if defined(ULONG_MAX) && ULONG_MAX==18446744073709551615U
   return 64;
 #  else
@@ -18,6 +18,8 @@ unsigned int platform_guess_bitness(void)
   return 64;
 #elif defined(_WIN32)
   return 32;
+#else
+  return (sizeof(void *) * CHAR_BIT); /* Seems like a reasonable guess.  It's only used in an output statement anyway. */
 #endif
 }
 

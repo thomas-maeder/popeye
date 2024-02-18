@@ -118,21 +118,23 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
      in - and all other cases return infinity (no limit) */
 
-  *endptr = inptr;
-  while (**endptr && strchr("0123456789.,-", **endptr))
-    /* isdigit((unsigned char)**endptr) || **endptr == '.' || **endptr == ',' || **endptr == '-')) */
-    (*endptr)++;
+  char* curptr = inptr;
+  while (memchr("0123456789.,-", *curptr, ((sizeof "0123456789.,-") - 1)))
+      /* memchr(...) replaces the previous check: isdigit((unsigned char)*curptr) || *curptr == '.' || *curptr == ',' || *curptr == '-')) */
+    ++curptr;
 
   {
-    size_t const len = (size_t)(*endptr-inptr);
-    assert(*endptr>=inptr);
+    size_t len;
+    assert(curptr>=inptr);
+    *endptr = curptr;
+    len = (size_t)(curptr-inptr);
 
     if (len>11)
       return (long int) BGL_infinity;
     else
     {
       char buf[12];
-      strncpy(buf,inptr,len);
+      memcpy(buf,inptr,len);
       buf[len]= '\0';
 
       if (len==1 && buf[0]=='-')
@@ -145,8 +147,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
             *dpp = '.';
 
         for (dpp = buf; *dpp && *dpp!='.'; dpp++)
-        {
-        }
+          ; // do nothing; the increment above is enough
 
         {
           size_t const dp = len-(size_t)(dpp-buf);
@@ -2010,7 +2011,7 @@ void InitCond(void)
     sq_num(*bnp)= (int)(bnp-boardnum);
 
     /* initialise sq_spec and set grid number */
-    sq_spec(*bnp) += ((file/2)+4*(row/2)) << Grid;
+    sq_spec(*bnp) += ((unsigned int)((file/2)+4*(row/2))) << Grid;
     if (file!=0 && file!=nr_files_on_board-1
         && row!=0 && row!=nr_rows_on_board-1)
       SETFLAG(sq_spec(*bnp), NoEdgeSq);
