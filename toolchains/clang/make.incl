@@ -19,6 +19,10 @@ include toolchains/gcc/make.incl
 # Compiler options
 # ================
 
+# abort with a descriptive message if undefined behavior is detected
+#DBG=-fsanitize=undefined -fno-sanitize-recover
+
+
 # Compiler selection
 # ==================
 
