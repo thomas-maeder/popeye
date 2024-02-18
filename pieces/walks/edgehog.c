@@ -39,8 +39,14 @@ boolean edgehog_check(validator_id evaluate)
       interceptable_observation[observation_context].vector_index1>=vec_queen_start;
       interceptable_observation[observation_context].vector_index1--)
   {
-    square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
-    if (NoEdge(sq_target)!=NoEdge(sq_departure)
+    numvec const dir = vec[interceptable_observation[observation_context].vector_index1];
+    square sq_departure = find_end_of_line(sq_target,dir);
+
+    /* find_end_of_line may leave the board if it doesn't encounter a piece*/
+    if (!is_on_board(sq_departure))
+      sq_departure -= dir;
+
+    if (NoEdge(sq_target)!=NoEdge(sq_departure) /* this implies sq_target!=sq_departure*/
         && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
     {
       result = true;
