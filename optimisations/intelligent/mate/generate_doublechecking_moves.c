@@ -285,7 +285,7 @@ static void front_check_by_pawn_promotion_without_capture(slice_index si,
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       /* geometry doesn't allow for an interceptable check by a pawn that
        * doesn't capture */
-      if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
+      if (GuardDir[pp][check_from].dir==guard_dir_check_uninterceptable)
       {
         occupy_square(check_from,pp,white[index_of_checker].flags);
         pipe_solve_delegate(si);

@@ -23,7 +23,7 @@ void intelligent_place_unpromoted_white_pawn(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!TSTFLAGMASK(sq_spec(placed_on),BIT(WhBaseSq)|BIT(WhPromSq))
-      && GuardDir[Pawn-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
+      && GuardDir[Pawn][placed_on].dir<guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
@@ -44,8 +44,8 @@ void intelligent_place_promoted_white_rider(slice_index si,
 {
   square const placed_comes_from = white[placed_index].diagram_square;
   Flags const placed_flags = white[placed_index].flags;
-  int const dir = GuardDir[promotee_type-Pawn][placed_on].dir;
-  square const target = GuardDir[promotee_type-Pawn][placed_on].target;
+  int const dir = GuardDir[promotee_type][placed_on].dir;
+  square const target = GuardDir[promotee_type][placed_on].target;
 
   TraceFunctionEntry(__func__);
   TraceWalk(promotee_type);
@@ -88,7 +88,7 @@ void intelligent_place_promoted_white_knight(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (GuardDir[Knight-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
+  if (GuardDir[Knight][placed_on].dir<guard_dir_guard_uninterceptable
       && intelligent_reserve_promoting_white_pawn_moves_from_to(placed_comes_from,
                                                                 Knight,
                                                                 placed_on))
@@ -162,8 +162,8 @@ static stack_elmt_type const *stack_top = 0;
 static void intercept_queen_diag(slice_index si)
 {
   square const placed_on = stack_top->placed_on;
-  int const dir_diag = GuardDir[Bishop-Pawn][placed_on].dir;
-  square const target_diag = GuardDir[Bishop-Pawn][placed_on].target;
+  int const dir_diag = GuardDir[Bishop][placed_on].dir;
+  square const target_diag = GuardDir[Bishop][placed_on].target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -185,8 +185,8 @@ void intelligent_place_white_queen(slice_index si,
   piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
-  int const dir_ortho = GuardDir[Rook-Pawn][placed_on].dir;
-  int const dir_diag = GuardDir[Bishop-Pawn][placed_on].dir;
+  int const dir_ortho = GuardDir[Rook][placed_on].dir;
+  int const dir_diag = GuardDir[Bishop][placed_on].dir;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -200,7 +200,7 @@ void intelligent_place_white_queen(slice_index si,
                                                    placed_type,
                                                    placed_on))
   {
-    square const target_ortho = GuardDir[Rook-Pawn][placed_on].target;
+    square const target_ortho = GuardDir[Rook][placed_on].target;
 
     stack_elmt_type const new_top = { placed_index, placed_on, go_on, stack_top };
     stack_top = &new_top;
@@ -230,8 +230,8 @@ void intelligent_place_white_rider(slice_index si,
   piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
-  int const dir = GuardDir[placed_type-Pawn][placed_on].dir;
-  square const target = GuardDir[placed_type-Pawn][placed_on].target;
+  int const dir = GuardDir[placed_type][placed_on].dir;
+  square const target = GuardDir[placed_type][placed_on].target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -299,7 +299,7 @@ void intelligent_place_white_knight(slice_index si,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  switch (GuardDir[Knight-Pawn][placed_on].dir)
+  switch (GuardDir[Knight][placed_on].dir)
   {
     case guard_dir_check_uninterceptable:
       break;

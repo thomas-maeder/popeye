@@ -31,8 +31,8 @@ typedef struct
 /* index of guarding piece currently being placed */
 extern unsigned int index_of_guarding_piece;
 
-/* lookup doing something like GuardDir[Queen-Pawn][some_square] */
-extern guard_dir_struct GuardDir[5][maxsquare+4];
+/* lookup doing something like GuardDir[Queen][some_square] */
+extern guard_dir_struct GuardDir[nr_piece_walks][maxsquare+4];
 
 /* Initialise GuardDir
  * @param black_king_pos position of black king
