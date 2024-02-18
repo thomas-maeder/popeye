@@ -31,7 +31,7 @@ static void place_officer(slice_index si,
   if (/* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
       !(index_of_intercepting_piece<index_of_guarding_piece
-        && GuardDir[officer_type-Pawn][to_be_intercepted].dir!=0))
+        && GuardDir[officer_type][to_be_intercepted].dir!=0))
   {
     occupy_square(to_be_intercepted,officer_type,intercepter_flags);
     intelligent_continue_guarding_flights(si);
@@ -135,7 +135,7 @@ static void unpromoted_pawn(slice_index si,
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
-  numvec const guard_dir = GuardDir[Pawn-Pawn][to_be_intercepted].dir;
+  numvec const guard_dir = GuardDir[Pawn][to_be_intercepted].dir;
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_intercepted);
