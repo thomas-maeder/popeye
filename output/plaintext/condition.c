@@ -51,12 +51,12 @@
 
 static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
-  unsigned int i;
+  unsigned int walk_index;
   unsigned int result = 0;
 
-  for (i = 0; i!=nr_walks; ++i)
+  for (walk_index = 0; walk_index!=nr_walks; ++walk_index)
   {
-    piece_walk_type const walk = walks[i];
+    piece_walk_type const walk = walks[walk_index];
 
     if (walk<Hunter0 || walk>= (Hunter0 + max_nr_hunter_walks))
     {
@@ -646,54 +646,54 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case magicsquare:
         {
-          square i;
+          square i, j;
           if (magic_square_type==ConditionType2)
             written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeTab[ConditionType2]);
 
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), MagicSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j), MagicSq))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
 
         case whforsqu:
         case whconforsqu:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), WhForcedSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i, j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j), WhForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
         case blforsqu:
         case blconforsqu:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), BlForcedSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i, j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j), BlForcedSq))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
 
         case whprom_sq:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), WhPromSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i, j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j), WhPromSq))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
         case blprom_sq:
         {
-          square  i;
-          for (i= square_a1; i <= square_h8; i++) {
-            if (TSTFLAG(sq_spec(i), BlPromSq))
-              written += append_to_CondLine_square(&CondLine,written,i);
-          }
+          square i, j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j), BlPromSq))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
 
@@ -706,10 +706,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case wormholes:
         {
-          square i;
-          for (i = square_a1; i<=square_h8; ++i)
-            if (TSTFLAG(sq_spec(i),Wormhole))
-              written += append_to_CondLine_square(&CondLine,written,i);
+          square i, j;
+          for (i= square_a1; i<=square_a8; i+= (square_a2-square_a1))
+            for (j= (square_a1-square_a1); j<=(square_h1-square_a1); j+= (square_b1-square_a1))
+              if (TSTFLAG(sq_spec(i+j),Wormhole))
+                written += append_to_CondLine_square(&CondLine,written,i+j);
           break;
         }
 
