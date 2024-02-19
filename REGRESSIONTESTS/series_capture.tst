@@ -861,10 +861,10 @@ some antagonistic play
       1...e7-e6
           2.Sc8*d6-f7 #
 
-  add_to_move_generation_stack:         671
-                     play_move:         557
- is_white_king_square_attacked:          68
- is_black_king_square_attacked:         589
+  add_to_move_generation_stack:         719
+                     play_move:         650
+ is_white_king_square_attacked:          75
+ is_black_king_square_attacked:         686
 
 solution finished.
 
