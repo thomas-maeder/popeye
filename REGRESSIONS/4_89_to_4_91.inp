@@ -17,5 +17,14 @@ cond Circe File AntiCirce File
 pieces white kh2 fra8 black kh8 frb7
 option duplex
 
+next
+
+author Udo Degener
+origin Gaudium 2023
+stipulation ser-h#277
+piece white ph7 black kf8 bh8
+cond blackedge circe pwc
+option nowk
+
 end
 
