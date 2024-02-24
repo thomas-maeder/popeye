@@ -1469,9 +1469,12 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)0;
   }
 
-  assert(validity_value<=(1<<CHAR_BIT));
   if (min_length>slack_length+1)
+  {
+    assert(validity_value<=(1<<2*CHAR_BIT));
     *bp++ = (byte)(validity_value);
+    *bp++ = (byte)(validity_value>>CHAR_BIT);
+  }
 
   {
     unsigned int i;

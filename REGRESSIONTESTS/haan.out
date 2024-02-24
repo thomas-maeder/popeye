@@ -298,10 +298,10 @@ b) wKc1-->b3
   1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 #
  20  (16g7-h1 )
  21  (16g7-a8 )
-  add_to_move_generation_stack:   207443792
-                     play_move:   207443792
- is_white_king_square_attacked:    47015191
- is_black_king_square_attacked:   207159440
+  add_to_move_generation_stack:   208642028
+                     play_move:   208642028
+ is_white_king_square_attacked:    47159532
+ is_black_king_square_attacked:   208357325
 
 Loesung beendet.
 
