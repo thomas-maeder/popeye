@@ -653,7 +653,7 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "ButEstFin",
   /*34*/  "optionnonpubliee",
   /*35*/  "CoupsVides",
-  /*36*/  "finenroute"
+  /*36*/  "JusquAuCoup"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -692,7 +692,7 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "ZielIstEnde",
   /*34*/  "nichtpublizierteoption",
   /*35*/  "NullZuege",
-  /*36*/  "EndZugnummer"
+  /*36*/  "BisZugnummer"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -731,7 +731,7 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "GoalIsEnd",
   /*34*/  "unpublishedoption",
   /*35*/  "NullMoves",
-  /*36*/  "EndMoveNumber"
+  /*36*/  "UpToMoveNumber"
   }
 };
 
