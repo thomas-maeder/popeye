@@ -1517,6 +1517,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
 
+  assert((position[row]&BIT(col))==0);
   position[row] |= BIT(col);
 
   return bp;
@@ -1551,14 +1552,21 @@ static void LargeEncode(stip_length_type min_length,
 
   for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (underworld[gi].on
-                - nr_of_slack_rows_below_board*onerow
-                - nr_of_slack_files_left_of_board);
+    square const s = (underworld[gi].on
+                      - nr_of_slack_rows_below_board*onerow
+                      - nr_of_slack_files_left_of_board);
     row = s/onerow;
     col = s%onerow;
-    bp = LargeEncodePiece(bp,position,
-                          row,col,
-                          underworld[gi].walk,underworld[gi].flags);
+
+    assert((col + row*nr_files_on_board) < (1<<CHAR_BIT));
+    *bp++ = (byte)(col + row*nr_files_on_board);
+    *bp++ = (byte)underworld[gi].walk;
+
+    {
+      unsigned int i;
+      for (i = 0; i<bytes_per_spec; i++)
+        *bp++ = (byte)((underworld[gi].flags>>(CHAR_BIT*i)) & ByteMask);
+    }
   }
 
   /* Now the rest of the party */

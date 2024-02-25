@@ -81,6 +81,7 @@ solution finished.
 
              Udo Degener
             Gaudium 2023
+Popeye failed to solve problems with >256 plies since 4.65
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -110,6 +111,50 @@ solution finished.
                      play_move:      297550
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      297550
+
+solution finished.
+
+
+
+Popeye solved a), but not b), because of a hashing bug
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -N   8
+|                                   |
+7   .   .  -B   .   K   .  -S   .   7
+|                                   |
+6   B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -P   .  -P   .   .   .   5
+|                                   |
+4   .   .   .  -K   .  -R   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -B   .   .   .   Q   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2                        3 + 9
+         AntiCirce Volcanic
+
+a) 
+
+  1.Ba6-b5 Nh8*b5[bNb5->b1->v]   2.Qf1-d3 + Bb1*d3[bBd3->c8][+bNb1] #
+  add_to_move_generation_stack:       94204
+                     play_move:       65850
+ is_white_king_square_attacked:       44363
+ is_black_king_square_attacked:       26903
+
+b) wBa6-->c4  
+
+  1.Bc4-b5 Nh8*b5[bNb5->b1->v]   2.Qf1-d3 + Bb1*d3[bBd3->c8][+bNb1] #
+  add_to_move_generation_stack:      117843
+                     play_move:       78314
+ is_white_king_square_attacked:       53416
+ is_black_king_square_attacked:       31814
 
 solution finished.
 

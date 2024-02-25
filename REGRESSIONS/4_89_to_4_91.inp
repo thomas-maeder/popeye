@@ -19,12 +19,21 @@ option duplex
 
 next
 
+title Popeye failed to solve problems with >256 plies since 4.65
 author Udo Degener
 origin Gaudium 2023
 stipulation ser-h#277
 piece white ph7 black kf8 bh8
 cond blackedge circe pwc
 option nowk
+
+next
+
+title Popeye solved a), but not b), because of a hashing bug
+stip hs#2
+condition AntiCirce Volcanic
+pieces white Ke7 Qf1 Ba6 black Kd4 Rf4 Bc7b1 Sg7 Pe3c5e5 Nh8
+twin move a6 c4
 
 end
 
