@@ -504,6 +504,8 @@ Kommandos:
 			bis dahin ausgegeben.
 	StartZugnummer  Dieser Option muss die Nummer des Erstzugs folgen,
 			bei der die Loesung begonnen werden soll.
+	EndZugnummer	Dieser Option muss die Nummer des Erstzugs folgen,
+			nach dem die Loesung beendet werden soll.
 	OhneWk          Ohne weissen Koenig
 	OhneSk          Ohne schwarzen Koenig
 	Duplex          Die Forderung fuer beide Seiten berechnen

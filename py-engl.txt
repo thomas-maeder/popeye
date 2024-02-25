@@ -485,6 +485,8 @@ commands expect further parameters. Lets start with the simpler commands:
 			solving time on output.
 	StartMoveNumber This option is followed by the Movenumber
 			popeye was interrupted at.
+	EndMoveNumber	This option is followed by the Movenumber
+			Popeye will be interrupted at.
 	NoWk            without white king
 	NoBk            without black king
 	Duplex          calculate stipulation for both sides

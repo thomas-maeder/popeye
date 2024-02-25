@@ -492,6 +492,8 @@ simples:
 			verification reprend apres le coup numerote par
 			le chiffre indique. A utiliser pour continuer
 			une verification interrompue
+        FinEnroute      Contraire d'Enroute. La verification se termine
+			apres le coup indique.
 	SansRB          Le probleme a verifier n'a pas de roi blanc.
 	SansRN          Le probleme a verifier n'a pas de roi noir.
 	Duplex          Il y a une solution pour les blancs et les noirs

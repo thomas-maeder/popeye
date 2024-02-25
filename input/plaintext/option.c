@@ -211,15 +211,18 @@ char *ParseOpt(slice_index start)
           }
         }
 
-      case restart:
+      case startmovenumber:
         tok = ReadNextTokStr();
         if (!read_restart_number(tok))
         {
-          OptFlag[restart] = false;
+          OptFlag[startmovenumber] = false;
           output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
         OptFlag[movenbr]= true;
+        break;
+
+      case endmovenumber:
         break;
 
       case solmenaces:
