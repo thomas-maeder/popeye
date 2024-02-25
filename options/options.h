@@ -12,7 +12,7 @@ typedef enum
   whitetoplay,      /* 2 */
   solvariantes,     /* 3 */
   movenbr,          /* 4 */
-  restart,          /* 5 */
+  startmovenumber,  /* 5 */
   sansrb,           /* 6 */
   duplex,           /* 7 */
   sansrn,           /* 8 */
@@ -43,8 +43,9 @@ typedef enum
   goal_is_end,     /* 33 */
   degeneratetree,  /* 34 */
   nullmoves,       /* 35 */
+  endmovenumber,   /* 36 */
 
-  OptCount         /* 35 */
+  OptCount         /* 37 */
 } Opt;
 
 extern boolean OptFlag[OptCount];
