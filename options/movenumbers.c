@@ -151,13 +151,15 @@ void restart_guard_solve(slice_index si)
 
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u",RestartNbr[nbply]);
+  TraceValue("%u",RestartNbr[movenumbers_start][parent_ply[nbply]]);
+  TraceValue("%u",RestartNbr[movenumbers_end][parent_ply[nbply]]);
   TraceEOL();
   pipe_this_move_doesnt_solve_if(si,
                                  MoveNbr[nbply]<RestartNbr[movenumbers_start][parent_ply[nbply]]
                                  || MoveNbr[nbply]>RestartNbr[movenumbers_end][parent_ply[nbply]]);
 
-  ++MoveNbr[nbply];
+  if (MoveNbr[nbply-1]>0)
+    ++MoveNbr[nbply];
 
   MoveNbr[nbply+1] = 0;
 
@@ -184,16 +186,14 @@ void restart_guard_nested_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (MoveNbr[nbply-1]>0)
-    ++MoveNbr[nbply];
-
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u",RestartNbr[movenumbers_start][nbply]);
+  TraceValue("%u",RestartNbr[movenumbers_start][parent_ply[nbply]]);
+  TraceValue("%u",RestartNbr[movenumbers_end][parent_ply[nbply]]);
   TraceEOL();
 
-  if (MoveNbr[nbply]-1<RestartNbr[movenumbers_start][parent_ply[nbply]]
-      || MoveNbr[nbply]-1>RestartNbr[movenumbers_end][parent_ply[nbply]])
+  if (MoveNbr[nbply]<RestartNbr[movenumbers_start][parent_ply[nbply]]
+      || MoveNbr[nbply]>RestartNbr[movenumbers_end][parent_ply[nbply]])
   {
     /* we are outside the range of selected moves */
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
@@ -204,8 +204,10 @@ void restart_guard_nested_solve(slice_index si)
     RestartNbr[movenumbers_start][parent_ply[nbply]] = 0;
     RestartNbr[movenumbers_end][parent_ply[nbply]] = UINT_MAX;
 
-    solve(SLICE_NEXT1(si));
+    pipe_solve_delegate(si);
   }
+
+  ++MoveNbr[nbply];
 
   MoveNbr[nbply+1] = 0;
 
