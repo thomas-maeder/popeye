@@ -149,15 +149,15 @@ void restart_guard_solve(slice_index si)
 
   WriteMoveNbr(si);
 
-  ++MoveNbr[nbply];
-
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
   pipe_this_move_doesnt_solve_if(si,
-                                 MoveNbr[nbply]-1<RestartNbr[movenumbers_start][parent_ply[nbply]]
-                                 || MoveNbr[nbply]-1>RestartNbr[movenumbers_end][parent_ply[nbply]]);
+                                 MoveNbr[nbply]<RestartNbr[movenumbers_start][parent_ply[nbply]]
+                                 || MoveNbr[nbply]>RestartNbr[movenumbers_end][parent_ply[nbply]]);
+
+  ++MoveNbr[nbply];
 
   MoveNbr[nbply+1] = 0;
 
