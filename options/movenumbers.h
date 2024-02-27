@@ -11,6 +11,14 @@
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
 
+typedef enum
+{
+  movenumbers_start,
+  movenumbers_end,
+
+  nr_movenumbers_boundaries
+} movenumbers_boundary_type;
+
 void move_numbers_write_history(ply top_ply);
 
 /* Reset the restart number setting.
@@ -18,14 +26,17 @@ void move_numbers_write_history(ply top_ply);
 void reset_restart_number(void);
 
 /* Retrieve the current restart number
+ * @param start or end number?
  */
-unsigned int get_restart_number(void);
+unsigned int get_restart_number(movenumbers_boundary_type mb);
 
 /* Interpret restart option
+ * @param start or end number?
  * @param optionValue value of option restart
  * @return true iff optionValue points to a valid value
  */
-boolean read_restart_number(char const *optionValue);
+boolean read_restart_number(movenumbers_boundary_type mb,
+                            char const *optionValue);
 
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start

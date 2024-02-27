@@ -26,7 +26,7 @@ static unsigned int MoveNbr[maxply+1];
  * root branch is always known, while the ply of the root branch isn't known ahead
  * of playing it in all cases.
  */
-static unsigned int RestartNbr[maxply+1];
+static unsigned int RestartNbr[nr_movenumbers_boundaries][maxply+1];
 
 static boolean restart_deep;
 
@@ -60,22 +60,27 @@ void reset_restart_number(void)
   ply ply;
   for (ply = ply_retro_move; ply<=maxply; ++ply)
   {
-    RestartNbr[ply] = 0;
+    RestartNbr[movenumbers_start][ply] = 0;
+    RestartNbr[movenumbers_end][ply] = UINT_MAX;
     MoveNbr[ply] = 1;
   }
 
   restart_deep = false;
 }
 
-unsigned int get_restart_number(void)
+/* Retrieve the current restart number
+ * @param start or end number?
+ */
+unsigned int get_restart_number(movenumbers_boundary_type mb)
 {
-  return RestartNbr[ply_retro_move];
+  return RestartNbr[mb][ply_retro_move];
 }
 
 /* Interpret maxmem command line parameter value
  * @param commandLineValue value of -maxmem command line parameter
  */
-boolean read_restart_number(char const *optionValue)
+boolean read_restart_number(movenumbers_boundary_type mb,
+                            char const *optionValue)
 {
   boolean result = false;
 
@@ -87,7 +92,7 @@ boolean read_restart_number(char const *optionValue)
     unsigned long const restartNbrRequested = strtoul(optionValue,&end,10);
     if (optionValue!=end && restartNbrRequested<=UINT_MAX)
     {
-      RestartNbr[ply] = (unsigned int)restartNbrRequested;
+      RestartNbr[mb][ply] = (unsigned int)restartNbrRequested;
       result = true;
 
       if (*end==':')
@@ -106,7 +111,8 @@ boolean read_restart_number(char const *optionValue)
 
 static void WriteMoveNbr(slice_index si)
 {
-  if (MoveNbr[nbply]>=RestartNbr[parent_ply[nbply]])
+  if (MoveNbr[nbply]>=RestartNbr[movenumbers_start][parent_ply[nbply]]
+      && MoveNbr[nbply]<=RestartNbr[movenumbers_end][parent_ply[nbply]])
   {
     protocol_fprintf(stdout,"\n%3u  (", MoveNbr[nbply]);
     output_plaintext_write_move(&output_plaintext_engine,
@@ -149,7 +155,9 @@ void restart_guard_solve(slice_index si)
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u",RestartNbr[nbply]);
   TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]]);
+  pipe_this_move_doesnt_solve_if(si,
+                                 MoveNbr[nbply]-1<RestartNbr[movenumbers_start][parent_ply[nbply]]
+                                 || MoveNbr[nbply]-1>RestartNbr[movenumbers_end][parent_ply[nbply]]);
 
   MoveNbr[nbply+1] = 0;
 
@@ -181,20 +189,20 @@ void restart_guard_nested_solve(slice_index si)
 
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u",RestartNbr[nbply]);
+  TraceValue("%u",RestartNbr[movenumbers_start][nbply]);
   TraceEOL();
 
-  if (MoveNbr[nbply]<=RestartNbr[parent_ply[nbply]])
+  if (MoveNbr[nbply]-1<RestartNbr[movenumbers_start][parent_ply[nbply]]
+      || MoveNbr[nbply]-1>RestartNbr[movenumbers_end][parent_ply[nbply]])
   {
-    /* we haven't reached the restart number yet */
+    /* we are outside the range of selected moves */
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   }
   else
   {
-    /* we have reached the restart number */
-
-    /* prevent the restart number from restricting the remainder of the play*/
-    RestartNbr[parent_ply[nbply]] = 0;
+    /* prevent the move number range from restricting the remainder of the play*/
+    RestartNbr[movenumbers_start][parent_ply[nbply]] = 0;
+    RestartNbr[movenumbers_end][parent_ply[nbply]] = UINT_MAX;
 
     solve(SLICE_NEXT1(si));
   }
