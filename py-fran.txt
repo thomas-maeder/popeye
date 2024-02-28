@@ -476,6 +476,9 @@ simples:
 	Defense         Suivie par un chiffre positif - le nombre maximal de
 			refutations considerees (cas special: defense 1
 			les essais sont ecrits comme d'habitude).
+	TrivialEssaiSupprimer	Supprimer les essais triviaux de la solution
+			affichee. Actuellement, les premiers coups refutes
+			qui donnent echec sont consideres triviaux.
 	Apparent        Le jeux apparent sera affiche
 	CoupsVides	Permet le camp qui a le trait a y renoncer.
 			Sert a trouver les essais tempo.

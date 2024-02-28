@@ -491,6 +491,9 @@ Kommandos:
 			maximal zu beruecksichtigenden Widerlegungen (z. B.
 			Widerlegung 1 = es werden alle Verfuehrungen im 
 			herkoemmlichen Sinn berechnet).
+	TrivialeFehlversucheUnterdruecken	Triviale Fehlversuche nicht
+			ausgeben; zurzeit gelten Schach bietende, widerlegte
+			Erstzuege als triviale Fehlversuche.
 	Satzspiel       Satzspiel berechnen
 	NullZuege	Erlaubt der Seite am Zug, darauf zu verzichten.
 			Dient zur Ermittlung von Tempo-Versuchen.

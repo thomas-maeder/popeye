@@ -35,5 +35,15 @@ condition AntiCirce Volcanic
 pieces white Ke7 Qf1 Ba6 black Kd4 Rf4 Bc7b1 Sg7 Pe3c5e5 Nh8
 twin move a6 c4
 
+next
+
+author Uri Avner, Hans Peter Rehm, Kjell Widlert
+origin Andernach 2006, 4. Platz
+pieces white Kg7 Qa4 Bb1h2 Sc3e7 Pb7f2f6h6
+       black Ke6 Rh4 Bc1 Sa8 Pc4d5d7g6h3h5h7
+stipulation #2
+option vari try TrivialTriesAvoid
+condition Take&MakeChess
+
 end
 

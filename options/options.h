@@ -44,8 +44,9 @@ typedef enum
   degeneratetree,  /* 34 */
   nullmoves,       /* 35 */
   uptomovenumber,  /* 36 */
+  trivialtriesavoided,  /* 37 */
 
-  OptCount         /* 37 */
+  OptCount         /* 36 */
 } Opt;
 
 extern boolean OptFlag[OptCount];
