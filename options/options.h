@@ -43,7 +43,7 @@ typedef enum
   goal_is_end,     /* 33 */
   degeneratetree,  /* 34 */
   nullmoves,       /* 35 */
-  endmovenumber,   /* 36 */
+  uptomovenumber,  /* 36 */
 
   OptCount         /* 37 */
 } Opt;

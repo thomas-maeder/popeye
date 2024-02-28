@@ -222,11 +222,11 @@ char *ParseOpt(slice_index start)
         OptFlag[movenbr]= true;
         break;
 
-      case endmovenumber:
+      case uptomovenumber:
         tok = ReadNextTokStr();
         if (!read_restart_number(movenumbers_end,tok))
         {
-          OptFlag[endmovenumber] = false;
+          OptFlag[uptomovenumber] = false;
           output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }
