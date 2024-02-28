@@ -41,9 +41,9 @@ static boolean is_length_ruled_out_by_option_restart(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (OptFlag[restart])
+  if (OptFlag[startmovenumber])
   {
-    stip_length_type min_length = 2*get_restart_number();
+    stip_length_type min_length = 2*get_restart_number(movenumbers_start);
     if ((solve_nr_remaining-slack_length)%2==1)
       --min_length;
     result = solve_nr_remaining-slack_length<min_length;

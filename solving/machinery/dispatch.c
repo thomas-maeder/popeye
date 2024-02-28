@@ -1551,7 +1551,7 @@ void dispatch(slice_index si)
       break;
 
     case STRestartGuardNested:
-      restart_guard_nested_solve(si);
+      restart_guard_solve(si);
       break;
 
     case STMaxTimeProblemInstrumenter:

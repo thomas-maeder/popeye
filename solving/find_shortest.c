@@ -171,7 +171,7 @@ static void insert_find_shortest_help_adapter(slice_index si,
     }
     else /* root or set play */
     {
-      if (!OptFlag[restart] && length>=slack_length+2)
+      if (!OptFlag[startmovenumber] && length>=slack_length+2)
       {
         {
           slice_index const prototype =
