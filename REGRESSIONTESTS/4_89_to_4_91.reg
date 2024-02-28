@@ -159,3 +159,57 @@ b) wBa6-->c4
 solution finished.
 
 
+
+Uri Avner, Hans Peter Rehm, Kjell Widlert
+      Andernach 2006, 4. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .  -P   S   .   K  -P   7
+|                                   |
+6   .   .   .   .  -K   P  -P   P   6
+|                                   |
+5   .   .   .  -P   .   .   .  -P   5
+|                                   |
+4   Q   .  -P   .   .   .   .  -R   4
+|                                   |
+3   .   .   S   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   P   .   B   2
+|                                   |
+1   .   B  -B   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 11
+           Take&MakeChess
+
+   1.f2-f4 ! threat:
+          2.f4-f5 #
+      1...Bc1*f4-f5
+          2.Se7*g6-g5 #
+      1...Rh4*f4-f5
+          2.Se7*d5-d4 #
+      1...Ke6-d6
+          2.Qa4*a8-b6 #
+
+   1.b7-b8=Q ? threat:
+          2.Qb8-g8 #
+      1...Bc1-f4
+          2.Se7*d5-d4 #
+      1...Rh4-e4
+          2.Sc3*e4-d4 #
+      1...Rh4-f4
+          2.Se7*g6-g5 #
+    but
+      1...Bc1-g5 !
+
+  add_to_move_generation_stack:       45483
+                     play_move:       23475
+ is_white_king_square_attacked:        1612
+ is_black_king_square_attacked:       23458
+
+solution finished.
+
+

@@ -472,6 +472,9 @@ commands expect further parameters. Lets start with the simpler commands:
 			the number of defences which should be taken
 			into consideration. For instance Defence 1 all
 			real tries are calculated.
+	TrivialTriesAvoid	Remove trivial tries from the output.
+			Currently, refuted first moves delivering check
+			are considered trivial.
 	SetPlay         calculate setplay.
 	NullMoves	Allows the moving side to play a null move.
 			Servers for finding tempo tries.

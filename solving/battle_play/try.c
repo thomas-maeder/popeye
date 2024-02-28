@@ -12,6 +12,8 @@
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
+#include "solving/check.h"
+#include "options/options.h"
 #include "output/plaintext/message.h"
 
 #include "debugging/trace.h"
@@ -320,6 +322,36 @@ void refutations_filter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void trivial_try_avoider_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  if (solve_result==MOVE_HAS_SOLVED_LENGTH()
+      && table_length(refutations)==1
+      && is_in_check(SLICE_STARTER(si)))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -403,6 +435,12 @@ static void insert_refutations_solver(slice_index si,
 
   {
     slice_index const prototype = alloc_refutations_collector_slice(user_set_max_nr_refutations);
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
+  }
+
+  if (OptFlag[trivialtriesavoided])
+  {
+    slice_index const prototype = alloc_pipe(STTrivialTryAvoider);
     defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
   }
 

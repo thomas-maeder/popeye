@@ -660,6 +660,10 @@ void dispatch(slice_index si)
       output_plaintext_line_refuting_variation_writer_solve(si);
       break;
 
+    case STTrivialTryAvoider:
+      trivial_try_avoider_solve(si);
+      break;
+
     case STOutputPlainTextMoveWriter:
       output_plaintext_tree_move_writer_solve(si);
       break;
