@@ -30,40 +30,52 @@ static unsigned int RestartNbr[nr_movenumbers_boundaries][maxply+1];
 
 static boolean restart_deep;
 
-static void write_history_recursive(ply ply)
+static ply recursion_level;
+
+static void write_history_recursive(ply level)
 {
-  if (ply>ply_retro_move+1)
+  if (level>0)
   {
-    write_history_recursive(parent_ply[ply]);
+    write_history_recursive(level-1);
     putchar(':');
   }
 
-  printf("%u",MoveNbr[ply]-1);
+  printf("%u",MoveNbr[level]);
 }
 
-void move_numbers_write_history(ply top_ply)
+void move_numbers_write_history(void)
 {
+  puts("\nuse option start ");
+
   if (restart_deep)
   {
-    fputs("\nuse option start ",stdout);
-    write_history_recursive(top_ply-1);
+    write_history_recursive(recursion_level);
     puts(" to replay");
   }
   else
-    puts("\nuse option start 1:1 to get replay information");
+  {
+    ply level;
+
+    puts("1");
+    for (level = 1; level<=recursion_level; ++level)
+      puts(":1");
+    puts(" to get replay information");
+  }
 }
 
 /* Reset the restart number setting.
  */
 void reset_restart_number(void)
 {
-  ply ply;
-  for (ply = ply_retro_move; ply<=maxply; ++ply)
+  ply level;
+  for (level = 0; level<=maxply; ++level)
   {
-    RestartNbr[movenumbers_start][ply] = 0;
-    RestartNbr[movenumbers_end][ply] = UINT_MAX;
-    MoveNbr[ply] = 1;
+    RestartNbr[movenumbers_start][level] = 0;
+    RestartNbr[movenumbers_end][level] = UINT_MAX;
   }
+
+  assert(recursion_level==0);
+  MoveNbr[0] = 0;
 
   restart_deep = false;
 }
@@ -73,7 +85,7 @@ void reset_restart_number(void)
  */
 unsigned int get_restart_number(movenumbers_boundary_type mb)
 {
-  return RestartNbr[mb][ply_retro_move];
+  return RestartNbr[mb][0];
 }
 
 /* Interpret maxmem command line parameter value
@@ -84,7 +96,7 @@ boolean read_restart_number(movenumbers_boundary_type mb,
 {
   boolean result = false;
 
-  ply ply = ply_retro_move;
+  ply level = 0;
   char *end;
 
   while (1)
@@ -92,13 +104,13 @@ boolean read_restart_number(movenumbers_boundary_type mb,
     unsigned long const restartNbrRequested = strtoul(optionValue,&end,10);
     if (optionValue!=end && restartNbrRequested<=UINT_MAX)
     {
-      RestartNbr[mb][ply] = (unsigned int)restartNbrRequested;
+      RestartNbr[mb][level] = (unsigned int)restartNbrRequested;
       result = true;
 
       if (*end==':')
       {
         optionValue = end+1;
-        ++ply;
+        ++level;
         restart_deep = true;
       }
       else
@@ -111,21 +123,37 @@ boolean read_restart_number(movenumbers_boundary_type mb,
 
 static void WriteMoveNbr(slice_index si)
 {
-  if (MoveNbr[nbply]>=RestartNbr[movenumbers_start][parent_ply[nbply]]
-      && MoveNbr[nbply]<=RestartNbr[movenumbers_end][parent_ply[nbply]])
-  {
-    protocol_fprintf(stdout,"\n%3u  (", MoveNbr[nbply]);
-    output_plaintext_write_move(&output_plaintext_engine,
-                                stdout,
-                                &output_plaintext_symbol_table);
-    if (!output_plaintext_check_indication_disabled
-        && is_in_check(SLICE_STARTER(si)))
-      protocol_fprintf(stdout,"%s"," +");
-    protocol_fputc(' ',stdout);
-    output_plaintext_print_time("   ","");
-    protocol_fputc(')',stdout);
-    protocol_fflush(stdout);
-  }
+  ply level;
+
+  protocol_fprintf(stdout,"\n%3u",MoveNbr[0]);
+  for (level = 1; level<=recursion_level; ++level)
+    protocol_fprintf(stdout,":%u",MoveNbr[level]);
+
+  protocol_fprintf(stdout,"  (");
+  output_plaintext_write_move(&output_plaintext_engine,
+                              stdout,
+                              &output_plaintext_symbol_table);
+  if (!output_plaintext_check_indication_disabled
+      && is_in_check(SLICE_STARTER(si)))
+    protocol_fprintf(stdout,"%s"," +");
+  protocol_fputc(' ',stdout);
+  output_plaintext_print_time("   ","");
+  protocol_fputc(')',stdout);
+  protocol_fflush(stdout);
+}
+
+static boolean skip_this_move(void)
+{
+  boolean result = (MoveNbr[recursion_level]<RestartNbr[movenumbers_start][recursion_level]
+                    || MoveNbr[recursion_level]>RestartNbr[movenumbers_end][recursion_level]);
+
+  ply level;
+  for (level = 0; result && level<recursion_level; ++level)
+    if (MoveNbr[level]>RestartNbr[movenumbers_start][level]
+        && MoveNbr[level]<RestartNbr[movenumbers_end][level])
+      result = false;
+
+  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -147,69 +175,29 @@ void restart_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteMoveNbr(si);
+  ++MoveNbr[recursion_level];
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u",RestartNbr[movenumbers_start][parent_ply[nbply]]);
-  TraceValue("%u",RestartNbr[movenumbers_end][parent_ply[nbply]]);
-  TraceEOL();
-  pipe_this_move_doesnt_solve_if(si,
-                                 MoveNbr[nbply]<RestartNbr[movenumbers_start][parent_ply[nbply]]
-                                 || MoveNbr[nbply]>RestartNbr[movenumbers_end][parent_ply[nbply]]);
-
-  if (MoveNbr[nbply-1]>0)
-    ++MoveNbr[nbply];
-
-  MoveNbr[nbply+1] = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
-void restart_guard_nested_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u",MoveNbr[nbply]);
-  TraceValue("%u",RestartNbr[movenumbers_start][parent_ply[nbply]]);
-  TraceValue("%u",RestartNbr[movenumbers_end][parent_ply[nbply]]);
+  TraceValue("%u",recursion_level);
+  TraceValue("%u",MoveNbr[recursion_level]);
+  TraceValue("%u",RestartNbr[movenumbers_start][recursion_level]);
+  TraceValue("%u",RestartNbr[movenumbers_end][recursion_level]);
   TraceEOL();
 
-  if (MoveNbr[nbply]<RestartNbr[movenumbers_start][parent_ply[nbply]]
-      || MoveNbr[nbply]>RestartNbr[movenumbers_end][parent_ply[nbply]])
-  {
-    /* we are outside the range of selected moves */
+  if (skip_this_move())
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-  }
   else
   {
-    /* prevent the move number range from restricting the remainder of the play*/
-    RestartNbr[movenumbers_start][parent_ply[nbply]] = 0;
-    RestartNbr[movenumbers_end][parent_ply[nbply]] = UINT_MAX;
+    if (recursion_level==0
+        || (RestartNbr[movenumbers_start][recursion_level]>0
+            || RestartNbr[movenumbers_end][recursion_level]<UINT_MAX))
+      WriteMoveNbr(si);
 
+    ++recursion_level;
+    assert(MoveNbr[recursion_level]==0);
     pipe_solve_delegate(si);
+    MoveNbr[recursion_level] = 0;
+    --recursion_level;
   }
-
-  ++MoveNbr[nbply];
-
-  MoveNbr[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

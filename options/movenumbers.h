@@ -19,7 +19,7 @@ typedef enum
   nr_movenumbers_boundaries
 } movenumbers_boundary_type;
 
-void move_numbers_write_history(ply top_ply);
+void move_numbers_write_history(void);
 
 /* Reset the restart number setting.
  */
@@ -57,6 +57,5 @@ void solving_insert_restart_guards(slice_index si);
  *            (with n denominating solve_nr_remaining)
  */
 void restart_guard_solve(slice_index si);
-void restart_guard_nested_solve(slice_index si);
 
 #endif
