@@ -660,7 +660,7 @@ void dispatch(slice_index si)
       output_plaintext_line_refuting_variation_writer_solve(si);
       break;
 
-    case STCookTryAvoider:
+    case STTrivialTryAvoider:
       cook_try_avoider_solve(si);
       break;
 

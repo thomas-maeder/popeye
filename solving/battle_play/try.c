@@ -440,7 +440,7 @@ static void insert_refutations_solver(slice_index si,
 
   if (OptFlag[trivialtriesavoided])
   {
-    slice_index const prototype = alloc_pipe(STCookTryAvoider);
+    slice_index const prototype = alloc_pipe(STTrivialTryAvoider);
     defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
   }
 

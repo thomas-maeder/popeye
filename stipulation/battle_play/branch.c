@@ -159,7 +159,7 @@ static slice_index const slice_rank_order[] =
   STRefutationsAllocator,
   STSolvingContinuation,
   STContinuationSolver,
-  STCookTryAvoider,
+  STTrivialTryAvoider,
   STOutputPlainTextThreatWriter,
   STOutputLaTeXThreatWriter,
   STThreatEnd,

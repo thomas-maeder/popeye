@@ -204,7 +204,7 @@
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \
     ENUMERATOR(STEndOfRefutationSolvingBranch), /* end of special branch */ \
-    ENUMERATOR(STCookTryAvoider),                                       \
+    ENUMERATOR(STTrivialTryAvoider),                                    \
     ENUMERATOR(STPlaySuppressor), /* suppresses play */                 \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STSolvingContinuation), /* proxy slice representing STContinuationSolver in testing mode */ \
