@@ -362,8 +362,6 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static unsigned counter = 0;
-
 static void genmove(void)
 {
   unsigned int i;
@@ -372,8 +370,6 @@ static void genmove(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  assert(++counter!=10000);
 
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
