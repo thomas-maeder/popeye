@@ -661,7 +661,7 @@ void dispatch(slice_index si)
       break;
 
     case STTrivialTryAvoider:
-      cook_try_avoider_solve(si);
+      trivial_try_avoider_solve(si);
       break;
 
     case STOutputPlainTextMoveWriter:

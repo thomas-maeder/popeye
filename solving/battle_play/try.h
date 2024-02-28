@@ -127,7 +127,7 @@ void refutations_filter_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cook_try_avoider_solve(slice_index si);
+void trivial_try_avoider_solve(slice_index si);
 
 /* Instrument the stipulation structure with slices solving tries
  * @param si identifies entry branch into stipulation
