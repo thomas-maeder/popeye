@@ -45,7 +45,7 @@ static void write_history_recursive(ply level)
 
 void move_numbers_write_history(void)
 {
-  puts("\nuse option start ");
+  fputs("\nuse option start ",stdout);
 
   if (restart_deep)
   {
@@ -53,14 +53,7 @@ void move_numbers_write_history(void)
     puts(" to replay");
   }
   else
-  {
-    ply level;
-
-    puts("1");
-    for (level = 1; level<=recursion_level; ++level)
-      puts(":1");
-    puts(" to get replay information");
-  }
+    puts("1:1 or 1:1:1 etc. to get replay information");
 }
 
 /* Reset the restart number setting.
