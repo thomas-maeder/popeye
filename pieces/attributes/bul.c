@@ -5,15 +5,93 @@
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "solving/has_solution_type.h"
+#include "solving/post_move_iteration.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
 #include "debugging/assert.h"
 
+static ply bul_ply[maxply+1];
+
 static boolean is_false(numecoup n)
 {
   return false;
+}
+
+static void move_hurdle_and_recurse(slice_index si)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(bul_ply[nbply]);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
+  square const sq_capture = move_gen_top->capture;
+  square const sq_departure = move_gen_top->departure;
+  square const sq_arrival = move_gen_top->arrival;
+
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceEOL();
+
+  move_effect_journal_do_piece_movement(move_effect_reason_bul,sq_departure,sq_arrival);
+
+  post_move_iteration_solve_delegate(si);
+}
+
+static boolean are_hurdle_moves_exhausted(void)
+{
+  return CURRMOVE_OF_PLY(bul_ply[nbply])==CURRMOVE_OF_PLY(bul_ply[nbply]-1);
+}
+
+static boolean advance_hurdle_move(void)
+{
+  ply const save_nbply = nbply;
+
+  nbply = bul_ply[nbply];
+  pop_move();
+  nbply = save_nbply;
+
+  return !are_hurdle_moves_exhausted();
+}
+
+static boolean generate_hurdle_moves(slice_index si,
+                                     move_effect_journal_index_type const movement)
+{
+  boolean result;
+  ply const save_nbply = nbply;
+  piece_walk_type walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",movement);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_hurdle);
+  TraceWalk(walk_moving);
+  TraceEOL();
+
+  siblingply(advers(SLICE_STARTER(si)));
+  bul_ply[save_nbply] = nbply;
+
+  curr_generation->departure = sq_hurdle;
+  move_generation_current_walk = walk_moving;
+  generate_moves_delegate(SLICE_NEXT2(temporary_hack_move_generator[trait[nbply]]));
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false); /* is this correct??? */
+
+  nbply = save_nbply;
+
+  result = !are_hurdle_moves_exhausted();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void cleanup_hurdle_moves(void)
+{
+  nbply = bul_ply[nbply];
+  finply();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -41,53 +119,24 @@ void bul_solve(slice_index si)
 
   if (TSTFLAG(movingspec,Bul))
   {
-    piece_walk_type walk_moving = move_effect_journal[movement].u.piece_movement.moving;
-    square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
-    piece_walk_type const pi_hurdle = get_walk_of_piece_on_square(sq_hurdle);
-    ply const save_nbply = nbply;
-    ply const bul_ply = nbply+1; /* this assumption is not always correct */
-
-    TraceSquare(sq_hurdle);
-    TraceWalk(pi_hurdle);
-    TraceEOL();
-
-    siblingply(advers(SLICE_STARTER(si)));
-    numecoup const start = CURRMOVE_OF_PLY(nbply);
-    assert(nbply==bul_ply);
-    curr_generation->departure = sq_hurdle;
-    move_generation_current_walk = walk_moving;
-    generate_moves_delegate(SLICE_NEXT2(temporary_hack_move_generator[trait[nbply]]));
-    move_generator_filter_captures(start,&is_false); /* is this correct??? */
-
-    if (start==CURRMOVE_OF_PLY(nbply))
+    if (!post_move_am_i_iterating())
+    {
+      if (generate_hurdle_moves(si,movement))
+        move_hurdle_and_recurse(si);
+      else
+      {
+        solve_result = this_move_is_illegal;
+        cleanup_hurdle_moves();
+      }
+    }
+    else if (post_move_have_i_lock() && !advance_hurdle_move())
     {
       solve_result = this_move_is_illegal;
-      finply();
+      cleanup_hurdle_moves();
+      post_move_iteration_end();
     }
     else
-    {
-      nbply = save_nbply;
-
-      {
-        numecoup const curr = CURRMOVE_OF_PLY(bul_ply);
-        move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-        square const sq_capture = move_gen_top->capture;
-        square const sq_departure = move_gen_top->departure;
-        square const sq_arrival = move_gen_top->arrival;
-
-        TraceSquare(sq_departure);
-        TraceSquare(sq_arrival);
-        TraceSquare(sq_capture);
-        TraceEOL();
-
-        move_effect_journal_do_piece_movement(move_effect_reason_bul,sq_departure,sq_arrival);
-      }
-
-      pipe_solve_delegate(si);
-      nbply = bul_ply;
-
-      finply();
-    }
+      move_hurdle_and_recurse(si);
   }
   else
     pipe_solve_delegate(si);

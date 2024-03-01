@@ -902,8 +902,9 @@ pieces/attributes/bul$(OBJ_SUFFIX): pieces/attributes/bul.c pieces/attributes/bu
   position/effects/piece_movement.h solving/move_effect_journal.h \
   solving/pipe.h solving/has_solution_type.h \
   solving/has_solution_type.enum.h solving/has_solution_type.enum \
-  stipulation/move.h stipulation/structure_traversal.h \
-  stipulation/slice.h stipulation/slice_structural_type.h \
+  solving/post_move_iteration.h stipulation/move.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -993,6 +994,8 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/has_solution_type.enum:
+
+solving/post_move_iteration.h:
 
 stipulation/move.h:
 
