@@ -196,6 +196,7 @@ typedef enum
   Uncapturable,
   Patrol,
   FrischAuf,
+  Bul,
 
   nr_piece_flags
 } piece_flag_type;
