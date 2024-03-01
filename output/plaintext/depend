@@ -12,7 +12,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
   output/plaintext/protocol.h output/plaintext/tree/tree.h \
   output/plaintext/line/line.h output/plaintext/end_of_phase_writer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h output/plaintext/language_dependant.h \
+  debugging/trace.h solving/ply.h output/plaintext/language_dependant.h \
   conditions/conditions.h options/options.h input/plaintext/twin.h \
   input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
   conditions/anticirce/anticirce.h conditions/circe/circe.h \
@@ -27,8 +27,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -107,6 +106,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 output/plaintext/language_dependant.h:
 
 conditions/conditions.h:
@@ -152,8 +153,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -208,8 +207,10 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  solving/machinery/dispatch.h debugging/trace.h \
-  output/plaintext/plaintext.h output/output.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h output/plaintext/plaintext.h output/output.h \
   output/plaintext/message.h output/message.h input/plaintext/language.h \
   stipulation/pipe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
@@ -261,6 +262,22 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
 output/plaintext/plaintext.h:
 
 output/output.h:
@@ -306,10 +323,13 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  solving/machinery/dispatch.h debugging/trace.h \
-  output/plaintext/message.h output/message.h input/plaintext/language.h \
-  stipulation/pipe.h stipulation/structure_traversal.h \
-  stipulation/slice.h stipulation/slice_structural_type.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h output/plaintext/message.h output/message.h \
+  input/plaintext/language.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -359,6 +379,22 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
 output/plaintext/message.h:
 
 output/message.h:
@@ -406,9 +442,11 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -457,6 +495,22 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -495,9 +549,11 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -507,7 +563,7 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   solving/has_solution_type.h solving/has_solution_type.enum.h \
-  solving/has_solution_type.enum conditions/ohneschach.h solving/ply.h \
+  solving/has_solution_type.enum conditions/ohneschach.h \
   output/plaintext/message.h output/message.h input/plaintext/language.h \
   solving/pipe.h
 
@@ -549,6 +605,22 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -583,8 +655,6 @@ solving/has_solution_type.enum:
 
 conditions/ohneschach.h:
 
-solving/ply.h:
-
 output/plaintext/message.h:
 
 output/message.h:
@@ -600,8 +670,11 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
   stipulation/slice_type.enum position/side.h position/side.enum.h \
   position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
   output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
-  stipulation/pipe.h stipulation/structure_traversal.h \
-  stipulation/slice.h stipulation/slice_structural_type.h \
+  position/position.h position/color.h position/color.enum.h \
+  position/color.enum position/pieceid.h pieces/walks/vectors.h \
+  position/castling_rights.h solving/ply.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -651,6 +724,22 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
 
 stipulation/pipe.h:
 
@@ -705,7 +794,7 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
   output/mode.h output/mode.enum.h output/mode.enum \
   input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -717,8 +806,7 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -788,6 +876,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -819,8 +909,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -857,7 +945,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
   input/plaintext/twin.h input/plaintext/token.h \
   input/plaintext/language.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -869,8 +957,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -961,6 +1048,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -992,8 +1081,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -1114,7 +1201,7 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
   conditions/conditions.h options/options.h input/plaintext/twin.h \
   input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -1126,8 +1213,7 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -1218,6 +1304,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -1249,8 +1337,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -1338,7 +1424,7 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
   conditions/conditions.h options/options.h input/plaintext/twin.h \
   input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -1350,8 +1436,7 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -1430,6 +1515,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -1461,8 +1548,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -1520,7 +1605,7 @@ output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
   output/plaintext/language_dependant.h conditions/conditions.h \
   options/options.h input/plaintext/twin.h input/plaintext/token.h \
   conditions/mummer.h solving/machinery/solve.h \
-  solving/machinery/dispatch.h debugging/trace.h \
+  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
   conditions/anticirce/anticirce.h conditions/circe/circe.h \
   stipulation/structure_traversal.h stipulation/slice.h \
   stipulation/slice_structural_type.h \
@@ -1533,8 +1618,7 @@ output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -1623,6 +1707,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -1654,8 +1740,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -1698,7 +1782,7 @@ output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
   position/castling_rights.h conditions/conditions.h options/options.h \
   input/plaintext/twin.h input/plaintext/token.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -1710,8 +1794,7 @@ output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -1792,6 +1875,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -1823,8 +1908,6 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -1917,8 +2000,9 @@ output/plaintext/problem$(OBJ_SUFFIX): output/plaintext/problem.c \
   position/color.enum position/pieceid.h pieces/walks/vectors.h \
   position/castling_rights.h output/plaintext/twinning.h solving/pipe.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h stipulation/pipe.h stipulation/structure_traversal.h \
-  stipulation/slice.h stipulation/slice_structural_type.h \
+  debugging/trace.h solving/ply.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -1996,6 +2080,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -2037,8 +2123,10 @@ output/plaintext/stipulation$(OBJ_SUFFIX): output/plaintext/stipulation.c \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
   input/plaintext/goal.h solving/pipe.h solving/machinery/solve.h \
-  solving/machinery/dispatch.h debugging/trace.h \
-  solving/machinery/slack_length.h stipulation/pipe.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h solving/machinery/slack_length.h stipulation/pipe.h \
   stipulation/structure_traversal.h stipulation/slice.h \
   stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -2093,6 +2181,22 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
+
 solving/machinery/slack_length.h:
 
 stipulation/pipe.h:
@@ -2138,7 +2242,7 @@ output/plaintext/sstipulation$(OBJ_SUFFIX): output/plaintext/sstipulation.c \
   input/plaintext/twin.h input/plaintext/token.h \
   input/plaintext/language.h conditions/mummer.h \
   solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h conditions/anticirce/anticirce.h \
+  debugging/trace.h solving/ply.h conditions/anticirce/anticirce.h \
   conditions/circe/circe.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -2150,8 +2254,7 @@ output/plaintext/sstipulation$(OBJ_SUFFIX): output/plaintext/sstipulation.c \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
   stipulation/slice_insertion.h solving/move_effect_journal.h \
-  solving/ply.h solving/machinery/twin.h \
-  conditions/circe/rebirth_square_occupied.h \
+  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -2226,6 +2329,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -2258,8 +2363,6 @@ stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/ply.h:
-
 solving/machinery/twin.h:
 
 conditions/circe/rebirth_square_occupied.h:
@@ -2291,9 +2394,11 @@ output/plaintext/constraint_writer$(OBJ_SUFFIX): \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
   position/side.h position/side.enum.h position/side.enum \
   pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -2343,6 +2448,22 @@ output/mode.enum:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/color.enum:
+
+position/pieceid.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
 
 stipulation/pipe.h:
 

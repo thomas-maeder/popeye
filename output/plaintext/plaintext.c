@@ -568,6 +568,18 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
       break;
     }
 
+    case move_effect_reason_bul:
+      next_context(context,curr,"[","]");
+      write_complete_piece(context,
+                           move_effect_journal[curr].u.piece_movement.movingspec,
+                           move_effect_journal[curr].u.piece_movement.moving,
+                           move_effect_journal[curr].u.piece_movement.from);
+      (*context->engine->fprintf)(context->file,"->");
+      WriteSquare(context->engine,context->file,
+                  move_effect_journal[curr].u.piece_movement.to);
+      break;
+
+
     default:
       break;
   }

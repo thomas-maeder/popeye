@@ -168,6 +168,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/attributes/bul.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
@@ -527,6 +528,9 @@ void build_solvers1(slice_index si)
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
     solving_insert_hurdle_colour_changers(si);
+
+  if (TSTFLAG(some_pieces_flags,Bul))
+    solving_insert_bul(si);
 
   if (CondFlag[haanerchess])
     solving_insert_haan_chess(si);
