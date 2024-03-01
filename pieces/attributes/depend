@@ -900,7 +900,9 @@ pieces/attributes/bul$(OBJ_SUFFIX): pieces/attributes/bul.c pieces/attributes/bu
   solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
   debugging/measure.h output/plaintext/protocol.h \
   position/effects/piece_movement.h solving/move_effect_journal.h \
-  solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+  solving/pipe.h solving/has_solution_type.h \
+  solving/has_solution_type.enum.h solving/has_solution_type.enum \
+  stipulation/move.h stipulation/structure_traversal.h \
   stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
@@ -985,6 +987,12 @@ position/effects/piece_movement.h:
 solving/move_effect_journal.h:
 
 solving/pipe.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
 
 stipulation/move.h:
 
