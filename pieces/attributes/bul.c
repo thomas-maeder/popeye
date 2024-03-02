@@ -19,7 +19,7 @@ static boolean is_false(numecoup n)
   return false;
 }
 
-static void move_hurdle_and_recurse(slice_index si)
+static void do_hurdle_movement(slice_index si)
 {
   numecoup const curr = CURRMOVE_OF_PLY(bul_ply[nbply]);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
@@ -33,16 +33,14 @@ static void move_hurdle_and_recurse(slice_index si)
   TraceEOL();
 
   move_effect_journal_do_piece_movement(move_effect_reason_bul,sq_departure,sq_arrival);
-
-  post_move_iteration_solve_delegate(si);
 }
 
-static boolean are_hurdle_moves_exhausted(void)
+static boolean are_hurdle_movements_exhausted(void)
 {
   return CURRMOVE_OF_PLY(bul_ply[nbply])==CURRMOVE_OF_PLY(bul_ply[nbply]-1);
 }
 
-static boolean advance_hurdle_move(void)
+static boolean advance_hurdle_movement(void)
 {
   ply const save_nbply = nbply;
 
@@ -50,11 +48,11 @@ static boolean advance_hurdle_move(void)
   pop_move();
   nbply = save_nbply;
 
-  return !are_hurdle_moves_exhausted();
+  return !are_hurdle_movements_exhausted();
 }
 
-static boolean generate_hurdle_moves(slice_index si,
-                                     move_effect_journal_index_type const movement)
+static boolean generate_hurdle_movements(slice_index si,
+                                         move_effect_journal_index_type const movement)
 {
   boolean result;
   ply const save_nbply = nbply;
@@ -80,7 +78,7 @@ static boolean generate_hurdle_moves(slice_index si,
 
   nbply = save_nbply;
 
-  result = !are_hurdle_moves_exhausted();
+  result = !are_hurdle_movements_exhausted();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -88,7 +86,7 @@ static boolean generate_hurdle_moves(slice_index si,
   return result;
 }
 
-static void cleanup_hurdle_moves(void)
+static void cleanup_hurdle_movements(void)
 {
   nbply = bul_ply[nbply];
   finply();
@@ -121,22 +119,28 @@ void bul_solve(slice_index si)
   {
     if (!post_move_am_i_iterating())
     {
-      if (generate_hurdle_moves(si,movement))
-        move_hurdle_and_recurse(si);
+      if (generate_hurdle_movements(si,movement))
+      {
+        do_hurdle_movement(si);
+        post_move_iteration_solve_delegate(si);
+      }
       else
       {
         solve_result = this_move_is_illegal;
-        cleanup_hurdle_moves();
+        cleanup_hurdle_movements();
       }
     }
-    else if (post_move_have_i_lock() && !advance_hurdle_move())
+    else if (post_move_have_i_lock() && !advance_hurdle_movement())
     {
       solve_result = this_move_is_illegal;
-      cleanup_hurdle_moves();
+      cleanup_hurdle_movements();
       post_move_iteration_end();
     }
     else
-      move_hurdle_and_recurse(si);
+    {
+      do_hurdle_movement(si);
+      post_move_iteration_solve_delegate(si);
+    }
   }
   else
     pipe_solve_delegate(si);
