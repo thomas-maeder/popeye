@@ -168,6 +168,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/attributes/bul.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
@@ -511,6 +512,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[series_capture])
     solving_instrument_series_capture(si);
+
+  if (TSTFLAG(some_pieces_flags,Bul))
+    solving_insert_bul(si);
 
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
   promotion_instrument_solving_default(si);

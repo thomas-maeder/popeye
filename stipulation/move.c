@@ -94,6 +94,8 @@ static slice_index const move_slice_rank_order[] =
     STOscillatingKingsTypeB,
     STOscillatingKingsTypeC,
     STHurdleColourChanger,
+    STBul,
+    STBeforePawnPromotion, /* BULlied pawn */
     STCirceConsideringRebirth,
     STCirceDoneWithRebirth,
     STMagicPiecesRecolorer,
@@ -126,6 +128,7 @@ static slice_index const move_slice_rank_order[] =
     STOwnKingCaptureAvoider,
     STOpponentKingCaptureAvoider,
     STCastlingRightsAdjuster,
+    STBulPlyCatchup,
     STSeriesCaptureJournalFixer,
     STMoveTracer,
     STBlackChecks,

@@ -260,6 +260,7 @@
 #include "pieces/attributes/total_invisible/replay_fleshed_out.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
+#include "pieces/attributes/bul.h"
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
@@ -2080,6 +2081,18 @@ void dispatch(slice_index si)
 
     case STHurdleColourChangerChangePromoteeInto:
       hurdle_colour_change_change_promotee_into_solve(si);
+      break;
+
+    case STBul:
+      bul_solve(si);
+      break;
+
+    case STBulPlyCatchup:
+      bul_ply_catchup_solve(si);
+      break;
+
+    case STBulPlyRewinder:
+      bul_ply_rewinder_solve(si);
       break;
 
     case STOscillatingKingsTypeA:

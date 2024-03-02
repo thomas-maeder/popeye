@@ -310,6 +310,7 @@ static slice_index const slice_rank_order[] =
     STMakeTakeLimitMoveGenerationMakeWalk,
     STCastlingSuspender,
     STObservingMovesGenerator,
+    STDoneGeneratingMoves,
     STFindAttack,
     STAttackTarget,
     STKingSquareObservationTester,
@@ -400,6 +401,7 @@ void solving_test_check_playing_moves(slice_index si)
 {
   solving_instrument_check_testing(si,STCastlingSuspender);
   solving_instrument_check_testing(si,STObservingMovesGenerator);
+  solving_instrument_check_testing(si,STDoneGeneratingMoves);
   solving_instrument_check_testing(si,STFindAttack);
   solving_instrument_check_testing(si,STAttackTarget);
 }
