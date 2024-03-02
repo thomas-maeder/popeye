@@ -1,0 +1,66 @@
+begin
+
+protocol bul.tst
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white kc3 qd2 sa4e7g6 pc6f5 white bul gd5f8
+       black kd6 bh6 pb7c4c5c7e4e5
+stipulation #1
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white ke1 qf8 ra1d2 bb3 sh4h5 pb2c2
+       black ke5 rh6 ba7d1 pb6b7d7f7h7
+       neutral bul ge7
+stipulation #2
+option vari try
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white kc5 qc2 bb1 pa2d4d5 white bul gf6
+       black ka1 pa3a5a7c6d2e6g6
+stipulation #2
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white kf3 bf6 pa2 black pb4b5b7d6 black royal bul gh3
+stipulation #2
+option vari try
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white kg1 qa8 bc5 sg2 pa7g6 white bul lid5
+       black ke4 pc3c4f6g3
+stipulation #2
+option vari try
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white ke1 qb7 bb1e7 pa5c5d6g3 white bul nab4c6
+       black ke5 bh7 pe2e6g5g6
+stipulation #2
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet 2020
+pieces white kh3
+       black kh8 rd4d8 ph7
+       neutral se7 cah4 neutral bul leh1
+stipulation h#2
+
+end
+

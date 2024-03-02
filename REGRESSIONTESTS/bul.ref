@@ -91,18 +91,18 @@ last 3 moves of a h=4
 a) 
 
   1.Re6-d6 nRc7*c5 +   2.Ba5-c7 nRc5-c2 +   3.Rb4-b2 Ba7*e3 =
-  add_to_move_generation_stack:    90837309
-                     play_move:    49913656
- is_white_king_square_attacked:    19793887
- is_black_king_square_attacked:    35973628
+  add_to_move_generation_stack:   113789419
+                     play_move:    60006521
+ is_white_king_square_attacked:    23659514
+ is_black_king_square_attacked:    43536309
 
 b) nRc7-->g3  
 
   1.Rb4-f4 nRg3*e3 +   2.Re6-e5 nRe3-e2 +   3.Ba5-d2 Ba7*c5 =
-  add_to_move_generation_stack:    53932819
-                     play_move:    40806868
- is_white_king_square_attacked:    13431465
- is_black_king_square_attacked:    27853305
+  add_to_move_generation_stack:    54063932
+                     play_move:    40865094
+ is_white_king_square_attacked:    13452902
+ is_black_king_square_attacked:    27898169
 
 solution finished.
 
@@ -177,10 +177,10 @@ Cook!
   1.bLId5-h1[wPg2->c2] bLIf5-b1[wPc2->f2]   2.Kh3-g4 bLIe3-g1[wPf2->f8=LI]   3.LIf8-a3 + bLIg1-g5[wKg4->a4] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->g8] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->f7] #
-  add_to_move_generation_stack:   928539388
-                     play_move:   283902048
- is_white_king_square_attacked:   182427096
- is_black_king_square_attacked:   114758993
+  add_to_move_generation_stack:  1161310453
+                     play_move:   372180493
+ is_white_king_square_attacked:   232265480
+ is_black_king_square_attacked:   151567581
 
 solution finished.
 
