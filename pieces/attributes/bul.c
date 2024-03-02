@@ -52,19 +52,19 @@ static boolean advance_hurdle_movement(void)
 }
 
 static boolean generate_hurdle_movements(slice_index si,
-                                         move_effect_journal_index_type const movement)
+                                         move_effect_journal_index_type const movement,
+                                         square sq_hurdle)
 {
   boolean result;
   ply const save_nbply = nbply;
   piece_walk_type walk_moving = move_effect_journal[movement].u.piece_movement.moving;
-  square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",movement);
+  TraceSquare(sq_hurdle);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_hurdle);
   TraceWalk(walk_moving);
   TraceEOL();
 
@@ -110,16 +110,22 @@ void bul_solve(slice_index si)
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
+  square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(movingspec,Bul))
+  TraceValue("%x",movingspec);
+  TraceValue("%x",1<<Bul);
+  TraceSquare(sq_hurdle);
+  TraceEOL();
+
+  if (TSTFLAG(movingspec,Bul) && sq_hurdle!=initsquare)
   {
     if (!post_move_am_i_iterating())
     {
-      if (generate_hurdle_movements(si,movement))
+      if (generate_hurdle_movements(si,movement,sq_hurdle))
       {
         do_hurdle_movement(si);
         post_move_iteration_solve_delegate(si);
