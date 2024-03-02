@@ -74,7 +74,7 @@ static boolean generate_hurdle_movements(slice_index si,
   curr_generation->departure = sq_hurdle;
   move_generation_current_walk = walk_moving;
   generate_moves_delegate(SLICE_NEXT2(temporary_hack_move_generator[trait[nbply]]));
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false); /* is this correct??? */
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false);
 
   nbply = save_nbply;
 
