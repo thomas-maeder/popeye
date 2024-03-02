@@ -1480,7 +1480,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Imprenable",
     "Patrouille",
     "Frischauf",
-    "Bul"
+    "Bul",
+    "Dob"
   },
   {
     /* German */
@@ -1498,7 +1499,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Unschlagbar",
     "Patrouille",
     "Frischauf",
-    "Bul"
+    "Bul",
+    "Dob"
   },
   {
     /* English */
@@ -1516,7 +1518,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Uncapturable",
     "Patrol",
     "Frischauf",
-    "Bul"
+    "Bul",
+    "Dob"
   }
 };
 

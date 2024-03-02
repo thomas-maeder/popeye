@@ -513,7 +513,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[series_capture])
     solving_instrument_series_capture(si);
 
-  if (TSTFLAG(some_pieces_flags,Bul))
+  if (TSTFLAG(some_pieces_flags,Bul) || TSTFLAG(some_pieces_flags,Dob))
     solving_insert_bul(si);
 
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
