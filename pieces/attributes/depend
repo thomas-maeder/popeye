@@ -913,7 +913,7 @@ pieces/attributes/bul$(OBJ_SUFFIX): pieces/attributes/bul.c pieces/attributes/bu
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  debugging/assert.h
+  stipulation/pipe.h debugging/assert.h
 
 pieces/attributes/bul.h:
 
@@ -1022,5 +1022,7 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
 
 debugging/assert.h:

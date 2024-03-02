@@ -79,11 +79,13 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
       }
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
     }
   }
 

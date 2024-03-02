@@ -357,6 +357,8 @@
     ENUMERATOR(STHurdleColourChangeInitialiser), \
     ENUMERATOR(STHurdleColourChangerChangePromoteeInto), \
     ENUMERATOR(STBul), \
+    ENUMERATOR(STBulPlyCatchup), \
+    ENUMERATOR(STBulPlyRewinder), \
     ENUMERATOR(STOscillatingKingsTypeA), \
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \

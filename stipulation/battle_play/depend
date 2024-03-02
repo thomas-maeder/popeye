@@ -2,10 +2,10 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
   stipulation/battle_play/branch.h stipulation/stipulation.h \
   stipulation/goals/goals.h position/board.h utilities/bitmask.h \
   utilities/boolean.h stipulation/slice_type.h \
-  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
-  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
-  output/mode.enum stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -44,6 +44,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 

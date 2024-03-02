@@ -1,0 +1,109 @@
+
+           Petko A. Petkov
+     1519, Julia's Fairies 2020
+In Memoriam to my mother Danka Petkova
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -S   .   .   .   .   .   .   8
+|                                   |
+7  -B  -P   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  PA   .   .   .   .   5
+|                                   |
+4  VA   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+              Bul d5 a4
+
+a) 
+
+  1.Ba7-d4 bPAd5-a5   2.Bd4-a1 bPAa5*a1[wbVAa4->a6] #
+  add_to_move_generation_stack:      109747
+                     play_move:       80183
+ is_white_king_square_attacked:        3433
+ is_black_king_square_attacked:       75195
+
+b) bSb7  
+
+  1.Sb7-c5 bVAa4-c6   2.Sc5-e4 bVAc6*e4[wbPAd5->c6] #
+  add_to_move_generation_stack:      131610
+                     play_move:       97095
+ is_white_king_square_attacked:        3859
+ is_black_king_square_attacked:       91365
+
+c) +bSb6  
+
+  1.Sb6-c4 bVAa4-b5   2.Sc4-a5 bPAd5*a5[wbVAb5->d5] #
+  add_to_move_generation_stack:      127247
+                     play_move:       74302
+ is_white_king_square_attacked:        2904
+ is_black_king_square_attacked:       63385
+
+d) +bSc8  
+
+  1.Sc8-e7 bPAd5-b5   2.Se7-c6 bVAa4*c6[wbPAb5->a4] #
+  add_to_move_generation_stack:      217896
+                     play_move:      132174
+ is_white_king_square_attacked:        4973
+ is_black_king_square_attacked:      116440
+
+solution finished.
+
+
+last 3 moves of a h=4
+
+           Petko A. Petkov
+     1518, Julia's Fairies 2020
+   Dedicated to Christian Poisson!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .  =R   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -R   .   .   .   6
+|                                   |
+5  -B   .  -P   .   .   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   G   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   K   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                    4 + 6 + 1n
+               Bul h3
+
+a) 
+
+  1.Re6-d6 nRc7*c5 +   2.Ba5-c7 nRc5-c2 +   3.Rb4-b2 Ba7*e3 =
+  add_to_move_generation_stack:    90524591
+                     play_move:    49695096
+ is_white_king_square_attacked:    19697374
+ is_black_king_square_attacked:    35857802
+
+b) nRc7-->g3  
+
+  1.Rb4-f4 nRg3*e3 +   2.Re6-e5 nRe3-e2 +   3.Ba5-d2 Ba7*c5 =
+  add_to_move_generation_stack:    53877113
+                     play_move:    40725288
+ is_white_king_square_attacked:    13400772
+ is_black_king_square_attacked:    27812215
+
+solution finished.
+
+

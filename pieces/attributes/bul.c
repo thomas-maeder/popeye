@@ -7,6 +7,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/post_move_iteration.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -68,6 +69,8 @@ static boolean generate_hurdle_movements(slice_index si,
   TraceWalk(walk_moving);
   TraceEOL();
 
+  assert(bul_ply[nbply]==ply_nil);
+
   siblingply(advers(SLICE_STARTER(si)));
   bul_ply[save_nbply] = nbply;
 
@@ -90,6 +93,7 @@ static void cleanup_hurdle_movements(void)
 {
   nbply = bul_ply[nbply];
   finply();
+  bul_ply[nbply] = ply_nil;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -116,6 +120,10 @@ void bul_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",move_generation_stack[CURRMOVE_OF_PLY(nbply)].id);
+  TraceSquare(move_effect_journal[movement].u.piece_movement.from);
+  TraceSquare(move_effect_journal[movement].u.piece_movement.to);
+  TraceWalk(move_effect_journal[movement].u.piece_movement.moving);
   TraceValue("%x",movingspec);
   TraceValue("%x",1<<Bul);
   TraceSquare(sq_hurdle);
@@ -155,16 +163,126 @@ void bul_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-void solving_insert_bul(slice_index si)
+void bul_ply_catchup_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",bul_ply[nbply]);
+  TraceValue("%u",move_effect_journal_base[nbply]);
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceValue("%u",move_effect_journal_base[bul_ply[nbply]]);
+  TraceValue("%u",move_effect_journal_base[bul_ply[nbply]+1]);
+  TraceEOL();
+
+  move_effect_journal_base[bul_ply[nbply]+1] = move_effect_journal_base[bul_ply[nbply]];
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void bul_ply_rewinder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  if (bul_ply[nbply]!=ply_nil)
+    cleanup_hurdle_movements();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_ply_rewinder(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STBulPlyRewinder)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor bul_inserters[] =
+{
+  { STDoneGeneratingMoves, &insert_ply_rewinder }
+};
+
+enum
+{
+  nr_bul_inserters = (sizeof bul_inserters / sizeof bul_inserters[0])
+};
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void solving_insert_bul(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    bul_inserters,
+                                    nr_bul_inserters);
+  stip_traverse_structure(si,&st);
+
   stip_instrument_moves(si,STBul);
+  stip_instrument_moves(si,STBulPlyCatchup);
+
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

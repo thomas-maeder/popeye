@@ -2087,6 +2087,14 @@ void dispatch(slice_index si)
       bul_solve(si);
       break;
 
+    case STBulPlyCatchup:
+      bul_ply_catchup_solve(si);
+      break;
+
+    case STBulPlyRewinder:
+      bul_ply_rewinder_solve(si);
+      break;
+
     case STOscillatingKingsTypeA:
       oscillating_kings_type_a_solve(si);
       break;

@@ -1,0 +1,34 @@
+begin
+
+prot bul.ref
+
+author Petko A. Petkov
+origin 1519, Julia's Fairies 2020
+title In Memoriam to my mother Danka Petkova
+
+pieces White Kf7 White Bul VAa4 PAd5
+       Black Ka8 Ba7 Sb8 Pb7
+
+stipulation h#2
+
+twin add black sb7
+twin add black sb6
+twin add black sc8
+
+next
+
+author Petko A. Petkov
+origin 1518, Julia's Fairies 2020
+title Dedicated to Christian Poisson!
+remark last 3 moves of a h=4
+
+pieces White Ka1 Ba7 Ph2 White Bul Gh3
+       Black Kh1 Rb4e6 Ba5 Pc5e3
+       Neutral Rc7
+
+stipulation h=3
+
+twin move c7 g3
+
+end
+
