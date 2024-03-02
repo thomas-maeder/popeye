@@ -225,6 +225,7 @@ void find_potential_promotion_square(square *candidate,
 
   TraceValue("%u",top);
   TraceValue("%u",promotion_horizon[nbply]);
+  TraceEOL();
 
   *candidate = initsquare;
   *as_side = no_side;
@@ -243,6 +244,11 @@ void find_potential_promotion_square(square *candidate,
         {
           *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
           *as_side = trait[nbply];
+        }
+        else if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_bul)
+        {
+          *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+          *as_side = TSTFLAG(sq_spec(*candidate),WhPromSq) ? White : Black;
         }
         break;
 
@@ -302,6 +308,7 @@ void pawn_promoter_solve(slice_index si)
                                   &as_side);
 
   TraceSquare(sq_potential_promotion);
+  TraceEnumerator(Side,as_side);
   TraceEOL();
 
   assert(stack_pointer<stack_size);

@@ -280,6 +280,8 @@ void solving_insert_bul(slice_index si)
   stip_instrument_moves(si,STBul);
   stip_instrument_moves(si,STBulPlyCatchup);
 
+  promotion_insert_slice_sequence(si,STBul,&move_insert_slices);
+
   stip_instrument_check_validation(si,
                                    nr_sides,
                                    STValidateCheckMoveByPlayingCapture);

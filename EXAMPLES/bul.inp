@@ -30,5 +30,40 @@ stipulation h=3
 
 twin move c7 g3
 
+next
+
+author Sebastien Luce
+origin 1514, Julia's Fairies 2020
+pieces White Bul Ge5f5e3
+       Black Kg7 black Bul Gb6f3
+
+stipulation h#4
+option nowk
+
+next
+
+author Vlaicu Crisan
+origin 1679, Julia's Fairies 2021
+remark Cook!
+
+pieces  black Sb7 Rd2 Pc4b5a5d6b6a7 Ka6 Bf7 black Bul LIe3f5
+        white Pg2h4g7 Sh2 Kh3 white Bul PAd1 VAg8 LId5
+
+stipulation hs#3
+
+next
+
+author Sebastien Luce
+origin Anda Fairy Planet 2020-21, 1st prize
+title dedicated to Pierre Tritten
+remark Dual in a), Cooks in b)
+
+pieces white kb5 white bul gb6
+       black ka7 pb7c7
+
+stipulation h#4.5
+
+twin shift h8 h5
+
 end
 

@@ -513,6 +513,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[series_capture])
     solving_instrument_series_capture(si);
 
+  if (TSTFLAG(some_pieces_flags,Bul))
+    solving_insert_bul(si);
+
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
   promotion_instrument_solving_default(si);
 
@@ -528,9 +531,6 @@ void build_solvers1(slice_index si)
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
     solving_insert_hurdle_colour_changers(si);
-
-  if (TSTFLAG(some_pieces_flags,Bul))
-    solving_insert_bul(si);
 
   if (CondFlag[haanerchess])
     solving_insert_haan_chess(si);
