@@ -55,9 +55,10 @@ boolean lions_check(vec_index_type kanf, vec_index_type kend,
         result = true;
         break;
       }
-      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 

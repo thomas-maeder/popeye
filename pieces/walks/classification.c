@@ -158,6 +158,8 @@ boolean is_simplehopper(piece_walk_type p)
     case RookSparrow:
     case BishopSparrow:
     case KnightHopper:
+    case EquiStopper:
+    case NonstopEquiStopper:
       return true;
 
     default:

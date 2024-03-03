@@ -98,6 +98,7 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
     {
       vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                    vec_index_departure_hurdle,
                                                    angle,
@@ -112,6 +113,8 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
       }
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 
