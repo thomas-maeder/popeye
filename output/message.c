@@ -129,7 +129,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Options duplex inconsistentes\n",
     /*121*/ "Inconsistent buts pcpj\n",
     /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
-    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n"
+    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n",
+    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -255,7 +256,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Inkonsistente Duplex-Optionen\n",
     /*121*/ "Inkonsistente Beweispartie-Ziele\n",
     /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
-    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n"
+    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n",
+    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -381,7 +383,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Inconsistent duplex options\n",
     /*121*/ "Inconsistent proof game targets\n",
     /*122*/ "Inconsistent rules regarding NullMoves\n",
-    /*123*/ "Incompatible fairy elements changing piece types\n"
+    /*123*/ "Incompatible fairy elements changing piece types\n",
+    /*124*/ "A hopper can not be both Bul and Dob\n"
   }
 };
 

@@ -326,25 +326,11 @@ static void initialise_piece_flags(void)
     for (bnp = boardnum; *bnp; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
         Flags spec = being_solved.spec[*bnp];
         SETFLAGMASK(spec,all_pieces_flags);
         move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
 
         SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
-
-        if ((TSTFLAG(spec,ColourChange) || TSTFLAG(spec,Bul) || TSTFLAG(spec,Dob))
-            && !(is_simplehopper(p)
-                 || is_chineserider(p)
-                 || is_lion(p)
-                 || p==ContraGras))
-        {
-          CLRFLAG(spec,ColourChange);
-          CLRFLAG(spec,Bul);
-          CLRFLAG(spec,Dob);
-          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
-          output_plaintext_error_message(ColourChangeBulDobRestricted);
-        }
       }
   }
 
@@ -739,6 +725,33 @@ void verify_position(slice_index si)
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return;
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
+      {
+        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
+        Flags spec = being_solved.spec[*bnp];
+        if ((TSTFLAG(spec,ColourChange) || TSTFLAG(spec,Bul) || TSTFLAG(spec,Dob))
+            && !(is_simplehopper(p)
+                 || is_chineserider(p)
+                 || is_lion(p)
+                 || p==ContraGras))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(ColourChangeBulDobRestricted);
+          return;
+        }
+
+        if (TSTFLAG(spec,Bul) && TSTFLAG(spec,Dob))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(BulAndDobIncompatible);
+          return;
+        }
+      }
+  }
 
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
