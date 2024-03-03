@@ -79,6 +79,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[singlebox]
                 || CondFlag[blroyalsq] || CondFlag[whroyalsq]
                 || TSTFLAG(some_pieces_flags,ColourChange)
+                || TSTFLAG(some_pieces_flags,Bul)
+                || TSTFLAG(some_pieces_flags,Dob)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan] || CondFlag[nanna]

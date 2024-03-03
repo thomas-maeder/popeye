@@ -28,7 +28,7 @@ In Memoriam to my mother Danka Petkova
 a) 
 
   1.Ba7-d4 bPAd5-a5   2.Bd4-a1 bPAa5*a1[wbVAa4->a6] #
-  add_to_move_generation_stack:      109787
+  add_to_move_generation_stack:      109792
                      play_move:       80773
  is_white_king_square_attacked:        3438
  is_black_king_square_attacked:       75780
@@ -36,7 +36,7 @@ a)
 b) bSb7  
 
   1.Sb7-c5 bVAa4-c6   2.Sc5-e4 bVAc6*e4[wbPAd5->c6] #
-  add_to_move_generation_stack:      131610
+  add_to_move_generation_stack:      131598
                      play_move:       97095
  is_white_king_square_attacked:        3859
  is_black_king_square_attacked:       91365
@@ -44,7 +44,7 @@ b) bSb7
 c) +bSb6  
 
   1.Sb6-c4 bVAa4-b5   2.Sc4-a5 bPAd5*a5[wbVAb5->d5] #
-  add_to_move_generation_stack:      127247
+  add_to_move_generation_stack:      127264
                      play_move:       74642
  is_white_king_square_attacked:        2904
  is_black_king_square_attacked:       63725
@@ -52,7 +52,7 @@ c) +bSb6
 d) +bSc8  
 
   1.Sc8-e7 bPAd5-b5   2.Se7-c6 bVAa4*c6[wbPAb5->a4] #
-  add_to_move_generation_stack:      217936
+  add_to_move_generation_stack:      217941
                      play_move:      132929
  is_white_king_square_attacked:        4978
  is_black_king_square_attacked:      117190
@@ -91,7 +91,7 @@ last 3 moves of a h=4
 a) 
 
   1.Re6-d6 nRc7*c5 +   2.Ba5-c7 nRc5-c2 +   3.Rb4-b2 Ba7*e3 =
-  add_to_move_generation_stack:   113789419
+  add_to_move_generation_stack:   113848062
                      play_move:    60006521
  is_white_king_square_attacked:    23659514
  is_black_king_square_attacked:    43536309
@@ -99,7 +99,7 @@ a)
 b) nRc7-->g3  
 
   1.Rb4-f4 nRg3*e3 +   2.Re6-e5 nRe3-e2 +   3.Ba5-d2 Ba7*c5 =
-  add_to_move_generation_stack:    54063932
+  add_to_move_generation_stack:    54159969
                      play_move:    40865094
  is_white_king_square_attacked:    13452902
  is_black_king_square_attacked:    27898169
@@ -135,7 +135,7 @@ solution finished.
 
   1.bGf3-d3[wbGe3->a7] bGa7-c5[bbGb6->d4]   2.bGd3-g6[wbGf5->h7] bGc5-f5[wbGe5->h8]   3.Kg7-f6 bGh8-h6[wbGh7->h5] +   4.bGd4-g7[bKf6->h8] bGf5-h7[bbGg6->g8] #
   1.bGf3-d3[wbGe3->c3] bGf5-d5[wbGe5->c5]   2.bGd3-b3[wbGc3->a3] bGc5-a7[bbGb6->b2]   3.Kg7-f7 bGd5-g8[bKf7->a2] +   4.Ka2-a1 bGg8-a2[bbGb3->b1] #
-  add_to_move_generation_stack:   113902729
+  add_to_move_generation_stack:   114377625
                      play_move:    65903242
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:    61605692
@@ -177,10 +177,10 @@ Cook!
   1.bLId5-h1[wPg2->c2] bLIf5-b1[wPc2->f2]   2.Kh3-g4 bLIe3-g1[wPf2->f8=LI]   3.LIf8-a3 + bLIg1-g5[wKg4->a4] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->g8] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->f7] #
-  add_to_move_generation_stack:  1161310453
-                     play_move:   372180493
- is_white_king_square_attacked:   232265480
- is_black_king_square_attacked:   151567581
+  add_to_move_generation_stack:  2618604039
+                     play_move:   509150820
+ is_white_king_square_attacked:   300129906
+ is_black_king_square_attacked:   164561925
 
 solution finished.
 
@@ -217,7 +217,7 @@ a)
 
   1...bGb6-b4[wKb5->b3]   2.c7-c5 bGb4-d6[bPc5->e7]   3.e7-e6 bGd6-f6[bPe6->a2]   4.b7-b6 bGf6-a6[bPb6->b2]   5.b2-b1=B bGa6-a8[bKa7->a1] #
   1...bGb6-b4[wKb5->b3]   2.c7-c5 bGb4-d6[bPc5->e7]   3.e7-e6 bGd6-f6[bPe6->a2]   4.b7-b6 bGf6-a6[bPb6->b2]   5.b2-b1=G bGa6-a8[bKa7->a1] #
-  add_to_move_generation_stack:     5835166
+  add_to_move_generation_stack:     5846285
                      play_move:     6013013
  is_white_king_square_attacked:      560665
  is_black_king_square_attacked:     5074918
@@ -396,7 +396,7 @@ b) shift h8 ==> h5
   1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c1   5.Kb4-a4 bGa3-a5[bKa4->a1] #
   1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
   1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  add_to_move_generation_stack:    12050526
+  add_to_move_generation_stack:    12072125
                      play_move:    13045334
  is_white_king_square_attacked:     1314230
  is_black_king_square_attacked:    10586729

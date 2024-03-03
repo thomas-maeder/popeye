@@ -333,16 +333,17 @@ static void initialise_piece_flags(void)
 
         SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
 
-        if (TSTFLAG(spec,ColourChange)
+        if ((TSTFLAG(spec,ColourChange) || TSTFLAG(spec,Bul) || TSTFLAG(spec,Dob))
             && !(is_simplehopper(p)
                  || is_chineserider(p)
                  || is_lion(p)
                  || p==ContraGras))
         {
-          /* relies on imitators already having been implemented */
           CLRFLAG(spec,ColourChange);
+          CLRFLAG(spec,Bul);
+          CLRFLAG(spec,Dob);
           move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
-          output_plaintext_error_message(ColourChangeRestricted);
+          output_plaintext_error_message(ColourChangeBulDobRestricted);
         }
       }
   }
@@ -1633,7 +1634,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (TSTFLAG(some_pieces_flags, ColourChange))
+  if (TSTFLAG(some_pieces_flags, ColourChange) || TSTFLAG(some_pieces_flags,Bul) || TSTFLAG(some_pieces_flags,Dob))
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[sentinelles])
@@ -1872,7 +1873,9 @@ void verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
@@ -1883,7 +1886,9 @@ void verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(White);
 
   if (OptFlag[intelligent])

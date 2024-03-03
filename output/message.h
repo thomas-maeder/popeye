@@ -28,7 +28,7 @@ typedef enum
   TooFairyForNeutral                                = 7,
   LeoFamAndOrtho                                    = 8,
   CirceAndDummy                                     = 9,
-  ColourChangeRestricted                            = 10,
+  ColourChangeBulDobRestricted                      = 10,
   CavMajAndKnight                                   = 11,
   RebirthOutside                                    = 12,
   SetAndCheck                                       = 13,
