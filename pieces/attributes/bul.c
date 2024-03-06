@@ -60,6 +60,8 @@ static boolean generate_hurdle_movements(slice_index si,
   boolean result;
   ply const save_nbply = nbply;
   piece_walk_type walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Side const side_moving = SLICE_STARTER(si);
+  Side side_bul_dob;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,7 +75,13 @@ static boolean generate_hurdle_movements(slice_index si,
 
   assert(bul_ply[nbply]==ply_nil);
 
-  siblingply(TSTFLAG(being_solved.spec[sq_hurdle],White) ? White : Black);
+  if (flag==Bul)
+    side_bul_dob = side_moving;
+  else
+    /* "A neutral hurdle is considered to have the colour of the moving side." (ANDA FAIRY PLANET 3, MARCH 2021) */
+    side_bul_dob = TSTFLAG(being_solved.spec[sq_hurdle],side_moving) ? side_moving : advers(side_moving);
+
+  siblingply(side_bul_dob);
   bul_ply[save_nbply] = nbply;
 
   curr_generation->departure = sq_hurdle;

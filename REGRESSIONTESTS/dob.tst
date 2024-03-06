@@ -30,10 +30,12 @@
 
    1.dGe6-b6[bKc6->d6] # !
 
-  add_to_move_generation_stack:         727
-                     play_move:         622
+   1.nPe7-e8=nG=nd # !
+
+  add_to_move_generation_stack:         745
+                     play_move:         627
  is_white_king_square_attacked:          22
- is_black_king_square_attacked:         327
+ is_black_king_square_attacked:         329
 
 solution finished.
 
