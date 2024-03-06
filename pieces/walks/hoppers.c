@@ -1,4 +1,5 @@
 #include "pieces/walks/hoppers.h"
+#include "pieces/walks/walks.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "position/effects/flags_change.h"
 #include "solving/move_generator.h"
@@ -931,6 +932,22 @@ static unsigned int stack_pointer;
 
 static move_effect_journal_index_type horizon;
 
+static piece_flag_type const options_masks[] = {
+    0,
+    BIT(ColourChange),
+    BIT(Bul),
+    BIT(Dob),
+    BIT(ColourChange)|BIT(Bul),
+    BIT(ColourChange)|BIT(Dob)
+};
+
+enum {
+  nr_masks = sizeof options_masks / sizeof options_masks[0]
+};
+
+static boolean promote_walk_into[nr_piece_walks][nr_masks];
+static unsigned int promote_walk_into_nr[nr_piece_walks];
+
 static unsigned int next_prom_to_changing_happening[stack_size];
 
 /* Find a promotion in the effects of the move being played since we last looked
@@ -994,46 +1011,36 @@ static void solve_nested_iterating(slice_index si)
   horizon = save_horizon;
 }
 
-static piece_flag_type const options_masks[] = {
-    BIT(White),
-    BIT(ColourChange),
-    BIT(Bul),
-    BIT(Dob),
-    BIT(ColourChange)|BIT(Bul),
-    BIT(ColourChange)|BIT(Dob)
-};
-
-enum {
-  nr_masks = sizeof options_masks / sizeof options_masks[0]
-};
-
-static piece_flag_type promote_walk_into[nr_piece_walks];
-
 /* start or continue an iteration over leaving non-changing and changing to
  * changing
  * @param si identifies the current slice
  * @param idx_promotion index of the promotion effect
  */
 static void iterate_over_possible_options(slice_index si,
-                                                      move_effect_journal_index_type idx_promotion,
-                                                      piece_walk_type walk_promotee)
+                                          square sq_prom,
+                                          piece_walk_type walk_promotee)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_prom);
+  TraceWalk(walk_promotee);
+  TraceFunctionParamListEnd();
+
   if (!post_move_am_i_iterating())
   {
     next_prom_to_changing_happening[stack_pointer] = 0;
 
     while (next_prom_to_changing_happening[stack_pointer]!=nr_masks
-           && (promote_walk_into[walk_promotee]&options_masks[next_prom_to_changing_happening[stack_pointer]])!=options_masks[next_prom_to_changing_happening[stack_pointer]])
+           && !promote_walk_into[walk_promotee][next_prom_to_changing_happening[stack_pointer]])
       ++next_prom_to_changing_happening[stack_pointer];
   }
 
   if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
     post_move_iteration_end();
-  else if (next_prom_to_changing_happening[stack_pointer]==0)
+  else if (options_masks[next_prom_to_changing_happening[stack_pointer]]==0)
     solve_nested_iterating(si);
   else
   {
-    square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
     Flags changed = being_solved.spec[sq_prom];
     SETFLAGMASK(changed,options_masks[next_prom_to_changing_happening[stack_pointer]]);
     move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
@@ -1043,15 +1050,18 @@ static void iterate_over_possible_options(slice_index si,
   }
 
   if (post_move_have_i_lock())
-  {
-    ++next_prom_to_changing_happening[stack_pointer];
-    while (next_prom_to_changing_happening[stack_pointer]!=nr_masks
-           && (promote_walk_into[walk_promotee]&options_masks[next_prom_to_changing_happening[stack_pointer]])!=options_masks[next_prom_to_changing_happening[stack_pointer]])
+    do
+    {
       ++next_prom_to_changing_happening[stack_pointer];
+      if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
+      {
+        post_move_iteration_end();
+        break;
+      }
+    } while (!promote_walk_into[walk_promotee][next_prom_to_changing_happening[stack_pointer]]);
 
-    if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
-      post_move_iteration_end();
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -1069,7 +1079,6 @@ static void iterate_over_possible_options(slice_index si,
  */
 void hopper_attribute_specific_promotion_solve(slice_index si)
 {
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1082,10 +1091,8 @@ void hopper_attribute_specific_promotion_solve(slice_index si)
     else
     {
       piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_walk_change.to;
-      if (promote_walk_into[walk_promotee]==0)
-        solve_nested(si);
-      else
-        iterate_over_possible_options(si,idx_promotion,walk_promotee);
+      square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
+      iterate_over_possible_options(si,sq_prom,walk_promotee);
     }
   }
 
@@ -1114,8 +1121,20 @@ void hopper_attribute_specific_promotion_initialiser_solve(slice_index si)
 
   {
     piece_walk_type p;
-    for (p = Empty; p!=nr_piece_walks; ++p)
-      promote_walk_into[p] = 0;
+    for (p = King; p!=nr_piece_walks; ++p)
+    {
+      unsigned int i;
+      for (i = 0; i!=nr_masks; ++i)
+        promote_walk_into[p][i] = false;
+
+      promote_walk_into_nr[p] = 0;
+    }
+
+    for (p = King; p<=Bishop; ++p)
+    {
+      promote_walk_into[standard_walks[p]][0] = true;
+      promote_walk_into_nr[standard_walks[p]] = 1;
+    }
   }
 
   {
@@ -1124,11 +1143,22 @@ void hopper_attribute_specific_promotion_initialiser_solve(slice_index si)
     for (s = boardnum; *s; ++s)
     {
       piece_walk_type const p = get_walk_of_piece_on_square(*s);
-      piece_flag_type const flags = TSTFLAGMASK(being_solved.spec[*s],mask);
-      if (flags==0)
-        promote_walk_into[p] |=  BIT(White);
-      else
-        promote_walk_into[p] |=  flags;
+      if (p!=Empty)
+      {
+        piece_flag_type const flags = TSTFLAGMASK(being_solved.spec[*s],mask);
+        unsigned int i;
+
+        TraceWalk(p);
+        for (i = 0; i!=nr_masks; ++i)
+          if (flags==options_masks[i])
+          {
+            TraceValue("%u",i);
+            TraceValue("%x",options_masks[i]);
+            promote_walk_into[p][i] = true;
+            ++promote_walk_into_nr[p];
+          }
+        TraceEOL();
+      }
     }
   }
 
