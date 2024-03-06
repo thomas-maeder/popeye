@@ -1,0 +1,25 @@
+begin
+
+prot dob.ref
+
+author Eric Huber
+origin Anda Fairy Planet 2020-21, Special prize
+
+pieces white kd4 qf8
+       black ke2 pb2c2f2g2
+       neutral Dob LIa8
+
+stipulation h=2
+
+twin move e2 d2
+
+next
+
+author Vlaicu Crisan
+origin Anda Fairy Planet 2020-21, Special prize
+pieces white kd7 white Dob gd8
+       black kb6 pa7 black Dob gc6
+stipulation ser-h#5
+
+end
+

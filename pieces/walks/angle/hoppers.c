@@ -98,6 +98,7 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
     {
       vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                    vec_index_departure_hurdle,
                                                    angle,
@@ -113,6 +114,8 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
     }
   }
 
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
+
   --observation_context;
 
   TraceFunctionExit(__func__);
@@ -127,7 +130,9 @@ void elk_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -142,7 +147,9 @@ void rook_moose_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_45);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -158,7 +165,9 @@ void bishop_moose_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_45);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -174,7 +183,9 @@ void eagle_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -189,7 +200,9 @@ void rook_eagle_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -204,7 +217,9 @@ void bishop_eagle_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -219,7 +234,9 @@ void sparrow_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -234,7 +251,9 @@ void rook_sparrow_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_135);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -250,7 +269,9 @@ void bishop_sparrow_generate_moves(void)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_135);
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
@@ -270,7 +291,9 @@ void marguerite_generate_moves(void)
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
   rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
   hamster_generate_moves();
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange))
+  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
+        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 

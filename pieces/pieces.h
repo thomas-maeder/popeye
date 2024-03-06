@@ -197,6 +197,7 @@ typedef enum
   Patrol,
   FrischAuf,
   Bul,
+  Dob,
 
   nr_piece_flags
 } piece_flag_type;

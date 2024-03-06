@@ -1,7 +1,14 @@
 #include "pieces/walks/hoppers.h"
+#include "pieces/walks/walks.h"
+#include "pieces/walks/pawns/promotion.h"
+#include "position/effects/flags_change.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
+#include "solving/pipe.h"
+#include "solving/post_move_iteration.h"
+#include "stipulation/structure_traversal.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
@@ -85,9 +92,10 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
         result = true;
         break;
       }
-      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 
@@ -169,6 +177,7 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
@@ -176,6 +185,8 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
       }
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 
@@ -342,6 +353,7 @@ boolean contragrasshopper_check(validator_id evaluate)
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
@@ -349,6 +361,8 @@ boolean contragrasshopper_check(validator_id evaluate)
       }
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 
@@ -503,25 +517,40 @@ void equihopper_generate_moves(void)
 boolean equihopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  boolean result = false;
+
   if (orix_check(evaluate))
-    return true;
-
-  interceptable_observation[observation_context+1].vector_index1 = 0;
-
+    result = true;
+  else
   {
-    vec_index_type  k;
-    for (k = vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
+    ++observation_context;
+
+    interceptable_observation[observation_context+1].vector_index1 = 0;
+
     {
-      square const sq_hurdle = sq_target+vec[k];
-      square const sq_departure = sq_hurdle+vec[k];
-      if (!is_square_empty(sq_hurdle)
-          && !is_square_blocked(sq_hurdle)
-          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
-        return true;
+      vec_index_type  k;
+      for (k = vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
+      {
+        square const sq_hurdle = sq_target+vec[k];
+        square const sq_departure = sq_hurdle+vec[k];
+
+        hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
+        if (!is_square_empty(sq_hurdle)
+            && !is_square_blocked(sq_hurdle)
+            && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
+        {
+          result = true;
+          break;
+        }
+      }
     }
+
+    hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
+
+    --observation_context;
   }
 
-  return false;
+  return result;
 }
 
 static square coinequis(square i)
@@ -577,11 +606,14 @@ boolean nonstop_equihopper_check(validator_id evaluate)
   numvec vector;
   square sq_hurdle;
   square sq_departure;
+  boolean result = false;
 
   square const coin= coinequis(sq_target);
 
+  ++observation_context;
+
   for (delta_horiz= 3*dir_right;
-       delta_horiz!=dir_left;
+       !result && delta_horiz!=dir_left;
        delta_horiz+= dir_left)
 
     for (delta_vert= 3*dir_up;
@@ -591,13 +623,21 @@ boolean nonstop_equihopper_check(validator_id evaluate)
       vector= sq_target-sq_hurdle;
       sq_departure= sq_hurdle-vector;
 
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (!is_square_empty(sq_hurdle)
           && sq_target!=sq_departure
           && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
-        return true;
+      {
+        result = true;
+        break;
+      }
     }
 
-  return false;
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
+
+  --observation_context;
+
+  return result;
 }
 
 void equistopper_generate_moves(void)
@@ -613,7 +653,7 @@ void equistopper_generate_moves(void)
       curr_generation->arrival = (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
             || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */
-        push_move_no_capture();
+        hoppers_push_move(k,sq_hurdle1);
 
       {
         square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
@@ -623,7 +663,7 @@ void equistopper_generate_moves(void)
         {
           square const sq_arrival = sq_hurdle1;
           curr_generation->arrival = sq_arrival;
-          push_move_regular_capture();
+          hoppers_push_capture(k,sq_hurdle2);
         }
       }
     }
@@ -648,6 +688,8 @@ boolean equistopper_check(validator_id evaluate)
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
+  ++observation_context;
+
   for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
        interceptable_observation[observation_context].vector_index1>=vec_queen_start;
        interceptable_observation[observation_context].vector_index1--)
@@ -656,6 +698,7 @@ boolean equistopper_check(validator_id evaluate)
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_departure = find_end_of_line(sq_target,-vec[interceptable_observation[observation_context].vector_index1]);
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (sq_departure-sq_target==sq_target-sq_hurdle
           && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
@@ -672,6 +715,7 @@ boolean equistopper_check(validator_id evaluate)
     {
       square const sq_departure = sq_target-vec[interceptable_observation[observation_context].vector_index1];
       square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
           && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
@@ -679,6 +723,10 @@ boolean equistopper_check(validator_id evaluate)
         break;
       }
     }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
+
+  --observation_context;
 
   return result;
 }
@@ -783,6 +831,7 @@ boolean orix_check(validator_id evaluate)
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (sq_departure-sq_hurdle==sq_hurdle-sq_target
           && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
@@ -791,6 +840,8 @@ boolean orix_check(validator_id evaluate)
       }
     }
   }
+
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = initsquare;
 
   --observation_context;
 
@@ -869,4 +920,288 @@ boolean nonstop_orix_check(validator_id evaluate)
     }
 
   return false;
+}
+
+
+enum
+{
+  stack_size = max_nr_promotions_per_ply*maxply+1
+};
+
+static unsigned int stack_pointer;
+
+static move_effect_journal_index_type horizon;
+
+static piece_flag_type const options_masks[] = {
+    0,
+    BIT(ColourChange),
+    BIT(Bul),
+    BIT(Dob),
+    BIT(ColourChange)|BIT(Bul),
+    BIT(ColourChange)|BIT(Dob)
+};
+
+enum {
+  nr_masks = sizeof options_masks / sizeof options_masks[0]
+};
+
+static boolean promote_walk_into[nr_piece_walks][nr_masks];
+static unsigned int promote_walk_into_nr[nr_piece_walks];
+
+static unsigned int next_prom_to_changing_happening[stack_size];
+
+/* Find a promotion in the effects of the move being played since we last looked
+ * @param base start of set of effects where to look for a promotion
+ * @return index of promotion effect; base if there is none
+ */
+static move_effect_journal_index_type find_promotion(move_effect_journal_index_type base)
+{
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type result = base;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  while (curr>base)
+  {
+    --curr;
+
+    if (move_effect_journal[curr].type==move_effect_walk_change
+        && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
+    {
+      result = curr;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
+static void solve_nested(slice_index si)
+{
+  move_effect_journal_index_type const save_horizon = horizon;
+
+  horizon = move_effect_journal_base[nbply+1];
+  ++stack_pointer;
+  pipe_solve_delegate(si);
+  --stack_pointer;
+  horizon = save_horizon;
+}
+
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
+static void solve_nested_iterating(slice_index si)
+{
+  move_effect_journal_index_type const save_horizon = horizon;
+
+  horizon = move_effect_journal_base[nbply+1];
+  ++stack_pointer;
+  post_move_iteration_solve_delegate(si);
+  --stack_pointer;
+  horizon = save_horizon;
+}
+
+/* start or continue an iteration over leaving non-changing and changing to
+ * changing
+ * @param si identifies the current slice
+ * @param idx_promotion index of the promotion effect
+ */
+static void iterate_over_possible_options(slice_index si,
+                                          square sq_prom,
+                                          piece_walk_type walk_promotee)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_prom);
+  TraceWalk(walk_promotee);
+  TraceFunctionParamListEnd();
+
+  if (!post_move_am_i_iterating())
+  {
+    next_prom_to_changing_happening[stack_pointer] = 0;
+
+    while (next_prom_to_changing_happening[stack_pointer]!=nr_masks
+           && !promote_walk_into[walk_promotee][next_prom_to_changing_happening[stack_pointer]])
+      ++next_prom_to_changing_happening[stack_pointer];
+  }
+
+  if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
+    post_move_iteration_end();
+  else if (options_masks[next_prom_to_changing_happening[stack_pointer]]==0)
+    solve_nested_iterating(si);
+  else
+  {
+    Flags changed = being_solved.spec[sq_prom];
+    SETFLAGMASK(changed,options_masks[next_prom_to_changing_happening[stack_pointer]]);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_prom,
+                                        changed);
+    solve_nested_iterating(si);
+  }
+
+  if (post_move_have_i_lock())
+    do
+    {
+      ++next_prom_to_changing_happening[stack_pointer];
+      if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
+      {
+        post_move_iteration_end();
+        break;
+      }
+    } while (!promote_walk_into[walk_promotee][next_prom_to_changing_happening[stack_pointer]]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void hopper_attribute_specific_promotion_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    move_effect_journal_index_type const idx_promotion = find_promotion(horizon);
+    if (idx_promotion==horizon)
+      /* no promotion */
+      solve_nested(si);
+    else
+    {
+      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_walk_change.to;
+      square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
+      iterate_over_possible_options(si,sq_prom,walk_promotee);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void hopper_attribute_specific_promotion_initialiser_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    piece_walk_type p;
+    for (p = King; p!=nr_piece_walks; ++p)
+    {
+      unsigned int i;
+      for (i = 0; i!=nr_masks; ++i)
+        promote_walk_into[p][i] = false;
+
+      promote_walk_into_nr[p] = 0;
+    }
+
+    for (p = King; p<=Bishop; ++p)
+    {
+      promote_walk_into[standard_walks[p]][0] = true;
+      promote_walk_into_nr[standard_walks[p]] = 1;
+    }
+  }
+
+  {
+    piece_flag_type const mask = BIT(ColourChange)|BIT(Bul)|BIT(Dob);
+    square const *s;
+    for (s = boardnum; *s; ++s)
+    {
+      piece_walk_type const p = get_walk_of_piece_on_square(*s);
+      if (p!=Empty)
+      {
+        piece_flag_type const flags = TSTFLAGMASK(being_solved.spec[*s],mask);
+        unsigned int i;
+
+        TraceWalk(p);
+        for (i = 0; i!=nr_masks; ++i)
+          if (flags==options_masks[i])
+          {
+            TraceValue("%u",i);
+            TraceValue("%x",options_masks[i]);
+            promote_walk_into[p][i] = true;
+            ++promote_walk_into_nr[p];
+          }
+        TraceEOL();
+      }
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_promoter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STHopperAttributeSpecificPromotion);
+    promotion_insert_slices(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void solving_insert_hopper_specific_promotions(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STHopperAttributeSpecificPromotionInitialiser);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&instrument_promoter);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

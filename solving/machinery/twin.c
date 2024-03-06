@@ -326,24 +326,11 @@ static void initialise_piece_flags(void)
     for (bnp = boardnum; *bnp; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
         Flags spec = being_solved.spec[*bnp];
         SETFLAGMASK(spec,all_pieces_flags);
         move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
 
         SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
-
-        if (TSTFLAG(spec,ColourChange)
-            && !(is_simplehopper(p)
-                 || is_chineserider(p)
-                 || is_lion(p)
-                 || p==ContraGras))
-        {
-          /* relies on imitators already having been implemented */
-          CLRFLAG(spec,ColourChange);
-          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
-          output_plaintext_error_message(ColourChangeRestricted);
-        }
       }
   }
 
@@ -738,6 +725,33 @@ void verify_position(slice_index si)
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return;
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
+      {
+        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
+        Flags spec = being_solved.spec[*bnp];
+        if ((TSTFLAG(spec,ColourChange) || TSTFLAG(spec,Bul) || TSTFLAG(spec,Dob))
+            && !(is_simplehopper(p)
+                 || is_chineserider(p)
+                 || is_lion(p)
+                 || p==ContraGras))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(ColourChangeBulDobRestricted);
+          return;
+        }
+
+        if (TSTFLAG(spec,Bul) && TSTFLAG(spec,Dob))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(BulAndDobIncompatible);
+          return;
+        }
+      }
+  }
 
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
@@ -1633,7 +1647,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (TSTFLAG(some_pieces_flags, ColourChange))
+  if (TSTFLAG(some_pieces_flags, ColourChange) || TSTFLAG(some_pieces_flags,Bul) || TSTFLAG(some_pieces_flags,Dob))
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[sentinelles])
@@ -1872,7 +1886,9 @@ void verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
@@ -1883,7 +1899,9 @@ void verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(White);
 
   if (OptFlag[intelligent])

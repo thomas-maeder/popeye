@@ -1,5 +1,6 @@
 #include "pieces/attributes/bul.h"
 #include "pieces/walks/hoppers.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "position/effects/piece_movement.h"
 #include "solving/pipe.h"
 #include "solving/move_generator.h"
@@ -8,6 +9,7 @@
 #include "solving/post_move_iteration.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
+#include "stipulation/slice_insertion.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -24,13 +26,11 @@ static void do_hurdle_movement(slice_index si)
 {
   numecoup const curr = CURRMOVE_OF_PLY(bul_ply[nbply]);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
-  square const sq_capture = move_gen_top->capture;
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
 
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceEOL();
 
   move_effect_journal_do_piece_movement(move_effect_reason_bul,sq_departure,sq_arrival);
@@ -54,16 +54,20 @@ static boolean advance_hurdle_movement(void)
 
 static boolean generate_hurdle_movements(slice_index si,
                                          move_effect_journal_index_type const movement,
-                                         square sq_hurdle)
+                                         square sq_hurdle,
+                                         piece_flag_type flag)
 {
   boolean result;
   ply const save_nbply = nbply;
   piece_walk_type walk_moving = move_effect_journal[movement].u.piece_movement.moving;
+  Side const side_moving = SLICE_STARTER(si);
+  Side side_bul_dob;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",movement);
   TraceSquare(sq_hurdle);
+  TraceFunctionParam("%u",flag);
   TraceFunctionParamListEnd();
 
   TraceWalk(walk_moving);
@@ -71,11 +75,17 @@ static boolean generate_hurdle_movements(slice_index si,
 
   assert(bul_ply[nbply]==ply_nil);
 
-  siblingply(advers(SLICE_STARTER(si)));
+  if (flag==Bul)
+    side_bul_dob = side_moving;
+  else
+    /* "A neutral hurdle is considered to have the colour of the moving side." (ANDA FAIRY PLANET 3, MARCH 2021) */
+    side_bul_dob = TSTFLAG(being_solved.spec[sq_hurdle],side_moving) ? side_moving : advers(side_moving);
+
+  siblingply(side_bul_dob);
   bul_ply[save_nbply] = nbply;
 
   curr_generation->departure = sq_hurdle;
-  move_generation_current_walk = walk_moving;
+  move_generation_current_walk = flag==Bul ? walk_moving : get_walk_of_piece_on_square(sq_hurdle);
   generate_moves_delegate(SLICE_NEXT2(temporary_hack_move_generator[trait[nbply]]));
   move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false);
 
@@ -129,11 +139,13 @@ void bul_solve(slice_index si)
   TraceSquare(sq_hurdle);
   TraceEOL();
 
-  if (TSTFLAG(movingspec,Bul) && sq_hurdle!=initsquare)
+  if ((TSTFLAG(movingspec,Bul) || TSTFLAG(movingspec,Dob))
+      && sq_hurdle!=initsquare)
   {
     if (!post_move_am_i_iterating())
     {
-      if (generate_hurdle_movements(si,movement,sq_hurdle))
+      if (generate_hurdle_movements(si,movement,sq_hurdle,
+                                    TSTFLAG(movingspec,Bul) ? Bul : Dob))
       {
         do_hurdle_movement(si);
         post_move_iteration_solve_delegate(si);
@@ -285,6 +297,8 @@ void solving_insert_bul(slice_index si)
   stip_instrument_check_validation(si,
                                    nr_sides,
                                    STValidateCheckMoveByPlayingCapture);
+
+  solving_insert_hopper_specific_promotions(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -33,7 +33,7 @@
 solution finished.
 
 
-HurdleColourChanging only allowed with certain hoppers
+
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -55,14 +55,11 @@ HurdleColourChanging only allowed with certain hoppers
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-        HurdleColourChanging
-
-   1.RPd1-d5 !
-
-   1.RPd1-a4 !
-
-  add_to_move_generation_stack:           3
-                     play_move:           2
+       HurdleColourChanging d1
+HurdleColourChanging, Bul and Dob only allowed with certain hoppers
+problem ignored
+  add_to_move_generation_stack:           0
+                     play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
