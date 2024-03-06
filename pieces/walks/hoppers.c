@@ -1,7 +1,13 @@
 #include "pieces/walks/hoppers.h"
+#include "pieces/walks/pawns/promotion.h"
+#include "position/effects/flags_change.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
+#include "solving/pipe.h"
+#include "solving/post_move_iteration.h"
+#include "stipulation/structure_traversal.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
@@ -913,4 +919,259 @@ boolean nonstop_orix_check(validator_id evaluate)
     }
 
   return false;
+}
+
+
+enum
+{
+  stack_size = max_nr_promotions_per_ply*maxply+1
+};
+
+static unsigned int stack_pointer;
+
+static move_effect_journal_index_type horizon;
+
+static unsigned int next_prom_to_changing_happening[stack_size];
+
+/* Find a promotion in the effects of the move being played since we last looked
+ * @param base start of set of effects where to look for a promotion
+ * @return index of promotion effect; base if there is none
+ */
+static move_effect_journal_index_type find_promotion(move_effect_journal_index_type base)
+{
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type result = base;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  while (curr>base)
+  {
+    --curr;
+
+    if (move_effect_journal[curr].type==move_effect_walk_change
+        && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
+    {
+      result = curr;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
+static void solve_nested(slice_index si)
+{
+  move_effect_journal_index_type const save_horizon = horizon;
+
+  horizon = move_effect_journal_base[nbply+1];
+  ++stack_pointer;
+  pipe_solve_delegate(si);
+  --stack_pointer;
+  horizon = save_horizon;
+}
+
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
+static void solve_nested_iterating(slice_index si)
+{
+  move_effect_journal_index_type const save_horizon = horizon;
+
+  horizon = move_effect_journal_base[nbply+1];
+  ++stack_pointer;
+  post_move_iteration_solve_delegate(si);
+  --stack_pointer;
+  horizon = save_horizon;
+}
+
+static piece_flag_type const options_masks[] = {
+    BIT(White),
+    BIT(ColourChange),
+    BIT(Bul),
+    BIT(Dob),
+    BIT(ColourChange)|BIT(Bul),
+    BIT(ColourChange)|BIT(Dob)
+};
+
+enum {
+  nr_masks = sizeof options_masks / sizeof options_masks[0]
+};
+
+static piece_flag_type promote_walk_into[nr_piece_walks];
+
+/* start or continue an iteration over leaving non-changing and changing to
+ * changing
+ * @param si identifies the current slice
+ * @param idx_promotion index of the promotion effect
+ */
+static void iterate_over_possible_options(slice_index si,
+                                                      move_effect_journal_index_type idx_promotion,
+                                                      piece_walk_type walk_promotee)
+{
+  if (!post_move_am_i_iterating())
+  {
+    next_prom_to_changing_happening[stack_pointer] = 0;
+
+    while (next_prom_to_changing_happening[stack_pointer]!=nr_masks
+           && (promote_walk_into[walk_promotee]&options_masks[next_prom_to_changing_happening[stack_pointer]])!=options_masks[next_prom_to_changing_happening[stack_pointer]])
+      ++next_prom_to_changing_happening[stack_pointer];
+  }
+
+  if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
+    post_move_iteration_end();
+  else if (next_prom_to_changing_happening[stack_pointer]==0)
+    solve_nested_iterating(si);
+  else
+  {
+    square const sq_prom = move_effect_journal[idx_promotion].u.piece_walk_change.on;
+    Flags changed = being_solved.spec[sq_prom];
+    SETFLAGMASK(changed,options_masks[next_prom_to_changing_happening[stack_pointer]]);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_prom,
+                                        changed);
+    solve_nested_iterating(si);
+  }
+
+  if (post_move_have_i_lock())
+  {
+    ++next_prom_to_changing_happening[stack_pointer];
+    while (next_prom_to_changing_happening[stack_pointer]!=nr_masks
+           && (promote_walk_into[walk_promotee]&options_masks[next_prom_to_changing_happening[stack_pointer]])!=options_masks[next_prom_to_changing_happening[stack_pointer]])
+      ++next_prom_to_changing_happening[stack_pointer];
+
+    if (next_prom_to_changing_happening[stack_pointer]==nr_masks)
+      post_move_iteration_end();
+  }
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void hopper_attribute_specific_promotion_solve(slice_index si)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    move_effect_journal_index_type const idx_promotion = find_promotion(horizon);
+    if (idx_promotion==horizon)
+      /* no promotion */
+      solve_nested(si);
+    else
+    {
+      piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_walk_change.to;
+      if (promote_walk_into[walk_promotee]==0)
+        solve_nested(si);
+      else
+        iterate_over_possible_options(si,idx_promotion,walk_promotee);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void hopper_attribute_specific_promotion_initialiser_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    piece_walk_type p;
+    for (p = Empty; p!=nr_piece_walks; ++p)
+      promote_walk_into[p] = 0;
+  }
+
+  {
+    piece_flag_type const mask = BIT(ColourChange)|BIT(Bul)|BIT(Dob);
+    square const *s;
+    for (s = boardnum; *s; ++s)
+    {
+      piece_walk_type const p = get_walk_of_piece_on_square(*s);
+      piece_flag_type const flags = TSTFLAGMASK(being_solved.spec[*s],mask);
+      if (flags==0)
+        promote_walk_into[p] |=  BIT(White);
+      else
+        promote_walk_into[p] |=  flags;
+    }
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_promoter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STHopperAttributeSpecificPromotion);
+    promotion_insert_slices(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void solving_insert_hopper_specific_promotions(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STHopperAttributeSpecificPromotionInitialiser);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&instrument_promoter);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

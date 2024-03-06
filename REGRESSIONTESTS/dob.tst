@@ -30,10 +30,10 @@
 
    1.dGe6-b6[bKc6->d6] # !
 
-  add_to_move_generation_stack:         601
-                     play_move:         572
- is_white_king_square_attacked:          21
- is_black_king_square_attacked:         301
+  add_to_move_generation_stack:         727
+                     play_move:         622
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:         327
 
 solution finished.
 
@@ -149,15 +149,14 @@ solution finished.
       1...Se8-g7
           2.g4*f5 #
 
-  add_to_move_generation_stack:       12399
-                     play_move:        7300
- is_white_king_square_attacked:         345
- is_black_king_square_attacked:        4367
+  add_to_move_generation_stack:       12228
+                     play_move:        7177
+ is_white_king_square_attacked:         341
+ is_black_king_square_attacked:        4300
 
 solution finished.
 
 
-author's solution 1.dLEg5*e5[bSf5->g3] e7-e8=dLE 2.dLEe5-b5 dLEe8*e4[bSe6->c5] 3.Sg3-h1 dLEe4*h1[bGg2->g8] =
 
            Petko A. Petkov
        ANDA Fairy Planet, 2020
@@ -184,10 +183,11 @@ author's solution 1.dLEg5*e5[bSf5->g3] e7-e8=dLE 2.dLEe5-b5 dLEe8*e4[bSe6->c5] 3
   h=3                         3 + 8
                Dob g5
 
-  add_to_move_generation_stack:    28077712
-                     play_move:    19731863
- is_white_king_square_attacked:     8043276
- is_black_king_square_attacked:    17066382
+  1.dLEg5*e5[bSf5->g3] e7-e8=LE=d   2.dLEe5-b5 dLEe8*e4[bSe6->c5]   3.Sg3-h1 dLEe4*h1[bGg2->g8] =
+  add_to_move_generation_stack:    32748585
+                     play_move:    21389179
+ is_white_king_square_attacked:     8822718
+ is_black_king_square_attacked:    18580062
 
 solution finished.
 

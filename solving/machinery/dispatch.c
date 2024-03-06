@@ -2075,12 +2075,12 @@ void dispatch(slice_index si)
       hurdle_colour_changer_solve(si);
       break;
 
-    case STHurdleColourChangeInitialiser:
-      hurdle_colour_change_initialiser_solve(si);
+    case STHopperAttributeSpecificPromotionInitialiser:
+      hopper_attribute_specific_promotion_initialiser_solve(si);
       break;
 
-    case STHurdleColourChangerChangePromoteeInto:
-      hurdle_colour_change_change_promotee_into_solve(si);
+    case STHopperAttributeSpecificPromotion:
+      hopper_attribute_specific_promotion_solve(si);
       break;
 
     case STBul:

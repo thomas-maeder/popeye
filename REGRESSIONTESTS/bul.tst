@@ -93,10 +93,10 @@ solution finished.
     but
       1...Rh6-e6 !
 
-  add_to_move_generation_stack:       28473
-                     play_move:       28083
+  add_to_move_generation_stack:       28481
+                     play_move:       28099
  is_white_king_square_attacked:        1953
- is_black_king_square_attacked:       18459
+ is_black_king_square_attacked:       18467
 
 solution finished.
 
@@ -291,10 +291,10 @@ solution finished.
       1...Ke4-e5
           2.bLId5-f5[bKe5->a5] #
 
-  add_to_move_generation_stack:       21074
-                     play_move:       13597
- is_white_king_square_attacked:        1911
- is_black_king_square_attacked:        9966
+  add_to_move_generation_stack:       21082
+                     play_move:       13526
+ is_white_king_square_attacked:        1904
+ is_black_king_square_attacked:        9912
 
 solution finished.
 

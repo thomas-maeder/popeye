@@ -91,18 +91,18 @@ last 3 moves of a h=4
 a) 
 
   1.Re6-d6 nRc7*c5 +   2.Ba5-c7 nRc5-c2 +   3.Rb4-b2 Ba7*e3 =
-  add_to_move_generation_stack:   113848062
-                     play_move:    60006521
- is_white_king_square_attacked:    23659514
- is_black_king_square_attacked:    43536309
+  add_to_move_generation_stack:   114535129
+                     play_move:    60269579
+ is_white_king_square_attacked:    23774336
+ is_black_king_square_attacked:    43728007
 
 b) nRc7-->g3  
 
   1.Rb4-f4 nRg3*e3 +   2.Re6-e5 nRe3-e2 +   3.Ba5-d2 Ba7*c5 =
-  add_to_move_generation_stack:    54159969
-                     play_move:    40865094
- is_white_king_square_attacked:    13452902
- is_black_king_square_attacked:    27898169
+  add_to_move_generation_stack:    54162469
+                     play_move:    40865672
+ is_white_king_square_attacked:    13453141
+ is_black_king_square_attacked:    27898599
 
 solution finished.
 
@@ -143,7 +143,6 @@ solution finished.
 solution finished.
 
 
-Cook!
 
             Vlaicu Crisan
      1679, Julia's Fairies 2021
@@ -172,20 +171,16 @@ Cook!
 
   1.bLId5-b3[bPc4->a2] Rd2-d5   2.bVAg8*d5[bBf7->e6] bLIf5-d7[bBe6->c8]   3.bPAd1*d6[wbVAd5->d3] + bLId7*d3[wbPAd6->d1] #
   1.bLId5-b3[bPc4->a2] Rd2-d5   2.bVAg8*d5[bBf7->e6] bLIf5-d7[bBe6->c8]   3.bPAd1*d6[wbVAd5->d3] + bLId7*d3[wbPAd6->d2] #
-  1.bLId5-h1[wPg2->c2] bLIf5-b1[wPc2->f2]   2.Kh3-g4 bLIe3-g1[wPf2->f8=LI]   3.LIf8-a3 + bLIg1*g7[wKg4->a4] #
-  1.bLId5-h1[wPg2->c2] bLIf5-b1[wPc2->f2]   2.Kh3-g4 bLIe3-g1[wPf2->f8=LI]   3.LIf8-a3 + bLIg1-g6[wKg4->a4] #
-  1.bLId5-h1[wPg2->c2] bLIf5-b1[wPc2->f2]   2.Kh3-g4 bLIe3-g1[wPf2->f8=LI]   3.LIf8-a3 + bLIg1-g5[wKg4->a4] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->g8] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->f7] #
-  add_to_move_generation_stack:  2618604039
-                     play_move:   509150820
- is_white_king_square_attacked:   300129906
- is_black_king_square_attacked:   164561925
+  add_to_move_generation_stack:  2759204796
+                     play_move:   524898205
+ is_white_king_square_attacked:   308765244
+ is_black_king_square_attacked:   169947478
 
 solution finished.
 
 
-Dual in a), Cooks in b)
 
            Sebastien Luce
 Anda Fairy Planet 2020-21, 1st prize
@@ -216,190 +211,18 @@ Anda Fairy Planet 2020-21, 1st prize
 a) 
 
   1...bGb6-b4[wKb5->b3]   2.c7-c5 bGb4-d6[bPc5->e7]   3.e7-e6 bGd6-f6[bPe6->a2]   4.b7-b6 bGf6-a6[bPb6->b2]   5.b2-b1=B bGa6-a8[bKa7->a1] #
-  1...bGb6-b4[wKb5->b3]   2.c7-c5 bGb4-d6[bPc5->e7]   3.e7-e6 bGd6-f6[bPe6->a2]   4.b7-b6 bGf6-a6[bPb6->b2]   5.b2-b1=G bGa6-a8[bKa7->a1] #
-  add_to_move_generation_stack:     5846285
-                     play_move:     6013013
- is_white_king_square_attacked:      560665
- is_black_king_square_attacked:     5074918
+  add_to_move_generation_stack:     5867381
+                     play_move:     6029530
+ is_white_king_square_attacked:      562448
+ is_black_king_square_attacked:     5087577
 
 b) shift h8 ==> h5  
 
   1...bGb3-b5[bPb4->b1=S]   2.Sb1-d2 Kb2-c2   3.Sd2-b3 bGb5-d3[bPc4->a2]   4.Ka4-a5 bGd3-a3[bSb3->d1]   5.Sd1-f2 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-b4 bGd3-a3[bGb3->d1]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-b4 bGd3-a3[bGb3->d1]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-b4 bGd3-a3[bGb3->b5]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-b4 bGd3-a3[bGb3->b5]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a3 bGb5-d3[bPc4->a2] +   4.Ka3-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-a5 bGb5-d3[bPc4->a2]   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 Kb2-c2   3.Ka4-b4 bGb5-d3[bPc4->a2]   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Gb3-b6 bGd3-a6[bKb5->b7]   5.Kb7-a7 bGa6-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a6 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a5 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a5 bGd3-a3[bGb3->d1]   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-a5 bGd3-a3[bGb3->d1]   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 Kb2-c2   4.Kb5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a4 Kb2-c2   5.Gb1-d3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a4 Kb2-c2   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a6 Kb2-b3   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a6 Kb2-b3   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a6 Kb2-c2   5.Gb1-d3 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a6 Kb2-c2   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a6 Kb2-c2   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b4 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b4 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a5 Kb2-b3   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a5 Kb2-c2   5.Gb1-d3 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a5 Kb2-c2   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-a5 Kb2-c2   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-b3   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-b3   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-b3   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-c2   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-c2   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b1]   4.Kb5-b6 Kb2-c2   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-a4 Kb2-c2   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-a6 Kb2-c2   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-a6 Kb2-c2   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-b4 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-b4 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-a5 Kb2-c2   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Kb5-a5 Kb2-c2   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Gb6-b4 Kb2-c2   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Gb6-b4 Kb2-c2   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b5 bGd3-a3[bGb3->b6]   4.Gb6-b4 Kb2-c2   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b4 bGd3-a3[bGb3->d1]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b4 bGd3-a3[bGb3->b5]   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->d1]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b6 bGd3-a3[bGb3->b7]   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-a6 bGd3-a3[bGb3->d1]   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->d1]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 Kb2-c2   4.Ka5-b5 bGd3-a3[bGb3->b6]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Gb3-d1 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b4 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b4 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-b3   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-b3   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-b3   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-c2   5.Kb6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-c2   5.Kb6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b6 Kb2-c2   5.Kb6-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a4 Kb2-c2   5.Gb1-d3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a4 Kb2-c2   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a6 Kb2-b3   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a6 Kb2-b3   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a6 Kb2-c2   5.Gb1-d3 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a6 Kb2-c2   5.Ka6-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-a6 Kb2-c2   5.Ka6-a7 bGa3-a8[bKa7->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b5 Kb2-b3   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b5 Kb2-b3   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b5 Kb2-c2   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b5 Kb2-c2   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-a5 bGd3-a3[bGb3->b1]   4.Ka5-b5 Kb2-c2   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-a5 bGd3-a3[bGb3->d1]   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-a4 bGd3-a3[bGb3->d1]   5.Gd1-b3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-a4 bGd3-a3[bGb3->d1]   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->d1]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 Kb2-c2   4.Kb4-b5 bGd3-a3[bGb3->b6]   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c1   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Gb1-b3 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a5 Kb2-b3   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a5 Kb2-c2   5.Gb1-d3 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a5 Kb2-c2   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a5 Kb2-c2   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a4 Kb2-c2   5.Gb1-d3 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-a4 Kb2-c2   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-b5 Kb2-b3   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-b5 Kb2-b3   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-b5 Kb2-c2   5.Kb5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-b5 Kb2-c2   5.Kb5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b1]   4.Kb4-b5 Kb2-c2   5.Kb5-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Kb4-a5 Kb2-c2   5.Ka5-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Kb4-a5 Kb2-c2   5.Ka5-a6 bGa3-a7[bKa6->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Kb4-a4 Kb2-c2   5.Ka4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c1   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c1   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c2   5.Kb4-a5 bGa3-a6[bKa5->a1] #
-  1...bGb3-b5[bPb4->b1=G]   2.Gb1-b3 bGb5-d3[bPc4->a2]   3.Ka4-b4 bGd3-a3[bGb3->b5]   4.Gb5-b3 Kb2-c2   5.Kb4-a4 bGa3-a5[bKa4->a1] #
-  add_to_move_generation_stack:    12072125
-                     play_move:    13045334
- is_white_king_square_attacked:     1314230
- is_black_king_square_attacked:    10586729
+  add_to_move_generation_stack:    12716101
+                     play_move:    13614753
+ is_white_king_square_attacked:     1330904
+ is_black_king_square_attacked:    11116701
 
 solution finished.
 

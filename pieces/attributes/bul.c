@@ -31,7 +31,6 @@ static void do_hurdle_movement(slice_index si)
 
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceEOL();
 
   move_effect_journal_do_piece_movement(move_effect_reason_bul,sq_departure,sq_arrival);
@@ -290,6 +289,8 @@ void solving_insert_bul(slice_index si)
   stip_instrument_check_validation(si,
                                    nr_sides,
                                    STValidateCheckMoveByPlayingCapture);
+
+  solving_insert_hopper_specific_promotions(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

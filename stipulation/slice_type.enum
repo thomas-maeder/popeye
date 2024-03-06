@@ -354,8 +354,8 @@
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
-    ENUMERATOR(STHurdleColourChangeInitialiser), \
-    ENUMERATOR(STHurdleColourChangerChangePromoteeInto), \
+    ENUMERATOR(STHopperAttributeSpecificPromotionInitialiser), \
+    ENUMERATOR(STHopperAttributeSpecificPromotion), \
     ENUMERATOR(STBul), \
     ENUMERATOR(STBulPlyCatchup), \
     ENUMERATOR(STBulPlyRewinder), \

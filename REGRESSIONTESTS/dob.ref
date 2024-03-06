@@ -27,18 +27,18 @@ Anda Fairy Planet 2020-21, Special prize
 a) 
 
   1.ndLIa8-h8[wQf8->h6] ndLIh8*b2[wKd4->e5] +   2.ndLIb2-h8[wKe5->e4] ndLIh8-h2[wQh6->c1] =
-  add_to_move_generation_stack:    22094072
-                     play_move:     8779647
- is_white_king_square_attacked:     3547627
- is_black_king_square_attacked:     6164732
+  add_to_move_generation_stack:    23796915
+                     play_move:     9373113
+ is_white_king_square_attacked:     3778951
+ is_black_king_square_attacked:     6592930
 
 b) bKe2-->d2  
 
   1.ndLIa8-g8[wQf8->g7] ndLIg8*g2[wQg7->b7] +   2.ndLIg2-a8[wQb7->a6] ndLIa8-a2[wQa6->f1] =
-  add_to_move_generation_stack:    20188386
-                     play_move:     8186063
- is_white_king_square_attacked:     3223149
- is_black_king_square_attacked:     5650741
+  add_to_move_generation_stack:    21680089
+                     play_move:     8750073
+ is_white_king_square_attacked:     3431834
+ is_black_king_square_attacked:     6042486
 
 solution finished.
 
