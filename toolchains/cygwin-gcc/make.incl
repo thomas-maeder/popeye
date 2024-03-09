@@ -18,7 +18,7 @@ include toolchains/gcc/make.incl
 
 # Now override where necessary
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for executables
