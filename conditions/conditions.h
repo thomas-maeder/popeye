@@ -239,8 +239,9 @@ typedef enum
   whmindister,            /* 218 */
   series_capture,         /* 219 */
   darkside,               /* 220 */
+  leffie,                 /* 221 */
 
-  CondCount               /* 221 */
+  CondCount               /* 222 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

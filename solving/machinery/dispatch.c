@@ -60,6 +60,7 @@
 #include "conditions/snek.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/leffie.h"
 #include "conditions/sat.h"
 #include "conditions/dynasty.h"
 #include "conditions/masand.h"
@@ -2022,6 +2023,10 @@ void dispatch(slice_index si)
 
     case STIsardamLegalityTester:
       isardam_legality_tester_solve(si);
+      break;
+
+    case STLeffieLegalityTester:
+      leffie_legality_tester_solve(si);
       break;
 
     case STCirceAssassinAssassinate:

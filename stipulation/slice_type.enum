@@ -126,6 +126,7 @@
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STSingleBoxType3EnforceObserverWalk),                   \
     ENUMERATOR(STIsardamLegalityTester),                               \
+    ENUMERATOR(STLeffieLegalityTester),                                \
     ENUMERATOR(STCirceAssassinAssassinate),                            \
     ENUMERATOR(STCirceAssassinAllPieceObservationTester),              \
     ENUMERATOR(STCirceParachuteRemember),                              \
