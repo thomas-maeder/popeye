@@ -73,7 +73,7 @@ WARN=-Wcheck -Wcomment -Wdeprecated -Wextra-tokens -Wformat -Wformat-security -W
 DBG=-debug none
 
 # Select target compiler optimization level
-CCOPTIM=-O3
+CCOPTIM=-O3 -ipo
 
 # Option for producing dependency information in makefile format
 DEPEND=-MM -MP
@@ -94,7 +94,7 @@ DEFINEMACRO=-D
 # ==============
 
 # Select target linker optimization level
-LDOPTIM=-O3
+LDOPTIM=-O3 -ipo
 
 # Option for naming objectfile
 # NOTE: the trailing blank on the following line is relevant (at least
@@ -102,7 +102,7 @@ LDOPTIM=-O3
 EXEFILE=-o 
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects
