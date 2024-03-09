@@ -39,6 +39,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/leffie.h"
 #include "conditions/masand.h"
 #include "conditions/disparate.h"
 #include "conditions/dynasty.h"
@@ -326,6 +327,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[isardam])
     solving_insert_isardam_legality_testers(si);
+
+  if (CondFlag[leffie])
+    solving_insert_leffie_legality_testers(si);
 
   if (CondFlag[patience])
     solving_insert_patience_chess(si);

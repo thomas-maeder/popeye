@@ -1289,7 +1289,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam] || CondFlag[partialparalysis])
+  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam] || CondFlag[leffie] || CondFlag[partialparalysis])
   {
     if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
     {
@@ -1773,6 +1773,7 @@ void verify_position(slice_index si)
     return;
 
   if (CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -1799,6 +1800,7 @@ void verify_position(slice_index si)
       || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
       || CondFlag[antimars]
@@ -1822,6 +1824,7 @@ void verify_position(slice_index si)
       || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
       || CondFlag[antimars]
@@ -1885,6 +1888,7 @@ void verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
       || TSTFLAG(some_pieces_flags,Bul)
@@ -1898,6 +1902,7 @@ void verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
       || TSTFLAG(some_pieces_flags,Bul)

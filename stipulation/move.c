@@ -141,6 +141,7 @@ static slice_index const move_slice_rank_order[] =
     STExclusiveChessLegalityTester,
     STUltraschachzwangLegalityTester,
     STIsardamLegalityTester,
+    STLeffieLegalityTester,
     STPatienceChessLegalityTester,
     STDetectMoveRetracted,
     STAttackPlayed,
