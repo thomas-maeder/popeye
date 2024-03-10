@@ -8,6 +8,16 @@
 /* Implementation of condition Pepo
  */
 
+/* Determine whether a square is observed be the side at the move according to
+ * Pepo
+ * @param si identifies next slice
+ * @note sets observation_result
+ */
+void pepo_is_square_observed(slice_index si);
+
+boolean pepo_check_test_initialiser_is_in_check(slice_index si,
+                                                Side side_king_attacked);
+
 /* Validate an observater according to Pepo
  * @return true iff the observation is valid
  */

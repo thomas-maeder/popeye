@@ -2565,6 +2565,10 @@ void dispatch(slice_index si)
       square_observation_post_move_iterator_solve(si);
       break;
 
+    case STPepoCheckTestHack:
+      pepo_is_square_observed(si);
+      break;
+
     default:
       assert(0);
       break;

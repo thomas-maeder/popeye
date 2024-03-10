@@ -1,0 +1,120 @@
+
+          Mario Parrinello
+      ANDA Fairy PLANET 5, 2023
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B   .   5
+|                                   |
+4   .   .   .   .   .   R   P  -P   4
+|                                   |
+3   .   .   .   .   .   B   .  -K   3
+|                                   |
+2   .   .   .   .  -P   .   S   .   2
+|                                   |
+1   .   .   .   .   .  -B  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 6
+                Pepo
+
+  1.Bf1*g2 Bf3*g2   2.Sg1-f3 Rf4*f3 #
+  1.Sg1*f3 Rf4*f3   2.Bg5-f4 Sg2*f4 #
+  1.Bg5*f4 Sg2*f4   2.Bf1-g2 Bf3*g2 #
+  add_to_move_generation_stack:        7583
+                     play_move:        7521
+ is_white_king_square_attacked:         397
+ is_black_king_square_attacked:        7218
+
+solution finished.
+
+
+
+           Petko A. Petkov
+         KobulChess.com 2019
+   dedicated to Christian Poisson
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   G  RO   8
+|                                   |
+7   G   .   .   .  CA   .   .  -P   7
+|                                   |
+6   .   P  -P   .   P   P   .   .   6
+|                                   |
+5   .   .   .  -K   .   P   .   .   5
+|                                   |
+4   .   .  -R   .  -Z   .   .  NH   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 6
+                Pepo
+
+   1.f6-f7 ! threat:
+          2.f7-f8=Z #
+      1...Kd5-d4
+          2.f7-f8=NH #
+      1...Kd5-c5
+          2.f7-f8=RO #
+      1...Kd5-d6
+          2.f7-f8=G #
+      1...Kd5-e5
+          2.f7-f8=CA #
+
+  add_to_move_generation_stack:        5064
+                     play_move:        3178
+ is_white_king_square_attacked:         118
+ is_black_king_square_attacked:        3158
+
+solution finished.
+
+
+
+           Petko A. Petkov
+         KobulChess.com 2019
+      dedicated to Geoff Foster
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  VA   .   .   4
+|                                   |
+3   .   .   .   .   .  VA   .   .   3
+|                                   |
+2  -R   .   .  PA   K   .   .   .   2
+|                                   |
+1   .   .  PA   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        5 + 3
+                Pepo
+
+  1.PAc1-c8 Kd5-c6   2.PAd2-d5 Ra2-d2   3.VAf4-c7 + Bh5*f3 #
+  1.VAf4-b8 Kd5-d6   2.VAf3-d5 Bh5-f3   3.PAc1-c7 + Ra2*d2 #
+  add_to_move_generation_stack:    78066729
+                     play_move:    17087785
+ is_white_king_square_attacked:    16645734
+ is_black_king_square_attacked:     8408093
+
+solution finished.
+
+

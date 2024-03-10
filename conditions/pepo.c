@@ -7,11 +7,90 @@
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "solving/move_generator.h"
+#include "solving/check.h"
+#include "solving/king_capture_avoider.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 
 #include "debugging/assert.h"
 #include "debugging/trace.h"
+
+static boolean are_we_testing_check = false;
+
+/* Determine whether a square is observed be the side at the move according to
+ * Pepo
+ * @param si identifies next slice
+ * @note sets observation_result
+ */
+void pepo_is_square_observed(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_is_square_observed_delegate(si);
+
+  if (are_we_testing_check && observation_result)
+  {
+    square const pos_first_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+    piece_walk_type const save_first_observer_walk = being_solved.board[pos_first_observer];
+
+    TraceSquare(pos_first_observer);
+    TraceEOL();
+
+    being_solved.board[pos_first_observer] = Dummy;
+    pipe_is_square_observed_delegate(si);
+    being_solved.board[pos_first_observer] = save_first_observer_walk;
+
+    TraceValue("%u",observation_result);
+    TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+    TraceEOL();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+boolean pepo_check_test_initialiser_is_in_check(slice_index si,
+                                                Side side_in_check)
+{
+  boolean result;
+  Side const side_checking = advers(side_in_check);
+  square const save_king_square = being_solved.king_square[side_checking];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side_checking);
+  TraceSquare(save_king_square);
+  TraceEOL();
+
+  assert(!are_we_testing_check);
+  are_we_testing_check = true;
+
+  if (save_king_square==initsquare)
+    result = pipe_is_in_check_recursive_delegate(si,side_in_check);
+  else
+  {
+    piece_walk_type const save_king_walk = get_walk_of_piece_on_square(save_king_square);
+    being_solved.board[save_king_square] = Dummy;
+    result = pipe_is_in_check_recursive_delegate(si,side_in_check);
+    being_solved.board[save_king_square] = save_king_walk;
+  }
+
+  assert(are_we_testing_check);
+  are_we_testing_check = false;
+
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean is_paralysed(numecoup n)
 {
@@ -91,7 +170,10 @@ void pepo_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STPepoMovesForPieceGenerator);
 
-  stip_instrument_observer_validation(si,nr_sides,STPepoMovesForPieceGenerator);
+  solving_instrument_check_testing(si,STPepoCheckTestInitialiser);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STPepoCheckTestHack);
+
+  solving_insert_king_capture_avoiders(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

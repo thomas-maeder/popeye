@@ -1715,8 +1715,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h stipulation/pipe.h solving/pipe.h \
- solving/find_move.h \
+ conditions/circe/relevant_side.h conditions/pepo.h stipulation/pipe.h \
+ solving/pipe.h solving/find_move.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/castling.h output/plaintext/message.h output/message.h \
  input/plaintext/language.h debugging/assert.h
@@ -1782,6 +1782,7 @@ conditions/circe/rebirth_square.h:
 conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
+conditions/pepo.h:
 stipulation/pipe.h:
 solving/pipe.h:
 solving/find_move.h:
