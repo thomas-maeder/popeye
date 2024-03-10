@@ -56,6 +56,7 @@ static slice_index const slice_rank_order[] =
     STEiffelMovesForPieceGenerator,
     STDisparateMovesForPieceGenerator,
     STParalysingMovesForPieceGenerator,
+    STPepoMovesForPieceGenerator,
     STUltraPatrolMovesForPieceGenerator,
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
@@ -102,7 +103,7 @@ enum
   nr_slice_rank_order_elmts = sizeof slice_rank_order / sizeof slice_rank_order[0]
 };
 
-static void move_generation_branch_insert_slices_impl(slice_index generating,
+void move_generation_branch_insert_slices_impl(slice_index generating,
                                                       slice_index const prototypes[],
                                                       unsigned int nr_prototypes,
                                                       slice_index base)

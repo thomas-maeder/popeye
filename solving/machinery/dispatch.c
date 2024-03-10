@@ -145,6 +145,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
+#include "conditions/pepo.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2370,6 +2371,10 @@ void dispatch(slice_index si)
       paralysing_generate_moves_for_piece(si);
       break;
 
+    case STPepoMovesForPieceGenerator:
+      pepo_generate_moves_for_piece(si);
+      break;
+
     case STUltraPatrolMovesForPieceGenerator:
       ultrapatrol_generate_moves_for_piece(si);
       break;
@@ -2558,6 +2563,10 @@ void dispatch(slice_index si)
 
     case STSquareObservationPostMoveIterator:
       square_observation_post_move_iterator_solve(si);
+      break;
+
+    case STPepoCheckTestHack:
+      pepo_is_square_observed(si);
       break;
 
     default:

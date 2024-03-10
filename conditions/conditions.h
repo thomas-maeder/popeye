@@ -240,8 +240,9 @@ typedef enum
   series_capture,         /* 219 */
   darkside,               /* 220 */
   leffie,                 /* 221 */
+  pepo,                   /* 222 */
 
-  CondCount               /* 222 */
+  CondCount               /* 223 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

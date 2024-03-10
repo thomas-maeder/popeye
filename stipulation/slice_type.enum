@@ -344,6 +344,9 @@
     ENUMERATOR(STParalysingMovesForPieceGenerator),                   \
     ENUMERATOR(STParalysingObserverValidator),                        \
     ENUMERATOR(STParalysingObservationGeometryValidator),             \
+    ENUMERATOR(STPepoMovesForPieceGenerator),                         \
+    ENUMERATOR(STPepoCheckTestInitialiser),                           \
+    ENUMERATOR(STPepoCheckTestHack),                                  \
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STCentralObservationValidator),                        \
     ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
