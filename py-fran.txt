@@ -265,6 +265,7 @@ simples:
 	BlancMinDister
 	SerieCapture
 	Pepo
+	CASTechecs
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
