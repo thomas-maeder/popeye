@@ -127,6 +127,7 @@
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
+#include "conditions/cast.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -508,6 +509,9 @@ void build_solvers1(slice_index si)
     if (CondFlag[mars])
       solving_initialise_marscirce(si);
   }
+
+  if (CondFlag[cast])
+    cast_initialise_solving(si);
 
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);

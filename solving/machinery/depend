@@ -81,9 +81,10 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/follow_my_leader.h conditions/alphabetic.h \
  conditions/forced_squares.h conditions/synchronous.h \
  conditions/must_capture.h conditions/lostpieces.h \
- conditions/series_capture.h conditions/pepo.h platform/maxtime.h \
- conditions/shielded_kings.h solving/end_of_branch_tester.h \
- solving/dead_end.h stipulation/constraint.h solving/moves_traversal.h \
+ conditions/series_capture.h conditions/pepo.h conditions/cast.h \
+ platform/maxtime.h conditions/shielded_kings.h \
+ solving/end_of_branch_tester.h solving/dead_end.h \
+ stipulation/constraint.h solving/moves_traversal.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/kiss/reached_tester.h stipulation/branch.h \
  stipulation/fork.h stipulation/move.h solving/duplex.h solving/pipe.h \
@@ -306,6 +307,7 @@ conditions/must_capture.h:
 conditions/lostpieces.h:
 conditions/series_capture.h:
 conditions/pepo.h:
+conditions/cast.h:
 platform/maxtime.h:
 conditions/shielded_kings.h:
 solving/end_of_branch_tester.h:
@@ -756,7 +758,7 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/lostpieces.h \
- conditions/series_capture.h conditions/pepo.h \
+ conditions/series_capture.h conditions/pepo.h conditions/cast.h \
  optimisations/orthodox_check_directions.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
@@ -1075,6 +1077,7 @@ conditions/transmuting_kings/vaulting_kings.h:
 conditions/lostpieces.h:
 conditions/series_capture.h:
 conditions/pepo.h:
+conditions/cast.h:
 optimisations/orthodox_check_directions.h:
 optimisations/hash.h:
 DHT/dhtbcmem.h:
