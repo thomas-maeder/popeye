@@ -12,14 +12,63 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Validate an observation according to Imitators
+ * @return true iff the observation is valid
+ */
+boolean cast_remove_illegal_captures_solve(slice_index si)
+{
+  boolean result;
+  square const pos_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  Side const side_observing = SLICE_STARTER(si);
+  unsigned nr_captures = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(pos_observer);
+  TraceEnumerator(Side,side_observing);
+  TraceEOL();
+
+  siblingply(side_observing);
+  generate_moves_for_piece(pos_observer);
+
+  {
+    numecoup const base = MOVEBASE_OF_PLY(nbply);
+    numecoup const top = MOVEBASE_OF_PLY(nbply+1);
+    numecoup curr;
+    for (curr = base+1; curr<=top && nr_captures<=1; ++curr)
+      if (is_on_board(move_generation_stack[curr].capture))
+      {
+        TraceSquare(move_generation_stack[curr].capture);
+        ++nr_captures;
+      }
+  }
+
+  finply();
+
+  TraceValue("%u",nr_captures);
+  TraceEOL();
+
+  if (nr_captures>1)
+    result = false;
+  else
+    result = pipe_validate_observation_recursive_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static int compare_nr_opponent_moves(void const *a, void const *b)
 {
   move_generation_elmt const * const elmt_a = a;
   move_generation_elmt const * const elmt_b = b;
 
-  if (elmt_a->capture==no_capture && elmt_b->capture!=no_capture)
+  if (!is_on_board(elmt_a->capture) && is_on_board(elmt_b->capture))
     return -1;
-  else if (elmt_a->capture!=no_capture && elmt_b->capture==no_capture)
+  else if (is_on_board(elmt_a->capture) && !is_on_board(elmt_b->capture))
     return +1;
   else if (elmt_a->departure<elmt_b->departure)
     return -1;
@@ -68,11 +117,11 @@ void cast_multi_captures_remover_solve(slice_index si)
     move_generation_elmt const * elmt_curr = &move_generation_stack[curr];
     move_generation_elmt const * elmt_next = &move_generation_stack[next];
 
-    if (elmt_curr->capture!=no_capture && elmt_next->capture!=no_capture
+    if (is_on_board(elmt_curr->capture) && is_on_board(elmt_next->capture)
         && elmt_curr->departure==elmt_next->departure)
     {
       while (next>base+1
-             && move_generation_stack[next-1].capture!=no_capture
+             && is_on_board(move_generation_stack[next-1].capture)
              && move_generation_stack[next-1].departure==elmt_curr->departure)
         --next;
 
@@ -125,6 +174,8 @@ void cast_initialise_solving(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STGeneratingMoves,&instrument_move_generator);
   stip_traverse_structure(si,&st);
+
+  stip_instrument_check_validation(si,nr_sides,STCASTRemoveIllegalCaptures);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -535,6 +535,7 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
     ENUMERATOR(STCASTMultiCapturesRemover),                             \
+    ENUMERATOR(STCASTRemoveIllegalCaptures),                            \
     ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),                   \
     ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest),                  \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \

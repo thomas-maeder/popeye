@@ -5,6 +5,11 @@
 
 #include "solving/machinery/solve.h"
 
+/* Validate an observation according to Imitators
+ * @return true iff the observation is valid
+ */
+boolean cast_remove_illegal_captures_solve(slice_index si);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

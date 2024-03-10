@@ -1,0 +1,63 @@
+begin
+
+protocol CASTchess.ref
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020
+pieces white kh1 bg1g2 sd6 pa7
+       black ka8 sf1 pa4a6b3g6h5
+stip #2
+condition CASTc
+option try vari
+
+next
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020 (v)
+pieces white kc7 be2e3 pc5d6
+       black ke1 pa4 lia7
+stipulation h#2
+condition CASTchess
+
+next
+
+author Petko A. Petkov
+origin StrateGems 2020
+pieces white kc8 rh8 ba2 sf6 pc3e3f4g2
+       black ke4 pd3d5d7e5f5f7h5
+stipulation #2
+condition CASTchess
+option vari try
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white ka1 qe5 rb8 pb2b4c3f4g2
+       black ka6 rh1 sg1 pa7b3d3e4g4h2
+stipulation s#2
+condition CASTchess
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white kh3 se4f4
+       black ke5 pf5h4
+       neutral pf2h7
+stipulation ser-h#5
+condition CASTchess
+
+next
+
+author Gerald Ettl & Manfred Rittirsch
+origin Julia's Fairies 2021
+pieces black Sd1h7 Pb2e3d3h6g7 Kb5
+       white Pe2b3e4g5f5f6e7c7 Rc6 Sa6b7 Ba7 Kc8
+stipulation #2
+condition CASTchess
+option try varia
+
+end
+
