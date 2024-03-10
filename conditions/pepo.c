@@ -15,7 +15,14 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static boolean are_we_testing_check = false;
+typedef enum
+{
+  not_testing_check,
+  no_check_found,
+  one_check_found
+} check_test_status_type;
+
+static check_test_status_type check_test_status;
 
 /* Determine whether a square is observed be the side at the move according to
  * Pepo
@@ -28,23 +35,45 @@ void pepo_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_is_square_observed_delegate(si);
+  TraceValue("%u",check_test_status);TraceEOL();
 
-  if (are_we_testing_check && observation_result)
+  switch (check_test_status)
   {
-    square const pos_first_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-    piece_walk_type const save_first_observer_walk = being_solved.board[pos_first_observer];
+    case not_testing_check:
+      pipe_is_square_observed_delegate(si);
+      break;
 
-    TraceSquare(pos_first_observer);
-    TraceEOL();
+    case no_check_found:
+      pipe_is_square_observed_delegate(si);
 
-    being_solved.board[pos_first_observer] = Dummy;
-    pipe_is_square_observed_delegate(si);
-    being_solved.board[pos_first_observer] = save_first_observer_walk;
+      if (observation_result)
+      {
+        square const pos_first_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+        piece_walk_type const save_first_observer_walk = being_solved.board[pos_first_observer];
 
-    TraceValue("%u",observation_result);
-    TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-    TraceEOL();
+        TraceSquare(pos_first_observer);
+        TraceEOL();
+
+        check_test_status = one_check_found;
+        observation_result = false;
+
+        being_solved.board[pos_first_observer] = Dummy;
+        pipe_is_square_observed_delegate(si);
+        being_solved.board[pos_first_observer] = save_first_observer_walk;
+
+        TraceValue("%u",observation_result);
+        TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+        TraceEOL();
+      }
+      break;
+
+    case one_check_found:
+      pipe_is_square_observed_delegate(si);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -67,8 +96,8 @@ boolean pepo_check_test_initialiser_is_in_check(slice_index si,
   TraceSquare(save_king_square);
   TraceEOL();
 
-  assert(!are_we_testing_check);
-  are_we_testing_check = true;
+  assert(check_test_status==not_testing_check);
+  check_test_status = no_check_found;
 
   if (save_king_square==initsquare)
     result = pipe_is_in_check_recursive_delegate(si,side_in_check);
@@ -80,8 +109,8 @@ boolean pepo_check_test_initialiser_is_in_check(slice_index si,
     being_solved.board[save_king_square] = save_king_walk;
   }
 
-  assert(are_we_testing_check);
-  are_we_testing_check = false;
+  assert(check_test_status!=not_testing_check);
+  check_test_status = not_testing_check;
 
   TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
   TraceEOL();

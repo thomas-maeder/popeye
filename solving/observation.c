@@ -754,12 +754,12 @@ void is_square_observed_two_paths(slice_index si)
 static slice_index const is_square_observed_slice_rank_order[] =
 {
     STTestingIfSquareIsObserved,
-    STPepoCheckTestHack,
     STIsSquareObservedOrtho,
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
     STOptimiseObservationsByQueenInitialiser,
     STDetermineObserverWalk,
+    STPepoCheckTestHack,
     STBicoloresTryBothSides,
     STTestingIfSquareIsObservedWithSpecificWalk,
     STOptimisingObserverWalk,
