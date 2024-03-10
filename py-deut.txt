@@ -267,6 +267,7 @@ Kommandos:
 	WeisserMaxDister
 	WeisserMinDister
 	SerienSchlag
+	Pepo
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
