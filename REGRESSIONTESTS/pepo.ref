@@ -118,3 +118,151 @@ solution finished.
 solution finished.
 
 
+
+           Petko A. Petkov
+           feenschach 2019
+   Dedicated to Christian Poisson
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -S   B   .   .   .   .   7
+|                                   |
+6   .   .  LI   P   .   .   .   .   6
+|                                   |
+5  -P   P   .  -K   P   K   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   P   4
+|                                   |
+3   .   P  -P   .   P   .   P   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .  CA   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 4
+                Pepo
+
+   1.LIc6-h1 ? threat:
+          2.e3-e4 #
+      1...Kd5-e4
+          2.LIh1-h7 #
+      1...Kd5*d4
+          2.LIh1-h8 #
+      1...Kd5-c5
+          2.LIh1-c1 #
+      1...Kd5*d6
+          2.Bd4-c5 #
+      1...Kd5*e5
+          2.LIh1-h5 #
+    but
+      1...Kd5-e6 !
+
+   1.LIc6-g2 ! threat:
+          2.e3-e4 #
+      1...Kd5-e4
+          2.LIg2-g6 #
+      1...Kd5-e6
+          2.LIg2-g4 #
+      1...Kd5*d4
+          2.LIg2-g7 #
+      1...Kd5-c5
+          2.LIg2-c2 #
+      1...Kd5*d6
+          2.Bd4-c5 #
+      1...Kd5*e5
+          2.LIg2-g5 #
+
+   1.LIc6-f3 ? threat:
+          2.e3-e4 #
+      1...Kd5-e6
+          2.LIf3-h3 #
+      1...Kd5*d4
+          2.LIf3-f6 #
+      1...Kd5-c5
+          2.LIf3-f8 #
+      1...Kd5*d6
+          2.Bd4-c5 #
+      1...Kd5*e5
+          2.LIf3*c3 #
+    but
+      1...Kd5-e4 !
+
+  add_to_move_generation_stack:        7408
+                     play_move:        4957
+ is_white_king_square_attacked:         186
+ is_black_king_square_attacked:        4902
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           feenschach 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   G   G   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   Q  -G   .   7
+|                                   |
+6   .   .   .   .   G   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   G   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2  -B   P   .   .   P   .  -P   .   2
+|                                   |
+1   .   .   .   K   .   .  -G   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 6
+                Pepo
+
+   1.Ge6-g8 ? threat:
+          2.Qf7-d5 #
+    but
+      1...Gg1-g3 !
+
+   1.Qf7-f4 ? threat:
+          2.Qf4-d4 #
+    but
+      1...Ba2-b1 !
+
+   1.Qf7-b7 ! threat:
+          2.Qb7-d5 #
+      1...Kc4-b3
+          2.Qb7-b4 #
+      1...Kc4-d3
+          2.Qb7*f3 #
+      1...Kc4-d5
+          2.e2-e4 #
+      1...Kc4-b5
+          2.Qb7-b6 #
+      1...Kc4-c3
+          2.Qb7*g7 #
+      1...Kc4-b4
+          2.Qb7-b5 #
+      1...Kc4-c5
+          2.Qb7-c6 #
+      1...Kc4-d4
+          2.Qb7-e4 #
+
+   1.Qf7-c7 ? threat:
+          2.Qc7-c5 #
+    but
+      1...Gg1-c1 !
+
+  add_to_move_generation_stack:        8138
+                     play_move:        4968
+ is_white_king_square_attacked:         227
+ is_black_king_square_attacked:        4834
+
+solution finished.
+
+
