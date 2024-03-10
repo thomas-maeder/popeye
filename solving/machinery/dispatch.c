@@ -145,6 +145,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
+#include "conditions/pepo.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2368,6 +2369,10 @@ void dispatch(slice_index si)
 
     case STParalysingMovesForPieceGenerator:
       paralysing_generate_moves_for_piece(si);
+      break;
+
+    case STPepoMovesForPieceGenerator:
+      pepo_generate_moves_for_piece(si);
       break;
 
     case STUltraPatrolMovesForPieceGenerator:

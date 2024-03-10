@@ -126,6 +126,7 @@
 #include "conditions/must_capture.h"
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
+#include "conditions/pepo.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -336,6 +337,9 @@ void build_solvers1(slice_index si)
 
   if (TSTFLAG(some_pieces_flags,Paralysing))
     paralysing_initialise_solving(si);
+
+  if (CondFlag[pepo])
+    pepo_initialise_solving(si);
 
   if (CondFlag[strictSAT])
     strictsat_initialise_solving(si);

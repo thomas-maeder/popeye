@@ -1,0 +1,12 @@
+begin
+
+protocol pepo.tst
+
+title double check is mate
+pieces white ra8 bb8 black kh8
+stipulation #1
+condition pepo
+option movenum start 5 upto 5 nowk
+
+end
+
