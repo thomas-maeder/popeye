@@ -37,6 +37,7 @@
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/cast.h"
+#include "conditions/castinverse.h"
 #include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -298,6 +299,10 @@ boolean validate_observation_recursive(slice_index si)
       result = cast_remove_illegal_captures_solve(si);
       break;
 
+    case STCASTInverseRemoveIllegalCaptures:
+      result = cast_inverse_remove_illegal_captures_solve(si);
+      break;
+
     case STTrue:
       result = true;
       break;
@@ -393,6 +398,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STSuperguardsRemoveIllegalCaptures,
     STWormholeRemoveIllegalCaptures,
     STCASTRemoveIllegalCaptures,
+    STCASTInverseRemoveIllegalCaptures,
 
     STValidatingObserver,
     STUndoOptimiseObservationsByQueen,

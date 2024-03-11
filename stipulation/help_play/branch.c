@@ -105,6 +105,7 @@ static slice_index const slice_rank_order[] =
   STSuperguardsRemoveIllegalCaptures,
   STMummerOrchestrator,
   STCASTMultiCapturesRemover,
+  STCASTInverseSingleCapturesRemover,
   STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
   STCastlingRemoveNonReachers,

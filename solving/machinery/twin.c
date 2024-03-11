@@ -1437,7 +1437,8 @@ void verify_position(slice_index si)
       || CondFlag[strictSAT]
       || CondFlag[shieldedkings]
       || CondFlag[lesemajeste]
-      || CondFlag[pepo])
+      || CondFlag[pepo]
+      || CondFlag[castinverse])
     king_capture_avoiders_avoid_opponent();
 
   if (TSTFLAG(some_pieces_flags, Jigger)
@@ -1881,7 +1882,7 @@ void verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[cast])
+  if (CondFlag[cast] || CondFlag[castinverse])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none

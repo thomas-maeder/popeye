@@ -1,7 +1,8 @@
-#include "conditions/cast.h"
+#include "conditions/castinverse.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "solving/observation.h"
+#include "solving/king_capture_avoider.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -12,10 +13,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Validate an observation according to CAST
+/* Validate an observation according to CASTInverse
  * @return true iff the observation is valid
  */
-boolean cast_remove_illegal_captures_solve(slice_index si)
+boolean cast_inverse_remove_illegal_captures_solve(slice_index si)
 {
   boolean result;
   square const pos_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
@@ -51,9 +52,9 @@ boolean cast_remove_illegal_captures_solve(slice_index si)
   TraceEOL();
 
   if (nr_captures>1)
-    result = false;
-  else
     result = pipe_validate_observation_recursive_delegate(si);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -95,7 +96,7 @@ static int compare_nr_opponent_moves(void const *a, void const *b)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_multi_captures_remover_solve(slice_index si)
+void cast_inverse_single_captures_remover_solve(slice_index si)
 {
   numecoup const base = MOVEBASE_OF_PLY(nbply);
   numecoup top = MOVEBASE_OF_PLY(nbply+1);
@@ -111,30 +112,50 @@ void cast_multi_captures_remover_solve(slice_index si)
         sizeof move_generation_stack[0],
         &compare_nr_opponent_moves);
 
-  for (curr = top; curr>base+1; --curr)
+  for (curr = base+1; curr<=top; ++curr)
   {
-    numecoup next = curr-1;
-    move_generation_elmt const * elmt_curr = &move_generation_stack[curr];
-    move_generation_elmt const * elmt_next = &move_generation_stack[next];
+    TraceSquare(move_generation_stack[curr].departure);
+    TraceSquare(move_generation_stack[curr].arrival);
+    TraceSquare(move_generation_stack[curr].capture);
+    TraceEOL();
+  }
+  TraceEOL();
 
-    if (is_on_board(elmt_curr->capture) && is_on_board(elmt_next->capture)
-        && elmt_curr->departure==elmt_next->departure)
+  for (curr = base+1; curr<=top; ++curr)
+    if (is_on_board(move_generation_stack[curr].capture))
+      break;
+
+  TraceSquare(move_generation_stack[curr].departure);
+  TraceSquare(move_generation_stack[curr].arrival);
+  TraceSquare(move_generation_stack[curr].capture);
+  TraceEOL();
+  TraceEOL();
+
+  for (; curr<=top; ++curr)
+    if (curr<top
+        && move_generation_stack[curr].departure==move_generation_stack[curr+1].departure)
+      while (curr<top
+             && move_generation_stack[curr].departure==move_generation_stack[curr+1].departure)
+        ++curr;
+    else
     {
-      while (next>base+1
-             && is_on_board(move_generation_stack[next-1].capture)
-             && move_generation_stack[next-1].departure==elmt_curr->departure)
-        --next;
-
-      memmove(&move_generation_stack[next],
+      memmove(&move_generation_stack[curr],
               &move_generation_stack[curr+1],
               sizeof move_generation_stack[0]*(top-curr));
-
-      top -= curr-next+1;
-      curr = next;
+      --top;
+      --curr;
     }
-  }
 
   MOVEBASE_OF_PLY(nbply+1) = top;
+
+  for (curr = base+1; curr<=top; ++curr)
+  {
+    TraceSquare(move_generation_stack[curr].departure);
+    TraceSquare(move_generation_stack[curr].arrival);
+    TraceSquare(move_generation_stack[curr].capture);
+    TraceEOL();
+  }
+  TraceEOL();
 
   pipe_solve_delegate(si);
 
@@ -150,7 +171,7 @@ static void instrument_move_generator(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_pipe(STCASTMultiCapturesRemover);
+    slice_index const prototype = alloc_pipe(STCASTInverseSingleCapturesRemover);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -160,10 +181,10 @@ static void instrument_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery for CAST
+/* Instrument the solving machinery for CASTInverse
  * @param si identifies root slice of stipulation
  */
-void cast_initialise_solving(slice_index si)
+void cast_inverse_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -175,7 +196,9 @@ void cast_initialise_solving(slice_index si)
   stip_structure_traversal_override_single(&st,STGeneratingMoves,&instrument_move_generator);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_check_validation(si,nr_sides,STCASTRemoveIllegalCaptures);
+  stip_instrument_check_validation(si,nr_sides,STCASTInverseRemoveIllegalCaptures);
+
+  solving_insert_king_capture_avoiders(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

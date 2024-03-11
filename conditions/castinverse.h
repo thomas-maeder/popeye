@@ -1,14 +1,14 @@
-#if !defined(CONDITIONS_CAST_H)
-#define CONDITIONS_CAST_H
+#if !defined(CONDITIONS_CASTINVERSE_H)
+#define CONDITIONS_CASTINVERSE_H
 
-/* This module implements the condition CAST */
+/* This module implements the condition CASTInverse */
 
 #include "solving/machinery/solve.h"
 
-/* Validate an observation according to CAST
+/* Validate an observation according to CASTInverse
  * @return true iff the observation is valid
  */
-boolean cast_remove_illegal_captures_solve(slice_index si);
+boolean cast_inverse_remove_illegal_captures_solve(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -23,11 +23,11 @@ boolean cast_remove_illegal_captures_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_multi_captures_remover_solve(slice_index si);
+void cast_inverse_single_captures_remover_solve(slice_index si);
 
-/* Instrument the solving machinery for CAST
+/* Instrument the solving machinery for CASTInverse
  * @param si identifies root slice of stipulation
  */
-void cast_initialise_solving(slice_index si);
+void cast_inverse_initialise_solving(slice_index si);
 
 #endif
