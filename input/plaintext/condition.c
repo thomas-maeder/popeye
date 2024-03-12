@@ -736,6 +736,34 @@ static char *ParseBretonVariants(char *tok)
   return tok;
 }
 
+static char *ParseCASTVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    CASTVariantType const type = GetUniqIndex(CASTVariantCount,CASTVariantTypeTab,tok);
+
+    if (type>CASTVariantCount)
+      output_plaintext_input_error_message(CondNotUniq);
+    else if (type==CASTinverse)
+    {
+      CondFlag[cast] = false;
+      CondFlag[castinverse] = true;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
 /* parse the orthogonal grid lines from the current token
  * @param tok current token
  * @param file_numbers where to store file numbers
@@ -1940,6 +1968,12 @@ char *ParseCond(char *tok)
               role_exchange_set_umlimited();
             }
           }
+          break;
+        }
+
+        case cast:
+        {
+          tok = ParseCASTVariants(tok);
           break;
         }
 

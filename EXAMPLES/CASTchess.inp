@@ -7,7 +7,7 @@ origin The Problemist Suplement 2020
 pieces white kh1 bg1g2 sd6 pa7
        black ka8 sf1 pa4a6b3g6h5
 stip #2
-condition CASTc
+condition CASTchess
 option try vari
 
 next
@@ -66,7 +66,7 @@ origin ANDA FAIRY PLANET 2, 2020
 pieces white ke4 rd1
        black ke2 pd4g4h5
 stipulation #2
-condition CASTinverse
+condition CASTchess inverse
 option set try vari
 
 next
@@ -76,7 +76,7 @@ origin The Problemist Suplement 2020
 pieces white kb6 qh2 pf2
        black ka1 pb7c2
 stipulation ser-h#6
-condition CASTinverse
+condition CASTchess inverse
 
 next
 
@@ -85,7 +85,7 @@ origin The Problemist Suplement 2020
 pieces white kh4 qb1 pf2f4
        black kb6 qg2 pg7
 stipulation hs#3.5
-condition CASTinverse
+condition CASTchess inverse
 
 next
 
@@ -95,7 +95,7 @@ title after first half-move of hs#4.5
 pieces white kc1 qd8 bg7h7 pa4
        black kh8 be4 sc5
 stipulation hs#4
-condition CASTinverse
+condition CASTchess inverse
 
 next
 
@@ -105,7 +105,7 @@ pieces white kg1 sc6e6 pa2c2d3g2
        black ke3 pa3c4c5d5g4
        neutral pe4
 stipulation ser-h=9
-condition CASTinverse
+condition CASTchess inverse
 
 end
 

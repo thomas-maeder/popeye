@@ -1981,6 +1981,22 @@ static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCo
   }
 };
 
+char const * const *CASTVariantTypeTab;
+
+static char const * const CASTVariantTypeString[LanguageCount][CASTVariantCount] =
+{
+  {
+    /* French */
+    "Invverse"
+  },{
+    /* German */
+    "Invers"
+  },{
+    /* English */
+    "Inverse"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -2002,6 +2018,7 @@ void output_plaintext_select_language(Language lang)
   ExtraCondTab= &ExtraCondString[lang][0];
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
   BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
+  CASTVariantTypeTab = &CASTVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];
