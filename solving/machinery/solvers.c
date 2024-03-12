@@ -128,7 +128,6 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
-#include "conditions/castinverse.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"

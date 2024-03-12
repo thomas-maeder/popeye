@@ -147,7 +147,6 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
-#include "conditions/castinverse.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"

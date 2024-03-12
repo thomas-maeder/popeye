@@ -1437,11 +1437,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/cast.h \
- conditions/castinverse.h optimisations/observation.h \
- pieces/walks/hunters.h pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/magic.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/conditional_pipe.h \
+ optimisations/observation.h pieces/walks/hunters.h \
+ pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/conditional_pipe.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/binary.h \
  debugging/assert.h
@@ -1537,7 +1536,6 @@ conditions/transmuting_kings/transmuting_kings.h:
 conditions/transmuting_kings/reflective_kings.h:
 conditions/transmuting_kings/vaulting_kings.h:
 conditions/cast.h:
-conditions/castinverse.h:
 optimisations/observation.h:
 pieces/walks/hunters.h:
 pieces/attributes/paralysing/paralysing.h:
