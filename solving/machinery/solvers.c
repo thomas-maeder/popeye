@@ -512,10 +512,12 @@ void build_solvers1(slice_index si)
   }
 
   if (CondFlag[cast])
-    cast_initialise_solving(si);
-
-  if (CondFlag[castinverse])
-    cast_inverse_initialise_solving(si);
+  {
+    if (cast_mode==cast_regular)
+      cast_initialise_solving(si);
+    else
+      cast_inverse_initialise_solving(si);
+  }
 
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);

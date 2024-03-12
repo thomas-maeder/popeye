@@ -10,6 +10,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/cast.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
@@ -510,6 +511,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonChromatique]);
           if (breton_implementation_quirk==breton_Popeye)
             written += append_to_CondLine(&CondLine,written," %s",BretonVariantTypeTab[BretonPopeye]);
+          break;
+
+        case cast:
+          if (cast_mode==cast_inverse)
+            written += append_to_CondLine(&CondLine,written," %s",CASTVariantTypeTab[CASTinverse]);
           break;
 
         case koeko:

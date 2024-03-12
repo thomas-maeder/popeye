@@ -14,6 +14,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/cast.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/reborn_piece.h"
@@ -742,6 +743,8 @@ static char *ParseCASTVariants(char *tok)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
+  cast_mode = cast_regular;
+
   do
   {
     CASTVariantType const type = GetUniqIndex(CASTVariantCount,CASTVariantTypeTab,tok);
@@ -750,8 +753,7 @@ static char *ParseCASTVariants(char *tok)
       output_plaintext_input_error_message(CondNotUniq);
     else if (type==CASTinverse)
     {
-      CondFlag[cast] = false;
-      CondFlag[castinverse] = true;
+      cast_mode = cast_inverse;
       tok = ReadNextTokStr();
     }
     else

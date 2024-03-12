@@ -5,6 +5,17 @@
 
 #include "solving/machinery/solve.h"
 
+typedef enum
+{
+  cast_regular,
+  cast_inverse,
+
+  nr_cast_modes
+} cast_mode_type;
+
+extern cast_mode_type cast_mode;
+
+
 /* Validate an observation according to CAST
  * @return true iff the observation is valid
  */

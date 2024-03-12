@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+cast_mode_type cast_mode;
+
 /* Validate an observation according to CAST
  * @return true iff the observation is valid
  */

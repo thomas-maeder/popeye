@@ -15,6 +15,7 @@
 #include "conditions/alphabetic.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/blackchecks.h"
+#include "conditions/cast.h"
 #include "conditions/circe/circe.h"
 #include "conditions/dister.h"
 #include "conditions/duellists.h"
@@ -1438,7 +1439,7 @@ void verify_position(slice_index si)
       || CondFlag[shieldedkings]
       || CondFlag[lesemajeste]
       || CondFlag[pepo]
-      || CondFlag[castinverse])
+      || (CondFlag[cast] && cast_mode==cast_inverse))
     king_capture_avoiders_avoid_opponent();
 
   if (TSTFLAG(some_pieces_flags, Jigger)
@@ -1882,7 +1883,7 @@ void verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[cast] || CondFlag[castinverse])
+  if (CondFlag[cast])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none

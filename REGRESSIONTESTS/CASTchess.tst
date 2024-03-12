@@ -62,7 +62,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                         4 + 10
-             CASTInverse
+          CASTChess Inverse
 
    1.Kd6-e6 # !
 

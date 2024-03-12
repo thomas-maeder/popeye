@@ -415,7 +415,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 4
-             CASTInverse
+          CASTChess Inverse
 
       1...Ke2-f2
           2.Ke4-f3 #
@@ -466,7 +466,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#6                     3 + 3
-             CASTInverse
+          CASTChess Inverse
 
   1.c2-c1=R   2.Rc1-g1   3.Rg1-g2   4.Rg2*f2   5.Rf2-a2   6.Ra2-a7 Qh2-a2 #
   1.c2-c1=B   2.Bc1-f4   3.Bf4-g3   4.Bg3*f2   5.Bf2-d4   6.Bd4-h8 Qh2-b2 #
@@ -502,7 +502,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#3.5                      4 + 3
-             CASTInverse
+          CASTChess Inverse
 
   1...Kb6-a6   2.f4-f5 g7-g6   3.f2-f4 Qg2-f3   4.Qb1-b6 + g6-g5 #
   1...Kb6-a5   2.f2-f3 Qg2-f2 +   3.Kh4-h3 g7-g5   4.Qb1-b5 + g5-g4 #
@@ -523,7 +523,7 @@ solution finished.
 |                                   |
 8   .   .   .   Q   .   .   .  -K   8
 |                                   |
-7   .   .   .   .   .   .   P   P   7
+7   .   .   .   .   .   .   B   B   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
@@ -539,14 +539,13 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#4                        5 + 3
-             CASTInverse
+          CASTChess Inverse
 
   1.Bg7-b2 Sc5-b3   2.Qd8-f6 Sb3-a1   3.a4-a5 Be4-c2   4.Qf6-a6 + Sa1-b3 #
-
-  add_to_move_generation_stack:  3958160938
+  add_to_move_generation_stack:  3958160244
                      play_move:   398901467
  is_white_king_square_attacked:   382938402
- is_black_king_square_attacked:   225056218
+ is_black_king_square_attacked:   225056181
 
 solution finished.
 
@@ -575,7 +574,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=9                7 + 6 + 1n
-             CASTInverse
+          CASTChess Inverse
 
   1.c4-c3   2.c5-c4   3.Ke3-d4   4.nPe4-e3   5.nPe3-e2   6.nPe2-e1=nB   7.nBe1-g3   8.nBg3-d6   9.g4-g3 Kg1-f2 =
   add_to_move_generation_stack:    25560932

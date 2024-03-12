@@ -452,10 +452,10 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/blackchecks.h \
- conditions/dister.h conditions/duellists.h conditions/exclusive.h \
- utilities/table.h conditions/follow_my_leader.h conditions/football.h \
- conditions/forced_squares.h conditions/geneva.h conditions/imitator.h \
- conditions/immune.h conditions/isardam.h \
+ conditions/cast.h conditions/dister.h conditions/duellists.h \
+ conditions/exclusive.h utilities/table.h conditions/follow_my_leader.h \
+ conditions/football.h conditions/forced_squares.h conditions/geneva.h \
+ conditions/imitator.h conditions/immune.h conditions/isardam.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
  debugging/measure.h output/plaintext/protocol.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
@@ -543,6 +543,7 @@ conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 conditions/blackchecks.h:
+conditions/cast.h:
 conditions/dister.h:
 conditions/duellists.h:
 conditions/exclusive.h:
