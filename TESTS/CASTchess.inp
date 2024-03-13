@@ -1,0 +1,22 @@
+begin
+
+protocol CASTchess.tst
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white kf6 re5f4 bg6 pe6h3h4
+       black kf5 re4 pf7
+stip #1
+condition CASTchess
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white kd6 qb6 rd3e3
+       black kd5 rc8 bb7 sh1 pa6c4f4f7g3h2
+stipulation #1
+condition CASTchess Inverse
+
+end
+

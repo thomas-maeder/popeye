@@ -14,6 +14,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/cast.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/reborn_piece.h"
@@ -724,6 +725,35 @@ static char *ParseBretonVariants(char *tok)
     else if (type==BretonPopeye)
     {
       breton_implementation_quirk = breton_Popeye;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseCASTVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  cast_mode = cast_regular;
+
+  do
+  {
+    CASTVariantType const type = GetUniqIndex(CASTVariantCount,CASTVariantTypeTab,tok);
+
+    if (type>CASTVariantCount)
+      output_plaintext_input_error_message(CondNotUniq);
+    else if (type==CASTinverse)
+    {
+      cast_mode = cast_inverse;
       tok = ReadNextTokStr();
     }
     else
@@ -1940,6 +1970,12 @@ char *ParseCond(char *tok)
               role_exchange_set_umlimited();
             }
           }
+          break;
+        }
+
+        case cast:
+        {
+          tok = ParseCASTVariants(tok);
           break;
         }
 

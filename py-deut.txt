@@ -268,6 +268,8 @@ Kommandos:
 	WeisserMinDister
 	SerienSchlag
 	Pepo
+	CASTSchach
+	CASTInvers
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

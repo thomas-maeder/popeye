@@ -146,6 +146,7 @@
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
+#include "conditions/cast.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -758,6 +759,14 @@ void dispatch(slice_index si)
 
     case STMakeTakeMoveCastlingPartner:
       make_and_take_move_castling_partner(si);
+      break;
+
+    case STCASTMultiCapturesRemover:
+      cast_multi_captures_remover_solve(si);
+      break;
+
+    case STCASTInverseSingleCapturesRemover:
+      cast_inverse_single_captures_remover_solve(si);
       break;
 
     case STBoleroGenerateMovesWalkByWalk:

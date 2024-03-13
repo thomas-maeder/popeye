@@ -186,6 +186,15 @@ typedef enum
 
 extern char const * const *BretonVariantTypeTab;
 
+typedef enum
+{
+  CASTinverse,
+
+  CASTVariantCount
+} CASTVariantType;
+
+extern char const * const *CASTVariantTypeTab;
+
 void output_plaintext_select_language(Language lang);
 
 /* Make sure that we don't define ambiguous piece name shortcuts */

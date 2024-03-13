@@ -263,6 +263,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	WhiteMinDister
 	SeriesCapture
 	Pepo
+	CASTchess
+	CASTInverse
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
