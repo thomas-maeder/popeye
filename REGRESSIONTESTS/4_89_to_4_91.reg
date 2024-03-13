@@ -213,3 +213,163 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
 solution finished.
 
 
+
+             AyatsujiP 
+      github Popeye issue #467
+up to 4.89, Popeye would produce very strange output (as if the wK were an orphan)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   O   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -O   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+           Make&TakeChess
+
+  1  (Sh1-f2 )
+   1.Sh1-f2 !
+
+  2  (Of5-d4 )
+   1.Of5-d4 !
+
+  3  (Of5-e3 )
+   1.Of5-e3 !
+
+  4  (Of5-h4 )
+   1.Of5-h4 !
+
+  5  (Of5-h6 )
+   1.Of5-h6 !
+
+  6  (Of5-g7 )
+   1.Of5-g7 !
+
+  7  (Of5-e7 )
+   1.Of5-e7 !
+
+  8  (Of5-d6 )
+   1.Of5-d6 !
+
+  add_to_move_generation_stack:          10
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Thomas Maeder
+      github Popeye issue #468
+          crash until 4.89
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   O  -O   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+           Make&TakeChess
+
+  1  (Kf8-e7 + )
+  2  (Kf8-g7 )
+   1.Kf8-g7 !
+
+  3  (Kf8-f7 )
+   1.Kf8-f7 !
+
+  4  (Kf8-e8 )
+   1.Kf8-e8 !
+
+  5  (Kf8-g8 )
+   1.Kf8-g8 !
+
+  add_to_move_generation_stack:        1105
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Thomas Maeder
+             Popeye 4.91
+clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it captures a black Orphan
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -O   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+           Make&TakeChess
+
+   1.Ke7*g4 !
+
+   1.Ke7-d6 !
+
+   1.Ke7-f8 !
+
+   1.Ke7-d8 !
+
+   1.Ke7-d7 !
+
+   1.Ke7-e8 !
+
+   1.Ke7-f7 !
+
+   1.Sc8-a7 !
+
+   1.Sc8-b6 !
+
+  add_to_move_generation_stack:         174
+                     play_move:          15
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
