@@ -45,5 +45,37 @@ stipulation #2
 option vari try TrivialTriesAvoid
 condition Take&MakeChess
 
-end
+next
+
+author AyatsujiP 
+origin github Popeye issue #467
+title up to 4.89, Popeye would produce very strange output (as if the wK were an orphan)
+Stipulation ~1
+Pieces Black Og3 White of5 Sh1
+condition make&take
+option nowk nobk start 1
+
+next
+
+author Thomas Maeder
+origin github Popeye issue #468
+title crash until 4.89
+Stipulation ~1
+Condition Make&TakeChess
+Pieces
+Black Kc5 Oc2
+White Kf8 Ob2
+option movenum
+
+next
+
+author Thomas Maeder
+origin Popeye 4.91
+title clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it captures a black Orphan
+Stipulation ~1
+Pieces Black Og4 White sc8 ke7
+condition make&take
+option nowk nobk
+
+End
 
