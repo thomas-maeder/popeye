@@ -1,0 +1,19 @@
+begin
+
+prot bicaptures.ref
+
+rem Any piece can capture the pieces of its own side (except the King) as well as those of the opposite side. 
+
+author Manfred Rittirsch
+origin Julia's Fairies 2023
+pieces  black  Ra1d4 Kf3 Pf4e4e6b6g7e7 Sh5 Qf8 Bd8
+white  Pc2c3g6d6a6 Kh4 Sc4 Rf7 Bb7 Qa8
+stipulation h#2
+condition bicaptures
+twin exchange a8 f8
+
+rem a) 1.Rxe4 axb7 2.Kxe4 Qxb7# 
+rem b) 1.Sxf4 gxf7 2.Kxf4 Qxf7# 
+
+end
+
