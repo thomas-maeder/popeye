@@ -1,0 +1,44 @@
+begin
+
+prot circe-power-transfer.ref
+
+author Cornel Pacurar
+origin Julia's Fairies 2019
+pieces White Ka8 Sg3 Pb1
+Black Qg6 Pd4 Pb3 Pc3 Pe3 Pf2 Kg1
+stipulation phser-=11
+condition circe powertransfer
+twin move c3 c4
+
+remark a) 1.Sh2+ Kg2 2.Sf3 3.Sf4+ Kf3 4.Sh3 5.Sh4+ Qg1 6.Sxf2+ Qxb1 7.Se4+ Ke2 8.Sxd4+ Kd1 9.Sxb3+ Kc1 10.Sxc3 11.Se2= 
+remark b) 1.Sxf2+ Kg2 2.Sh3 3.Sh4+ Kh3 4.Sf3 5.Sf4+ Qg1 6.Sxe3+ Kg2 7.Sxd4 8.Sb2+ Kf1 9.c3 10.Sxb3 11.Sd2= 
+
+next
+
+author Cornel Pacurar
+origin Julia's Fairies 2019
+pieces White Qe8 Ka4 Black Kc7 Pd4
+stipulation ahser-s#7
+condition Circe PowerTransfer RexInclusive
+twin move c7 b7
+
+remark a) 1.Ka5+! Kc2 2.Ka4+! Kf2 3.Qd7+! b4 4.Qb7+! e1=B  5.Kc6 6.Kh1 7.Qf3+ Kg1# 
+remark b) 1.Kb3+! Ka6 2.Ka2+! Kd3 3.Kb1+! Ka3 4.Qd7 5.Ka1+! c3 6.Qc7+! e1=S 7.Qa5+ Kb2# 
+remark  Anti-parry series-mover 
+remark In Anti-parry series (ahser-), the idle side responds to auto-checks, being forced to un-check! (the opposite of Parry-series; see also the full definition by Nicolas Dupont at http://originals.chessproblems.ca/pdf/APS4.pdf)
+
+next
+
+author Cornel Pacurar & Adrian Storisteanu
+origin Julia's Fairies 2020
+pieces white ka4 rf7 bh3 sg3 ph6 pf2 pe2
+       black kb8 sc2 sd2 pg2 ph4
+stipulation hs#3.5
+condition Circe PowerTransfer
+twin move b8 g8
+
+remark a)  1...Sd2-d3 2.Bc8 Ka8 3.Sg3-f1 Sb4! 4.Ra7+ Kb8# (3...Sd3-b4? 4.Ra7+ Sc2-a1!) 
+remark b)  1...Sc2-c1 2.Sh1 Kh7 3.Ka3 Sd2-b3! 4.Bf5+ Kg8# (3...Sc1-b3? 4.Bf5+ Sd2-f1!)
+
+end
+
