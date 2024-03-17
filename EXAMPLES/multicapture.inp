@@ -1,0 +1,14 @@
+begin
+
+prot multicapture.ref
+
+author Kostas Prentos
+origin Julia's Fairies 2018
+pieces  white  Bf1c1 Ke1 Qd1 Ph2g2f2e2d2c2b2a2 Sg1b1 Rh1a1
+                 black  Bf8c8 Ke8 Qd8 Ph7g7f7e7d7c7b7a7 Sg8b8 Rh8a8
+stipulation dia18
+remark 1.c4 h5 2.c5 h4 3.c6 dxc6 4.g4 hxg4→g3 e.p. 5.h4 Bf5 6.Bh3 Bh7 7.Bd7 f5 8.Sh3 f4 9.e4 fxe4→e3 e.p. 10.0-0 gxf2 11.Re1 f1=S 12.Qf3 exd2 13.Re6 d1=S 14.Bh6 g5 15.Sd2 Bg7 16.Sxf1 Bxb2 17.Rxd1 Sf6 18.Rdd6 0-0 dia
+remark Multicapture: A piece can be captured only if it is directly attacked in at least 2 ways.
+
+end
+
