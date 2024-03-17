@@ -1,0 +1,29 @@
+begin
+
+prot circe-couscous-promotion-before-rebirth.ref
+
+author Joost de Heer
+origin Julia's Fairies 2021
+pieces  neutral  pc7b8 black  Kb3 white  Kd5
+stip ++1
+condition circe couscous beforerebirth
+
+rem 1.cxb8=nR (+nPa1=nS)+!
+rem 1.cxb8=nQ (+nPd1=nB)+!
+
+next
+
+author Joost de Heer
+origin Julia's Fairies 2022
+pieces neutral Pb8c7 black  Kb3 white  Kh1
+stipulation h++1
+condition circe couscous beforerebirth
+option set
+
+remark   1...cxb8=nQ (+nBd1) ++ 
+remark 1...cxb8=nR (+nSa1) ++ 
+remark 1.Kb2 cxb8=nQ (+nSd1) ++ 
+remark 1.Kb2 cxb8=nR (+nBa1) ++ 
+
+end
+
