@@ -343,6 +343,11 @@ char *ParsePieceFlags(Flags *flags)
 char *ParsePieces(char *tok)
 {
   int nr_groups = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
   while (true)
   {
     Flags PieSpFlags = ParseColour(tok,nr_groups==0);
@@ -380,5 +385,8 @@ char *ParsePieces(char *tok)
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }

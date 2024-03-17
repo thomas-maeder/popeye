@@ -808,7 +808,7 @@ static char *ReadLaTeXToken(slice_index start)
 static void ReadInitialTwin(slice_index start)
 {
   char *tok;
-  InitialTwinToken result;
+  InitialTwinToken token;
   boolean more_input = true;
 
   TraceFunctionEntry(__func__);
@@ -819,13 +819,15 @@ static void ReadInitialTwin(slice_index start)
 
   while (more_input)
   {
-    result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
-    if (result>InitialTwinTokenCount)
+    token = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
+    TraceValue("%u",token);TraceEOL();
+
+    if (token>InitialTwinTokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq);
       tok = ReadNextTokStr();
     }
-    else if (result==InitialTwinTokenCount)
+    else if (token==InitialTwinTokenCount)
     {
       if (GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok)==ProblemTokenCount
           && GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok)==EndTwinTokenCount)
@@ -837,7 +839,7 @@ static void ReadInitialTwin(slice_index start)
         break;
     }
     else
-      switch (result)
+      switch (token)
       {
         case StipToken:
         {

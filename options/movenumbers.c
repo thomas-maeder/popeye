@@ -52,7 +52,7 @@ void move_numbers_write_history(void)
     write_history_recursive(recursion_level);
     puts(" to replay");
   }
-  else if (nbply!=ply_retro_move)
+  else if (nbply>ply_retro_move)
   {
     ply ply = parent_ply[nbply];
 
