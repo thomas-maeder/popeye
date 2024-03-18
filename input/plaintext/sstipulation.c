@@ -1222,7 +1222,6 @@ static Side ParseStructuredStip_starter(char *tok)
  */
 char *ParseStructuredStip(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = alloc_proxy_slice();
   Side starter;
 
   TraceFunctionEntry(__func__);
@@ -1233,10 +1232,10 @@ char *ParseStructuredStip(char *tok, slice_index start)
   stipulation_reset();
 
   starter = ParseStructuredStip_starter(tok);
-  if (starter==no_side)
-    dealloc_slice(root_slice_hook);
-  else
+  if (starter!=no_side)
   {
+    slice_index const root_slice_hook = alloc_proxy_slice();
+
     {
       expression_type type;
       tok = ReadNextTokStr();
