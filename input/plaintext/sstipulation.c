@@ -1235,18 +1235,16 @@ char *ParseStructuredStip(char *tok, slice_index start)
   if (starter!=no_side)
   {
     slice_index const root_slice_hook = alloc_proxy_slice();
+    expression_type type;
 
-    {
-      expression_type type;
+    tok = ReadNextTokStr();
+    tok = ParseStructuredStip_expression(tok,start,root_slice_hook,&type,0);
+    if (tok==0)
       tok = ReadNextTokStr();
-      tok = ParseStructuredStip_expression(tok,start,root_slice_hook,&type,0);
-      if (tok==0)
-        tok = ReadNextTokStr();
-      else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
-      {
-        solving_impose_starter(root_slice_hook,starter);
-        move_effect_journal_do_insert_sstipulation(start,root_slice_hook);
-      }
+    else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
+    {
+      solving_impose_starter(root_slice_hook,starter);
+      move_effect_journal_do_insert_sstipulation(start,root_slice_hook);
     }
 
     /* signal to our caller that the stipulation has changed */
