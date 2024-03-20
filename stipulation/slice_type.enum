@@ -538,8 +538,10 @@
     ENUMERATOR(STCASTRemoveIllegalCaptures),                            \
     ENUMERATOR(STCASTInverseSingleCapturesRemover),                     \
     ENUMERATOR(STCASTInverseRemoveIllegalCaptures),                     \
-    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),                   \
-    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest),                  \
+    ENUMERATOR(STBicapturesRecolorPieces),                              \
+    ENUMERATOR(STBicapturesUnrecolorPieces),                            \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),   \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest), \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
     ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
     ENUMERATOR(STMakeTakeMoveCastlingPartner),                          \

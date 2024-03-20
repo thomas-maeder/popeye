@@ -1,0 +1,90 @@
+Any piece can capture the pieces of its own side (except the King) as well as those of the opposite side. 
+
+           Györgyi Bakcsi
+ Magyar Sakkélet 1971 TT, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   R   .   .   .   .   .   .   8
+|                                   |
+7   P   .  -P   .  -P   .   .   .   7
+|                                   |
+6   .   .   P  -K   P   .   .   .   6
+|                                   |
+5   S   .  -P   .  -P   P   P   .   5
+|                                   |
+4   .   .   B   .   P   .  -P   .   4
+|                                   |
+3   .   .   .   .   P   .   Q   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 6
+             Bicaptures
+
+   1.Se2*g3 ! zugzwang.
+      1...Kd6*c5
+          2.Sg3*e4 #
+      1...Kd6*e5
+          2.Sa5*c4 #
+      1...Kd6*e7
+          2.Sg3*f5 #
+      1...Kd6*c7
+          2.a7*b8=Q #
+
+  add_to_move_generation_stack:        2915
+                     play_move:         999
+ is_white_king_square_attacked:         306
+ is_black_king_square_attacked:         996
+
+solution finished.
+
+
+
+          Manfred Rittirsch
+        Julia's Fairies 2023
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   Q   .   .  -B   .  -Q   .   .   8
+|                                   |
+7   .   B   .   .  -P   R  -P   .   7
+|                                   |
+6   P  -P   .   P  -P   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   S  -R  -P  -P   .   K   4
+|                                   |
+3   .   .   P   .   .  -K   .   .   3
+|                                   |
+2   .   .   P   .   .   .   .   .   2
+|                                   |
+1  -R   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                       10 + 12
+             Bicaptures
+
+a) 
+
+  1.Rd4*e4 a6*b7   2.Kf3*e4 Qa8*b7 #
+  add_to_move_generation_stack:      664938
+                     play_move:      222303
+ is_white_king_square_attacked:       79495
+ is_black_king_square_attacked:      219767
+
+b) wQa8<-->bQf8  
+
+  1.Sh5*f4 g6*f7   2.Kf3*f4 Qf8*f7 #
+  add_to_move_generation_stack:      698203
+                     play_move:      221146
+ is_white_king_square_attacked:       79984
+ is_black_king_square_attacked:      218534
+
+solution finished.
+
+

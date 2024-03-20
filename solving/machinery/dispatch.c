@@ -6,6 +6,7 @@
 #include "conditions/anticirce/clone.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
+#include "conditions/bicaptures.h"
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
@@ -767,6 +768,14 @@ void dispatch(slice_index si)
 
     case STCASTInverseSingleCapturesRemover:
       cast_inverse_single_captures_remover_solve(si);
+      break;
+
+    case STBicapturesRecolorPieces:
+      bicaptures_recolor_pieces(si);
+      break;
+
+    case STBicapturesUnrecolorPieces:
+      bicaptures_unrecolor_pieces(si);
       break;
 
     case STBoleroGenerateMovesWalkByWalk:

@@ -13,6 +13,7 @@
 #include "solving/observation.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
+#include "conditions/bicaptures.h"
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
@@ -704,6 +705,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[lostpieces])
     solving_insert_lostpieces(si);
+
+  if (CondFlag[bicaptures])
+    solving_insert_bicaptures(si);
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
