@@ -41,5 +41,25 @@ stipulation hs#3
 condition bicaptures
 twin move b6 f2
 
+next
+
+author Axel Gilbert
+origin Gennevilliers 2023, 1st commendation
+pieces white kg7 re6 ba6h4 pe7f7
+       black kd7 be8 pc7
+stipulation #2
+condition bicaptures
+option vari
+
+next
+
+author Sebastien Luce
+origin Gennevilliers 2023, 2nd commendation
+pieces white kb4 se2 pd6
+       black ke5 se6 pd7
+stipulation h#3.5
+condition bicaptures
+twin move e2 f2
+
 end
 

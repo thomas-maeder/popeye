@@ -169,3 +169,90 @@ b) wSb6-->f2
 solution finished.
 
 
+
+            Axel Gilbert
+Gennevilliers 2023, 1st commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   .   .   .   8
+|                                   |
+7   .   .  -P  -K   P   P   K   .   7
+|                                   |
+6   B   .   .   .   R   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 3
+             Bicaptures
+
+   1.f7-f8=S + !
+      1...Kd7*e8
+          2.e7*f8=S #
+      1...Kd7*c7
+          2.Bh4-g3 #
+
+  add_to_move_generation_stack:        2925
+                     play_move:        1279
+ is_white_king_square_attacked:         313
+ is_black_king_square_attacked:        1275
+
+solution finished.
+
+
+
+           Sebastien Luce
+Gennevilliers 2023, 2nd commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   P  -S   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                       3 + 3
+             Bicaptures
+
+a) 
+
+  1...Se2-g3   2.Se6-c7 d6*c7   3.Ke5-d4 c7-c8=Q   4.Kd4-d3 Qc8-c3 #
+  1...Kb4-a4   2.d7*e6 d6-d7   3.Ke5-d5 d7-d8=Q +   4.Kd5-c4 Qd8-d4 #
+  add_to_move_generation_stack:     1614511
+                     play_move:      934764
+ is_white_king_square_attacked:      231257
+ is_black_king_square_attacked:      802306
+
+b) wSe2-->f2  
+
+  1...Kb4-a3   2.d7*e6 d6-d7   3.Ke5-d4 d7-d8=Q +   4.Kd4-c3 Qd8-d3 #
+  1...Kb4-b5   2.Se6-c7 + d6*c7   3.Ke5-d5 c7-c8=Q   4.Kd5-d4 Qc8-c5 #
+  add_to_move_generation_stack:     1485772
+                     play_move:      848447
+ is_white_king_square_attacked:      212637
+ is_black_king_square_attacked:      729545
+
+solution finished.
+
+
