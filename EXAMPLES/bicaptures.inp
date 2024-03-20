@@ -14,6 +14,15 @@ option vari
 
 next
 
+author Andrey Frolkin & Leonid Lubashevsky
+origin The Problemist 1988
+pieces white kc8 re8 bg2 pd5d7f6
+       black kd6 qg1 rc1c3 bh3 sc5f5 pd3f2f7
+stipulation h#2
+condition bicaptures
+
+next
+
 author Manfred Rittirsch
 origin Julia's Fairies 2023
 pieces  black  Ra1d4 Kf3 Pf4e4e6b6g7e7 Sh5 Qf8 Bd8
@@ -21,6 +30,16 @@ white  Pc2c3g6d6a6 Kh4 Sc4 Rf7 Bb7 Qa8
 stipulation h#2
 condition bicaptures
 twin exchange a8 f8
+
+next
+
+author Mario Parrinello
+origin Gennevilliers 2023, Prize
+pieces white kd1 qc7 bh6 sb6g7 pc4h3h5
+       black kf6 qf5 rg5 be6 pb3c5h4
+stipulation hs#3
+condition bicaptures
+twin move b6 f2
 
 end
 

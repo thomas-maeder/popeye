@@ -1,6 +1,7 @@
 #include "conditions/bicaptures.h"
 #include "solving/pipe.h"
 #include "solving/king_capture_avoider.h"
+#include "position/position.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
