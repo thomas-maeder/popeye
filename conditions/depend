@@ -10119,7 +10119,7 @@ conditions/bicaptures$(OBJ_SUFFIX): conditions/bicaptures.c conditions/bicapture
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  stipulation/pipe.h stipulation/slice_insertion.h
+  stipulation/pipe.h stipulation/slice_insertion.h debugging/assert.h
 
 conditions/bicaptures.h:
 
@@ -10204,3 +10204,5 @@ stipulation/traversal.h:
 stipulation/pipe.h:
 
 stipulation/slice_insertion.h:
+
+debugging/assert.h:

@@ -5,6 +5,10 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
+#include "debugging/assert.h"
+
+static square recolored[nr_squares_on_board];
+static unsigned int nr_recolored;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -23,16 +27,27 @@ void bicaptures_recolor_pieces(slice_index si)
 {
   square const *bnp;
   Side const side_moving = SLICE_STARTER(si);
+  Side const side_other = advers(side_moving);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nr_recolored==0);
+
   for (bnp = boardnum; *bnp; ++bnp)
-    if (TSTFLAG(being_solved.spec[*bnp],side_moving))
-      SETFLAG(being_solved.spec[*bnp],advers(side_moving));
+    if (TSTFLAG(being_solved.spec[*bnp],side_moving)
+        && !TSTFLAG(being_solved.spec[*bnp],side_other))
+    {
+      SETFLAG(being_solved.spec[*bnp],side_other);
+      assert(nr_recolored<nr_squares_on_board);
+      recolored[nr_recolored] = *bnp;
+      ++nr_recolored;
+    }
 
   pipe_solve_delegate(si);
+
+  assert(nr_recolored==0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -53,22 +68,25 @@ void bicaptures_recolor_pieces(slice_index si)
  */
 void bicaptures_unrecolor_pieces(slice_index si)
 {
-  square const *bnp;
   Side const side_moving = SLICE_STARTER(si);
+  Side const side_other = advers(side_moving);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (bnp = boardnum; *bnp; ++bnp)
-    if (TSTFLAG(being_solved.spec[*bnp],side_moving))
-      CLRFLAG(being_solved.spec[*bnp],advers(side_moving));
+  while (nr_recolored>0)
+  {
+    --nr_recolored;
+    CLRFLAG(being_solved.spec[recolored[nr_recolored]],side_other);
+  }
 
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
 static void insert_move_generator(slice_index si, stip_structure_traversal *st)
 {
   boolean *is_insertion_skipped = st->param;
