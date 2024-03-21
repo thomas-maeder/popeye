@@ -130,7 +130,7 @@ static void initialise_solving(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,generator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,generator);
 
   {
     stip_structure_traversal st;

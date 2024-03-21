@@ -238,7 +238,7 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
 
   transmuting_kings_initialise_observing(si,side);
 

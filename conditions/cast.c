@@ -3,7 +3,6 @@
 #include "solving/pipe.h"
 #include "solving/observation.h"
 #include "solving/king_capture_avoider.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 
@@ -146,7 +145,8 @@ void cast_multi_captures_remover_solve(slice_index si)
 }
 
 static void cast_instrument_move_generator(slice_index si,
-                                           stip_structure_traversal *st)
+                                           stip_structure_traversal *st,
+                                           void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -157,8 +157,6 @@ static void cast_instrument_move_generator(slice_index si,
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -168,18 +166,11 @@ static void cast_instrument_move_generator(slice_index si,
  */
 void cast_initialise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STGeneratingMoves,
-                                           &cast_instrument_move_generator);
-  stip_traverse_structure(si,&st);
-
+  solving_instrument_move_generation(si,&cast_instrument_move_generator,0);
   stip_instrument_check_validation(si,nr_sides,STCASTRemoveIllegalCaptures);
 
   TraceFunctionExit(__func__);
@@ -316,7 +307,8 @@ void cast_inverse_single_captures_remover_solve(slice_index si)
 }
 
 static void cast_inverse_instrument_move_generator(slice_index si,
-                                                   stip_structure_traversal *st)
+                                                   stip_structure_traversal *st,
+                                                   void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -327,8 +319,6 @@ static void cast_inverse_instrument_move_generator(slice_index si,
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -338,18 +328,11 @@ static void cast_inverse_instrument_move_generator(slice_index si,
  */
 void cast_inverse_initialise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STGeneratingMoves,
-                                           &cast_inverse_instrument_move_generator);
-  stip_traverse_structure(si,&st);
-
+  solving_instrument_move_generation(si,&cast_inverse_instrument_move_generator,0);
   stip_instrument_check_validation(si,nr_sides,STCASTInverseRemoveIllegalCaptures);
 
   solving_insert_king_capture_avoiders(si);
