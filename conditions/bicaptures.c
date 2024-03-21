@@ -1,8 +1,8 @@
 #include "conditions/bicaptures.h"
 #include "solving/pipe.h"
 #include "solving/king_capture_avoider.h"
+#include "solving/move_generator.h"
 #include "position/position.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "debugging/assert.h"
@@ -89,17 +89,10 @@ void bicaptures_unrecolor_pieces(slice_index si)
 
 static void insert_move_recolorers(slice_index si, stip_structure_traversal *st)
 {
-  boolean *is_insertion_skipped = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (*is_insertion_skipped)
-    *is_insertion_skipped = false;
-  else
   {
     slice_index const prototypes[] = {
         alloc_pipe(STBicapturesRecolorPieces),
@@ -112,52 +105,6 @@ static void insert_move_recolorers(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void skip_insertion(slice_index si, stip_structure_traversal *st)
-{
-  boolean *is_insertion_skipped = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *is_insertion_skipped = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitor const solver_inserters[] =
-{
-  { STGeneratingMoves,    &insert_move_recolorers },
-  { STSkipMoveGeneration, &skip_insertion         }
-};
-
-enum
-{
-  nr_solver_inserters = sizeof solver_inserters / sizeof solver_inserters[0]
-};
-
-static void insert_recolorers(slice_index si)
-{
-  stip_structure_traversal st;
-  boolean is_insertion_skipped = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&is_insertion_skipped);
-  stip_structure_traversal_override(&st,solver_inserters,nr_solver_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceStipulation(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument slices with bicaptures
  */
 void solving_insert_bicaptures(slice_index si)
@@ -165,9 +112,7 @@ void solving_insert_bicaptures(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_recolorers(si);
-
-  solving_insert_king_capture_avoiders(si);
+  solving_instrument_move_generation(si,&insert_move_recolorers);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
