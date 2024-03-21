@@ -87,7 +87,7 @@ void bicaptures_unrecolor_pieces(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_move_generator(slice_index si, stip_structure_traversal *st)
+static void insert_move_recolorers(slice_index si, stip_structure_traversal *st)
 {
   boolean *is_insertion_skipped = st->param;
 
@@ -112,7 +112,6 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-// TODO us a parametrized version of solving_insert_move_generators()?
 static void skip_insertion(slice_index si, stip_structure_traversal *st)
 {
   boolean *is_insertion_skipped = st->param;
@@ -131,8 +130,8 @@ static void skip_insertion(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STGeneratingMoves,    &insert_move_generator },
-  { STSkipMoveGeneration, &skip_insertion        }
+  { STGeneratingMoves,    &insert_move_recolorers },
+  { STSkipMoveGeneration, &skip_insertion         }
 };
 
 enum
