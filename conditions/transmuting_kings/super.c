@@ -182,15 +182,15 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_filter(slice_index si, stip_structure_traversal *st)
+static void insert_filter(slice_index si,
+                          stip_structure_traversal *st,
+                          void *param)
 {
-  Side const * const side = st->param;
+  Side const * const side = param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
 
   if (SLICE_STARTER(si)==*side)
   {
@@ -218,10 +218,10 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&side);
-  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_filter);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
+  solving_instrument_move_generation(si,&insert_filter,&side);
   solving_instrument_moves_for_piece_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
 
   transmuting_kings_initialise_observing(si,side);

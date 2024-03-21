@@ -87,7 +87,9 @@ void bicaptures_unrecolor_pieces(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_move_recolorers(slice_index si, stip_structure_traversal *st)
+static void insert_move_recolorers(slice_index si,
+                                   stip_structure_traversal *st,
+                                   void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -112,7 +114,7 @@ void solving_insert_bicaptures(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,&insert_move_recolorers);
+  solving_instrument_move_generation(si,&insert_move_recolorers,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -449,9 +449,12 @@ typedef struct
 {
   boolean is_insertion_skipped;
   move_generation_instrumentation_callback *callback;
+  void *param;
 } move_generator_insertion_status;
 
-static void insert_move_generator(slice_index si, stip_structure_traversal *st)
+static void insert_move_generator(slice_index si,
+                                  stip_structure_traversal *st,
+                                  void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -479,7 +482,7 @@ static void instrument_generating_moves(slice_index si, stip_structure_traversal
   if (status->is_insertion_skipped)
     status->is_insertion_skipped = false;
   else
-    (*status->callback)(si,st);
+    (*status->callback)(si,st,status->param);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -519,10 +522,11 @@ enum
  *                 deactivated by a STSkipMoveGeneration slice
  */
 void solving_instrument_move_generation(slice_index si,
-                                        move_generation_instrumentation_callback *callback)
+                                        move_generation_instrumentation_callback *callback,
+                                        void *param)
 {
   stip_structure_traversal st;
-  move_generator_insertion_status status = { false, callback };
+  move_generator_insertion_status status = { false, callback, param };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -545,7 +549,7 @@ void solving_insert_move_generators(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,&insert_move_generator);
+  solving_instrument_move_generation(si,&insert_move_generator,0);
 
   TraceStipulation(si);
 
