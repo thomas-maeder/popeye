@@ -131,10 +131,10 @@
     but
       1...Ka8-b7 !
 
-  add_to_move_generation_stack:       34318
-                     play_move:        3756
+  add_to_move_generation_stack:       34304
+                     play_move:        3754
  is_white_king_square_attacked:         222
- is_black_king_square_attacked:        3679
+ is_black_king_square_attacked:        3677
 
 solution finished.
 
@@ -167,10 +167,10 @@ solution finished.
 
   1.LIa7-a2 Kc7-b6   2.LIa2-f2 Be3-d2 #
   1.LIa7-d7 Kc7-d8   2.LId7-d2 + Be3-f2 #
-  add_to_move_generation_stack:       87282
-                     play_move:       38823
+  add_to_move_generation_stack:       81956
+                     play_move:       38310
  is_white_king_square_attacked:        2069
- is_black_king_square_attacked:       38530
+ is_black_king_square_attacked:       38017
 
 solution finished.
 
@@ -238,10 +238,10 @@ solution finished.
     but
       1...e5*f4 !
 
-  add_to_move_generation_stack:       21720
-                     play_move:        2620
+  add_to_move_generation_stack:       21695
+                     play_move:        2616
  is_white_king_square_attacked:         113
- is_black_king_square_attacked:        2610
+ is_black_king_square_attacked:        2606
 
 solution finished.
 
@@ -283,10 +283,10 @@ solution finished.
           2.Qe8-c8 +
               2...Sg1-h3 #
 
-  add_to_move_generation_stack:      118052
-                     play_move:       13827
- is_white_king_square_attacked:       13830
- is_black_king_square_attacked:        2878
+  add_to_move_generation_stack:      116829
+                     play_move:       13711
+ is_white_king_square_attacked:       13714
+ is_black_king_square_attacked:        2884
 
 solution finished.
 
@@ -318,10 +318,10 @@ solution finished.
               CASTChess
 
   1.nPf2-f1=nS   2.nSf1-g3   3.h4*g3   4.g3-g2   5.g2-g1=B nPh7-h8=nB #
-  add_to_move_generation_stack:     1792276
-                     play_move:      344905
+  add_to_move_generation_stack:     1786997
+                     play_move:      344010
  is_white_king_square_attacked:       34850
- is_black_king_square_attacked:      344583
+ is_black_king_square_attacked:      343688
 
 solution finished.
 
@@ -383,10 +383,10 @@ solution finished.
     but
       1...h6-h5 !
 
-  add_to_move_generation_stack:       33331
-                     play_move:        7205
+  add_to_move_generation_stack:       33325
+                     play_move:        7221
  is_white_king_square_attacked:         413
- is_black_king_square_attacked:        7140
+ is_black_king_square_attacked:        7156
 
 solution finished.
 
@@ -434,10 +434,10 @@ solution finished.
     but
       1...Ke2-f2 !
 
-  add_to_move_generation_stack:        6875
-                     play_move:        1030
- is_white_king_square_attacked:         117
- is_black_king_square_attacked:        1020
+  add_to_move_generation_stack:        6867
+                     play_move:        1028
+ is_white_king_square_attacked:         116
+ is_black_king_square_attacked:        1018
 
 solution finished.
 
@@ -470,10 +470,10 @@ solution finished.
 
   1.c2-c1=R   2.Rc1-g1   3.Rg1-g2   4.Rg2*f2   5.Rf2-a2   6.Ra2-a7 Qh2-a2 #
   1.c2-c1=B   2.Bc1-f4   3.Bf4-g3   4.Bg3*f2   5.Bf2-d4   6.Bd4-h8 Qh2-b2 #
-  add_to_move_generation_stack:      539498
-                     play_move:      147136
+  add_to_move_generation_stack:      538448
+                     play_move:      147096
  is_white_king_square_attacked:       26735
- is_black_king_square_attacked:      147136
+ is_black_king_square_attacked:      147096
 
 solution finished.
 
@@ -506,10 +506,10 @@ solution finished.
 
   1...Kb6-a5   2.f2-f3 Qg2-f2 +   3.Kh4-h3 g7-g5   4.Qb1-b5 + g5-g4 #
   1...Kb6-a6   2.f4-f5 g7-g6   3.f2-f4 Qg2-f3   4.Qb1-b6 + g6-g5 #
-  add_to_move_generation_stack:   140623299
-                     play_move:    11707738
- is_white_king_square_attacked:    10894233
- is_black_king_square_attacked:     6428342
+  add_to_move_generation_stack:   140047269
+                     play_move:    11672456
+ is_white_king_square_attacked:    10858951
+ is_black_king_square_attacked:     6420512
 
 solution finished.
 
@@ -542,10 +542,10 @@ solution finished.
           CASTChess Inverse
 
   1.Bg7-b2 Sc5-b3   2.Qd8-f6 Sb3-a1   3.a4-a5 Be4-c2   4.Qf6-a6 + Sa1-b3 #
-  add_to_move_generation_stack:  4385082558
-                     play_move:   413493807
- is_white_king_square_attacked:   397530742
- is_black_king_square_attacked:   237912233
+  add_to_move_generation_stack:  4380251139
+                     play_move:   413284807
+ is_white_king_square_attacked:   397321742
+ is_black_king_square_attacked:   237625005
 
 solution finished.
 
@@ -577,10 +577,10 @@ solution finished.
           CASTChess Inverse
 
   1.c4-c3   2.c5-c4   3.Ke3-d4   4.nPe4-e3   5.nPe3-e2   6.nPe2-e1=nB   7.nBe1-g3   8.nBg3-d6   9.g4-g3 Kg1-f2 =
-  add_to_move_generation_stack:    24475668
-                     play_move:     4250953
+  add_to_move_generation_stack:    24102933
+                     play_move:     4241813
  is_white_king_square_attacked:     2075677
- is_black_king_square_attacked:     4016600
+ is_black_king_square_attacked:     4007460
 
 solution finished.
 

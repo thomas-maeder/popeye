@@ -80,6 +80,11 @@ boolean cast_validate_observation(slice_index si)
   return result;
 }
 
+static boolean is_false(numecoup n)
+{
+  return false;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -103,24 +108,8 @@ void cast_generate_moves_for_piece(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (!deactivated)
-  {
-    numecoup top = MOVEBASE_OF_PLY(nbply+1);
-    numecoup curr;
-
-    if (cast_count_captures(base)>1)
-    {
-      for (curr = base+1; curr<=top; ++curr)
-        if (is_on_board(move_generation_stack[curr].capture))
-        {
-          move_generation_stack[curr] = move_generation_stack[top];
-          --top;
-          --curr;
-        }
-
-      MOVEBASE_OF_PLY(nbply+1) = top;
-    }
-  }
+  if (!deactivated && cast_count_captures(base)>1)
+    move_generator_filter_captures(base,&is_false);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -229,24 +218,8 @@ void cast_inverse_generate_moves_for_piece(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (!deactivated)
-  {
-    numecoup top = MOVEBASE_OF_PLY(nbply+1);
-    numecoup curr;
-
-    if (cast_inverse_count_captures(base)==1)
-    {
-      for (curr = base+1; curr<=top; ++curr)
-        if (is_on_board(move_generation_stack[curr].capture))
-        {
-          move_generation_stack[curr] = move_generation_stack[top];
-          --top;
-          --curr;
-        }
-
-      MOVEBASE_OF_PLY(nbply+1) = top;
-    }
-  }
+  if (!deactivated && cast_inverse_count_captures(base)==1)
+    move_generator_filter_captures(base,&is_false);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
