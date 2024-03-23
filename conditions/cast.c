@@ -101,8 +101,6 @@ void cast_generate_moves_for_piece(slice_index si)
     numecoup curr;
     unsigned int nr_captures = 0;
 
-    TraceText("hallo\n");
-
     TraceValue("%u",save_top);
     TraceValue("%u",top);
     TraceEOL();
