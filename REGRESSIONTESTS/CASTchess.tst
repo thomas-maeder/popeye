@@ -26,14 +26,14 @@
 
    1.e6*f7 # !
 
-   1.Bg6-h7 # !
-
    1.Kf6-g5 # !
 
-  add_to_move_generation_stack:        1682
-                     play_move:         106
+   1.Bg6-h7 # !
+
+  add_to_move_generation_stack:        1550
+                     play_move:          96
  is_white_king_square_attacked:          10
- is_black_king_square_attacked:         107
+ is_black_king_square_attacked:          97
 
 solution finished.
 
@@ -64,16 +64,16 @@ solution finished.
   #1                         4 + 10
           CASTChess Inverse
 
-   1.Kd6-e6 # !
+   1.Rd3-d2 # !
 
    1.Kd6-c5 # !
 
-   1.Rd3-d2 # !
+   1.Kd6-e6 # !
 
-  add_to_move_generation_stack:        2786
-                     play_move:         182
+  add_to_move_generation_stack:        2719
+                     play_move:         178
  is_white_king_square_attacked:          20
- is_black_king_square_attacked:         183
+ is_black_king_square_attacked:         179
 
 solution finished.
 
