@@ -50,6 +50,8 @@ void move_generator_write_history(void)
 static slice_index const slice_rank_order[] =
 {
     STGeneratingMovesForPiece,
+    STCASTMovesForPieceGenerator,
+    STCASTInverseMovesForPieceGenerator,
     STSingleBoxType3TMovesForPieceGenerator,
     STMadrasiMovesForPieceGenerator,
     STPartialParalysisMovesForPieceGenerator,

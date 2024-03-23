@@ -762,12 +762,12 @@ void dispatch(slice_index si)
       make_and_take_move_castling_partner(si);
       break;
 
-    case STCASTMultiCapturesRemover:
-      cast_multi_captures_remover_solve(si);
+    case STCASTMovesForPieceGenerator:
+      cast_generate_moves_for_piece(si);
       break;
 
-    case STCASTInverseSingleCapturesRemover:
-      cast_inverse_single_captures_remover_solve(si);
+    case STCASTInverseMovesForPieceGenerator:
+      cast_inverse_generate_moves_for_piece(si);
       break;
 
     case STBicapturesRecolorPieces:
