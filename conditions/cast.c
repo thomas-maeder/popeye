@@ -16,6 +16,28 @@ cast_mode_type cast_mode;
 
 static boolean deactivated = false;
 
+static unsigned int cast_count_captures(numecoup base)
+{
+  numecoup const top = MOVEBASE_OF_PLY(nbply+1);
+  numecoup curr;
+  unsigned int result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = base+1; curr<=top && result<=1; ++curr)
+    if (is_on_board(move_generation_stack[curr].capture))
+    {
+      TraceSquare(move_generation_stack[curr].capture);
+      ++result;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation according to CAST
  * @return true iff the observation is valid
  */
@@ -24,7 +46,7 @@ boolean cast_validate_observation(slice_index si)
   boolean result;
   square const pos_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const side_observing = SLICE_STARTER(si);
-  unsigned nr_captures = 0;
+  unsigned int nr_captures;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -43,22 +65,9 @@ boolean cast_validate_observation(slice_index si)
   assert(deactivated);
   deactivated = false;
 
-  {
-    numecoup const base = MOVEBASE_OF_PLY(nbply);
-    numecoup const top = MOVEBASE_OF_PLY(nbply+1);
-    numecoup curr;
-    for (curr = base+1; curr<=top && nr_captures<=1; ++curr)
-      if (is_on_board(move_generation_stack[curr].capture))
-      {
-        TraceSquare(move_generation_stack[curr].capture);
-        ++nr_captures;
-      }
-  }
+  nr_captures = cast_count_captures(MOVEBASE_OF_PLY(nbply));
 
   finply();
-
-  TraceValue("%u",nr_captures);
-  TraceEOL();
 
   if (nr_captures>1)
     result = false;
@@ -86,7 +95,7 @@ boolean cast_validate_observation(slice_index si)
  */
 void cast_generate_moves_for_piece(slice_index si)
 {
-  numecoup const save_top = MOVEBASE_OF_PLY(nbply+1);
+  numecoup const base = MOVEBASE_OF_PLY(nbply+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -96,32 +105,12 @@ void cast_generate_moves_for_piece(slice_index si)
 
   if (!deactivated)
   {
-    numecoup const base = MOVEBASE_OF_PLY(nbply);
     numecoup top = MOVEBASE_OF_PLY(nbply+1);
     numecoup curr;
-    unsigned int nr_captures = 0;
 
-    TraceValue("%u",save_top);
-    TraceValue("%u",top);
-    TraceEOL();
-
-    for (curr = save_top+1; curr<=top; ++curr)
+    if (cast_count_captures(base)>1)
     {
-      TraceSquare(move_generation_stack[curr].departure);
-      TraceSquare(move_generation_stack[curr].arrival);
-      TraceSquare(move_generation_stack[curr].capture);
-      TraceEOL();
-      assert(curr_generation->departure==move_generation_stack[curr].departure);
-      if (is_on_board(move_generation_stack[curr].capture))
-        ++nr_captures;
-    }
-
-    TraceValue("%u",nr_captures);
-    TraceEOL();
-
-    if (nr_captures>1)
-    {
-      for (curr = save_top+1; curr<=top; ++curr)
+      for (curr = base+1; curr<=top; ++curr)
         if (is_on_board(move_generation_stack[curr].capture))
         {
           move_generation_stack[curr] = move_generation_stack[top];
@@ -130,14 +119,6 @@ void cast_generate_moves_for_piece(slice_index si)
         }
 
       MOVEBASE_OF_PLY(nbply+1) = top;
-    }
-
-    for (curr = save_top+1; curr<=top; ++curr)
-    {
-      TraceSquare(move_generation_stack[curr].departure);
-      TraceSquare(move_generation_stack[curr].arrival);
-      TraceSquare(move_generation_stack[curr].capture);
-      TraceEOL();
     }
   }
 
@@ -161,6 +142,28 @@ void cast_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static unsigned int cast_inverse_count_captures(numecoup base)
+{
+  numecoup const top = MOVEBASE_OF_PLY(nbply+1);
+  numecoup curr;
+  unsigned int result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = base+1; curr<=top && result<=2; ++curr)
+    if (is_on_board(move_generation_stack[curr].capture))
+    {
+      TraceSquare(move_generation_stack[curr].capture);
+      ++result;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation according to CASTInverse
  * @return true iff the observation is valid
  */
@@ -169,7 +172,7 @@ boolean cast_inverse_validate_observation(slice_index si)
   boolean result;
   square const pos_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const side_observing = SLICE_STARTER(si);
-  unsigned nr_captures = 0;
+  unsigned nr_captures;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -188,22 +191,9 @@ boolean cast_inverse_validate_observation(slice_index si)
   assert(deactivated);
   deactivated = false;
 
-  {
-    numecoup const base = MOVEBASE_OF_PLY(nbply);
-    numecoup const top = MOVEBASE_OF_PLY(nbply+1);
-    numecoup curr;
-    for (curr = base+1; curr<=top && nr_captures<=1; ++curr)
-      if (is_on_board(move_generation_stack[curr].capture))
-      {
-        TraceSquare(move_generation_stack[curr].capture);
-        ++nr_captures;
-      }
-  }
+  nr_captures = cast_inverse_count_captures(MOVEBASE_OF_PLY(nbply));
 
   finply();
-
-  TraceValue("%u",nr_captures);
-  TraceEOL();
 
   if (nr_captures>1)
     result = pipe_validate_observation_recursive_delegate(si);
@@ -231,7 +221,7 @@ boolean cast_inverse_validate_observation(slice_index si)
  */
 void cast_inverse_generate_moves_for_piece(slice_index si)
 {
-  numecoup const save_top = MOVEBASE_OF_PLY(nbply+1);
+  numecoup const base = MOVEBASE_OF_PLY(nbply+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -241,32 +231,12 @@ void cast_inverse_generate_moves_for_piece(slice_index si)
 
   if (!deactivated)
   {
-    numecoup const base = MOVEBASE_OF_PLY(nbply);
     numecoup top = MOVEBASE_OF_PLY(nbply+1);
     numecoup curr;
-    unsigned int nr_captures = 0;
 
-    TraceValue("%u",save_top);
-    TraceValue("%u",top);
-    TraceEOL();
-
-    for (curr = save_top+1; curr<=top; ++curr)
+    if (cast_inverse_count_captures(base)==1)
     {
-      TraceSquare(move_generation_stack[curr].departure);
-      TraceSquare(move_generation_stack[curr].arrival);
-      TraceSquare(move_generation_stack[curr].capture);
-      TraceEOL();
-      assert(curr_generation->departure==move_generation_stack[curr].departure);
-      if (is_on_board(move_generation_stack[curr].capture))
-        ++nr_captures;
-    }
-
-    TraceValue("%u",nr_captures);
-    TraceEOL();
-
-    if (nr_captures==1)
-    {
-      for (curr = save_top+1; curr<=top; ++curr)
+      for (curr = base+1; curr<=top; ++curr)
         if (is_on_board(move_generation_stack[curr].capture))
         {
           move_generation_stack[curr] = move_generation_stack[top];
@@ -275,14 +245,6 @@ void cast_inverse_generate_moves_for_piece(slice_index si)
         }
 
       MOVEBASE_OF_PLY(nbply+1) = top;
-    }
-
-    for (curr = save_top+1; curr<=top; ++curr)
-    {
-      TraceSquare(move_generation_stack[curr].departure);
-      TraceSquare(move_generation_stack[curr].arrival);
-      TraceSquare(move_generation_stack[curr].capture);
-      TraceEOL();
     }
   }
 
