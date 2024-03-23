@@ -1226,7 +1226,6 @@ char *ParseStructuredStip(char *tok, slice_index start)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
   stipulation_reset();
