@@ -1,0 +1,258 @@
+Any piece can capture the pieces of its own side (except the King) as well as those of the opposite side. 
+
+           Györgyi Bakcsi
+ Magyar Sakkélet 1971 TT, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   R   .   .   .   .   .   .   8
+|                                   |
+7   P   .  -P   .  -P   .   .   .   7
+|                                   |
+6   .   .   P  -K   P   .   .   .   6
+|                                   |
+5   S   .  -P   .  -P   P   P   .   5
+|                                   |
+4   .   .   B   .   P   .  -P   .   4
+|                                   |
+3   .   .   .   .   P   .   Q   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 6
+             Bicaptures
+
+   1.Se2*g3 ! zugzwang.
+      1...Kd6*c5
+          2.Sg3*e4 #
+      1...Kd6*e5
+          2.Sa5*c4 #
+      1...Kd6*e7
+          2.Sg3*f5 #
+      1...Kd6*c7
+          2.a7*b8=Q #
+
+  add_to_move_generation_stack:        2915
+                     play_move:         999
+ is_white_king_square_attacked:         306
+ is_black_king_square_attacked:         996
+
+solution finished.
+
+
+
+ Andrey Frolkin & Leonid Lubashevsky
+         The Problemist 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   R   .   .   .   8
+|                                   |
+7   .   .   .   P   .  -P   .   .   7
+|                                   |
+6   .   .   .  -K   .   P   .   .   6
+|                                   |
+5   .   .  -S   P   .  -S   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -R  -P   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .  -P   B   .   2
+|                                   |
+1   .   .  -R   .   .   .  -Q   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        6 + 10
+             Bicaptures
+
+  1.f2-f1=R d7*e8=Q   2.Rf1*f5 Qe8-e7 #
+  1.f2*g1=B d7-d8=S   2.Bg1*c5 Sd8-b7 #
+  add_to_move_generation_stack:      678567
+                     play_move:      434889
+ is_white_king_square_attacked:       99197
+ is_black_king_square_attacked:      345812
+
+solution finished.
+
+
+
+          Manfred Rittirsch
+        Julia's Fairies 2023
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   Q   .   .  -B   .  -Q   .   .   8
+|                                   |
+7   .   B   .   .  -P   R  -P   .   7
+|                                   |
+6   P  -P   .   P  -P   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   S  -R  -P  -P   .   K   4
+|                                   |
+3   .   .   P   .   .  -K   .   .   3
+|                                   |
+2   .   .   P   .   .   .   .   .   2
+|                                   |
+1  -R   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                       10 + 12
+             Bicaptures
+
+a) 
+
+  1.Rd4*e4 a6*b7   2.Kf3*e4 Qa8*b7 #
+  add_to_move_generation_stack:      664938
+                     play_move:      222303
+ is_white_king_square_attacked:       79495
+ is_black_king_square_attacked:      219767
+
+b) wQa8<-->bQf8  
+
+  1.Sh5*f4 g6*f7   2.Kf3*f4 Qf8*f7 #
+  add_to_move_generation_stack:      698203
+                     play_move:      221146
+ is_white_king_square_attacked:       79984
+ is_black_king_square_attacked:      218534
+
+solution finished.
+
+
+
+          Mario Parrinello
+      Gennevilliers 2023, Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   Q   .   .   .   S   .   7
+|                                   |
+6   .   S   .   .  -B  -K   .   B   6
+|                                   |
+5   .   .  -P   .   .  -Q  -R   P   5
+|                                   |
+4   .   .   P   .   .   .   .  -P   4
+|                                   |
+3   .  -P   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        8 + 7
+             Bicaptures
+
+a) 
+
+  1.Sb6*c4 Qf5*e6   2.Sc4-b6 Qe6-e3   3.Sb6-d5 + Rg5*d5 #
+  add_to_move_generation_stack:    51962999
+                     play_move:    24182387
+ is_white_king_square_attacked:    23620667
+ is_black_king_square_attacked:    16975716
+
+b) wSb6-->f2  
+
+  1.Sf2*h3 Qf5*g5   2.Sh3-f2 Qg5-e3   3.Sf2-g4 + Be6*g4 #
+  add_to_move_generation_stack:    48753779
+                     play_move:    22348935
+ is_white_king_square_attacked:    21753750
+ is_black_king_square_attacked:    15623237
+
+solution finished.
+
+
+
+            Axel Gilbert
+Gennevilliers 2023, 1st commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   .   .   .   8
+|                                   |
+7   .   .  -P  -K   P   P   K   .   7
+|                                   |
+6   B   .   .   .   R   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 3
+             Bicaptures
+
+   1.f7-f8=S + !
+      1...Kd7*e8
+          2.e7*f8=S #
+      1...Kd7*c7
+          2.Bh4-g3 #
+
+  add_to_move_generation_stack:        2925
+                     play_move:        1279
+ is_white_king_square_attacked:         313
+ is_black_king_square_attacked:        1275
+
+solution finished.
+
+
+
+           Sebastien Luce
+Gennevilliers 2023, 2nd commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   P  -S   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                       3 + 3
+             Bicaptures
+
+a) 
+
+  1...Se2-g3   2.Se6-c7 d6*c7   3.Ke5-d4 c7-c8=Q   4.Kd4-d3 Qc8-c3 #
+  1...Kb4-a4   2.d7*e6 d6-d7   3.Ke5-d5 d7-d8=Q +   4.Kd5-c4 Qd8-d4 #
+  add_to_move_generation_stack:     1614511
+                     play_move:      934764
+ is_white_king_square_attacked:      231257
+ is_black_king_square_attacked:      802306
+
+b) wSe2-->f2  
+
+  1...Kb4-a3   2.d7*e6 d6-d7   3.Ke5-d4 d7-d8=Q +   4.Kd4-c3 Qd8-d3 #
+  1...Kb4-b5   2.Se6-c7 + d6*c7   3.Ke5-d5 c7-c8=Q   4.Kd5-d4 Qc8-c5 #
+  add_to_move_generation_stack:     1485772
+                     play_move:      848447
+ is_white_king_square_attacked:      212637
+ is_black_king_square_attacked:      729545
+
+solution finished.
+
+
