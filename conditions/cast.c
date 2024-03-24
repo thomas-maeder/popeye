@@ -131,28 +131,6 @@ void cast_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static unsigned int cast_inverse_count_captures(numecoup base)
-{
-  numecoup const top = MOVEBASE_OF_PLY(nbply+1);
-  numecoup curr;
-  unsigned int result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (curr = base+1; curr<=top && result<=2; ++curr)
-    if (is_on_board(move_generation_stack[curr].capture))
-    {
-      TraceSquare(move_generation_stack[curr].capture);
-      ++result;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate an observation according to CASTInverse
  * @return true iff the observation is valid
  */
@@ -180,7 +158,7 @@ boolean cast_inverse_validate_observation(slice_index si)
   assert(deactivated);
   deactivated = false;
 
-  nr_captures = cast_inverse_count_captures(MOVEBASE_OF_PLY(nbply));
+  nr_captures = cast_count_captures(MOVEBASE_OF_PLY(nbply));
 
   finply();
 
@@ -218,7 +196,7 @@ void cast_inverse_generate_moves_for_piece(slice_index si)
 
   pipe_solve_delegate(si);
 
-  if (!deactivated && cast_inverse_count_captures(base)==1)
+  if (!deactivated && cast_count_captures(base)==1)
     move_generator_filter_captures(base,&is_false);
 
   TraceFunctionExit(__func__);
