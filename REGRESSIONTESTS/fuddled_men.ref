@@ -68,10 +68,10 @@ solution finished.
 
   1.Qf2-c5 Kd3-e3   2.Kf5-f4 + d2-d4 #
   1.Bb6-e3 Kd3-d4   2.Kf5-e5 + d2*e3 #
-  add_to_move_generation_stack:       15766
-                     play_move:       14861
- is_white_king_square_attacked:         779
- is_black_king_square_attacked:       14606
+  add_to_move_generation_stack:       23348
+                     play_move:       21193
+ is_white_king_square_attacked:        1135
+ is_black_king_square_attacked:       20938
 
 solution finished.
 
@@ -205,6 +205,42 @@ solution finished.
                      play_move:        4037
  is_white_king_square_attacked:        4051
  is_black_king_square_attacked:         874
+
+solution finished.
+
+
+
+          Maeshima Hiroachi
+ Murfatlar Batumi 2023, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .   .   .  -S  -R   8
+|                                   |
+7  -P  -P  -P   .   .  -P  -P  -P   7
+|                                   |
+6   .   .  -P  -K  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -Q   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   S   .   .   3
+|                                   |
+2   P   P   P   P   .   .   P   P   2
+|                                   |
+1   R   S   B   Q   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia7                      14 + 15
+             FuddledMen
+
+  1.e2-e4 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*f2 +   5.Ke1*f2 d7*c6   6.Rh1-f1 Qd8-d4 +   7.Kf2-g1 Ke7-d6 + dia
+  1.e2-e3 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*e3   5.f2*e3 d7*c6   6.0-0 Qd8-d4   7.e3-e4 Ke7-d6 + dia
+  add_to_move_generation_stack:     7664291
+                     play_move:     7664291
+ is_white_king_square_attacked:      437064
+ is_black_king_square_attacked:      169888
 
 solution finished.
 

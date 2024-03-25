@@ -7,7 +7,7 @@
 #include "solving/king_capture_avoider.h"
 #include "stipulation/move.h"
 
-static PieceIdType fuddled[nr_sides] = { NullPieceId, NullPieceId };
+PieceIdType fuddled[nr_sides] = { NullPieceId, NullPieceId };
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

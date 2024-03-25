@@ -34,8 +34,6 @@ pieces white kg1 qd1 ra1f1 bc1 sb1f3 pa2b2c2d2e4g2h2
        black kd6 qd4 ra8h8 bc8 sb8g8 pa7b7c7c6e6f7g7h7
 stip dia7
 condition FuddledMen
-option movenum start 13:10:9:23:10:20:28:3:5:9:8:22:13:7 upto 14
-rem start 13:10:9:23:10:20:28:3:5:9:8:22:13:7 upto 14
 
 end
 
