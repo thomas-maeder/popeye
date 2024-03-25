@@ -1,4 +1,5 @@
 #include "conditions/fuddled_men.h"
+#include "position/position.h"
 #include "solving/pipe.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"

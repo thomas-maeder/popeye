@@ -9,5 +9,33 @@ stipulation #2
 condition FuddledMen
 option vari
 
+next
+
+author Paul Bissicks & Ronald Turnbull
+origin feenschach 2013
+pieces white Kd3 Pd2f3 black Kf5 Qf2 Rf1 Bb6
+stipulation h#2
+condition FuddledMen
+
+next
+
+author Paul Bissicks
+origin feenschach 2013
+pieces white Kf3 Ra1 black Kh1 Bf1 Pg6
+stipulation s#2
+condition FuddledMen
+option set vari
+
+next
+
+author Maeshima Hiroachi
+origin Murfatlar Batumi 2023, Commendation
+pieces white kg1 qd1 ra1f1 bc1 sb1f3 pa2b2c2d2e4g2h2
+       black kd6 qd4 ra8h8 bc8 sb8g8 pa7b7c7c6e6f7g7h7
+stip dia7
+condition FuddledMen
+option movenum start 13:10:9:23:10:20:28:3:5:9:8:22:13:7 upto 14
+rem start 13:10:9:23:10:20:28:3:5:9:8:22:13:7 upto 14
+
 end
 
