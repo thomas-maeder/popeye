@@ -968,7 +968,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*221*/ "Leffie",
     /*222*/ "Pepo",
     /*223*/ "CASTEchecs",
-    /*224*/ "Bicaptures"
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1195,7 +1196,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*221*/ "Leffie",
     /*222*/ "Pepo",
     /*223*/ "CASTSchach",
-    /*224*/ "Bicaptures"
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1422,7 +1424,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*221*/ "Leffie",
     /*222*/ "Pepo",
     /*223*/ "CASTChess",
-    /*224*/ "Bicaptures"
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen"
   }
 };
 

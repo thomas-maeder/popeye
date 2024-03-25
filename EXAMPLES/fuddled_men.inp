@@ -1,0 +1,13 @@
+begin
+
+protocol fuddled_men.ref
+
+author John Beasley
+origin British Chess Magazine 1987
+pieces white Kh1 Qc7 Ph2 black Ka8 Ph3
+stipulation #2
+condition FuddledMen
+option vari
+
+end
+

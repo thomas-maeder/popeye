@@ -1,0 +1,42 @@
+
+            John Beasley
+     British Chess Magazine 1987
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   Q   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 2
+             FuddledMen
+
+   1.Qc7-b6 ! zugzwang.
+      1...Ka8-b7
+          2.Kh1-g1 #
+      1...Ka8-a7
+          2.Kh1-g1 #
+      1...Ka8-b8
+          2.Kh1-g1 #
+
+  add_to_move_generation_stack:         168
+                     play_move:         124
+ is_white_king_square_attacked:          45
+ is_black_king_square_attacked:         127
+
+solution finished.
+
+

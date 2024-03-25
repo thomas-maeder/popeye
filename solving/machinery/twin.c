@@ -835,6 +835,9 @@ void verify_position(slice_index si)
   if (CondFlag[immun] && immune_variant.is_rex_inclusive)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
+  if (CondFlag[fuddled_men])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[imitators])
   {
     if (flagveryfairy
@@ -1439,7 +1442,8 @@ void verify_position(slice_index si)
       || CondFlag[shieldedkings]
       || CondFlag[lesemajeste]
       || CondFlag[pepo]
-      || (CondFlag[cast] && cast_mode==cast_inverse))
+      || (CondFlag[cast] && cast_mode==cast_inverse)
+      || CondFlag[fuddled_men])
     king_capture_avoiders_avoid_opponent();
 
   if (CondFlag[bicaptures])

@@ -45,6 +45,7 @@
 #include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/influencer.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
@@ -762,6 +763,10 @@ void dispatch(slice_index si)
       make_and_take_move_castling_partner(si);
       break;
 
+    case STFuddledMenMovesForPieceGenerator:
+      fuddled_men_generate_moves_for_piece(si);
+      break;
+
     case STCASTMovesForPieceGenerator:
       cast_generate_moves_for_piece(si);
       break;
@@ -812,6 +817,10 @@ void dispatch(slice_index si)
 
     case STAMUAttackCounter:
       amu_attack_counter_solve(si);
+      break;
+
+    case STFuddledMenBookkeeper:
+      fuddled_men_bookkeeper_solve(si);
       break;
 
     case STMutualCastlingRightsAdjuster:

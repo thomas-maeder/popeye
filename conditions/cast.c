@@ -9,9 +9,6 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 cast_mode_type cast_mode;
 
 static boolean deactivated = false;
