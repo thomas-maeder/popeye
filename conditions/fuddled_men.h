@@ -4,9 +4,8 @@
 /* This module implements the condition Fuddled Men */
 
 #include "solving/machinery/solve.h"
-#include "position/pieceid.h"
 
-extern PieceIdType fuddled[nr_sides];
+extern square fuddled[nr_sides];
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

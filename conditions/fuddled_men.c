@@ -1,5 +1,5 @@
 #include "conditions/fuddled_men.h"
-#include "position/position.h"
+#include "position/effects/utils.h"
 #include "solving/pipe.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
@@ -7,7 +7,7 @@
 #include "solving/king_capture_avoider.h"
 #include "stipulation/move.h"
 
-PieceIdType fuddled[nr_sides] = { NullPieceId, NullPieceId };
+square fuddled[nr_sides] = { initsquare, initsquare };
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -26,15 +26,18 @@ void fuddled_men_bookkeeper_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const pos_moving = move_effect_journal[movement].u.piece_movement.to;
   Flags const spec_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   Side const side_moving = SLICE_STARTER(si);
-  PieceIdType const save_fuddled = fuddled[side_moving];
+  square const save_fuddled = fuddled[side_moving];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fuddled[side_moving] = GetPieceId(spec_moving);
+  fuddled[side_moving] = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                GetPieceId(spec_moving),
+                                                                                pos_moving);
 
   TraceEnumerator(Side,side_moving);
   TraceValue("%u",fuddled[side_moving]);
@@ -71,11 +74,10 @@ void fuddled_men_generate_moves_for_piece(slice_index si)
 
   TraceEnumerator(Side,side_generating);
   TraceValue("%u",fuddled[side_generating]);
-  TraceValue("%u",GetPieceId(being_solved.spec[curr_generation->departure]));
+  TraceSquare(curr_generation->departure);
   TraceEOL();
 
-  if (GetPieceId(being_solved.spec[curr_generation->departure])
-      !=fuddled[side_generating])
+  if (curr_generation->departure!=fuddled[side_generating])
     pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -89,7 +91,6 @@ boolean fuddled_men_inverse_validate_observation(slice_index si)
 {
   boolean result;
   square const pos_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  PieceIdType id_observer = GetPieceId(being_solved.spec[pos_observer]);
   Side const side_observing = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
@@ -102,7 +103,7 @@ boolean fuddled_men_inverse_validate_observation(slice_index si)
   TraceValue("%u",id_observer);
   TraceEOL();
 
-  if (fuddled[side_observing]==id_observer)
+  if (fuddled[side_observing]==pos_observer)
     result = false;
   else
     result = pipe_validate_observation_recursive_delegate(si);
