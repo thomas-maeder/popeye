@@ -85,9 +85,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
   conditions/forced_squares.h conditions/synchronous.h \
   conditions/must_capture.h conditions/lostpieces.h \
   conditions/series_capture.h conditions/pepo.h conditions/cast.h \
-  platform/maxtime.h conditions/shielded_kings.h \
-  solving/end_of_branch_tester.h solving/dead_end.h \
-  stipulation/constraint.h solving/moves_traversal.h \
+  conditions/transmissionmenace.h platform/maxtime.h \
+  conditions/shielded_kings.h solving/end_of_branch_tester.h \
+  solving/dead_end.h stipulation/constraint.h solving/moves_traversal.h \
   stipulation/goals/immobile/reached_tester.h \
   stipulation/goals/kiss/reached_tester.h stipulation/branch.h \
   stipulation/fork.h stipulation/move.h solving/duplex.h solving/pipe.h \
@@ -503,6 +503,8 @@ conditions/series_capture.h:
 conditions/pepo.h:
 
 conditions/cast.h:
+
+conditions/transmissionmenace.h:
 
 platform/maxtime.h:
 

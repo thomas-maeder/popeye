@@ -538,6 +538,8 @@
     ENUMERATOR(STCASTValidateObservation),                              \
     ENUMERATOR(STCASTInverseMovesForPieceGenerator),                    \
     ENUMERATOR(STCASTInverseValidateObservation),                       \
+    ENUMERATOR(STTransmissionMenaceMovesForPieceGenerator),             \
+    ENUMERATOR(STTransmissionMenaceValidateObservation),                \
     ENUMERATOR(STFuddledMenMovesForPieceGenerator),                     \
     ENUMERATOR(STFuddledMenBookkeeper),                                 \
     ENUMERATOR(STFuddledMenInverseValidateObservation),                 \

@@ -775,6 +775,10 @@ void dispatch(slice_index si)
       cast_inverse_generate_moves_for_piece(si);
       break;
 
+    case STTransmissionMenaceMovesForPieceGenerator:
+      transmissionmenace_generate_moves_for_piece(si);
+      break;
+
     case STBicapturesRecolorPieces:
       bicaptures_recolor_pieces(si);
       break;

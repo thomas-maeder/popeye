@@ -1,0 +1,12 @@
+begin
+
+protocol transmissionmenace.tst
+
+title basic move generation: move like observer, avoid duplicate moves
+pieces white pc4 black rh4
+stip ~1
+condition TransmissionMenace
+option nowk nobk
+
+end
+
