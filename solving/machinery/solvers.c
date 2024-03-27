@@ -20,6 +20,7 @@
 #include "conditions/dister.h"
 #include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
@@ -830,6 +831,9 @@ void build_solvers2(slice_index si)
     backtoback_initialise_solving(si);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(si);
+
+  if (CondFlag[fuddled_men])
+    fuddled_men_initialise_solving(si);
 
   goal_kiss_init_piece_id(si);
 

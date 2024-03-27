@@ -7,6 +7,7 @@
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
 #include "conditions/lortap.h"
@@ -302,6 +303,10 @@ boolean validate_observation_recursive(slice_index si)
       result = cast_inverse_validate_observation(si);
       break;
 
+    case STFuddledMenInverseValidateObservation:
+      result = fuddled_men_inverse_validate_observation(si);
+      break;
+
     case STTrue:
       result = true;
       break;
@@ -367,6 +372,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STUndoOptimiseObservationsByQueen,
+    STFuddledMenInverseValidateObservation,
     STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
