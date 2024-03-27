@@ -300,7 +300,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach Madrasi und KraftTransfer kann wahlweise noch "RexInklusive"
+	angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden und anschliessend "RexInklusiv".
