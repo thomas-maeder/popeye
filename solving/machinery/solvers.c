@@ -130,6 +130,7 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/transmissionmenace.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -519,6 +520,9 @@ void build_solvers1(slice_index si)
     else
       cast_inverse_initialise_solving(si);
   }
+
+  if (CondFlag[transmissionmenace])
+    transmissionmenace_initialise_solving(si);
 
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);

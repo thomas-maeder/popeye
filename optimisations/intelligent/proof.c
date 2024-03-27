@@ -102,7 +102,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[breton]
                 || CondFlag[bolero] || CondFlag[bolero_inverse]
                 || CondFlag[influencer]
-                || CondFlag[series_capture]);
+                || CondFlag[series_capture]
+                || CondFlag[transmissionmenace]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
