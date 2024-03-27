@@ -5,7 +5,13 @@
 
 #include "solving/machinery/solve.h"
 
-extern square fuddled[nr_sides];
+enum { fuddled_men_max_nr_per_side = 2 };
+
+typedef struct {
+  square pos[fuddled_men_max_nr_per_side];
+} fuddled_state_per_side_type;
+
+extern fuddled_state_per_side_type fuddled[nr_sides];
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

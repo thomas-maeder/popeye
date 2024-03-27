@@ -10673,7 +10673,8 @@ conditions/fuddled_men$(OBJ_SUFFIX): conditions/fuddled_men.c \
   debugging/measure.h output/plaintext/protocol.h \
   solving/move_effect_journal.h position/castling_rights.h \
   solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
-  solving/fork.h solving/king_capture_avoider.h stipulation/move.h
+  solving/fork.h solving/king_capture_avoider.h stipulation/move.h \
+  debugging/assert.h
 
 conditions/fuddled_men.h:
 
@@ -10766,3 +10767,5 @@ solving/fork.h:
 solving/king_capture_avoider.h:
 
 stipulation/move.h:
+
+debugging/assert.h:

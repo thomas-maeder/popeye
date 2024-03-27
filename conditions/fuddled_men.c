@@ -6,8 +6,28 @@
 #include "solving/observation.h"
 #include "solving/king_capture_avoider.h"
 #include "stipulation/move.h"
+#include "debugging/assert.h"
 
-square fuddled[nr_sides] = { initsquare, initsquare };
+fuddled_state_per_side_type fuddled[nr_sides];
+
+static boolean is_fuddled(Side side, square pos)
+{
+  boolean result = false;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(pos);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<fuddled_men_max_nr_per_side; ++i)
+    if (pos==fuddled[side].pos[i])
+      result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -26,18 +46,49 @@ void fuddled_men_bookkeeper_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const pos_moving = move_effect_journal[movement].u.piece_movement.to;
-  Flags const spec_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+  move_effect_journal_index_type curr;
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   Side const side_moving = SLICE_STARTER(si);
-  square const save_fuddled = fuddled[side_moving];
+  fuddled_state_per_side_type const save_fuddled = fuddled[side_moving];
+  unsigned int nr_fuddled = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fuddled[side_moving] = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                                GetPieceId(spec_moving),
-                                                                                pos_moving);
+  for (curr = movement; curr<top; ++curr)
+    switch (move_effect_journal[curr].type)
+    {
+      case move_effect_piece_movement:
+      {
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_moving_piece_movement:
+          case move_effect_reason_castling_king_movement:
+          case move_effect_reason_castling_partner:
+          {
+            square const pos_moving = move_effect_journal[curr].u.piece_movement.to;
+            Flags const spec_moving = move_effect_journal[curr].u.piece_movement.movingspec;
+            assert(nr_fuddled<fuddled_men_max_nr_per_side);
+            fuddled[side_moving].pos[nr_fuddled] = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                                          GetPieceId(spec_moving),
+                                                                                                          pos_moving);
+            ++nr_fuddled;
+            break;
+          }
+
+          default:
+            break;
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+
+  for (; nr_fuddled<fuddled_men_max_nr_per_side; ++nr_fuddled)
+    fuddled[side_moving].pos[nr_fuddled] = initsquare;
 
   TraceEnumerator(Side,side_moving);
   TraceValue("%u",fuddled[side_moving]);
@@ -77,7 +128,7 @@ void fuddled_men_generate_moves_for_piece(slice_index si)
   TraceSquare(curr_generation->departure);
   TraceEOL();
 
-  if (curr_generation->departure!=fuddled[side_generating])
+  if (!is_fuddled(side_generating,curr_generation->departure))
     pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -103,7 +154,7 @@ boolean fuddled_men_inverse_validate_observation(slice_index si)
   TraceValue("%u",id_observer);
   TraceEOL();
 
-  if (fuddled[side_observing]==pos_observer)
+  if (is_fuddled(side_observing,pos_observer))
     result = false;
   else
     result = pipe_validate_observation_recursive_delegate(si);

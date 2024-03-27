@@ -237,10 +237,10 @@ solution finished.
 
   1.e2-e4 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*f2 +   5.Ke1*f2 d7*c6   6.Rh1-f1 Qd8-d4 +   7.Kf2-g1 Ke7-d6 + dia
   1.e2-e3 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*e3   5.f2*e3 d7*c6   6.0-0 Qd8-d4   7.e3-e4 Ke7-d6 + dia
-  add_to_move_generation_stack:     7664796
-                     play_move:     7664796
- is_white_king_square_attacked:      437084
- is_black_king_square_attacked:      169893
+  add_to_move_generation_stack:     7602410
+                     play_move:     7602410
+ is_white_king_square_attacked:      434573
+ is_black_king_square_attacked:      169281
 
 solution finished.
 

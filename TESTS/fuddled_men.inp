@@ -1,0 +1,11 @@
+begin
+
+protocol fuddled_men.tst
+
+title no check by rook that has just castled
+pieces white ke1 ra1 black kh1 pe3
+stipulation h#1
+condition FuddledMen
+
+end
+
