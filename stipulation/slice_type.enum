@@ -539,6 +539,7 @@
     ENUMERATOR(STCASTInverseMovesForPieceGenerator),                    \
     ENUMERATOR(STCASTInverseValidateObservation),                       \
     ENUMERATOR(STTransmissionMenaceMovesForPieceGenerator),             \
+    ENUMERATOR(STPowerTransferMovesForPieceGenerator),                  \
     ENUMERATOR(STFuddledMenMovesForPieceGenerator),                     \
     ENUMERATOR(STFuddledMenBookkeeper),                                 \
     ENUMERATOR(STFuddledMenInverseValidateObservation),                 \
