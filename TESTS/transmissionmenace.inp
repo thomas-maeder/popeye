@@ -8,5 +8,13 @@ stip ~1
 condition TransmissionMenace
 option nowk nobk
 
+next
+
+title test for check
+pieces white pc4 black kd7 sb3
+stip +1
+condition TransmissionMenace
+option nowk
+
 end
 

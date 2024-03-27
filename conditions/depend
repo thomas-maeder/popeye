@@ -11143,10 +11143,10 @@ conditions/transmissionmenace$(OBJ_SUFFIX): conditions/transmissionmenace.c \
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  debugging/measure.h output/plaintext/protocol.h solving/observation.h \
-  solving/temporary_hacks.h solving/fork.h solving/pipe.h \
+  debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
   solving/find_square_observer_tracking_back_from_target.h \
-  debugging/assert.h
+  solving/observation.h solving/temporary_hacks.h solving/fork.h \
+  solving/check.h debugging/assert.h
 
 conditions/transmissionmenace.h:
 
@@ -11232,14 +11232,16 @@ debugging/measure.h:
 
 output/plaintext/protocol.h:
 
+solving/pipe.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
 solving/observation.h:
 
 solving/temporary_hacks.h:
 
 solving/fork.h:
 
-solving/pipe.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
+solving/check.h:
 
 debugging/assert.h:

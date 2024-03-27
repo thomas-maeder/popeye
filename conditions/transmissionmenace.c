@@ -1,30 +1,11 @@
 #include "conditions/transmissionmenace.h"
 #include "solving/move_generator.h"
-#include "solving/observation.h"
 #include "solving/pipe.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/check.h"
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"
-
-/* Validate an observation according to TransmissionMenace
- * @return true iff the observation is valid
- */
-boolean transmissionmenace_validate_observation(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = pipe_validate_observation_recursive_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -93,7 +74,7 @@ void transmissionmenace_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_moves_for_piece_generation(si,nr_sides,STTransmissionMenaceMovesForPieceGenerator);
-  stip_instrument_check_validation(si,nr_sides,STTransmissionMenaceValidateObservation);
+  solving_test_check_playing_moves(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
