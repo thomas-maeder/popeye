@@ -7,5 +7,13 @@ pieces white ke1 ra1 black kh1 pe3
 stipulation h#1
 condition FuddledMen
 
+next
+
+title no check by pawn that just been involved in a Messigny exchange
+pieces white ka3 pb2 black kd4 pc3
+stipulation +1
+condition FuddledMen Messigny
+option movenum
+
 end
 

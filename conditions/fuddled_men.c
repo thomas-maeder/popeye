@@ -45,9 +45,8 @@ static boolean is_fuddled(Side side, square pos)
 void fuddled_men_bookkeeper_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type curr;
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
   Side const side_moving = SLICE_STARTER(si);
   fuddled_state_per_side_type const save_fuddled = fuddled[side_moving];
   unsigned int nr_fuddled = 0;
@@ -56,7 +55,13 @@ void fuddled_men_bookkeeper_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (curr = movement; curr<top; ++curr)
+  for (curr = base; curr<top; ++curr)
+  {
+    TraceValue("%u",curr);
+    TraceValue("%u",move_effect_journal[curr].type);
+    TraceValue("%u",move_effect_journal[curr].reason);
+    TraceEOL();
+
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:
@@ -69,6 +74,8 @@ void fuddled_men_bookkeeper_solve(slice_index si)
           {
             square const pos_moving = move_effect_journal[curr].u.piece_movement.to;
             Flags const spec_moving = move_effect_journal[curr].u.piece_movement.movingspec;
+
+            assert(TSTFLAG(spec_moving,side_moving));
             assert(nr_fuddled<fuddled_men_max_nr_per_side);
             fuddled[side_moving].pos[nr_fuddled] = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                                                           GetPieceId(spec_moving),
@@ -83,16 +90,54 @@ void fuddled_men_bookkeeper_solve(slice_index si)
         break;
       }
 
+      case move_effect_piece_exchange:
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_messigny_exchange:
+          {
+            square const pos1 = move_effect_journal[curr].u.piece_exchange.from;
+            Flags const spec1 = move_effect_journal[curr].u.piece_exchange.fromflags;
+            square const pos2 = move_effect_journal[curr].u.piece_exchange.to;
+            Flags const spec2 = move_effect_journal[curr].u.piece_exchange.toflags;
+
+            TraceSquare(pos1);
+            TraceValue("%x",spec1);
+            TraceSquare(pos2);
+            TraceValue("%x",spec2);
+            TraceEOL();
+
+            if (TSTFLAG(spec1,side_moving))
+            {
+              assert(nr_fuddled<fuddled_men_max_nr_per_side);
+              fuddled[side_moving].pos[nr_fuddled] = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                                            GetPieceId(spec1),
+                                                                                                            pos2);
+              ++nr_fuddled;
+            }
+
+            if (TSTFLAG(spec2,side_moving))
+            {
+              assert(nr_fuddled<fuddled_men_max_nr_per_side);
+              fuddled[side_moving].pos[nr_fuddled] = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                                            GetPieceId(spec2),
+                                                                                                            pos1);
+              ++nr_fuddled;
+            }
+            break;
+          }
+
+          default:
+            break;
+        }
+        break;
+
       default:
         break;
     }
+  }
 
   for (; nr_fuddled<fuddled_men_max_nr_per_side; ++nr_fuddled)
     fuddled[side_moving].pos[nr_fuddled] = initsquare;
-
-  TraceEnumerator(Side,side_moving);
-  TraceValue("%u",fuddled[side_moving]);
-  TraceEOL();
 
   pipe_solve_delegate(si);
 
@@ -151,7 +196,6 @@ boolean fuddled_men_inverse_validate_observation(slice_index si)
   TraceEnumerator(Side,side_observing);
   TraceSquare(pos_observer);
   TraceValue("%u",fuddled[side_observing]);
-  TraceValue("%u",id_observer);
   TraceEOL();
 
   if (is_fuddled(side_observing,pos_observer))

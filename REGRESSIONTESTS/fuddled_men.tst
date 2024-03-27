@@ -32,3 +32,48 @@ no check by rook that has just castled
 solution finished.
 
 
+
+no check by pawn that just been involved in a Messigny exchange
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   K   .  -P   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          2 + 2
+            MessignyChess
+             FuddledMen
+
+  1  (Pb2<->Pc3 )
+  2  (b2-b4 )
+  3  (b2-b3 )
+  4  (b2*c3 )
+  5  (Ka3<->Kd4 + )
+   1.Ka3<->Kd4 + !
+
+  6  (Ka3-b4 )
+  7  (Ka3-a2 )
+  8  (Ka3-a4 )
+  9  (Ka3-b3 )
+  add_to_move_generation_stack:           9
+                     play_move:           9
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          19
+
+solution finished.
+
+
