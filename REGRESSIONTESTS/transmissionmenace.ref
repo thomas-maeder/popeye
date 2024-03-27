@@ -24,9 +24,9 @@
   dia5                      13 + 14
          TransmissionMenace
 
-  1.a2-a3 e7-e6   2.a3*f8=S d7*f8   3.d2*d8=S e6*d8   4.Bc1-g5 d8-d7   5.Bg5-e7 f8*e7 dia
-  add_to_move_generation_stack:  1073881320
-                     play_move:   408083260
+  1.a2-a3 e7-e6   2.a3*f8=S + d7*f8   3.d2*d8=S + e6*d8   4.Bc1-g5 d8-d7   5.Bg5-e7 + f8*e7 dia
+  add_to_move_generation_stack:   938973804
+                     play_move:   351837565
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -36,9 +36,10 @@ void transmissionmenace_generate_moves_for_piece(slice_index si)
 
   pipe_solve_delegate(si);
 
-  for (p = King+1; p<nr_piece_walks; ++p)
+  for (p = King; p<nr_piece_walks; ++p)
     if (piece_walk_exists[p])
     {
+      TraceWalk(p);TraceEOL();
       nextply(observing_side);
       push_observation_target(curr_generation->departure);
       observing_walk[nbply] = p;
@@ -52,9 +53,12 @@ void transmissionmenace_generate_moves_for_piece(slice_index si)
       finply();
     }
 
+  TraceValue("%u",nr_observing_walks);TraceEOL();
+
   for (curr = 0; curr<nr_observing_walks; ++curr)
   {
     move_generation_current_walk = observing_walks[curr];
+    TraceWalk(move_generation_current_walk);TraceEOL();
     pipe_solve_delegate(si);
   }
 
