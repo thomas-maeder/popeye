@@ -270,6 +270,9 @@ Kommandos:
 	Pepo
 	CASTSchach
 	CASTInvers
+        FuddledMen
+        Bicaptures
+        TransmissionMenace
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

@@ -267,6 +267,9 @@ simples:
 	Pepo
 	CASTechecs
 	CASTInverse
+        FuddledMen
+        Bicaptures
+        TransmissionMenace
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
