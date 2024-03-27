@@ -536,7 +536,9 @@ static void instrument_capture(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_resetter(slice_index si, stip_structure_traversal *st)
+static void insert_resetter(slice_index si,
+                            stip_structure_traversal *st,
+                            void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -546,8 +548,6 @@ static void insert_resetter(slice_index si, stip_structure_traversal *st)
     slice_index const prototype = alloc_pipe(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
-
-  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -566,18 +566,7 @@ void solving_insert_make_and_take(slice_index si)
 
   move_generator_instrument_for_alternative_paths(si,nr_sides);
 
-  {
-    stip_structure_traversal st;
-
-    structure_traversers_visitor const solver_inserters[] =
-    {
-      { STGeneratingMoves, &insert_resetter }
-    };
-
-    stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override(&st,solver_inserters,1);
-    stip_traverse_structure(si,&st);
-  }
+  solving_instrument_move_generation(si,&insert_resetter,0);
 
   {
     stip_structure_traversal st;

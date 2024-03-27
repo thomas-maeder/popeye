@@ -6,6 +6,7 @@
 #include "conditions/anticirce/clone.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
+#include "conditions/bicaptures.h"
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
@@ -44,6 +45,7 @@
 #include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/influencer.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
@@ -761,12 +763,28 @@ void dispatch(slice_index si)
       make_and_take_move_castling_partner(si);
       break;
 
-    case STCASTMultiCapturesRemover:
-      cast_multi_captures_remover_solve(si);
+    case STFuddledMenMovesForPieceGenerator:
+      fuddled_men_generate_moves_for_piece(si);
       break;
 
-    case STCASTInverseSingleCapturesRemover:
-      cast_inverse_single_captures_remover_solve(si);
+    case STCASTMovesForPieceGenerator:
+      cast_generate_moves_for_piece(si);
+      break;
+
+    case STCASTInverseMovesForPieceGenerator:
+      cast_inverse_generate_moves_for_piece(si);
+      break;
+
+    case STTransmissionMenaceMovesForPieceGenerator:
+      transmissionmenace_generate_moves_for_piece(si);
+      break;
+
+    case STBicapturesRecolorPieces:
+      bicaptures_recolor_pieces(si);
+      break;
+
+    case STBicapturesUnrecolorPieces:
+      bicaptures_unrecolor_pieces(si);
       break;
 
     case STBoleroGenerateMovesWalkByWalk:
@@ -803,6 +821,10 @@ void dispatch(slice_index si)
 
     case STAMUAttackCounter:
       amu_attack_counter_solve(si);
+      break;
+
+    case STFuddledMenBookkeeper:
+      fuddled_men_bookkeeper_solve(si);
       break;
 
     case STMutualCastlingRightsAdjuster:

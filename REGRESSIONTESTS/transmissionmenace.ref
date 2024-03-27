@@ -1,0 +1,35 @@
+
+             Eric Huber
+        Julia's Fairies 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .  -K   .  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   P   .   P   P   P   P   2
+|                                   |
+1   R   S   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      13 + 14
+         TransmissionMenace
+
+  1.a2-a3 e7-e6   2.a3*f8=S + d7*f8   3.d2*d8=S + e6*d8   4.Bc1-g5 d8-d7   5.Bg5-e7 + f8*e7 dia
+  add_to_move_generation_stack:   938973804
+                     play_move:   351837565
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

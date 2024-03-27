@@ -1,25 +1,10 @@
-#if !defined(CONDITIONS_CAST_H)
-#define CONDITIONS_CAST_H
+#if !defined(CONDITIONS_BICAPTURES_H)
+#define CONDITIONS_BICAPTURES_H
 
-/* This module implements the condition CAST */
-
+#include "position/side.h"
 #include "solving/machinery/solve.h"
 
-typedef enum
-{
-  cast_regular,
-  cast_inverse,
-
-  nr_cast_modes
-} cast_mode_type;
-
-extern cast_mode_type cast_mode;
-
-
-/* Validate an observation according to CAST
- * @return true iff the observation is valid
- */
-boolean cast_validate_observation(slice_index si);
+/* This module implements the condition Bicaptures */
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -34,17 +19,7 @@ boolean cast_validate_observation(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_generate_moves_for_piece(slice_index si);
-
-/* Instrument the solving machinery for CAST
- * @param si identifies root slice of stipulation
- */
-void cast_initialise_solving(slice_index si);
-
-/* Validate an observation according to CASTInverse
- * @return true iff the observation is valid
- */
-boolean cast_inverse_validate_observation(slice_index si);
+void bicaptures_recolor_pieces(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -59,11 +34,10 @@ boolean cast_inverse_validate_observation(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_inverse_generate_moves_for_piece(slice_index si);
+void bicaptures_unrecolor_pieces(slice_index si);
 
-/* Instrument the solving machinery for CASTInverse
- * @param si identifies root slice of stipulation
+/* Instrument slices with move tracers
  */
-void cast_inverse_initialise_solving(slice_index si);
+void solving_insert_bicaptures(slice_index si);
 
 #endif

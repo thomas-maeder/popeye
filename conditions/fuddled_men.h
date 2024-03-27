@@ -1,25 +1,17 @@
-#if !defined(CONDITIONS_CAST_H)
-#define CONDITIONS_CAST_H
+#if !defined(CONDITIONS_FUDDLEDMEN_H)
+#define CONDITIONS_FUDDLEDMEN_H
 
-/* This module implements the condition CAST */
+/* This module implements the condition Fuddled Men */
 
 #include "solving/machinery/solve.h"
 
-typedef enum
-{
-  cast_regular,
-  cast_inverse,
+enum { fuddled_men_max_nr_per_side = 2 };
 
-  nr_cast_modes
-} cast_mode_type;
+typedef struct {
+  square pos[fuddled_men_max_nr_per_side];
+} fuddled_state_per_side_type;
 
-extern cast_mode_type cast_mode;
-
-
-/* Validate an observation according to CAST
- * @return true iff the observation is valid
- */
-boolean cast_validate_observation(slice_index si);
+extern fuddled_state_per_side_type fuddled[nr_sides];
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -34,17 +26,7 @@ boolean cast_validate_observation(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_generate_moves_for_piece(slice_index si);
-
-/* Instrument the solving machinery for CAST
- * @param si identifies root slice of stipulation
- */
-void cast_initialise_solving(slice_index si);
-
-/* Validate an observation according to CASTInverse
- * @return true iff the observation is valid
- */
-boolean cast_inverse_validate_observation(slice_index si);
+void fuddled_men_bookkeeper_solve(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -59,11 +41,16 @@ boolean cast_inverse_validate_observation(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void cast_inverse_generate_moves_for_piece(slice_index si);
+void fuddled_men_generate_moves_for_piece(slice_index si);
 
-/* Instrument the solving machinery for CASTInverse
+/* Validate an observation according to Fuddled Men
+ * @return true iff the observation is valid
+ */
+boolean fuddled_men_inverse_validate_observation(slice_index si);
+
+/* Instrument the solving machinery for Fuddled Men
  * @param si identifies root slice of stipulation
  */
-void cast_inverse_initialise_solving(slice_index si);
+void fuddled_men_initialise_solving(slice_index si);
 
 #endif
