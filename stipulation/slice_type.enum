@@ -534,10 +534,13 @@
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
-    ENUMERATOR(STCASTMovesForPieceGenerator),                             \
-    ENUMERATOR(STCASTValidateObservation),                            \
-    ENUMERATOR(STCASTInverseMovesForPieceGenerator),                     \
-    ENUMERATOR(STCASTInverseValidateObservation),                     \
+    ENUMERATOR(STCASTMovesForPieceGenerator),                           \
+    ENUMERATOR(STCASTValidateObservation),                              \
+    ENUMERATOR(STCASTInverseMovesForPieceGenerator),                    \
+    ENUMERATOR(STCASTInverseValidateObservation),                       \
+    ENUMERATOR(STFuddledMenMovesForPieceGenerator),                     \
+    ENUMERATOR(STFuddledMenBookkeeper),                                 \
+    ENUMERATOR(STFuddledMenInverseValidateObservation),                 \
     ENUMERATOR(STBicapturesRecolorPieces),                              \
     ENUMERATOR(STBicapturesUnrecolorPieces),                            \
     ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),   \

@@ -243,8 +243,9 @@ typedef enum
   pepo,                   /* 222 */
   cast,                   /* 223 */
   bicaptures,             /* 224 */
+  fuddled_men,            /* 225 */
 
-  CondCount               /* 225 */
+  CondCount               /* 226 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
