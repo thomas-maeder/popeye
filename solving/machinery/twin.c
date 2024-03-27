@@ -1442,6 +1442,9 @@ void verify_position(slice_index si)
       || (CondFlag[cast] && cast_mode==cast_inverse))
     king_capture_avoiders_avoid_opponent();
 
+  if (CondFlag[bicaptures])
+    king_capture_avoiders_avoid_own();
+
   if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]

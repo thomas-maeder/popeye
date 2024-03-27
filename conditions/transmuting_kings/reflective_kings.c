@@ -88,7 +88,7 @@ void reflective_kings_initialise_solving(slice_index si, Side side)
    TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
 
   stip_instrument_observation_validation(si,side,STReflectiveKingsEnforceObserverWalk);
   stip_instrument_check_validation(si,side,STReflectiveKingsEnforceObserverWalk);
