@@ -244,6 +244,7 @@ typedef enum
   cast,                   /* 223 */
   bicaptures,             /* 224 */
   fuddled_men,            /* 225 */
+  transmissionmenace,     /* 226 */
 
   CondCount               /* 226 */
 } Cond;
