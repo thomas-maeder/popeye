@@ -9,6 +9,8 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+boolean powertransfer_is_rex_inclusive;
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -28,7 +30,8 @@ void powertransfer_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(being_solved.spec[curr_generation->departure],Royal))
+  if (powertransfer_is_rex_inclusive
+      || !TSTFLAG(being_solved.spec[curr_generation->departure],Royal))
   {
     square const sq_rebirth = circe_regular_rebirth_square(move_generation_current_walk,
                                                            curr_generation->departure,

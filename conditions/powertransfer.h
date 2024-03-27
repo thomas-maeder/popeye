@@ -5,6 +5,8 @@
 
 #include "solving/machinery/solve.h"
 
+extern boolean powertransfer_is_rex_inclusive;
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

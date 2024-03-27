@@ -89,3 +89,42 @@ b) bKb8-->g8
 solution finished.
 
 
+
+the previous problem would be cooked with PowerTransfer RexIncl 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   R   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   S   B   3
+|                                   |
+2   .   .  -S  -S   P   P  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        7 + 5
+     PowerTransfer RexInclusive
+
+  1.f2-f4 g2-g1=Q   2.h6-h7 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.f2-f3 g2-g1=Q   2.h6-h7 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.Sg3-f1 g2*f1=Q   2.Bh3-h2 Qf1*e2   3.h6-f8=Q + Qe2-e8 #
+  1.Sg3-f1 g2*f1=Q   2.h6-h7 Qf1*e2   3.h7-h8=Q + Qe2-e8 #
+  1.h6-h7 g2-g1=Q   2.f2-f4 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.h6-h7 g2-g1=Q   2.f2-f3 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  add_to_move_generation_stack:   410045867
+                     play_move:     9625970
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
