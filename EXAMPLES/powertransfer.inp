@@ -1,0 +1,15 @@
+begin
+
+prot powertransfer.ref
+
+author Cornel Pacurar & Adrian Storisteanu
+origin Julia's Fairies 2020
+pieces white ka4 rf7 bh3 sg3 ph6 pf2 pe2
+       black kb8 sc2 sd2 pg2 ph4
+stipulation hs#3.5
+condition PowerTransfer
+option movenum
+twin move b8 g8
+
+end
+

@@ -273,6 +273,7 @@ Kommandos:
         FuddledMen
         Bicaptures
         TransmissionMenace
+	KraftTransfer
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

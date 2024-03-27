@@ -131,6 +131,7 @@
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
 #include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -523,6 +524,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[transmissionmenace])
     transmissionmenace_initialise_solving(si);
+
+  if (CondFlag[powertransfer])
+    powertransfer_initialise_solving(si);
 
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);

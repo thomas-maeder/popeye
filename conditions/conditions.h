@@ -245,8 +245,9 @@ typedef enum
   bicaptures,             /* 224 */
   fuddled_men,            /* 225 */
   transmissionmenace,     /* 226 */
+  powertransfer,          /* 227 */
 
-  CondCount               /* 226 */
+  CondCount               /* 227 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

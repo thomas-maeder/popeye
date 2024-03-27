@@ -270,6 +270,7 @@ simples:
         FuddledMen
         Bicaptures
         TransmissionMenace
+	TransfertPouvoir
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

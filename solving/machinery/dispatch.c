@@ -55,6 +55,8 @@
 #include "conditions/patrol.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
+#include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
@@ -777,6 +779,10 @@ void dispatch(slice_index si)
 
     case STTransmissionMenaceMovesForPieceGenerator:
       transmissionmenace_generate_moves_for_piece(si);
+      break;
+
+    case STPowerTransferMovesForPieceGenerator:
+      powertransfer_generate_moves_for_piece(si);
       break;
 
     case STBicapturesRecolorPieces:
