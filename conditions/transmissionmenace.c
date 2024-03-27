@@ -73,7 +73,9 @@ void transmissionmenace_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_moves_for_piece_generation(si,nr_sides,STTransmissionMenaceMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STTransmissionMenaceMovesForPieceGenerator);
   solving_test_check_playing_moves(si);
 
   TraceFunctionExit(__func__);
