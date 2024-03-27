@@ -94,6 +94,7 @@ void fuddled_men_bookkeeper_solve(slice_index si)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_messigny_exchange:
+          case move_effect_reason_exchange_castling_exchange:
           {
             square const pos1 = move_effect_journal[curr].u.piece_exchange.from;
             Flags const spec1 = move_effect_journal[curr].u.piece_exchange.fromflags;

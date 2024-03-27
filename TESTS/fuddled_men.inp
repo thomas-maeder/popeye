@@ -15,5 +15,13 @@ stipulation +1
 condition FuddledMen Messigny
 option movenum
 
+next
+
+title no check by rook that just been involved in a ExchangeCastling exchange
+pieces white ka1 ra5 black kh1
+stip +1
+condition ExchangeCastling
+twin condition ExchangeCastling FuddledMen
+
 end
 
