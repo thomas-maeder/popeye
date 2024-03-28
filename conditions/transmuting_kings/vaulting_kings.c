@@ -200,7 +200,7 @@ void vaulting_kings_initalise_solving(slice_index si, Side side)
     nr_king_vaulters[side] = 1;
   }
 
-  solving_instrument_move_generation(si,side,STVaultingKingsMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,side,STVaultingKingsMovesForPieceGenerator);
 
   stip_instrument_is_square_observed_testing(si,side,STVaultingKingIsSquareObserved);
 

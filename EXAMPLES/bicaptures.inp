@@ -1,0 +1,65 @@
+begin
+
+prot bicaptures.ref
+
+rem Any piece can capture the pieces of its own side (except the King) as well as those of the opposite side. 
+
+author Györgyi Bakcsi
+origin Magyar Sakkélet 1971 TT, 2nd prize
+pieces white ka8 qg3 rb8 bc4 sa5e2 pa7c6e3e4e6f5g5
+       black kd6 pc5c7e5e7g4
+stipulation #2
+condition bicaptures
+option vari
+
+next
+
+author Andrey Frolkin & Leonid Lubashevsky
+origin The Problemist 1988
+pieces white kc8 re8 bg2 pd5d7f6
+       black kd6 qg1 rc1c3 bh3 sc5f5 pd3f2f7
+stipulation h#2
+condition bicaptures
+
+next
+
+author Manfred Rittirsch
+origin Julia's Fairies 2023
+pieces  black  Ra1d4 Kf3 Pf4e4e6b6g7e7 Sh5 Qf8 Bd8
+white  Pc2c3g6d6a6 Kh4 Sc4 Rf7 Bb7 Qa8
+stipulation h#2
+condition bicaptures
+twin exchange a8 f8
+
+next
+
+author Mario Parrinello
+origin Gennevilliers 2023, Prize
+pieces white kd1 qc7 bh6 sb6g7 pc4h3h5
+       black kf6 qf5 rg5 be6 pb3c5h4
+stipulation hs#3
+condition bicaptures
+twin move b6 f2
+
+next
+
+author Axel Gilbert
+origin Gennevilliers 2023, 1st commendation
+pieces white kg7 re6 ba6h4 pe7f7
+       black kd7 be8 pc7
+stipulation #2
+condition bicaptures
+option vari
+
+next
+
+author Sebastien Luce
+origin Gennevilliers 2023, 2nd commendation
+pieces white kb4 se2 pd6
+       black ke5 se6 pd7
+stipulation h#3.5
+condition bicaptures
+twin move e2 f2
+
+end
+

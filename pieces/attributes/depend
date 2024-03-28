@@ -12,9 +12,6 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
   position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
   pieces/walks/hoppers.h solving/observation.h solving/ply.h \
   solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
-  debugging/measure.h output/plaintext/protocol.h \
-  solving/has_solution_type.h solving/has_solution_type.enum.h \
-  solving/has_solution_type.enum stipulation/move.h \
   stipulation/structure_traversal.h stipulation/slice.h \
   stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -25,9 +22,11 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  stipulation/pipe.h stipulation/slice_insertion.h \
-  position/effects/side_change.h solving/move_effect_journal.h \
-  solving/pipe.h debugging/assert.h
+  debugging/measure.h output/plaintext/protocol.h \
+  solving/has_solution_type.h solving/has_solution_type.enum.h \
+  solving/has_solution_type.enum stipulation/move.h stipulation/pipe.h \
+  stipulation/slice_insertion.h position/effects/side_change.h \
+  solving/move_effect_journal.h solving/pipe.h debugging/assert.h
 
 pieces/attributes/hurdle_colour_changing.h:
 
@@ -95,18 +94,6 @@ solving/fork.h:
 
 solving/move_generator.h:
 
-debugging/measure.h:
-
-output/plaintext/protocol.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
-solving/has_solution_type.enum:
-
-stipulation/move.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
@@ -130,6 +117,18 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/has_solution_type.enum:
+
+stipulation/move.h:
 
 stipulation/pipe.h:
 
@@ -884,10 +883,8 @@ pieces/attributes/bul$(OBJ_SUFFIX): pieces/attributes/bul.c pieces/attributes/bu
   position/color.enum position/pieceid.h pieces/walks/vectors.h \
   position/castling_rights.h solving/observation.h solving/ply.h \
   solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
-  debugging/measure.h output/plaintext/protocol.h \
-  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
-  stipulation/slice_insertion.h stipulation/structure_traversal.h \
-  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -896,10 +893,13 @@ pieces/attributes/bul$(OBJ_SUFFIX): pieces/attributes/bul.c pieces/attributes/bu
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  position/effects/piece_movement.h solving/pipe.h \
-  solving/has_solution_type.h solving/has_solution_type.enum.h \
-  solving/has_solution_type.enum solving/post_move_iteration.h \
-  stipulation/move.h stipulation/pipe.h debugging/assert.h
+  debugging/measure.h output/plaintext/protocol.h \
+  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
+  stipulation/slice_insertion.h position/effects/piece_movement.h \
+  solving/pipe.h solving/has_solution_type.h \
+  solving/has_solution_type.enum.h solving/has_solution_type.enum \
+  solving/post_move_iteration.h stipulation/move.h stipulation/pipe.h \
+  debugging/assert.h
 
 pieces/attributes/bul.h:
 
@@ -965,16 +965,6 @@ solving/fork.h:
 
 solving/move_generator.h:
 
-debugging/measure.h:
-
-output/plaintext/protocol.h:
-
-pieces/walks/pawns/promotion.h:
-
-solving/move_effect_journal.h:
-
-stipulation/slice_insertion.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
@@ -998,6 +988,16 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
+pieces/walks/pawns/promotion.h:
+
+solving/move_effect_journal.h:
+
+stipulation/slice_insertion.h:
 
 position/effects/piece_movement.h:
 

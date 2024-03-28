@@ -177,7 +177,7 @@ void ultrapatrol_generate_moves_for_piece(slice_index si)
  */
 void ultrapatrol_initialise_solving(slice_index si)
 {
-  solving_instrument_move_generation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
   stip_instrument_observation_validation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
   stip_instrument_check_validation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
 }

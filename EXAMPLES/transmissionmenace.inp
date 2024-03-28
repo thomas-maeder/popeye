@@ -1,0 +1,13 @@
+begin
+
+prot transmissionmenace.ref
+
+author Eric Huber
+origin Julia's Fairies 2020
+pieces white  Bf1 Ke1 Qd1 Ph2g2f2e2c2b2 Sg1b1 Rh1a1
+       black  Bc8 Ke8 Ph7g7f7d7e7c7b7a7 Sg8b8 Rh8a8
+stip dia5
+condition transmissionmenace
+
+end
+

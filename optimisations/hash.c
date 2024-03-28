@@ -96,6 +96,7 @@
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
+#include "conditions/fuddled_men.h"
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
@@ -1498,6 +1499,12 @@ byte *CommonEncode(byte *bp,
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
     *bp++ = trait[nbply];
+  }
+
+  if (CondFlag[fuddled_men])
+  {
+    memcpy(bp, &fuddled, sizeof fuddled);
+    bp += sizeof fuddled;
   }
 
   return bp;

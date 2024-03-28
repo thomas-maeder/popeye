@@ -49,6 +49,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/powertransfer.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -1978,6 +1979,10 @@ char *ParseCond(char *tok)
           tok = ParseCASTVariants(tok);
           break;
         }
+        case powertransfer:
+          powertransfer_is_rex_inclusive = false;
+          tok = ParseRexIncl(tok,&powertransfer_is_rex_inclusive, CirceVariantRexInclusive);
+          break;
 
         default:
           break;

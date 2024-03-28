@@ -41,6 +41,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/powertransfer.h"
 #include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
@@ -893,6 +894,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written," %u",limit);
           break;
         }
+
+        case powertransfer:
+          if (powertransfer_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
+          break;
 
         default:
           break;

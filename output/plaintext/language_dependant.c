@@ -973,7 +973,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTEchecs"
+    /*223*/ "CASTEchecs",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "TransfertPouvoir"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1199,7 +1203,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTSchach"
+    /*223*/ "CASTSchach",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "KraftTransfer"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1425,7 +1433,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTChess"
+    /*223*/ "CASTChess",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "PowerTransfer"
   }
 };
 
