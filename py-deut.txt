@@ -1019,11 +1019,13 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ae	Adler-Equihopper
 	ah	MAoHuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
+	aq	Adler-Nonstop-Equihopper
 	b       Bauer   
 	b1	Bouncer
 	b2	Turmbouncer

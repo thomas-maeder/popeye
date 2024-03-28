@@ -187,4 +187,18 @@ stip +1
 option nowk move
 twin add white ohe5 move e4 f4
 
+next
+
+title eagle equihoppers
+pieces white eeg7d6 black kd4 pd7
+stip ~1
+option nowk
+
+next
+
+title eagle nonstop equihoppers
+pieces white eng7d1 black kd4 pd2b3
+stip ~1
+
 end
+

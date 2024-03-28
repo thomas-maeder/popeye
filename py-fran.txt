@@ -996,9 +996,11 @@ suivante est un peu plus compliquee:
 	af      aigle fou
 	al      alfil
 	a       ami
+	ae	aigle equisauteur
 	am      amazone   
 	an      antilope   
 	ao      mao noctambule
+	aq	aigle equisauteur non-stop
 	ar      archeveque
 	as	mAo sauteur   
 	at      aigle tour
@@ -1068,14 +1070,14 @@ suivante est un peu plus compliquee:
 	lo	loco				Fou argentin
 	lr	rose locuste
 	lt      tour locuste   
-	m       moineaux
+	m       moineau
 	ma      mao
-	mf      moineaux fou
+	mf      moineau fou
 	mg      marguerite                      s+m+ai+e+ha
 	ml      mao noctambule lion
 	mm      moa noctambule lion
 	mo      moa
-	mt      moineaux tour
+	mt      moineau tour
 	n       noctambule
         n1      (1,1)-Zigzag noctambule (e.g. b1-a3-c2-b4-d3...)
         n2      (2,0)-Zigzag noctambule (e.g. a1-b3-c1-d3-e1...)
