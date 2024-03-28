@@ -187,4 +187,12 @@ stip +1
 option nowk move
 twin add white ohe5 move e4 f4
 
+next
+
+title angled equihoppers
+pieces white eeg7d1 med6 sua7 black kd4 pd7
+stip ~1
+option nowk
+
 end
+

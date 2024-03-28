@@ -1014,11 +1014,13 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ae	Adler-Equihopper
 	ah	MAoHuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
+	aq	Adler-Nonstop-Equihopper
 	b       Bauer   
 	b1	Bouncer
 	b2	Turmbouncer
@@ -1044,9 +1046,11 @@ aufwendiger ist das Kommando
 	ds      Diagonalspiralspringer
 	dt      Doppelturmhuepfer
 	du      Dummy
+	ee	Elch-Equihopper
 	ei      Eichhoernchen                   0,2+1,2+2,2 Springer
 	ek      Erlkoenig                       0,1+1,1 Springer
 	el      Elch                            0,1+1,1  45 Grad Huepfer
+	en	Elch-Nonstop-Equihopper
 	eq      Equihopper
 	er      Erzbischof   
 	et      Elefant				0,1+1,1+1,2 Reiter   
@@ -1145,8 +1149,10 @@ aufwendiger ist das Kommando
 	sh      Springerhuepfer
 	si      Sirene
 	sk      Skylla
+	sn	Spatz-Nonstop-Equihopper
 	so      Skorpion			Erlkoenig + Grashuepfer
 	sp      Spatz                           0,1+1,1 135 Grad Huepfer
+	sq	Spatz-Equihopper
 	ss      Spiralspringer   
 	st      Stachel (Koenig + koeniglicher Grashuepfer)
 	t       Turm                            0,1 Reiter

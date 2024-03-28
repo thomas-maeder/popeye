@@ -695,6 +695,23 @@ void generate_moves_for_piece_based_on_walk(void)
       moahopper_generate_moves();
       break;
 
+    case EagleEquihopper:
+      eagle_equihopper_generate_moves();
+      break;
+
+    case EagleNonstopEquihopper:
+    case SparrowEquihopper:
+      sparrow_equihopper_generate_moves();
+      break;
+
+    case SparrowNonstopEquihopper:
+    case MooseEquihopper:
+      moose_equihopper_generate_moves();
+      break;
+
+    case MooseNonstopEquihopper:
+      break;
+
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */

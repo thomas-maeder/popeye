@@ -1014,9 +1014,11 @@ sstipulation). A little bit more elaborate are the commands
 	ds      ("Diagonalspiralspringer")
 	du      dummy
 	ea      eagle
+	ee	eagle equihopper
 	eh      edgehog
 	ek      erlking
 	em      empress
+	en	eagle nonstop equihopper
 	eq      equihopper
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend
@@ -1053,10 +1055,12 @@ sstipulation). A little bit more elaborate are the commands
         ls      rose locust
 	m       moose
 	ma      mao
+	me	moose equihopper
 	mg      marguerite                      g+sw+ea+m+ha
 	mh      marine ship
 	ml      maorider lion
 	mm      moarider lion
+	mn	moose nonstop equihopper
 	mo      moa
 	mp      marine pawn
 	ms      marine knight
@@ -1106,11 +1110,13 @@ sstipulation). A little bit more elaborate are the commands
 	sh      ship
 	si      sirene
 	sk      skylla
+	sn	sparrow nonstop equihopper
 	so      scorpion
 	sp      superpawn
 	sq      squirrel   
 	ss      ("Spiralspringer")
 	st      sting (king + royal grasshopper)
+	su	sparrow equihopper
 	sw      sparrow
 	th      tree hopper
 	tr      triton

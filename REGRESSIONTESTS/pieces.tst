@@ -1802,3 +1802,51 @@ b) wOHe5  bPe4-->f4
 solution finished.
 
 
+
+         angled equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  SU   .   .  -P   .   .  EE   .   7
+|                                   |
+6   .   .   .  ME   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  EE   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          4 + 2
+
+   1.EEd1-g4 + !
+
+   1.EEd1-a4 !
+
+   1.MEd6-c8 + !
+
+   1.MEd6-e8 + !
+
+   1.MEd6-f2 + !
+
+   1.MEd6-b2 + !
+
+   1.SUa7-a4 + !
+
+   1.EEg7-g1 + !
+
+  add_to_move_generation_stack:           9
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           9
+
+solution finished.
+
+
