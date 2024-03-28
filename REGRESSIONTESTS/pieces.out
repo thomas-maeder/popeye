@@ -1608,10 +1608,10 @@ Loesung beendet.
       1...Lf8*e7 +
           2.Kd6*e7 #
 
-  add_to_move_generation_stack:       26374
-                     play_move:       16940
- is_white_king_square_attacked:        1431
- is_black_king_square_attacked:       16943
+  add_to_move_generation_stack:       25181
+                     play_move:       15855
+ is_white_king_square_attacked:        1322
+ is_black_king_square_attacked:       15858
 
 Loesung beendet.
 

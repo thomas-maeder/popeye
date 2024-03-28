@@ -1875,6 +1875,8 @@ solution finished.
   ~1                          2 + 3
 both sides need a king
 
+   1.ENd1-d5 !
+
    1.ENd1-g4 + !
 
    1.ENd1-a4 !
@@ -1882,8 +1884,6 @@ both sides need a king
    1.ENd1-e2 !
 
    1.ENd1-c2 !
-
-   1.ENd1-d5 !
 
    1.ENg7-a7 !
 
