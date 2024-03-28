@@ -1850,3 +1850,60 @@ solution finished.
 solution finished.
 
 
+
+     angled nonstop equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  SN   .   .   .   .   .  EN   .   7
+|                                   |
+6   .   .   .  MN   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .  EN   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          4 + 3
+both sides need a king
+
+   1.ENd1-g4 + !
+
+   1.ENd1-a4 !
+
+   1.ENd1-e2 !
+
+   1.ENd1-c2 !
+
+   1.ENd1-d5 !
+
+   1.MNd6-f2 !
+
+   1.MNd6-b2 !
+
+   1.SNa7-a1 !
+
+   1.SNa7-a4 + !
+
+   1.SNa7-d7 + !
+
+   1.ENg7-a1 + !
+
+   1.ENg7-g1 + !
+
+  add_to_move_generation_stack:          12
+                     play_move:          12
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          13
+
+solution finished.
+
+

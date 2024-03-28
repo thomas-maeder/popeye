@@ -76,4 +76,12 @@ boolean eagle_equihopper_check(validator_id evaluate);
 boolean moose_equihopper_check(validator_id evaluate);
 boolean sparrow_equihopper_check(validator_id evaluate);
 
+void eagle_nonstop_equihopper_generate_moves(void);
+void moose_nonstop_equihopper_generate_moves(void);
+void sparrow_nonstop_equihopper_generate_moves(void);
+
+boolean eagle_nonstop_equihopper_check(validator_id evaluate);
+boolean moose_nonstop_equihopper_check(validator_id evaluate);
+boolean sparrow_nonstop_equihopper_check(validator_id evaluate);
+
 #endif

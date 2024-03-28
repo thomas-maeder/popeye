@@ -194,5 +194,11 @@ pieces white eeg7d1 med6 sua7 black kd4 pd7
 stip ~1
 option nowk
 
+next
+
+title angled nonstop equihoppers
+pieces white eng7d1 mnd6 sna7 black kd4 pd2b3
+stip ~1
+
 end
 
