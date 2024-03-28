@@ -173,7 +173,7 @@ typedef enum
   ContraHamster,         /* 160 */
   EagleEquihopper,       /* 161 */
   EagleNonstopEquihopper,/* 162 */
-  Hunter0,               /* 167 */
+  Hunter0,               /* 163 */
 
   nr_piece_walks = Hunter0+max_nr_hunter_walks
 } piece_walk_type;
