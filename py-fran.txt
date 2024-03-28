@@ -1033,11 +1033,9 @@ suivante est un peu plus compliquee:
 	ec      ecureuil   
 	eh      ("edgehog", "randschwein")
 	e       elan
-	ee	elan equisauteur
 	ef      elan fou
 	eq      equisauteur (non-stop)
 	el      elephant			0,1+1,1+1,2
-	en	elan equisauteur non-stop
 	ep      epine (roi+sauterelle royal)
 	et      elan tour
 	f       fou
@@ -1069,12 +1067,10 @@ suivante est un peu plus compliquee:
 	lt      tour locuste   
 	m       moineau
 	ma      mao
-	me	moose equisauteur
 	mf      moineau fou
 	mg      marguerite                      s+m+ai+e+ha
 	ml      mao noctambule lion
 	mm      moa noctambule lion
-	mn	moose equisauteur non-stop
 	mo      moa
 	mt      moineau tour
 	n       noctambule

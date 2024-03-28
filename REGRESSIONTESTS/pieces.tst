@@ -1803,15 +1803,15 @@ solution finished.
 
 
 
-         angled equihoppers
+          eagle equihoppers
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7  SU   .   .  -P   .   .  EE   .   7
+7   .   .   .  -P   .   .  EE   .   7
 |                                   |
-6   .   .   .  ME   .   .   .   .   6
+6   .   .   .  EE   .   .   .   .   6
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
@@ -1821,28 +1821,28 @@ solution finished.
 |                                   |
 2   .   .   .   .   .   .   .   .   2
 |                                   |
-1   .   .   .  EE   .   .   .   .   1
+1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          4 + 2
+  ~1                          2 + 2
 
-   1.EEd1-g4 + !
+   1.EEd6-h4 + !
 
-   1.EEd1-a4 !
+   1.EEd6-e7 !
 
-   1.MEd6-c8 + !
+   1.EEd6-c7 + !
 
-   1.MEd6-e8 + !
+   1.EEd6-f4 + !
 
-   1.MEd6-f2 + !
+   1.EEd6-b4 + !
 
-   1.MEd6-b2 + !
+   1.EEg7-e3 !
 
-   1.SUa7-a4 + !
+   1.EEg7-a7 !
 
-   1.EEg7-g1 + !
+   1.EEg7-g1 !
 
-  add_to_move_generation_stack:           9
+  add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           9
@@ -1851,15 +1851,15 @@ solution finished.
 
 
 
-     angled nonstop equihoppers
+      eagle nonstop equihoppers
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7  SN   .   .   .   .   .  EN   .   7
+7   .   .   .   .   .   .  EN   .   7
 |                                   |
-6   .   .   .  MN   .   .   .   .   6
+6   .   .   .   .   .   .   .   .   6
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
@@ -1872,7 +1872,7 @@ solution finished.
 1   .   .   .  EN   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ~1                          4 + 3
+  ~1                          2 + 3
 both sides need a king
 
    1.ENd1-g4 + !
@@ -1885,24 +1885,14 @@ both sides need a king
 
    1.ENd1-d5 !
 
-   1.MNd6-f2 !
-
-   1.MNd6-b2 !
-
-   1.SNa7-a1 !
-
-   1.SNa7-a4 + !
-
-   1.SNa7-d7 + !
-
-   1.ENg7-a1 + !
+   1.ENg7-a7 !
 
    1.ENg7-g1 + !
 
-  add_to_move_generation_stack:          12
-                     play_move:          12
+  add_to_move_generation_stack:           7
+                     play_move:           7
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          13
+ is_black_king_square_attacked:           8
 
 solution finished.
 

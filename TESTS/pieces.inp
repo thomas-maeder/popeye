@@ -189,15 +189,15 @@ twin add white ohe5 move e4 f4
 
 next
 
-title angled equihoppers
-pieces white eeg7d1 med6 sua7 black kd4 pd7
+title eagle equihoppers
+pieces white eeg7d6 black kd4 pd7
 stip ~1
 option nowk
 
 next
 
-title angled nonstop equihoppers
-pieces white eng7d1 mnd6 sna7 black kd4 pd2b3
+title eagle nonstop equihoppers
+pieces white eng7d1 black kd4 pd2b3
 stip ~1
 
 end

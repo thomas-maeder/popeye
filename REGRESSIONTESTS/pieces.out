@@ -1564,3 +1564,55 @@ b) sDGa6  sDGf7  sDGg8
 Loesung beendet.
 
 
+
+             James Quah
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  ZR   .   .   .   .  -L   .   .   8
+|                                   |
+7   .  ZR   .   .   L -ZR   .   .   7
+|                                   |
+6   .   .   .   K   B   .   .  ZR   6
+|                                   |
+5   .   .   .   .   .   . -ZR  -D   5
+|                                   |
+4  -B   .   T   .   .  -B  -K   .   4
+|                                   |
+3  ZR   .   .  AE   .   .  -B   .   3
+|                                   |
+2   .   .   .  AE  -T   .  -L   .   2
+|                                   |
+1   .   .   .   .   .   . -ZR  AE   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        11 + 11
+
+   1.ZRa3-c6 ! Drohung:
+          2.Tc4*f4 #
+      1...ZRg1-e4
+          2.Kd6-e5 #
+      1...Te2*e6 +
+          2.Kd6*e6 #
+      1...Te2-e4
+          2.Kd6-d5 #
+      1...Lg2*c6
+          2.Kd6*c6 #
+      1...Lg2-e4
+          2.Kd6-c7 #
+      1...ZRg5-d7
+          2.Kd6*d7 #
+      1...ZRf7-d4
+          2.Kd6-c5 #
+      1...Lf8*e7 +
+          2.Kd6*e7 #
+
+  add_to_move_generation_stack:       26374
+                     play_move:       16940
+ is_white_king_square_attacked:        1431
+ is_black_king_square_attacked:       16943
+
+Loesung beendet.
+
+

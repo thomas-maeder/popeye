@@ -282,11 +282,7 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','s'},   /* MoaSauteur */
     /*160*/ {'h','c'},   /* ContraHamster */
     /*161*/ {'a','e'},   /* EagleEquihopper */
-    /*162*/ {'a','q'},   /* EagleNonstopEquihopper */
-    /*163*/ {'m','e'},   /* SparrowEquihopper */
-    /*164*/ {'m','n'},   /* SparrowNonstopEquihopper */
-    /*165*/ {'e','e'},   /* MooseEquihopper */
-    /*166*/ {'e','n'}    /* MooseNonstopEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -450,11 +446,7 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','h'},   /* MoaSauteur */
     /*160*/ {'h','k'},   /* KontraHamster */
     /*161*/ {'a','e'},   /* EagleEquihopper */
-    /*162*/ {'a','q'},   /* EagleNonstopEquihopper */
-    /*163*/ {'s','q'},   /* SparrowEquihopper */
-    /*164*/ {'s','n'},   /* SparrowNonstopEquihopper */
-    /*165*/ {'e','e'},   /* MooseEquihopper */
-    /*166*/ {'e','n'}    /* MooseNonstopEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -618,11 +610,7 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','h'},   /* MoaSauteur */
     /*160*/ {'h','c'},   /* ContraHamster */
     /*161*/ {'e','e'},   /* EagleEquihopper */
-    /*162*/ {'e','n'},   /* EagleNonstopEquihopper */
-    /*163*/ {'s','u'},   /* SparrowEquihopper */
-    /*164*/ {'s','n'},   /* SparrowNonstopEquihopper */
-    /*165*/ {'m','e'},   /* MooseEquihopper */
-    /*166*/ {'m','n'}    /* MooseNonstopEquihopper */
+    /*162*/ {'e','n'}    /* EagleNonstopEquihopper */
   }
 };
 

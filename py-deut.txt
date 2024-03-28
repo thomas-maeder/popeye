@@ -1046,11 +1046,9 @@ aufwendiger ist das Kommando
 	ds      Diagonalspiralspringer
 	dt      Doppelturmhuepfer
 	du      Dummy
-	ee	Elch-Equihopper
 	ei      Eichhoernchen                   0,2+1,2+2,2 Springer
 	ek      Erlkoenig                       0,1+1,1 Springer
 	el      Elch                            0,1+1,1  45 Grad Huepfer
-	en	Elch-Nonstop-Equihopper
 	eq      Equihopper
 	er      Erzbischof   
 	et      Elefant				0,1+1,1+1,2 Reiter   
@@ -1149,10 +1147,8 @@ aufwendiger ist das Kommando
 	sh      Springerhuepfer
 	si      Sirene
 	sk      Skylla
-	sn	Spatz-Nonstop-Equihopper
 	so      Skorpion			Erlkoenig + Grashuepfer
 	sp      Spatz                           0,1+1,1 135 Grad Huepfer
-	sq	Spatz-Equihopper
 	ss      Spiralspringer   
 	st      Stachel (Koenig + koeniglicher Grashuepfer)
 	t       Turm                            0,1 Reiter

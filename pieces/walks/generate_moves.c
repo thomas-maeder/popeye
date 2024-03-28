@@ -703,22 +703,6 @@ void generate_moves_for_piece_based_on_walk(void)
       eagle_nonstop_equihopper_generate_moves();
       break;
 
-    case SparrowEquihopper:
-      sparrow_equihopper_generate_moves();
-      break;
-
-    case SparrowNonstopEquihopper:
-      sparrow_nonstop_equihopper_generate_moves();
-      break;
-
-    case MooseEquihopper:
-      moose_equihopper_generate_moves();
-      break;
-
-    case MooseNonstopEquihopper:
-      moose_nonstop_equihopper_generate_moves();
-      break;
-
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */
