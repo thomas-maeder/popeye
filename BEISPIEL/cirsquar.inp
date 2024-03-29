@@ -323,5 +323,16 @@ forderung #3
 bedingung Circe Symmetrie NaechsterSchlag Diametral
 option vari
 
+weiteresproblem
+
+autor Jacques dupin
+quelle France Echecks 2011
+titel erste 5 Züge einer Beweispartie in 7
+steine weiss ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c4d2b7f2g2h2
+       schwa ke8 dd8 ta8h8 lc8f8 sc6g8 ba7c3c5e7f7g7h7
+forderung dia5
+bedingung Circe Symmetrie NaechsterSchlag Diametral
+option zugnummer start 13 bis 13
+
 end
 

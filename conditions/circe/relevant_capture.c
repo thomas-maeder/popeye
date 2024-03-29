@@ -110,6 +110,37 @@ void circe_make_last_move_relevant_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+ply find_last_capture(void)
+{
+  ply result = ply_nil;
+  ply ply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (ply = parent_ply[nbply]; ply>ply_retro_move; ply = parent_ply[ply])
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[ply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    TraceValue("%u",ply);
+    TraceValue("%u",base);
+    TraceValue("%u",move_effect_journal[capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+    {
+      result = ply;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -134,25 +165,10 @@ void circe_make_last_capture_relevant_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  context->relevant_ply = ply_nil;
-
   if (move_effect_journal[capture].type==move_effect_piece_removal)
-    for (ply = parent_ply[nbply]; ply!=ply_retro_move; ply = parent_ply[ply])
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[ply];
-      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-      TraceValue("%u",ply);
-      TraceValue("%u",base);
-      TraceValue("%u",move_effect_journal[capture].type);
-      TraceEOL();
-
-      if (move_effect_journal[capture].type==move_effect_piece_removal)
-      {
-        context->relevant_ply = ply;
-        break;
-      }
-    }
+    context->relevant_ply = find_last_capture();
+  else
+    context->relevant_ply = ply_nil;
 
   TraceValue("%u",context->relevant_ply);
   TraceEOL();

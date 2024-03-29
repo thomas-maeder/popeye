@@ -5,6 +5,7 @@
  */
 
 #include "stipulation/stipulation.h"
+#include "solving/ply.h"
 
 typedef enum
 {
@@ -53,6 +54,8 @@ void circe_make_current_move_relevant_solve(slice_index si);
  *            (with n denominating solve_nr_remaining)
  */
 void circe_make_last_move_relevant_solve(slice_index si);
+
+ply find_last_capture(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

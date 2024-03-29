@@ -1111,3 +1111,40 @@ Circe Symmetrie NaechsterSchlag Diametral
 Loesung beendet.
 
 
+
+            Jacques dupin
+         France Echecks 2011
+erste 5 Züge einer Beweispartie in 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B   B   .   .  -B  -B  -B  -B   7
+|                                   |
+6   .   .  -S   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   B   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   B   B   .   B   .   B   B   B   2
+|                                   |
+1   T   S   L   D   K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      16 + 15
+Circe Symmetrie NaechsterSchlag Diametral
+
+ 13  (e2-e4 )
+  1.e2-e4 d7-d5   2.e4*d5 c7-c5   3.d5*c6 ep.[+sBd5] d5-d4   4.c2-c4 d4*c3 ep.[+sBc5]   5.c6*b7[+wBc4] Sb8-c6 dia
+  add_to_move_generation_stack:    78601699
+                     play_move:    78603583
+ is_white_king_square_attacked:     3393274
+ is_black_king_square_attacked:     2905543
+
+Loesung beendet.
+
+

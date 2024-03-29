@@ -1310,6 +1310,9 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     */
     len++;
 
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+    len += sizeof move_effect_journal[0].u.piece_removal;
+
   if (OptFlag[nontrivial])
     len++;
 
@@ -1468,6 +1471,22 @@ byte *CommonEncode(byte *bp,
     }
     else
       *bp++ = (byte)0;
+  }
+
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+  {
+    ply const ply_last_capture = find_last_capture();
+
+    if (ply_last_capture!=ply_nil)
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+      memcpy(bp,
+             &move_effect_journal[capture].u.piece_removal,
+             sizeof move_effect_journal[capture].u.piece_removal);
+      *bp += sizeof move_effect_journal[capture].u.piece_removal;
+    }
   }
 
   if (min_length>slack_length+1)
