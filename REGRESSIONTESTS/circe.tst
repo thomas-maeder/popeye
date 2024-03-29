@@ -1100,3 +1100,69 @@ solution finished.
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   P   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zd72                    1 + 2
+Circe Symmetry WaitCapture Diametral
+
+  1.b5*c6   2.c6*d7[+bPc6] z
+  add_to_move_generation_stack:           7
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-hzh34                   2 + 1
+Circe Symmetry WaitCapture Diametral
+
+  1.g7*h6   2.h6-h5   3.h5-h4   4.h4-h3 g2*h3[+wPh6] z
+  add_to_move_generation_stack:          49
+                     play_move:          29
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -987,3 +987,127 @@ Loesung beendet.
 Loesung beendet.
 
 
+
+       Paul Raican & D. Forlot
+         France Echecks 2011
+Bedingung entspricht Memory-Circe; NL 1.c2-c4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   L   .   .   .  -K  -B   B   .   5
+|                                   |
+4   .   .   .  -B  -B   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   B   .   3
+|                                   |
+2   .   .   B   .   .   B   .   .   2
+|                                   |
+1   .   .   T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          8 + 4
+Circe Symmetrie NaechsterSchlag Diametral
+
+   1.c2-c4 ! Drohung:
+          2.La5-c7 #
+      1...d4-d3
+          2.La5-c3 #
+      1...d4*c3 ep.
+          2.La5*c3[+wBc4] #
+      1...e4-e3
+          2.f2-f3 Drohung:
+                  3.La5-c7 #
+              2...d4-d3
+                  3.La5-c3 #
+              2...f5-f4
+                  3.g3-g4 Drohung:
+                          4.La5-c7 #
+                      3...d4-d3
+                          4.La5-c3 #
+      1...f5-f4
+          2.g3-g4 Drohung:
+                  3.La5-c7 #
+              2...d4-d3
+                  3.La5-c3 #
+              2...e4-e3
+                  3.f2-f3 Drohung:
+                          4.La5-c7 #
+                      3...d4-d3
+                          4.La5-c3 #
+
+   1.f2-f4 + !
+      1...e4*f3 ep.
+          2.Tc1-e1 +
+              2...Ke5-d5
+                  3.Te1-e5 #
+      1...Ke5-d5
+          2.c2-c4 +
+              2...d4*c3 ep.
+                  3.Tc1-d1 +
+                      3...Kd5-c5
+                          4.Td1-d5 #
+              2...Kd5-c5
+                  3.b3-b4 #
+
+  add_to_move_generation_stack:      431477
+                     play_move:      229386
+ is_white_king_square_attacked:      158050
+ is_black_king_square_attacked:       88220
+
+Loesung beendet.
+
+
+
+          Michail Marandjuk
+         Quartz 21, 2002 (v)
+eigentlich Spukschach, aber funktioniert auch mit Memory-Circe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .  -L   .   .   8
+|                                   |
+7  -B   K   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   T   .   .   .  -L  -T   6
+|                                   |
+5   .   .   .  -K   .   .  -T   .   5
+|                                   |
+4   .   .   .   .   .   B   .   .   4
+|                                   |
+3   .   .   .   .   D   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   .  -D   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 9
+Circe Symmetrie NaechsterSchlag Diametral
+
+   1.b2-b3 ! Drohung:
+          2.Tc6-d6 +
+              2...Lf8*d6
+                  3.Sc8-e7 #
+      1...Dg2-e4
+          2.De3-c5 +
+              2...Lf8*c5
+                  3.Tc6-d6 #
+      1...Lg6-e4
+          2.Sc8-e7 +
+              2...Lf8*e7
+                  3.De3-c5 #
+
+  add_to_move_generation_stack:      294196
+                     play_move:      174573
+ is_white_king_square_attacked:       71076
+ is_black_king_square_attacked:      115694
+
+Loesung beendet.
+
+

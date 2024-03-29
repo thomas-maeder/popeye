@@ -438,6 +438,7 @@
     ENUMERATOR(STCirceInitialiseFromCurrentMove),                       \
     ENUMERATOR(STCirceInitialiseFromLastMove),                          \
     ENUMERATOR(STCirceInitialiseRebornFromCapturee),                    \
+    ENUMERATOR(STCirceInitialiseFromLastCapture),                       \
     ENUMERATOR(STAntiCloneCirceDetermineRebornWalk),                    \
     ENUMERATOR(STCirceCloneDetermineRebornWalk),                        \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornSide),                     \

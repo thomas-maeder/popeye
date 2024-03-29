@@ -39,6 +39,7 @@ static slice_index const circe_slice_rank_order[] =
     STAntimarsCirceConsideringRebirth,
     STCirceInitialiseFromCurrentMove,
     STCirceInitialiseFromLastMove,
+    STCirceInitialiseFromLastCapture,
     STCirceKamikazeCaptureFork,
     STCirceCaptureFork,
     STCirceParrainThreatFork,

@@ -301,4 +301,27 @@ option          zugnummer
 steine  weiss   bf7g6g5c5h3a2g2 lb4 kg4
         schwarz kf8 bb7e7g7h7b6a4 th5 lh4
 
-endeproblem
+weiteresproblem
+
+autor Paul Raican & D. Forlot
+quelle France Echecks 2011
+titel Bedingung entspricht Memory-Circe; NL 1.c2-c4
+steine weiss kd7 tc1 la5 bb3c2f2g3g5
+       schwa ke5 bd4e4f5
+forderung #4
+bedingung Circe Symmetrie NaechsterSchlag Diametral
+option vari
+
+weiteresproblem
+
+autor Michail Marandjuk
+quelle Quartz 21, 2002 (v)
+titel eigentlich Spukschach, aber funktioniert auch mit Memory-Circe
+steine weiss kb7 de3 tc6 sc8 bb2f4
+       schwarz kd5 dg2 tg5h6 lf8g6 ba7c2h7
+forderung #3
+bedingung Circe Symmetrie NaechsterSchlag Diametral
+option vari
+
+end
+
