@@ -280,7 +280,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','l'},   /* Saltador */
     /*158*/ {'a','s'},   /* MaoSauteur */
     /*159*/ {'o','s'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -442,7 +444,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','k'}    /* KontraHamster */
+    /*160*/ {'h','k'},   /* KontraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -604,7 +608,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'e','e'},   /* EagleEquihopper */
+    /*162*/ {'e','n'}    /* EagleNonstopEquihopper */
   }
 };
 
@@ -967,7 +973,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTEchecs"
+    /*223*/ "CASTEchecs",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "TransfertPouvoir"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1193,7 +1203,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTSchach"
+    /*223*/ "CASTSchach",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "KraftTransfer"
   },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1419,7 +1433,11 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTChess"
+    /*223*/ "CASTChess",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "PowerTransfer"
   }
 };
 

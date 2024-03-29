@@ -240,9 +240,15 @@ move_effect_journal_index_type circe_find_current_rebirth(void)
   return result;
 }
 
-static square rennormal(piece_walk_type walk_captured,
-                        square sq_capture,
-                        Side capturer)
+/* Determine the classical Circe rebirth square for a captured piece
+ * @param walk_captured walk of the piece
+ * @param sq_capture square where it is captured
+ * @param capturer capturing side
+ * @return rebirth square
+ */
+square circe_regular_rebirth_square(piece_walk_type walk_captured,
+                                    square sq_capture,
+                                    Side capturer)
 {
   square  result;
   unsigned int const column = sq_capture%onerow;
@@ -317,9 +323,9 @@ void circe_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  context->rebirth_square = rennormal(context->relevant_walk,
-                                      context->relevant_square,
-                                      context->relevant_side);
+  context->rebirth_square = circe_regular_rebirth_square(context->relevant_walk,
+                                                         context->relevant_square,
+                                                         context->relevant_side);
 
   pipe_dispatch_delegate(si);
 

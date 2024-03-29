@@ -1,0 +1,130 @@
+
+ Cornel Pacurar & Adrian Storisteanu
+        Julia's Fairies 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   R   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   S   B   3
+|                                   |
+2   .   .  -S  -S   P   P  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3.5                      7 + 5
+            PowerTransfer
+
+a) 
+
+  1  (Sc2-a1 )
+  2  (Sc2-e1 )
+  3  (Sc2-e3 )
+  4  (Sc2-d4 )
+  5  (Sc2-b4 + )
+  6  (Sc2-a3 + )
+  7  (Sd2-c1 )
+  8  (Sd2-e1 )
+  9  (Sd2-e3 )
+ 10  (Sd2-c3 )
+ 11  (Sd2-d1 )
+ 12  (Sd2-d3 )
+  1...Sd2-d3   2.Bh3-c8 Kb8-a8   3.Sg3-f1 Sc2-b4   4.Rf7-a7 + Ka8-b8 #
+ 13  (Sd2*e2 )
+ 14  (g2-g1=Q )
+ 15  (g2-g1=S )
+ 16  (g2-g1=R )
+ 17  (g2-g1=B )
+ 18  (h4*g3 )
+ 19  (Kb8-a7 )
+ 20  (Kb8-c7 )
+ 21  (Kb8-b7 )
+ 22  (Kb8-a8 )
+ 23  (Kb8-c8 )
+  add_to_move_generation_stack:  3447459574
+                     play_move:    80540790
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bKb8-->g8  
+
+ 24  (Sc2-b1 )
+ 25  (Sc2-d1 )
+ 26  (Sc2-d3 )
+ 27  (Sc2-b3 + )
+ 28  (Sc2-c1 )
+  1...Sc2-c1   2.Sg3-h1 Kg8-h7   3.Ka4-a3 Sd2-b3   4.Bh3-f5 + Kh7-g8 #
+ 29  (Sc2-b2 + )
+ 30  (Sc2-c3 + )
+ 31  (Sd2-b1 )
+ 32  (Sd2-f1 )
+ 33  (Sd2-f3 )
+ 34  (Sd2-e4 )
+ 35  (Sd2-c4 )
+ 36  (Sd2-b3 + )
+ 37  (g2-g1=Q )
+ 38  (g2-g1=S )
+ 39  (g2-g1=R )
+ 40  (g2-g1=B )
+ 41  (h4*g3 )
+ 42  (Kg8*f7 )
+ 43  (Kg8-h7 )
+ 44  (Kg8-g7 )
+ 45  (Kg8-f8 )
+ 46  (Kg8-h8 )
+  add_to_move_generation_stack:  2258242478
+                     play_move:    55317567
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+the previous problem would be cooked with PowerTransfer RexIncl 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   R   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   S   B   3
+|                                   |
+2   .   .  -S  -S   P   P  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        7 + 5
+     PowerTransfer RexInclusive
+
+  1.f2-f4 g2-g1=Q   2.h6-h7 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.f2-f3 g2-g1=Q   2.h6-h7 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.Sg3-f1 g2*f1=Q   2.Bh3-h2 Qf1*e2   3.h6-f8=Q + Qe2-e8 #
+  1.Sg3-f1 g2*f1=Q   2.h6-h7 Qf1*e2   3.h7-h8=Q + Qe2-e8 #
+  1.h6-h7 g2-g1=Q   2.f2-f4 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  1.h6-h7 g2-g1=Q   2.f2-f3 Qg1-e3   3.h7-h8=Q + Qe3-e8 #
+  add_to_move_generation_stack:   410045867
+                     play_move:     9625970
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

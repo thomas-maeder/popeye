@@ -265,6 +265,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	Pepo
 	CASTchess
 	CASTInverse
+	FuddledMen
+	Bicaptures
+	TransmissionMenace
+	PowerTransfer
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -289,7 +293,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After Madrasi, you can enter "RexInclusive".
+	After Madrasi and PowerTransfer, you can enter "RexInclusive".
 
 	After the Isardam condition, "TypeB" and then "RexInclusive" can be
 	specified.
@@ -1014,9 +1018,11 @@ sstipulation). A little bit more elaborate are the commands
 	ds      ("Diagonalspiralspringer")
 	du      dummy
 	ea      eagle
+	ee	eagle equihopper
 	eh      edgehog
 	ek      erlking
 	em      empress
+	en	eagle nonstop equihopper
 	eq      equihopper
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend

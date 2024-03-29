@@ -13,12 +13,14 @@
 #include "solving/observation.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
+#include "conditions/bicaptures.h"
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/dister.h"
 #include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
@@ -128,6 +130,8 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -518,6 +522,12 @@ void build_solvers1(slice_index si)
       cast_inverse_initialise_solving(si);
   }
 
+  if (CondFlag[transmissionmenace])
+    transmissionmenace_initialise_solving(si);
+
+  if (CondFlag[powertransfer])
+    powertransfer_initialise_solving(si);
+
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);
 
@@ -705,6 +715,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[lostpieces])
     solving_insert_lostpieces(si);
 
+  if (CondFlag[bicaptures])
+    solving_insert_bicaptures(si);
+
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
 
@@ -826,6 +839,9 @@ void build_solvers2(slice_index si)
     backtoback_initialise_solving(si);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(si);
+
+  if (CondFlag[fuddled_men])
+    fuddled_men_initialise_solving(si);
 
   goal_kiss_init_piece_id(si);
 
