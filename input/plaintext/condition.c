@@ -507,6 +507,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
           break;
 
+        case CirceVariantWaitCapture:
+          variant->relevant_capture = circe_relevant_capture_lastcapture;
+          break;
+
         default:
           assert(0);
           break;

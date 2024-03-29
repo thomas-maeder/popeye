@@ -389,7 +389,8 @@ simples:
 		RexInclusif	(standard pour AntiCirce et MarsCirce)
 		RexExclusif	(standard pour les autres conditions)
 	Coup/allure/camp determinant:
-		CoupDernier 
+		CoupDernier
+		PriseProchaine
 		Clone		(definit aussi l'allure de la piece renee)
 		Couscous
 		Malefique	(special avec Equipollents - voir plus bas)

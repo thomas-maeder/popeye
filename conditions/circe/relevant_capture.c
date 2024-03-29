@@ -15,6 +15,9 @@ static slice_type determine_slice_type(circe_relevant_capture type)
     case circe_relevant_capture_lastmove:
       return STCirceInitialiseFromLastMove;
 
+    case circe_relevant_capture_lastcapture:
+      return no_slice_type;
+
     case circe_relevant_capture_nocapture:
       return no_slice_type;
 

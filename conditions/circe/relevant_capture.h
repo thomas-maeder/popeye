@@ -10,6 +10,7 @@ typedef enum
 {
   circe_relevant_capture_thismove,
   circe_relevant_capture_lastmove,
+  circe_relevant_capture_lastcapture,
   circe_relevant_capture_nocapture
 } circe_relevant_capture;
 
