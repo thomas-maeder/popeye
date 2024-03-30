@@ -410,8 +410,8 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 
-        case CirceVariantLastCapture:
-          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_last_capture))
+        case CirceVariantCaptureSquare:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_capture_square))
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 

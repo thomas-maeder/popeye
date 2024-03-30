@@ -219,8 +219,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
-  if (variant->determine_rebirth_square==circe_determine_rebirth_square_last_capture)
-    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantLastCapture]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_square)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCaptureSquare]);
   if (variant->is_restricted_to_walks)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);

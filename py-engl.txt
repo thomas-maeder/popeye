@@ -403,7 +403,7 @@ commands expect further parameters. Lets start with the simpler commands:
 		Super
 		Take&Make
 		Cage
-		LastCapture
+		CaptureSquare
 	Adaptation of the rebirth square:
 		Diametral
 		VerticalMirror

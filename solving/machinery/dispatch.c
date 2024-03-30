@@ -1258,7 +1258,7 @@ void dispatch(slice_index si)
       diagram_circe_determine_rebirth_square_solve(si);
       break;
 
-    case STCirceDetermineRebirthSquareLastCapture:
+    case STCirceDetermineRebirthSquareCaptureSquare:
       circe_determine_rebirth_square_last_capture_solve(si);
       break;
 

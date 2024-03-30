@@ -309,7 +309,7 @@ titel Bedingung entspricht Memory-Circe; NL 1.c2-c4
 steine weiss kd7 tc1 la5 bb3c2f2g3g5
        schwa ke5 bd4e4f5
 forderung #4
-bedingung Circe LetzterSchlag NaechsterSchlag
+bedingung Circe Schlagfeld NaechsterSchlag
 option vari
 
 weiteresproblem
@@ -320,7 +320,7 @@ titel eigentlich Spukschach, aber funktioniert auch mit Memory-Circe
 steine weiss kb7 de3 tc6 sc8 bb2f4
        schwarz kd5 dg2 tg5h6 lf8g6 ba7c2h7
 forderung #3
-bedingung Circe LetzterSchlag NaechsterSchlag
+bedingung Circe Schlagfeld NaechsterSchlag
 option vari
 
 weiteresproblem
@@ -331,7 +331,7 @@ titel erste 5 Züge einer Beweispartie in 7
 steine weiss ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c4d2b7f2g2h2
        schwa ke8 dd8 ta8h8 lc8f8 sc6g8 ba7c3c5e7f7g7h7
 forderung dia5
-bedingung Circe LetzterSchlag NaechsterSchlag
+bedingung Circe Schlagfeld NaechsterSchlag
 option zugnummer start 13 bis 13
 
 weiteresproblem
@@ -342,7 +342,7 @@ titel NL 1.Sa8*c7
 steine weiss ke7 la7 sa8e5 bb4c6e3f3g6h2h4
        schwa kf5 bc7g7
 forderung #4
-bedingung Circe LetzterSchlag NaechsterSchlag
+bedingung Circe Schlagfeld NaechsterSchlag
 option vari
 
 end
