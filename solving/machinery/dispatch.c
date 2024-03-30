@@ -1259,7 +1259,7 @@ void dispatch(slice_index si)
       break;
 
     case STCirceDetermineRebirthSquareCaptureSquare:
-      circe_determine_rebirth_square_last_capture_solve(si);
+      circe_determine_rebirth_square_capture_square_solve(si);
       break;
 
     case STContactGridAvoidCirceRebirth:

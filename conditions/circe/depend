@@ -5163,8 +5163,8 @@ stipulation/pipe.h:
 solving/pipe.h:
 
 debugging/assert.h:
-conditions/circe/last_capture$(OBJ_SUFFIX): conditions/circe/last_capture.c \
-  conditions/circe/last_capture.h solving/machinery/solve.h \
+conditions/circe/capture_square$(OBJ_SUFFIX): conditions/circe/capture_square.c \
+  conditions/circe/capture_square.h solving/machinery/solve.h \
   stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
   utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
   stipulation/slice_type.enum.h stipulation/slice_type.enum \
@@ -5188,7 +5188,7 @@ conditions/circe/last_capture$(OBJ_SUFFIX): conditions/circe/last_capture.c \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
   conditions/circe/relevant_side.h solving/pipe.h debugging/assert.h
 
-conditions/circe/last_capture.h:
+conditions/circe/capture_square.h:
 
 solving/machinery/solve.h:
 

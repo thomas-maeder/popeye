@@ -18,6 +18,6 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void circe_determine_rebirth_square_last_capture_solve(slice_index si);
+void circe_determine_rebirth_square_capture_square_solve(slice_index si);
 
 #endif

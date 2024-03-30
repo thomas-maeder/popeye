@@ -1,4 +1,4 @@
-#include "conditions/circe/last_capture.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/circe/circe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -18,7 +18,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void circe_determine_rebirth_square_last_capture_solve(slice_index si)
+void circe_determine_rebirth_square_capture_square_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_ply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
