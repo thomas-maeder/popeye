@@ -1311,7 +1311,12 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     len++;
 
   if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
-    len += sizeof move_effect_journal[0].u.piece_removal;
+  {
+    if (one_byte_hash)
+      len += 2;
+    else
+      len += 2+bytes_per_spec;
+  }
 
   if (OptFlag[nontrivial])
     len++;
@@ -1497,19 +1502,21 @@ byte *CommonEncode(byte *bp,
       move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
       move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
-      memcpy(bp,
-             &move_effect_journal[capture].u.piece_removal.on,
-             sizeof move_effect_journal[capture].u.piece_removal.on);
-      bp += sizeof move_effect_journal[capture].u.piece_removal.on;
+      if (one_byte_hash)
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
+      else
+      {
+        unsigned int i;
+        *bp++ = move_effect_journal[capture].u.piece_removal.walk;
+        for (i = 0; i<bytes_per_spec; i++)
+          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
+      }
 
-      memcpy(bp,
-             &move_effect_journal[capture].u.piece_removal.walk,
-             sizeof move_effect_journal[capture].u.piece_removal.walk);
-      bp += sizeof move_effect_journal[capture].u.piece_removal.walk;
-
-      Flags const flags = move_effect_journal[capture].u.piece_removal.flags&PieSpMask;
-      memcpy(bp,&flags,sizeof flags);
-      bp += sizeof flags;
+      {
+        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
+        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
+      }
     }
   }
 
