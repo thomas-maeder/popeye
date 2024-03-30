@@ -1,5 +1,5 @@
-#if !defined(CONDITIONS_CIRCE_LASTCAPTURE_H)
-#define CONDITIONS_CIRCE_LASTCAPTURE_H
+#if !defined(CONDITIONS_CIRCE_CAPTURE_SQUARE_H)
+#define CONDITIONS_CIRCE_CAPTURE_SQUARE_H
 
 /* This module implements Circe LastCapture */
 
