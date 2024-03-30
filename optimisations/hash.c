@@ -1388,6 +1388,9 @@ byte *CommonEncode(byte *bp,
                    stip_length_type min_length,
                    stip_length_type validity_value)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[messigny])
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1475,7 +1478,19 @@ byte *CommonEncode(byte *bp,
 
   if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
   {
-    ply const ply_last_capture = find_last_capture();
+    ply ply_last_capture;
+
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",move_effect_journal[capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+      ply_last_capture = nbply;
+    else
+      ply_last_capture = find_last_capture();
 
     if (ply_last_capture!=ply_nil)
     {
@@ -1483,9 +1498,18 @@ byte *CommonEncode(byte *bp,
       move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
       memcpy(bp,
-             &move_effect_journal[capture].u.piece_removal,
-             sizeof move_effect_journal[capture].u.piece_removal);
-      *bp += sizeof move_effect_journal[capture].u.piece_removal;
+             &move_effect_journal[capture].u.piece_removal.on,
+             sizeof move_effect_journal[capture].u.piece_removal.on);
+      bp += sizeof move_effect_journal[capture].u.piece_removal.on;
+
+      memcpy(bp,
+             &move_effect_journal[capture].u.piece_removal.walk,
+             sizeof move_effect_journal[capture].u.piece_removal.walk);
+      bp += sizeof move_effect_journal[capture].u.piece_removal.walk;
+
+      Flags const flags = move_effect_journal[capture].u.piece_removal.flags&PieSpMask;
+      memcpy(bp,&flags,sizeof flags);
+      bp += sizeof flags;
     }
   }
 
@@ -1526,6 +1550,8 @@ byte *CommonEncode(byte *bp,
     bp += sizeof fuddled;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
   return bp;
 } /* CommonEncode */
 

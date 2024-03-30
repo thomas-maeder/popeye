@@ -304,7 +304,7 @@ steine  weiss   bf7g6g5c5h3a2g2 lb4 kg4
 weiteresproblem
 
 autor Paul Raican & D. Forlot
-quelle France Echecks 2011
+quelle France Echecs 2011
 titel Bedingung entspricht Memory-Circe; NL 1.c2-c4
 steine weiss kd7 tc1 la5 bb3c2f2g3g5
        schwa ke5 bd4e4f5
@@ -326,13 +326,24 @@ option vari
 weiteresproblem
 
 autor Jacques dupin
-quelle France Echecks 2011
+quelle France Echecs 2011
 titel erste 5 Züge einer Beweispartie in 7
 steine weiss ke1 dd1 ta1h1 lc1f1 sb1g1 ba2b2c4d2b7f2g2h2
        schwa ke8 dd8 ta8h8 lc8f8 sc6g8 ba7c3c5e7f7g7h7
 forderung dia5
 bedingung Circe Symmetrie NaechsterSchlag Diametral
 option zugnummer start 13 bis 13
+
+weiteresproblem
+
+autor Paul Raican & D. Forlot
+quelle France Echecs 2011
+titel NL 1.Sa8*c7
+steine weiss ke7 la7 sa8e5 bb4c6e3f3g6h2h4
+       schwa kf5 bc7g7
+forderung #4
+bedingung Circe Symmetrie NaechsterSchlag Diametral
+option vari
 
 end
 
