@@ -1778,7 +1778,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Parachute",
     "Einstein",
     "ReversEinstein",
-    "PriseProchaine"
+    "PriseProchaine",
+    "PriseDerniere"
   },{
     /* German */
     "RexInklusive",
@@ -1816,7 +1817,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Fallschirm",
     "Einstein",
     "ReversesEinstein",
-    "NaechsterSchlag"
+    "NaechsterSchlag",
+    "LetzterSchlag"
   },{
     /* English */
     "RexInclusive",
@@ -1854,7 +1856,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Parachute",
     "Einstein",
     "ReversalEinstein",
-    "WaitCapture"
+    "WaitCapture",
+    "LastCapture"
   }
 };
 

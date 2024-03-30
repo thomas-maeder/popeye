@@ -465,6 +465,7 @@
     ENUMERATOR(STHorizontalSymmetryCirceDetermineRebirthSquare),        \
     ENUMERATOR(STPWCDetermineRebirthSquare),                            \
     ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
+    ENUMERATOR(STCirceDetermineRebirthSquareLastCapture),               \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCirceTestRebirthSquareEmpty),                          \
     ENUMERATOR(STCircePlacingReborn),                                   \

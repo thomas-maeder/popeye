@@ -10,7 +10,7 @@ SRC_CFILES =   circe.c goal_filters.c assassin.c \
            antipodes.c pwc.c file.c diagram.c symmetry.c verticalmirror.c \
            rebirth_avoider.c rebirth_square_occupied.c parachute.c einstein.c \
            reborn_piece.c rebirth_square.c relevant_capture.c  relevant_piece.c \
-           relevant_side.c glasgow.c
+           relevant_side.c glasgow.c last_capture.c
 INCLUDES = circe.h goal_filters.h assassin.h \
            steingewinn_filter.h \
            circuit_by_rebirth_special.h exchange_by_rebirth_special.h \
@@ -21,6 +21,6 @@ INCLUDES = circe.h goal_filters.h assassin.h \
            antipodes.h pwc.h file.h diagram.h symmetry.h verticalmirror.h \
            rebirth_avoider.h rebirth_square_occupied.h parachute.h einstein.h \
            reborn_piece.h rebirth_square.h relevant_capture.h relevant_piece.h \
-           relevant_side.h glasgow.h
+           relevant_side.h glasgow.h last_capture.h
 
 include makefile.rules $(CURRPWD)depend

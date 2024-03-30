@@ -1258,6 +1258,10 @@ void dispatch(slice_index si)
       diagram_circe_determine_rebirth_square_solve(si);
       break;
 
+    case STCirceDetermineRebirthSquareLastCapture:
+      circe_determine_rebirth_square_last_capture_solve(si);
+      break;
+
     case STContactGridAvoidCirceRebirth:
       contact_grid_avoid_circe_rebirth(si);
       break;

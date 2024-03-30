@@ -409,6 +409,7 @@ simples:
 		Super
 		Take&Make
 		Cage
+		PriseDerniere
 	Adaptation de la case de renaissance:
 		Diametral
 		MalefiqueVerticale

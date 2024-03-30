@@ -420,6 +420,7 @@ Kommandos:
 		Super
 		Take&Make
 		Kaefig
+		LetzterSchlag
 	Anpassung des Wiedergeburtsfelds:
 		Diametral
 		VertikalSpiegel

@@ -65,6 +65,10 @@ static slice_type get_rebirth_square_determinator(circe_variant_type const *vari
                 : STCirceParrainDetermineRebirth);
       break;
 
+    case circe_determine_rebirth_square_last_capture:
+      result = STCirceDetermineRebirthSquareLastCapture;
+      break;
+
     default:
       assert(0);
       result = no_slice_type;

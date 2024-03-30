@@ -410,6 +410,11 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 
+        case CirceVariantLastCapture:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_last_capture))
+            output_plaintext_input_error_message(NonsenseCombination);
+          break;
+
         case CirceVariantVerticalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
             variant->is_promotion_possible = true;
