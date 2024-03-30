@@ -1122,7 +1122,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-zd72                    1 + 2
-Circe Symmetry WaitCapture Diametral
+   Circe CaptureSquare WaitCapture
 
   1.b5*c6   2.c6*d7[+bPc6] z
   add_to_move_generation_stack:           7
@@ -1155,7 +1155,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-hzh34                   2 + 1
-Circe Symmetry WaitCapture Diametral
+   Circe CaptureSquare WaitCapture
 
   1.g7*h6   2.h6-h5   3.h5-h4   4.h4-h3 g2*h3[+wPh6] z
   add_to_move_generation_stack:          49
