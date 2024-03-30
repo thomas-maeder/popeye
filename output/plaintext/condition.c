@@ -219,6 +219,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_square)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCaptureSquare]);
   if (variant->is_restricted_to_walks)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
@@ -242,6 +244,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     else
       written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
   }
+  if (variant->relevant_capture==circe_relevant_capture_lastcapture)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantWaitCapture]);
   if (variant->relevant_side_overrider==circe_relevant_side_overrider_mirror)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)

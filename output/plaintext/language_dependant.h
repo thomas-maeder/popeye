@@ -166,6 +166,8 @@ typedef enum
   CirceVariantParachute,
   CirceVariantEinstein,
   CirceVariantReverseEinstein,
+  CirceVariantWaitCapture,
+  CirceVariantCaptureSquare,
 
   CirceVariantCount
 } CirceVariantType;

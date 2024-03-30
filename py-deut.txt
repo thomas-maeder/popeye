@@ -400,7 +400,8 @@ Kommandos:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
 	Massgebende(r) Zug/Gangart/Partei:	
-		LetzterZug 
+		LetzterZug
+		NaechsterSchlag
 		Clone		(bestimmt auch Gangart des Wiedergeborenen)
 		Couscous
 		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
@@ -419,6 +420,7 @@ Kommandos:
 		Super
 		Take&Make
 		Kaefig
+		Schlagfeld
 	Anpassung des Wiedergeburtsfelds:
 		Diametral
 		VertikalSpiegel

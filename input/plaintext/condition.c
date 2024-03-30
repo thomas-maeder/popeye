@@ -410,6 +410,11 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 
+        case CirceVariantCaptureSquare:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_capture_square))
+            output_plaintext_input_error_message(NonsenseCombination);
+          break;
+
         case CirceVariantVerticalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
             variant->is_promotion_possible = true;
@@ -505,6 +510,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
 
         case CirceVariantParachute:
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
+          break;
+
+        case CirceVariantWaitCapture:
+          variant->relevant_capture = circe_relevant_capture_lastcapture;
           break;
 
         default:

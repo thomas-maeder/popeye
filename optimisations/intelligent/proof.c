@@ -713,7 +713,8 @@ static boolean FairyImpossible(void)
 
 
     if (CondFlag[andernach]
-        && !CondFlag[circe] && !CondFlag[sentinelles]) {
+        && !CondFlag[circe] && !CondFlag[sentinelles])
+    {
       unsigned int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
@@ -765,6 +766,7 @@ static boolean FairyImpossible(void)
 
     if (!CondFlag[sentinelles]
         && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone
+        && circe_variant.relevant_capture!=circe_relevant_capture_lastcapture
         && !CondFlag[influencer])
     {
       /* note, that we are in the !change_moving_piece section

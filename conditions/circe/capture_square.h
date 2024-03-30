@@ -1,9 +1,9 @@
-#include "conditions/circe/diametral.h"
-#include "conditions/circe/circe.h"
-#include "solving/pipe.h"
-#include "debugging/trace.h"
+#if !defined(CONDITIONS_CIRCE_CAPTURE_SQUARE_H)
+#define CONDITIONS_CIRCE_CAPTURE_SQUARE_H
 
-#include "debugging/assert.h"
+/* This module implements Circe LastCapture */
+
+#include "solving/machinery/solve.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -18,23 +18,6 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void circe_diametral_adjust_rebirth_square_solve(slice_index si)
-{
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+void circe_determine_rebirth_square_capture_square_solve(slice_index si);
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(context->rebirth_square);
-
-  context->rebirth_square = square_h8+square_a1 - context->rebirth_square;
-
-  TraceSquare(context->rebirth_square);
-  TraceEOL();
-
-  pipe_dispatch_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+#endif

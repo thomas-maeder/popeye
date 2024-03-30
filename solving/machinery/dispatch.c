@@ -1150,6 +1150,10 @@ void dispatch(slice_index si)
       circe_make_last_move_relevant_solve(si);
       break;
 
+    case STCirceInitialiseFromLastCapture:
+      circe_make_last_capture_relevant_solve(si);
+      break;
+
     case STCirceInitialiseRebornFromCapturee:
       circe_initialise_reborn_from_capturee_solve(si);
       break;
@@ -1252,6 +1256,10 @@ void dispatch(slice_index si)
 
     case STDiagramCirceDetermineRebirthSquare:
       diagram_circe_determine_rebirth_square_solve(si);
+      break;
+
+    case STCirceDetermineRebirthSquareCaptureSquare:
+      circe_determine_rebirth_square_capture_square_solve(si);
       break;
 
     case STContactGridAvoidCirceRebirth:

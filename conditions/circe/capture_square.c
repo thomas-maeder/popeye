@@ -1,4 +1,4 @@
-#include "conditions/circe/symmetry.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/circe/circe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -18,7 +18,7 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void symmetry_circe_determine_rebirth_square_solve(slice_index si)
+void circe_determine_rebirth_square_capture_square_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_ply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -30,46 +30,12 @@ void symmetry_circe_determine_rebirth_square_solve(slice_index si)
 
   assert(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_ply!=ply_nil);
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = (square_h8+square_a1) - sq_capture;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture;
 
   TraceSquare(sq_capture);
   TraceSquare(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
   TraceEOL();
 
-  pipe_dispatch_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void vertical_symmetry_circe_determine_rebirth_square_solve(slice_index si)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = ((onerow-1)-sq_capture%onerow)+onerow*(sq_capture/onerow);
-  pipe_dispatch_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void horizontal_symmetry_circe_determine_rebirth_square_solve(slice_index si)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture%onerow+onerow*((onerow-1)-sq_capture/onerow);
   pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);

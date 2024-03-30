@@ -987,3 +987,299 @@ Loesung beendet.
 Loesung beendet.
 
 
+
+       Paul Raican & D. Forlot
+         France Echecs 2011
+Bedingung entspricht Memory-Circe; NL 1.c2-c4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   L   .   .   .  -K  -B   B   .   5
+|                                   |
+4   .   .   .  -B  -B   .   .   .   4
+|                                   |
+3   .   B   .   .   .   .   B   .   3
+|                                   |
+2   .   .   B   .   .   B   .   .   2
+|                                   |
+1   .   .   T   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          8 + 4
+  Circe Schlagfeld NaechsterSchlag
+
+   1.c2-c4 ! Drohung:
+          2.La5-c7 #
+      1...d4-d3
+          2.La5-c3 #
+      1...d4*c3 ep.
+          2.La5*c3[+wBc4] #
+      1...e4-e3
+          2.f2-f3 Drohung:
+                  3.La5-c7 #
+              2...d4-d3
+                  3.La5-c3 #
+              2...f5-f4
+                  3.g3-g4 Drohung:
+                          4.La5-c7 #
+                      3...d4-d3
+                          4.La5-c3 #
+      1...f5-f4
+          2.g3-g4 Drohung:
+                  3.La5-c7 #
+              2...d4-d3
+                  3.La5-c3 #
+              2...e4-e3
+                  3.f2-f3 Drohung:
+                          4.La5-c7 #
+                      3...d4-d3
+                          4.La5-c3 #
+
+   1.f2-f4 + !
+      1...e4*f3 ep.
+          2.Tc1-e1 +
+              2...Ke5-d5
+                  3.Te1-e5 #
+      1...Ke5-d5
+          2.c2-c4 +
+              2...d4*c3 ep.
+                  3.Tc1-d1 +
+                      3...Kd5-c5
+                          4.Td1-d5 #
+              2...Kd5-c5
+                  3.b3-b4 #
+
+  add_to_move_generation_stack:      420608
+                     play_move:      224601
+ is_white_king_square_attacked:      155785
+ is_black_king_square_attacked:       85128
+
+Loesung beendet.
+
+
+
+          Michail Marandjuk
+         Quartz 21, 2002 (v)
+eigentlich Spukschach, aber funktioniert auch mit Memory-Circe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .  -L   .   .   8
+|                                   |
+7  -B   K   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   T   .   .   .  -L  -T   6
+|                                   |
+5   .   .   .  -K   .   .  -T   .   5
+|                                   |
+4   .   .   .   .   .   B   .   .   4
+|                                   |
+3   .   .   .   .   D   .   .   .   3
+|                                   |
+2   .   B  -B   .   .   .  -D   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 9
+  Circe Schlagfeld NaechsterSchlag
+
+   1.b2-b3 ! Drohung:
+          2.Tc6-d6 +
+              2...Lf8*d6
+                  3.Sc8-e7 #
+      1...Dg2-e4
+          2.De3-c5 +
+              2...Lf8*c5
+                  3.Tc6-d6 #
+      1...Lg6-e4
+          2.Sc8-e7 +
+              2...Lf8*e7
+                  3.De3-c5 #
+
+  add_to_move_generation_stack:      294334
+                     play_move:      174614
+ is_white_king_square_attacked:       71094
+ is_black_king_square_attacked:      115735
+
+Loesung beendet.
+
+
+
+            Jacques dupin
+         France Echecs 2011
+erste 5 Züge einer Beweispartie in 7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B   B   .   .  -B  -B  -B  -B   7
+|                                   |
+6   .   .  -S   .   .   .   .   .   6
+|                                   |
+5   .   .  -B   .   .   .   .   .   5
+|                                   |
+4   .   .   B   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   B   B   .   B   .   B   B   B   2
+|                                   |
+1   T   S   L   D   K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      16 + 15
+  Circe Schlagfeld NaechsterSchlag
+
+ 13  (e2-e4 )
+  1.e2-e4 d7-d5   2.e4*d5 c7-c5   3.d5*c6 ep.[+sBd5] d5-d4   4.c2-c4 d4*c3 ep.[+sBc5]   5.c6*b7[+wBc4] Sb8-c6 dia
+  add_to_move_generation_stack:    79112992
+                     play_move:    79115062
+ is_white_king_square_attacked:     3402503
+ is_black_king_square_attacked:     2911445
+
+Loesung beendet.
+
+
+
+       Paul Raican & D. Forlot
+         France Echecs 2011
+             NL 1.Sa8*c7
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   .   8
+|                                   |
+7   L   .  -B   .   K   .  -B   .   7
+|                                   |
+6   .   .   B   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   S  -K   .   .   5
+|                                   |
+4   .   B   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   B   B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                         11 + 3
+  Circe Schlagfeld NaechsterSchlag
+
+   1.Sa8-b6 ! Zugzwang.
+      1...Kf5*e5
+          2.Sb6-c4 +
+              2...Ke5-d5
+                  3.e3-e4 #
+              2...Ke5-f5
+                  3.e3-e4 +
+                      3...Kf5-f4
+                          4.La7-e3 #
+      1...c7*b6
+          2.c6-c7 Drohung:
+                  3.c7-c8=D +
+                      3...Kf5*e5
+                          4.Dc8-e6 #
+          2.La7-b8 Zugzwang.
+              2...b6-b5
+                  3.c6-c7 Drohung:
+                          4.c7-c8=D #
+                          4.c7-c8=L #
+
+   1.Sa8*c7 ! Drohung:
+          2.f3-f4 Zugzwang.
+              2...Kf5-e4
+                  3.Sc7-b5 Zugzwang.
+                      3...Ke4-f5
+                          4.Sb5-d6 #
+                      3...Ke4-d5
+                          4.Sb5-c3 #
+          2.La7-c5 Zugzwang.
+              2...Kf5*e5
+                  3.Lc5-d6 +
+                      3...Ke5-f5
+                          4.e3-e4 #
+          2.La7-b8 Zugzwang.
+              2...Kf5*e5
+                  3.Sc7-a8 +
+                      3...Ke5-d5
+                          4.Sa8-b6 #
+                      3...Ke5-f5
+                          4.e3-e4 #
+          2.Sc7-e6 Drohung:
+                  3.e3-e4 +
+                      3...Kf5*e5[+sBc7]
+                          4.La7-d4 #
+              2...Kf5*e5[+sBc7]
+                  3.La7-d4 +
+                      3...Ke5-d5
+                          4.Se6*c7[+wSe5] #
+                      3...Ke5-f5
+                          4.Se6*g7[+wSe5] #
+                          4.e3-e4 #
+          2.Sc7-e8 Zugzwang.
+              2...Kf5*e5[+sBc7]
+                  3.La7-d4 +
+                      3...Ke5-d5
+                          4.Se8*c7[+wSe5] #
+                      3...Ke5-f5
+                          4.Se8*g7[+wSe5] #
+          2.Ke7-d6 Drohung:
+                  3.e3-e4 +
+                      3...Kf5-f4
+                          4.Sc7-d5 #
+                          4.Sc7-e6 #
+                      3...Kf5-f6
+                          4.Sc7-d5 #
+                          4.Sc7-e8 #
+              2...Kf5-f6
+                  3.Sc7-d5 +
+                      3...Kf6-f5
+                          4.e3-e4 #
+      1...Kf5*e5
+          2.e3-e4 Zugzwang.
+              2...Ke5-f4
+                  3.Sc7-b5 Zugzwang.
+                      3...Kf4-e5
+                          4.La7-b8 #
+                  3.Sc7-e6 +
+                      3...Kf4-e5
+                          4.La7-d4 #
+                          4.La7-b8 #
+          2.La7-d4 +
+              2...Ke5-f5
+                  3.e3-e4 +
+                      3...Kf5-f4
+                          4.Sc7-d5 #
+                          4.Sc7-e6 #
+          2.La7-b8 Drohung:
+                  3.Sc7-a8 +
+                      3...Ke5-d5
+                          4.Sa8-b6 #
+                      3...Ke5-f5
+                          4.e3-e4 #
+              2...Ke5-f5
+                  3.e3-e4 +
+                      3...Kf5-f4
+                          4.Sc7-d5 #
+                      3...Kf5-e5
+                          4.Sc7-b5 #
+                          4.Sc7-e6 #
+
+  add_to_move_generation_stack:      174289
+                     play_move:       87545
+ is_white_king_square_attacked:       45014
+ is_black_king_square_attacked:       51549
+
+Loesung beendet.
+
+
