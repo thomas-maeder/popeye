@@ -9,13 +9,12 @@
 
 extern boolean multicaptures_who[nr_sides];
 
-/* Determine whether a side is in check
+/* Continue determining whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean multicaptures_check_test_initialize(slice_index si,
-                                            Side side_attacked);
+boolean multicaptures_is_in_check(slice_index si, Side side_in_check);
 
 /* Filter out single captures
  * @param identifies generator slice

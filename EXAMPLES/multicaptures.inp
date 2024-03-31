@@ -1,0 +1,13 @@
+begin
+
+protocol multicaptures.ref
+
+author Romeo Bedoni
+origin Phenix 1993
+title cooked
+pieces white kh1 sg3 pg2 black kg4
+stipulation h=3
+condition multicaptures
+
+end
+

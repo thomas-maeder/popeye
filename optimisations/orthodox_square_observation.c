@@ -1,5 +1,6 @@
 #include "optimisations/orthodox_square_observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/move_generator.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "debugging/trace.h"
@@ -21,9 +22,9 @@ static vec_index_type leapers_check_ortho(Side side_checking,
 
   for (k = kanf; k<=kend; k++)
   {
-    square const sq_departure = sq_king+vec[k];
-    if (get_walk_of_piece_on_square(sq_departure)==p
-        && TSTFLAG(being_solved.spec[sq_departure],side_checking))
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = sq_king+vec[k];
+    if (get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure)==p
+        && TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],side_checking))
     {
       result = k;
       break;
@@ -54,6 +55,7 @@ static boolean pawn_test_check_ortho(Side side_checking, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = sq_departure;
   result = (get_walk_of_piece_on_square(sq_departure)==Pawn
             && TSTFLAG(being_solved.spec[sq_departure],side_checking));
 
@@ -149,11 +151,13 @@ boolean is_square_observed_ortho(Side side_checking,
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
-      square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Rook || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = find_end_of_line(sq_target,vec[k]);
+      piece_walk_type const p = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+      if ((p==Rook || p==Queen) && TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],side_checking))
       {
-        TraceWalk(p);TraceSquare(sq_departure);TraceEOL();
+        TraceWalk(p);
+        TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+        TraceEOL();
         return true;
       }
     }
@@ -165,11 +169,13 @@ boolean is_square_observed_ortho(Side side_checking,
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++)
     {
-      square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Bishop || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = find_end_of_line(sq_target,vec[k]);
+      piece_walk_type const p = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+      if ((p==Bishop || p==Queen) && TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],side_checking))
       {
-        TraceWalk(p);TraceSquare(sq_departure);TraceEOL();
+        TraceWalk(p);
+        TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+        TraceEOL();
         return true;
       }
     }

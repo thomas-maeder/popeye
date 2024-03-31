@@ -333,14 +333,14 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
   solving/find_by_increasing_length.h solving/machinery/solve.h \
   stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
   utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
-  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
-  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
-  output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
-  position/position.h position/color.h position/color.enum.h \
-  position/color.enum position/pieceid.h pieces/walks/vectors.h \
-  position/castling_rights.h solving/ply.h stipulation/branch.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h position/position.h \
+  position/color.h position/color.enum.h position/color.enum \
+  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+  solving/ply.h stipulation/branch.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -369,6 +369,8 @@ utilities/boolean.h:
 stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
+
+stipulation/slice_type.enum:
 
 position/side.h:
 
@@ -2848,8 +2850,9 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
   conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
-  conditions/circe/relevant_side.h conditions/pepo.h stipulation/pipe.h \
-  solving/pipe.h solving/find_move.h \
+  conditions/circe/relevant_side.h conditions/pepo.h \
+  conditions/multicaptures.h stipulation/pipe.h solving/pipe.h \
+  solving/find_move.h \
   solving/find_square_observer_tracking_back_from_target.h \
   solving/castling.h output/plaintext/message.h output/message.h \
   input/plaintext/language.h debugging/assert.h
@@ -2979,6 +2982,8 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/pepo.h:
+
+conditions/multicaptures.h:
 
 stipulation/pipe.h:
 

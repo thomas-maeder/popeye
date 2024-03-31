@@ -1,0 +1,37 @@
+
+            Romeo Bedoni
+             Phenix 1993
+               cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   S   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         3 + 1
+            MultiCaptures
+
+  1.Kg4-h3 Sg3-e2   2.Kh3-h2 Kh1-g1   3.Kh2-h1 Kg1-h2 =
+  1.Kg4-h3 Kh1-g1   2.Kh3-h2 Sg3-e2   3.Kh2-h1 Kg1-h2 =
+  add_to_move_generation_stack:      121895
+                     play_move:       35426
+ is_white_king_square_attacked:       16729
+ is_black_king_square_attacked:       42161
+
+solution finished.
+
+
