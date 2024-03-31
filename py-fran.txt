@@ -267,6 +267,7 @@ simples:
 	Pepo
 	CASTechecs
 	CASTInverse
+	MultiCaptures
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
