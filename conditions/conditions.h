@@ -242,8 +242,9 @@ typedef enum
   leffie,                 /* 221 */
   pepo,                   /* 222 */
   cast,                   /* 223 */
+  multicaptures,          /* 224 */
 
-  CondCount               /* 224 */
+  CondCount               /* 225 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
