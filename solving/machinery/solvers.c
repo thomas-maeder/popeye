@@ -128,6 +128,7 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -789,6 +790,9 @@ void build_solvers2(slice_index si)
     reflective_kings_initialise_solving(si,White);
   if (CondFlag[blrefl_king])
     reflective_kings_initialise_solving(si,Black);
+
+  if (CondFlag[multicaptures])
+    multicaptures_initialise_solving(si);
 
   if (CondFlag[annan])
     annan_initialise_solving(si);

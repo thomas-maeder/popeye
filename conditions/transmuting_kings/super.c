@@ -222,7 +222,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
-  solving_instrument_move_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
+  solving_instrument_move_for_piece_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
 
   transmuting_kings_initialise_observing(si,side);
 

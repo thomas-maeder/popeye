@@ -944,7 +944,7 @@ void total_invisible_instrumenter_solve(slice_index si)
 
   output_plaintext_check_indication_disabled = true;
 
-  solving_instrument_move_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STTotalInvisibleSpecialMoveGenerator);
 
   {
     slice_index const prototype = alloc_pipe(STTotalInvisibleInvisiblesAllocator);

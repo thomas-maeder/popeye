@@ -566,6 +566,7 @@
     ENUMERATOR(STExchangeCastlingMovePlayer),                           \
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
     ENUMERATOR(STSuperTransmutingKingMoveGenerationFilter),             \
+    ENUMERATOR(STMultiCapturesMoveGenerationFilter),                    \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

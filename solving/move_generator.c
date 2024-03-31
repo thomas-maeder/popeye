@@ -192,9 +192,9 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si,
-                                        Side side,
-                                        slice_type type)
+void solving_instrument_move_for_piece_generation(slice_index si,
+                                                  Side side,
+                                                  slice_type type)
 {
   stip_structure_traversal st;
   insertion_configuration config = { side, type };
@@ -256,7 +256,7 @@ void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
 {
   stip_structure_traversal st;
 
-  solving_instrument_move_generation(si,
+  solving_instrument_move_for_piece_generation(si,
                                      side,
                                      STMoveForPieceGeneratorPathsJoint);
 

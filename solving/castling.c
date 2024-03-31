@@ -557,7 +557,7 @@ void solving_initialise_castling(slice_index si)
   move_effect_journal_set_effect_doers(move_effect_enable_castling_right,
                                        &move_effect_journal_undo_enabling_castling_right,
                                        &move_effect_journal_redo_enabling_castling_right);
-  solving_instrument_move_generation(si,nr_sides,STCastlingGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STCastlingGenerator);
 
   /* TODO both not necessary behind STCastlingIntermediateMoveLegalityTester */
   insert_alternative_move_players(si,STCastlingPlayer);

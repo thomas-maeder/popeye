@@ -52,7 +52,7 @@ void solving_insert_messigny(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STMessignyMovesForPieceGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STMessignyMovesForPieceGenerator);
   insert_alternative_move_players(si,STMessignyMovePlayer);
 
   TraceFunctionExit(__func__);

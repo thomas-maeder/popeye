@@ -164,7 +164,7 @@ void annan_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STAnnanMovesForPieceGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STAnnanMovesForPieceGenerator);
 
   {
     stip_structure_traversal st;
@@ -238,7 +238,7 @@ void nanna_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STNannaMovesForPieceGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STNannaMovesForPieceGenerator);
 
   {
     stip_structure_traversal st;

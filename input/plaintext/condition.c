@@ -49,6 +49,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -1820,6 +1821,12 @@ char *ParseCond(char *tok)
           kobul_who[White] = true;
           kobul_who[Black] = true;
           tok = ParseKobulSides(tok,&kobul_who);
+          break;
+
+        case multicaptures:
+          multicaptures_who[White] = true;
+          multicaptures_who[Black] = true;
+          tok = ParseKobulSides(tok,&multicaptures_who);
           break;
 
         case sentinelles:

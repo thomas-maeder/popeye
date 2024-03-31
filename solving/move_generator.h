@@ -81,9 +81,9 @@ void move_generation_branch_insert_slices(slice_index si,
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si,
-                                        Side side,
-                                        slice_type type);
+void solving_instrument_move_for_piece_generation(slice_index si,
+                                                  Side side,
+                                                  slice_type type);
 
 /* Reject generated captures
  * @param si identifies the slice

@@ -96,7 +96,7 @@ void exchange_castling_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STPlatzwechselRochadeMovesForPieceGenerator);
+  solving_instrument_move_for_piece_generation(si,nr_sides,STPlatzwechselRochadeMovesForPieceGenerator);
   insert_alternative_move_players(si,STExchangeCastlingMovePlayer);
   solving_disable_castling(si);
 
