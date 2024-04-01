@@ -1,7 +1,9 @@
 #include "conditions/multicaptures.h"
+#include "position/position.h"
 #include "solving/move_generator.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/pipe.h"
+#include "solving/check.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
@@ -58,31 +60,6 @@ boolean multicaptures_is_in_check(slice_index si, Side side_in_check)
     if (TSTFLAG(spec,Black))
       ++being_solved.number_of_pieces[Black][save_walk];
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a side is in check
- * @param si identifies the check tester
- * @param side_in_check which side?
- * @return true iff side_in_check is in check according to slice si
- */
-boolean multicaptures_check_test_initialize(slice_index si,
-                                            Side side_attacked)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_attacked);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,side_attacked);TraceEOL();
-
-  result = pipe_is_in_check_recursive_delegate(si,side_attacked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

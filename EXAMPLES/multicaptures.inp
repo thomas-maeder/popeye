@@ -9,5 +9,58 @@ pieces white kh1 sg3 pg2 black kg4
 stipulation h=3
 condition multicaptures
 
+next
+
+author Romeo Bedoni
+origin Phenix 1993
+title cooked
+pieces white kb3 pb2 black kh7
+stipulation h#7
+condition multicaptures
+
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white kc7 ra2 black ka8
+stipulation #3
+condition MultiCaptures
+option vari nothreat
+
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white ka6 rd7 pb6e6 black kb8
+stipulation #2
+condition MultiCaptures
+option vari
+
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white kc6 ba6g1 sb8 pf2g2 black kh1
+stipulation =5
+condition MultiCaptures
+option vari nothreat
+
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white ke8 se7g8 pg6h6 black kh8 qh7
+stipulation =2
+condition MultiCaptures
+option vari
+
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white kf6 pd7 black kf8 pa2
+stipulation h#2
+condition MultiCaptures
+
 end
 

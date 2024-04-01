@@ -39,6 +39,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "conditions/multicaptures.h"
 #include "options/options.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
@@ -1885,6 +1886,14 @@ void verify_position(slice_index si)
 
   if (CondFlag[cast])
     disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[multicaptures])
+  {
+    if (multicaptures_who[White])
+      disable_orthodox_mating_move_optimisation(White);
+    if (multicaptures_who[Black])
+      disable_orthodox_mating_move_optimisation(Black);
+  }
 
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
