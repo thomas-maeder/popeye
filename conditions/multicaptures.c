@@ -140,11 +140,6 @@ void multicaptures_filter_singlecaptures(slice_index si)
   {
     if (!is_on_board(move_generation_stack[i].capture))
       break;
-    else if (i==top)
-    {
-      --top;
-      break;
-    }
     else if (move_generation_stack[i].capture==move_generation_stack[i+1].capture)
     {
       do
