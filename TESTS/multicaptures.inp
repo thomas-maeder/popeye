@@ -1,0 +1,20 @@
+begin
+
+protocol multicaptures.tst
+
+pieces white pa2 black pb3
+stip x1
+condition multicaptures white
+option nowk nobk
+twin condition multicaptures black
+
+next
+
+pieces white pa2 black kb4
+stip +1
+condition multicaptures white
+option nowk
+twin condition multicaptures black
+
+end
+

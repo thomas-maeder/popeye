@@ -31,7 +31,8 @@ boolean multicaptures_is_in_check(slice_index si, Side side_in_check)
   TraceFunctionParamListEnd();
 
   result = pipe_is_in_check_recursive_delegate(si,side_in_check);
-  if (result)
+  if (result
+      && (multicaptures_who==nr_sides || multicaptures_who!=side_in_check))
   {
     // TODO this won't work for Friends and Orphans
     square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
@@ -97,79 +98,84 @@ static int compare_square_capture(void const *a, void const *b)
  */
 void multicaptures_filter_singlecaptures(slice_index si)
 {
-  numecoup const base = MOVEBASE_OF_PLY(nbply);
-  numecoup top = CURRMOVE_OF_PLY(nbply);
-  numecoup i;
+  Side const side_moving = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",base);
-  TraceValue("%u",top);
-  TraceEOL();
-
-  for (i = base+1; i<=top; ++i)
+  if (multicaptures_who==nr_sides || multicaptures_who==side_moving)
   {
-    TraceValue("%u",i);
-    TraceSquare(move_generation_stack[i].departure);
-    TraceSquare(move_generation_stack[i].arrival);
-    TraceSquare(move_generation_stack[i].capture);
+    numecoup const base = MOVEBASE_OF_PLY(nbply);
+    numecoup top = CURRMOVE_OF_PLY(nbply);
+    numecoup i;
+
+    TraceValue("%u",base);
+    TraceValue("%u",top);
     TraceEOL();
-  }
-  TraceEOL();
 
-  qsort(&move_generation_stack[base+1],
-        top-base,
-        sizeof move_generation_stack[0],
-        &compare_square_capture);
-
-  for (i = base+1; i<=top; ++i)
-  {
-    TraceValue("%u",i);
-    TraceSquare(move_generation_stack[i].departure);
-    TraceSquare(move_generation_stack[i].arrival);
-    TraceSquare(move_generation_stack[i].capture);
-    TraceEOL();
-  }
-
-  TraceEOL();
-
-  i = base+1;
-  while (i<top)
-  {
-    if (!is_on_board(move_generation_stack[i].capture))
-      break;
-    else if (move_generation_stack[i].capture==move_generation_stack[i+1].capture)
+    for (i = base+1; i<=top; ++i)
     {
-      do
+      TraceValue("%u",i);
+      TraceSquare(move_generation_stack[i].departure);
+      TraceSquare(move_generation_stack[i].arrival);
+      TraceSquare(move_generation_stack[i].capture);
+      TraceEOL();
+    }
+    TraceEOL();
+
+    qsort(&move_generation_stack[base+1],
+          top-base,
+          sizeof move_generation_stack[0],
+          &compare_square_capture);
+
+    for (i = base+1; i<=top; ++i)
+    {
+      TraceValue("%u",i);
+      TraceSquare(move_generation_stack[i].departure);
+      TraceSquare(move_generation_stack[i].arrival);
+      TraceSquare(move_generation_stack[i].capture);
+      TraceEOL();
+    }
+
+    TraceEOL();
+
+    i = base+1;
+    while (i<top)
+    {
+      if (!is_on_board(move_generation_stack[i].capture))
+        break;
+      else if (move_generation_stack[i].capture==move_generation_stack[i+1].capture)
       {
-        ++i;
-      } while (i<=top
-               && move_generation_stack[i-1].capture==move_generation_stack[i].capture);
+        do
+        {
+          ++i;
+        } while (i<=top
+                 && move_generation_stack[i-1].capture==move_generation_stack[i].capture);
+      }
+      else
+      {
+        memmove(&move_generation_stack[i],
+                &move_generation_stack[i+1],
+                sizeof move_generation_stack[0]*(top-i));
+        --top;
+      }
     }
-    else
-    {
-      memmove(&move_generation_stack[i],
-              &move_generation_stack[i+1],
-              sizeof move_generation_stack[0]*(top-i));
-      --top;
-    }
-  }
 
-  CURRMOVE_OF_PLY(nbply) = top;
+    CURRMOVE_OF_PLY(nbply) = top;
 
-  TraceValue("%u",base);
-  TraceValue("%u",top);
-  TraceEOL();
-
-  for (i = base+1; i<=top; ++i)
-  {
-    TraceValue("%u",i);
-    TraceSquare(move_generation_stack[i].departure);
-    TraceSquare(move_generation_stack[i].arrival);
-    TraceSquare(move_generation_stack[i].capture);
+    TraceValue("%u",base);
+    TraceValue("%u",top);
     TraceEOL();
+
+    for (i = base+1; i<=top; ++i)
+    {
+      TraceValue("%u",i);
+      TraceSquare(move_generation_stack[i].departure);
+      TraceSquare(move_generation_stack[i].arrival);
+      TraceSquare(move_generation_stack[i].capture);
+      TraceEOL();
+    }
   }
 
   pipe_move_generation_delegate(si);
