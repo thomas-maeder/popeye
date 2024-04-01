@@ -62,5 +62,15 @@ pieces white kf6 pd7 black kf8 pa2
 stipulation h#2
 condition MultiCaptures
 
+next
+
+author Juraj Lörinc
+origin Springaren Summer Ty 2014, 2nd prize
+pieces white ga1a3e1h1h4h6
+       black gb7c4e8 black royal due4
+stipulation #3
+condition MultiCaptures
+option nowk vari nothreat
+
 end
 

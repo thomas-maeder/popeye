@@ -287,3 +287,58 @@ solution finished.
 solution finished.
 
 
+
+            Juraj Lörinc
+Springaren Summer Ty 2014, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -G   .   .   .   8
+|                                   |
+7   .  -G   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   G   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -G   . -DU   .   .   G   4
+|                                   |
+3   G   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   G   .   .   .   G   .   .   G   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 4
+              Royal e4
+            MultiCaptures
+
+   1.Ga1-f1 !
+      1...Ge8-e3
+          2.Ga3-f3 +
+              2...Ge3-e5
+                  3.Gf1-f4 #
+              2...Ge3-g3
+                  3.Gf1-f4 #
+      1...Gb7-f3
+          2.Gf1-f4 +
+              2...Gf3-f5
+                  3.Gh6-e3 #
+              2...Gf3-d5
+                  3.Gh6-e3 #
+      1...Gc4-f4
+          2.Gh6-e3 +
+              2...Gf4-d4
+                  3.Ga3-f3 #
+              2...Gf4-d2
+                  3.Ga3-f3 #
+
+  add_to_move_generation_stack:        1883
+                     play_move:        1460
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1628
+
+solution finished.
+
+
