@@ -411,7 +411,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ghostchess])
     solving_insert_ghost_chess(si);
 
-  if (kobul_who[White] || kobul_who[Black])
+  if (CondFlag[kobulkings])
     solving_insert_kobul_king_substitutors(si);
 
   if (CondFlag[snekchess])

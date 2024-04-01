@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-boolean multicaptures_who[nr_sides];
+Side multicaptures_who;
 
 /* Continue determining whether a side is in check
  * @param si identifies the check tester

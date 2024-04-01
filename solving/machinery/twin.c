@@ -1889,9 +1889,9 @@ void verify_position(slice_index si)
 
   if (CondFlag[multicaptures])
   {
-    if (multicaptures_who[White])
+    if (multicaptures_who==nr_sides || multicaptures_who==White)
       disable_orthodox_mating_move_optimisation(White);
-    if (multicaptures_who[Black])
+    if (multicaptures_who==nr_sides || multicaptures_who==Black)
       disable_orthodox_mating_move_optimisation(Black);
   }
 

@@ -7,7 +7,7 @@
 /* Implementation of condition MultiCaptures
  */
 
-extern boolean multicaptures_who[nr_sides];
+extern Side multicaptures_who;
 
 /* Continue determining whether a side is in check
  * @param si identifies the check tester
