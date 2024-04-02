@@ -840,6 +840,15 @@ void verify_position(slice_index si)
       || piece_walk_may_exist[GreaterLeafhopper]
       || piece_walk_may_exist[Rose]
       || piece_walk_may_exist[Rao]
+      || piece_walk_may_exist[SpiralSpringer]
+      || piece_walk_may_exist[DiagonalSpiralSpringer]
+      || piece_walk_may_exist[SpiralSpringer11]
+      || piece_walk_may_exist[SpiralSpringer20]
+      || piece_walk_may_exist[SpiralSpringer33]
+      || piece_walk_may_exist[SpiralSpringer40]
+      || piece_walk_may_exist[BoyScout]
+      || piece_walk_may_exist[GirlScout]
+      || piece_walk_may_exist[Quintessence]
       || ((!(TSTFLAG(some_pieces_flags,ColourChange)
              || TSTFLAG(some_pieces_flags,Bul)
              || TSTFLAG(some_pieces_flags,Dob)

@@ -69,7 +69,6 @@ static vec_index_type vec_index_mirror(vec_index_type start,
 
 void spiralspringer_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
 
@@ -78,8 +77,6 @@ void spiralspringer_generate_moves(void)
     generate_zigzag(k,top-k);
     generate_zigzag(k,vec_index_mirror(vec_knight_start,vec_knight_end,top-k));
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean spiralspringer_check(validator_id evaluate)
@@ -97,8 +94,6 @@ boolean spiralspringer_check(validator_id evaluate)
 
 void diagonalspiralspringer_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
@@ -107,8 +102,6 @@ void diagonalspiralspringer_generate_moves(void)
     generate_zigzag(k+1,k);
     generate_zigzag(k+1,vec_index_mirror(vec_knight_start,vec_knight_end,k));
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean diagonalspiralspringer_check(validator_id evaluate)
@@ -127,8 +120,6 @@ boolean diagonalspiralspringer_check(validator_id evaluate)
 
 void boyscout_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
   for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
@@ -136,8 +127,6 @@ void boyscout_generate_moves(void)
     generate_zigzag(k,top-k);
     generate_zigzag(k,vec_index_mirror(vec_bishop_start,vec_bishop_end,top-k));
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean boyscout_check(validator_id evaluate)
@@ -155,8 +144,6 @@ boolean boyscout_check(validator_id evaluate)
 
 void girlscout_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
   for (k = vec_rook_end; k>=vec_rook_start; --k)
@@ -164,8 +151,6 @@ void girlscout_generate_moves(void)
     generate_zigzag(k,top-k);
     generate_zigzag(k,vec_index_mirror(vec_rook_start,vec_rook_end,top-k));
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean girlscout_check(validator_id evaluate)
@@ -183,16 +168,12 @@ boolean girlscout_check(validator_id evaluate)
 
 void spiralspringer40_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
     generate_zigzag(k, k+7);
     generate_zigzag(k+7, k);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean spiralspringer40_check(validator_id evaluate)
@@ -212,16 +193,12 @@ boolean spiralspringer40_check(validator_id evaluate)
 
 void spiralspringer20_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
     generate_zigzag(k, k+3);
     generate_zigzag(k+3, k);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean spiralspringer20_check(validator_id evaluate)
@@ -241,16 +218,12 @@ boolean spiralspringer20_check(validator_id evaluate)
 
 void spiralspringer33_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
     generate_zigzag(k, k+1);
     generate_zigzag(k+1, k);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean spiralspringer33_check(validator_id evaluate)
@@ -270,16 +243,12 @@ boolean spiralspringer33_check(validator_id evaluate)
 
 void spiralspringer11_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
     generate_zigzag(k, k+5);
     generate_zigzag(k+5, k);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean spiralspringer11_check(validator_id evaluate)
@@ -299,7 +268,6 @@ boolean spiralspringer11_check(validator_id evaluate)
 
 void quintessence_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type k;
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
@@ -307,8 +275,6 @@ void quintessence_generate_moves(void)
     generate_zigzag(k, k+2);
     generate_zigzag(k+2, k);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean quintessence_check(validator_id evaluate)
