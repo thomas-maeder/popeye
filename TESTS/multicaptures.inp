@@ -10,7 +10,7 @@ twin condition multicaptures black
 
 next
 
-pieces white pa2 black kb4
+pieces white pd2 black ke4
 stip +1
 condition multicaptures white
 option nowk

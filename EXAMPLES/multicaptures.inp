@@ -81,5 +81,13 @@ pieces white ke1 qd1 ra1h1 bc1f3 sb1g1 pa2b2c2d2e2g4h2
 stip dia6
 condition multicaptures
 
+next
+
+author Romeo Bedoni
+origin Phenix 2000
+pieces white kh1 sa5 pb7g3 black kb8 pg5 rbc7
+stipulation h=3
+condition MultiCaptures
+
 end
 

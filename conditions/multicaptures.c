@@ -4,9 +4,7 @@
 #include "solving/king_capture_avoider.h"
 #include "solving/pipe.h"
 #include "solving/check.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/pipe.h"
-#include "stipulation/slice_insertion.h"
+#include "solving/observation.h"
 
 #include "debugging/assert.h"
 #include "debugging/trace.h"
@@ -16,12 +14,15 @@
 
 Side multicaptures_who;
 
+static unsigned int counter;
+
 /* Continue determining whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean multicaptures_is_in_check(slice_index si, Side side_in_check)
+boolean multicaptures_initialise_check_detection(slice_index si,
+                                                 Side side_in_check)
 {
   boolean result;
 
@@ -30,37 +31,35 @@ boolean multicaptures_is_in_check(slice_index si, Side side_in_check)
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
-  result = pipe_is_in_check_recursive_delegate(si,side_in_check);
-  if (result
-      && (multicaptures_who==nr_sides || multicaptures_who!=side_in_check))
-  {
-    // TODO this won't work for Friends and Orphans
-    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-    assert(is_on_board(sq_departure));
-    piece_walk_type save_walk = get_walk_of_piece_on_square(sq_departure);
-    Flags const spec = being_solved.spec[sq_departure];
+  assert(counter==0);
 
-    TraceWalk(save_walk);
-    TraceSquare(sq_departure);
-    TraceEOL();
-    occupy_square(sq_departure,Dummy,spec);
-    if (TSTFLAG(spec,White))
-    {
-      assert(being_solved.number_of_pieces[White][save_walk]>0);
-      --being_solved.number_of_pieces[White][save_walk];
-    }
-    if (TSTFLAG(spec,Black))
-    {
-      assert(being_solved.number_of_pieces[Black][save_walk]>0);
-      --being_solved.number_of_pieces[Black][save_walk];
-    }
-    result = pipe_is_in_check_recursive_delegate(si,side_in_check);
-    occupy_square(sq_departure,save_walk,spec);
-    if (TSTFLAG(spec,White))
-      ++being_solved.number_of_pieces[White][save_walk];
-    if (TSTFLAG(spec,Black))
-      ++being_solved.number_of_pieces[Black][save_walk];
-  }
+  result = pipe_is_in_check_recursive_delegate(si,side_in_check);
+
+  counter = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Continue validating an observation (or observer or observation geometry)
+ * @param si identifies the slice with which to continue
+ * @return true iff the observation is valid
+ */
+boolean multi_captures_count_checks(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(counter<=1);
+
+  if (pipe_validate_observation_recursive_delegate(si))
+    ++counter;
+
+  result = counter>1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,39 +183,20 @@ void multicaptures_filter_singlecaptures(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_filter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STMultiCapturesMoveGenerationFilter);
-    slice_insertion_insert_contextually(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Inialise the solving machinery with MultiCaptures
  * @param si identifies root slice of solving machinery
  * @param side for who - pass nr_sides for both sides
  */
 void multicaptures_initialise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_filter);
-  stip_traverse_structure(si,&st);
+  solving_instrument_move_generation(si,STMultiCapturesMoveGenerationFilter);
 
-  solving_instrument_check_testing(si,STMultiCapturesObserationTester);
+  solving_instrument_check_testing(si,STMultiCapturesInitializeCheckDetection);
+  stip_instrument_check_validation(si,multicaptures_who,STMultiCapturesCheckCounter);
   solving_insert_king_capture_avoiders(si);
 
   TraceFunctionExit(__func__);

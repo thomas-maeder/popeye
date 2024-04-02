@@ -657,29 +657,29 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.RBd1-e2 !
-
-   1.RBd1-f3 !
-
-   1.RBd1-g4 !
-
-   1.RBd1-h5 !
-
-   1.RBd1-g6 !
+   1.RBd1-e8 !
 
    1.RBd1-f7 !
 
-   1.RBd1-e8 !
-
    1.RBd1-d7 !
+
+   1.RBd1-g6 !
 
    1.RBd1-c6 !
 
+   1.RBd1-h5 !
+
    1.RBd1-b5 !
+
+   1.RBd1-g4 !
 
    1.RBd1-a4 !
 
+   1.RBd1-f3 !
+
    1.RBd1-b3 !
+
+   1.RBd1-e2 !
 
    1.RBd1-c2 !
 

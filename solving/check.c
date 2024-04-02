@@ -225,8 +225,8 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
       break;
 
-    case STMultiCapturesObserationTester:
-      result = multicaptures_is_in_check(si,side_in_check);
+    case STMultiCapturesInitializeCheckDetection:
+      result = multicaptures_initialise_check_detection(si,side_in_check);
       break;
 
     case STPhantomKingSquareObservationTesterPlyInitialiser:
@@ -314,7 +314,7 @@ static slice_index const slice_rank_order[] =
     STStrictSATCheckTester,
     STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest,
     STKingSquareObservationTesterPlyInitialiser,
-    STMultiCapturesObserationTester,
+    STMultiCapturesInitializeCheckDetection,
     STPhantomKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
     STKingCapturedObservationGuard,

@@ -567,7 +567,9 @@
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
     ENUMERATOR(STSuperTransmutingKingMoveGenerationFilter),             \
     ENUMERATOR(STMultiCapturesMoveGenerationFilter),                    \
-    ENUMERATOR(STMultiCapturesObserationTester),                        \
+    ENUMERATOR(STMultiCapturesCheckCounter),                            \
+    ENUMERATOR(STDuplicateMovesPerPieceRemover),                        \
+    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                        \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

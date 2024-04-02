@@ -824,6 +824,9 @@ void verify_position(slice_index si)
     }
   }
 
+  if (piece_walk_may_exist[ReflectBishop])
+    solving_instrument_move_generation(si,STDuplicateMovesPerPieceRemover);
+
   if (CondFlag[lostpieces])
     disable_orthodox_mating_move_optimisation(nr_sides);
 

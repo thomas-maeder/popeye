@@ -806,6 +806,10 @@ void dispatch(slice_index si)
       multicaptures_filter_singlecaptures(si);
       break;
 
+    case STDuplicateMovesPerPieceRemover:
+      duplicate_moves_per_piece_remover(si);
+      break;
+
     case STAMUAttackCounter:
       amu_attack_counter_solve(si);
       break;

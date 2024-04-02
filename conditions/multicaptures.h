@@ -14,7 +14,14 @@ extern Side multicaptures_who;
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean multicaptures_is_in_check(slice_index si, Side side_in_check);
+boolean multicaptures_initialise_check_detection(slice_index si,
+                                                 Side side_in_check);
+
+/* Continue validating an observation (or observer or observation geometry)
+ * @param si identifies the slice with which to continue
+ * @return true iff the observation is valid
+ */
+boolean multi_captures_count_checks(slice_index si);
 
 /* Filter out single captures
  * @param identifies generator slice

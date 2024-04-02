@@ -10111,17 +10111,8 @@ conditions/multicaptures$(OBJ_SUFFIX): conditions/multicaptures.c \
   solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
   debugging/measure.h output/plaintext/protocol.h \
   solving/king_capture_avoider.h solving/pipe.h solving/check.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
-  stipulation/slice_structural_type.enum.h \
-  stipulation/slice_structural_type.enum \
-  stipulation/slice_functional_type.h \
-  stipulation/slice_functional_type.enum.h \
-  stipulation/slice_functional_type.enum \
-  stipulation/slice_contextual_type.h \
-  stipulation/slice_contextual_type.enum.h \
-  stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  stipulation/pipe.h stipulation/slice_insertion.h debugging/assert.h
+  solving/observation.h solving/temporary_hacks.h solving/fork.h \
+  debugging/assert.h
 
 conditions/multicaptures.h:
 
@@ -10189,32 +10180,10 @@ solving/pipe.h:
 
 solving/check.h:
 
-stipulation/structure_traversal.h:
+solving/observation.h:
 
-stipulation/slice.h:
+solving/temporary_hacks.h:
 
-stipulation/slice_structural_type.h:
-
-stipulation/slice_structural_type.enum.h:
-
-stipulation/slice_structural_type.enum:
-
-stipulation/slice_functional_type.h:
-
-stipulation/slice_functional_type.enum.h:
-
-stipulation/slice_functional_type.enum:
-
-stipulation/slice_contextual_type.h:
-
-stipulation/slice_contextual_type.enum.h:
-
-stipulation/slice_contextual_type.enum:
-
-stipulation/traversal.h:
-
-stipulation/pipe.h:
-
-stipulation/slice_insertion.h:
+solving/fork.h:
 
 debugging/assert.h:
