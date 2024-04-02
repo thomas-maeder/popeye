@@ -108,13 +108,10 @@ static void radialknight_generate(vec_index_type kanf, vec_index_type kend)
  */
 void radialknight_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
     radialknight_generate(radial_ranges[i].start,radial_ranges[i].end);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
@@ -199,26 +196,20 @@ static void treehopper_generate(vec_index_type kanf, vec_index_type kend)
  */
 void treehopper_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_queen_radial_ranges; ++i)
     treehopper_generate(queen_radial_ranges[i].start,queen_radial_ranges[i].end);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Generate moves for a greater tree hopper
  */
 void greater_treehopper_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
     treehopper_generate(radial_ranges[i].start,radial_ranges[i].end);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean treehopper_check(validator_id evaluate)
@@ -264,26 +255,20 @@ static void leafhopper_generate(vec_index_type kanf, vec_index_type kend)
  */
 void leafhopper_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_queen_radial_ranges; ++i)
     leafhopper_generate(queen_radial_ranges[i].start,queen_radial_ranges[i].end);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Generate moves for a greater leaf hopper
  */
 void greater_leafhopper_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
     leafhopper_generate(radial_ranges[i].start,radial_ranges[i].end);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
