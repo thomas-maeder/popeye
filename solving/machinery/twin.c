@@ -828,6 +828,8 @@ void verify_position(slice_index si)
       || piece_walk_may_exist[Saltador]
       || piece_walk_may_exist[BouncyKnight]
       || piece_walk_may_exist[BouncyNightrider]
+      || piece_walk_may_exist[Friend]
+      || piece_walk_may_exist[Orphan]
       || ((!(TSTFLAG(some_pieces_flags,ColourChange)
              || TSTFLAG(some_pieces_flags,Bul)
              || TSTFLAG(some_pieces_flags,Dob)

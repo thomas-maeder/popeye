@@ -112,7 +112,6 @@ static boolean orphan_find_observation_chain(square sq_target,
  */
 void orphan_generate_moves(void)
 {
-  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   piece_walk_type const *orphan_observer;
 
   TraceFunctionEntry(__func__);
@@ -137,8 +136,6 @@ void orphan_generate_moves(void)
     }
 
   move_generation_current_walk = Orphan;
-
-  remove_duplicate_moves_of_single_piece(save_nbcou);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

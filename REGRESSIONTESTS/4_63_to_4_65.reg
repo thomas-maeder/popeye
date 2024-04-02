@@ -939,26 +939,26 @@ solution finished.
 
 a) 
 
-  1.MPb6*c5-d4 Oe5-e6
-  1.MPb6*c5-d4 Oe5*f6
-  1.MPb6-b5 Oe5-e6
-  1.MPb6-b5 Oe5*f6
+  1.d7-d6 Oe5*f6
+  1.d7-d6 Oe5-e6
+  1.d7-d6 Oe5*d6
+  1.d7-d6 Oc5*d6-e7
+  1.d7-d6 Oc5*b6-a7
+  1.d7-d6 Oc5*d6
+  1.d7-d6 Oc5-c6
+  1.d7-d6 Oc5*b6
+  1.d7-d5 Oe5*f6
+  1.d7-d5 Oe5-e6
+  1.d7-d5 Oc5*b6-a7
+  1.d7-d5 Oc5-c6
   1.f6-f5 Oc5*b6-a7
   1.f6-f5 Oc5-c6
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6
-  1.d7-d5 Oc5*b6-a7
-  1.d7-d5 Oc5-c6
-  1.d7-d5 Oe5-e6
-  1.d7-d5 Oe5*f6
-  1.d7-d6 Oc5*b6-a7
-  1.d7-d6 Oc5*d6-e7
-  1.d7-d6 Oc5-c6
-  1.d7-d6 Oc5*d6
-  1.d7-d6 Oc5*b6
-  1.d7-d6 Oe5-e6
-  1.d7-d6 Oe5*f6
-  1.d7-d6 Oe5*d6
+  1.MPb6-b5 Oe5*f6
+  1.MPb6-b5 Oe5-e6
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6*c5-d4 Oe5-e6
   add_to_move_generation_stack:          27
                      play_move:          26
  is_white_king_square_attacked:           0
@@ -966,18 +966,18 @@ a)
 
 b) brPd7  
 
-  1.MPb6*c5-d4 Oe5-e6 +
-  1.MPb6*c5-d4 Oe5*f6
-  1.MPb6-b5 Oe5-e6 +
-  1.MPb6-b5 Oe5*f6
+  1.rPd7-d5 Oe5*f6
+  1.rPd7-d5 Oe5-e6
+  1.rPd7-d5 Oc5*b6-a7
+  1.rPd7-d5 Oc5-c6
   1.f6-f5 Oc5*b6-a7
   1.f6-f5 Oc5-c6 +
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6 +
-  1.rPd7-d5 Oc5*b6-a7
-  1.rPd7-d5 Oc5-c6
-  1.rPd7-d5 Oe5-e6
-  1.rPd7-d5 Oe5*f6
+  1.MPb6-b5 Oe5*f6
+  1.MPb6-b5 Oe5-e6 +
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6*c5-d4 Oe5-e6 +
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:           0

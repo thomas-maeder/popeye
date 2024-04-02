@@ -133,7 +133,6 @@ static boolean find_next_friend_in_chain(square sq_target,
  */
 void friend_generate_moves(void)
 {
-  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   Side const camp = trait[nbply];
 
   piece_walk_type const *friend_observer;
@@ -157,8 +156,6 @@ void friend_generate_moves(void)
     }
 
   move_generation_current_walk = Friend;
-
-  remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 boolean friend_check(validator_id evaluate)
