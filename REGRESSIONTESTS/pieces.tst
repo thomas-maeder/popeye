@@ -1659,9 +1659,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 6
 
-   1.SAe5*f3 !
-
    1.SAe5-g6 + !
+
+   1.SAe5*f3 !
 
   add_to_move_generation_stack:          16
                      play_move:           2

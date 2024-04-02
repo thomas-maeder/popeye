@@ -825,6 +825,7 @@ void verify_position(slice_index si)
   }
 
   if (piece_walk_may_exist[ReflectBishop]
+      || piece_walk_may_exist[Saltador]
       || ((!(TSTFLAG(some_pieces_flags,ColourChange)
              || TSTFLAG(some_pieces_flags,Bul)
              || TSTFLAG(some_pieces_flags,Dob)
