@@ -1790,21 +1790,21 @@ king transmutes even if rebirth square is empty
            TransmutedKings
 both sides need a king
 
-   1.Ke4-c3 !
-
-   1.Ke4-d2 !
-
-   1.Ke4-f2 !
-
-   1.Ke4-g3 !
-
-   1.Ke4-g5 !
-
    1.Ke4*f6[+bSb8] !
 
    1.Ke4-d6 !
 
+   1.Ke4-g5 !
+
    1.Ke4-c5 !
+
+   1.Ke4-g3 !
+
+   1.Ke4-c3 !
+
+   1.Ke4-f2 !
+
+   1.Ke4-d2 !
 
   add_to_move_generation_stack:           8
                      play_move:           8
@@ -2030,11 +2030,11 @@ so far, f6 would be recolored as part of 1.mDGc1-d2
   zd21                        6 + 0
              Magic a4 c1
 
-   1.mDGc1-d2 z !
+   1.mDGa4-d2[f6=b] z !
 
    1.Be3-d2 z !
 
-   1.mDGa4-d2[f6=b] z !
+   1.mDGc1-d2 z !
 
   add_to_move_generation_stack:          16
                      play_move:           3
@@ -3385,17 +3385,17 @@ Until 4.63, Popeye didn't respect Annan in Transmuting Kings
            TransmutedKings
              AnnanChess
 
-   1.Kd4-b3 !
-
-   1.Kd4-c2 !
-
-   1.Kd4-e2 !
-
-   1.Kd4-f3 !
+   1.Kd4*c6 !
 
    1.Kd4-f5 !
 
-   1.Kd4*c6 !
+   1.Kd4-f3 !
+
+   1.Kd4-b3 !
+
+   1.Kd4-e2 !
+
+   1.Kd4-c2 !
 
   add_to_move_generation_stack:           8
                      play_move:           8

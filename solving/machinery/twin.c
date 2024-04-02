@@ -825,6 +825,7 @@ void verify_position(slice_index si)
   }
 
   if (piece_walk_may_exist[ReflectBishop]
+      || piece_walk_may_exist[Archbishop]
       || piece_walk_may_exist[Saltador]
       || piece_walk_may_exist[BouncyKnight]
       || piece_walk_may_exist[BouncyNightrider]
@@ -839,6 +840,8 @@ void verify_position(slice_index si)
       || piece_walk_may_exist[Leafhopper]
       || piece_walk_may_exist[GreaterLeafhopper]
       || piece_walk_may_exist[Rose]
+      || piece_walk_may_exist[RoseHopper]
+      || piece_walk_may_exist[RoseLion]
       || piece_walk_may_exist[Rao]
       || piece_walk_may_exist[SpiralSpringer]
       || piece_walk_may_exist[DiagonalSpiralSpringer]
@@ -864,7 +867,9 @@ void verify_position(slice_index si)
               || piece_walk_may_exist[RookSparrow]
               || piece_walk_may_exist[BishopSparrow]
               || piece_walk_may_exist[Marguerite])
-      ))
+      )
+      || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+      || CondFlag[whtrans_king] || CondFlag[bltrans_king])
     solving_instrument_move_generation(si,STDuplicateMovesPerPieceRemover);
 
   if (CondFlag[lostpieces])

@@ -1627,32 +1627,32 @@ Loesung beendet.
   semi-r+2                    8 + 8
 
    1.Kc7-c6 ! Zugzwang.
-      1...a3-a2
-          2.d4-d5
-              2...a2-a1=RO +
-      1...b3-b2
-          2.Kc6-d6
-              2...b2-b1=RO +
-      1...c3-c2
-          2.Kc6-c7
-              2...c2-c1=RO +
-      1...d3-d2
-          2.Kc6-b6
-              2...d2-d1=RO +
-      1...e3-e2
-          2.h4-h5
-              2...e2-e1=RO +
-      1...f3-f2
-          2.Kc6-d6
-              2...f2-f1=RO +
       1...h3-h2
           2.Kc6-c5
               2...h2*g1=RO +
+      1...f3-f2
+          2.Kc6-d6
+              2...f2-f1=RO +
+      1...e3-e2
+          2.h4-h5
+              2...e2-e1=RO +
+      1...d3-d2
+          2.Kc6-b6
+              2...d2-d1=RO +
+      1...c3-c2
+          2.Kc6-c7
+              2...c2-c1=RO +
+      1...b3-b2
+          2.Kc6-d6
+              2...b2-b1=RO +
+      1...a3-a2
+          2.d4-d5
+              2...a2-a1=RO +
 
-  add_to_move_generation_stack:        7388
-                     play_move:        9066
- is_white_king_square_attacked:        9014
- is_black_king_square_attacked:         936
+  add_to_move_generation_stack:        8208
+                     play_move:       10484
+ is_white_king_square_attacked:       10419
+ is_black_king_square_attacked:        1140
 
 Loesung beendet.
 

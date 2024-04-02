@@ -740,13 +740,13 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   h#2                    2 + 8 + 3n
            Take&MakeChess
 
-  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
-  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
-  add_to_move_generation_stack:     1058816
-                     play_move:      671147
+  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
+  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
+  add_to_move_generation_stack:     1105086
+                     play_move:      634369
  is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      667121
+ is_black_king_square_attacked:      630328
 
 solution finished.
 

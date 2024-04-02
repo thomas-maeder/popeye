@@ -312,21 +312,21 @@ demonstration of combination of Face to Face and Transmuting Kings
              FaceToFace
                Duplex
 
-   1.Ke3-c2 !
-
-   1.Ke3-d1 !
-
-   1.Ke3-f1 !
-
-   1.Ke3-g2 !
-
-   1.Ke3-g4 !
-
    1.Ke3-f5 !
 
    1.Ke3-d5 !
 
+   1.Ke3-g4 !
+
    1.Ke3*c4 !
+
+   1.Ke3-g2 !
+
+   1.Ke3-c2 !
+
+   1.Ke3-f1 !
+
+   1.Ke3-d1 !
 
   add_to_move_generation_stack:           8
                      play_move:           8

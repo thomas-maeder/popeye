@@ -206,17 +206,17 @@ a)
 
   1.a2-a1=D b6-b7   2.Da1-a8 b7*a8=SS   3.Kf5-f4 SSa8-g7 =
   add_to_move_generation_stack:    24597151
-                     play_move:     8186731
+                     play_move:     7982138
  is_white_king_square_attacked:     3899267
- is_black_king_square_attacked:     7274305
+ is_black_king_square_attacked:     7069712
 
 b) wSSe1-->f8  
 
   1.a2-a1=SS b6-b7   2.SSa1-c8 b7*c8=D +   3.Kf5-g5 Dc8-h3 =
   add_to_move_generation_stack:    23364382
-                     play_move:     7691673
+                     play_move:     7719846
  is_white_king_square_attacked:     3683570
- is_black_king_square_attacked:     6811687
+ is_black_king_square_attacked:     6839860
 
 Loesung beendet.
 

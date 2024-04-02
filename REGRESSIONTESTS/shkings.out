@@ -25,45 +25,9 @@
        TransmutierendeKoenige
             SchutzKoenige
 
-   1.Kf2-e3 + !
-      1...Sa2-c3
-          2.Se8-f6 #
-      1...Ke4-d4
-          2.Lg3-e5 #
-      1...Td7-d4
-          2.Tc5-e5 #
-      1...Td7*e7
-          2.Th6-h4 #
-
-   1.Kf2-f3 + ?
-      1...Sa2-c3
-          2.Se8-f6 #
-      1...Ke4-d4
-          2.e2-e3 #
-      1...Td7-d4
-          2.Tc5-e5 #
-      1...Td7*e7
-          2.Th6-h4 #
+   1.Se8-f6 + ?
     Aber
-      1...Td7-d3 + !
-
-   1.Lc4-d3 + ?
-      1...Ke4-b7
-          2.Tc5-b5 #
-      1...Td7*d3
-          2.Se8-f6 #
-    Aber
-      1...Ke4-a8 !
-
-   1.Tc5-e5 + ?
-      1...Ke4-d4
-          2.e2-e3 #
-    Aber
-      1...Ke4*c4 !
-
-   1.Th6-h4 + ?
-    Aber
-      1...Ke4*e7 !
+      1...Ke4-c3 !
 
    1.Th6-e6 + ?
       1...Ke4-d4
@@ -71,14 +35,50 @@
     Aber
       1...Sd8*e6 !
 
-   1.Se8-f6 + ?
+   1.Th6-h4 + ?
     Aber
-      1...Ke4-c3 !
+      1...Ke4*e7 !
 
-  add_to_move_generation_stack:       22480
-                     play_move:       13494
- is_white_king_square_attacked:        1268
- is_black_king_square_attacked:       13352
+   1.Tc5-e5 + ?
+      1...Ke4-d4
+          2.e2-e3 #
+    Aber
+      1...Ke4*c4 !
+
+   1.Lc4-d3 + ?
+      1...Td7*d3
+          2.Se8-f6 #
+      1...Ke4-b7
+          2.Tc5-b5 #
+    Aber
+      1...Ke4-a8 !
+
+   1.Kf2-f3 + ?
+      1...Td7*e7
+          2.Th6-h4 #
+      1...Td7-d4
+          2.Tc5-e5 #
+      1...Ke4-d4
+          2.e2-e3 #
+      1...Sa2-c3
+          2.Se8-f6 #
+    Aber
+      1...Td7-d3 + !
+
+   1.Kf2-e3 + !
+      1...Td7*e7
+          2.Th6-h4 #
+      1...Td7-d4
+          2.Tc5-e5 #
+      1...Ke4-d4
+          2.Lg3-e5 #
+      1...Sa2-c3
+          2.Se8-f6 #
+
+  add_to_move_generation_stack:       26521
+                     play_move:       15589
+ is_white_king_square_attacked:        1335
+ is_black_king_square_attacked:       15447
 
 Loesung beendet.
 
