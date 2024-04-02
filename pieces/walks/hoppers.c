@@ -210,8 +210,6 @@ boolean knighthopper_check(validator_id evaluate)
 void doublehopper_generate_moves(vec_index_type vec_start,
                                  vec_index_type vec_end)
 {
-  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type k;
   for (k = vec_end; k>=vec_start; k--)
   {
@@ -240,8 +238,6 @@ void doublehopper_generate_moves(vec_index_type vec_start,
       }
     }
   }
-
-  remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_end,
