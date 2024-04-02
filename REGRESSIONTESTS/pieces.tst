@@ -714,25 +714,25 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
 
-   1.BKd2*b1 !
-
    1.BKd2-g4 !
-
-   1.BKd2-h2 !
-
-   1.BKd2-g3 !
-
-   1.BKd2-e3 !
-
-   1.BKd2-f1 !
-
-   1.BKd2-f3 !
 
    1.BKd2-e4 !
 
    1.BKd2-c4 !
 
+   1.BKd2-g3 !
+
+   1.BKd2-f3 !
+
+   1.BKd2-e3 !
+
    1.BKd2-b3 !
+
+   1.BKd2-h2 !
+
+   1.BKd2-f1 !
+
+   1.BKd2*b1 !
 
   add_to_move_generation_stack:          12
                      play_move:          10
@@ -765,113 +765,113 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
 
-   1.BNd2-b2 !
+   1.BNd2-g8 !
 
-   1.BNd2-h2 !
-
-   1.BNd2-g7 !
+   1.BNd2-f8 !
 
    1.BNd2-e8 !
 
-   1.BNd2-a6 !
+   1.BNd2-d8 !
 
    1.BNd2-b8 !
 
-   1.BNd2-h5 !
+   1.BNd2-a8 !
 
-   1.BNd2-f1 !
+   1.BNd2-h7 !
+
+   1.BNd2-g7 !
+
+   1.BNd2-f7 !
+
+   1.BNd2-e7 !
 
    1.BNd2-d7 !
+
+   1.BNd2-c7 !
+
+   1.BNd2-b7 !
+
+   1.BNd2-h6 !
+
+   1.BNd2-g6 !
+
+   1.BNd2-f6 !
+
+   1.BNd2-e6 !
+
+   1.BNd2-d6 !
+
+   1.BNd2-c6 !
+
+   1.BNd2-b6 !
+
+   1.BNd2-a6 !
+
+   1.BNd2-h5 !
+
+   1.BNd2-g5 !
+
+   1.BNd2-f5 !
+
+   1.BNd2-e5 !
 
    1.BNd2-d5 !
 
    1.BNd2-c5 !
 
-   1.BNd2*b1 !
-
    1.BNd2-b5 !
-
-   1.BNd2-a3 !
-
-   1.BNd2-c2 !
-
-   1.BNd2-e1 !
-
-   1.BNd2-h7 !
-
-   1.BNd2-f8 !
-
-   1.BNd2-g6 !
-
-   1.BNd2-d6 !
-
-   1.BNd2-h4 !
-
-   1.BNd2-f3 !
-
-   1.BNd2-d4 !
-
-   1.BNd2-f5 !
-
-   1.BNd2-f2 !
-
-   1.BNd2-g4 !
-
-   1.BNd2-g3 !
-
-   1.BNd2-e2 !
-
-   1.BNd2-e5 !
-
-   1.BNd2-d3 !
-
-   1.BNd2-e3 !
-
-   1.BNd2-e7 !
-
-   1.BNd2-b7 !
 
    1.BNd2-a5 !
 
-   1.BNd2-c1 !
+   1.BNd2-h4 !
 
-   1.BNd2-c3 !
-
-   1.BNd2-a2 !
-
-   1.BNd2-b4 !
-
-   1.BNd2-c6 !
-
-   1.BNd2-g2 !
+   1.BNd2-g4 !
 
    1.BNd2-f4 !
 
-   1.BNd2-d8 !
-
-   1.BNd2-f7 !
-
-   1.BNd2-h6 !
-
-   1.BNd2-g8 !
-
-   1.BNd2-f6 !
-
    1.BNd2-e4 !
 
-   1.BNd2-g5 !
-
-   1.BNd2-e6 !
-
-   1.BNd2-c7 !
-
-   1.BNd2-a8 !
-
-   1.BNd2-b6 !
+   1.BNd2-d4 !
 
    1.BNd2-c4 !
 
+   1.BNd2-b4 !
+
+   1.BNd2-g3 !
+
+   1.BNd2-f3 !
+
+   1.BNd2-e3 !
+
+   1.BNd2-d3 !
+
+   1.BNd2-c3 !
+
    1.BNd2-b3 !
+
+   1.BNd2-a3 !
+
+   1.BNd2-h2 !
+
+   1.BNd2-g2 !
+
+   1.BNd2-f2 !
+
+   1.BNd2-e2 !
+
+   1.BNd2-c2 !
+
+   1.BNd2-b2 !
+
+   1.BNd2-a2 !
+
+   1.BNd2-f1 !
+
+   1.BNd2-e1 !
+
+   1.BNd2-c1 !
+
+   1.BNd2*b1 !
 
   add_to_move_generation_stack:         148
                      play_move:          54
