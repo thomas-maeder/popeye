@@ -870,7 +870,7 @@ void verify_position(slice_index si)
       )
       || CondFlag[whrefl_king] || CondFlag[blrefl_king]
       || CondFlag[whtrans_king] || CondFlag[bltrans_king])
-    solving_instrument_move_generation(si,STDuplicateMovesPerPieceRemover);
+    solving_instrument_move_generation_simple(si,STDuplicateMovesPerPieceRemover);
 
   if (CondFlag[lostpieces])
     disable_orthodox_mating_move_optimisation(nr_sides);

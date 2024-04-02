@@ -217,7 +217,7 @@ static void insert_slice(slice_index si, stip_structure_traversal *st)
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si, slice_type type)
+void solving_instrument_move_generation_simple(slice_index si, slice_type type)
 {
   stip_structure_traversal st;
 
@@ -568,7 +568,7 @@ enum
  * @param callback called back at each STGeneratingMoves slice which is not
  *                 deactivated by a STSkipMoveGeneration slice
  */
-void solving_instrument_move_generation2(slice_index si,
+void solving_instrument_move_generation(slice_index si,
                                         move_generation_instrumentation_callback *callback,
                                         void *param)
 {
@@ -596,7 +596,7 @@ void solving_insert_move_generators(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation2(si,&insert_move_generator,0);
+  solving_instrument_move_generation(si,&insert_move_generator,0);
 
   TraceStipulation(si);
 

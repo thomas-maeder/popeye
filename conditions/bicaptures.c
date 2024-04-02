@@ -114,7 +114,7 @@ void solving_insert_bicaptures(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation2(si,&insert_move_recolorers,0);
+  solving_instrument_move_generation(si,&insert_move_recolorers,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

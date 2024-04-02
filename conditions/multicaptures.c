@@ -193,7 +193,7 @@ void multicaptures_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,STMultiCapturesMoveGenerationFilter);
+  solving_instrument_move_generation_simple(si,STMultiCapturesMoveGenerationFilter);
 
   solving_instrument_check_testing(si,STMultiCapturesInitializeCheckDetection);
   stip_instrument_check_validation(si,multicaptures_who,STMultiCapturesCheckCounter);

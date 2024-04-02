@@ -82,7 +82,7 @@ void move_generation_branch_insert_slices(slice_index si,
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si, slice_type type);
+void solving_instrument_move_generation_simple(slice_index si, slice_type type);
 
 /* Instrument move generation for a specific piece with a slice type
  * @param identifies where to start instrumentation
@@ -169,7 +169,7 @@ typedef void move_generation_instrumentation_callback(slice_index si,
  * @param callback called back at each STGeneratingMoves slice which is not
  *                 deactivated by a STSkipMoveGeneration slice
  */
-void solving_instrument_move_generation2(slice_index si,
+void solving_instrument_move_generation(slice_index si,
                                         move_generation_instrumentation_callback *callback,
                                         void *param);
 

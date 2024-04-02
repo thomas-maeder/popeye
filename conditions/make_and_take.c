@@ -566,7 +566,7 @@ void solving_insert_make_and_take(slice_index si)
 
   move_generator_instrument_for_alternative_paths(si,nr_sides);
 
-  solving_instrument_move_generation2(si,&insert_resetter,0);
+  solving_instrument_move_generation(si,&insert_resetter,0);
 
   {
     stip_structure_traversal st;
