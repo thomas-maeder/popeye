@@ -265,6 +265,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Pepo
 	CASTchess
 	CASTInverse
+	MultiCaptures
 	FuddledMen
 	Bicaptures
 	TransmissionMenace

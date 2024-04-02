@@ -15,6 +15,7 @@
 #include "debugging/assert.h"
 
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 move_generation_elmt *curr_generation = &move_generation_stack[toppile];
@@ -192,7 +193,48 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_slice(slice_index si, stip_structure_traversal *st)
+{
+  slice_type const * const type = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(*type);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument move generation with a slice type
+ * @param identifies where to start instrumentation
+ * @param side which side (pass nr_sides for both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void solving_instrument_move_generation_simple(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,type);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_slice);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument move generation for a specific piece with a slice type
  * @param identifies where to start instrumentation
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
@@ -900,6 +942,126 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
     ++current_mark;
 
   move_generator_filter_moves(last_move_of_prev_piece,&is_not_duplicate);
+}
+
+static int compare_moves(void const *elmt1, void const *elmt2)
+{
+  move_generation_elmt const *move1 = elmt1;
+  move_generation_elmt const *move2 = elmt2;
+
+  if (move1->departure<move2->departure)
+    return -1;
+  else if (move1->departure>move2->departure)
+    return +1;
+  else if (move1->arrival<move2->arrival)
+    return -1;
+  else if (move1->arrival>move2->arrival)
+    return +1;
+  else if (move1->capture<move2->capture)
+    return -1;
+  else if (move1->capture>move2->capture)
+    return +1;
+  else
+    return 0;
+}
+
+/* Filter out duplicate moves
+ * @param identifies filter slice
+ */
+void duplicate_moves_per_piece_remover(slice_index si)
+{
+  numecoup const base = MOVEBASE_OF_PLY(nbply);
+  numecoup top = CURRMOVE_OF_PLY(nbply);
+  numecoup base_for_piece = base;
+  numecoup i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",base);
+  TraceValue("%u",top);
+  TraceEOL();
+  for (i = base+1; i<=top; ++i)
+  {
+    TraceValue("%2u",i);
+    TraceSquare(move_generation_stack[i].departure);
+    TraceSquare(move_generation_stack[i].arrival);
+    TraceSquare(move_generation_stack[i].capture);
+    TraceEOL();
+  }
+
+  qsort(&move_generation_stack[base+1],
+        top-base,
+        sizeof move_generation_stack[base+1],
+        &compare_moves);
+
+  TraceText("after sorting\n");
+  for (i = base+1; i<=top; ++i)
+  {
+    TraceValue("%2u",i);
+    TraceSquare(move_generation_stack[i].departure);
+    TraceSquare(move_generation_stack[i].arrival);
+    TraceSquare(move_generation_stack[i].capture);
+    TraceEOL();
+  }
+
+  while (base_for_piece<top)
+  {
+    numecoup curr = base_for_piece;
+    numecoup base_for_next_piece = base_for_piece;
+    square const sq_dep = move_generation_stack[base_for_next_piece+1].departure;
+
+    do
+    {
+      ++base_for_next_piece;
+    }
+    while (base_for_next_piece<top
+           && move_generation_stack[base_for_next_piece+1].departure==sq_dep);
+
+    TraceValue("%u",base_for_piece);
+    TraceValue("%u",base_for_next_piece);
+    TraceEOL();
+
+    while (curr<base_for_next_piece-1)
+    {
+      if (compare_moves(&move_generation_stack[curr+1],
+                                      &move_generation_stack[curr+2])
+          ==0)
+      {
+        TraceValue("found duplicate: %u",curr+2);TraceEOL();
+        assert(curr<=top);
+        memmove(&move_generation_stack[curr+2],
+                &move_generation_stack[curr+3],
+                (top-curr) * sizeof move_generation_stack[curr+2]);
+        --base_for_next_piece;
+        --top;
+      }
+      else
+        ++curr;
+    }
+
+    base_for_piece = base_for_next_piece;
+  }
+
+  CURRMOVE_OF_PLY(nbply) = top;
+
+  TraceValue("%u",base);
+  TraceValue("%u",top);
+  TraceEOL();
+  for (i = base+1; i<=top; ++i)
+  {
+    TraceValue("%2u",i);
+    TraceSquare(move_generation_stack[i].departure);
+    TraceSquare(move_generation_stack[i].arrival);
+    TraceSquare(move_generation_stack[i].capture);
+    TraceEOL();
+  }
+
+  pipe_move_generation_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Priorise a move in the move generation stack

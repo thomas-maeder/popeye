@@ -540,6 +540,8 @@
     ENUMERATOR(STCASTValidateObservation),                              \
     ENUMERATOR(STCASTInverseMovesForPieceGenerator),                    \
     ENUMERATOR(STCASTInverseValidateObservation),                       \
+    ENUMERATOR(STCASTMultiCapturesRemover),                             \
+    ENUMERATOR(STCASTInverseSingleCapturesRemover),                     \
     ENUMERATOR(STTransmissionMenaceMovesForPieceGenerator),             \
     ENUMERATOR(STPowerTransferMovesForPieceGenerator),                  \
     ENUMERATOR(STFuddledMenMovesForPieceGenerator),                     \
@@ -575,6 +577,10 @@
     ENUMERATOR(STExchangeCastlingMovePlayer),                           \
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
     ENUMERATOR(STSuperTransmutingKingMoveGenerationFilter),             \
+    ENUMERATOR(STMultiCapturesMoveGenerationFilter),                    \
+    ENUMERATOR(STMultiCapturesCheckCounter),                            \
+    ENUMERATOR(STDuplicateMovesPerPieceRemover),                        \
+    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                        \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

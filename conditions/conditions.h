@@ -246,8 +246,9 @@ typedef enum
   fuddled_men,            /* 225 */
   transmissionmenace,     /* 226 */
   powertransfer,          /* 227 */
+  multicaptures,          /* 228 */
 
-  CondCount               /* 227 */
+  CondCount               /* 229 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

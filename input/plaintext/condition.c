@@ -49,6 +49,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
 #include "conditions/powertransfer.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
@@ -606,23 +607,17 @@ static char *ParseRoyalSquare(char *tok, Side side)
   return tok;
 }
 
-static char *ParseKobulSides(char *tok, boolean (*variant)[nr_sides])
+static char *ParseKobulSides(char *tok, Side *who)
 {
-  do
+  KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
+
+  if (type<KobulVariantCount)
   {
-    KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
-
-    if (type>KobulVariantCount)
-      output_plaintext_input_error_message(CondNotUniq);
-    else if (type==KobulWhiteOnly)
-      (*variant)[Black] = false;
-    else if (type==KobulBlackOnly)
-      (*variant)[White] = false;
-    else
-      break;
-
+    *who = type==KobulWhiteOnly ? White : Black;
     tok = ReadNextTokStr();
-  } while (tok);
+  }
+  else
+    *who = nr_sides;
 
   return tok;
 }
@@ -1827,9 +1822,11 @@ char *ParseCond(char *tok)
           break;
 
         case kobulkings:
-          kobul_who[White] = true;
-          kobul_who[Black] = true;
           tok = ParseKobulSides(tok,&kobul_who);
+          break;
+
+        case multicaptures:
+          tok = ParseKobulSides(tok,&multicaptures_who);
           break;
 
         case sentinelles:
@@ -2098,9 +2095,6 @@ void InitCond(void)
   calc_reflective_king[Black] = false;
 
   reset_king_vaulters();
-
-  kobul_who[White] = false;
-  kobul_who[Black] = false;
 } /* InitCond */
 
 void conditions_resetter_solve(slice_index si)

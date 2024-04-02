@@ -2365,10 +2365,11 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
   conditions/transmuting_kings/transmuting_kings.h \
   conditions/transmuting_kings/reflective_kings.h \
   conditions/transmuting_kings/vaulting_kings.h conditions/cast.h \
-  optimisations/observation.h pieces/walks/hunters.h \
-  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
-  solving/has_solution_type.h solving/has_solution_type.enum.h \
-  solving/has_solution_type.enum solving/conditional_pipe.h \
+  conditions/multicaptures.h optimisations/observation.h \
+  pieces/walks/hunters.h pieces/attributes/paralysing/paralysing.h \
+  pieces/attributes/magic.h solving/has_solution_type.h \
+  solving/has_solution_type.enum.h solving/has_solution_type.enum \
+  solving/conditional_pipe.h \
   solving/find_square_observer_tracking_back_from_target.h \
   solving/pipe.h stipulation/proxy.h stipulation/pipe.h \
   stipulation/binary.h debugging/assert.h
@@ -2559,6 +2560,8 @@ conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/cast.h:
 
+conditions/multicaptures.h:
+
 optimisations/observation.h:
 
 pieces/walks/hunters.h:
@@ -2616,8 +2619,9 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
   conditions/circe/rebirth_square_occupied.h \
   conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
   conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
-  conditions/circe/relevant_side.h conditions/pepo.h stipulation/pipe.h \
-  solving/pipe.h solving/find_move.h \
+  conditions/circe/relevant_side.h conditions/pepo.h \
+  conditions/multicaptures.h stipulation/pipe.h solving/pipe.h \
+  solving/find_move.h \
   solving/find_square_observer_tracking_back_from_target.h \
   solving/castling.h output/plaintext/message.h output/message.h \
   input/plaintext/language.h debugging/assert.h
@@ -2747,6 +2751,8 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/pepo.h:
+
+conditions/multicaptures.h:
 
 stipulation/pipe.h:
 

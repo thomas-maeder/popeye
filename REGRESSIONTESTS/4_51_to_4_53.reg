@@ -98,41 +98,41 @@ Test: avoid duplicate king moves (e.g. to f5)
   ~1                          1 + 1
          WhiteReflectiveKing
 
-   1.Ke5-a1 !
+   1.Ke5-e8 !
+
+   1.Ke5-g7 !
+
+   1.Ke5-e7 !
+
+   1.Ke5-f6 !
+
+   1.Ke5-e6 !
+
+   1.Ke5-g5 !
+
+   1.Ke5-f5 !
+
+   1.Ke5-d5 !
+
+   1.Ke5-c5 !
+
+   1.Ke5-b5 !
+
+   1.Ke5-a5 !
+
+   1.Ke5-e4 !
+
+   1.Ke5-d4 !
+
+   1.Ke5-e3 !
 
    1.Ke5-c3 !
 
    1.Ke5*h2 !
 
-   1.Ke5-g7 !
-
    1.Ke5-e1 !
 
-   1.Ke5-e3 !
-
-   1.Ke5-a5 !
-
-   1.Ke5-b5 !
-
-   1.Ke5-c5 !
-
-   1.Ke5-e8 !
-
-   1.Ke5-e7 !
-
-   1.Ke5-g5 !
-
-   1.Ke5-d4 !
-
-   1.Ke5-f6 !
-
-   1.Ke5-e4 !
-
-   1.Ke5-d5 !
-
-   1.Ke5-e6 !
-
-   1.Ke5-f5 !
+   1.Ke5-a1 !
 
   add_to_move_generation_stack:          35
                      play_move:          27

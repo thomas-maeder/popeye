@@ -64,19 +64,19 @@ solution finished.
 
    1.f6-f7 ! threat:
           2.f7-f8=Z #
-      1...Kd5-d4
-          2.f7-f8=NH #
-      1...Kd5-c5
-          2.f7-f8=RO #
       1...Kd5-d6
           2.f7-f8=G #
       1...Kd5-e5
           2.f7-f8=CA #
+      1...Kd5-c5
+          2.f7-f8=RO #
+      1...Kd5-d4
+          2.f7-f8=NH #
 
-  add_to_move_generation_stack:        5064
-                     play_move:        3178
- is_white_king_square_attacked:         118
- is_black_king_square_attacked:        3158
+  add_to_move_generation_stack:        4177
+                     play_move:        2767
+ is_white_king_square_attacked:         101
+ is_black_king_square_attacked:        2745
 
 solution finished.
 

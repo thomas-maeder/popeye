@@ -159,7 +159,6 @@ void circe_make_last_capture_relevant_solve(slice_index si)
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  ply ply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

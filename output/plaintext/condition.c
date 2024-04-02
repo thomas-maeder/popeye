@@ -41,6 +41,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
 #include "conditions/powertransfer.h"
 #include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
@@ -575,13 +576,20 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         }
 
         case kobulkings:
-        {
-          if (!kobul_who[White])
-            written += append_to_CondLine(&CondLine,written," %s","Black");
-          if (!kobul_who[Black])
-            written += append_to_CondLine(&CondLine,written," %s","White");
+          if (kobul_who!=nr_sides)
+            written += append_to_CondLine(&CondLine,
+                                          written,
+                                          " %s",
+                                          kobul_who==White ? "White" : "Black");
           break;
-        }
+
+        case multicaptures:
+          if (multicaptures_who!=nr_sides)
+            written += append_to_CondLine(&CondLine,
+                                          written,
+                                          " %s",
+                                          multicaptures_who==White ? "White" : "Black");
+          break;
 
         case whvault_king:
         case vault_king:

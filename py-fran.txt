@@ -267,6 +267,7 @@ simples:
 	Pepo
 	CASTechecs
 	CASTInverse
+	MultiCaptures
         FuddledMen
         Bicaptures
         TransmissionMenace

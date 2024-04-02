@@ -130,6 +130,7 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "conditions/transmissionmenace.h"
 #include "conditions/powertransfer.h"
 #include "platform/maxtime.h"
@@ -414,7 +415,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ghostchess])
     solving_insert_ghost_chess(si);
 
-  if (kobul_who[White] || kobul_who[Black])
+  if (CondFlag[kobulkings])
     solving_insert_kobul_king_substitutors(si);
 
   if (CondFlag[snekchess])
@@ -802,6 +803,9 @@ void build_solvers2(slice_index si)
     reflective_kings_initialise_solving(si,White);
   if (CondFlag[blrefl_king])
     reflective_kings_initialise_solving(si,Black);
+
+  if (CondFlag[multicaptures])
+    multicaptures_initialise_solving(si);
 
   if (CondFlag[annan])
     annan_initialise_solving(si);

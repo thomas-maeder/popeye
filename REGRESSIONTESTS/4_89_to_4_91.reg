@@ -240,29 +240,29 @@ up to 4.89, Popeye would produce very strange output (as if the wK were an orpha
   ~1                          2 + 1
            Make&TakeChess
 
-  1  (Sh1-f2 )
-   1.Sh1-f2 !
-
-  2  (Of5-d4 )
-   1.Of5-d4 !
-
-  3  (Of5-e3 )
-   1.Of5-e3 !
-
-  4  (Of5-h4 )
-   1.Of5-h4 !
-
-  5  (Of5-h6 )
-   1.Of5-h6 !
-
-  6  (Of5-g7 )
+  1  (Of5-g7 )
    1.Of5-g7 !
 
-  7  (Of5-e7 )
+  2  (Of5-e7 )
    1.Of5-e7 !
 
-  8  (Of5-d6 )
+  3  (Of5-h6 )
+   1.Of5-h6 !
+
+  4  (Of5-d6 )
    1.Of5-d6 !
+
+  5  (Of5-h4 )
+   1.Of5-h4 !
+
+  6  (Of5-d4 )
+   1.Of5-d4 !
+
+  7  (Of5-e3 )
+   1.Of5-e3 !
+
+  8  (Sh1-f2 )
+   1.Sh1-f2 !
 
   add_to_move_generation_stack:          10
                      play_move:           8
@@ -299,19 +299,19 @@ solution finished.
   ~1                          2 + 2
            Make&TakeChess
 
-  1  (Kf8-e7 + )
-  2  (Kf8-g7 )
-   1.Kf8-g7 !
-
-  3  (Kf8-f7 )
-   1.Kf8-f7 !
-
-  4  (Kf8-e8 )
-   1.Kf8-e8 !
-
-  5  (Kf8-g8 )
+  1  (Kf8-g8 )
    1.Kf8-g8 !
 
+  2  (Kf8-e8 )
+   1.Kf8-e8 !
+
+  3  (Kf8-g7 )
+   1.Kf8-g7 !
+
+  4  (Kf8-f7 )
+   1.Kf8-f7 !
+
+  5  (Kf8-e7 + )
   add_to_move_generation_stack:        1105
                      play_move:           7
  is_white_king_square_attacked:           0
@@ -347,23 +347,23 @@ clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it
   ~1                          2 + 1
            Make&TakeChess
 
-   1.Ke7*g4 !
-
-   1.Ke7-d6 !
-
-   1.Ke7-f8 !
-
-   1.Ke7-d8 !
-
-   1.Ke7-d7 !
-
-   1.Ke7-e8 !
-
-   1.Ke7-f7 !
-
    1.Sc8-a7 !
 
    1.Sc8-b6 !
+
+   1.Ke7-f8 !
+
+   1.Ke7-e8 !
+
+   1.Ke7-d8 !
+
+   1.Ke7-f7 !
+
+   1.Ke7-d7 !
+
+   1.Ke7-d6 !
+
+   1.Ke7*g4 !
 
   add_to_move_generation_stack:         174
                      play_move:          15

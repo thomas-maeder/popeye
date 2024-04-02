@@ -42,15 +42,15 @@ b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
           2.Lb4-c5 #
-      1...c6*d5
-          2.Sd6-f5 #
       1...Le6*d5
           2.Sd6-b5 #
+      1...c6*d5
+          2.Sd6-f5 #
 
-  add_to_move_generation_stack:       14656
-                     play_move:        7878
- is_white_king_square_attacked:         425
- is_black_king_square_attacked:        7881
+  add_to_move_generation_stack:       16094
+                     play_move:        8593
+ is_white_king_square_attacked:         435
+ is_black_king_square_attacked:        8596
 
 Loesung beendet.
 
@@ -86,17 +86,17 @@ a)
 
   1.a2-a1=S + Kc2-e3   2.Kf5-e5 f2-f4 #
   add_to_move_generation_stack:        9121
-                     play_move:        9204
+                     play_move:        9194
  is_white_king_square_attacked:         730
- is_black_king_square_attacked:        9088
+ is_black_king_square_attacked:        9078
 
 b) wKc2-->b2  
 
   1.a2-a1=D + Kb2-e2   2.Kf5-e4 f2-f3 #
   add_to_move_generation_stack:        9495
-                     play_move:        9536
+                     play_move:        9535
  is_white_king_square_attacked:         835
- is_black_king_square_attacked:        9405
+ is_black_king_square_attacked:        9404
 
 Loesung beendet.
 
@@ -136,17 +136,17 @@ a) sKf8-->a4
 
   1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=w[+wSb1] Sb1-c3 #
   add_to_move_generation_stack:      128815
-                     play_move:       72796
+                     play_move:       69948
  is_white_king_square_attacked:       14186
- is_black_king_square_attacked:       72216
+ is_black_king_square_attacked:       69368
 
 b) wKa2-->f2  
 
   1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=w[+wLc1] Lc1-a3 #
   add_to_move_generation_stack:      129776
-                     play_move:       73064
+                     play_move:       76098
  is_white_king_square_attacked:        9873
- is_black_king_square_attacked:       72089
+ is_black_king_square_attacked:       75123
 
 Loesung beendet.
 
@@ -180,88 +180,105 @@ Loesung beendet.
 
    1.e6-e7 ! Drohung:
           2.e7-e8=H #
-      1...Hc2*c6-c7
-          2.e7-e8=H +
-              2...Hc7*d6-e5
-                  3.He8*e5-e4 +
-                      3...Ke2*e4-e5
-                          4.f6-f7 #
-                          4.b7-b8=H #
       1...Ke2-f3
           2.f6-f7 Drohung:
                   3.f7-f8=H #
-              2...Hc2*c6-c7
-                  3.f7-f8=H +
-                      3...Hc7*e7-f7
-                          4.Hf8*f7-f6 #
-              2...Kf3-e2
-                  3.e7-e8=H #
               2...Kf3-g4
                   3.g6-g7 Drohung:
                           4.g7-g8=H #
-                      3...Kg4-f3
-                          4.f7-f8=H #
-                      3...Kg4-h3
-                          4.h7-h8=H #
                       3...Kg4-h5
                           4.h7-h8=H #
                       3...Kg4-f5
                           4.f7-f8=H #
-                      3...Kg4-f4
-                          4.f7-f8=H #
                       3...Kg4-h4
                           4.h7-h8=H #
+                      3...Kg4-f4
+                          4.f7-f8=H #
+                      3...Kg4-h3
+                          4.h7-h8=H #
+                      3...Kg4-f3
+                          4.f7-f8=H #
               2...Kf3-e4
-                  3.e7-e8=H #
-              2...Kf3-e3
                   3.e7-e8=H #
               2...Kf3-g3
                   3.g6-g7 Drohung:
                           4.g7-g8=H #
-                      3...Kg3-f2
-                          4.f7-f8=H #
                       3...Kg3-h4
                           4.h7-h8=H #
                       3...Kg3-f4
                           4.f7-f8=H #
-                      3...Kg3-f3
-                          4.f7-f8=H #
                       3...Kg3-h3
                           4.h7-h8=H #
+                      3...Kg3-f3
+                          4.f7-f8=H #
+                      3...Kg3-f2
+                          4.f7-f8=H #
+              2...Kf3-e3
+                  3.e7-e8=H #
+              2...Kf3-e2
+                  3.e7-e8=H #
+              2...Hc2*c6-c7
+                  3.f7-f8=H +
+                      3...Hc7*e7-f7
+                          4.Hf8*f7-f6 #
       1...Ke2-d3
           2.d6-d7 Drohung:
                   3.d7-d8=H #
-              2...Kd3-e2
-                  3.e7-e8=H #
               2...Kd3-e4
                   3.e7-e8=H #
               2...Kd3-c4
+                  3.Sa8-b6 +
+                      3...Kc4-d6
+                          4.d7-d8=H #
+                      3...Kc4*b6
+                          4.b7-b8=H #
+                      3...Kc4-e5
+                          4.e7-e8=H #
+                          4.f6-f7 #
+                      3...Kc4-e3
+                          4.e7-e8=H #
+                      3...Kc4-d2
+                          4.d7-d8=H #
                   3.c6-c7 Drohung:
                           4.c7-c8=H #
-                      3...Kc4-b3
-                          4.b7-b8=H #
-                      3...Kc4-d3
-                          4.d7-d8=H #
                       3...Kc4-d5
                           4.d7-d8=H #
                       3...Kc4-b5
                           4.b7-b8=H #
                       3...Kc4-b4
                           4.b7-b8=H #
-                  3.Sa8-b6 +
-                      3...Kc4-d2
+                      3...Kc4-d3
                           4.d7-d8=H #
-                      3...Kc4-e3
-                          4.e7-e8=H #
-                      3...Kc4-e5
-                          4.f6-f7 #
-                          4.e7-e8=H #
-                      3...Kc4-d6
-                          4.d7-d8=H #
-                      3...Kc4*b6
+                      3...Kc4-b3
                           4.b7-b8=H #
               2...Kd3-e3
                   3.e7-e8=H #
+              2...Kd3-e2
+                  3.e7-e8=H #
+      1...Ke2-f2
+          2.f6-f7 Drohung:
+                  3.f7-f8=H #
+              2...Kf2-g3
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H #
+                      3...Kg3-h4
+                          4.h7-h8=H #
+                      3...Kg3-f4
+                          4.f7-f8=H #
+                      3...Kg3-h3
+                          4.h7-h8=H #
+                      3...Kg3-f3
+                          4.f7-f8=H #
+                      3...Kg3-f2
+                          4.f7-f8=H #
+              2...Kf2-e3
+                  3.e7-e8=H #
+              2...Kf2-e2
+                  3.e7-e8=H #
+              2...Hc2*c6-c7
+                  3.f7-f8=H +
+                      3...Hc7*e7-f7
+                          4.Hf8*f7-f6 #
       1...Ke2-d2
           2.d6-d7 Drohung:
                   3.d7-d8=H #
@@ -269,35 +286,18 @@ Loesung beendet.
                   3.e7-e8=H #
               2...Kd2-e2
                   3.e7-e8=H #
-      1...Ke2-f2
-          2.f6-f7 Drohung:
-                  3.f7-f8=H #
-              2...Hc2*c6-c7
-                  3.f7-f8=H +
-                      3...Hc7*e7-f7
-                          4.Hf8*f7-f6 #
-              2...Kf2-g3
-                  3.g6-g7 Drohung:
-                          4.g7-g8=H #
-                      3...Kg3-f2
-                          4.f7-f8=H #
-                      3...Kg3-h4
-                          4.h7-h8=H #
-                      3...Kg3-f4
-                          4.f7-f8=H #
-                      3...Kg3-f3
-                          4.f7-f8=H #
-                      3...Kg3-h3
-                          4.h7-h8=H #
-              2...Kf2-e3
-                  3.e7-e8=H #
-              2...Kf2-e2
-                  3.e7-e8=H #
+      1...Hc2*c6-c7
+          2.e7-e8=H +
+              2...Hc7*d6-e5
+                  3.He8*e5-e4 +
+                      3...Ke2*e4-e5
+                          4.b7-b8=H #
+                          4.f6-f7 #
 
-  add_to_move_generation_stack:      406357
-                     play_move:      295020
- is_white_king_square_attacked:       89322
- is_black_king_square_attacked:      222247
+  add_to_move_generation_stack:      413728
+                     play_move:      298463
+ is_white_king_square_attacked:       99864
+ is_black_king_square_attacked:      218551
 
 Loesung beendet.
 
@@ -328,12 +328,12 @@ Loesung beendet.
   h#2                         2 + 2
        TransmutierendeKoenige
 
-  1.Dg1-h2 + Ke5-e4   2.Dh2-g3 f2-f3 #
   1.Kg4-g5 f2-f3   2.Dg1-g4 f3-f4 #
+  1.Dg1-h2 + Ke5-e4   2.Dh2-g3 f2-f3 #
   add_to_move_generation_stack:       29624
-                     play_move:       28966
+                     play_move:       28951
  is_white_king_square_attacked:        4412
- is_black_king_square_attacked:       28736
+ is_black_king_square_attacked:       28721
 
 Loesung beendet.
 

@@ -29,21 +29,21 @@ zeroposition
 
 a) B ==> M  
 
-  1.Rg4-g1[Ia5] Qb2-d4[Ic7]   2.Rg1-e1[Ia7] Qd4-d5[Ia8] #
-  1.Rg4-g1[Ia5] Qb2-d2[Ic5]   2.Rg1-e1[Ia5] Qd2-d5[Ia8] #
+  1.Rg4-g3[Ia7] Qb2-b3[Ia8]   2.Rg3-g1[Ia6] Qb3-d5[Ic8] #
+  1.Rg4-g3[Ia7] Qb2-f2[Ie7]   2.Rg3-d3[Ib7] Qf2-g2[Ic7] #
+  1.Rg4-g3[Ia7] Qb2-f2[Ie7]   2.Rg3-c3[Ia7] Qf2-f3[Ia8] #
+  1.Rg4-g3[Ia7] Qb2-e2[Id7]   2.Rg3-d3[Ia7] Qe2-g2[Ic7] #
+  1.Rg4-g3[Ia7] Qb2-d2[Ic7]   2.Rg3-g1[Ic5] Qd2-d5[Ic8] #
+  1.Rg4-g2[Ia6] h2-h3[Ia7]   2.Rg2-h2[Ib7] Qb2-a1[Ia6] #
   1.Rg4-g2[Ia6] Qb2-d4[Ic8]   2.Rg2-g1[Ic7] Qd4-d5[Ic8] #
   1.Rg4-g2[Ia6] Qb2-b3[Ia7]   2.Rg2-g1[Ia6] Qb3-d5[Ic8] #
   1.Rg4-g2[Ia6] Qb2-d2[Ic6]   2.Rg2-g1[Ic5] Qd2-d5[Ic8] #
-  1.Rg4-g2[Ia6] h2-h3[Ia7]   2.Rg2-h2[Ib7] Qb2-a1[Ia6] #
-  1.Rg4-g3[Ia7] Qb2-b3[Ia8]   2.Rg3-g1[Ia6] Qb3-d5[Ic8] #
-  1.Rg4-g3[Ia7] Qb2-f2[Ie7]   2.Rg3-c3[Ia7] Qf2-f3[Ia8] #
-  1.Rg4-g3[Ia7] Qb2-f2[Ie7]   2.Rg3-d3[Ib7] Qf2-g2[Ic7] #
-  1.Rg4-g3[Ia7] Qb2-e2[Id7]   2.Rg3-d3[Ia7] Qe2-g2[Ic7] #
-  1.Rg4-g3[Ia7] Qb2-d2[Ic7]   2.Rg3-g1[Ic5] Qd2-d5[Ic8] #
+  1.Rg4-g1[Ia5] Qb2-d4[Ic7]   2.Rg1-e1[Ia7] Qd4-d5[Ia8] #
+  1.Rg4-g1[Ia5] Qb2-d2[Ic5]   2.Rg1-e1[Ia5] Qd2-d5[Ia8] #
   add_to_move_generation_stack:        4832
-                     play_move:        2097
+                     play_move:        2072
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        2067
+ is_black_king_square_attacked:        2042
 
 b) Q ==> EA  
 

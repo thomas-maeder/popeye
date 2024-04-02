@@ -59,7 +59,6 @@ void reflecting_bishop_generate_moves(void)
   vec_index_type k;
   for (k= vec_bishop_start; k <= vec_bishop_end; k++)
     reflecting_bishop_generate_moves_recursive(curr_generation->departure,vec[k],4);
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 static boolean reflecting_bishop_check_recursive(square intermediate_square,
@@ -123,12 +122,9 @@ boolean reflecting_bishop_check(validator_id evaluate)
  */
 void archbishop_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type k;
   for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
     reflecting_bishop_generate_moves_recursive(curr_generation->departure,vec[k],1);
-  if (!NoEdge(curr_generation->departure))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean archbishop_check(validator_id evaluate)

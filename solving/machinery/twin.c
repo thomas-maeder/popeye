@@ -39,6 +39,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "conditions/multicaptures.h"
 #include "options/options.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
@@ -822,6 +823,54 @@ void verify_position(slice_index si)
       }
     }
   }
+
+  if (piece_walk_may_exist[ReflectBishop]
+      || piece_walk_may_exist[Archbishop]
+      || piece_walk_may_exist[Saltador]
+      || piece_walk_may_exist[BouncyKnight]
+      || piece_walk_may_exist[BouncyNightrider]
+      || piece_walk_may_exist[Friend]
+      || piece_walk_may_exist[Orphan]
+      || piece_walk_may_exist[DoubleGras]
+      || piece_walk_may_exist[DoubleRookHopper]
+      || piece_walk_may_exist[DoubleBishopper]
+      || piece_walk_may_exist[RadialKnight]
+      || piece_walk_may_exist[Treehopper]
+      || piece_walk_may_exist[GreaterTreehopper]
+      || piece_walk_may_exist[Leafhopper]
+      || piece_walk_may_exist[GreaterLeafhopper]
+      || piece_walk_may_exist[Rose]
+      || piece_walk_may_exist[RoseHopper]
+      || piece_walk_may_exist[RoseLion]
+      || piece_walk_may_exist[Rao]
+      || piece_walk_may_exist[SpiralSpringer]
+      || piece_walk_may_exist[DiagonalSpiralSpringer]
+      || piece_walk_may_exist[SpiralSpringer11]
+      || piece_walk_may_exist[SpiralSpringer20]
+      || piece_walk_may_exist[SpiralSpringer33]
+      || piece_walk_may_exist[SpiralSpringer40]
+      || piece_walk_may_exist[BoyScout]
+      || piece_walk_may_exist[GirlScout]
+      || piece_walk_may_exist[Quintessence]
+      || ((!(TSTFLAG(some_pieces_flags,ColourChange)
+             || TSTFLAG(some_pieces_flags,Bul)
+             || TSTFLAG(some_pieces_flags,Dob)
+            )
+          )
+          && (piece_walk_may_exist[Elk]
+              || piece_walk_may_exist[RookMoose]
+              || piece_walk_may_exist[BishopMoose]
+              || piece_walk_may_exist[Eagle]
+              || piece_walk_may_exist[RookEagle]
+              || piece_walk_may_exist[BishopEagle]
+              || piece_walk_may_exist[Sparrow]
+              || piece_walk_may_exist[RookSparrow]
+              || piece_walk_may_exist[BishopSparrow]
+              || piece_walk_may_exist[Marguerite])
+      )
+      || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+      || CondFlag[whtrans_king] || CondFlag[bltrans_king])
+    solving_instrument_move_generation_simple(si,STDuplicateMovesPerPieceRemover);
 
   if (CondFlag[lostpieces])
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -1892,6 +1941,14 @@ void verify_position(slice_index si)
 
   if (CondFlag[cast])
     disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[multicaptures])
+  {
+    if (multicaptures_who==nr_sides || multicaptures_who==White)
+      disable_orthodox_mating_move_optimisation(White);
+    if (multicaptures_who==nr_sides || multicaptures_who==Black)
+      disable_orthodox_mating_move_optimisation(Black);
+  }
 
   if (CondFlag[transmissionmenace])
     disable_orthodox_mating_move_optimisation(nr_sides);

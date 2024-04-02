@@ -151,6 +151,7 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -823,6 +824,14 @@ void dispatch(slice_index si)
 
     case STSuperTransmutingKingMoveGenerationFilter:
       supertransmuting_kings_move_generation_filter_solve(si);
+      break;
+
+    case STMultiCapturesMoveGenerationFilter:
+      multicaptures_filter_singlecaptures(si);
+      break;
+
+    case STDuplicateMovesPerPieceRemover:
+      duplicate_moves_per_piece_remover(si);
       break;
 
     case STAMUAttackCounter:

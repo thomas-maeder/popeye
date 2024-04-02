@@ -25,8 +25,8 @@
 
 a) 
 
-  1.MOd4-e2 GFd6-c2   2.MOe2-g3 GFc2-g1   3.MOg3-h1 GFg1-g2 =
   1.MOd4-b5 GFd6-b7   2.MOb5-c7 GFb7-a7   3.MOc7-a8 GFa7-b7 =
+  1.MOd4-e2 GFd6-c2   2.MOe2-g3 GFc2-g1   3.MOg3-h1 GFg1-g2 =
   add_to_move_generation_stack:       22586
                      play_move:        9429
  is_white_king_square_attacked:           0
@@ -34,8 +34,8 @@ a)
 
 b) bMOd4-->d5  
 
-  1.MOd5-b4 GFd6-b8   2.MOb4-c2 GFb8-a2   3.MOc2-a1 GFa2-b2 =
   1.MOd5-e7 GFd6-c7   2.MOe7-g6 GFc7-g8   3.MOg6-h8 GFg8-g7 =
+  1.MOd5-b4 GFd6-b8   2.MOb4-c2 GFb8-a2   3.MOc2-a1 GFa2-b2 =
   add_to_move_generation_stack:       20493
                      play_move:        8282
  is_white_king_square_attacked:           0
@@ -71,8 +71,8 @@ solution finished.
 
 a) 
 
-  1.OAf4-e2 GFd2-c2   2.OAe2-g3 GFc2-g1   3.OAg3-h1 GFg1-g2 =
   1.OAf4-b6 GFd2-f6   2.OAb6-d2 GFf6-b8   3.OAd2-a8 GFb8-b7 =
+  1.OAf4-e2 GFd2-c2   2.OAe2-g3 GFc2-g1   3.OAg3-h1 GFg1-g2 =
   add_to_move_generation_stack:       63717
                      play_move:       16195
  is_white_king_square_attacked:           0
@@ -80,8 +80,8 @@ a)
 
 b) bOAf4-->b6  
 
-  1.OAb6-a4 GFd2-f5   2.OAa4-e2 GFf5-g8   3.OAe2-h8 GFg8-g7 =
   1.OAb6-f8 GFd2-b8   2.OAf8-c2 GFb8-a2   3.OAc2-a1 GFa2-b2 =
+  1.OAb6-a4 GFd2-f5   2.OAa4-e2 GFf5-g8   3.OAe2-h8 GFg8-g7 =
   add_to_move_generation_stack:       57321
                      play_move:       14318
  is_white_king_square_attacked:           0

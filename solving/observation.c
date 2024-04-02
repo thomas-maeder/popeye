@@ -38,6 +38,7 @@
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -157,6 +158,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STMagicPiecesObserverEnforcer:
       result = magic_enforce_observer(si);
+      break;
+
+    case STMultiCapturesCheckCounter:
+      result = multi_captures_count_checks(si);
       break;
 
     case STAMUObservationCounter:
@@ -368,6 +373,7 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
+    STMultiCapturesCheckCounter,
     STMarsCirceGenerateFromRebirthSquare,
     STAMUObservationCounter,
     STMasandEnforceObserver,

@@ -270,6 +270,7 @@ Kommandos:
 	Pepo
 	CASTSchach
 	CASTInvers
+	MultiCaptures
         FuddledMen
         Bicaptures
         TransmissionMenace
