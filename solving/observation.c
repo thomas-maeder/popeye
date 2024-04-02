@@ -7,6 +7,7 @@
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
 #include "conditions/lortap.h"
@@ -299,12 +300,16 @@ boolean validate_observation_recursive(slice_index si)
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
 
-    case STCASTRemoveIllegalCaptures:
-      result = cast_remove_illegal_captures_solve(si);
+    case STCASTValidateObservation:
+      result = cast_validate_observation(si);
       break;
 
-    case STCASTInverseRemoveIllegalCaptures:
-      result = cast_inverse_remove_illegal_captures_solve(si);
+    case STCASTInverseValidateObservation:
+      result = cast_inverse_validate_observation(si);
+      break;
+
+    case STFuddledMenInverseValidateObservation:
+      result = fuddled_men_inverse_validate_observation(si);
       break;
 
     case STTrue:
@@ -373,6 +378,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STUndoOptimiseObservationsByQueen,
+    STFuddledMenInverseValidateObservation,
     STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
@@ -402,8 +408,8 @@ static slice_index const observation_validation_slice_rank_order[] =
     STShieldedKingsRemoveIllegalCaptures,
     STSuperguardsRemoveIllegalCaptures,
     STWormholeRemoveIllegalCaptures,
-    STCASTRemoveIllegalCaptures,
-    STCASTInverseRemoveIllegalCaptures,
+    STCASTValidateObservation,
+    STCASTInverseValidateObservation,
 
     STValidatingObserver,
     STUndoOptimiseObservationsByQueen,

@@ -30,9 +30,10 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
   stipulation/proxy.h stipulation/pipe.h solving/observation.h \
   solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
   output/message.h input/plaintext/language.h conditions/annan.h \
-  conditions/bgl.h conditions/bolero.h conditions/breton.h \
-  conditions/dister.h conditions/mummer.h conditions/role_exchange.h \
-  conditions/facetoface.h conditions/koeko/contact_grid.h \
+  conditions/bicaptures.h conditions/bgl.h conditions/bolero.h \
+  conditions/breton.h conditions/dister.h conditions/mummer.h \
+  conditions/role_exchange.h conditions/facetoface.h \
+  conditions/fuddled_men.h conditions/koeko/contact_grid.h \
   conditions/koeko/koeko.h conditions/koeko/anti.h \
   conditions/koeko/new.h conditions/exclusive.h utilities/table.h \
   conditions/republican.h conditions/blackchecks.h \
@@ -84,7 +85,8 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
   conditions/forced_squares.h conditions/synchronous.h \
   conditions/must_capture.h conditions/lostpieces.h \
   conditions/series_capture.h conditions/pepo.h conditions/cast.h \
-  conditions/multicaptures.h platform/maxtime.h \
+  conditions/multicaptures.h conditions/transmissionmenace.h \
+  conditions/powertransfer.h platform/maxtime.h \
   conditions/shielded_kings.h solving/end_of_branch_tester.h \
   solving/dead_end.h stipulation/constraint.h solving/moves_traversal.h \
   stipulation/goals/immobile/reached_tester.h \
@@ -255,6 +257,8 @@ input/plaintext/language.h:
 
 conditions/annan.h:
 
+conditions/bicaptures.h:
+
 conditions/bgl.h:
 
 conditions/bolero.h:
@@ -268,6 +272,8 @@ conditions/mummer.h:
 conditions/role_exchange.h:
 
 conditions/facetoface.h:
+
+conditions/fuddled_men.h:
 
 conditions/koeko/contact_grid.h:
 
@@ -500,6 +506,10 @@ conditions/pepo.h:
 conditions/cast.h:
 
 conditions/multicaptures.h:
+
+conditions/transmissionmenace.h:
+
+conditions/powertransfer.h:
 
 platform/maxtime.h:
 
@@ -1105,14 +1115,14 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
   conditions/anticirce/cheylan.h conditions/anticirce/magic_square.h \
   conditions/anticirce/clone.h conditions/anticirce/couscous.h \
   conditions/bgl.h solving/move_effect_journal.h \
-  position/castling_rights.h position/pieceid.h conditions/blackchecks.h \
-  conditions/mummer.h conditions/bolero.h conditions/breton.h \
-  conditions/role_exchange.h conditions/koeko/koeko.h \
-  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
-  conditions/koeko/new.h conditions/circe/antipodes.h \
-  conditions/circe/chameleon.h conditions/circe/circe.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
+  position/castling_rights.h position/pieceid.h conditions/bicaptures.h \
+  conditions/blackchecks.h conditions/mummer.h conditions/bolero.h \
+  conditions/breton.h conditions/role_exchange.h \
+  conditions/koeko/koeko.h conditions/koeko/contact_grid.h \
+  conditions/koeko/anti.h conditions/koeko/new.h \
+  conditions/circe/antipodes.h conditions/circe/chameleon.h \
+  conditions/circe/circe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
   stipulation/slice_structural_type.enum \
   stipulation/slice_functional_type.h \
@@ -1140,12 +1150,14 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
   conditions/circe/parachute.h conditions/darkside.h \
   conditions/exclusive.h utilities/table.h position/position.h \
   position/color.h position/color.enum.h position/color.enum \
-  pieces/walks/vectors.h conditions/extinction.h conditions/influencer.h \
+  pieces/walks/vectors.h conditions/extinction.h \
+  conditions/fuddled_men.h conditions/influencer.h \
   conditions/ohneschach.h conditions/maff/immobility_tester.h \
   conditions/owu/immobility_tester.h conditions/provocateurs.h \
   conditions/lortap.h conditions/patrol.h conditions/monochrome.h \
   solving/move_generator.h debugging/measure.h \
   output/plaintext/protocol.h conditions/bichrome.h \
+  conditions/transmissionmenace.h conditions/powertransfer.h \
   conditions/ultraschachzwang/legality_tester.h \
   conditions/singlebox/type1.h conditions/conditions.h \
   conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
@@ -1378,6 +1390,8 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/bicaptures.h:
+
 conditions/blackchecks.h:
 
 conditions/mummer.h:
@@ -1504,6 +1518,8 @@ pieces/walks/vectors.h:
 
 conditions/extinction.h:
 
+conditions/fuddled_men.h:
+
 conditions/influencer.h:
 
 conditions/ohneschach.h:
@@ -1527,6 +1543,10 @@ debugging/measure.h:
 output/plaintext/protocol.h:
 
 conditions/bichrome.h:
+
+conditions/transmissionmenace.h:
+
+conditions/powertransfer.h:
 
 conditions/ultraschachzwang/legality_tester.h:
 

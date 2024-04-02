@@ -96,6 +96,7 @@
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
+#include "conditions/fuddled_men.h"
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
@@ -1309,6 +1310,14 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     */
     len++;
 
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+  {
+    if (one_byte_hash)
+      len += 2;
+    else
+      len += 2+bytes_per_spec;
+  }
+
   if (OptFlag[nontrivial])
     len++;
 
@@ -1384,6 +1393,9 @@ byte *CommonEncode(byte *bp,
                    stip_length_type min_length,
                    stip_length_type validity_value)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[messigny])
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -1469,6 +1481,45 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)0;
   }
 
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+  {
+    ply ply_last_capture;
+
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",move_effect_journal[capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+      ply_last_capture = nbply;
+    else
+      ply_last_capture = find_last_capture();
+
+    if (ply_last_capture!=ply_nil)
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+      if (one_byte_hash)
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
+      else
+      {
+        unsigned int i;
+        *bp++ = move_effect_journal[capture].u.piece_removal.walk;
+        for (i = 0; i<bytes_per_spec; i++)
+          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
+      }
+
+      {
+        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
+        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
+      }
+    }
+  }
+
   if (min_length>slack_length+1)
   {
     assert(validity_value<=(1<<2*CHAR_BIT));
@@ -1500,6 +1551,14 @@ byte *CommonEncode(byte *bp,
     *bp++ = trait[nbply];
   }
 
+  if (CondFlag[fuddled_men])
+  {
+    memcpy(bp, &fuddled, sizeof fuddled);
+    bp += sizeof fuddled;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
   return bp;
 } /* CommonEncode */
 

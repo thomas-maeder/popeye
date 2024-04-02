@@ -1802,3 +1802,98 @@ b) wOHe5  bPe4-->f4
 solution finished.
 
 
+
+          eagle equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .  EE   .   7
+|                                   |
+6   .   .   .  EE   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+
+   1.EEd6-h4 + !
+
+   1.EEd6-e7 !
+
+   1.EEd6-c7 + !
+
+   1.EEd6-f4 + !
+
+   1.EEd6-b4 + !
+
+   1.EEg7-e3 !
+
+   1.EEg7-a7 !
+
+   1.EEg7-g1 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           9
+
+solution finished.
+
+
+
+      eagle nonstop equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  EN   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .  EN   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 3
+both sides need a king
+
+   1.ENd1-d5 !
+
+   1.ENd1-g4 + !
+
+   1.ENd1-a4 !
+
+   1.ENd1-e2 !
+
+   1.ENd1-c2 !
+
+   1.ENg7-a7 !
+
+   1.ENg7-g1 + !
+
+  add_to_move_generation_stack:           7
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           8
+
+solution finished.
+
+

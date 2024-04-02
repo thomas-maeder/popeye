@@ -68,4 +68,10 @@ void marguerite_generate_moves(void);
 
 boolean marguerite_check(validator_id evaluate);
 
+void eagle_equihopper_generate_moves(void);
+boolean eagle_equihopper_check(validator_id evaluate);
+
+void eagle_nonstop_equihopper_generate_moves(void);
+boolean eagle_nonstop_equihopper_check(validator_id evaluate);
+
 #endif

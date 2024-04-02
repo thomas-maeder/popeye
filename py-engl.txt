@@ -266,6 +266,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	CASTchess
 	CASTInverse
 	MultiCaptures
+	FuddledMen
+	Bicaptures
+	TransmissionMenace
+	PowerTransfer
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -290,7 +294,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After Madrasi, you can enter "RexInclusive".
+	After Madrasi and PowerTransfer, you can enter "RexInclusive".
 
 	After the Isardam condition, "TypeB" and then "RexInclusive" can be
 	specified.
@@ -380,7 +384,8 @@ commands expect further parameters. Lets start with the simpler commands:
 		RexInclusive	(default for AntiCirce and MarsCirce)
 		RexExclusive	(default otherwise)
 	Relevant move/walk/side:	
-		LastMove 
+		LastMove
+		WaitCapture
 		Clone		(also defines the walk of the reborn piece)
 		Couscous
 		Mirror		(special meaning for Equipollents - see below)
@@ -399,6 +404,7 @@ commands expect further parameters. Lets start with the simpler commands:
 		Super
 		Take&Make
 		Cage
+		CaptureSquare
 	Adaptation of the rebirth square:
 		Diametral
 		VerticalMirror
@@ -1015,9 +1021,11 @@ sstipulation). A little bit more elaborate are the commands
 	ds      ("Diagonalspiralspringer")
 	du      dummy
 	ea      eagle
+	ee	eagle equihopper
 	eh      edgehog
 	ek      erlking
 	em      empress
+	en	eagle nonstop equihopper
 	eq      equihopper
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend

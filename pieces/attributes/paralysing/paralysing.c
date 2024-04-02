@@ -379,7 +379,7 @@ void paralysing_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  solving_instrument_move_for_piece_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
   stip_instrument_observer_validation(si,nr_sides,STParalysingObserverValidator);
   stip_instrument_observation_geometry_validation(si,nr_sides,STParalysingObservationGeometryValidator);

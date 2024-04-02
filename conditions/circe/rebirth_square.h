@@ -25,7 +25,8 @@ typedef enum
   circe_determine_rebirth_square_cage,
   circe_determine_rebirth_square_antipodes,
   circe_determine_rebirth_square_super,
-  circe_determine_rebirth_square_take_and_make
+  circe_determine_rebirth_square_take_and_make,
+  circe_determine_rebirth_square_capture_square
 } circe_determine_rebirth_square_type;
 
 typedef enum

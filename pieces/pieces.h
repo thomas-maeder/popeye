@@ -171,7 +171,9 @@ typedef enum
   MaoHopper,             /* 158 */
   MoaHopper,             /* 159 */
   ContraHamster,         /* 160 */
-  Hunter0,               /* 161 */
+  EagleEquihopper,       /* 161 */
+  EagleNonstopEquihopper,/* 162 */
+  Hunter0,               /* 163 */
 
   nr_piece_walks = Hunter0+max_nr_hunter_walks
 } piece_walk_type;

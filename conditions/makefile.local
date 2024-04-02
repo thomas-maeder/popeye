@@ -18,7 +18,8 @@ SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              synchronous.c must_capture.c facetoface.c snek.c lostpieces.c \
              partial_paralysis.c conditions.c breton.c make_and_take.c \
              pointreflection.c bolero.c influencer.c role_exchange.c dister.c \
-             series_capture.c darkside.c leffie.c pepo.c cast.c multicaptures.c
+             series_capture.c darkside.c leffie.c pepo.c cast.c multicaptures.c \
+             cast.c bicaptures.c fuddled_men.c transmissionmenace.c powertransfer.c
 
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h \
@@ -38,6 +39,7 @@ INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            synchronous.h must_capture.h facetoface.h snek.h lostpieces.h \
            partial_paralysis.h conditions.h breton.h make_and_take.h \
            pointreflection.h bolero.h influencer.h role_exchange.h dister.h \
-           series_capture.h darkside.h leffie.h pepo.h cast.h multicaptures.h
+           series_capture.h darkside.h leffie.h pepo.h cast.h multicaptures.h \
+           bicaptures.h fuddled_men.h transmissionmenace.h powertransfer.h
 
 include makefile.rules $(CURRPWD)depend

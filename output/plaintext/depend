@@ -892,7 +892,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
   conditions/republican.h conditions/sat.h conditions/singlebox/type1.h \
   conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
   conditions/role_exchange.h conditions/multicaptures.h \
-  pieces/walks/hunters.h debugging/assert.h
+  conditions/powertransfer.h pieces/walks/hunters.h debugging/assert.h
 
 output/plaintext/condition.h:
 
@@ -1101,6 +1101,8 @@ conditions/woozles.h:
 conditions/role_exchange.h:
 
 conditions/multicaptures.h:
+
+conditions/powertransfer.h:
 
 pieces/walks/hunters.h:
 

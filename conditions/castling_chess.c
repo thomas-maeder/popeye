@@ -137,9 +137,9 @@ void solving_insert_castling_chess(slice_index si, boolean is_rokagogo)
   TraceFunctionParamListEnd();
 
   if (is_rokagogo)
-    solving_instrument_move_for_piece_generation(si,nr_sides,STRokagogoMovesForPieceGeneratorFilter);
+    solving_instrument_moves_for_piece_generation(si,nr_sides,STRokagogoMovesForPieceGeneratorFilter);
 
-  solving_instrument_move_for_piece_generation(si,nr_sides,STCastlingChessMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STCastlingChessMovesForPieceGenerator);
 
   insert_alternative_move_players(si,STCastlingChessMovePlayer);
   solving_disable_castling(si);

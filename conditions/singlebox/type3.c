@@ -49,7 +49,7 @@ void stip_insert_singlebox_type3(slice_index si)
   stip_instrument_moves(si,STSingleBoxType3LegalityTester);
   stip_instrument_moves(si,STSingleBoxType3PawnPromoter);
 
-  solving_instrument_move_for_piece_generation(si,nr_sides,STSingleBoxType3TMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STSingleBoxType3TMovesForPieceGenerator);
 
   move_effect_journal_register_pre_capture_effect();
 

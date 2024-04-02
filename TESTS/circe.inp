@@ -215,5 +215,19 @@ condition circe rank
 option duplex
 option nowk nobk
 
+next
+
+pieces white pb5 black pc6d7
+condition Circe CaptureSquare WaitCapture
+stipulation ser-zd72
+option nowk nobk
+
+next
+
+pieces white ph6g2 black pg7
+condition Circe CaptureSquare WaitCapture
+stipulation ser-hzh34
+option nowk nobk
+
 end
 

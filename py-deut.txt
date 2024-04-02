@@ -271,6 +271,10 @@ Kommandos:
 	CASTSchach
 	CASTInvers
 	MultiCaptures
+        FuddledMen
+        Bicaptures
+        TransmissionMenace
+	KraftTransfer
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -297,7 +301,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach Madrasi und KraftTransfer kann wahlweise noch "RexInklusive"
+	angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden und anschliessend "RexInklusiv".
@@ -396,7 +401,8 @@ Kommandos:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
 	Massgebende(r) Zug/Gangart/Partei:	
-		LetzterZug 
+		LetzterZug
+		NaechsterSchlag
 		Clone		(bestimmt auch Gangart des Wiedergeborenen)
 		Couscous
 		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
@@ -415,6 +421,7 @@ Kommandos:
 		Super
 		Take&Make
 		Kaefig
+		Schlagfeld
 	Anpassung des Wiedergeburtsfelds:
 		Diametral
 		VertikalSpiegel
@@ -1015,11 +1022,13 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ae	Adler-Equihopper
 	ah	MAoHuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
+	aq	Adler-Nonstop-Equihopper
 	b       Bauer   
 	b1	Bouncer
 	b2	Turmbouncer

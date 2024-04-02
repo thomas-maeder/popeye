@@ -438,6 +438,7 @@
     ENUMERATOR(STCirceInitialiseFromCurrentMove),                       \
     ENUMERATOR(STCirceInitialiseFromLastMove),                          \
     ENUMERATOR(STCirceInitialiseRebornFromCapturee),                    \
+    ENUMERATOR(STCirceInitialiseFromLastCapture),                       \
     ENUMERATOR(STAntiCloneCirceDetermineRebornWalk),                    \
     ENUMERATOR(STCirceCloneDetermineRebornWalk),                        \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornSide),                     \
@@ -464,6 +465,7 @@
     ENUMERATOR(STHorizontalSymmetryCirceDetermineRebirthSquare),        \
     ENUMERATOR(STPWCDetermineRebirthSquare),                            \
     ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
+    ENUMERATOR(STCirceDetermineRebirthSquareCaptureSquare),               \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCirceTestRebirthSquareEmpty),                          \
     ENUMERATOR(STCircePlacingReborn),                                   \
@@ -534,12 +536,21 @@
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
+    ENUMERATOR(STCASTMovesForPieceGenerator),                           \
+    ENUMERATOR(STCASTValidateObservation),                              \
+    ENUMERATOR(STCASTInverseMovesForPieceGenerator),                    \
+    ENUMERATOR(STCASTInverseValidateObservation),                       \
     ENUMERATOR(STCASTMultiCapturesRemover),                             \
-    ENUMERATOR(STCASTRemoveIllegalCaptures),                            \
     ENUMERATOR(STCASTInverseSingleCapturesRemover),                     \
-    ENUMERATOR(STCASTInverseRemoveIllegalCaptures),                     \
-    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),                   \
-    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest),                  \
+    ENUMERATOR(STTransmissionMenaceMovesForPieceGenerator),             \
+    ENUMERATOR(STPowerTransferMovesForPieceGenerator),                  \
+    ENUMERATOR(STFuddledMenMovesForPieceGenerator),                     \
+    ENUMERATOR(STFuddledMenBookkeeper),                                 \
+    ENUMERATOR(STFuddledMenInverseValidateObservation),                 \
+    ENUMERATOR(STBicapturesRecolorPieces),                              \
+    ENUMERATOR(STBicapturesUnrecolorPieces),                            \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGeneration),   \
+    ENUMERATOR(STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest), \
     ENUMERATOR(STMakeTakeGenerateCapturesWalkByWalk),                   \
     ENUMERATOR(STMakeTakeLimitMoveGenerationMakeWalk),                  \
     ENUMERATOR(STMakeTakeMoveCastlingPartner),                          \
