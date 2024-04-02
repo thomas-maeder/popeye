@@ -342,3 +342,38 @@ Springaren Summer Ty 2014, 2nd prize
 solution finished.
 
 
+
+Georgij A. Evseev & Igor A. Verescagin
+         Problem Online 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   P  -Q   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   P   P   P   P   P   .   .   P   2
+|                                   |
+1   R   S   B   Q   K  -R   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia6                      15 + 16
+            MultiCaptures
+
+  1.f2-f4 a7-a5   2.f4-f5 Ra8-a6   3.f5-f6 Ra6*f6   4.g2-g4 e7-e6   5.Bf1-g2 Rf6-f1   6.Bg2-f3 Qd8-h4 + dia
+  add_to_move_generation_stack:      112630
+                     play_move:      108339
+ is_white_king_square_attacked:        7160
+ is_black_king_square_attacked:        3434
+
+solution finished.
+
+

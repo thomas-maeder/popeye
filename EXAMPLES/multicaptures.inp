@@ -72,5 +72,14 @@ stipulation #3
 condition MultiCaptures
 option nowk vari nothreat
 
+next
+
+author Georgij A. Evseev & Igor A. Verescagin
+origin Problem Online 2007
+pieces white ke1 qd1 ra1h1 bc1f3 sb1g1 pa2b2c2d2e2g4h2
+       black ke8 qh4 rf1h8 bc8f8 sb8g8 pa5b7c7d7e6f7g7h7
+stip dia6
+condition multicaptures
+
 end
 
