@@ -824,7 +824,23 @@ void verify_position(slice_index si)
     }
   }
 
-  if (piece_walk_may_exist[ReflectBishop])
+  if (piece_walk_may_exist[ReflectBishop]
+      || ((!(TSTFLAG(some_pieces_flags,ColourChange)
+             || TSTFLAG(some_pieces_flags,Bul)
+             || TSTFLAG(some_pieces_flags,Dob)
+            )
+          )
+          && (piece_walk_may_exist[Elk]
+              || piece_walk_may_exist[RookMoose]
+              || piece_walk_may_exist[BishopMoose]
+              || piece_walk_may_exist[Eagle]
+              || piece_walk_may_exist[RookEagle]
+              || piece_walk_may_exist[BishopEagle]
+              || piece_walk_may_exist[Sparrow]
+              || piece_walk_may_exist[RookSparrow]
+              || piece_walk_may_exist[BishopSparrow]
+              || piece_walk_may_exist[Marguerite])
+      ))
     solving_instrument_move_generation(si,STDuplicateMovesPerPieceRemover);
 
   if (CondFlag[lostpieces])

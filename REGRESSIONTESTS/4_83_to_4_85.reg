@@ -435,8 +435,8 @@ https://github.com/thomas-maeder/popeye/issues/282
               Disparate
            Make&TakeChess
 
-  add_to_move_generation_stack:        2851
-                     play_move:          31
+  add_to_move_generation_stack:        2977
+                     play_move:          35
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -480,8 +480,8 @@ https://github.com/thomas-maeder/popeye/issues/282
 
    1.Ka5-a4 # !
 
-  add_to_move_generation_stack:        2539
-                     play_move:          25
+  add_to_move_generation_stack:        2609
+                     play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -517,8 +517,8 @@ https://github.com/thomas-maeder/popeye/issues/282
 
    1.Bf3*b7 # !
 
-  add_to_move_generation_stack:       31060
-                     play_move:         263
+  add_to_move_generation_stack:       73873
+                     play_move:         745
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

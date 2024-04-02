@@ -1460,7 +1460,7 @@ a)
 
   1.ELa1-c2   2.a2-a4   3.a4-a5   4.a5-a6   5.a6-a7   6.a7-a8=HA   7.b2-b4   8.HAb1-b3   9.b4-b5  10.HAb3-b4  11.b5-b6  12.HAb4-b5  13.b6-b7  14.HAb5-b6  15.b7-b8=HA  16.HAb6-b7 !=
   add_to_move_generation_stack:      716733
-                     play_move:      160298
+                     play_move:      143472
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
@@ -1468,7 +1468,7 @@ b) wADa1
 
   1.ADa1-c1   2.a2-a4   3.a4-a5   4.a5-a6   5.a6-a7   6.a7-a8=HA   7.b2-b4   8.HAb1-b3   9.b4-b5  10.HAb3-b4  11.b5-b6  12.HAb4-b5  13.b6-b7  14.HAb5-b6  15.b7-b8=HA  16.HAb6-b7 !=
   add_to_move_generation_stack:      626865
-                     play_move:      130811
+                     play_move:      120453
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

@@ -128,12 +128,7 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
  */
 void elk_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean moose_check(validator_id evaluate)
@@ -145,12 +140,7 @@ boolean moose_check(validator_id evaluate)
  */
 void rook_moose_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_45);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean rookmoose_check(validator_id evaluate)
@@ -163,12 +153,7 @@ boolean rookmoose_check(validator_id evaluate)
  */
 void bishop_moose_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_45);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean bishopmoose_check(validator_id evaluate)
@@ -181,12 +166,7 @@ boolean bishopmoose_check(validator_id evaluate)
  */
 void eagle_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean eagle_check(validator_id evaluate)
@@ -198,12 +178,7 @@ boolean eagle_check(validator_id evaluate)
  */
 void rook_eagle_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean rookeagle_check(validator_id evaluate)
@@ -215,12 +190,7 @@ boolean rookeagle_check(validator_id evaluate)
  */
 void bishop_eagle_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean bishopeagle_check(validator_id evaluate)
@@ -232,12 +202,7 @@ boolean bishopeagle_check(validator_id evaluate)
  */
 void sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean sparrow_check(validator_id evaluate)
@@ -249,12 +214,7 @@ boolean sparrow_check(validator_id evaluate)
  */
 void rook_sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_135);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean rooksparrow_check(validator_id evaluate)
@@ -267,12 +227,7 @@ boolean rooksparrow_check(validator_id evaluate)
  */
 void bishop_sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_135);
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean bishopsparrow_check(validator_id evaluate)
@@ -285,16 +240,11 @@ boolean bishopsparrow_check(validator_id evaluate)
  */
 void marguerite_generate_moves(void)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
   rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
   hamster_generate_moves();
-  if (!(TSTFLAG(being_solved.spec[curr_generation->departure],ColourChange)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Bul)
-        || TSTFLAG(being_solved.spec[curr_generation->departure],Dob)))
-    remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 boolean marguerite_check(validator_id evaluate)

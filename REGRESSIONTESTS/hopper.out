@@ -384,9 +384,9 @@ Loesung beendet.
 
   1.Ke3-f3 Le7-g5   2.Kf3-g4 Ke5-f6   3.Kg4-h5 SPe2-h4 #
   add_to_move_generation_stack:      223190
-                     play_move:      191302
+                     play_move:      192431
  is_white_king_square_attacked:       18706
- is_black_king_square_attacked:      182818
+ is_black_king_square_attacked:      183947
 
 Loesung beendet.
 

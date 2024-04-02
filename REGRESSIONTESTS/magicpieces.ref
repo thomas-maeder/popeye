@@ -893,9 +893,9 @@ and another one (2 views -> no recoloring, 1 view -> recoloring)
              Magic c7 d7
              PromOnly EA
 
-   1.mPc7-c8=mEA[g7=w] !
-
    1.mPd7-d8=mEA !
+
+   1.mPc7-c8=mEA[g7=w] !
 
   add_to_move_generation_stack:           2
                      play_move:           2

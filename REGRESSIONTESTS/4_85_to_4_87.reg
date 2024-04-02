@@ -492,23 +492,23 @@ https://github.com/thomas-maeder/popeye/issues/291
 a) 
 
   1.f7-f6 0-0*e7[+bKa3] #
-  add_to_move_generation_stack:       79273
-                     play_move:        2898
+  add_to_move_generation_stack:       77942
+                     play_move:        3037
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 b) +bLf5  
 
-  add_to_move_generation_stack:       71266
-                     play_move:        2640
+  add_to_move_generation_stack:       70037
+                     play_move:        2759
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 
 c) +bLe4  
 
   1.f7-f6 0-0*e7[+bKa3] #
-  add_to_move_generation_stack:       78389
-                     play_move:        2853
+  add_to_move_generation_stack:       77067
+                     play_move:        2993
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 

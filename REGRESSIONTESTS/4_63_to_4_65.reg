@@ -2718,7 +2718,7 @@ solution finished.
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b3   4.BWb3-b2   5.BWb2-b3 =
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b1   4.BWb1-b2   5.BWb2-b3 =
   add_to_move_generation_stack:         256
-                     play_move:         203
+                     play_move:         177
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         136
 

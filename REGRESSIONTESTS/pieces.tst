@@ -471,9 +471,9 @@ solution finished.
 
    1.Md4-e6 !
 
-   1.Md4-b5 !
-
    1.Md4-c6 !
+
+   1.Md4-b5 !
 
   add_to_move_generation_stack:           4
                      play_move:           3
@@ -506,31 +506,31 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
 
-   1.MGd4-d5 !
-
-   1.MGd4-a7 !
+   1.MGd4-e7 !
 
    1.MGd4-d7 !
 
-   1.MGd4-e5 !
+   1.MGd4-c7 !
 
-   1.MGd4-c5 !
+   1.MGd4-b7 !
 
-   1.MGd4-b5 !
+   1.MGd4-a7 !
 
    1.MGd4-e6 !
 
    1.MGd4-c6 !
 
-   1.MGd4-a5 !
-
-   1.MGd4-c7 !
-
-   1.MGd4-e7 !
-
    1.MGd4-a6 !
 
-   1.MGd4-b7 !
+   1.MGd4-e5 !
+
+   1.MGd4-d5 !
+
+   1.MGd4-c5 !
+
+   1.MGd4-b5 !
+
+   1.MGd4-a5 !
 
   add_to_move_generation_stack:          16
                      play_move:          13
