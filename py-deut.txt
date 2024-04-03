@@ -598,6 +598,8 @@ Kommandos:
 	ZielIstEnde	anwendbar bei Zielen, welche nicht zur Immobilitaet
 			fuehren (z.B. z, x): das Spiel ist beendet, sobald
 			die falsche Seite das Ziel erreicht.
+	MattsIn1	Matts in 1 im s# nicht unterdrücken, wenn das Spiel
+			mehr Züge zulassen würde
 
 
  - Forderung: Folgende Forderungen kennt Popeye:

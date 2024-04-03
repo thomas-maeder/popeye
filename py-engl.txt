@@ -576,6 +576,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	GoalIsEnd	applicable if the goal doesn't lead to immobility
 			(e.g. z, x): the play ends if the wrong side reaches
 			the goal.
+	MatesIn1	don't suppress mates in 1 in self play if play would
+			allow longer variations)
 
 
  - stipulation: popeye knows the following stipulations:

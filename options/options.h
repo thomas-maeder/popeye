@@ -45,8 +45,9 @@ typedef enum
   nullmoves,       /* 35 */
   uptomovenumber,  /* 36 */
   trivialtriesavoided,  /* 37 */
+  matesin1,        /* 38 */
 
-  OptCount         /* 36 */
+  OptCount         /* 38 */
 } Opt;
 
 extern boolean OptFlag[OptCount];

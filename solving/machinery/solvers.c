@@ -703,7 +703,8 @@ void build_solvers1(slice_index si)
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     solving_insert_try_solvers(si);
 
-  solving_insert_trivial_variation_filters(si);
+  if (!OptFlag[matesin1])
+    solving_insert_trivial_variation_filters(si);
 
   solving_insert_min_length(si);
 

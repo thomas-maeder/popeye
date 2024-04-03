@@ -586,6 +586,8 @@ simples:
 	ButEstFin	applicable si le but ne mene pas a l'immobilite (p.ex.
 			z, x): le jeu se termine si le faux camp atteind au
 			but.
+	MatsEn1		ne pas supprimer les mats en 1 coups dans le jeu inverse
+			qui permettrait de plus longues variantes
 
 
  - enonce: Popeye reconnait les enonces suivantes:
