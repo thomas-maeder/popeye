@@ -1,0 +1,75 @@
+begin
+
+protocol shatranj.ref
+
+author Vlaicu Crisan & Eric Huber
+origin JT Bedrich Formanek 90 2023, 2nd-4th prize
+pieces white kd1 rb7 bf4h5 sd8 feb7f5 pc3d4
+       black kd5 se5g5 pe4
+stipulation #3
+condition Shatranj
+
+rem 1.Kc2! (2.Rb5+ Kc4 3.Rc5#)
+rem 1...Sd3 2.FEe6+ Se6:/FEe6: 3.ALf7/FEc6#
+rem 1...FEc6 2.ALf7+ Sef7:/Sgf7: 3.FEc6:/FEe6#
+rem 1...Se6 2.FEc6+ FEc6:/Sc6: 3.FEe6:/ALf7#
+
+next
+
+author Lubox Kekely
+origin Pat a Mat 2023
+pieces white ke1 sc6 fea6 black ka8 pb5g2
+stipulation #=6
+condition Shatranj
+
+rem 1.Kg2? g1=FE+!
+rem 1.Kd2 g1=FE 2.Kc3 FEf2 3.Kb4 FEe3 4.Kb5: FEd4 5.Kb6 FEc3/e3/e5 6.FEb7#
+rem 5. - FEc5+ 6.Kc5:=
+
+next
+
+author Lubox Kekely
+origin Pat a Mat 2023
+pieces white kb6 pc6 black ka8 se7 pd7
+stipulation h#=2.5
+condition Shatranj
+
+rem 1...c7 2.Sc6 c8=FE 3.Sb8 FEb7#
+rem 1...cd7: 2.Sc8 dc8:=FE 3.Kb8 FEb7=
+
+next
+
+author Lubox Kekely
+origin Pat a Mat 2023
+pieces white kg7 pa2b2b3
+       black kc5 pb5c6d2h7
+stipulation hs#=7.5
+condition Shatranj
+
+rem 1...Kb4 2.Kh7: c5 3.Kg6 c4 4.Kf5 c3 5.Ke4 cb2: 6.Kd3 Ka3 7.Kc2 b4 8.Kb1 d1=FE=
+
+next
+
+author Lubos Kekely
+origin Problem Paradise 2024
+pieces white ke4 sc6 pd3e6 fec8 black ka8 pd6 feb5
+stipulation #=6
+condition Shatranj Checkless
+option vari
+
+rem 1.Kd5 FEa4 2.Kc4
+rem 1...FEa6 2.Kc4 FEb7 3.Kb5 FEc8: 4.Ka6 d5 5.d4 FEd7 6.ed7:=
+
+next
+
+author Lubos Kekely
+origin Problem Paradise 2024
+pieces white kb5 pg3h2
+       black kh3 rc1 se1e8 pa5b5e2g2g4h5
+stipulation ser-s#=22
+condition Shatranj
+
+rem 4.Kc1: 9.Kh5: 12.Ke8: 15.Kb5: 16.Ka5: 20.Ke1: 21.Kf2 22.Kg1 e1=FE=
+
+end
+
