@@ -36,7 +36,9 @@ typedef union
 
 extern HashBuffer hashBuffers[maxply+1];
 
-extern unsigned long  hash_max_number_storable_positions;
+#if defined(FXF)
+extern unsigned long  hash_max_kilo_storable_positions;
+#endif
 
 /* exported functions */
 void check_hash_assumptions(void);

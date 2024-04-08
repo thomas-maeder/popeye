@@ -1140,10 +1140,10 @@ erste 5 Züge einer Beweispartie in 7
 
  13  (e2-e4 )
   1.e2-e4 d7-d5   2.e4*d5 c7-c5   3.d5*c6 ep.[+sBd5] d5-d4   4.c2-c4 d4*c3 ep.[+sBc5]   5.c6*b7[+wBc4] Sb8-c6 dia
-  add_to_move_generation_stack:    79112992
-                     play_move:    79115062
- is_white_king_square_attacked:     3402503
- is_black_king_square_attacked:     2911445
+  add_to_move_generation_stack:    78724570
+                     play_move:    78726640
+ is_white_king_square_attacked:     3389500
+ is_black_king_square_attacked:     2904749
 
 Loesung beendet.
 

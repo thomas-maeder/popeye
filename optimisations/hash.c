@@ -121,7 +121,9 @@
 #include "platform/timer.h"
 #endif
 
-unsigned long hash_max_number_storable_positions = ULONG_MAX;
+#if defined(FXF)
+unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
+#endif
 
 typedef unsigned int hash_value_type;
 
@@ -958,18 +960,25 @@ static void compresshash (void)
   TraceValue("%lu",targetKeyCount);
   TraceEOL();
 
+#if defined(TESTHASH)
+  puts("\n before compression:");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
+  fxfInfo(stdout);
+#endif /*FXF*/
+
   while (true)
   {
     dhtElement const *he;
 
 #if defined(TESTHASH)
     unsigned long nrElementsVisitedInIteration = 0;
+    printf("key count: %lu\n",dhtKeyCount(pyhash));
     printf("starting iteration: minimalElementValueAfterCompression: %u\n",
            minimalElementValueAfterCompression);
     fflush(stdout);
 #endif  /* TESTHASH */
 
-#if defined(TESTHASH)    
+#if defined(TESTHASH)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
@@ -1059,6 +1068,7 @@ static void compresshash (void)
   putchar('\n');
 #if defined(FXF)
   puts("\n after compression:");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
   fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
@@ -1460,6 +1470,7 @@ byte *CommonEncode(byte *bp,
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
     if (move_effect_journal[capture].type==move_effect_piece_removal)
     {
       /* a piece has been captured and can be reborn */
@@ -1741,6 +1752,10 @@ static void init_elements(hashElement_union_t *hue)
   TraceFunctionResultEnd();
 }
 
+#if defined(TESTHASH)
+static unsigned long allocCounter = 0;
+#endif
+
 /* (attempt to) allocate a hash table element - compress the current
  * hash table if necessary; exit()s if allocation is not possible
  * in spite of compression
@@ -1772,6 +1787,18 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
     else
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
   }
+
+#if defined(FXF)
+#if defined(TESTHASH)
+  if (++allocCounter==10000000)
+  {
+    allocCounter = 0;
+    puts("\n allocDHTelement():");
+    printf("key count: %lu\n",dhtKeyCount(pyhash));
+    fxfInfo(stdout);
+  }
+#endif
+#endif /*FXF*/
 
   if (result==dhtNilElement)
   {
@@ -1860,7 +1887,11 @@ static boolean is_proofgame(slice_index si)
  */
 boolean is_hashtable_allocated(void)
 {
+#if defined(FXF)
   return fxfInitialised();
+#else
+  return hashtable_kilos>0;
+#endif
 }
 
 /* Initialise the hashing machinery for the current stipulation
@@ -1927,11 +1958,17 @@ static void inithash(slice_index si)
 
   bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 
+#if defined(TESTHASH)
+  printf("one_byte_hash:%u bytes_per_piece:%u\n",one_byte_hash,bytes_per_piece);
+#endif
+
   if (is_proofgame(si))
   {
     encode = ProofEncode;
-    if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-      hash_max_number_storable_positions= hashtable_kilos/(24+sizeof(char *)+1);
+#if defined(FXF)
+    if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+      hash_max_kilo_storable_positions= hashtable_kilos/(24+sizeof(char *)+1);
+#endif
   }
   else
   {
@@ -1940,25 +1977,29 @@ static void inithash(slice_index si)
     if (Small<=Large)
     {
       encode = SmallEncode;
-      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-        hash_max_number_storable_positions= hashtable_kilos/(Small+sizeof(char *)+1);
+#if defined(FXF)
+      if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+        hash_max_kilo_storable_positions= hashtable_kilos/(Small+sizeof(char *)+1);
+#endif
     }
     else
     {
       encode = LargeEncode;
-      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-        hash_max_number_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
-    }
+#if defined(FXF)
+
+      if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+        hash_max_kilo_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
+#endif
+      }
   }
 
 #if defined(FXF)
-  ifTESTHASH(printf("MaxPositions: %lu\n", hash_max_number_storable_positions));
   assert(hashtable_kilos/1024<UINT_MAX);
-  ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
-                    (unsigned int)(hashtable_kilos/1024)));
+  ifTESTHASH(printf("hashtable size:    %7u KB\n",
+                    (unsigned int)(hashtable_kilos)));
 #else
   ifTESTHASH(
-      printf("room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
+      printf("room for up to %lu000 positions in hash table\n", hash_max_kilo_storable_positions));
 #endif /*FXF*/
 
 #if defined(TESTHASH) && defined(FXF)
@@ -2001,6 +2042,11 @@ static void closehash(void)
 
 #if defined(TESTHASH)
   puts("calling closehash");
+#if defined(FXF)
+  puts("\n");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
+  fxfInfo(stdout);
+#endif /*FXF*/
 
 #if defined(HASHRATE)
   printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
@@ -2458,32 +2504,40 @@ static boolean inhash_help(slice_index si)
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
   stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* In help play, we encode all positions as if the stipulation were exact.
-   * This is necessary to avoid ruling out some solutions with intermediate
-   * positions that are solvable in, say, m moves but not in m+1. This only
-   * makes a difference in problems with short cooks, but not printing all
-   * solutions is confusing and if we measure, the price that we are paying
-   * is smaller than one might think. TM
-   */
-  (*encode)(solve_nr_remaining,validity_value);
+  (*encode)(min_length,validity_value);
+
+  /* Create a difference between odd and even numbers of moves.
+   * A solution for h#n isn't necessarily a solution for h#n.5 */
+  if (min_length<=slack_length+1 && min_length%2==1)
+  {
+    assert(hashBuffers[nbply].cmv.Leng<UCHAR_MAX);
+    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)1;
+    ++hashBuffers[nbply].cmv.Leng;
+  }
 
   ifHASHRATE(use_all++);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
-  else if (get_value_help((hashElement_union_t const *)he,si)==1)
-  {
-    ifHASHRATE(use_pos++);
-    result = true;
-  }
   else
-    result = false;
+  {
+    stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
+
+    if (min_number_moves_required>solve_nr_remaining)
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    }
+    else
+      result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2500,6 +2554,8 @@ static void addtohash_help(slice_index si)
   HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
   hashElement_union_t * hue;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  hash_value_type const new_value = (solve_result-min_length)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2511,7 +2567,7 @@ static void addtohash_help(slice_index si)
   else
     hue = (hashElement_union_t *)he;
 
-  set_value_help(hue,si,1);
+  set_value_help(hue,si,new_value);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2561,9 +2617,6 @@ void help_hashed_solve(slice_index si)
       else
         pipe_solve_delegate(si);
 
-      TraceValue("%u",solve_result);
-      TraceValue("%u",MOVE_HAS_NOT_SOLVED_LENGTH());
-      TraceEOL();
       if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
         addtohash_help(si);
     }

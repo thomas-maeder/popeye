@@ -411,26 +411,26 @@ Loesung beendet.
 a) 
 
   1.Kd4-d3   2.Kd3-c2   3.Kc2-b1   4.Kb1-a1 Da3-c1 #
-  add_to_move_generation_stack:        3167
-                     play_move:        3123
+  add_to_move_generation_stack:        3145
+                     play_move:        3101
  is_white_king_square_attacked:         191
- is_black_king_square_attacked:         326
+ is_black_king_square_attacked:         324
 
 b) -sTa2  
 
   1.Kd4-d5   2.Kd5-c6   3.Kc6-b7   4.Kb7-a8 Da3*a6 #
-  add_to_move_generation_stack:         780
-                     play_move:         767
+  add_to_move_generation_stack:         767
+                     play_move:         754
  is_white_king_square_attacked:          63
- is_black_king_square_attacked:         133
+ is_black_king_square_attacked:         131
 
 +c) -sBa6  
 
   1.Kd4-e4   2.Ke4-f3   3.Kf3-g2   4.Kg2-h1 Da3-a8 #
-  add_to_move_generation_stack:         703
-                     play_move:         690
+  add_to_move_generation_stack:         691
+                     play_move:         678
  is_white_king_square_attacked:          60
- is_black_king_square_attacked:         127
+ is_black_king_square_attacked:         125
 
 +d) -wLg3  
 
