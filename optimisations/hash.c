@@ -2565,7 +2565,10 @@ static void addtohash_help(slice_index si)
   if (he==dhtNilElement)
     hue = (hashElement_union_t *)allocDHTelement(hb);
   else
+  {
     hue = (hashElement_union_t *)he;
+    assert(get_value_help((hashElement_union_t const *)he,si)<new_value);
+  }
 
   set_value_help(hue,si,new_value);
 
