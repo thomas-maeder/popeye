@@ -2272,8 +2272,6 @@ void solving_insert_hashing(slice_index si)
   {
     slice_index const opener = alloc_pipe(STHashOpener);
     pipe_append(si,opener);
-    SLICE_TESTER(opener) = alloc_proxy_slice();
-    pipe_append(SLICE_TESTER(si),SLICE_TESTER(opener));
   }
 
   inithash(si);
