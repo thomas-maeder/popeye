@@ -61,14 +61,6 @@ void HashStats(unsigned int level, char const *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-byte *CommonEncode(byte *bp,
-                   stip_length_type min_length,
-                   stip_length_type validity_value);
-
-byte *SmallEncodePiece(byte *bp,
-                       int row, int col,
-                       piece_walk_type p, Flags pspec);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

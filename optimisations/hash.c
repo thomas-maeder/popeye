@@ -1186,12 +1186,12 @@ static unsigned int estimateNumberOfHoles(void)
 }
 
 static void ProofSmallEncodePiece(byte **bp,
-                                  int row, int col,
+                                  unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags,
                                   boolean *even)
 {
   Side const side =  TSTFLAG(flags,White) ? White : Black;
-  byte encoded = p;
+  byte encoded = (byte)p;
   assert(!is_piece_neutral(flags));
   assert(p < (1 << black_bit));
   if (side==Black)
@@ -1206,11 +1206,203 @@ static void ProofSmallEncodePiece(byte **bp,
   *even = !*even;
 }
 
+static byte *CommonEncode(byte *bp,
+                          stip_length_type min_length,
+                          stip_length_type validity_value)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[messigny])
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    if (move_effect_journal[movement].type==move_effect_piece_exchange
+        && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
+    {
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.to - square_a1);
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
+    }
+    else
+      *bp++ = (byte)UCHAR_MAX;
+  }
+
+  if (CondFlag[duellist])
+  {
+    *bp++ = (byte)(duellists[White] - square_a1);
+    *bp++ = (byte)(duellists[Black] - square_a1);
+  }
+
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
+  {
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+      *bp++ = (byte)(sq_departure-square_a1);
+  }
+
+  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
+      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
+  {
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      enum { nr_squares = nr_rows_on_board*nr_files_on_board };
+      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
+    }
+  }
+
+  if (CondFlag[imitators])
+  {
+    unsigned int imi_idx;
+
+    /* The number of imitators has to be coded too to avoid
+     * ambiguities.
+     */
+    *bp++ = (byte)being_solved.number_of_imitators;
+    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
+      *bp++ = (byte)(being_solved.isquare[imi_idx]-square_a1);
+  }
+
+  if (OptFlag[nontrivial])
+    *bp++ = (byte)(max_nr_nontrivial);
+
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+    {
+      /* a piece has been captured and can be reborn */
+      square const from = move_effect_journal[capture].u.piece_removal.on;
+      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
+
+      *bp++ = (byte)(from-square_a1);
+      if (one_byte_hash)
+        *bp++ = (byte)(removedspec) + (byte)(piece_nbr[removed] << (CHAR_BIT/2));
+      else
+      {
+        *bp++ = (byte)removed;
+        *bp++ = (byte)(removedspec>>CHAR_BIT);
+        *bp++ = (byte)(removedspec&ByteMask);
+      }
+    }
+    else
+      *bp++ = (byte)0;
+  }
+
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+  {
+    ply ply_last_capture;
+
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",move_effect_journal[capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+      ply_last_capture = nbply;
+    else
+      ply_last_capture = find_last_capture();
+
+    if (ply_last_capture!=ply_nil)
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+      if (one_byte_hash)
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (byte)(piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
+      else
+      {
+        unsigned int i;
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.walk;
+        for (i = 0; i<bytes_per_spec; i++)
+          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
+      }
+
+      {
+        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
+        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
+      }
+    }
+  }
+
+  if (min_length>slack_length+1)
+  {
+    assert(validity_value<=(1<<2*CHAR_BIT));
+    *bp++ = (byte)(validity_value);
+    *bp++ = (byte)(validity_value>>CHAR_BIT);
+  }
+
+  {
+    unsigned int i;
+
+    for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
+      *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
+  }
+
+  *bp++ = (byte)being_solved.castling_rights;     /* Castling_Flag */
+
+  if (CondFlag[BGL]) {
+    memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
+    bp += sizeof BGL_values[White];
+    memcpy(bp, &BGL_values[Black], sizeof BGL_values[Black]);
+    bp += sizeof BGL_values[Black];
+  }
+
+  if (CondFlag[disparate])
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
+    *bp++ = (byte)trait[nbply];
+  }
+
+  if (CondFlag[fuddled_men])
+  {
+    memcpy(bp, &fuddled, sizeof fuddled);
+    bp += sizeof fuddled;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+  return bp;
+} /* CommonEncode */
+
+static byte *SmallEncodePiece(byte *bp,
+                              byte row, byte col,
+                              piece_walk_type pienam, Flags pspec)
+{
+  *bp++= (byte)((row<<(CHAR_BIT/2))+col);
+  if (one_byte_hash)
+    *bp++ = (byte)pspec + (byte)(piece_nbr[pienam] << (CHAR_BIT/2));
+  else
+  {
+    unsigned int i;
+    *bp++ = (byte)pienam;
+    for (i = 0; i<bytes_per_spec; i++)
+      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+  }
+
+  return bp;
+}
+
 static void ProofLargeEncodePiece(byte **bp,
                                   unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
-  **bp = p;
+  **bp = (byte)p;
   ++*bp;
 
   **bp = flags&COLOURFLAGS;
@@ -1260,8 +1452,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
       square s = (underworld[gi].on
                   - nr_of_slack_rows_below_board*onerow
                   - nr_of_slack_files_left_of_board);
-      unsigned int const row = s/onerow;
-      unsigned int const col = s%onerow;
+      byte const row = (byte)(s/onerow);
+      byte const col = (byte)(s%onerow);
       bp = SmallEncodePiece(bp,
                             row,col,
                             underworld[gi].walk,underworld[gi].flags);
@@ -1399,190 +1591,16 @@ static unsigned int TellSmallEncodePosLeng(void)
   return result;
 } /* TellSmallEncodePosLeng */
 
-byte *CommonEncode(byte *bp,
-                   stip_length_type min_length,
-                   stip_length_type validity_value)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[messigny])
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    if (move_effect_journal[movement].type==move_effect_piece_exchange
-        && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
-    {
-      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.to - square_a1);
-      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
-    }
-    else
-      *bp++ = (byte)UCHAR_MAX;
-  }
-
-  if (CondFlag[duellist])
-  {
-    *bp++ = (byte)(duellists[White] - square_a1);
-    *bp++ = (byte)(duellists[Black] - square_a1);
-  }
-
-  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-  {
-    square const sq_departure = move_effect_journal_get_departure_square(nbply);
-    if (sq_departure==initsquare)
-      *bp++ = (byte)UCHAR_MAX;
-    else
-      *bp++ = (byte)(sq_departure-square_a1);
-  }
-
-  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
-      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
-  {
-    square const sq_departure = move_effect_journal_get_departure_square(nbply);
-    if (sq_departure==initsquare)
-      *bp++ = (byte)UCHAR_MAX;
-    else
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-      enum { nr_squares = nr_rows_on_board*nr_files_on_board };
-      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
-    }
-  }
-
-  if (CondFlag[imitators])
-  {
-    unsigned int imi_idx;
-
-    /* The number of imitators has to be coded too to avoid
-     * ambiguities.
-     */
-    *bp++ = (byte)being_solved.number_of_imitators;
-    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
-      *bp++ = (byte)(being_solved.isquare[imi_idx]-square_a1);
-  }
-
-  if (OptFlag[nontrivial])
-    *bp++ = (byte)(max_nr_nontrivial);
-
-  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-    if (move_effect_journal[capture].type==move_effect_piece_removal)
-    {
-      /* a piece has been captured and can be reborn */
-      square const from = move_effect_journal[capture].u.piece_removal.on;
-      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
-      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
-
-      *bp++ = (byte)(from-square_a1);
-      if (one_byte_hash)
-        *bp++ = (byte)(removedspec) + (piece_nbr[removed] << (CHAR_BIT/2));
-      else
-      {
-        *bp++ = removed;
-        *bp++ = (byte)(removedspec>>CHAR_BIT);
-        *bp++ = (byte)(removedspec&ByteMask);
-      }
-    }
-    else
-      *bp++ = (byte)0;
-  }
-
-  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
-  {
-    ply ply_last_capture;
-
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-    TraceValue("%u",nbply);
-    TraceValue("%u",move_effect_journal[capture].type);
-    TraceEOL();
-
-    if (move_effect_journal[capture].type==move_effect_piece_removal)
-      ply_last_capture = nbply;
-    else
-      ply_last_capture = find_last_capture();
-
-    if (ply_last_capture!=ply_nil)
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
-      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-      if (one_byte_hash)
-        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
-      else
-      {
-        unsigned int i;
-        *bp++ = move_effect_journal[capture].u.piece_removal.walk;
-        for (i = 0; i<bytes_per_spec; i++)
-          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
-      }
-
-      {
-        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
-        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
-        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
-      }
-    }
-  }
-
-  if (min_length>slack_length+1)
-  {
-    assert(validity_value<=(1<<2*CHAR_BIT));
-    *bp++ = (byte)(validity_value);
-    *bp++ = (byte)(validity_value>>CHAR_BIT);
-  }
-
-  {
-    unsigned int i;
-
-    for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
-      *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
-  }
-
-  *bp++ = being_solved.castling_rights;     /* Castling_Flag */
-
-  if (CondFlag[BGL]) {
-    memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
-    bp += sizeof BGL_values[White];
-    memcpy(bp, &BGL_values[Black], sizeof BGL_values[Black]);
-    bp += sizeof BGL_values[Black];
-  }
-
-  if (CondFlag[disparate])
-  {
-    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
-    *bp++ = trait[nbply];
-  }
-
-  if (CondFlag[fuddled_men])
-  {
-    memcpy(bp, &fuddled, sizeof fuddled);
-    bp += sizeof fuddled;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-  return bp;
-} /* CommonEncode */
-
 static byte *LargeEncodePiece(byte *bp, byte *position,
                               int row, int col,
                               piece_walk_type pienam, Flags pspec)
 {
   if (one_byte_hash)
-    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (byte)(piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
-    *bp++ = pienam;
+    *bp++ = (byte)pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
@@ -1649,32 +1667,14 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionResultEnd();
 } /* LargeEncode */
 
-byte *SmallEncodePiece(byte *bp,
-                       int row, int col,
-                       piece_walk_type pienam, Flags pspec)
-{
-  *bp++= (byte)((row<<(CHAR_BIT/2))+col);
-  if (one_byte_hash)
-    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
-  else
-  {
-    unsigned int i;
-    *bp++ = pienam;
-    for (i = 0; i<bytes_per_spec; i++)
-      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
-  }
-
-  return bp;
-}
-
 static void SmallEncode(stip_length_type min_length,
                         stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
   square a_square = square_a1;
-  int row;
-  int col;
+  byte row;
+  byte col;
   underworld_index_type gi;
 
   TraceFunctionEntry(__func__);
@@ -1696,8 +1696,8 @@ static void SmallEncode(stip_length_type min_length,
     square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
-    row = s/onerow;
-    col = s%onerow;
+    byte const row = (byte)(s/onerow);
+    byte const col = (byte)(s%onerow);
     bp = SmallEncodePiece(bp,
                           row,col,
                           underworld[gi].walk,underworld[gi].flags);
