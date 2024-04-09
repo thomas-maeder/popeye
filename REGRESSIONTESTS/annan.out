@@ -375,10 +375,10 @@ Loesung beendet.
              Annanschach
 
   1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 #
-  add_to_move_generation_stack:      870337
-                     play_move:      844164
- is_white_king_square_attacked:      455306
- is_black_king_square_attacked:      844164
+  add_to_move_generation_stack:      870357
+                     play_move:      844182
+ is_white_king_square_attacked:      455308
+ is_black_king_square_attacked:      844182
 
 Loesung beendet.
 

@@ -622,10 +622,10 @@ Loesung beendet.
  19  (Ke7*d7 )
  20  (Ke7-e8 )
  21  (Ke7-f7 )
-  add_to_move_generation_stack:    11163433
-                     play_move:     9634363
- is_white_king_square_attacked:      499130
- is_black_king_square_attacked:     9633990
+  add_to_move_generation_stack:    11163701
+                     play_move:     9634547
+ is_white_king_square_attacked:      499186
+ is_black_king_square_attacked:     9634174
 
 Loesung beendet.
 

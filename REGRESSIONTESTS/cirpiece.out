@@ -229,10 +229,10 @@ Loesung beendet.
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c6   4.Tc6-h6 Sg1-f3 #
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c5   4.Tc5-h5 Sg1-f3 #
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 #
-  add_to_move_generation_stack:       20164
-                     play_move:       14181
- is_white_king_square_attacked:        3145
- is_black_king_square_attacked:       14181
+  add_to_move_generation_stack:       20554
+                     play_move:       14376
+ is_white_king_square_attacked:        3190
+ is_black_king_square_attacked:       14376
 
 Loesung beendet.
 

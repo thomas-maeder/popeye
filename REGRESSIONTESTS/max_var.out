@@ -129,10 +129,10 @@ Loesung beendet.
           Duellantenschach
 
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 #
-  add_to_move_generation_stack:      323133
-                     play_move:      241577
- is_white_king_square_attacked:       84920
- is_black_king_square_attacked:      241577
+  add_to_move_generation_stack:      323169
+                     play_move:      241609
+ is_white_king_square_attacked:       84924
+ is_black_king_square_attacked:      241609
 
 Loesung beendet.
 

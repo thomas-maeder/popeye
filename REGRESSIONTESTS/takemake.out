@@ -464,10 +464,10 @@ Loesung beendet.
   1.f2-f1=S   2.Sf1*g3-g4   3.Sg4-f6 e7-e8=S #
   1.f2-f1=T   2.Tf1-h1   3.Th1-h5 e7-e8=L #
   1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T #
-  add_to_move_generation_stack:       36877
-                     play_move:       18593
- is_white_king_square_attacked:        2045
- is_black_king_square_attacked:       18593
+  add_to_move_generation_stack:       37470
+                     play_move:       18857
+ is_white_king_square_attacked:        2071
+ is_black_king_square_attacked:       18857
 
 Loesung beendet.
 
@@ -708,10 +708,10 @@ Loesung beendet.
            Take&MakeSchach
 
   1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 #
-  add_to_move_generation_stack:     5697116
-                     play_move:     4256576
- is_white_king_square_attacked:      291919
- is_black_king_square_attacked:     4256576
+  add_to_move_generation_stack:     5697321
+                     play_move:     4256628
+ is_white_king_square_attacked:      291926
+ is_black_king_square_attacked:     4256628
 
 Loesung beendet.
 

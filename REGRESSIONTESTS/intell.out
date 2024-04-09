@@ -4437,10 +4437,10 @@ a)
   1.Kg6-h6 Le4-b1   2.Sf5*e3 Dc1-c2   3.Dg3-g5 Dc2-h7 #
   1.Kg6-h6 Le4-b1   2.Sf5*e3 Dc1-c2   3.Se3-d1 #
 26439 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:    50050774
-                     play_move:    47702156
- is_white_king_square_attacked:     4019317
- is_black_king_square_attacked:     4322999
+  add_to_move_generation_stack:    50058799
+                     play_move:    47708954
+ is_white_king_square_attacked:     4025605
+ is_black_king_square_attacked:     4323538
 
 b) wKc3-->b7  
 
@@ -4449,10 +4449,10 @@ b) wKc3-->b7
   1.Kg6-h7 Te6-a6   2.Sf6-d7 Dc1-c6   3.Dg3-g8 Dc6-h6 #
   1.Kg6-h7 Te6-a6   2.Sf6-d7 Dc1-c6   3.Dg3-b8 #
 21744 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:    64142497
-                     play_move:    58624017
- is_white_king_square_attacked:     5480908
- is_black_king_square_attacked:     4733554
+  add_to_move_generation_stack:    64158135
+                     play_move:    58635061
+ is_white_king_square_attacked:     5491456
+ is_black_king_square_attacked:     4734921
 
 Loesung beendet.
 
@@ -4493,10 +4493,10 @@ a) wKh5-->f1
   1.Lc6-f3 La8-e4   2.Tb3-b4 Le4-b1   3.Lf3-d5 Lb1-d3 #
   1.Lc6-f3 La8-e4   2.Tb3-b4 Le4-b1   3.Tb4*b1 #
 553 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:      586767
-                     play_move:      539080
- is_white_king_square_attacked:       63809
- is_black_king_square_attacked:       53070
+  add_to_move_generation_stack:      587189
+                     play_move:      539401
+ is_white_king_square_attacked:       64103
+ is_black_king_square_attacked:       53101
 
 b) wBe3-->c2  
 
@@ -4505,10 +4505,10 @@ b) wBe3-->c2
   1.Tb3-g3 Ta3-e3   2.Lc6-b5 Te3-e8   3.Tg3-c3 Te8-e4 #
   1.Tb3-g3 Ta3-e3   2.Lc6-b5 Te3-e8   3.Lb5*e8 #
 1012 moegliche Stellungen in 3+3
-  add_to_move_generation_stack:     1485368
-                     play_move:     1352998
- is_white_king_square_attacked:      178399
- is_black_king_square_attacked:      139071
+  add_to_move_generation_stack:     1485809
+                     play_move:     1353383
+ is_white_king_square_attacked:      178728
+ is_black_king_square_attacked:      139093
 
 Loesung beendet.
 
@@ -4590,10 +4590,10 @@ Loesung beendet.
   1.Td2-a2 Kh1-g1   2.De2-b2 Kg1-f1   3.Kd3-c2 Kf1-e2   4.Kc2-c1 + Ke2-d3   5.Db2-e2 + Kd3-c3   6.Ta2-d2 Kc3-b3   7.Sa3-c2 Kb3-a2   8.De2-d1 Le5-b2 #
   1.Td2-a2 Kh1-g1   2.De2-b2 Kg1-f1   3.Kd3-c2 Kf1-e2   4.Kc2-c1 + Ke2-d3   5.Db2-e2 + Kd3-c3   6.Ta2-d2 Kc3-b3   7.Sa3-c2 Kb3-a2   8.De2-c4 #
 16 moegliche Stellungen in 8+8
-  add_to_move_generation_stack:    47864734
-                     play_move:    47815255
- is_white_king_square_attacked:     7309755
- is_black_king_square_attacked:     4878439
+  add_to_move_generation_stack:    47868455
+                     play_move:    47817374
+ is_white_king_square_attacked:     7311492
+ is_black_king_square_attacked:     4878760
 
 Loesung beendet.
 

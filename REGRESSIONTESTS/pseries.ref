@@ -56,10 +56,10 @@ solution finished.
   2->pser-h#3                 5 + 5
 
   1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. #
-  add_to_move_generation_stack:     2469666
-                     play_move:     1600054
- is_white_king_square_attacked:      500356
- is_black_king_square_attacked:     1517182
+  add_to_move_generation_stack:     2469726
+                     play_move:     1600114
+ is_white_king_square_attacked:      500432
+ is_black_king_square_attacked:     1517242
 
 solution finished.
 

@@ -328,10 +328,10 @@ solution finished.
   1.Sb5-d4   1.Sd3-c1   2.Sc1-a2 Sd4*b3 #
   1.Sb5-d4   1.Rb3-a3   2.Sd3-b2   3.Ra3-a2 Sd4-b3 #
   1.Sb5-d4   1.Sd3-b2   2.Rb3-a3   3.Ra3-a2 Sd4-b3 #
-  add_to_move_generation_stack:       37466
-                     play_move:       34937
- is_white_king_square_attacked:        4372
- is_black_king_square_attacked:       34927
+  add_to_move_generation_stack:       37545
+                     play_move:       34995
+ is_white_king_square_attacked:        4393
+ is_black_king_square_attacked:       34985
 
 solution finished.
 

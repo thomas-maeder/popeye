@@ -149,10 +149,10 @@ Loesung beendet.
   1.Th5-d5   2.Td5-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 #
   1.Th5-h6   2.Kc5-d4   3.Th6-d6   4.Kd4-e5   5.La7-d4 Lb8*d6 #
   1.Th5-h6   2.Th6-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 #
-  add_to_move_generation_stack:      853996
-                     play_move:      768567
- is_white_king_square_attacked:       56258
- is_black_king_square_attacked:      768567
+  add_to_move_generation_stack:      854119
+                     play_move:      768650
+ is_white_king_square_attacked:       56264
+ is_black_king_square_attacked:      768650
 
 Loesung beendet.
 

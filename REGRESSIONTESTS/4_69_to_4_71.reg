@@ -190,10 +190,10 @@ Popeye hasn't found the solution since 4.65
                 KoeKo
 
   1.0-0   2.nRf8-f2   3.nPe3-e2   4.nPe2-e1=nQ   5.nQe1-g1   6.nRf2-h2   7.nQg1-a7 nRh2-h8 #
-  add_to_move_generation_stack:      558560
-                     play_move:      643203
- is_white_king_square_attacked:       22728
- is_black_king_square_attacked:      211290
+  add_to_move_generation_stack:      558670
+                     play_move:      643320
+ is_white_king_square_attacked:       22732
+ is_black_king_square_attacked:      211313
 
 solution finished.
 

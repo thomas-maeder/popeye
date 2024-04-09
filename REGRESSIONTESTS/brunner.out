@@ -204,10 +204,10 @@ Loesung beendet.
             BrunnerSchach
 
   1.Kd1-e2   2.Ke2-f3   3.Kf3-g4   4.Kg4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8 Kf6-f7 #
-  add_to_move_generation_stack:        1954
-                     play_move:        2114
- is_white_king_square_attacked:        1275
- is_black_king_square_attacked:        1973
+  add_to_move_generation_stack:        1967
+                     play_move:        2130
+ is_white_king_square_attacked:        1279
+ is_black_king_square_attacked:        1985
 
 Loesung beendet.
 

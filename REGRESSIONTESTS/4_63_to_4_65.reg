@@ -281,10 +281,10 @@ solution finished.
   1.d2-d1=S   2.Sd1-e3   3.Se3-f1 Qf2-g1 #
   1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
   1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
-  add_to_move_generation_stack:        8042
-                     play_move:        7018
- is_white_king_square_attacked:        1203
- is_black_king_square_attacked:        7018
+  add_to_move_generation_stack:        8140
+                     play_move:        7100
+ is_white_king_square_attacked:        1217
+ is_black_king_square_attacked:        7100
 
 solution finished.
 

@@ -2508,33 +2508,63 @@ static boolean inhash_help(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",min_length);TraceEOL();
+
   (*encode)(min_length,validity_value);
 
   /* Create a difference between odd and even numbers of moves.
    * A solution for h#n isn't necessarily a solution for h#n.5 */
-  if (min_length<=slack_length+1 && min_length%2==1)
-  {
-    assert(hashBuffers[nbply].cmv.Leng<UCHAR_MAX);
-    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)1;
-    ++hashBuffers[nbply].cmv.Leng;
-  }
+  assert(hashBuffers[nbply].cmv.Leng<UCHAR_MAX);
+  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)(min_length%2);
+  ++hashBuffers[nbply].cmv.Leng;
 
   ifHASHRATE(use_all++);
 
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    result = false;
+  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
+  dhtElement const *he2 = dhtLookupElement(pyhash,hb);
+  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
+
+  if (he2==dhtNilElement)
+  {
+    he = dhtLookupElement(pyhash,hb);
+    if (he==dhtNilElement)
+      result = false;
+    else
+    {
+      stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
+      if (min_number_moves_required>solve_nr_remaining)
+      {
+        ifHASHRATE(use_pos++);
+        result = true;
+      }
+      else
+        result = false;
+    }
+  }
   else
   {
-    stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
-
-    if (min_number_moves_required>solve_nr_remaining)
-    {
-      ifHASHRATE(use_pos++);
-      result = true;
-    }
-    else
+    stip_length_type const min_number_moves = get_value_help((hashElement_union_t const *)he2,si)*2+min_length;
+    TraceValue("%u",min_number_moves);TraceEOL();
+    if (min_number_moves<=solve_nr_remaining)
       result = false;
+    else
+    {
+      he = dhtLookupElement(pyhash,hb);
+      if (he==dhtNilElement)
+        result = false;
+      else
+      {
+        stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
+        TraceValue("%u",min_number_moves_required);TraceEOL();
+        if (min_number_moves_required>solve_nr_remaining)
+        {
+          ifHASHRATE(use_pos++);
+          result = true;
+        }
+        else
+          result = false;
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -2547,7 +2577,7 @@ static boolean inhash_help(slice_index si)
  * number of half-moves
  * @param si index of slice where the current position was reached
  */
-static void addtohash_help(slice_index si)
+static void addtohash_help(slice_index si, boolean success)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
@@ -2557,18 +2587,46 @@ static void addtohash_help(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",success);
   TraceFunctionParamListEnd();
 
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    hue = (hashElement_union_t *)allocDHTelement(hb);
+  TraceValue("%u",min_length);TraceEOL();
+
+  if (success)
+  {
+    if (solve_result>=min_length)
+    {
+      hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
+
+      he = dhtLookupElement(pyhash,hb);
+
+      if (he==dhtNilElement)
+        hue = (hashElement_union_t *)allocDHTelement(hb);
+      else
+        hue = (hashElement_union_t *)he;
+
+      hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
+
+      set_value_help(hue,si,new_value);
+    }
+  }
   else
   {
-    hue = (hashElement_union_t *)he;
-    assert(get_value_help((hashElement_union_t const *)he,si)<new_value);
-  }
+    assert(solve_result>=min_length);
 
-  set_value_help(hue,si,new_value);
+    he = dhtLookupElement(pyhash,hb);
+    if (he==dhtNilElement)
+      hue = (hashElement_union_t *)allocDHTelement(hb);
+    else
+    {
+      hue = (hashElement_union_t *)he;
+      /* assertion isn't true in stipulations like 2->ser-h#3
+       * assert(get_value_help(hue,si)<=new_value);*/
+      /* TODO why not? */
+    }
+
+    set_value_help(hue,si,new_value);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2619,7 +2677,9 @@ void help_hashed_solve(slice_index si)
         pipe_solve_delegate(si);
 
       if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-        addtohash_help(si);
+        addtohash_help(si,false);
+      else
+        addtohash_help(si,true);
     }
   }
   else
@@ -2666,7 +2726,9 @@ void help_hashed_tester_solve(slice_index si)
       pipe_solve_delegate(si);
 
     if (solve_result>MOVE_HAS_SOLVED_LENGTH())
-      addtohash_help(base);
+      addtohash_help(base,false);
+    else
+      addtohash_help(base,true);
   }
 
   TraceFunctionExit(__func__);

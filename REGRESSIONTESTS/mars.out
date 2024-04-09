@@ -655,18 +655,18 @@ Loesung beendet.
 a) 
 
   1.Kd7-c6   2.Kc6-b5   3.Kb5-a4   1.e7-e8=L   2.f7-f8=T #
-  add_to_move_generation_stack:      158131
-                     play_move:       87414
- is_white_king_square_attacked:        8616
- is_black_king_square_attacked:       87408
+  add_to_move_generation_stack:      158217
+                     play_move:       87476
+ is_white_king_square_attacked:        8648
+ is_black_king_square_attacked:       87470
 
 b) MarsCirce Spiegel  
 
   1.Kd7-e6   2.Ke6-f5   3.Kf5-g4   1.f7-f8=T   2.e7-e8=L #
-  add_to_move_generation_stack:       52239
-                     play_move:       25650
- is_white_king_square_attacked:        3647
- is_black_king_square_attacked:       25257
+  add_to_move_generation_stack:       52321
+                     play_move:       25708
+ is_white_king_square_attacked:        3677
+ is_black_king_square_attacked:       25311
 
 Loesung beendet.
 
@@ -859,10 +859,10 @@ eigentlich:  ser-h=8/3
   3  (a7-a6 )
   4  (Ka8-b7 )
   5  (Ka8-b8 )
-  add_to_move_generation_stack:      791286
-                     play_move:      163546
- is_white_king_square_attacked:       99878
- is_black_king_square_attacked:      142970
+  add_to_move_generation_stack:      791406
+                     play_move:      163582
+ is_white_king_square_attacked:       99908
+ is_black_king_square_attacked:      142994
 
 Loesung beendet.
 

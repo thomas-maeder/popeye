@@ -579,10 +579,10 @@ zweimal eine Anzuginversion (-)
 
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 =
-  add_to_move_generation_stack:       13049
-                     play_move:        8968
- is_white_king_square_attacked:        5251
- is_black_king_square_attacked:        6522
+  add_to_move_generation_stack:       13098
+                     play_move:        9014
+ is_white_king_square_attacked:        5291
+ is_black_king_square_attacked:        6530
 
 Loesung beendet.
 
@@ -1214,10 +1214,10 @@ Loesung beendet.
               BiWoozles
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 #
-  add_to_move_generation_stack:    11163433
-                     play_move:     9634363
- is_white_king_square_attacked:      499130
- is_black_king_square_attacked:     9633969
+  add_to_move_generation_stack:    11163701
+                     play_move:     9634547
+ is_white_king_square_attacked:      499186
+ is_black_king_square_attacked:     9634153
 
 Loesung beendet.
 
@@ -1467,9 +1467,9 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
  13  (Kb4-a4 )
  14  (Kb4-b5 )
  15  (Kb4-c4 )
-  add_to_move_generation_stack:      207544
-                     play_move:      153532
- is_white_king_square_attacked:       99905
+  add_to_move_generation_stack:      207670
+                     play_move:      153539
+ is_white_king_square_attacked:       99926
  is_black_king_square_attacked:      153508
 
 Loesung beendet.
