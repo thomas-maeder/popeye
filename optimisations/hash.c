@@ -2577,7 +2577,7 @@ static boolean inhash_help(slice_index si)
  * number of half-moves
  * @param si index of slice where the current position was reached
  */
-static void addtohash_help(slice_index si, boolean success)
+static void addtohash_help_not_solved(slice_index si)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
@@ -2587,43 +2587,64 @@ static void addtohash_help(slice_index si, boolean success)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",success);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",min_length);TraceEOL();
 
-  if (success)
-  {
-    if (solve_result>=min_length)
-    {
-      hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
+  assert(solve_result>=min_length);
 
-      he = dhtLookupElement(pyhash,hb);
-
-      if (he==dhtNilElement)
-        hue = (hashElement_union_t *)allocDHTelement(hb);
-      else
-        hue = (hashElement_union_t *)he;
-
-      hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
-
-      set_value_help(hue,si,new_value);
-    }
-  }
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    hue = (hashElement_union_t *)allocDHTelement(hb);
   else
   {
-    assert(solve_result>=min_length);
+    hue = (hashElement_union_t *)he;
+    /* assertion isn't true in stipulations like 2->ser-h#3
+     * assert(get_value_help(hue,si)<=new_value);*/
+    /* TODO why not? */
+  }
+
+  set_value_help(hue,si,new_value);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
+/* Remember that the current position has a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ */
+static void addtohash_help_solved(slice_index si)
+{
+  HashBuffer const * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+  hashElement_union_t * hue;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  hash_value_type const new_value = (solve_result-min_length)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",min_length);TraceEOL();
+
+  if (solve_result>=min_length)
+  {
+    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
 
     he = dhtLookupElement(pyhash,hb);
+
     if (he==dhtNilElement)
       hue = (hashElement_union_t *)allocDHTelement(hb);
     else
-    {
       hue = (hashElement_union_t *)he;
-      /* assertion isn't true in stipulations like 2->ser-h#3
-       * assert(get_value_help(hue,si)<=new_value);*/
-      /* TODO why not? */
-    }
+
+    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
 
     set_value_help(hue,si,new_value);
   }
@@ -2635,6 +2656,40 @@ static void addtohash_help(slice_index si, boolean success)
   if (dhtKeyCount(pyhash)%1000 == 0)
     HashStats(3, "\n");
 #endif /*HASHRATE*/
+}
+
+static void help_hashed_solve_impl(slice_index si, slice_index base)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",solve_nr_remaining); TraceEOL();
+
+  assert(solve_nr_remaining>=next_move_has_solution);
+
+  if (inhash_help(base))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+  else
+  {
+    if (SLICE_U(base).branch.min_length>slack_length+1)
+    {
+      SLICE_U(base).branch.min_length -= 2;
+      pipe_solve_delegate(si);
+      SLICE_U(base).branch.min_length += 2;
+    }
+    else
+      pipe_solve_delegate(si);
+
+    if (solve_result>MOVE_HAS_SOLVED_LENGTH())
+      addtohash_help_not_solved(base);
+    else
+      addtohash_help_solved(base);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -2659,29 +2714,8 @@ void help_hashed_solve(slice_index si)
   TraceValue("%u",solve_nr_remaining);
   TraceEOL();
 
-  assert(solve_nr_remaining>=next_move_has_solution);
-
   if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
-  {
-    if (inhash_help(si))
-      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-    else
-    {
-      if (SLICE_U(si).branch.min_length>slack_length+1)
-      {
-        SLICE_U(si).branch.min_length -= 2;
-        pipe_solve_delegate(si);
-        SLICE_U(si).branch.min_length += 2;
-      }
-      else
-        pipe_solve_delegate(si);
-
-      if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-        addtohash_help(si,false);
-      else
-        addtohash_help(si,true);
-    }
-  }
+    help_hashed_solve_impl(si,si);
   else
     pipe_solve_delegate(si);
 
@@ -2710,26 +2744,7 @@ void help_hashed_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(solve_nr_remaining>=next_move_has_solution);
-
-  if (inhash_help(base))
-    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-  else
-  {
-    if (SLICE_U(base).branch.min_length>slack_length+1)
-    {
-      SLICE_U(base).branch.min_length -= 2;
-      pipe_solve_delegate(si);
-      SLICE_U(base).branch.min_length += 2;
-    }
-    else
-      pipe_solve_delegate(si);
-
-    if (solve_result>MOVE_HAS_SOLVED_LENGTH())
-      addtohash_help(base,false);
-    else
-      addtohash_help(base,true);
-  }
+  help_hashed_solve_impl(si,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
