@@ -2489,19 +2489,68 @@ void attack_hashed_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Look up whether the current position in the hash table to find out
- * if it has a solution in a number of half-moves
- * @param si index slice where current position was reached
- * @param n number of half-moves
- * @return true iff we know that the current position has no solution
- *         in n half-moves
- */
-static boolean inhash_help(slice_index si)
+static hashElement_union_t *find_or_add_help_elmt(HashBuffer const *hb)
 {
-  boolean result;
-  HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement const *he;
-  stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  {
+    dhtElement * const he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t * const result = (hashElement_union_t *)(he==dhtNilElement
+                                                                 ? allocDHTelement(hb)
+                                                                 : he);
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static hash_value_type solve_result_to_hash_value(slice_index si,
+                                                  stip_length_type solve_result)
+{
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  hash_value_type const result = (solve_result-min_length)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",solve_result);
+  TraceFunctionParamListEnd();
+
+  assert(solve_result>=min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static stip_length_type hash_value_to_solve_result(slice_index si,
+                                                   hash_value_type value)
+{
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  stip_length_type const result = value*2+min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",value);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Remember that the current position has a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ */
+static void addtohash_help_solved(slice_index si)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
@@ -2510,61 +2559,74 @@ static boolean inhash_help(slice_index si)
 
   TraceValue("%u",min_length);TraceEOL();
 
-  (*encode)(min_length,validity_value);
-
-  /* Create a difference between odd and even numbers of moves.
-   * A solution for h#n isn't necessarily a solution for h#n.5 */
-  assert(hashBuffers[nbply].cmv.Leng<UCHAR_MAX);
-  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)(min_length%2);
-  ++hashBuffers[nbply].cmv.Leng;
-
-  ifHASHRATE(use_all++);
-
-  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
-  dhtElement const *he2 = dhtLookupElement(pyhash,hb);
-  hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
-
-  if (he2==dhtNilElement)
+  if (solve_result>=min_length)
   {
-    he = dhtLookupElement(pyhash,hb);
-    if (he==dhtNilElement)
-      result = false;
-    else
-    {
-      stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
-      if (min_number_moves_required>solve_nr_remaining)
-      {
-        ifHASHRATE(use_pos++);
-        result = true;
-      }
-      else
-        result = false;
-    }
+    /* (ab)use 1 bit of the extra byte added in in_hash_help for distinguishing
+     * between solved and not_solved: */
+    hb->cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
+    set_value_help(find_or_add_help_elmt(hb),
+                   si,
+                   solve_result_to_hash_value(si,solve_result));
+    hb->cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
+static hashElement_union_t const *find_help_elmt_solved(HashBuffer *hb)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  /* (ab)use 1 bit of the extra byte added in in_hash_help for distinguishing
+   * between solved and not_solved: */
+  hb->cmv.Data[hb->cmv.Leng-1] += (byte)2;
+
+  {
+    dhtElement const * const he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t const * const result = (he==dhtNilElement
+                                                ? 0
+                                                : (hashElement_union_t const *)he);
+
+    hb->cmv.Data[hb->cmv.Leng-1] -= (byte)2;
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static boolean is_position_known_to_be_solved(HashBuffer *hb, slice_index si)
+{
+  boolean result;
+  hashElement_union_t const *hue_solved;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  hue_solved = find_help_elmt_solved(hb);
+
+  if (hue_solved==0)
+    result = false;
   else
   {
-    stip_length_type const min_number_moves = get_value_help((hashElement_union_t const *)he2,si)*2+min_length;
-    TraceValue("%u",min_number_moves);TraceEOL();
-    if (min_number_moves<=solve_nr_remaining)
-      result = false;
+    hash_value_type const value = get_value_help(hue_solved,si);
+    stip_length_type const known_result = hash_value_to_solve_result(si,value);
+
+    if (known_result<=solve_nr_remaining)
+      result = true;
     else
-    {
-      he = dhtLookupElement(pyhash,hb);
-      if (he==dhtNilElement)
-        result = false;
-      else
-      {
-        stip_length_type const min_number_moves_required = get_value_help((hashElement_union_t const *)he,si)*2+min_length;
-        TraceValue("%u",min_number_moves_required);TraceEOL();
-        if (min_number_moves_required>solve_nr_remaining)
-        {
-          ifHASHRATE(use_pos++);
-          result = true;
-        }
-        else
-          result = false;
-      }
-    }
+      result = false;
   }
 
   TraceFunctionExit(__func__);
@@ -2580,31 +2642,14 @@ static boolean inhash_help(slice_index si)
 static void addtohash_help_not_solved(slice_index si)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  dhtElement *he;
-  hashElement_union_t * hue;
-  stip_length_type const min_length = SLICE_U(si).branch.min_length;
-  hash_value_type const new_value = (solve_result-min_length)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",min_length);TraceEOL();
-
-  assert(solve_result>=min_length);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    hue = (hashElement_union_t *)allocDHTelement(hb);
-  else
-  {
-    hue = (hashElement_union_t *)he;
-    /* assertion isn't true in stipulations like 2->ser-h#3
-     * assert(get_value_help(hue,si)<=new_value);*/
-    /* TODO why not? */
-  }
-
-  set_value_help(hue,si,new_value);
+  set_value_help(find_or_add_help_elmt(hb),
+                 si,
+                 solve_result_to_hash_value(si,solve_result));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2615,17 +2660,64 @@ static void addtohash_help_not_solved(slice_index si)
 #endif /*HASHRATE*/
 }
 
-/* Remember that the current position has a solution in a
- * number of half-moves
- * @param si index of slice where the current position was reached
- */
-static void addtohash_help_solved(slice_index si)
+static hashElement_union_t const *find_help_elmt_not_solved(HashBuffer *hb)
 {
-  HashBuffer const * const hb = &hashBuffers[nbply];
-  dhtElement *he;
-  hashElement_union_t * hue;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  {
+    dhtElement const *he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t const * const result = (he==dhtNilElement
+                                                ? 0
+                                                : (hashElement_union_t const *)he);
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static boolean is_position_known_not_to_be_solved(HashBuffer *hb, slice_index si)
+{
+  boolean result;
+  hashElement_union_t const *hue_not_solved;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  hue_not_solved = find_help_elmt_not_solved(hb);
+
+  if (hue_not_solved==0)
+    result = false;
+  else
+  {
+    hash_value_type const value = get_value_help(hue_not_solved,si);
+    result = hash_value_to_solve_result(si,value)>solve_nr_remaining;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param n number of half-moves
+ * @return true iff we know that the current position has no solution
+ *         in n half-moves
+ */
+static boolean inhash_help(slice_index si)
+{
+  boolean result;
+  HashBuffer * const hb = &hashBuffers[nbply];
+  stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
-  hash_value_type const new_value = (solve_result-min_length)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2633,29 +2725,30 @@ static void addtohash_help_solved(slice_index si)
 
   TraceValue("%u",min_length);TraceEOL();
 
-  if (solve_result>=min_length)
+  (*encode)(min_length,validity_value);
+
+  /* Create a difference between odd and even numbers of moves.
+   * A solution for h#n isn't necessarily a solution for h#n.5 */
+  assert(hb->cmv.Leng<UCHAR_MAX);
+  hb->cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)(min_length%2);
+  ++hb->cmv.Leng;
+
+  ifHASHRATE(use_all++);
+
+  if (is_position_known_to_be_solved(hb,si))
+    result = false;
+  else if (is_position_known_not_to_be_solved(hb,si))
   {
-    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
-
-    he = dhtLookupElement(pyhash,hb);
-
-    if (he==dhtNilElement)
-      hue = (hashElement_union_t *)allocDHTelement(hb);
-    else
-      hue = (hashElement_union_t *)he;
-
-    hashBuffers[nbply].cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
-
-    set_value_help(hue,si,new_value);
+    ifHASHRATE(use_pos++);
+    result = true;
   }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-
-#if defined(HASHRATE)
-  if (dhtKeyCount(pyhash)%1000 == 0)
-    HashStats(3, "\n");
-#endif /*HASHRATE*/
+  return result;
 }
 
 static void help_hashed_solve_impl(slice_index si, slice_index base)
