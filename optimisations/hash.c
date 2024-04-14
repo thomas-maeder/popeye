@@ -2735,12 +2735,15 @@ static boolean inhash_help(slice_index si)
 
   ifHASHRATE(use_all++);
 
-  if (is_position_known_to_be_solved(hb,si))
-    result = false;
-  else if (is_position_known_not_to_be_solved(hb,si))
+  if (is_position_known_not_to_be_solved(hb,si))
   {
-    ifHASHRATE(use_pos++);
-    result = true;
+    if (is_position_known_to_be_solved(hb,si))
+      result = false;
+    else
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    }
   }
   else
     result = false;

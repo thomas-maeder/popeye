@@ -3,6 +3,7 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "stipulation/fork.h"
 #include "solving/binary.h"
+#include "solving/fork.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
