@@ -24,8 +24,8 @@ move_effect_journal_index_type top_before_revelations[maxply+1];
 motivation_type motivation[MaxPieceId+1];
 
 motivation_type const motivation_null = {
-    { purpose_none },
-    { purpose_none }
+    { purpose_none, ply_nil, initsquare },
+    { purpose_none, ply_nil, initsquare }
 };
 
 static PieceIdType top_visible_piece_id;

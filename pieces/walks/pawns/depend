@@ -162,6 +162,16 @@ pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
   output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
   solving/move_effect_journal.h solving/ply.h solving/observation.h \
   solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
   debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 pieces/walks/pawns/pawns.h:
@@ -229,6 +239,30 @@ solving/temporary_hacks.h:
 solving/fork.h:
 
 solving/move_generator.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
 
 debugging/measure.h:
 
@@ -450,9 +484,11 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
   solving/temporary_hacks.h solving/fork.h pieces/walks/hunters.h \
   position/position.h position/color.h position/color.enum.h \
   position/color.enum pieces/walks/classification.h \
+  pieces/attributes/total_invisible/replay_fleshed_out.h \
+  pieces/attributes/total_invisible.h \
+  pieces/attributes/total_invisible/goal_validation.h \
   position/effects/piece_movement.h position/effects/piece_removal.h \
-  position/effects/utils.h solving/move_generator.h debugging/measure.h \
-  output/plaintext/protocol.h stipulation/pipe.h \
+  position/effects/utils.h solving/move_generator.h \
   stipulation/structure_traversal.h stipulation/slice.h \
   stipulation/slice_structural_type.h \
   stipulation/slice_structural_type.enum.h \
@@ -463,6 +499,7 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  debugging/measure.h output/plaintext/protocol.h stipulation/pipe.h \
   solving/has_solution_type.h solving/has_solution_type.enum.h \
   solving/has_solution_type.enum stipulation/move.h solving/pipe.h \
   debugging/assert.h
@@ -533,6 +570,12 @@ position/color.enum:
 
 pieces/walks/classification.h:
 
+pieces/attributes/total_invisible/replay_fleshed_out.h:
+
+pieces/attributes/total_invisible.h:
+
+pieces/attributes/total_invisible/goal_validation.h:
+
 position/effects/piece_movement.h:
 
 position/effects/piece_removal.h:
@@ -540,12 +583,6 @@ position/effects/piece_removal.h:
 position/effects/utils.h:
 
 solving/move_generator.h:
-
-debugging/measure.h:
-
-output/plaintext/protocol.h:
-
-stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
@@ -570,6 +607,12 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 
 stipulation/traversal.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
+stipulation/pipe.h:
 
 solving/has_solution_type.h:
 
@@ -596,6 +639,16 @@ pieces/walks/pawns/reverse$(OBJ_SUFFIX): pieces/walks/pawns/reverse.c \
   position/color.enum position/pieceid.h position/castling_rights.h \
   pieces/walks/pawns/pawn.h pieces/walks/pawns/en_passant.h \
   solving/move_effect_journal.h solving/move_generator.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
   debugging/measure.h output/plaintext/protocol.h \
   solving/find_square_observer_tracking_back_from_target.h \
   debugging/assert.h
@@ -670,6 +723,30 @@ solving/move_effect_journal.h:
 
 solving/move_generator.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 debugging/measure.h:
 
 output/plaintext/protocol.h:
@@ -691,6 +768,16 @@ pieces/walks/pawns/berolina$(OBJ_SUFFIX): pieces/walks/pawns/berolina.c \
   position/color.enum position/pieceid.h position/castling_rights.h \
   pieces/walks/pawns/pawn.h pieces/walks/pawns/en_passant.h \
   solving/move_effect_journal.h solving/move_generator.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
   debugging/measure.h output/plaintext/protocol.h \
   solving/find_square_observer_tracking_back_from_target.h \
   debugging/assert.h
@@ -765,6 +852,30 @@ solving/move_effect_journal.h:
 
 solving/move_generator.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 debugging/measure.h:
 
 output/plaintext/protocol.h:
@@ -784,6 +895,16 @@ pieces/walks/pawns/super$(OBJ_SUFFIX): pieces/walks/pawns/super.c \
   solving/machinery/solve.h position/position.h position/color.h \
   position/color.enum.h position/color.enum position/pieceid.h \
   position/castling_rights.h solving/move_generator.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
   debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 pieces/walks/pawns/super.h:
@@ -848,6 +969,30 @@ position/castling_rights.h:
 
 solving/move_generator.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
+
 debugging/measure.h:
 
 output/plaintext/protocol.h:
@@ -866,6 +1011,16 @@ pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \
   position/position.h position/color.h position/color.enum.h \
   position/color.enum position/pieceid.h position/castling_rights.h \
   pieces/walks/leapers.h pieces/walks/riders.h solving/move_generator.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
   debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 pieces/walks/pawns/combined.h:
@@ -937,6 +1092,30 @@ pieces/walks/leapers.h:
 pieces/walks/riders.h:
 
 solving/move_generator.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_structural_type.enum:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_functional_type.enum:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+stipulation/traversal.h:
 
 debugging/measure.h:
 
