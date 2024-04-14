@@ -36,20 +36,28 @@ slice_index alloc_restart_guard_intelligent(void)
 
 static boolean is_length_ruled_out_by_option_restart(void)
 {
-  boolean result;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (OptFlag[restart])
+  if (OptFlag[startmovenumber])
   {
-    stip_length_type min_length = 2*get_restart_number();
+    stip_length_type min_length = 2*get_restart_number(movenumbers_start);
     if ((solve_nr_remaining-slack_length)%2==1)
       --min_length;
-    result = solve_nr_remaining-slack_length<min_length;
+    if (solve_nr_remaining-slack_length<min_length)
+      result = true;
   }
-  else
-    result = false;
+
+  if (OptFlag[uptomovenumber])
+  {
+    stip_length_type max_length = 2*get_restart_number(movenumbers_end);
+    if ((solve_nr_remaining-slack_length)%2==1)
+      ++max_length;
+    if (solve_nr_remaining-slack_length>max_length)
+      result = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

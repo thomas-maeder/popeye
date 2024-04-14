@@ -9,5 +9,73 @@ fors rsbqkbsr/p1pppppp/1P6/8/8/8/1PPPPPPP/RSBQKBSR
 stipulation dia1.5
 condition seriescapture
 
-end
+next
+
+title #442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
+stip x1
+cond Circe File AntiCirce File 
+pieces white kh2 fra8 black kh8 frb7
+option duplex
+
+next
+
+title Popeye failed to solve problems with >256 plies since 4.65
+author Udo Degener
+origin Gaudium 2023
+stipulation ser-h#277
+piece white ph7 black kf8 bh8
+cond blackedge circe pwc
+option nowk
+
+next
+
+title Popeye solved a), but not b), because of a hashing bug
+stip hs#2
+condition AntiCirce Volcanic
+pieces white Ke7 Qf1 Ba6 black Kd4 Rf4 Bc7b1 Sg7 Pe3c5e5 Nh8
+twin move a6 c4
+
+next
+
+author Uri Avner, Hans Peter Rehm, Kjell Widlert
+origin Andernach 2006, 4. Platz
+pieces white Kg7 Qa4 Bb1h2 Sc3e7 Pb7f2f6h6
+       black Ke6 Rh4 Bc1 Sa8 Pc4d5d7g6h3h5h7
+stipulation #2
+option vari try TrivialTriesAvoid
+condition Take&MakeChess
+
+next
+
+author AyatsujiP 
+origin github Popeye issue #467
+title up to 4.89, Popeye would produce very strange output (as if the wK were an orphan)
+Stipulation ~1
+Pieces Black Og3 White of5 Sh1
+condition make&take
+option nowk nobk start 1
+
+next
+
+author Thomas Maeder
+origin github Popeye issue #468
+title crash until 4.89
+Stipulation ~1
+Condition Make&TakeChess
+Pieces
+Black Kc5 Oc2
+White Kf8 Ob2
+option movenum
+
+next
+
+author Thomas Maeder
+origin Popeye 4.91
+title clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it captures a black Orphan
+Stipulation ~1
+Pieces Black Og4 White sc8 ke7
+condition make&take
+option nowk nobk
+
+End
 

@@ -1,0 +1,67 @@
+begin
+
+prot bul.ref
+
+author Petko A. Petkov
+origin 1519, Julia's Fairies 2020
+title In Memoriam to my mother Danka Petkova
+
+pieces White Kf7 White Bul VAa4 PAd5
+       Black Ka8 Ba7 Sb8 Pb7
+
+stipulation h#2
+
+twin add black sb7
+twin add black sb6
+twin add black sc8
+
+next
+
+author Petko A. Petkov
+origin 1518, Julia's Fairies 2020
+title Dedicated to Christian Poisson!
+remark last 3 moves of a h=4
+
+pieces White Ka1 Ba7 Ph2 White Bul Gh3
+       Black Kh1 Rb4e6 Ba5 Pc5e3
+       Neutral Rc7
+
+stipulation h=3
+
+twin move c7 g3
+
+next
+
+author Sebastien Luce
+origin 1514, Julia's Fairies 2020
+pieces White Bul Ge5f5e3
+       Black Kg7 black Bul Gb6f3
+
+stipulation h#4
+option nowk
+
+next
+
+author Vlaicu Crisan
+origin 1679, Julia's Fairies 2021
+
+pieces  black Sb7 Rd2 Pc4b5a5d6b6a7 Ka6 Bf7 black Bul LIe3f5
+        white Pg2h4g7 Sh2 Kh3 white Bul PAd1 VAg8 LId5
+
+stipulation hs#3
+
+next
+
+author Sebastien Luce
+origin Anda Fairy Planet 2020-21, 1st prize
+title dedicated to Pierre Tritten
+
+pieces white kb5 white bul gb6
+       black ka7 pb7c7
+
+stipulation h#4.5
+
+twin shift h8 h5
+
+end
+

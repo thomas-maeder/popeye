@@ -79,6 +79,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[singlebox]
                 || CondFlag[blroyalsq] || CondFlag[whroyalsq]
                 || TSTFLAG(some_pieces_flags,ColourChange)
+                || TSTFLAG(some_pieces_flags,Bul)
+                || TSTFLAG(some_pieces_flags,Dob)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan] || CondFlag[nanna]
@@ -100,7 +102,9 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[breton]
                 || CondFlag[bolero] || CondFlag[bolero_inverse]
                 || CondFlag[influencer]
-                || CondFlag[series_capture]);
+                || CondFlag[series_capture]
+                || CondFlag[transmissionmenace]
+                || CondFlag[powertransfer]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
@@ -709,7 +713,8 @@ static boolean FairyImpossible(void)
 
 
     if (CondFlag[andernach]
-        && !CondFlag[circe] && !CondFlag[sentinelles]) {
+        && !CondFlag[circe] && !CondFlag[sentinelles])
+    {
       unsigned int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
@@ -761,6 +766,7 @@ static boolean FairyImpossible(void)
 
     if (!CondFlag[sentinelles]
         && anticirce_variant.reborn_walk_adapter!=circe_reborn_walk_adapter_clone
+        && circe_variant.relevant_capture!=circe_relevant_capture_lastcapture
         && !CondFlag[influencer])
     {
       /* note, that we are in the !change_moving_piece section

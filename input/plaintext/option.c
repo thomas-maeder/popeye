@@ -211,11 +211,22 @@ char *ParseOpt(slice_index start)
           }
         }
 
-      case restart:
+      case startmovenumber:
         tok = ReadNextTokStr();
-        if (!read_restart_number(tok))
+        if (!read_restart_number(movenumbers_start,tok))
         {
-          OptFlag[restart] = false;
+          OptFlag[startmovenumber] = false;
+          output_plaintext_input_error_message(WrongInt);
+          indexx = OptCount;
+        }
+        OptFlag[movenbr]= true;
+        break;
+
+      case uptomovenumber:
+        tok = ReadNextTokStr();
+        if (!read_restart_number(movenumbers_end,tok))
+        {
+          OptFlag[uptomovenumber] = false;
           output_plaintext_input_error_message(WrongInt);
           indexx = OptCount;
         }

@@ -181,7 +181,7 @@ void series_capture_ply_rewinder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  nextply(nbply);
+  nextply(SLICE_STARTER(si));
   current_ply = nbply;
   finply();
 

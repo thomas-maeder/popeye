@@ -754,7 +754,7 @@ static slice_index const slice_rank_order[] =
   STProxyResolver,
   STTemporaryHackFork,
   STStrictSATInitialiser,
-  STHurdleColourChangeInitialiser,
+  STHopperAttributeSpecificPromotionInitialiser,
   STSetplayFork,
   STMoveInverter,
   STTotalInvisibleMoveSequenceTester,

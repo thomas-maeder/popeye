@@ -1,0 +1,55 @@
+begin
+
+protocol pepo.ref
+
+author Mario Parrinello
+origin ANDA Fairy PLANET 5, 2023
+pieces white kf6 rf4 bf3 sg2 pg4
+       black kh3 bf1g5 sg1 pe2h4
+stipulation h#2
+condition Pepo
+
+next
+
+author Petko A. Petkov
+origin KobulChess.com 2019
+title dedicated to Christian Poisson
+pieces white kb8 pb6e6f5f6 ga7g8 cae7 nhh4 roh8
+       black kd5 rc4 se2 pc6h7 ze4
+stipulation #2
+condition Pepo
+option vari
+
+next
+
+author Petko A. Petkov
+origin KobulChess.com 2019
+title dedicated to Geoff Foster
+pieces white ke2 pac1d2 vaf3f4
+       black kd5 ra2 bh5
+stipulation hs#3
+condition pepo
+
+next
+
+author Petko A. Petkov
+origin feenschach 2019
+title Dedicated to Christian Poisson
+pieces white kf5 bd4d7 pb3b5d6e2e3e5g3h4 cad1 lic6
+       black kd5 sc7 pa5c3
+stipulation #2
+condition pepo
+option try vari
+
+next
+
+author Petko A. Petkov
+origin feenschach 2019
+pieces white kd1 qf7 pb2e2 gb8c8e6h4
+       black kc4 ba2 pf3g2 gg1g7
+stipulation #2
+condition pepo
+option try vari
+
+end
+

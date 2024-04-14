@@ -1,0 +1,111 @@
+begin
+
+protocol CASTchess.ref
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020
+pieces white kh1 bg1g2 sd6 pa7
+       black ka8 sf1 pa4a6b3g6h5
+stip #2
+condition CASTchess
+option try vari
+
+next
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020 (v)
+pieces white kc7 be2e3 pc5d6
+       black ke1 pa4 lia7
+stipulation h#2
+condition CASTchess
+
+next
+
+author Petko A. Petkov
+origin StrateGems 2020
+pieces white kc8 rh8 ba2 sf6 pc3e3f4g2
+       black ke4 pd3d5d7e5f5f7h5
+stipulation #2
+condition CASTchess
+option vari try
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white ka1 qe5 rb8 pb2b4c3f4g2
+       black ka6 rh1 sg1 pa7b3d3e4g4h2
+stipulation s#2
+condition CASTchess
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white kh3 se4f4
+       black ke5 pf5h4
+       neutral pf2h7
+stipulation ser-h#5
+condition CASTchess
+
+next
+
+author Gerald Ettl & Manfred Rittirsch
+origin Julia's Fairies 2021
+pieces black Sd1h7 Pb2e3d3h6g7 Kb5
+       white Pe2b3e4g5f5f6e7c7 Rc6 Sa6b7 Ba7 Kc8
+stipulation #2
+condition CASTchess
+option try varia
+
+next
+
+author Petko A. Petkov
+origin ANDA FAIRY PLANET 2, 2020
+pieces white ke4 rd1
+       black ke2 pd4g4h5
+stipulation #2
+condition CASTchess inverse
+option set try vari
+
+next
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020
+pieces white kb6 qh2 pf2
+       black ka1 pb7c2
+stipulation ser-h#6
+condition CASTchess inverse
+
+next
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020
+pieces white kh4 qb1 pf2f4
+       black kb6 qg2 pg7
+stipulation hs#3.5
+condition CASTchess inverse
+
+next
+
+author Petko A. Petkov
+origin StrateGems 2020
+title after first half-move of hs#4.5
+pieces white kc1 qd8 bg7h7 pa4
+       black kh8 be4 sc5
+stipulation hs#4
+condition CASTchess inverse
+
+next
+
+author Petko A. Petkov
+origin The Problemist Suplement 2020
+pieces white kg1 sc6e6 pa2c2d3g2
+       black ke3 pa3c4c5d5g4
+       neutral pe4
+stipulation ser-h=9
+condition CASTchess inverse
+
+end
+

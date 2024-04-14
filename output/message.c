@@ -16,7 +16,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /* 7*/  "trop d'echecs feeriques pour les pieces neutres",
     /* 8*/  "leofamily avec pieces orthodoxes ?",
     /* 9*/  "en circe les pieces impuissantes sont interdites",
-    /*10*/  "CouleurEchangeantSautoir seulement avec quelques sauteurs",
+    /*10*/  "CouleurEchangeantSautoir, Bul et Dob seulement avec quelques sauteurs",
     /*11*/  "cavalier + cavalier majeur interdit",
     /*12*/  "renaicirce hors echiquier ?",
     /*13*/  "jeu apparent avec roi en echec ?",
@@ -29,7 +29,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*20*/  "plus d'un roi interdit",
     /*21*/  "liste des cases mal terminee - ignoree",
     /*22*/  "liste des cases inconnue ou il mangue une liste des cases - veuillez donner une",
-    /*23*/  "numenroute hors limites: %s",
+    /*23*/  "numenorute/jusquaucoup hors limites: %s",
     /*24*/  "madrasi, eiffel, isardam, woozles, pieces paralysantes incompatibles avec certains genres feeriques",
     /*25*/  "en rexinclusive, on ne peut pas melanger circe et immunschach",
     /*26*/  "certaines pieces feeriques incompatibles avec heffalumps",
@@ -129,7 +129,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Options duplex inconsistentes\n",
     /*121*/ "Inconsistent buts pcpj\n",
     /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
-    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n"
+    /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n",
+    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -142,7 +143,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /* 7*/  "Zu viel Maerchenschach fuer neutrale Steine",
     /* 8*/  "Leofamily mit orthodoxen Figuren nicht erlaubt",
     /* 9*/  "Dummy-Figuren bei Circe nicht erlaubt.",
-    /*10*/  "SprungbockFarbeWechselnd nur bei einigen Huepfern erlaubt",
+    /*10*/  "SprungbockFarbeWechselnd, Bul und Dob nur bei einigen Huepfern erlaubt",
     /*11*/  "Springer und Cavalier Majeur nicht erlaubt",
     /*12*/  "Circe-Wiedergeburt ausserhalb des Brettes ?",
     /*13*/  "Satzspiel mit Koenig im Schach ?",
@@ -155,7 +156,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*20*/  "Nur ein Koenig erlaubt",
     /*21*/  "Falsch beendete Feldliste - ignoriert",
     /*22*/  "Falsche oder fehlende Feldliste - bitte eine eingeben",
-    /*23*/  "StartZugnummer ausserhalb der Grenzen: %s",
+    /*23*/  "Start/BisZugnummer ausserhalb der Grenzen: %s",
     /*24*/  "Eiffelschach, Madrasi, Isardam, Woozles oder paralysierende Steine unvereinbar mit manchen Maerchenbedingungen",
     /*25*/  "Circe und Immunschach und RexInklusive nicht erlaubt",
     /*26*/  "Manche Maerchenfiguren mit Heffalumps unvereinbar",
@@ -255,7 +256,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Inkonsistente Duplex-Optionen\n",
     /*121*/ "Inkonsistente Beweispartie-Ziele\n",
     /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
-    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n"
+    /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n",
+    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -268,7 +270,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /* 7*/  "too much fairy chess for neutral pieces",
     /* 8*/  "leofamily with orthodox pieces ?",
     /* 9*/  "dummy-pieces not allowed with circe.",
-    /*10*/  "HurdleColourChanging only allowed with certain hoppers",
+    /*10*/  "HurdleColourChanging, Bul and Dob only allowed with certain hoppers",
     /*11*/  "knight + cavalier majeur not allowed",
     /*12*/  "circe rebirth outside the board ?",
     /*13*/  "set play with checked king ?",
@@ -281,7 +283,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*20*/  "only one king allowed",
     /*21*/  "wrong terminated SquareList - ignored",
     /*22*/  "wrong or missing SquareList - please give one",
-    /*23*/  "startmovenumber exceeds the limit: %s",
+    /*23*/  "start/uptomovenumber out of range: %s",
     /*24*/  "eiffel, madrasi, isardam, woozles or paralysing pieces incompatible with some fairy conditions",
     /*25*/  "circe and immunschach and rex inclusiv not allowed",
     /*26*/  "some fairy-pieces not compatible with heffalumps",
@@ -381,7 +383,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*120*/ "Inconsistent duplex options\n",
     /*121*/ "Inconsistent proof game targets\n",
     /*122*/ "Inconsistent rules regarding NullMoves\n",
-    /*123*/ "Incompatible fairy elements changing piece types\n"
+    /*123*/ "Incompatible fairy elements changing piece types\n",
+    /*124*/ "A hopper can not be both Bul and Dob\n"
   }
 };
 

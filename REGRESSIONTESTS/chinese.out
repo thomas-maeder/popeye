@@ -579,71 +579,56 @@ Loesung beendet.
             Koeniglich d6
               AntiCirce
 
-      1...Lc1-e3
-          2.Nd1*e3[wNe3->e8] #
-          2.Ng4*e3[wNe3->e8] #
-      1...Lc1-d2
-          2.RAc4-f1 #
-      1...VAg1-h2
+      1...Th7*f7[sTf7->a8]
+          2.PAh4-h6 #
+          2.Nd1-f5 #
+      1...Td5-e5
+          2.Ng4*e5[wNe5->e8] #
+      1...Td5-d4
+          2.Ng4-c6 #
+      1...PAa5-a8
+          2.Nd1-f5 #
+      1...Lg3-e5
+          2.Nd1-f5 #
+      1...Lg3*h4[sLh4->f8]
+          2.RAc4-a3 #
+      1...RAc3-b1
+          2.Ng4-c6 #
+      1...Te2-e3
           2.Ng4-c6 #
       1...Te2-d2
           2.RAc4-f1 #
-      1...Te2-e3
+      1...VAg1-h2
           2.Ng4-c6 #
-      1...RAc3-b1
-          2.Ng4-c6 #
-      1...Lg3*h4[sLh4->f8]
-          2.RAc4-a3 #
-      1...Lg3-e5
-          2.Nd1-f5 #
-      1...PAa5-a8
-          2.Nd1-f5 #
-      1...Td5-d4
-          2.Ng4-c6 #
-      1...Td5-e5
-          2.Ng4*e5[wNe5->e8] #
-      1...Th7*f7[sTf7->a8]
-          2.Nd1-f5 #
-          2.PAh4-h6 #
+      1...Lc1-e3
+          2.Ng4*e3[wNe3->e8] #
+          2.Nd1*e3[wNe3->e8] #
+      1...Lc1-d2
+          2.RAc4-f1 #
 
-   1.Nd1-f5 + ?
+   1.PAb6*f6[wPAf6->f8] ? Drohung:
+          2.RAc4-a3 #
     Aber
-      1...Td5*f5[sTf5->a8] !
+      1...Lb2-a3 !
 
-   1.Nd1-e3 ? Drohung:
+   1.PAb6-a6 ? Drohung:
           2.Ng4-c6 #
-      1...Lc1*e3[sLe3->f8]
-          2.RAc4-a3 #
-      1...Te2*e3[sTe3->h8]
+      1...Th7*f7[sTf7->a8]
           2.PAh4-h6 #
-      1...Lg3-e5
-          2.Ne3-f5 #
+          2.Nd1-f5 #
       1...Td5-e5
           2.Ng4*e5[wNe5->e8] #
+      1...Lg3-e5
+          2.Nd1-f5 #
+      1...Lc1-e3
+          2.Ng4*e3[wNe3->e8] #
+          2.Nd1*e3[wNe3->e8] #
     Aber
       1...Td5-c5 !
 
-   1.RAc4-a3 + ?
+   1.PAh4-h6 + ?
     Aber
-      1...Lb2*a3[sLa3->f8] !
-
-   1.RAc4-d2 + ?
-      1...Te2*d2[sTd2->h8]
-          2.PAh4-h6 #
-    Aber
-      1...Lc1*d2[sLd2->f8] !
-
-   1.RAc4-e5 ? Drohung:
-          2.Nd1-f5 #
-      1...Lc1-e3
-          2.Nd1*e3[wNe3->e8] #
-          2.Ng4*e3[wNe3->e8] #
-      1...Te2-e3
-          2.RAe5-c6 #
-      1...Td5*e5[sTe5->h8]
-          2.PAh4-h6 #
-    Aber
-      1...Lg3*e5[sLe5->f8] !
+      1...Th7*h6[sTh6->h8] !
 
    1.Ng4*f6[wNf6->f8] ? Drohung:
           2.RAc4-a3 #
@@ -656,43 +641,58 @@ Loesung beendet.
 
    1.Ng4-e5 ! Drohung:
           2.Nd1-f5 #
-      1...Lc1-e3
-          2.Nd1*e3[wNe3->e8] #
-      1...Te2-e3
-          2.Ne5-c6 #
-      1...Lg3*e5[sLe5->f8]
-          2.RAc4-a3 #
       1...Td5*e5[sTe5->h8]
           2.PAh4-h6 #
-
-   1.PAh4-h6 + ?
-    Aber
-      1...Th7*h6[sTh6->h8] !
-
-   1.PAb6-a6 ? Drohung:
-          2.Ng4-c6 #
+      1...Lg3*e5[sLe5->f8]
+          2.RAc4-a3 #
+      1...Te2-e3
+          2.Ne5-c6 #
       1...Lc1-e3
           2.Nd1*e3[wNe3->e8] #
-          2.Ng4*e3[wNe3->e8] #
-      1...Lg3-e5
+
+   1.RAc4-e5 ? Drohung:
           2.Nd1-f5 #
+      1...Td5*e5[sTe5->h8]
+          2.PAh4-h6 #
+      1...Te2-e3
+          2.RAe5-c6 #
+      1...Lc1-e3
+          2.Ng4*e3[wNe3->e8] #
+          2.Nd1*e3[wNe3->e8] #
+    Aber
+      1...Lg3*e5[sLe5->f8] !
+
+   1.RAc4-a3 + ?
+    Aber
+      1...Lb2*a3[sLa3->f8] !
+
+   1.RAc4-d2 + ?
+      1...Te2*d2[sTd2->h8]
+          2.PAh4-h6 #
+    Aber
+      1...Lc1*d2[sLd2->f8] !
+
+   1.Nd1-f5 + ?
+    Aber
+      1...Td5*f5[sTf5->a8] !
+
+   1.Nd1-e3 ? Drohung:
+          2.Ng4-c6 #
       1...Td5-e5
           2.Ng4*e5[wNe5->e8] #
-      1...Th7*f7[sTf7->a8]
-          2.Nd1-f5 #
+      1...Lg3-e5
+          2.Ne3-f5 #
+      1...Te2*e3[sTe3->h8]
           2.PAh4-h6 #
+      1...Lc1*e3[sLe3->f8]
+          2.RAc4-a3 #
     Aber
       1...Td5-c5 !
 
-   1.PAb6*f6[wPAf6->f8] ? Drohung:
-          2.RAc4-a3 #
-    Aber
-      1...Lb2-a3 !
-
-  add_to_move_generation_stack:       47122
-                     play_move:       48509
- is_white_king_square_attacked:        1280
- is_black_king_square_attacked:       27217
+  add_to_move_generation_stack:       44958
+                     play_move:       47212
+ is_white_king_square_attacked:        1227
+ is_black_king_square_attacked:       26679
 
 Loesung beendet.
 

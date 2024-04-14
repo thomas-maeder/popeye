@@ -93,7 +93,6 @@ boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
   piece_walk_type const *ptrans;
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   Side const side_moving = trait[nbply];
   square const sq_king = being_solved.king_square[side_moving];
 
@@ -102,16 +101,12 @@ boolean generate_moves_of_transmuting_king(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_king!=initsquare)
-  {
     for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
       if (transmuting_kings_is_king_transmuting_as(*ptrans))
       {
         pipe_move_generation_different_walk_delegate(si,*ptrans);
         result = true;
       }
-
-    remove_duplicate_moves_of_single_piece(save_current_move);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -238,7 +233,7 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
 
   transmuting_kings_initialise_observing(si,side);
 

@@ -1,0 +1,58 @@
+begin
+
+prot leffie.ref
+
+author Eric Huber & Vlaicu Crisan
+origin Phenix 2019, 3rd prize
+title dedicated to paul Raican
+pieces white kb5 pa7c7 black kd5 pd2
+stipulation hs#3
+condition leffie
+twin move d2 e2
+
+next
+
+author Manfred Rittirsch
+origin 13rd TT Quartz 2020, 1st prize
+pieces white kd2 qa8 sd4h3 pa3b5b7d6f2g4h7
+       black ke5 rb1 bg3 sd8f8 pc2g2
+stipulation h#2
+condition leffie
+
+next
+
+author Eric Huber
+origin Julia's Fairies 2019
+pieces white kf7 black kg3 neutral ra6 pe7g7
+stipulation hs#3
+condition leffie partialparalysis
+twin move g3 f4
+
+next
+
+author Eric Huber
+origin The Problemist 2019
+pieces white kd8 black kd6 neutral pc7d7e7f7
+stipulation hs#4.5
+condition partialparalysis leffie
+
+next
+
+author Eric Huber
+origin SuperProblem 2019, 3rd honourable mention
+pieces white kb3 black ke3 neutral pa7d2h7
+stipulation h#2
+condition partialparalysis leffie
+twin move b3 c4
+
+next
+
+author Eric Huber
+origin Problem Paradise 2019, commendation
+pieces white kc7 black kb4 ph3 neutral pb7e7
+stipulation h#2.5
+condition leffie
+twin move e7 f7
+
+end
+

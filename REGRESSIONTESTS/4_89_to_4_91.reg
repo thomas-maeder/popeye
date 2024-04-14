@@ -34,3 +34,342 @@ Series Capture proof games weren't solved due to a misapplied "opimization"
 solution finished.
 
 
+
+#442 Circe File and Anticirce File: fairy pieces were reborn at the wrong end of the board
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  FR   .   .   .   .   .   .  -K   8
+|                                   |
+7   . -FR   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 2
+             Circe File
+           AntiCirce File
+               Duplex
+
+   1.FRa8*b7[wFRb7->b8][+bFRb1] x !
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
+
+   1.FRb7*a8[bFRa8->a1][+wFRa8] x !
+
+  add_to_move_generation_stack:          12
+                     play_move:           1
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
+
+             Udo Degener
+            Gaudium 2023
+Popeye failed to solve problems with >256 plies since 4.65
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .  -B   8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#277                   1 + 2
+              Circe PWC
+           BlackEdgeMover
+
+  1.Kf8-e8   2.Ke8-d8   3.Kd8-c8   4.Kc8-b8   5.Kb8-a7   6.Ka7-a6   7.Ka6-a5   8.Ka5-a4   9.Ka4-a3  10.Ka3-a2  11.Ka2-b1  12.Kb1-c1  13.Kc1-d1  14.Kd1-e1  15.Ke1-f1  16.Kf1-g1  17.Kg1-h2  18.Kh2-h3  19.Kh3-h4  20.Kh4-h5  21.Kh5-h6  22.Kh6*h7[+wPh6]  23.Kh7-g8  24.Kg8-f8  25.Kf8-e8  26.Ke8-d8  27.Kd8-c8  28.Kc8-b8  29.Kb8-a7  30.Ka7-a6  31.Ka6-a5  32.Ka5-a4  33.Ka4-a3  34.Ka3-a2  35.Ka2-b1  36.Kb1-c1  37.Kc1-d1  38.Kd1-e1  39.Ke1-f1  40.Kf1-g1  41.Kg1-h2  42.Kh2-h3  43.Kh3-h4  44.Kh4-h5  45.Kh5*h6[+wPh5]  46.Kh6-h7  47.Kh7-g8  48.Kg8-f8  49.Kf8-e8  50.Ke8-d8  51.Kd8-c8  52.Kc8-b8  53.Kb8-a7  54.Ka7-a6  55.Ka6-a5  56.Ka5-a4  57.Ka4-a3  58.Ka3-a2  59.Ka2-b1  60.Kb1-c1  61.Kc1-d1  62.Kd1-e1  63.Ke1-f1  64.Kf1-g1  65.Kg1-h2  66.Kh2-h3  67.Kh3-h4  68.Kh4*h5[+wPh4]  69.Kh5-h6  70.Kh6-h7  71.Kh7-g8  72.Kg8-f8  73.Kf8-e8  74.Ke8-d8  75.Kd8-c8  76.Kc8-b8  77.Kb8-a7  78.Ka7-a6  79.Ka6-a5  80.Ka5-a4  81.Ka4-a3  82.Ka3-a2  83.Ka2-b1  84.Kb1-c1  85.Kc1-d1  86.Kd1-e1  87.Ke1-f1  88.Kf1-g1  89.Kg1-h2  90.Kh2-h3  91.Kh3*h4[+wPh3]  92.Kh4-h5  93.Kh5-h6  94.Kh6-h7  95.Kh7-g8  96.Kg8-f8  97.Kf8-e8  98.Ke8-d8  99.Kd8-c8 100.Kc8-b8 101.Kb8-a7 102.Ka7-a6 103.Ka6-a5 104.Ka5-a4 105.Ka4-a3 106.Ka3-a2 107.Ka2-b1 108.Kb1-c1 109.Kc1-d1 110.Kd1-e1 111.Ke1-f1 112.Kf1-g1 113.Kg1-h2 114.Kh2*h3[+wPh2] 115.Kh3-h4 116.Kh4-h5 117.Kh5-h6 118.Kh6-h7 119.Kh7-g8 120.Kg8-f8 121.Kf8-e8 122.Ke8-d8 123.Kd8-c8 124.Kc8-b8 125.Kb8-a7 126.Ka7-a6 127.Ka6-a5 128.Ka5-a4 129.Ka4-a3 130.Ka3-a2 131.Ka2-b1 132.Kb1-c1 133.Kc1-d1 134.Kd1-e1 135.Ke1-f1 136.Kf1-g1 137.Kg1*h2[+wPg1] 138.Kh2-h3 139.Kh3-h4 140.Kh4-h5 141.Kh5-h6 142.Kh6-h7 143.Kh7-g8 144.Kg8-f8 145.Kf8-e8 146.Ke8-d8 147.Kd8-c8 148.Kc8-b8 149.Kb8-a7 150.Ka7-a6 151.Ka6-a5 152.Ka5-a4 153.Ka4-a3 154.Ka3-a2 155.Ka2-b1 156.Kb1-c1 157.Kc1-d1 158.Kd1-e1 159.Ke1-f1 160.Kf1*g1[+wPf1] 161.Kg1-h2 162.Kh2-h3 163.Kh3-h4 164.Kh4-h5 165.Kh5-h6 166.Kh6-h7 167.Kh7-g8 168.Kg8-f8 169.Kf8-e8 170.Ke8-d8 171.Kd8-c8 172.Kc8-b8 173.Kb8-a7 174.Ka7-a6 175.Ka6-a5 176.Ka5-a4 177.Ka4-a3 178.Ka3-a2 179.Ka2-b1 180.Kb1-c1 181.Kc1-d1 182.Kd1-e1 183.Ke1*f1[+wPe1] 184.Kf1-g1 185.Kg1-h2 186.Kh2-h3 187.Kh3-h4 188.Kh4-h5 189.Kh5-h6 190.Kh6-h7 191.Kh7-g8 192.Kg8-f8 193.Kf8-e8 194.Ke8-d8 195.Kd8-c8 196.Kc8-b8 197.Kb8-a7 198.Ka7-a6 199.Ka6-a5 200.Ka5-a4 201.Ka4-a3 202.Ka3-a2 203.Ka2-b1 204.Kb1-c1 205.Kc1-d1 206.Kd1*e1[+wPd1] 207.Ke1-f1 208.Kf1-g1 209.Kg1-h2 210.Kh2-h3 211.Kh3-h4 212.Kh4-h5 213.Kh5-h6 214.Kh6-h7 215.Kh7-g8 216.Kg8-f8 217.Kf8-e8 218.Ke8-d8 219.Kd8-c8 220.Kc8-b8 221.Kb8-a7 222.Ka7-a6 223.Ka6-a5 224.Ka5-a4 225.Ka4-a3 226.Ka3-a2 227.Ka2-b1 228.Kb1-c1 229.Kc1*d1[+wPc1] 230.Kd1-e1 231.Ke1-f1 232.Kf1-g1 233.Kg1-h2 234.Kh2-h3 235.Kh3-h4 236.Kh4-h5 237.Kh5-h6 238.Kh6-h7 239.Kh7-g8 240.Kg8-f8 241.Kf8-e8 242.Ke8-d8 243.Kd8-c8 244.Kc8-b8 245.Kb8-a7 246.Ka7-a6 247.Ka6-a5 248.Ka5-a4 249.Ka4-a3 250.Ka3-a2 251.Ka2-b1 252.Kb1*c1[+wPb1] 253.Kc1-d1 254.Kd1-e1 255.Ke1-f1 256.Kf1-g1 257.Kg1-h2 258.Kh2-h3 259.Kh3-h4 260.Kh4-h5 261.Kh5-h6 262.Kh6-h7 263.Kh7-g8 264.Kg8-f8 265.Kf8-e8 266.Ke8-d8 267.Kd8-c8 268.Kc8-b8 269.Kb8-a7 270.Ka7-a6 271.Ka6-a5 272.Ka5-a4 273.Ka4-a3 274.Ka3-a2 275.Ka2-a1 276.Ka1*b1[+wPa1] 277.Bh8*a1[+wPh8=Q] Qh8-b2 #
+  add_to_move_generation_stack:     1090172
+                     play_move:      297550
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:      297550
+
+solution finished.
+
+
+
+Popeye solved a), but not b), because of a hashing bug
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -N   8
+|                                   |
+7   .   .  -B   .   K   .  -S   .   7
+|                                   |
+6   B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -P   .  -P   .   .   .   5
+|                                   |
+4   .   .   .  -K   .  -R   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .  -B   .   .   .   Q   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2                        3 + 9
+         AntiCirce Volcanic
+
+a) 
+
+  1.Ba6-b5 Nh8*b5[bNb5->b1->v]   2.Qf1-d3 + Bb1*d3[bBd3->c8][+bNb1] #
+  add_to_move_generation_stack:       94204
+                     play_move:       65850
+ is_white_king_square_attacked:       44363
+ is_black_king_square_attacked:       26903
+
+b) wBa6-->c4  
+
+  1.Bc4-b5 Nh8*b5[bNb5->b1->v]   2.Qf1-d3 + Bb1*d3[bBd3->c8][+bNb1] #
+  add_to_move_generation_stack:      117843
+                     play_move:       78314
+ is_white_king_square_attacked:       53416
+ is_black_king_square_attacked:       31814
+
+solution finished.
+
+
+
+Uri Avner, Hans Peter Rehm, Kjell Widlert
+      Andernach 2006, 4. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .  -P   S   .   K  -P   7
+|                                   |
+6   .   .   .   .  -K   P  -P   P   6
+|                                   |
+5   .   .   .  -P   .   .   .  -P   5
+|                                   |
+4   Q   .  -P   .   .   .   .  -R   4
+|                                   |
+3   .   .   S   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   P   .   B   2
+|                                   |
+1   .   B  -B   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 11
+           Take&MakeChess
+
+   1.f2-f4 ! threat:
+          2.f4-f5 #
+      1...Bc1*f4-f5
+          2.Se7*g6-g5 #
+      1...Rh4*f4-f5
+          2.Se7*d5-d4 #
+      1...Ke6-d6
+          2.Qa4*a8-b6 #
+
+   1.b7-b8=Q ? threat:
+          2.Qb8-g8 #
+      1...Bc1-f4
+          2.Se7*d5-d4 #
+      1...Rh4-e4
+          2.Sc3*e4-d4 #
+      1...Rh4-f4
+          2.Se7*g6-g5 #
+    but
+      1...Bc1-g5 !
+
+  add_to_move_generation_stack:       45483
+                     play_move:       23475
+ is_white_king_square_attacked:        1612
+ is_black_king_square_attacked:       23458
+
+solution finished.
+
+
+
+             AyatsujiP 
+      github Popeye issue #467
+up to 4.89, Popeye would produce very strange output (as if the wK were an orphan)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   O   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -O   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+           Make&TakeChess
+
+  1  (Of5-g7 )
+   1.Of5-g7 !
+
+  2  (Of5-e7 )
+   1.Of5-e7 !
+
+  3  (Of5-h6 )
+   1.Of5-h6 !
+
+  4  (Of5-d6 )
+   1.Of5-d6 !
+
+  5  (Of5-h4 )
+   1.Of5-h4 !
+
+  6  (Of5-d4 )
+   1.Of5-d4 !
+
+  7  (Of5-e3 )
+   1.Of5-e3 !
+
+  8  (Sh1-f2 )
+   1.Sh1-f2 !
+
+  add_to_move_generation_stack:          10
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Thomas Maeder
+      github Popeye issue #468
+          crash until 4.89
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   O  -O   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+           Make&TakeChess
+
+  1  (Kf8-g8 )
+   1.Kf8-g8 !
+
+  2  (Kf8-e8 )
+   1.Kf8-e8 !
+
+  3  (Kf8-g7 )
+   1.Kf8-g7 !
+
+  4  (Kf8-f7 )
+   1.Kf8-f7 !
+
+  5  (Kf8-e7 + )
+  add_to_move_generation_stack:        1105
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Thomas Maeder
+             Popeye 4.91
+clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it captures a black Orphan
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -O   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+           Make&TakeChess
+
+   1.Sc8-a7 !
+
+   1.Sc8-b6 !
+
+   1.Ke7-f8 !
+
+   1.Ke7-e8 !
+
+   1.Ke7-d8 !
+
+   1.Ke7-f7 !
+
+   1.Ke7-d7 !
+
+   1.Ke7-d6 !
+
+   1.Ke7*g4 !
+
+  add_to_move_generation_stack:         174
+                     play_move:          15
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

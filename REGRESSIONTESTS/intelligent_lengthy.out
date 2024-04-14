@@ -1,0 +1,130 @@
+
+                 TLi
+      8951, Phenix 312, 11/2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#12                   2 + 3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+1 moegliche Stellungen in 6+6
+147 moegliche Stellungen in 7+7
+611 moegliche Stellungen in 8+8
+1087 moegliche Stellungen in 9+9
+1904 moegliche Stellungen in 10+10
+2824 moegliche Stellungen in 11+11
+  1.g7-g5 Kb5-a5   2.b7-b5 g2-g4   3.b5-b4 Ka5-a4   4.b4-b3 Ka4-a3   5.b3-b2 Ka3-a2   6.b2-b1=L + Ka2-a1   7.Lb1-f5 g4*f5   8.g5-g4 f5-f6   9.g4-g3 f6-f7  10.g3-g2 f7-f8=D  11.g2-g1=D Df8-h8  12.Dg1-d1 Dh8-b2 #
+  1.g7-g5 Kb5-a5   2.b7-b5 g2-g4   3.b5-b4 Ka5-a4   4.b4-b3 Ka4-a3   5.b3-b2 Ka3-a2   6.b2-b1=L + Ka2-a1   7.Lb1-f5 g4*f5   8.g5-g4 f5-f6   9.g4-g3 f6-f7  10.g3-g2 f7-f8=D  11.g2-g1=D Df8-h8  12.Dg1-a7 #
+4329 moegliche Stellungen in 12+12
+  add_to_move_generation_stack:  3077622667
+                     play_move:  3086395574
+ is_white_king_square_attacked:   815828876
+ is_black_king_square_attacked:   941071973
+
+Loesung beendet.
+
+
+
+                 TLi
+      8952, Phenix 312, 11/2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#13                   2 + 3
+
+0 moegliche Stellungen in 1+1
+0 moegliche Stellungen in 2+2
+0 moegliche Stellungen in 3+3
+0 moegliche Stellungen in 4+4
+0 moegliche Stellungen in 5+5
+1 moegliche Stellungen in 6+6
+83 moegliche Stellungen in 7+7
+291 moegliche Stellungen in 8+8
+762 moegliche Stellungen in 9+9
+1813 moegliche Stellungen in 10+10
+3119 moegliche Stellungen in 11+11
+4024 moegliche Stellungen in 12+12
+  1.f7-f5 Kb3-c4   2.f5-f4 Kc4-d5   3.f4-f3 Kd5-e6   4.f3-f2 Ke6-f7   5.f2-f1=S Kf7-f8   6.Sf1-g3 h2*g3   7.h7-h5 g3-g4   8.h5-h4 g4-g5   9.h4-h3 g5-g6  10.h3-h2 g6-g7  11.h2-h1=D g7-g8=D  12.Dh1-c6 Dg8-g7  13.Dc6-c8 Dg7-e7 #
+  1.f7-f5 Kb3-c4   2.f5-f4 Kc4-d5   3.f4-f3 Kd5-e6   4.f3-f2 Ke6-f7   5.f2-f1=S Kf7-f8   6.Sf1-g3 h2*g3   7.h7-h5 g3-g4   8.h5-h4 g4-g5   9.h4-h3 g5-g6  10.h3-h2 g6-g7  11.h2-h1=D g7-g8=D  12.Dh1-c6 Dg8-g7  13.Dc6-e8 #
+4719 moegliche Stellungen in 13+13
+  add_to_move_generation_stack: 12433238746
+                     play_move: 12479966490
+ is_white_king_square_attacked:  3254820396
+ is_black_king_square_attacked:  3954776431
+
+Loesung beendet.
+
+
+takes way too long
+
+                 TLi
+ 18421, Die Schwalbe 306-1, 12/2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -L   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   T   .   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  reci-h#14.5                 3 + 2
+
+0 moegliche Stellungen in 2+1
+0 moegliche Stellungen in 3+2
+32 moegliche Stellungen in 4+3
+150 moegliche Stellungen in 5+4
+510 moegliche Stellungen in 6+5
+2913 moegliche Stellungen in 7+6
+11137 moegliche Stellungen in 8+7
+26046 moegliche Stellungen in 9+8
+Abbruch durch Signal 15 nach 31:03:59 h:m:s

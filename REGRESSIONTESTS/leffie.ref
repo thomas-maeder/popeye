@@ -1,0 +1,256 @@
+
+     Eric Huber & Vlaicu Crisan
+       Phenix 2019, 3rd prize
+      dedicated to paul Raican
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        3 + 2
+               Leffie
+
+a) 
+
+  1.a7-a8=R d2-d1=Q   2.Ra8-d8 Qd1-d4   3.Kb5-c6 + Qd4-c5 #
+  add_to_move_generation_stack:     2908486
+                     play_move:      904852
+ is_white_king_square_attacked:      552770
+ is_black_king_square_attacked:      380590
+
+b) bPd2-->e2  
+
+  1.c7-c8=Q e2-e1=R   2.a7-a8=B + Re1-e4   3.Kb5-c5 + Re4-c4 #
+  add_to_move_generation_stack:     3043456
+                     play_move:      949513
+ is_white_king_square_attacked:      579043
+ is_black_king_square_attacked:      403328
+
+solution finished.
+
+
+
+          Manfred Rittirsch
+   13rd TT Quartz 2020, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   Q   .   .  -S   .  -S   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   P   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   S   .   .   P   .   4
+|                                   |
+3   P   .   .   .   .   .  -B   S   3
+|                                   |
+2   .   .  -P   K   .   P  -P   .   2
+|                                   |
+1   .  -R   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        11 + 7
+               Leffie
+
+  1.g2-g1=S b7-b8=Q   2.c2-c1=S h7-h8=Q #
+  1.g2-g1=R b7-b8=B   2.c2-c1=R h7-h8=B #
+  add_to_move_generation_stack:      797291
+                     play_move:      797416
+ is_white_king_square_attacked:       55036
+ is_black_king_square_attacked:      557183
+
+solution finished.
+
+
+
+             Eric Huber
+        Julia's Fairies 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  =P   K  =P   .   7
+|                                   |
+6  =R   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                   1 + 1 + 3n
+          PartialParalysis
+               Leffie
+
+a) 
+
+  1.nPe7-e8=nQ nQe8-e1   2.Kf7-e6 nRa6-c6   3.nPg7-g8=nQ + nRc6-c3 #
+  add_to_move_generation_stack:    54589109
+                     play_move:     3021101
+ is_white_king_square_attacked:     1734107
+ is_black_king_square_attacked:      641919
+
+b) bKg3-->f4  
+
+  1.nPg7-g8=nQ nQg8-g2   2.Kf7-g6 Kf4-e4   3.nPe7-e8=nQ + nRa6-a4 #
+  add_to_move_generation_stack:    61690160
+                     play_move:     3252692
+ is_white_king_square_attacked:     1848606
+ is_black_king_square_attacked:      684429
+
+solution finished.
+
+
+
+             Eric Huber
+         The Problemist 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .   .  =P  =P  =P  =P   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#4.5                 1 + 1 + 4n
+          PartialParalysis
+               Leffie
+
+  1...Kd6-e5   2.Kd8*d7 nPf7-f6   3.nPc7-c8=nQ nQc8-c2   4.Kd7-c6 Ke5-e4   5.nPe7-e8=nQ + nPf6-f5 #
+  1...Kd6-d5   2.Kd8*e7 nPc7-c6   3.nPf7-f8=nQ nQf8-f2   4.Ke7-f6 Kd5-d4   5.nPd7-d8=nQ + nPc6-c5 #
+  add_to_move_generation_stack:  1273992954
+                     play_move:    71778650
+ is_white_king_square_attacked:    40832573
+ is_black_king_square_attacked:    17297724
+
+solution finished.
+
+
+
+             Eric Huber
+SuperProblem 2019, 3rd honourable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  =P   .   .   .   .   .   .  =P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   .  =P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 1 + 3n
+          PartialParalysis
+               Leffie
+
+a) 
+
+  1.Ke3-e4 nPh7-h8=nR   2.nPd2-d1=nQ + nQd1-c2 #
+  add_to_move_generation_stack:      222259
+                     play_move:       74918
+ is_white_king_square_attacked:        2765
+ is_black_king_square_attacked:       60553
+
+b) wKb3-->c4  
+
+  1.nPd2-d1=nR nPh7-h8=nQ   2.nQh8-c3 nRd1-d4 #
+  add_to_move_generation_stack:      349409
+                     play_move:       88191
+ is_white_king_square_attacked:        3334
+ is_black_king_square_attacked:       68234
+
+solution finished.
+
+
+
+             Eric Huber
+ Problem Paradise 2019, commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  =P   K   .  =P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 2 + 2n
+               Leffie
+
+a) 
+
+  1...nPe7-e8=nQ   2.Kb4-a5 nQe8-a4 +   3.Ka5-a6 nPb7-b8=nS #
+  add_to_move_generation_stack:      398951
+                     play_move:      391238
+ is_white_king_square_attacked:       28373
+ is_black_king_square_attacked:      286917
+
+b) nPe7-->f7  
+
+  1...nPb7-b8=nR +   2.Kb4-c5 nPf7-f8=nB +   3.nRb8-b4 Kc7-c6 #
+  add_to_move_generation_stack:      414621
+                     play_move:      404067
+ is_white_king_square_attacked:       30341
+ is_black_king_square_attacked:      298886
+
+solution finished.
+
+

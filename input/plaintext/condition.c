@@ -14,6 +14,7 @@
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
+#include "conditions/cast.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/reborn_piece.h"
@@ -48,6 +49,8 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
+#include "conditions/powertransfer.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -408,6 +411,11 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 
+        case CirceVariantCaptureSquare:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_capture_square))
+            output_plaintext_input_error_message(NonsenseCombination);
+          break;
+
         case CirceVariantVerticalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
             variant->is_promotion_possible = true;
@@ -505,6 +513,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
           break;
 
+        case CirceVariantWaitCapture:
+          variant->relevant_capture = circe_relevant_capture_lastcapture;
+          break;
+
         default:
           assert(0);
           break;
@@ -595,23 +607,17 @@ static char *ParseRoyalSquare(char *tok, Side side)
   return tok;
 }
 
-static char *ParseKobulSides(char *tok, boolean (*variant)[nr_sides])
+static char *ParseKobulSides(char *tok, Side *who)
 {
-  do
+  KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
+
+  if (type<KobulVariantCount)
   {
-    KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
-
-    if (type>KobulVariantCount)
-      output_plaintext_input_error_message(CondNotUniq);
-    else if (type==KobulWhiteOnly)
-      (*variant)[Black] = false;
-    else if (type==KobulBlackOnly)
-      (*variant)[White] = false;
-    else
-      break;
-
+    *who = type==KobulWhiteOnly ? White : Black;
     tok = ReadNextTokStr();
-  } while (tok);
+  }
+  else
+    *who = nr_sides;
 
   return tok;
 }
@@ -724,6 +730,35 @@ static char *ParseBretonVariants(char *tok)
     else if (type==BretonPopeye)
     {
       breton_implementation_quirk = breton_Popeye;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseCASTVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  cast_mode = cast_regular;
+
+  do
+  {
+    CASTVariantType const type = GetUniqIndex(CASTVariantCount,CASTVariantTypeTab,tok);
+
+    if (type>CASTVariantCount)
+      output_plaintext_input_error_message(CondNotUniq);
+    else if (type==CASTinverse)
+    {
+      cast_mode = cast_inverse;
       tok = ReadNextTokStr();
     }
     else
@@ -1787,9 +1822,11 @@ char *ParseCond(char *tok)
           break;
 
         case kobulkings:
-          kobul_who[White] = true;
-          kobul_who[Black] = true;
           tok = ParseKobulSides(tok,&kobul_who);
+          break;
+
+        case multicaptures:
+          tok = ParseKobulSides(tok,&multicaptures_who);
           break;
 
         case sentinelles:
@@ -1943,6 +1980,16 @@ char *ParseCond(char *tok)
           break;
         }
 
+        case cast:
+        {
+          tok = ParseCASTVariants(tok);
+          break;
+        }
+        case powertransfer:
+          powertransfer_is_rex_inclusive = false;
+          tok = ParseRexIncl(tok,&powertransfer_is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+
         default:
           break;
       }
@@ -2048,9 +2095,6 @@ void InitCond(void)
   calc_reflective_king[Black] = false;
 
   reset_king_vaulters();
-
-  kobul_who[White] = false;
-  kobul_who[Black] = false;
 } /* InitCond */
 
 void conditions_resetter_solve(slice_index si)

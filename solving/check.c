@@ -7,6 +7,8 @@
 #include "conditions/antikings.h"
 #include "conditions/make_and_take.h"
 #include "conditions/marscirce/phantom.h"
+#include "conditions/pepo.h"
+#include "conditions/multicaptures.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -223,6 +225,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
       break;
 
+    case STMultiCapturesInitializeCheckDetection:
+      result = multicaptures_initialise_check_detection(si,side_in_check);
+      break;
+
     case STPhantomKingSquareObservationTesterPlyInitialiser:
       result = phantom_king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
       break;
@@ -233,6 +239,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
 
     case STKingCapturedObservationGuard:
       result = king_captured_observation_guard_is_in_check(si,side_in_check);
+      break;
+
+    case STPepoCheckTestInitialiser:
+      result = pepo_check_test_initialiser_is_in_check(si,side_in_check);
       break;
 
     case STKingSquareObservationTester:
@@ -304,14 +314,17 @@ static slice_index const slice_rank_order[] =
     STStrictSATCheckTester,
     STMakeTakeResetMoveIdsCastlingAsMakeInMoveGenerationInCheckTest,
     STKingSquareObservationTesterPlyInitialiser,
+    STMultiCapturesInitializeCheckDetection,
     STPhantomKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
     STKingCapturedObservationGuard,
     STMakeTakeLimitMoveGenerationMakeWalk,
     STCastlingSuspender,
     STObservingMovesGenerator,
+    STDoneGeneratingMoves,
     STFindAttack,
     STAttackTarget,
+    STPepoCheckTestInitialiser,
     STKingSquareObservationTester,
     STExtinctionAllPieceObservationTester,
     STCirceAssassinAllPieceObservationTester,
@@ -400,6 +413,7 @@ void solving_test_check_playing_moves(slice_index si)
 {
   solving_instrument_check_testing(si,STCastlingSuspender);
   solving_instrument_check_testing(si,STObservingMovesGenerator);
+  solving_instrument_check_testing(si,STDoneGeneratingMoves);
   solving_instrument_check_testing(si,STFindAttack);
   solving_instrument_check_testing(si,STAttackTarget);
 }

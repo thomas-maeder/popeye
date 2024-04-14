@@ -20,7 +20,7 @@
  */
 void symmetry_circe_determine_rebirth_square_solve(slice_index si)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const base = move_effect_journal_base[circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_ply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
@@ -28,7 +28,14 @@ void symmetry_circe_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_ply!=ply_nil);
+
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = (square_h8+square_a1) - sq_capture;
+
+  TraceSquare(sq_capture);
+  TraceSquare(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
+  TraceEOL();
+
   pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);

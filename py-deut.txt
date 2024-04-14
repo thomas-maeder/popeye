@@ -267,6 +267,14 @@ Kommandos:
 	WeisserMaxDister
 	WeisserMinDister
 	SerienSchlag
+	Pepo
+	CASTSchach
+	CASTInvers
+	MultiCaptures
+        FuddledMen
+        Bicaptures
+        TransmissionMenace
+	KraftTransfer
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -293,7 +301,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach Madrasi und KraftTransfer kann wahlweise noch "RexInklusive"
+	angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden und anschliessend "RexInklusiv".
@@ -392,7 +401,8 @@ Kommandos:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
 	Massgebende(r) Zug/Gangart/Partei:	
-		LetzterZug 
+		LetzterZug
+		NaechsterSchlag
 		Clone		(bestimmt auch Gangart des Wiedergeborenen)
 		Couscous
 		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
@@ -411,6 +421,7 @@ Kommandos:
 		Super
 		Take&Make
 		Kaefig
+		Schlagfeld
 	Anpassung des Wiedergeburtsfelds:
 		Diametral
 		VertikalSpiegel
@@ -491,6 +502,9 @@ Kommandos:
 			maximal zu beruecksichtigenden Widerlegungen (z. B.
 			Widerlegung 1 = es werden alle Verfuehrungen im 
 			herkoemmlichen Sinn berechnet).
+	TrivialeFehlversucheUnterdruecken	Triviale Fehlversuche nicht
+			ausgeben; zurzeit gelten Schach bietende, widerlegte
+			Erstzuege als triviale Fehlversuche.
 	Satzspiel       Satzspiel berechnen
 	NullZuege	Erlaubt der Seite am Zug, darauf zu verzichten.
 			Dient zur Ermittlung von Tempo-Versuchen.
@@ -504,6 +518,8 @@ Kommandos:
 			bis dahin ausgegeben.
 	StartZugnummer  Dieser Option muss die Nummer des Erstzugs folgen,
 			bei der die Loesung begonnen werden soll.
+	BisZugnummer	Dieser Option muss die Nummer des Erstzugs folgen,
+			nach dem die Loesung beendet werden soll.
 	OhneWk          Ohne weissen Koenig
 	OhneSk          Ohne schwarzen Koenig
 	Duplex          Die Forderung fuer beide Seiten berechnen
@@ -582,6 +598,8 @@ Kommandos:
 	ZielIstEnde	anwendbar bei Zielen, welche nicht zur Immobilitaet
 			fuehren (z.B. z, x): das Spiel ist beendet, sobald
 			die falsche Seite das Ziel erreicht.
+	MattsIn1	Matts in 1 im s# nicht unterdrücken, wenn das Spiel
+			mehr Züge zulassen würde
 
 
  - Forderung: Folgende Forderungen kennt Popeye:
@@ -1006,11 +1024,13 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ae	Adler-Equihopper
 	ah	MAoHuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
+	aq	Adler-Nonstop-Equihopper
 	b       Bauer   
 	b1	Bouncer
 	b2	Turmbouncer

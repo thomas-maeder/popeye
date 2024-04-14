@@ -131,6 +131,7 @@ typedef enum
   move_effect_reason_role_exchange,
   move_effect_reason_series_capture,
   move_effect_reason_darkside,
+  move_effect_reason_bul,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning

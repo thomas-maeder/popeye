@@ -25,21 +25,21 @@
        SchwarzerLaengstzueger
 
    1.Th6-h3 ! Zugzwang.
-      1...Na1-g4
-          2.Th3-e3 Zugzwang.
-              2...Ng4-a7
-                  3.Te3-c3 +
-                      3...Na7*c3 #
       1...Na1-d7
           2.Th3-b3 Zugzwang.
               2...Nd7-g1
                   3.Tb3-c3 +
                       3...Ng1*c3 #
+      1...Na1-g4
+          2.Th3-e3 Zugzwang.
+              2...Ng4-a7
+                  3.Te3-c3 +
+                      3...Na7*c3 #
 
-  add_to_move_generation_stack:       30942
-                     play_move:       16865
- is_white_king_square_attacked:        4760
- is_black_king_square_attacked:       14483
+  add_to_move_generation_stack:       38050
+                     play_move:       13536
+ is_white_king_square_attacked:        5832
+ is_black_king_square_attacked:       10501
 
 Loesung beendet.
 

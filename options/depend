@@ -1,619 +1,1031 @@
 options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h platform/maxtime.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/slice_insertion.h stipulation/help_play/branch.h \
- solving/pipe.h solving/incomplete.h output/plaintext/message.h \
- output/message.h input/plaintext/language.h debugging/assert.h
+  solving/machinery/solve.h stipulation/stipulation.h \
+  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+  utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h platform/maxtime.h \
+  stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  stipulation/branch.h stipulation/battle_play/branch.h \
+  stipulation/slice_insertion.h stipulation/help_play/branch.h \
+  solving/pipe.h solving/incomplete.h output/plaintext/message.h \
+  output/message.h input/plaintext/language.h debugging/assert.h
+
 options/maxtime.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 platform/maxtime.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 stipulation/branch.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice_insertion.h:
+
 stipulation/help_play/branch.h:
+
 solving/pipe.h:
+
 solving/incomplete.h:
+
 output/plaintext/message.h:
+
 output/message.h:
+
 input/plaintext/language.h:
+
 debugging/assert.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/slack_length.h solving/pipe.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/boolean/not.h stipulation/battle_play/branch.h \
- stipulation/slice_insertion.h stipulation/help_play/branch.h \
- stipulation/modifier.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/slack_length.h solving/pipe.h \
+  solving/machinery/solve.h solving/machinery/dispatch.h \
+  debugging/trace.h stipulation/proxy.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  stipulation/boolean/not.h stipulation/battle_play/branch.h \
+  stipulation/slice_insertion.h stipulation/help_play/branch.h \
+  stipulation/modifier.h output/plaintext/message.h output/message.h \
+  input/plaintext/language.h debugging/assert.h
+
 options/goal_is_end.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/slack_length.h:
+
 solving/pipe.h:
+
 solving/machinery/solve.h:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 stipulation/proxy.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 stipulation/boolean/not.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice_insertion.h:
+
 stipulation/help_play/branch.h:
+
 stipulation/modifier.h:
+
 output/plaintext/message.h:
+
 output/message.h:
+
 input/plaintext/language.h:
+
 debugging/assert.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
- options/degenerate_tree.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/machinery/slack_length.h stipulation/branch.h solving/pipe.h \
- debugging/assert.h
+  options/degenerate_tree.h solving/machinery/solve.h \
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  solving/machinery/slack_length.h stipulation/branch.h solving/pipe.h \
+  debugging/assert.h
+
 options/degenerate_tree.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 solving/machinery/slack_length.h:
+
 stipulation/branch.h:
+
 solving/pipe.h:
+
 debugging/assert.h:
 options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/machinery/slack_length.h stipulation/testing_pipe.h \
- stipulation/proxy.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/slice_insertion.h \
- solving/avoid_unsolvable.h solving/pipe.h solving/testing_pipe.h \
- solving/ply.h debugging/assert.h
+  solving/machinery/solve.h stipulation/stipulation.h \
+  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+  utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  solving/machinery/slack_length.h stipulation/testing_pipe.h \
+  stipulation/proxy.h stipulation/branch.h \
+  stipulation/battle_play/branch.h stipulation/slice_insertion.h \
+  solving/avoid_unsolvable.h solving/pipe.h solving/testing_pipe.h \
+  solving/ply.h debugging/assert.h
+
 options/nontrivial.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 solving/machinery/slack_length.h:
+
 stipulation/testing_pipe.h:
+
 stipulation/proxy.h:
+
 stipulation/branch.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice_insertion.h:
+
 solving/avoid_unsolvable.h:
+
 solving/pipe.h:
+
 solving/testing_pipe.h:
+
 solving/ply.h:
+
 debugging/assert.h:
 options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
- options/maxthreatlength.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/machinery/slack_length.h solving/pipe.h solving/testing_pipe.h \
- stipulation/testing_pipe.h stipulation/branch.h \
- stipulation/move_played.h stipulation/battle_play/branch.h \
- stipulation/slice_insertion.h solving/check.h debugging/measure.h \
- output/plaintext/protocol.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- debugging/assert.h
+  options/maxthreatlength.h solving/machinery/solve.h \
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h stipulation/proxy.h \
+  stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  solving/machinery/slack_length.h solving/pipe.h solving/testing_pipe.h \
+  stipulation/testing_pipe.h stipulation/branch.h \
+  stipulation/move_played.h stipulation/battle_play/branch.h \
+  stipulation/slice_insertion.h solving/check.h debugging/measure.h \
+  output/plaintext/protocol.h solving/fork.h solving/observation.h \
+  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+  debugging/assert.h
+
 options/maxthreatlength.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 stipulation/proxy.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 solving/machinery/slack_length.h:
+
 solving/pipe.h:
+
 solving/testing_pipe.h:
+
 stipulation/testing_pipe.h:
+
 stipulation/branch.h:
+
 stipulation/move_played.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice_insertion.h:
+
 solving/check.h:
+
 debugging/measure.h:
+
 output/plaintext/protocol.h:
+
 solving/fork.h:
+
 solving/observation.h:
+
 pieces/walks/vectors.h:
+
+solving/ply.h:
+
 solving/temporary_hacks.h:
+
 debugging/assert.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/slice_insertion.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h options/movenumbers/restart_guard_intelligent.h \
- output/output.h output/plaintext/plaintext.h output/plaintext/message.h \
- output/message.h input/plaintext/language.h debugging/assert.h
+  solving/machinery/solve.h stipulation/stipulation.h \
+  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+  utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+  stipulation/pipe.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  solving/has_solution_type.h solving/has_solution_type.enum.h \
+  solving/has_solution_type.enum stipulation/slice_insertion.h \
+  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+  solving/check.h debugging/measure.h output/plaintext/protocol.h \
+  solving/pipe.h options/movenumbers/restart_guard_intelligent.h \
+  output/output.h output/plaintext/plaintext.h \
+  output/plaintext/message.h output/message.h input/plaintext/language.h \
+  debugging/assert.h
+
 options/movenumbers.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 solving/ply.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 solving/has_solution_type.h:
+
 solving/has_solution_type.enum.h:
+
 solving/has_solution_type.enum:
+
 stipulation/slice_insertion.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/help_play/branch.h:
+
 solving/check.h:
+
 debugging/measure.h:
+
 output/plaintext/protocol.h:
+
 solving/pipe.h:
+
 options/movenumbers/restart_guard_intelligent.h:
+
 output/output.h:
+
 output/plaintext/plaintext.h:
+
 output/plaintext/message.h:
+
 output/message.h:
+
 input/plaintext/language.h:
+
 debugging/assert.h:
 options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
- options/maxflightsquares.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- solving/machinery/slack_length.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/pipe.h solving/conditional_pipe.h stipulation/conditional_pipe.h \
- stipulation/battle_play/branch.h stipulation/slice_insertion.h \
- stipulation/help_play/branch.h position/position.h position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- pieces/walks/vectors.h position/castling_rights.h debugging/assert.h
+  options/maxflightsquares.h solving/machinery/solve.h \
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+  stipulation/structure_traversal.h stipulation/slice.h \
+  stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  solving/machinery/slack_length.h solving/has_solution_type.h \
+  solving/has_solution_type.enum.h solving/has_solution_type.enum \
+  solving/pipe.h solving/conditional_pipe.h \
+  stipulation/conditional_pipe.h stipulation/battle_play/branch.h \
+  stipulation/slice_insertion.h stipulation/help_play/branch.h \
+  position/position.h position/color.h position/color.enum.h \
+  position/color.enum position/pieceid.h pieces/walks/vectors.h \
+  position/castling_rights.h debugging/assert.h
+
 options/maxflightsquares.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 stipulation/pipe.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
 solving/machinery/slack_length.h:
+
 solving/has_solution_type.h:
+
 solving/has_solution_type.enum.h:
+
 solving/has_solution_type.enum:
+
 solving/pipe.h:
+
 solving/conditional_pipe.h:
+
 stipulation/conditional_pipe.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice_insertion.h:
+
 stipulation/help_play/branch.h:
+
 position/position.h:
+
 position/color.h:
+
 position/color.enum.h:
+
 position/color.enum:
+
 position/pieceid.h:
+
 pieces/walks/vectors.h:
+
 position/castling_rights.h:
+
 debugging/assert.h:
 options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/slack_length.h stipulation/battle_play/branch.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/slice_insertion.h \
- stipulation/modifier.h solving/pipe.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
- output/plaintext/message.h output/message.h input/plaintext/language.h \
- debugging/assert.h
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/slack_length.h stipulation/battle_play/branch.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum \
+  stipulation/structure_traversal.h stipulation/traversal.h \
+  stipulation/slice_insertion.h stipulation/modifier.h solving/pipe.h \
+  solving/machinery/solve.h solving/machinery/dispatch.h \
+  debugging/trace.h output/plaintext/message.h output/message.h \
+  input/plaintext/language.h debugging/assert.h
+
 options/quodlibet.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/slack_length.h:
+
 stipulation/battle_play/branch.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/structure_traversal.h:
+
 stipulation/traversal.h:
+
 stipulation/slice_insertion.h:
+
 stipulation/modifier.h:
+
 solving/pipe.h:
+
 solving/machinery/solve.h:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 output/plaintext/message.h:
+
 output/message.h:
+
 input/plaintext/language.h:
+
 debugging/assert.h:
 options/options$(OBJ_SUFFIX): options/options.c options/options.h \
- utilities/boolean.h
+  utilities/boolean.h
+
 options/options.h:
+
 utilities/boolean.h:
 options/nullmoves$(OBJ_SUFFIX): options/nullmoves.c options/nullmoves.h \
- solving/machinery/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h \
- position/effects/null_move.h solving/move_effect_journal.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_structural_type.enum \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h \
- stipulation/slice_functional_type.enum \
- stipulation/slice_contextual_type.h \
- stipulation/slice_contextual_type.enum.h \
- stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
- debugging/assert.h
+  solving/machinery/solve.h stipulation/stipulation.h \
+  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+  utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h \
+  position/effects/null_move.h solving/move_effect_journal.h \
+  position/castling_rights.h solving/ply.h position/pieceid.h \
+  solving/move_generator.h stipulation/structure_traversal.h \
+  stipulation/slice.h stipulation/slice_structural_type.h \
+  stipulation/slice_structural_type.enum.h \
+  stipulation/slice_structural_type.enum \
+  stipulation/slice_functional_type.h \
+  stipulation/slice_functional_type.enum.h \
+  stipulation/slice_functional_type.enum \
+  stipulation/slice_contextual_type.h \
+  stipulation/slice_contextual_type.enum.h \
+  stipulation/slice_contextual_type.enum stipulation/traversal.h \
+  debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+  solving/fork.h solving/observation.h pieces/walks/vectors.h \
+  solving/temporary_hacks.h stipulation/proxy.h stipulation/pipe.h \
+  stipulation/fork.h stipulation/branch.h stipulation/slice_insertion.h \
+  stipulation/move.h debugging/assert.h
+
 options/nullmoves.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 position/effects/null_move.h:
+
 solving/move_effect_journal.h:
+
 position/castling_rights.h:
+
 solving/ply.h:
+
 position/pieceid.h:
+
 solving/move_generator.h:
-debugging/measure.h:
-output/plaintext/protocol.h:
-solving/pipe.h:
-solving/fork.h:
-solving/observation.h:
-pieces/walks/vectors.h:
-solving/temporary_hacks.h:
+
 stipulation/structure_traversal.h:
+
 stipulation/slice.h:
+
 stipulation/slice_structural_type.h:
+
 stipulation/slice_structural_type.enum.h:
+
 stipulation/slice_structural_type.enum:
+
 stipulation/slice_functional_type.h:
+
 stipulation/slice_functional_type.enum.h:
+
 stipulation/slice_functional_type.enum:
+
 stipulation/slice_contextual_type.h:
+
 stipulation/slice_contextual_type.enum.h:
+
 stipulation/slice_contextual_type.enum:
+
 stipulation/traversal.h:
+
+debugging/measure.h:
+
+output/plaintext/protocol.h:
+
+solving/pipe.h:
+
+solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
 stipulation/proxy.h:
+
 stipulation/pipe.h:
+
 stipulation/fork.h:
+
 stipulation/branch.h:
+
 stipulation/slice_insertion.h:
+
 stipulation/move.h:
+
 debugging/assert.h:

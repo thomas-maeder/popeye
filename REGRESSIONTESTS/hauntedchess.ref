@@ -51,10 +51,10 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
               2...Kd5*c6
                   3.Sf7-d8 #
 
-  add_to_move_generation_stack:      181828
-                     play_move:      116468
- is_white_king_square_attacked:       53777
- is_black_king_square_attacked:       68356
+  add_to_move_generation_stack:      181881
+                     play_move:      116514
+ is_white_king_square_attacked:       53778
+ is_black_king_square_attacked:       68402
 
 solution finished.
 
@@ -135,10 +135,10 @@ Sake, Portoroz 2002, 5eme Recommand\'e
 
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 #
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 #
-  add_to_move_generation_stack:      618803
-                     play_move:      220263
- is_white_king_square_attacked:       75396
- is_black_king_square_attacked:      219358
+  add_to_move_generation_stack:      622362
+                     play_move:      221349
+ is_white_king_square_attacked:       75801
+ is_black_king_square_attacked:      220444
 
 solution finished.
 
@@ -243,10 +243,10 @@ solution finished.
               2...Bf8*e7
                   3.Qe3-c5 #
 
-  add_to_move_generation_stack:      254585
-                     play_move:      150576
- is_white_king_square_attacked:       62521
- is_black_king_square_attacked:       99757
+  add_to_move_generation_stack:      254320
+                     play_move:      150482
+ is_white_king_square_attacked:       62492
+ is_black_king_square_attacked:       99663
 
 solution finished.
 
@@ -320,10 +320,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
             HauntedChess
 
   1.h2-h1=Q + Be4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Bh1-a8[+bQh1]   4.Qh1*a8 Ke2-d2   5.Qa8-a3[+wBa8] Ba8-d5 #
-  add_to_move_generation_stack:   161657522
-                     play_move:   135645085
- is_white_king_square_attacked:    34961698
- is_black_king_square_attacked:   110996752
+  add_to_move_generation_stack:   169655022
+                     play_move:   140492186
+ is_white_king_square_attacked:    36411309
+ is_black_king_square_attacked:   115510283
 
 solution finished.
 

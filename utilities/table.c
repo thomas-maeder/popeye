@@ -39,13 +39,24 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
 {
   boolean result = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",idx);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",move_effect_journal[idx].type);
+  TraceEOL();
+
   switch (move_effect_journal[idx].type)
   {
     case move_effect_piece_movement:
+      TraceValue("%u",move_effect_journal[idx].reason);
+      TraceEOL();
+
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_moving_piece_movement:
         case move_effect_reason_castling_king_movement:
+        case move_effect_reason_series_capture:
           result = true;
           break;
 
@@ -139,6 +150,9 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       break;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -146,6 +160,10 @@ static void make_move_snapshot(table_elmt_type *snapshot)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   snapshot->nr_relevant_effects = 0;
   for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     if (is_effect_relevant(curr))
@@ -154,6 +172,9 @@ static void make_move_snapshot(table_elmt_type *snapshot)
       snapshot->relevant_effects[snapshot->nr_relevant_effects] = move_effect_journal[curr];
       ++snapshot->nr_relevant_effects;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean moves_equal(table_elmt_type const *snapshot)
@@ -220,6 +241,10 @@ static boolean moves_equal(table_elmt_type const *snapshot)
       else
         return false;
     }
+
+  TraceValue("%u",id_relevant);
+  TraceValue("%u",snapshot->nr_relevant_effects);
+  TraceEOL();
 
   return id_relevant==snapshot->nr_relevant_effects;
 }

@@ -98,7 +98,7 @@ LDFLAGS=-q
 EXEFILE=-e
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects

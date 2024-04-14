@@ -368,7 +368,8 @@ static void optimise_side(slice_index si, Side side)
     stip_traverse_structure(si,&st);
   }
 
-  if (!(CondFlag[madras] || CondFlag[isardam] || CondFlag[partialparalysis]
+  if (!(CondFlag[madras] || CondFlag[isardam] || CondFlag[leffie]
+        || CondFlag[partialparalysis]
         || CondFlag[side==Black ? whtrans_king : bltrans_king]
         || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
         || CondFlag[whrefl_king] || CondFlag[blrefl_king]

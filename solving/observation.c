@@ -7,6 +7,7 @@
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
 #include "conditions/lortap.h"
@@ -36,6 +37,8 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -155,6 +158,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STMagicPiecesObserverEnforcer:
       result = magic_enforce_observer(si);
+      break;
+
+    case STMultiCapturesCheckCounter:
+      result = multi_captures_count_checks(si);
       break;
 
     case STAMUObservationCounter:
@@ -293,6 +300,18 @@ boolean validate_observation_recursive(slice_index si)
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
 
+    case STCASTValidateObservation:
+      result = cast_validate_observation(si);
+      break;
+
+    case STCASTInverseValidateObservation:
+      result = cast_inverse_validate_observation(si);
+      break;
+
+    case STFuddledMenInverseValidateObservation:
+      result = fuddled_men_inverse_validate_observation(si);
+      break;
+
     case STTrue:
       result = true;
       break;
@@ -354,10 +373,12 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
+    STMultiCapturesCheckCounter,
     STMarsCirceGenerateFromRebirthSquare,
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STUndoOptimiseObservationsByQueen,
+    STFuddledMenInverseValidateObservation,
     STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
@@ -387,6 +408,8 @@ static slice_index const observation_validation_slice_rank_order[] =
     STShieldedKingsRemoveIllegalCaptures,
     STSuperguardsRemoveIllegalCaptures,
     STWormholeRemoveIllegalCaptures,
+    STCASTValidateObservation,
+    STCASTInverseValidateObservation,
 
     STValidatingObserver,
     STUndoOptimiseObservationsByQueen,
@@ -759,6 +782,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STVaultingKingIsSquareObserved,
     STOptimiseObservationsByQueenInitialiser,
     STDetermineObserverWalk,
+    STPepoCheckTestHack,
     STBicoloresTryBothSides,
     STTestingIfSquareIsObservedWithSpecificWalk,
     STOptimisingObserverWalk,

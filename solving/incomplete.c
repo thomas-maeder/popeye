@@ -35,7 +35,7 @@ solving_completeness_type problem_solving_completeness(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(SLICE_TYPE(si)==STProblemSolvingIncomplete);
-  result = (SLICE_U(si).flag_handler.value ? solving_partial : solving_complete);
+  result = (solving_completeness_type)SLICE_U(si).value_handler.value;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -81,7 +81,7 @@ void phase_solving_incomplete_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  SLICE_U(si).flag_handler.value = solving_complete;
+  SLICE_U(si).value_handler.value = solving_complete;
 
   pipe_solve_delegate(si);
 
@@ -127,7 +127,7 @@ solving_completeness_type phase_solving_completeness(slice_index si)
   TraceFunctionParamListEnd();
 
   assert(SLICE_TYPE(si)==STPhaseSolvingIncomplete);
-  result = (SLICE_U(si).flag_handler.value ? solving_partial : solving_complete);
+  result = (solving_completeness_type)SLICE_U(si).value_handler.value;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

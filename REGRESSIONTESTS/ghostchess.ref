@@ -280,18 +280,18 @@ solution finished.
 a) 
 
   1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 #
-  add_to_move_generation_stack:    36945618
-                     play_move:    12586349
- is_white_king_square_attacked:    12586349
- is_black_king_square_attacked:     7939924
+  add_to_move_generation_stack:    37051223
+                     play_move:    12618962
+ is_white_king_square_attacked:    12618962
+ is_black_king_square_attacked:     7958700
 
 b) -bPg7  
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 #
-  add_to_move_generation_stack:    40255627
-                     play_move:    13577057
- is_white_king_square_attacked:    13577057
- is_black_king_square_attacked:     9101117
+  add_to_move_generation_stack:    40329027
+                     play_move:    13599786
+ is_white_king_square_attacked:    13599786
+ is_black_king_square_attacked:     9114954
 
 solution finished.
 

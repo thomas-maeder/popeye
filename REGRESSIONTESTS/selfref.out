@@ -537,3 +537,85 @@ Loesung beendet.
 Loesung beendet.
 
 
+FIDE Album 1945-1955 nr. 1188
+
+            Georg Thomas
+             Springaren
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   T   S   .   .   8
+|                                   |
+7   .   .   .   .   S   .   .   .   7
+|                                   |
+6   .   B   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -L   .   .   5
+|                                   |
+4   .   .   .   B   .   .   D   .   4
+|                                   |
+3   .   .   .  -B   .   .  -B   .   3
+|                                   |
+2   .  -B   .  -B   .   .   B   .   2
+|                                   |
+1   .   L  -L   K   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         9 + 8
+
+      1...Sh1-f2 #
+      1...Lf5-e4
+          2.Dg4*e4
+              2...Sh1-f2 #
+      1...Lf5*g4 #
+      1...Lf5-h7
+          2.Sf8*h7
+              2...Sh1-f2 #
+      1...Lf5-g6
+          2.Sf8*g6
+              2...Sh1-f2 #
+      1...Lf5-c8
+          2.Dg4*c8
+              2...Sh1-f2 #
+      1...Lf5-d7
+          2.Sf8*d7
+              2...Sh1-f2 #
+      1...Lf5-e6
+          2.Dg4-g6
+              2...Sh1-f2 #
+
+   1.Dg4-h4 ! Zugzwang.
+      1...Sh1-f2 #
+      1...Lf5-e4
+          2.Dh4*e4
+              2...Sh1-f2 #
+      1...Lf5-h3
+          2.Dh4*h3
+              2...Sh1-f2 #
+      1...Lf5-g4 +
+          2.Dh4*g4
+              2...Sh1-f2 #
+      1...Lf5-h7
+          2.Dh4*h7
+              2...Sh1-f2 #
+      1...Lf5-g6
+          2.Dh4-h6
+              2...Sh1-f2 #
+      1...Lf5-c8
+          2.Te8*c8
+              2...Sh1-f2 #
+      1...Lf5-d7
+          2.Te8-d8
+              2...Sh1-f2 #
+      1...Lf5-e6
+          2.Dh4-h6
+              2...Sh1-f2 #
+
+  add_to_move_generation_stack:       25987
+                     play_move:       17180
+ is_white_king_square_attacked:       17195
+ is_black_king_square_attacked:        5875
+
+Loesung beendet.
+
+

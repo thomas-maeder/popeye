@@ -166,6 +166,8 @@ typedef enum
   CirceVariantParachute,
   CirceVariantEinstein,
   CirceVariantReverseEinstein,
+  CirceVariantWaitCapture,
+  CirceVariantCaptureSquare,
 
   CirceVariantCount
 } CirceVariantType;
@@ -185,6 +187,15 @@ typedef enum
 } BretonVariantType;
 
 extern char const * const *BretonVariantTypeTab;
+
+typedef enum
+{
+  CASTinverse,
+
+  CASTVariantCount
+} CASTVariantType;
+
+extern char const * const *CASTVariantTypeTab;
 
 void output_plaintext_select_language(Language lang);
 
