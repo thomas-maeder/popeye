@@ -252,6 +252,7 @@ typedef struct
         struct
         {
             square capture_square;
+            ply ply;
         } ep_capture_potential;
         struct
         {
