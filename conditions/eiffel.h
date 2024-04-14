@@ -8,6 +8,12 @@
 /* Implementation of condition Eiffel chess
  */
 
+/* Determine whether a particular piece is observed
+ * @param pos position of the piece
+ * @return true iff the piece occupying square pos is observed by the opponent
+ */
+boolean eiffel_is_piece_observed(square pos);
+
 /* Validate an observater according to Eiffel Chess
  * @return true iff the observation is valid
  */

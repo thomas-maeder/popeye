@@ -262,6 +262,14 @@ commands expect further parameters. Lets start with the simpler commands:
 	WhiteMaxDister
 	WhiteMinDister
 	SeriesCapture
+	Pepo
+	CASTchess
+	CASTInverse
+	MultiCaptures
+	FuddledMen
+	Bicaptures
+	TransmissionMenace
+	PowerTransfer
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -286,7 +294,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After Madrasi, you can enter "RexInclusive".
+	After Madrasi and PowerTransfer, you can enter "RexInclusive".
 
 	After the Isardam condition, "TypeB" and then "RexInclusive" can be
 	specified.
@@ -376,7 +384,8 @@ commands expect further parameters. Lets start with the simpler commands:
 		RexInclusive	(default for AntiCirce and MarsCirce)
 		RexExclusive	(default otherwise)
 	Relevant move/walk/side:	
-		LastMove 
+		LastMove
+		WaitCapture
 		Clone		(also defines the walk of the reborn piece)
 		Couscous
 		Mirror		(special meaning for Equipollents - see below)
@@ -395,6 +404,7 @@ commands expect further parameters. Lets start with the simpler commands:
 		Super
 		Take&Make
 		Cage
+		CaptureSquare
 	Adaptation of the rebirth square:
 		Diametral
 		VerticalMirror
@@ -472,6 +482,9 @@ commands expect further parameters. Lets start with the simpler commands:
 			the number of defences which should be taken
 			into consideration. For instance Defence 1 all
 			real tries are calculated.
+	TrivialTriesAvoid	Remove trivial tries from the output.
+			Currently, refuted first moves delivering check
+			are considered trivial.
 	SetPlay         calculate setplay.
 	NullMoves	Allows the moving side to play a null move.
 			Servers for finding tempo tries.
@@ -563,6 +576,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	GoalIsEnd	applicable if the goal doesn't lead to immobility
 			(e.g. z, x): the play ends if the wrong side reaches
 			the goal.
+	MatesIn1	don't suppress mates in 1 in self play if play would
+			allow longer variations)
 
 
  - stipulation: popeye knows the following stipulations:
@@ -1008,9 +1023,11 @@ sstipulation). A little bit more elaborate are the commands
 	ds      ("Diagonalspiralspringer")
 	du      dummy
 	ea      eagle
+	ee	eagle equihopper
 	eh      edgehog
 	ek      erlking
 	em      empress
+	en	eagle nonstop equihopper
 	eq      equihopper
 	et      elephant			0,1+1,1+1,2 rider
 	f       friend

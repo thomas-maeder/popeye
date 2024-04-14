@@ -239,8 +239,16 @@ typedef enum
   whmindister,            /* 218 */
   series_capture,         /* 219 */
   darkside,               /* 220 */
+  leffie,                 /* 221 */
+  pepo,                   /* 222 */
+  cast,                   /* 223 */
+  bicaptures,             /* 224 */
+  fuddled_men,            /* 225 */
+  transmissionmenace,     /* 226 */
+  powertransfer,          /* 227 */
+  multicaptures,          /* 228 */
 
-  CondCount               /* 221 */
+  CondCount               /* 229 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

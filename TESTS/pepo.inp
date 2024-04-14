@@ -1,0 +1,23 @@
+begin
+
+protocol pepo.tst
+
+title double check is mate, single checks are not
+pieces white ra8 bb8 black kh8
+stipulation #1
+condition pepo
+option movenum nowk
+
+next
+
+author Petko A. Petkov
+origin KobulChess.com 2019
+pieces white kh2 rd5f3 bh7 pc2f5g2
+       black ke4 pc3g3
+       neutral pc4
+stipulation #2
+condition Pepo
+option try vari
+
+end
+

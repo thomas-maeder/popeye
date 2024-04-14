@@ -1,0 +1,587 @@
+
+           Petko A. Petkov
+    The Problemist Suplement 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   S   .   .  -P   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .  -S   B   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          5 + 7
+              CASTChess
+
+   1.Bg1-b6 ! zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+
+   1.Bg1-c5 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...a4-a3 !
+
+   1.Bg1-d4 ? zugzwang.
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...b3-b2 !
+
+   1.Bg1-e3 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+    but
+      1...g6-g5 !
+
+   1.Bg1-f2 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...h5-h4 !
+
+   1.Sd6-c4 ? threat:
+          2.Bg2-d5 #
+    but
+      1...Ka8-b7 !
+
+   1.Sd6-f7 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...Ka8-b7 !
+
+   1.Sd6-e8 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...Ka8-b7 !
+
+   1.Sd6-c8 ? zugzwang.
+      1...b3-b2
+          2.Bg2-d5 #
+      1...a4-a3
+          2.Bg2-c6 #
+      1...h5-h4
+          2.Bg2-f3 #
+      1...a6-a5
+          2.Bg2-b7 #
+      1...g6-g5
+          2.Bg2-e4 #
+    but
+      1...Ka8-b7 !
+
+  add_to_move_generation_stack:       34304
+                     play_move:        3754
+ is_white_king_square_attacked:         222
+ is_black_king_square_attacked:        3677
+
+solution finished.
+
+
+
+           Petko A. Petkov
+  The Problemist Suplement 2020 (v)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7 -LI   .   K   .   .   .   .   .   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .  -K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 3
+              CASTChess
+
+  1.LIa7-a2 Kc7-b6   2.LIa2-f2 Be3-d2 #
+  1.LIa7-d7 Kc7-d8   2.LId7-d2 + Be3-f2 #
+  add_to_move_generation_stack:       81956
+                     play_move:       38310
+ is_white_king_square_attacked:        2069
+ is_black_king_square_attacked:       38017
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           StrateGems 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   R   8
+|                                   |
+7   .   .   .  -P   .  -P   .   .   7
+|                                   |
+6   .   .   .   .   .   S   .   .   6
+|                                   |
+5   .   .   .  -P  -P  -P   .  -P   5
+|                                   |
+4   .   .   .   .  -K   P   .   .   4
+|                                   |
+3   .   .   P  -P   P   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 8
+              CASTChess
+
+   1.Ba2-b1 ? threat:
+          2.Bb1*d3 #
+      1...e5*f4
+          2.Rh8-e8 #
+    but
+      1...d5-d4 !
+
+   1.Ba2*d5 ? zugzwang.
+      1...e5*f4
+          2.Rh8-e8 #
+      1...h5-h4
+          2.Kc8*d7 #
+      1...d7-d6
+          2.Rh8*h5 #
+    but
+      1...d3-d2 !
+
+   1.Kc8*d7 ! zugzwang.
+      1...d3-d2
+          2.Ba2-b1 #
+      1...d5-d4
+          2.Rh8*h5 #
+      1...e5*f4
+          2.Rh8-e8 #
+      1...h5-h4
+          2.Ba2*d5 #
+
+   1.Rh8*h5 ? zugzwang.
+      1...d3-d2
+          2.Ba2-b1 #
+      1...d5-d4
+          2.Kc8*d7 #
+      1...d7-d6
+          2.Ba2*d5 #
+    but
+      1...e5*f4 !
+
+  add_to_move_generation_stack:       21695
+                     play_move:        2616
+ is_white_king_square_attacked:         113
+ is_black_king_square_attacked:        2606
+
+solution finished.
+
+
+
+           Petko A. Petkov
+      ANDA FAIRY PLANET 2, 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   Q   .   .   .   5
+|                                   |
+4   .   P   .   .  -P   P  -P   .   4
+|                                   |
+3   .  -P   P  -P   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   P  -P   2
+|                                   |
+1   K   .   .   .   .   .  -S  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         8 + 9
+              CASTChess
+
+   1.Qe5-e8 ! zugzwang.
+      1...d3-d2
+          2.Qe8-b5 +
+              2...Sg1-e2 #
+      1...e4-e3
+          2.Qe8-c6 +
+              2...Sg1-f3 #
+      1...g4-g3
+          2.Qe8-c8 +
+              2...Sg1-h3 #
+
+  add_to_move_generation_stack:      116829
+                     play_move:       13711
+ is_white_king_square_attacked:       13714
+ is_black_king_square_attacked:        2884
+
+solution finished.
+
+
+
+           Petko A. Petkov
+      ANDA FAIRY PLANET 2, 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  =P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K  -P   .   .   5
+|                                   |
+4   .   .   .   .   S   S   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .  =P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#5                3 + 3 + 2n
+              CASTChess
+
+  1.nPf2-f1=nS   2.nSf1-g3   3.h4*g3   4.g3-g2   5.g2-g1=B nPh7-h8=nB #
+  add_to_move_generation_stack:     1786997
+                     play_move:      344010
+ is_white_king_square_attacked:       34850
+ is_black_king_square_attacked:      343688
+
+solution finished.
+
+
+
+   Gerald Ettl & Manfred Rittirsch
+        Julia's Fairies 2021
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   B   S   P   .   P   .  -P  -S   7
+|                                   |
+6   S   .   R   .   .   P   .  -P   6
+|                                   |
+5   .  -K   .   .   .   P   P   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   P   .  -P  -P   .   .   .   3
+|                                   |
+2   .  -P   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .  -S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 8
+              CASTChess
+
+   1.Rc6-c5 + ?
+    but
+      1...Sd1-c3 !
+
+   1.Rc6-b6 + ?
+    but
+      1...g7*f6 !
+
+   1.Sb7-d6 + ?
+    but
+      1...Kb5-a5 !
+
+   1.e7-e8=S ! threat:
+          2.Se8-d6 #
+      1...Sd1-f2
+          2.Rc6-c5 #
+      1...g7-g6
+          2.Rc6-b6 #
+
+   1.e7-e8=B ? threat:
+          2.Rc6-c5 #
+          2.Rc6-b6 #
+      1...Sd1-c3
+          2.Rc6-b6 #
+      1...g7-g6
+          2.Rc6-b6 #
+      1...g7*f6
+          2.Rc6-c5 #
+    but
+      1...h6-h5 !
+
+  add_to_move_generation_stack:       33325
+                     play_move:        7221
+ is_white_king_square_attacked:         413
+ is_black_king_square_attacked:        7156
+
+solution finished.
+
+
+
+           Petko A. Petkov
+      ANDA FAIRY PLANET 2, 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .  -P   K   .  -P   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -K   .   .   .   2
+|                                   |
+1   .   .   .   R   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 4
+          CASTChess Inverse
+
+      1...Ke2-f2
+          2.Ke4-f3 #
+
+   1.Rd1-h1 ! threat:
+          2.Ke4-e3 #
+      1...Ke2-d2
+          2.Ke4-d3 #
+      1...Ke2-f2
+          2.Ke4-f3 #
+
+   1.Rd1-g1 ? threat:
+          2.Ke4-e3 #
+      1...Ke2-d2
+          2.Ke4-d3 #
+    but
+      1...Ke2-f2 !
+
+  add_to_move_generation_stack:        6867
+                     play_move:        1028
+ is_white_king_square_attacked:         116
+ is_black_king_square_attacked:        1018
+
+solution finished.
+
+
+
+           Petko A. Petkov
+    The Problemist Suplement 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   P   .   Q   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#6                     3 + 3
+          CASTChess Inverse
+
+  1.c2-c1=R   2.Rc1-g1   3.Rg1-g2   4.Rg2*f2   5.Rf2-a2   6.Ra2-a7 Qh2-a2 #
+  1.c2-c1=B   2.Bc1-f4   3.Bf4-g3   4.Bg3*f2   5.Bf2-d4   6.Bd4-h8 Qh2-b2 #
+  add_to_move_generation_stack:      538448
+                     play_move:      147096
+ is_white_king_square_attacked:       26735
+ is_black_king_square_attacked:      147096
+
+solution finished.
+
+
+
+           Petko A. Petkov
+    The Problemist Suplement 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   P   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P  -Q   .   2
+|                                   |
+1   .   Q   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3.5                      4 + 3
+          CASTChess Inverse
+
+  1...Kb6-a5   2.f2-f3 Qg2-f2 +   3.Kh4-h3 g7-g5   4.Qb1-b5 + g5-g4 #
+  1...Kb6-a6   2.f4-f5 g7-g6   3.f2-f4 Qg2-f3   4.Qb1-b6 + g6-g5 #
+  add_to_move_generation_stack:   140047269
+                     play_move:    11672456
+ is_white_king_square_attacked:    10858951
+ is_black_king_square_attacked:     6420512
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           StrateGems 2020
+   after first half-move of hs#4.5
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   Q   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   B   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -S   .   .   .   .   .   5
+|                                   |
+4   P   .   .   .  -B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#4                        5 + 3
+          CASTChess Inverse
+
+  1.Bg7-b2 Sc5-b3   2.Qd8-f6 Sb3-a1   3.a4-a5 Be4-c2   4.Qf6-a6 + Sa1-b3 #
+  add_to_move_generation_stack:  4380251139
+                     play_move:   413284807
+ is_white_king_square_attacked:   397321742
+ is_black_king_square_attacked:   237625005
+
+solution finished.
+
+
+
+           Petko A. Petkov
+    The Problemist Suplement 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   S   .   .   .   6
+|                                   |
+5   .   .  -P  -P   .   .   .   .   5
+|                                   |
+4   .   .  -P   .  =P   .  -P   .   4
+|                                   |
+3  -P   .   .   P  -K   .   .   .   3
+|                                   |
+2   P   .   P   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=9                7 + 6 + 1n
+          CASTChess Inverse
+
+  1.c4-c3   2.c5-c4   3.Ke3-d4   4.nPe4-e3   5.nPe3-e2   6.nPe2-e1=nB   7.nBe1-g3   8.nBg3-d6   9.g4-g3 Kg1-f2 =
+  add_to_move_generation_stack:    24102933
+                     play_move:     4241813
+ is_white_king_square_attacked:     2075677
+ is_black_king_square_attacked:     4007460
+
+solution finished.
+
+

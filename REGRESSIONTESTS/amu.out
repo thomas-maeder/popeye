@@ -230,9 +230,9 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
    1.e7-e8=D # !
 
   add_to_move_generation_stack:          39
-                     play_move:          25
+                     play_move:          27
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          26
+ is_black_king_square_attacked:          28
 
 Loesung beendet.
 

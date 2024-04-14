@@ -134,7 +134,7 @@ DBG=
 ARCH=                   # use platform default
 
 # Select target compiler optimization level
-CCOPTIM=-O3
+CCOPTIM=-O3 -flto
 # -fprofile-use
 # -fprofile-generate
 
@@ -160,7 +160,7 @@ OTHER+=-std=c99
 # ==============
 
 # Select target linker optimization level
-LDOPTIM=-O3
+LDOPTIM=-O3 -flto
 # -fprofile-use
 # -fprofile-generate
 
@@ -170,7 +170,7 @@ LDOPTIM=-O3
 EXEFILE=-o 
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects

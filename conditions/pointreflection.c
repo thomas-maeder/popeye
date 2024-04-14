@@ -123,7 +123,7 @@ void point_reflection_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STPointReflectionMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STPointReflectionMovesForPieceGenerator);
 
   {
     stip_structure_traversal st;

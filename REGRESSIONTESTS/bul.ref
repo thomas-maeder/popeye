@@ -1,0 +1,229 @@
+
+           Petko A. Petkov
+     1519, Julia's Fairies 2020
+In Memoriam to my mother Danka Petkova
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -S   .   .   .   .   .   .   8
+|                                   |
+7  -B  -P   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  PA   .   .   .   .   5
+|                                   |
+4  VA   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+              Bul d5 a4
+
+a) 
+
+  1.Ba7-d4 bPAd5-a5   2.Bd4-a1 bPAa5*a1[wbVAa4->a6] #
+  add_to_move_generation_stack:      109701
+                     play_move:       80773
+ is_white_king_square_attacked:        3438
+ is_black_king_square_attacked:       75780
+
+b) bSb7  
+
+  1.Sb7-c5 bVAa4-c6   2.Sc5-e4 bVAc6*e4[wbPAd5->c6] #
+  add_to_move_generation_stack:      131437
+                     play_move:       97095
+ is_white_king_square_attacked:        3859
+ is_black_king_square_attacked:       91365
+
+c) +bSb6  
+
+  1.Sb6-c4 bVAa4-b5   2.Sc4-a5 bPAd5*a5[wbVAb5->d5] #
+  add_to_move_generation_stack:      127223
+                     play_move:       74642
+ is_white_king_square_attacked:        2904
+ is_black_king_square_attacked:       63725
+
+d) +bSc8  
+
+  1.Sc8-e7 bPAd5-b5   2.Se7-c6 bVAa4*c6[wbPAb5->a4] #
+  add_to_move_generation_stack:      217580
+                     play_move:      132929
+ is_white_king_square_attacked:        4978
+ is_black_king_square_attacked:      117190
+
+solution finished.
+
+
+last 3 moves of a h=4
+
+           Petko A. Petkov
+     1518, Julia's Fairies 2020
+   Dedicated to Christian Poisson!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   B   .  =R   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -R   .   .   .   6
+|                                   |
+5  -B   .  -P   .   .   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   G   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   K   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                    4 + 6 + 1n
+               Bul h3
+
+a) 
+
+  1.Re6-d6 nRc7*c5 +   2.Ba5-c7 nRc5-c2 +   3.Rb4-b2 Ba7*e3 =
+  add_to_move_generation_stack:   114662162
+                     play_move:    60269579
+ is_white_king_square_attacked:    23774336
+ is_black_king_square_attacked:    43728007
+
+b) nRc7-->g3  
+
+  1.Rb4-f4 nRg3*e3 +   2.Re6-e5 nRe3-e2 +   3.Ba5-d2 Ba7*c5 =
+  add_to_move_generation_stack:    54215912
+                     play_move:    40865672
+ is_white_king_square_attacked:    13453141
+ is_black_king_square_attacked:    27898599
+
+solution finished.
+
+
+
+           Sebastien Luce
+     1514, Julia's Fairies 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -K   .   7
+|                                   |
+6   .  -G   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   G   G   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   G  -G   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         3 + 3
+         Bul b6 e5 f5 e3 f3
+
+  1.bGf3-d3[wbGe3->a7] bGa7-c5[bbGb6->d4]   2.bGd3-g6[wbGf5->h7] bGc5-f5[wbGe5->h8]   3.Kg7-f6 bGh8-h6[wbGh7->h5] +   4.bGd4-g7[bKf6->h8] bGf5-h7[bbGg6->g8] #
+  1.bGf3-d3[wbGe3->c3] bGf5-d5[wbGe5->c5]   2.bGd3-b3[wbGc3->a3] bGc5-a7[bbGb6->b2]   3.Kg7-f7 bGd5-g8[bKf7->a2] +   4.Ka2-a1 bGg8-a2[bbGb3->b1] #
+  add_to_move_generation_stack:   114596134
+                     play_move:    65903242
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:    61605692
+
+solution finished.
+
+
+
+            Vlaicu Crisan
+     1679, Julia's Fairies 2021
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  VA   .   8
+|                                   |
+7  -P  -S   .   .   .  -B   P   .   7
+|                                   |
+6  -K  -P   .  -P   .   .   .   .   6
+|                                   |
+5  -P  -P   .  LI   . -LI   .   .   5
+|                                   |
+4   .   .  -P   .   .   .   .   P   4
+|                                   |
+3   .   .   .   . -LI   .   .   K   3
+|                                   |
+2   .   .   .  -R   .   .   P   S   2
+|                                   |
+1   .   .   .  PA   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                       8 + 12
+         Bul g8 d5 f5 e3 d1
+
+  1.bLId5-b3[bPc4->a2] Rd2-d5   2.bVAg8*d5[bBf7->e6] bLIf5-d7[bBe6->c8]   3.bPAd1*d6[wbVAd5->d3] + bLId7*d3[wbPAd6->d1] #
+  1.bLId5-b3[bPc4->a2] Rd2-d5   2.bVAg8*d5[bBf7->e6] bLIf5-d7[bBe6->c8]   3.bPAd1*d6[wbVAd5->d3] + bLId7*d3[wbPAd6->d2] #
+  1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->g8] #
+  1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->f7] #
+  add_to_move_generation_stack:  2818501305
+                     play_move:   524898205
+ is_white_king_square_attacked:   308765244
+ is_black_king_square_attacked:   169947478
+
+solution finished.
+
+
+
+           Sebastien Luce
+Anda Fairy Planet 2020-21, 1st prize
+     dedicated to Pierre Tritten
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -K  -P  -P   .   .   .   .   .   7
+|                                   |
+6   .   G   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4.5                       2 + 3
+               Bul b6
+
+a) 
+
+  1...bGb6-b4[wKb5->b3]   2.c7-c5 bGb4-d6[bPc5->e7]   3.e7-e6 bGd6-f6[bPe6->a2]   4.b7-b6 bGf6-a6[bPb6->b2]   5.b2-b1=B bGa6-a8[bKa7->a1] #
+  add_to_move_generation_stack:     5875149
+                     play_move:     6029530
+ is_white_king_square_attacked:      562448
+ is_black_king_square_attacked:     5087577
+
+b) shift h8 ==> h5  
+
+  1...bGb3-b5[bPb4->b1=S]   2.Sb1-d2 Kb2-c2   3.Sd2-b3 bGb5-d3[bPc4->a2]   4.Ka4-a5 bGd3-a3[bSb3->d1]   5.Sd1-f2 bGa3-a6[bKa5->a1] #
+  add_to_move_generation_stack:    12731707
+                     play_move:    13614753
+ is_white_king_square_attacked:     1330904
+ is_black_king_square_attacked:    11116701
+
+solution finished.
+
+

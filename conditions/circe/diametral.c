@@ -26,7 +26,12 @@ void circe_diametral_adjust_rebirth_square_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceSquare(context->rebirth_square);
+
   context->rebirth_square = square_h8+square_a1 - context->rebirth_square;
+
+  TraceSquare(context->rebirth_square);
+  TraceEOL();
 
   pipe_dispatch_delegate(si);
 

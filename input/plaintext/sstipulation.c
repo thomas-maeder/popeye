@@ -1222,12 +1222,10 @@ static Side ParseStructuredStip_starter(char *tok)
  */
 char *ParseStructuredStip(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = alloc_proxy_slice();
   Side starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
   stipulation_reset();
@@ -1235,7 +1233,9 @@ char *ParseStructuredStip(char *tok, slice_index start)
   starter = ParseStructuredStip_starter(tok);
   if (starter!=no_side)
   {
+    slice_index const root_slice_hook = alloc_proxy_slice();
     expression_type type;
+
     tok = ReadNextTokStr();
     tok = ParseStructuredStip_expression(tok,start,root_slice_hook,&type,0);
     if (tok==0)
@@ -1245,10 +1245,10 @@ char *ParseStructuredStip(char *tok, slice_index start)
       solving_impose_starter(root_slice_hook,starter);
       move_effect_journal_do_insert_sstipulation(start,root_slice_hook);
     }
-  }
 
-  /* signal to our caller that the stipulation has changed */
-  SLICE_STARTER(root_slice_hook) = no_side;
+    /* signal to our caller that the stipulation has changed */
+    SLICE_STARTER(root_slice_hook) = no_side;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

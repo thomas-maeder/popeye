@@ -1,0 +1,247 @@
+
+            John Beasley
+     British Chess Magazine 1987
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   Q   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 2
+             FuddledMen
+
+   1.Qc7-b6 ! zugzwang.
+      1...Ka8-b7
+          2.Kh1-g1 #
+      1...Ka8-a7
+          2.Kh1-g1 #
+      1...Ka8-b8
+          2.Kh1-g1 #
+
+  add_to_move_generation_stack:         168
+                     play_move:         124
+ is_white_king_square_attacked:          45
+ is_black_king_square_attacked:         127
+
+solution finished.
+
+
+
+   Paul Bissicks & Ronald Turnbull
+           feenschach 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   P   .   .   3
+|                                   |
+2   .   .   .   P   .  -Q   .   .   2
+|                                   |
+1   .   .   .   .   .  -R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+             FuddledMen
+
+  1.Qf2-c5 Kd3-e3   2.Kf5-f4 + d2-d4 #
+  1.Bb6-e3 Kd3-d4   2.Kf5-e5 + d2*e3 #
+  add_to_move_generation_stack:       23348
+                     play_move:       21193
+ is_white_king_square_attacked:        1135
+ is_black_king_square_attacked:       20938
+
+solution finished.
+
+
+
+            Paul Bissicks
+           feenschach 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   .  -B   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#2                         2 + 3
+             FuddledMen
+
+      1...Kh1-g1
+          2.Kf3-f2
+              2...g6-g5 #
+      1...Kh1-h2
+          2.Kf3-g3
+              2...Bf1-h3 #
+              2...Bf1-g2 #
+              2...Bf1-a6 #
+              2...Bf1-b5 #
+              2...Bf1-c4 #
+              2...Bf1-d3 #
+              2...Bf1-e2 #
+              2...g6-g5 #
+      1...g6-g5
+          2.Kf3-f4
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+
+   1.Ra1-a6 ! zugzwang.
+      1...Bf1-h3
+          2.Kf3-g4
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1-g2
+          2.Kf3-e4
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1*a6
+          2.Kf3-e2
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1-b5
+          2.Kf3-e2
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1-c4
+          2.Kf3-e2
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1-d3
+          2.Kf3-e2
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+          2.Kf3-e4
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Bf1-e2
+          2.Kf3-g4
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+              2...g6-g5 #
+      1...Kh1-g1
+          2.Kf3-f2
+              2...Bf1-h3 #
+              2...Bf1-g2 #
+              2...Bf1*a6 #
+              2...Bf1-b5 #
+              2...Bf1-c4 #
+              2...Bf1-d3 #
+              2...Bf1-e2 #
+              2...g6-g5 #
+      1...Kh1-h2
+          2.Kf3-g3
+              2...Bf1-h3 #
+              2...Bf1-g2 #
+              2...Bf1*a6 #
+              2...Bf1-b5 #
+              2...Bf1-c4 #
+              2...Bf1-d3 #
+              2...Bf1-e2 #
+              2...g6-g5 #
+      1...g6-g5
+          2.Kf3-f4
+              2...Bf1-h3 #
+              2...Bf1-g2 #
+              2...Bf1*a6 #
+              2...Bf1-b5 #
+              2...Bf1-c4 #
+              2...Bf1-d3 #
+              2...Bf1-e2 #
+              2...Kh1-g2 #
+              2...Kh1-g1 #
+              2...Kh1-h2 #
+
+  add_to_move_generation_stack:        5002
+                     play_move:        4037
+ is_white_king_square_attacked:        4051
+ is_black_king_square_attacked:         874
+
+solution finished.
+
+
+
+          Maeshima Hiroachi
+ Murfatlar Batumi 2023, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B   .   .   .  -S  -R   8
+|                                   |
+7  -P  -P  -P   .   .  -P  -P  -P   7
+|                                   |
+6   .   .  -P  -K  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -Q   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   S   .   .   3
+|                                   |
+2   P   P   P   P   .   .   P   P   2
+|                                   |
+1   R   S   B   Q   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia7                      14 + 15
+             FuddledMen
+
+  1.e2-e4 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*f2 +   5.Ke1*f2 d7*c6   6.Rh1-f1 Qd8-d4 +   7.Kf2-g1 Ke7-d6 + dia
+  1.e2-e3 e7-e6   2.Bf1-b5 Bf8-c5   3.Sg1-f3 Ke8-e7   4.Bb5-c6 Bc5*e3   5.f2*e3 d7*c6   6.0-0 Qd8-d4   7.e3-e4 Ke7-d6 + dia
+  add_to_move_generation_stack:     7602410
+                     play_move:     7602410
+ is_white_king_square_attacked:      434573
+ is_black_king_square_attacked:      169281
+
+solution finished.
+
+

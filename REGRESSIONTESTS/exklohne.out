@@ -4406,42 +4406,42 @@ Loesung beendet.
 
 a) 
 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
   add_to_move_generation_stack:     1854400
-                     play_move:      670436
+                     play_move:      884097
  is_white_king_square_attacked:      186950
- is_black_king_square_attacked:      670119
+ is_black_king_square_attacked:      883780
 
 b) wKa8-->h8  
 
-  1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL #
   add_to_move_generation_stack:     2247683
-                     play_move:      811887
+                     play_move:     1086148
  is_white_king_square_attacked:      219505
- is_black_king_square_attacked:      811080
+ is_black_king_square_attacked:     1085341
 
 Loesung beendet.
 

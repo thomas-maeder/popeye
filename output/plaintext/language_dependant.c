@@ -280,7 +280,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','l'},   /* Saltador */
     /*158*/ {'a','s'},   /* MaoSauteur */
     /*159*/ {'o','s'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -442,7 +444,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','k'}    /* KontraHamster */
+    /*160*/ {'h','k'},   /* KontraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -604,7 +608,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'e','e'},   /* EagleEquihopper */
+    /*162*/ {'e','n'}    /* EagleNonstopEquihopper */
   }
 };
 
@@ -653,7 +659,9 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "ButEstFin",
   /*34*/  "optionnonpubliee",
   /*35*/  "CoupsVides",
-  /*36*/  "JusquAuCoup"
+  /*36*/  "JusquAuCoup",
+  /*37*/  "TrivialEssaiSupprimer",
+  /*38*/  "MatsEn1"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -692,7 +700,9 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "ZielIstEnde",
   /*34*/  "nichtpublizierteoption",
   /*35*/  "NullZuege",
-  /*36*/  "BisZugnummer"
+  /*36*/  "BisZugnummer",
+  /*37*/  "TrivialeFehlversucheUnterdruecken",
+  /*38*/  "MattsIn1"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -731,7 +741,9 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*33*/  "GoalIsEnd",
   /*34*/  "unpublishedoption",
   /*35*/  "NullMoves",
-  /*36*/  "UpToMoveNumber"
+  /*36*/  "UpToMoveNumber",
+  /*37*/  "TrivialTriesAvoid",
+  /*38*/  "MatesIn1"
   }
 };
 
@@ -961,7 +973,15 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*217*/ "BlancMaxDister",
     /*218*/ "BlancMinDister",
     /*219*/ "SerieCapture",
-    /*220*/ "DarkSide"
+    /*220*/ "DarkSide",
+    /*221*/ "Leffie",
+    /*222*/ "Pepo",
+    /*223*/ "CASTEchecs",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "TransfertPouvoir",
+    /*228*/ "MultiCaptures"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1184,8 +1204,16 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*217*/ "WeisserMaxDister",
     /*218*/ "WeisserMinDister",
     /*219*/ "SerienSchlag",
-    /*220*/ "DarkSide"
-  },{
+    /*220*/ "DarkSide",
+    /*221*/ "Leffie",
+    /*222*/ "Pepo",
+    /*223*/ "CASTSchach",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "KraftTransfer",
+    /*228*/ "MultiCaptures"
+},{
     /* English Condition Names */
     /* 0*/  "Circe",
     /* 1*/  "MirrorCirce",
@@ -1407,7 +1435,15 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*217*/ "WhiteMaxDister",
     /*218*/ "WhiteMinDister",
     /*219*/ "SeriesCapture",
-    /*220*/ "DarkSide"
+    /*220*/ "DarkSide",
+    /*221*/ "Leffie",
+    /*222*/ "Pepo",
+    /*223*/ "CASTChess",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "PowerTransfer",
+    /*228*/ "MultiCaptures"
   }
 };
 
@@ -1476,7 +1512,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Magique",
     "Imprenable",
     "Patrouille",
-    "Frischauf"
+    "Frischauf",
+    "Bul",
+    "Dob"
   },
   {
     /* German */
@@ -1493,7 +1531,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Magisch",
     "Unschlagbar",
     "Patrouille",
-    "Frischauf"
+    "Frischauf",
+    "Bul",
+    "Dob"
   },
   {
     /* English */
@@ -1510,7 +1550,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Magic",
     "Uncapturable",
     "Patrol",
-    "Frischauf"
+    "Frischauf",
+    "Bul",
+    "Dob"
   }
 };
 
@@ -1741,7 +1783,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Volcanique",
     "Parachute",
     "Einstein",
-    "ReversEinstein"
+    "ReversEinstein",
+    "PriseProchaine",
+    "CaseDePrise"
   },{
     /* German */
     "RexInklusive",
@@ -1778,7 +1822,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Vulkan",
     "Fallschirm",
     "Einstein",
-    "ReversesEinstein"
+    "ReversesEinstein",
+    "NaechsterSchlag",
+    "Schlagfeld"
   },{
     /* English */
     "RexInclusive",
@@ -1815,7 +1861,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Volcanic",
     "Parachute",
     "Einstein",
-    "ReversalEinstein"
+    "ReversalEinstein",
+    "WaitCapture",
+    "CaptureSquare"
   }
 };
 
@@ -1960,6 +2008,22 @@ static char const * const BretonVariantTypeString[LanguageCount][BretonVariantCo
   }
 };
 
+char const * const *CASTVariantTypeTab;
+
+static char const * const CASTVariantTypeString[LanguageCount][CASTVariantCount] =
+{
+  {
+    /* French */
+    "Invverse"
+  },{
+    /* German */
+    "Invers"
+  },{
+    /* English */
+    "Inverse"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -1981,6 +2045,7 @@ void output_plaintext_select_language(Language lang)
   ExtraCondTab= &ExtraCondString[lang][0];
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
   BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
+  CASTVariantTypeTab = &CASTVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];

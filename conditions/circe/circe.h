@@ -86,6 +86,16 @@ void circe_reset_variant(circe_variant_type *variant);
  */
 move_effect_journal_index_type circe_find_current_rebirth(void);
 
+/* Determine the classical Circe rebirth square for a captured piece
+ * @param walk_captured walk of the piece
+ * @param sq_capture square where it is captured
+ * @param capturer capturing side
+ * @return rebirth square
+ */
+square circe_regular_rebirth_square(piece_walk_type walk_captured,
+                                    square sq_capture,
+                                    Side capturer);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

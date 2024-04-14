@@ -5,6 +5,7 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
+#include "debugging/assert.h"
 #include "pieces/pieces.h"
 
 piece_walk_type orphanpieces[nr_piece_walks];
@@ -68,7 +69,22 @@ static boolean orphan_find_observation_chain(square sq_target,
     result = false;
   else
   {
-    --being_solved.number_of_pieces[advers(trait[nbply])][Orphan];
+    piece_walk_type const save_walk = get_walk_of_piece_on_square(sq_target);
+
+    TraceWalk(save_walk);
+    TraceEnumerator(Side,trait[nbply]);
+    TraceEOL();
+
+    if (TSTFLAG(being_solved.spec[sq_target],White))
+    {
+      assert(being_solved.number_of_pieces[White][save_walk]>0);
+      --being_solved.number_of_pieces[White][save_walk];
+    }
+    if (TSTFLAG(being_solved.spec[sq_target],Black))
+    {
+      assert(being_solved.number_of_pieces[Black][save_walk]>0);
+      --being_solved.number_of_pieces[Black][save_walk];
+    }
     occupy_square(sq_target,Dummy,being_solved.spec[sq_target]);
 
     {
@@ -77,8 +93,11 @@ static boolean orphan_find_observation_chain(square sq_target,
       result = find_next_orphan_in_chain(sq_target,pos_orphans,orphan_observer);
     }
 
-    occupy_square(sq_target,Orphan,being_solved.spec[sq_target]);
-    ++being_solved.number_of_pieces[advers(trait[nbply])][Orphan];
+    occupy_square(sq_target,save_walk,being_solved.spec[sq_target]);
+    if (TSTFLAG(being_solved.spec[sq_target],White))
+      ++being_solved.number_of_pieces[White][save_walk];
+    if (TSTFLAG(being_solved.spec[sq_target],Black))
+      ++being_solved.number_of_pieces[Black][save_walk];
   }
 
   trait[nbply] = advers(trait[nbply]);
@@ -93,8 +112,10 @@ static boolean orphan_find_observation_chain(square sq_target,
  */
 void orphan_generate_moves(void)
 {
-  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   piece_walk_type const *orphan_observer;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
     if (being_solved.number_of_pieces[White][*orphan_observer]+being_solved.number_of_pieces[Black][*orphan_observer]>0)
@@ -116,7 +137,8 @@ void orphan_generate_moves(void)
 
   move_generation_current_walk = Orphan;
 
-  remove_duplicate_moves_of_single_piece(save_nbcou);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean orphan_check(validator_id evaluate)

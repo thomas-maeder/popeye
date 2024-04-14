@@ -28,7 +28,7 @@ typedef enum
   TooFairyForNeutral                                = 7,
   LeoFamAndOrtho                                    = 8,
   CirceAndDummy                                     = 9,
-  ColourChangeRestricted                            = 10,
+  ColourChangeBulDobRestricted                      = 10,
   CavMajAndKnight                                   = 11,
   RebirthOutside                                    = 12,
   SetAndCheck                                       = 13,
@@ -142,6 +142,7 @@ typedef enum
   InconsistentProofTarget                           = 121,
   InconsistentNullMoves                             = 122,
   IncompatibleWalkChangingElements                  = 123,
+  BulAndDobIncompatible                             = 124,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

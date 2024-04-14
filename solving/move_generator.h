@@ -5,6 +5,7 @@
 #include "solving/ply.h"
 #include "stipulation/slice_type.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/structure_traversal.h"
 #include "pieces/pieces.h"
 #include "solving/machinery/dispatch.h"
 #include "debugging/measure.h"
@@ -81,9 +82,16 @@ void move_generation_branch_insert_slices(slice_index si,
  * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si,
-                                        Side side,
-                                        slice_type type);
+void solving_instrument_move_generation_simple(slice_index si, slice_type type);
+
+/* Instrument move generation for a specific piece with a slice type
+ * @param identifies where to start instrumentation
+ * @param side which side (pass nr_sides for both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void solving_instrument_moves_for_piece_generation(slice_index si,
+                                                   Side side,
+                                                   slice_type type);
 
 /* Reject generated captures
  * @param si identifies the slice
@@ -146,6 +154,24 @@ boolean observing_move_generator_is_in_check(slice_index si,
  *            (with n denominating solve_nr_remaining)
  */
 void move_generator_solve(slice_index si);
+
+/* Callback for solving_instrument_move_generation
+ * @param si refers to the STGeneratingMoves slice currently visited
+ * @param st the traversal which currently visits slice si; nested traversals
+ *           starting at si should be initialized with *st's context
+ */
+typedef void move_generation_instrumentation_callback(slice_index si,
+                                                      stip_structure_traversal *st,
+                                                      void *param);
+
+/* Instrument the solving machinery
+ * @param si identifies root the solving machinery
+ * @param callback called back at each STGeneratingMoves slice which is not
+ *                 deactivated by a STSkipMoveGeneration slice
+ */
+void solving_instrument_move_generation(slice_index si,
+                                        move_generation_instrumentation_callback *callback,
+                                        void *param);
 
 /* Instrument the solving machinery with move generator slices
  * @param si identifies root the solving machinery
@@ -244,6 +270,11 @@ void pop_all(void);
  * @param start start position of range where to look for duplicates
  */
 void remove_duplicate_moves_of_single_piece(numecoup start);
+
+/* Filter out duplicate moves
+ * @param identifies filter slice
+ */
+void duplicate_moves_per_piece_remover(slice_index si);
 
 /* Priorise a move in the move generation stack
  * @param priorised index in the move generation stack of the move to be

@@ -41,7 +41,7 @@ STRIPTARGET=i386-mingw32msvc-strip
 ARCHIVE_INDEXER = i386-mingw32msvc-ranlib
 
 
-# Platform spedific file name suffixes
+# Platform-specific file name suffixes
 # ====================================
 
 # suffix for objects

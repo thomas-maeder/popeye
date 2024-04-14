@@ -13,12 +13,14 @@
 #include "solving/observation.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
+#include "conditions/bicaptures.h"
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/dister.h"
 #include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
@@ -39,6 +41,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/leffie.h"
 #include "conditions/masand.h"
 #include "conditions/disparate.h"
 #include "conditions/dynasty.h"
@@ -125,6 +128,11 @@
 #include "conditions/must_capture.h"
 #include "conditions/lostpieces.h"
 #include "conditions/series_capture.h"
+#include "conditions/pepo.h"
+#include "conditions/cast.h"
+#include "conditions/multicaptures.h"
+#include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -168,6 +176,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/attributes/bul.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
@@ -326,11 +335,17 @@ void build_solvers1(slice_index si)
   if (CondFlag[isardam])
     solving_insert_isardam_legality_testers(si);
 
+  if (CondFlag[leffie])
+    solving_insert_leffie_legality_testers(si);
+
   if (CondFlag[patience])
     solving_insert_patience_chess(si);
 
   if (TSTFLAG(some_pieces_flags,Paralysing))
     paralysing_initialise_solving(si);
+
+  if (CondFlag[pepo])
+    pepo_initialise_solving(si);
 
   if (CondFlag[strictSAT])
     strictsat_initialise_solving(si);
@@ -400,7 +415,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ghostchess])
     solving_insert_ghost_chess(si);
 
-  if (kobul_who[White] || kobul_who[Black])
+  if (CondFlag[kobulkings])
     solving_insert_kobul_king_substitutors(si);
 
   if (CondFlag[snekchess])
@@ -500,6 +515,20 @@ void build_solvers1(slice_index si)
       solving_initialise_marscirce(si);
   }
 
+  if (CondFlag[cast])
+  {
+    if (cast_mode==cast_regular)
+      cast_initialise_solving(si);
+    else
+      cast_inverse_initialise_solving(si);
+  }
+
+  if (CondFlag[transmissionmenace])
+    transmissionmenace_initialise_solving(si);
+
+  if (CondFlag[powertransfer])
+    powertransfer_initialise_solving(si);
+
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);
 
@@ -511,6 +540,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[series_capture])
     solving_instrument_series_capture(si);
+
+  if (TSTFLAG(some_pieces_flags,Bul) || TSTFLAG(some_pieces_flags,Dob))
+    solving_insert_bul(si);
 
   promotion_insert_slice_sequence(si,STMove,&move_insert_slices);
   promotion_instrument_solving_default(si);
@@ -671,7 +703,8 @@ void build_solvers1(slice_index si)
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     solving_insert_try_solvers(si);
 
-  solving_insert_trivial_variation_filters(si);
+  if (!OptFlag[matesin1])
+    solving_insert_trivial_variation_filters(si);
 
   solving_insert_min_length(si);
 
@@ -683,6 +716,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[lostpieces])
     solving_insert_lostpieces(si);
+
+  if (CondFlag[bicaptures])
+    solving_insert_bicaptures(si);
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
@@ -769,6 +805,9 @@ void build_solvers2(slice_index si)
   if (CondFlag[blrefl_king])
     reflective_kings_initialise_solving(si,Black);
 
+  if (CondFlag[multicaptures])
+    multicaptures_initialise_solving(si);
+
   if (CondFlag[annan])
     annan_initialise_solving(si);
   if (CondFlag[nanna])
@@ -805,6 +844,9 @@ void build_solvers2(slice_index si)
     backtoback_initialise_solving(si);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(si);
+
+  if (CondFlag[fuddled_men])
+    fuddled_men_initialise_solving(si);
 
   goal_kiss_init_piece_id(si);
 

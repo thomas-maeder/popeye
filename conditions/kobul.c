@@ -12,7 +12,7 @@
 
 #include "debugging/assert.h"
 
-boolean kobul_who[nr_sides];
+Side kobul_who;
 
 enum
 {
@@ -26,7 +26,7 @@ static void substitute(Side trait_ply)
   square const king_pos = being_solved.king_square[advers(trait_ply)];
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && kobul_who[advers(trait_ply)]
+      && (kobul_who==nr_sides || kobul_who==advers(trait_ply))
       && king_pos!=initsquare)
   {
     piece_walk_type const pi_captured = move_effect_journal[capture].u.piece_removal.walk;

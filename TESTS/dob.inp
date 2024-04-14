@@ -1,0 +1,49 @@
+begin
+
+prot dob.tst
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white ka7 rd7 sd5f8 pc7 ga6 white Dob ge6
+       black kc6 qa5 rc5 sg8 pb4b5e5g5 gg4
+       neutral pe7g6
+stipulation #1
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white kf7 be5g8 pd3g3g4 white Dob gf6
+       black kh8 ne8
+       neutral qf1
+stipulation #2
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white kg5 rf7 bd7 se3 pb4c6e7f4g4 white Dob nlb1
+       black kd6 sc8e8 pb5b7c7d2f5h3
+stipulation #2
+option vari
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white ka1 pe5e7
+       black kh8 se6f5 pe4g7 gg2h5 black Dob leg5
+stipulation h=3
+
+next
+
+author Petko A. Petkov
+origin ANDA Fairy Planet, 2020
+pieces white kf3 rh6 bc5 pe4f5f6 white Dob PAh5
+       black ke5 ph7 black Dob VAd8
+stipulation #2
+option vari
+
+end
+

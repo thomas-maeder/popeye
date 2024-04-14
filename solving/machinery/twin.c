@@ -15,6 +15,7 @@
 #include "conditions/alphabetic.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/blackchecks.h"
+#include "conditions/cast.h"
 #include "conditions/circe/circe.h"
 #include "conditions/dister.h"
 #include "conditions/duellists.h"
@@ -38,6 +39,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "conditions/multicaptures.h"
 #include "options/options.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
@@ -326,24 +328,11 @@ static void initialise_piece_flags(void)
     for (bnp = boardnum; *bnp; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
         Flags spec = being_solved.spec[*bnp];
         SETFLAGMASK(spec,all_pieces_flags);
         move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
 
         SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
-
-        if (TSTFLAG(spec,ColourChange)
-            && !(is_simplehopper(p)
-                 || is_chineserider(p)
-                 || is_lion(p)
-                 || p==ContraGras))
-        {
-          /* relies on imitators already having been implemented */
-          CLRFLAG(spec,ColourChange);
-          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
-          output_plaintext_error_message(ColourChangeRestricted);
-        }
       }
   }
 
@@ -739,6 +728,33 @@ void verify_position(slice_index si)
   if (CondFlag[republican] && !republican_verifie_position(si))
     return;
 
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
+      {
+        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
+        Flags spec = being_solved.spec[*bnp];
+        if ((TSTFLAG(spec,ColourChange) || TSTFLAG(spec,Bul) || TSTFLAG(spec,Dob))
+            && !(is_simplehopper(p)
+                 || is_chineserider(p)
+                 || is_lion(p)
+                 || p==ContraGras))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(ColourChangeBulDobRestricted);
+          return;
+        }
+
+        if (TSTFLAG(spec,Bul) && TSTFLAG(spec,Dob))
+        {
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
+          output_plaintext_verifie_message(BulAndDobIncompatible);
+          return;
+        }
+      }
+  }
+
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || circe_variant.is_rex_inclusive
@@ -808,6 +824,54 @@ void verify_position(slice_index si)
     }
   }
 
+  if (piece_walk_may_exist[ReflectBishop]
+      || piece_walk_may_exist[Archbishop]
+      || piece_walk_may_exist[Saltador]
+      || piece_walk_may_exist[BouncyKnight]
+      || piece_walk_may_exist[BouncyNightrider]
+      || piece_walk_may_exist[Friend]
+      || piece_walk_may_exist[Orphan]
+      || piece_walk_may_exist[DoubleGras]
+      || piece_walk_may_exist[DoubleRookHopper]
+      || piece_walk_may_exist[DoubleBishopper]
+      || piece_walk_may_exist[RadialKnight]
+      || piece_walk_may_exist[Treehopper]
+      || piece_walk_may_exist[GreaterTreehopper]
+      || piece_walk_may_exist[Leafhopper]
+      || piece_walk_may_exist[GreaterLeafhopper]
+      || piece_walk_may_exist[Rose]
+      || piece_walk_may_exist[RoseHopper]
+      || piece_walk_may_exist[RoseLion]
+      || piece_walk_may_exist[Rao]
+      || piece_walk_may_exist[SpiralSpringer]
+      || piece_walk_may_exist[DiagonalSpiralSpringer]
+      || piece_walk_may_exist[SpiralSpringer11]
+      || piece_walk_may_exist[SpiralSpringer20]
+      || piece_walk_may_exist[SpiralSpringer33]
+      || piece_walk_may_exist[SpiralSpringer40]
+      || piece_walk_may_exist[BoyScout]
+      || piece_walk_may_exist[GirlScout]
+      || piece_walk_may_exist[Quintessence]
+      || ((!(TSTFLAG(some_pieces_flags,ColourChange)
+             || TSTFLAG(some_pieces_flags,Bul)
+             || TSTFLAG(some_pieces_flags,Dob)
+            )
+          )
+          && (piece_walk_may_exist[Elk]
+              || piece_walk_may_exist[RookMoose]
+              || piece_walk_may_exist[BishopMoose]
+              || piece_walk_may_exist[Eagle]
+              || piece_walk_may_exist[RookEagle]
+              || piece_walk_may_exist[BishopEagle]
+              || piece_walk_may_exist[Sparrow]
+              || piece_walk_may_exist[RookSparrow]
+              || piece_walk_may_exist[BishopSparrow]
+              || piece_walk_may_exist[Marguerite])
+      )
+      || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+      || CondFlag[whtrans_king] || CondFlag[bltrans_king])
+    solving_instrument_move_generation_simple(si,STDuplicateMovesPerPieceRemover);
+
   if (CondFlag[lostpieces])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -818,6 +882,9 @@ void verify_position(slice_index si)
   }
 
   if (CondFlag[immun] && immune_variant.is_rex_inclusive)
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[fuddled_men])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[imitators])
@@ -1275,7 +1342,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam] || CondFlag[partialparalysis])
+  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam] || CondFlag[leffie] || CondFlag[partialparalysis])
   {
     if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
     {
@@ -1422,8 +1489,14 @@ void verify_position(slice_index si)
       || CondFlag[SAT]
       || CondFlag[strictSAT]
       || CondFlag[shieldedkings]
-      || CondFlag[lesemajeste])
+      || CondFlag[lesemajeste]
+      || CondFlag[pepo]
+      || (CondFlag[cast] && cast_mode==cast_inverse)
+      || CondFlag[fuddled_men])
     king_capture_avoiders_avoid_opponent();
+
+  if (CondFlag[bicaptures])
+    king_capture_avoiders_avoid_own();
 
   if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
@@ -1633,7 +1706,7 @@ void verify_position(slice_index si)
     return;
   }
 
-  if (TSTFLAG(some_pieces_flags, ColourChange))
+  if (TSTFLAG(some_pieces_flags, ColourChange) || TSTFLAG(some_pieces_flags,Bul) || TSTFLAG(some_pieces_flags,Dob))
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[sentinelles])
@@ -1759,6 +1832,7 @@ void verify_position(slice_index si)
     return;
 
   if (CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -1785,6 +1859,7 @@ void verify_position(slice_index si)
       || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
       || CondFlag[antimars]
@@ -1808,6 +1883,7 @@ void verify_position(slice_index si)
       || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
       || CondFlag[antimars]
@@ -1863,6 +1939,20 @@ void verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[cast])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
+  if (CondFlag[multicaptures])
+  {
+    if (multicaptures_who==nr_sides || multicaptures_who==White)
+      disable_orthodox_mating_move_optimisation(White);
+    if (multicaptures_who==nr_sides || multicaptures_who==Black)
+      disable_orthodox_mating_move_optimisation(Black);
+  }
+
+  if (CondFlag[transmissionmenace])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
@@ -1871,8 +1961,11 @@ void verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
@@ -1882,8 +1975,11 @@ void verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
+      || CondFlag[leffie]
       || CondFlag[ohneschach]
-      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */
+      || TSTFLAG(some_pieces_flags,Bul)
+      || TSTFLAG(some_pieces_flags,Dob))
     disable_killer_move_optimisation(White);
 
   if (OptFlag[intelligent])

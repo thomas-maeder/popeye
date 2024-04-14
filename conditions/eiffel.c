@@ -50,14 +50,18 @@ static piece_walk_type get_paralyser(piece_walk_type p)
   return result;
 }
 
-static boolean is_paralysed(numecoup n)
+/* Determine whether a particular piece is observed
+ * @param pos position of the piece
+ * @return true iff the piece occupying square pos is observed by the opponent
+ */
+boolean eiffel_is_piece_observed(square pos)
 {
-  square const sq_departure = move_generation_stack[n].departure;
-  piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
+  piece_walk_type const p = get_walk_of_piece_on_square(pos);
   boolean result = false;
   piece_walk_type eiffel_piece;
 
   TraceFunctionEntry(__func__);
+  TraceSquare(pos);
   TraceFunctionParamListEnd();
 
   eiffel_piece = get_paralyser(p);
@@ -68,13 +72,29 @@ static boolean is_paralysed(numecoup n)
     if (being_solved.number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       siblingply(eiffel_side);
-      push_observation_target(sq_departure);
+      push_observation_target(pos);
       observing_walk[nbply] = eiffel_piece;
       result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
                                                        EVALUATE(observation_geometry));
       finply();
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_paralysed(numecoup n)
+{
+  square const sq_departure = move_generation_stack[n].departure;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = eiffel_is_piece_observed(sq_departure);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -126,7 +146,7 @@ void eiffel_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STEiffelMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STEiffelMovesForPieceGenerator);
 
   stip_instrument_observer_validation(si,nr_sides,STEiffelMovesForPieceGenerator);
 
