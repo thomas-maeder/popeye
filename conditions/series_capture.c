@@ -3,6 +3,7 @@
 #include "position/effects/piece_removal.h"
 #include "position/effects/piece_movement.h"
 #include "position/effects/utils.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -194,7 +195,10 @@ void series_capture_ply_rewinder_solve(slice_index si)
 
   assert(nbply>=save_nbply);
   while (nbply>save_nbply)
+  {
+    en_passant_top[nbply-1] = en_passant_top[nbply];
     finply();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

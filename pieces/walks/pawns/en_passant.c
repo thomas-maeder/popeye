@@ -1,7 +1,6 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/walks/classification.h"
-#include "pieces/attributes/total_invisible/replay_fleshed_out.h"
 #include "position/effects/piece_movement.h"
 #include "position/effects/piece_removal.h"
 #include "position/effects/utils.h"
@@ -172,7 +171,6 @@ void move_effect_journal_do_remember_ep(square s)
   TraceFunctionParamListEnd();
 
   entry->u.ep_capture_potential.capture_square = s;
-  entry->u.ep_capture_potential.ply = nbply;
 
   ++en_passant_top[nbply];
   TraceValue("%u",nbply);
@@ -192,15 +190,7 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",entry->u.ep_capture_potential.ply);
-  TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
-  TraceEOL();
-  assert(entry->u.ep_capture_potential.ply>=nbply
-         || (total_invisible_ply_replayed!=ply_nil
-             && entry->u.ep_capture_potential.ply>=total_invisible_ply_replayed));
-  assert(en_passant_was_multistep_played(entry->u.ep_capture_potential.ply));
-  --en_passant_top[entry->u.ep_capture_potential.ply];
+  --en_passant_top[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -215,15 +205,8 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u",entry->u.ep_capture_potential.ply);
-  TraceValue("%u",en_passant_top[entry->u.ep_capture_potential.ply]);
-  TraceEOL();
-  assert(entry->u.ep_capture_potential.ply>=nbply
-         || (total_invisible_ply_replayed!=ply_nil
-             && entry->u.ep_capture_potential.ply>=total_invisible_ply_replayed));
-  ++en_passant_top[entry->u.ep_capture_potential.ply];
-  en_passant_multistep_over[en_passant_top[entry->u.ep_capture_potential.ply]] = s;
+  ++en_passant_top[nbply];
+  en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
