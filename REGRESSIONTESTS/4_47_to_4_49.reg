@@ -499,10 +499,10 @@ option start in intelligent mode
 1 potential positions in 1+7
   1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 #
 15 potential positions in 1+8
-  add_to_move_generation_stack:       68202
-                     play_move:       68202
- is_white_king_square_attacked:        4103
- is_black_king_square_attacked:        4597
+  add_to_move_generation_stack:       70149
+                     play_move:       70149
+ is_white_king_square_attacked:        4203
+ is_black_king_square_attacked:        4713
 
 solution finished.
 
