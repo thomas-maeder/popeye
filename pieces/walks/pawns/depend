@@ -484,9 +484,6 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
   solving/temporary_hacks.h solving/fork.h pieces/walks/hunters.h \
   position/position.h position/color.h position/color.enum.h \
   position/color.enum pieces/walks/classification.h \
-  pieces/attributes/total_invisible/replay_fleshed_out.h \
-  pieces/attributes/total_invisible.h \
-  pieces/attributes/total_invisible/goal_validation.h \
   position/effects/piece_movement.h position/effects/piece_removal.h \
   position/effects/utils.h solving/move_generator.h \
   stipulation/structure_traversal.h stipulation/slice.h \
@@ -569,12 +566,6 @@ position/color.enum.h:
 position/color.enum:
 
 pieces/walks/classification.h:
-
-pieces/attributes/total_invisible/replay_fleshed_out.h:
-
-pieces/attributes/total_invisible.h:
-
-pieces/attributes/total_invisible/goal_validation.h:
 
 position/effects/piece_movement.h:
 
