@@ -470,10 +470,10 @@ solution finished.
 
   1.c2-c1=R   2.Rc1-g1   3.Rg1-g2   4.Rg2*f2   5.Rf2-a2   6.Ra2-a7 Qh2-a2 #
   1.c2-c1=B   2.Bc1-f4   3.Bf4-g3   4.Bg3*f2   5.Bf2-d4   6.Bd4-h8 Qh2-b2 #
-  add_to_move_generation_stack:      538448
-                     play_move:      147096
- is_white_king_square_attacked:       26735
- is_black_king_square_attacked:      147096
+  add_to_move_generation_stack:      539336
+                     play_move:      147245
+ is_white_king_square_attacked:       26746
+ is_black_king_square_attacked:      147245
 
 solution finished.
 

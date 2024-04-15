@@ -2111,10 +2111,10 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
   1.Kc1-d1   2.Bc2-b1   3.Kd1-c1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 =
-  add_to_move_generation_stack:       11839
-                     play_move:        6607
- is_white_king_square_attacked:        2159
- is_black_king_square_attacked:        6180
+  add_to_move_generation_stack:       14825
+                     play_move:        8603
+ is_white_king_square_attacked:        2787
+ is_black_king_square_attacked:        8050
 Partial solution
 
 

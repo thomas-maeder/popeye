@@ -89,7 +89,7 @@ solution finished.
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##!
   add_to_move_generation_stack:        2250
                      play_move:        1914
- is_white_king_square_attacked:        1360
+ is_white_king_square_attacked:        1363
  is_black_king_square_attacked:        1023
 
 solution finished.

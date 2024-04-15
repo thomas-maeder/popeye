@@ -121,7 +121,9 @@
 #include "platform/timer.h"
 #endif
 
-unsigned long hash_max_number_storable_positions = ULONG_MAX;
+#if defined(FXF)
+unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
+#endif
 
 typedef unsigned int hash_value_type;
 
@@ -958,18 +960,25 @@ static void compresshash (void)
   TraceValue("%lu",targetKeyCount);
   TraceEOL();
 
+#if defined(TESTHASH)
+  puts("\n before compression:");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
+  fxfInfo(stdout);
+#endif /*FXF*/
+
   while (true)
   {
     dhtElement const *he;
 
 #if defined(TESTHASH)
     unsigned long nrElementsVisitedInIteration = 0;
+    printf("key count: %lu\n",dhtKeyCount(pyhash));
     printf("starting iteration: minimalElementValueAfterCompression: %u\n",
            minimalElementValueAfterCompression);
     fflush(stdout);
 #endif  /* TESTHASH */
 
-#if defined(TESTHASH)    
+#if defined(TESTHASH)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
@@ -1059,6 +1068,7 @@ static void compresshash (void)
   putchar('\n');
 #if defined(FXF)
   puts("\n after compression:");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
   fxfInfo(stdout);
 #endif /*FXF*/
 #endif /*TESTHASH*/
@@ -1176,12 +1186,12 @@ static unsigned int estimateNumberOfHoles(void)
 }
 
 static void ProofSmallEncodePiece(byte **bp,
-                                  int row, int col,
+                                  unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags,
                                   boolean *even)
 {
   Side const side =  TSTFLAG(flags,White) ? White : Black;
-  byte encoded = p;
+  byte encoded = (byte)p;
   assert(!is_piece_neutral(flags));
   assert(p < (1 << black_bit));
   if (side==Black)
@@ -1196,11 +1206,203 @@ static void ProofSmallEncodePiece(byte **bp,
   *even = !*even;
 }
 
+static byte *CommonEncode(byte *bp,
+                          stip_length_type min_length,
+                          stip_length_type validity_value)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[messigny])
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    if (move_effect_journal[movement].type==move_effect_piece_exchange
+        && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
+    {
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.to - square_a1);
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
+    }
+    else
+      *bp++ = (byte)UCHAR_MAX;
+  }
+
+  if (CondFlag[duellist])
+  {
+    *bp++ = (byte)(duellists[White] - square_a1);
+    *bp++ = (byte)(duellists[Black] - square_a1);
+  }
+
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
+  {
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+      *bp++ = (byte)(sq_departure-square_a1);
+  }
+
+  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
+      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
+  {
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      enum { nr_squares = nr_rows_on_board*nr_files_on_board };
+      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
+    }
+  }
+
+  if (CondFlag[imitators])
+  {
+    unsigned int imi_idx;
+
+    /* The number of imitators has to be coded too to avoid
+     * ambiguities.
+     */
+    *bp++ = (byte)being_solved.number_of_imitators;
+    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
+      *bp++ = (byte)(being_solved.isquare[imi_idx]-square_a1);
+  }
+
+  if (OptFlag[nontrivial])
+    *bp++ = (byte)(max_nr_nontrivial);
+
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+    {
+      /* a piece has been captured and can be reborn */
+      square const from = move_effect_journal[capture].u.piece_removal.on;
+      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
+
+      *bp++ = (byte)(from-square_a1);
+      if (one_byte_hash)
+        *bp++ = (byte)(removedspec) + (byte)(piece_nbr[removed] << (CHAR_BIT/2));
+      else
+      {
+        *bp++ = (byte)removed;
+        *bp++ = (byte)(removedspec>>CHAR_BIT);
+        *bp++ = (byte)(removedspec&ByteMask);
+      }
+    }
+    else
+      *bp++ = (byte)0;
+  }
+
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
+  {
+    ply ply_last_capture;
+
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",move_effect_journal[capture].type);
+    TraceEOL();
+
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+      ply_last_capture = nbply;
+    else
+      ply_last_capture = find_last_capture();
+
+    if (ply_last_capture!=ply_nil)
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+      if (one_byte_hash)
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (byte)(piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
+      else
+      {
+        unsigned int i;
+        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.walk;
+        for (i = 0; i<bytes_per_spec; i++)
+          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
+      }
+
+      {
+        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
+        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
+      }
+    }
+  }
+
+  if (min_length>slack_length+1)
+  {
+    assert(validity_value<=(1<<2*CHAR_BIT));
+    *bp++ = (byte)(validity_value);
+    *bp++ = (byte)(validity_value>>CHAR_BIT);
+  }
+
+  {
+    unsigned int i;
+
+    for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
+      *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
+  }
+
+  *bp++ = (byte)being_solved.castling_rights;     /* Castling_Flag */
+
+  if (CondFlag[BGL]) {
+    memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
+    bp += sizeof BGL_values[White];
+    memcpy(bp, &BGL_values[Black], sizeof BGL_values[Black]);
+    bp += sizeof BGL_values[Black];
+  }
+
+  if (CondFlag[disparate])
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
+    *bp++ = (byte)trait[nbply];
+  }
+
+  if (CondFlag[fuddled_men])
+  {
+    memcpy(bp, &fuddled, sizeof fuddled);
+    bp += sizeof fuddled;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+  return bp;
+} /* CommonEncode */
+
+static byte *SmallEncodePiece(byte *bp,
+                              byte row, byte col,
+                              piece_walk_type pienam, Flags pspec)
+{
+  *bp++= (byte)((row<<(CHAR_BIT/2))+col);
+  if (one_byte_hash)
+    *bp++ = (byte)pspec + (byte)(piece_nbr[pienam] << (CHAR_BIT/2));
+  else
+  {
+    unsigned int i;
+    *bp++ = (byte)pienam;
+    for (i = 0; i<bytes_per_spec; i++)
+      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+  }
+
+  return bp;
+}
+
 static void ProofLargeEncodePiece(byte **bp,
                                   unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
-  **bp = p;
+  **bp = (byte)p;
   ++*bp;
 
   **bp = flags&COLOURFLAGS;
@@ -1250,8 +1452,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
       square s = (underworld[gi].on
                   - nr_of_slack_rows_below_board*onerow
                   - nr_of_slack_files_left_of_board);
-      unsigned int const row = s/onerow;
-      unsigned int const col = s%onerow;
+      byte const row = (byte)(s/onerow);
+      byte const col = (byte)(s%onerow);
       bp = SmallEncodePiece(bp,
                             row,col,
                             underworld[gi].walk,underworld[gi].flags);
@@ -1389,189 +1591,16 @@ static unsigned int TellSmallEncodePosLeng(void)
   return result;
 } /* TellSmallEncodePosLeng */
 
-byte *CommonEncode(byte *bp,
-                   stip_length_type min_length,
-                   stip_length_type validity_value)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[messigny])
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    if (move_effect_journal[movement].type==move_effect_piece_exchange
-        && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
-    {
-      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.to - square_a1);
-      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
-    }
-    else
-      *bp++ = (byte)UCHAR_MAX;
-  }
-
-  if (CondFlag[duellist])
-  {
-    *bp++ = (byte)(duellists[White] - square_a1);
-    *bp++ = (byte)(duellists[Black] - square_a1);
-  }
-
-  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-  {
-    square const sq_departure = move_effect_journal_get_departure_square(nbply);
-    if (sq_departure==initsquare)
-      *bp++ = (byte)UCHAR_MAX;
-    else
-      *bp++ = (byte)(sq_departure-square_a1);
-  }
-
-  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
-      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
-  {
-    square const sq_departure = move_effect_journal_get_departure_square(nbply);
-    if (sq_departure==initsquare)
-      *bp++ = (byte)UCHAR_MAX;
-    else
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-      enum { nr_squares = nr_rows_on_board*nr_files_on_board };
-      *bp++= (byte)(sq_num(sq_departure)-sq_num(sq_arrival)+nr_squares);
-    }
-  }
-
-  if (CondFlag[imitators])
-  {
-    unsigned int imi_idx;
-
-    /* The number of imitators has to be coded too to avoid
-     * ambiguities.
-     */
-    *bp++ = (byte)being_solved.number_of_imitators;
-    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
-      *bp++ = (byte)(being_solved.isquare[imi_idx]-square_a1);
-  }
-
-  if (OptFlag[nontrivial])
-    *bp++ = (byte)(max_nr_nontrivial);
-
-  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    if (move_effect_journal[capture].type==move_effect_piece_removal)
-    {
-      /* a piece has been captured and can be reborn */
-      square const from = move_effect_journal[capture].u.piece_removal.on;
-      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
-      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
-
-      *bp++ = (byte)(from-square_a1);
-      if (one_byte_hash)
-        *bp++ = (byte)(removedspec) + (piece_nbr[removed] << (CHAR_BIT/2));
-      else
-      {
-        *bp++ = removed;
-        *bp++ = (byte)(removedspec>>CHAR_BIT);
-        *bp++ = (byte)(removedspec&ByteMask);
-      }
-    }
-    else
-      *bp++ = (byte)0;
-  }
-
-  if (circe_variant.relevant_capture==circe_relevant_capture_lastcapture)
-  {
-    ply ply_last_capture;
-
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-    TraceValue("%u",nbply);
-    TraceValue("%u",move_effect_journal[capture].type);
-    TraceEOL();
-
-    if (move_effect_journal[capture].type==move_effect_piece_removal)
-      ply_last_capture = nbply;
-    else
-      ply_last_capture = find_last_capture();
-
-    if (ply_last_capture!=ply_nil)
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[ply_last_capture];
-      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-
-      if (one_byte_hash)
-        *bp++ = (byte)move_effect_journal[capture].u.piece_removal.flags + (piece_nbr[move_effect_journal[capture].u.piece_removal.walk] << (CHAR_BIT/2));
-      else
-      {
-        unsigned int i;
-        *bp++ = move_effect_journal[capture].u.piece_removal.walk;
-        for (i = 0; i<bytes_per_spec; i++)
-          *bp++ = (byte)((move_effect_journal[capture].u.piece_removal.flags>>(CHAR_BIT*i)) & ByteMask);
-      }
-
-      {
-        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
-        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
-        *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
-      }
-    }
-  }
-
-  if (min_length>slack_length+1)
-  {
-    assert(validity_value<=(1<<2*CHAR_BIT));
-    *bp++ = (byte)(validity_value);
-    *bp++ = (byte)(validity_value>>CHAR_BIT);
-  }
-
-  {
-    unsigned int i;
-
-    for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
-      *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
-  }
-
-  *bp++ = being_solved.castling_rights;     /* Castling_Flag */
-
-  if (CondFlag[BGL]) {
-    memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
-    bp += sizeof BGL_values[White];
-    memcpy(bp, &BGL_values[Black], sizeof BGL_values[Black]);
-    bp += sizeof BGL_values[Black];
-  }
-
-  if (CondFlag[disparate])
-  {
-    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
-    *bp++ = trait[nbply];
-  }
-
-  if (CondFlag[fuddled_men])
-  {
-    memcpy(bp, &fuddled, sizeof fuddled);
-    bp += sizeof fuddled;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-  return bp;
-} /* CommonEncode */
-
 static byte *LargeEncodePiece(byte *bp, byte *position,
                               int row, int col,
                               piece_walk_type pienam, Flags pspec)
 {
   if (one_byte_hash)
-    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + (byte)(piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
-    *bp++ = pienam;
+    *bp++ = (byte)pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
@@ -1638,32 +1667,14 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionResultEnd();
 } /* LargeEncode */
 
-byte *SmallEncodePiece(byte *bp,
-                       int row, int col,
-                       piece_walk_type pienam, Flags pspec)
-{
-  *bp++= (byte)((row<<(CHAR_BIT/2))+col);
-  if (one_byte_hash)
-    *bp++ = (byte)pspec + (piece_nbr[pienam] << (CHAR_BIT/2));
-  else
-  {
-    unsigned int i;
-    *bp++ = pienam;
-    for (i = 0; i<bytes_per_spec; i++)
-      *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
-  }
-
-  return bp;
-}
-
 static void SmallEncode(stip_length_type min_length,
                         stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
   square a_square = square_a1;
-  int row;
-  int col;
+  byte row;
+  byte col;
   underworld_index_type gi;
 
   TraceFunctionEntry(__func__);
@@ -1685,8 +1696,8 @@ static void SmallEncode(stip_length_type min_length,
     square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
-    row = s/onerow;
-    col = s%onerow;
+    byte const row = (byte)(s/onerow);
+    byte const col = (byte)(s%onerow);
     bp = SmallEncodePiece(bp,
                           row,col,
                           underworld[gi].walk,underworld[gi].flags);
@@ -1741,6 +1752,10 @@ static void init_elements(hashElement_union_t *hue)
   TraceFunctionResultEnd();
 }
 
+#if defined(TESTHASH)
+static unsigned long allocCounter = 0;
+#endif
+
 /* (attempt to) allocate a hash table element - compress the current
  * hash table if necessary; exit()s if allocation is not possible
  * in spite of compression
@@ -1772,6 +1787,18 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
     else
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
   }
+
+#if defined(FXF)
+#if defined(TESTHASH)
+  if (++allocCounter==10000000)
+  {
+    allocCounter = 0;
+    puts("\n allocDHTelement():");
+    printf("key count: %lu\n",dhtKeyCount(pyhash));
+    fxfInfo(stdout);
+  }
+#endif
+#endif /*FXF*/
 
   if (result==dhtNilElement)
   {
@@ -1860,7 +1887,11 @@ static boolean is_proofgame(slice_index si)
  */
 boolean is_hashtable_allocated(void)
 {
+#if defined(FXF)
   return fxfInitialised();
+#else
+  return hashtable_kilos>0;
+#endif
 }
 
 /* Initialise the hashing machinery for the current stipulation
@@ -1927,11 +1958,17 @@ static void inithash(slice_index si)
 
   bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 
+#if defined(TESTHASH)
+  printf("one_byte_hash:%u bytes_per_piece:%u\n",one_byte_hash,bytes_per_piece);
+#endif
+
   if (is_proofgame(si))
   {
     encode = ProofEncode;
-    if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-      hash_max_number_storable_positions= hashtable_kilos/(24+sizeof(char *)+1);
+#if defined(FXF)
+    if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+      hash_max_kilo_storable_positions= hashtable_kilos/(24+sizeof(char *)+1);
+#endif
   }
   else
   {
@@ -1940,25 +1977,29 @@ static void inithash(slice_index si)
     if (Small<=Large)
     {
       encode = SmallEncode;
-      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-        hash_max_number_storable_positions= hashtable_kilos/(Small+sizeof(char *)+1);
+#if defined(FXF)
+      if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+        hash_max_kilo_storable_positions= hashtable_kilos/(Small+sizeof(char *)+1);
+#endif
     }
     else
     {
       encode = LargeEncode;
-      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
-        hash_max_number_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
-    }
+#if defined(FXF)
+
+      if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
+        hash_max_kilo_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
+#endif
+      }
   }
 
 #if defined(FXF)
-  ifTESTHASH(printf("MaxPositions: %lu\n", hash_max_number_storable_positions));
   assert(hashtable_kilos/1024<UINT_MAX);
-  ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
-                    (unsigned int)(hashtable_kilos/1024)));
+  ifTESTHASH(printf("hashtable size:    %7u KB\n",
+                    (unsigned int)(hashtable_kilos)));
 #else
   ifTESTHASH(
-      printf("room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
+      printf("room for up to %lu000 positions in hash table\n", hash_max_kilo_storable_positions));
 #endif /*FXF*/
 
 #if defined(TESTHASH) && defined(FXF)
@@ -2001,6 +2042,11 @@ static void closehash(void)
 
 #if defined(TESTHASH)
   puts("calling closehash");
+#if defined(FXF)
+  puts("\n");
+  printf("key count: %lu\n",dhtKeyCount(pyhash));
+  fxfInfo(stdout);
+#endif /*FXF*/
 
 #if defined(HASHRATE)
   printf("%lu enquiries out of %lu successful. ",use_pos,use_all);
@@ -2226,8 +2272,6 @@ void solving_insert_hashing(slice_index si)
   {
     slice_index const opener = alloc_pipe(STHashOpener);
     pipe_append(si,opener);
-    SLICE_TESTER(opener) = alloc_proxy_slice();
-    pipe_append(SLICE_TESTER(si),SLICE_TESTER(opener));
   }
 
   inithash(si);
@@ -2445,45 +2489,145 @@ void attack_hashed_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Look up whether the current position in the hash table to find out
- * if it has a solution in a number of half-moves
- * @param si index slice where current position was reached
- * @param n number of half-moves
- * @return true iff we know that the current position has no solution
- *         in n half-moves
- */
-static boolean inhash_help(slice_index si)
+static hashElement_union_t *find_or_add_help_elmt(HashBuffer const *hb)
 {
-  boolean result;
-  HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement const *he;
-  stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  {
+    dhtElement * const he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t * const result = (hashElement_union_t *)(he==dhtNilElement
+                                                                 ? allocDHTelement(hb)
+                                                                 : he);
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static hash_value_type solve_result_to_hash_value(slice_index si,
+                                                  stip_length_type solve_result)
+{
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  hash_value_type const result = (solve_result-min_length)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",solve_result);
+  TraceFunctionParamListEnd();
+
+  assert(solve_result>=min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static stip_length_type hash_value_to_solve_result(slice_index si,
+                                                   hash_value_type value)
+{
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+  stip_length_type const result = value*2+min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",value);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Remember that the current position has a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ */
+static void addtohash_help_solved(slice_index si)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* In help play, we encode all positions as if the stipulation were exact.
-   * This is necessary to avoid ruling out some solutions with intermediate
-   * positions that are solvable in, say, m moves but not in m+1. This only
-   * makes a difference in problems with short cooks, but not printing all
-   * solutions is confusing and if we measure, the price that we are paying
-   * is smaller than one might think. TM
-   */
-  (*encode)(solve_nr_remaining,validity_value);
+  TraceValue("%u",min_length);TraceEOL();
 
-  ifHASHRATE(use_all++);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    result = false;
-  else if (get_value_help((hashElement_union_t const *)he,si)==1)
+  if (solve_result>=min_length)
   {
-    ifHASHRATE(use_pos++);
-    result = true;
+    /* (ab)use 1 bit of the extra byte added in in_hash_help for distinguishing
+     * between solved and not_solved: */
+    hb->cmv.Data[hashBuffers[nbply].cmv.Leng-1] += (byte)2;
+    set_value_help(find_or_add_help_elmt(hb),
+                   si,
+                   solve_result_to_hash_value(si,solve_result));
+    hb->cmv.Data[hashBuffers[nbply].cmv.Leng-1] -= (byte)2;
   }
-  else
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
+static hashElement_union_t const *find_help_elmt_solved(HashBuffer *hb)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  /* (ab)use 1 bit of the extra byte added in in_hash_help for distinguishing
+   * between solved and not_solved: */
+  hb->cmv.Data[hb->cmv.Leng-1] += (byte)2;
+
+  {
+    dhtElement const * const he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t const * const result = (he==dhtNilElement
+                                                ? 0
+                                                : (hashElement_union_t const *)he);
+
+    hb->cmv.Data[hb->cmv.Leng-1] -= (byte)2;
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static boolean is_position_known_to_be_solved(HashBuffer *hb, slice_index si)
+{
+  boolean result;
+  hashElement_union_t const *hue_solved;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  hue_solved = find_help_elmt_solved(hb);
+
+  if (hue_solved==0)
     result = false;
+  else
+  {
+    hash_value_type const value = get_value_help(hue_solved,si);
+    stip_length_type const known_result = hash_value_to_solve_result(si,value);
+
+    if (known_result<=solve_nr_remaining)
+      result = true;
+    else
+      result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2495,23 +2639,17 @@ static boolean inhash_help(slice_index si)
  * number of half-moves
  * @param si index of slice where the current position was reached
  */
-static void addtohash_help(slice_index si)
+static void addtohash_help_not_solved(slice_index si)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  dhtElement *he;
-  hashElement_union_t * hue;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    hue = (hashElement_union_t *)allocDHTelement(hb);
-  else
-    hue = (hashElement_union_t *)he;
-
-  set_value_help(hue,si,1);
+  set_value_help(find_or_add_help_elmt(hb),
+                 si,
+                 solve_result_to_hash_value(si,solve_result));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2520,6 +2658,134 @@ static void addtohash_help(slice_index si)
   if (dhtKeyCount(pyhash)%1000 == 0)
     HashStats(3, "\n");
 #endif /*HASHRATE*/
+}
+
+static hashElement_union_t const *find_help_elmt_not_solved(HashBuffer *hb)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParamListEnd();
+
+  {
+    dhtElement const *he = dhtLookupElement(pyhash,hb);
+    hashElement_union_t const * const result = (he==dhtNilElement
+                                                ? 0
+                                                : (hashElement_union_t const *)he);
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
+}
+
+static boolean is_position_known_not_to_be_solved(HashBuffer *hb, slice_index si)
+{
+  boolean result;
+  hashElement_union_t const *hue_not_solved;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",hb);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  hue_not_solved = find_help_elmt_not_solved(hb);
+
+  if (hue_not_solved==0)
+    result = false;
+  else
+  {
+    hash_value_type const value = get_value_help(hue_not_solved,si);
+    result = hash_value_to_solve_result(si,value)>solve_nr_remaining;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param n number of half-moves
+ * @return true iff we know that the current position has no solution
+ *         in n half-moves
+ */
+static boolean inhash_help(slice_index si)
+{
+  boolean result;
+  HashBuffer * const hb = &hashBuffers[nbply];
+  stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",min_length);TraceEOL();
+
+  (*encode)(min_length,validity_value);
+
+  /* Create a difference between odd and even numbers of moves.
+   * A solution for h#n isn't necessarily a solution for h#n.5 */
+  assert(hb->cmv.Leng<UCHAR_MAX);
+  hb->cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)(min_length%2);
+  ++hb->cmv.Leng;
+
+  ifHASHRATE(use_all++);
+
+  if (is_position_known_not_to_be_solved(hb,si))
+  {
+    if (is_position_known_to_be_solved(hb,si))
+      result = false;
+    else
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    }
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void help_hashed_solve_impl(slice_index si, slice_index base)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",solve_nr_remaining); TraceEOL();
+
+  assert(solve_nr_remaining>=next_move_has_solution);
+
+  if (inhash_help(base))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+  else
+  {
+    if (SLICE_U(base).branch.min_length>slack_length+1)
+    {
+      SLICE_U(base).branch.min_length -= 2;
+      pipe_solve_delegate(si);
+      SLICE_U(base).branch.min_length += 2;
+    }
+    else
+      pipe_solve_delegate(si);
+
+    if (solve_result>MOVE_HAS_SOLVED_LENGTH())
+      addtohash_help_not_solved(base);
+    else
+      addtohash_help_solved(base);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -2544,30 +2810,8 @@ void help_hashed_solve(slice_index si)
   TraceValue("%u",solve_nr_remaining);
   TraceEOL();
 
-  assert(solve_nr_remaining>=next_move_has_solution);
-
   if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
-  {
-    if (inhash_help(si))
-      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-    else
-    {
-      if (SLICE_U(si).branch.min_length>slack_length+1)
-      {
-        SLICE_U(si).branch.min_length -= 2;
-        pipe_solve_delegate(si);
-        SLICE_U(si).branch.min_length += 2;
-      }
-      else
-        pipe_solve_delegate(si);
-
-      TraceValue("%u",solve_result);
-      TraceValue("%u",MOVE_HAS_NOT_SOLVED_LENGTH());
-      TraceEOL();
-      if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-        addtohash_help(si);
-    }
-  }
+    help_hashed_solve_impl(si,si);
   else
     pipe_solve_delegate(si);
 
@@ -2596,24 +2840,7 @@ void help_hashed_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(solve_nr_remaining>=next_move_has_solution);
-
-  if (inhash_help(base))
-    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-  else
-  {
-    if (SLICE_U(base).branch.min_length>slack_length+1)
-    {
-      SLICE_U(base).branch.min_length -= 2;
-      pipe_solve_delegate(si);
-      SLICE_U(base).branch.min_length += 2;
-    }
-    else
-      pipe_solve_delegate(si);
-
-    if (solve_result>MOVE_HAS_SOLVED_LENGTH())
-      addtohash_help(base);
-  }
+  help_hashed_solve_impl(si,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -152,16 +152,16 @@ Loesung beendet.
                Duplex
 
   1.nDb1-h1   2.nBg2*h1=nD[+nDd8]   3.nDh1-h5 nBe7-e8=nS #
-  add_to_move_generation_stack:      240695
-                     play_move:      155165
- is_white_king_square_attacked:       23901
- is_black_king_square_attacked:      155078
+  add_to_move_generation_stack:      241127
+                     play_move:      155372
+ is_white_king_square_attacked:       23952
+ is_black_king_square_attacked:      155285
 
   1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL[+nTa8] #
-  add_to_move_generation_stack:      155694
-                     play_move:      124610
- is_white_king_square_attacked:      124135
- is_black_king_square_attacked:       16456
+  add_to_move_generation_stack:      155999
+                     play_move:      124860
+ is_white_king_square_attacked:      124385
+ is_black_king_square_attacked:       16491
 
 Loesung beendet.
 

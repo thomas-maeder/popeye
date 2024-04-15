@@ -36,7 +36,9 @@ typedef union
 
 extern HashBuffer hashBuffers[maxply+1];
 
-extern unsigned long  hash_max_number_storable_positions;
+#if defined(FXF)
+extern unsigned long  hash_max_kilo_storable_positions;
+#endif
 
 /* exported functions */
 void check_hash_assumptions(void);
@@ -58,14 +60,6 @@ void HashStats(unsigned int level, char const *trailer);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
-
-byte *CommonEncode(byte *bp,
-                   stip_length_type min_length,
-                   stip_length_type validity_value);
-
-byte *SmallEncodePiece(byte *bp,
-                       int row, int col,
-                       piece_walk_type p, Flags pspec);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

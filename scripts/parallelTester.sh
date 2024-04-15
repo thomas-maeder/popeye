@@ -35,12 +35,10 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
 
-. ${SCRIPTDIR}/parallelTester.lib
-
 # command to be invoked in parallel
-_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
-#_cmd="WINEPREFIX=~/.wine wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
-#_cmd="WINEPREFIX=~/.wine64 wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
+CMD="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+#CMD="WINEPREFIX=~/.wine wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
+#CMD="WINEPREFIX=~/.wine64 wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 CORES_AVAILABLE=$(nproc --all)
@@ -52,19 +50,15 @@ then
 	exit 1
 fi
 
-PMAX=$CORES_REQUESTED
-
 #DEBUG=1
 
-# create and dispatch jobs
-for item in ${POPEYEDIR}/TESTS/*.inp ${POPEYEDIR}/REGRESSIONS/*.inp ${POPEYEDIR}/EXAMPLES/*inp ${POPEYEDIR}/BEISPIEL/*inp; do
-  echo "$item"
-done | dispatchWork
+INPUTS="${POPEYEDIR}/TESTS/*.inp ${POPEYEDIR}/REGRESSIONS/*.inp ${POPEYEDIR}/EXAMPLES/*inp ${POPEYEDIR}/BEISPIEL/*inp"
 
+# create and dispatch jobs
 if [ $ALL ]
 then
-  for item in ${POPEYEDIR}/EXAMPLES/lengthy/*inp ${POPEYEDIR}/BEISPIEL/lengthy/*inp; do
-    echo "$item"
-  done | dispatchWork
+  INPUTS+="${POPEYEDIR}/EXAMPLES/lengthy/*inp ${POPEYEDIR}/BEISPIEL/lengthy/*inp"
 fi
+
+parallel -j $CORES_REQUESTED $CMD -- $INPUTS
 

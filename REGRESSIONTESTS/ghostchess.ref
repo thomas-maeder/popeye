@@ -112,10 +112,10 @@ Jubil\'e Feenschach-50, feenschach 1999, 3\`eme Recommand\'e
 
   1.nSa6-b4   2.nSb4*d3   3.nSd3-c1[+wuRd3]   4.nSc1-e2 uRd3-e3 #
   1.nSa6-c7   2.nSc7*e6   3.nSe6-f8[+wuBe6]   4.nSf8-g6 uBe6-f5 #
-  add_to_move_generation_stack:       13473
-                     play_move:        6467
- is_white_king_square_attacked:        1631
- is_black_king_square_attacked:        6467
+  add_to_move_generation_stack:       13557
+                     play_move:        6512
+ is_white_king_square_attacked:        1643
+ is_black_king_square_attacked:        6512
 
 solution finished.
 

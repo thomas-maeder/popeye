@@ -34,12 +34,10 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
 
-. ${SCRIPTDIR}/parallelTester.lib
-
 # command to be invoked in parallel
-_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
-#_cmd="WINEPREFIX=~/.wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
-#_cmd="WINEPREFIX=~/.wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
+CMD="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+#CMD="WINEPREFIX=~/.wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
+#CMD="WINEPREFIX=~/.wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 CORES_AVAILABLE=$(nproc --all)
@@ -51,9 +49,7 @@ then
         exit 1
 fi
 
-PMAX=$CORES_REQUESTED
-
-(for f in *.tst
+INPUTS=$(for f in *.tst
 do
     # only true if *.tst isn't expanded because there is no matching file
     if [ -f $f ]
@@ -91,4 +87,7 @@ do
         stem=`echo $f | sed -e 's/[.]out$//'`
         echo ${POPEYEDIR}/BEISPIEL/$stem.inp
     fi
-done) | dispatchWork
+done)
+
+parallel -j $CORES_REQUESTED $CMD -- $INPUTS
+
