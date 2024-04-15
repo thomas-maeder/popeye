@@ -1,5 +1,0 @@
-{
-    "explorer.autoRevealExclude": {
-        "**/*.o": true
-    }
-}
