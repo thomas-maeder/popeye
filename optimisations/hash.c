@@ -46,7 +46,7 @@
  **   dhtEnterElement:  This procedure enters an encoded position
  ** with its values into the hashtable.
  **
- ** When there is no more memory, or more than hash_max_number_storable_positions positions
+ ** When there is no more memory, or more than hash_max_kilo_storable_positions*1000 positions
  ** are stored in the hash-table, then some positions are removed
  ** from the table. This is done in the compress procedure.
  ** This procedure uses a little improved scheme introduced by Torsten.
