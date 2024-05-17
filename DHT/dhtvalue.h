@@ -7,15 +7,31 @@
  *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 #include <stdio.h>
+#ifdef __cplusplus
+#    if __cplusplus >= 201103L
+#        include <cstdint>
+#    else
+#        include <climits>
+#    endif
+#    include <csignal>
+#elif defined(__STDC_VERSION__)
+#    if __STDC_VERSION__ >= 199901L
+#        include <stdint.h>
+#    else
+#        include <limits.h>
+#    endif
+#    include <signal.h>
+#endif
 
 #if defined(FXF)
 #include "fxf.h"
 #else
-#define	fxfAlloc(x)		malloc(x)
+#include <stdlib.h>
+#define	fxfAlloc(x)		malloc(x) /* TODO: Should we track allocations to ensure that we never allocate more than some chosen number (e.g., hashtable_kilos*1024) of total byte(s)? */
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
 
@@ -52,19 +68,63 @@ typedef enum {
 
 extern char const *dhtValueTypeToString[dhtValueTypeCnt];
 
-typedef void *dhtValue;
-typedef void const *dhtConstValue;
+typedef union {
+#ifdef __cplusplus
+#    if __cplusplus >= 201103L
+    ::std::uintmax_t unsigned_integer;
+    ::std::intmax_t signed_integer;
+#    elif defined(LLONG_MAX)
+    unsigned long long int unsigned_integer;
+    long long int signed_integer;
+#    else
+    unsigned long int unsigned_integer;
+    long int signed_integer;
+#    endif
+    bool boolean;
+     ::std::sig_atomic_t atomic_integer;
+#else
+#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+    uintmax_t unsigned_integer;
+    intmax_t signed_integer;
+    _Bool boolean;
+#    else
+#        if defined(LLONG_MAX)
+    unsigned long long int unsigned_integer;
+    long long int signed_integer;
+#        else
+    unsigned long int unsigned_integer;
+    long int signed_integer;
+#        endif
+    int boolean; // What else?
+#    endif
+    sig_atomic_t atomic_integer;
+#endif
+    const volatile void * object_pointer;
+    char character;
+    void (*function_pointer)(void);
+#ifdef DHTVALUE_NEEDS_FLOATING_POINT
+    long double floating_point;
+#endif
+    unsigned char buffer[1]; /* treat as having sizeof(dhtValue) elements */
+} dhtValue;
+
+typedef struct {
+	dhtValue value;
+} dhtKey;
+
 typedef unsigned long dhtHashValue;
 
 typedef struct {
-  dhtHashValue (*Hash)(dhtConstValue);
-	int		(*Equal)(dhtConstValue, dhtConstValue);
-	dhtConstValue	(*Dup)(dhtConstValue);
-	void		(*Free)(dhtValue);
-	void		(*Dump)(dhtConstValue, FILE *);
+	dhtHashValue	(*Hash)(dhtKey);
+	int				(*Equal)(dhtKey, dhtKey);
+	int				(*Dup)(dhtValue, dhtValue *); // should return 0 on success (and store the copied value at the second argument) and nonzero on error
+	void			(*Free)(dhtValue);
+	void			(*Dump)(dhtValue, FILE *);
 } dhtValueProcedures;
 
 #if defined(REGISTER_SIMPLE)
+/* dhtSimple verifies equality by comparing unsigned_integer members;
+   keys should be stored to unsigned_integer members, cast if needed */
 extern dhtValueProcedures dhtSimpleProcs;
 #endif /*REGISTER_SIMPLE*/
 #if defined(REGISTER_STRING)
