@@ -161,7 +161,7 @@ typedef union
 
 extern HashBuffer hashBuffers[maxply+1];
 
-extern unsigned long  hash_max_number_storable_positions;
+extern unsigned long  hash_max_kilo_storable_positions;
 
 /* exported functions */
 void check_hash_assumptions(void);
