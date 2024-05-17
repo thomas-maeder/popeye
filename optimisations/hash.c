@@ -96,7 +96,7 @@
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
-//#include "conditions/fuddled_men.h"
+#include "conditions/fuddled_men.h"
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
