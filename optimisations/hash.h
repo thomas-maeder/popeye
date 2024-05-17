@@ -60,7 +60,7 @@ typedef unsigned char byte;
    Therefore:
    - If SmallEncode is chosen then "num nonempty squares" <= min((nr_rows_on_board * nr_files_on_board), (8 + sizeof BGL_values[White] + sizeof BGL_values[Black])).
    - If LargeEncode is chosen then 8 < "num nonempty squares" <= (nr_rows_on_board * nr_files_on_board).
-   Substituting we find that
+   Substituting we find that when chosen:
    - SmallEncode <=   min((nr_rows_on_board * nr_files_on_board), (8 + sizeof BGL_values[White] + sizeof BGL_values[Black])) * SmallEncodePiece
                     + nr_ghosts * SmallEncodePiece
                     + CommonEncode
@@ -161,7 +161,9 @@ typedef union
 
 extern HashBuffer hashBuffers[maxply+1];
 
+#if defined(FXF)
 extern unsigned long  hash_max_kilo_storable_positions;
+#endif
 
 /* exported functions */
 void check_hash_assumptions(void);

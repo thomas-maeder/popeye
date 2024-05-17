@@ -1184,7 +1184,7 @@ static void ProofSmallEncodePiece(byte **bp,
     encoded |= 1 << black_bit;
   if (*even)
   {
-    **bp += (byte)(encoded<<(CHAR_BIT/2));
+    **bp += encoded<<(CHAR_BIT/2);
     ++*bp;
   }
   else
@@ -1299,7 +1299,7 @@ static byte *CommonEncode(byte *bp,
     if (move_effect_journal[capture].type==move_effect_piece_removal)
       ply_last_capture = nbply;
     else
-      ply_last_capture = (ply)find_last_capture();
+      ply_last_capture = find_last_capture();
 
     if (ply_last_capture!=ply_nil)
     {
@@ -1979,7 +1979,7 @@ static void inithash(slice_index si)
       if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
         hash_max_kilo_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
 #endif
-      }
+    }
   }
 
 #if defined(FXF)
@@ -2656,7 +2656,7 @@ static dhtElement const *find_help_elmt_not_solved(HashBuffer *hb)
     k.value.object_pointer = &hb->cmv;
     result = dhtLookupElement(pyhash,k);
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void const *)result->object_pointer);
+    TraceFunctionResult("%p",(void const *)result);
     TraceFunctionResultEnd();
     return result;
   }
