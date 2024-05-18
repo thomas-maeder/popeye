@@ -2485,6 +2485,8 @@ static dhtElement *find_or_add_help_elmt(HashBuffer const *hb)
     dhtElement *result;
     k.value.object_pointer = &hb->cmv;
     result = dhtLookupElement(pyhash,k);
+    if (!result)
+      result = allocDHTelement(k);
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",(void const *)result);
     TraceFunctionResultEnd();
