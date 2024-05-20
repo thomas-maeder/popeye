@@ -1,11 +1,13 @@
 input/plaintext/geometry/square$(OBJ_SUFFIX): input/plaintext/geometry/square.c \
- input/plaintext/geometry/square.h position/board.h utilities/bitmask.h \
- debugging/trace.h
+  input/plaintext/geometry/square.h position/board.h utilities/bitmask.h \
+  utilities/boolean.h debugging/trace.h
 
 input/plaintext/geometry/square.h:
 
 position/board.h:
 
 utilities/bitmask.h:
+
+utilities/boolean.h:
 
 debugging/trace.h:

@@ -70,15 +70,21 @@ static void ReadMutuallyExclusiveCastling(slice_index start)
     output_plaintext_error_message(MissngSquareList);
 }
 
-static void HandleEpSquare(square sq, void *dummy)
+static boolean HandleEpSquare(square sq, void *dummy)
 {
   if (en_passant_nr_retro_squares==en_passant_retro_capacity)
+  {
     output_plaintext_message(TooManyEpKeySquares);
+    return false;
+  }
   else
+  {
     en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
+    return true;
+  }
 }
 
-static void HandleNoCastlingSquare(square sq, void *dummy)
+static boolean HandleNoCastlingSquare(square sq, void *dummy)
 {
   switch (sq)
   {
@@ -109,6 +115,8 @@ static void HandleNoCastlingSquare(square sq, void *dummy)
     default:
       break;
   }
+
+  return true;
 }
 
 char *ParseOpt(slice_index start)

@@ -527,25 +527,30 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
   return tok;
 }
 
-static void HandleImitatorPosition(square pos, void *param)
+static boolean HandleImitatorPosition(square pos, void *param)
 {
   unsigned int * const number_of_imitators = param;
 
   being_solved.isquare[(*number_of_imitators)++] = pos;
+
+  return true;
 }
 
-static void HandleGridCell(square cell, void *param)
+static boolean HandleGridCell(square cell, void *param)
 {
   unsigned int * const currentgridnum = param;
 
   ClearGridNum(cell);
   sq_spec(cell) += *currentgridnum << Grid;
+
+  return true;
 }
 
-static void HandleSquaresWithFlag(square sq, void *param)
+static boolean HandleSquaresWithFlag(square sq, void *param)
 {
   SquareFlags * const flag = param;
   SETFLAG(sq_spec(sq),*flag);
+  return true;
 }
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
@@ -570,12 +575,13 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
   return tok;
 }
 
-static void HandleHole(square sq, void *dummy)
+static boolean HandleHole(square sq, void *dummy)
 {
   block_square(sq);
+  return true;
 }
 
-static void HandleDisterReferenceSquare(square sq, void *v)
+static boolean HandleDisterReferenceSquare(square sq, void *v)
 {
   unsigned int *nr_reference_squares_read = (unsigned int *)v;
 
@@ -583,6 +589,7 @@ static void HandleDisterReferenceSquare(square sq, void *v)
     dister_reference_square[*nr_reference_squares_read] = sq;
 
   ++*nr_reference_squares_read;
+  return true;
 }
 
 static char *ParseRoyalSquare(char *tok, Side side)

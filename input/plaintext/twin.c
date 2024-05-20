@@ -298,14 +298,18 @@ static char *ParseTwinningShift(void)
   }
 }
 
-static void HandleRemovalSquare(square s, void *dummy)
+static boolean HandleRemovalSquare(square s, void *dummy)
 {
   if (get_walk_of_piece_on_square(s)>=King)
+  {
     move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
+    return true;
+  }
   else
   {
     WriteSquare(&output_plaintext_engine,stderr,s);
     output_plaintext_error_message(NothingToRemove);
+    return false;
   }
 }
 
@@ -622,11 +626,13 @@ static char *ParseForsythPiece(char *tok,
     piece_walk_type const walk = GetPieNamIndex(char1,char2);
     if (walk!=nr_piece_walks)
     {
-      move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                            *pos,walk,
-                                            *colour_flags,
-                                            no_side);
-      *pos = NextSquare(*pos);
+      if (move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                                *pos,walk,
+                                                *colour_flags,
+                                                no_side))
+        *pos = NextSquare(*pos);
+      else
+        tok = 0;
     }
     else
       ++tok;           /* error */
@@ -666,20 +672,20 @@ static char *ParseForsythPieceAndColor(char *tok, square *pos)
     tok = ParseForsythPiece(tok+1,2,&colour_flags,pos);
   else
     tok = ParseForsythPiece(tok,1,&colour_flags,pos);
-      
-  if (colour_flags==0)
+
+  if (tok && colour_flags==0)
       ++tok;  
 
   return tok;
 }
 
-static void ParseForsyth(void)
+static boolean ParseForsyth(void)
 {
   char *tok = ReadNextTokStr();
 
   square sq = square_a8;
 
-  while (sq && *tok)
+  while (sq && tok && *tok)
     if (isdigit((unsigned char)*tok))
     {
       int num = *tok++ - '0';
@@ -692,6 +698,8 @@ static void ParseForsyth(void)
       ++tok;
     else
       tok = ParseForsythPieceAndColor(tok,&sq);
+
+  return tok!=0;
 }
 
 static char *ReadRemark(void)
@@ -947,7 +955,8 @@ static void ReadInitialTwin(slice_index start)
 
         case Forsyth:
           total_invisible_number = 0;
-          ParseForsyth();
+          if (!ParseForsyth())
+            output_plaintext_input_error_message(ParseForsythFailure);
           tok = ReadNextTokStr();
           break;
 

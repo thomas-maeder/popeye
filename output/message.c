@@ -130,7 +130,9 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inconsistent buts pcpj\n",
     /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
     /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n",
-    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n"
+    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n",
+    /*125*/ "Position Forsyth pas reconnue, ou capacite de pieces epuisee\n",
+    /*126*/ "Capacite de pieces epuisee\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -257,7 +259,9 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inkonsistente Beweispartie-Ziele\n",
     /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
     /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n",
-    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n"
+    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n",
+    /*125*/ "Forsyth-Position nicht erkannt, oder Steinkapazitaeat erschoepft\n",
+    /*126*/ "Capacite de pieces epuisee\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -384,7 +388,9 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inconsistent proof game targets\n",
     /*122*/ "Inconsistent rules regarding NullMoves\n",
     /*123*/ "Incompatible fairy elements changing piece types\n",
-    /*124*/ "A hopper can not be both Bul and Dob\n"
+    /*124*/ "A hopper can not be both Bul and Dob\n",
+    /*125*/ "Forsyth position not recognized, or pieces capacity exhausted\n",
+    /*126*/ "Pieces capacity exhausted\n"
   }
 };
 
