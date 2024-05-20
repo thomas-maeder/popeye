@@ -319,6 +319,8 @@ static char *ParseTwinningRemove(void)
   char *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
   if (tok==squares_tok)
     output_plaintext_input_error_message(MissngSquareList);
+  else if (tok==0)
+    /* HandleRemovalSquare dealt with the problem */;
   else if (*tok!=0)
     output_plaintext_error_message(WrongSquareList);
 

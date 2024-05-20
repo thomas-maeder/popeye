@@ -531,9 +531,14 @@ static boolean HandleImitatorPosition(square pos, void *param)
 {
   unsigned int * const number_of_imitators = param;
 
-  being_solved.isquare[(*number_of_imitators)++] = pos;
-
-  return true;
+  if (*number_of_imitators<maxinum)
+  {
+    being_solved.isquare[*number_of_imitators] = pos;
+    ++*number_of_imitators;
+    return true;
+  }
+  else
+    return false;
 }
 
 static boolean HandleGridCell(square cell, void *param)
@@ -586,10 +591,13 @@ static boolean HandleDisterReferenceSquare(square sq, void *v)
   unsigned int *nr_reference_squares_read = (unsigned int *)v;
 
   if (*nr_reference_squares_read<2)
+  {
     dister_reference_square[*nr_reference_squares_read] = sq;
-
-  ++*nr_reference_squares_read;
-  return true;
+    ++*nr_reference_squares_read;
+    return true;
+  }
+  else
+    return false;
 }
 
 static char *ParseRoyalSquare(char *tok, Side side)
@@ -1276,6 +1284,8 @@ char *ParseCond(char *tok)
                                 &being_solved.number_of_imitators);
           if (tok==squares_tok)
             output_plaintext_input_error_message(MissngSquareList);
+          else if (tok==0)
+            output_plaintext_input_error_message(ManyImitators);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
 
@@ -1321,12 +1331,20 @@ char *ParseCond(char *tok)
 
           unsigned int nr_reference_squares_read = 0;
           tok = ParseSquareList(squares_tok,&HandleDisterReferenceSquare,&nr_reference_squares_read);
-          if (tok==squares_tok || nr_reference_squares_read<2)
+          assert(nr_reference_squares_read<=2);
+          if (tok==squares_tok)
           {
             output_plaintext_input_error_message(MissngSquareList);
             CondFlag[cond] = false;
           }
-          else if (*tok!=0 || nr_reference_squares_read>2 || dister_reference_square[0]==dister_reference_square[1])
+          else if (tok==0
+                   || nr_reference_squares_read<2
+                   || dister_reference_square[0]==dister_reference_square[1])
+          {
+            output_plaintext_error_message(TwoDisterReferenceSquaresRequired);
+            CondFlag[cond] = false;
+          }
+          else if (*tok!=0)
           {
             output_plaintext_error_message(WrongSquareList);
             CondFlag[cond] = false;

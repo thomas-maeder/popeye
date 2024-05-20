@@ -180,6 +180,8 @@ char *ParseOpt(slice_index start)
           output_plaintext_input_error_message(MissngSquareList);
           indexx = OptCount+1;
         }
+        else if (tok==0)
+          /* HandleEpSquare already dealt with the problem */;
         else if (*tok!=0)
           output_plaintext_error_message(WrongSquareList);
 

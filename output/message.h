@@ -145,6 +145,7 @@ typedef enum
   BulAndDobIncompatible                             = 124,
   ParseForsythFailure                               = 125,
   PieceAdditionFailed                               = 126,
+  TwoDisterReferenceSquaresRequired                 = 127,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;
