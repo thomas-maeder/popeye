@@ -786,6 +786,27 @@ void verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[sentinelles])
+  {
+    unsigned int potential[nr_sides];
+
+    if (being_solved.number_of_pieces[White][sentinelle_walk]<sentinelles_max_nr_pawns[White])
+      potential[White] = sentinelles_max_nr_pawns[White]-being_solved.number_of_pieces[White][sentinelle_walk];
+    else
+      potential[White] = 0;
+
+    if (being_solved.number_of_pieces[Black][sentinelle_walk]<sentinelles_max_nr_pawns[Black])
+      potential[Black] = sentinelles_max_nr_pawns[Black]-being_solved.number_of_pieces[Black][sentinelle_walk];
+    else
+      potential[Black] = 0;
+
+    if (being_solved.currPieceId+potential[White]+potential[Black]>MaxPieceId)
+    {
+      output_plaintext_verifie_message(PieceAdditionFailed);
+      return;
+    }
+  }
+
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif

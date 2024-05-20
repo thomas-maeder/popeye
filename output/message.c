@@ -262,7 +262,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n",
     /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n",
     /*125*/ "Forsyth-Position nicht erkannt, oder Steinkapazitaeat erschoepft\n",
-    /*126*/ "Capacite de pieces epuisee\n",
+    /*126*/ "Maximale Anzahl Steine überschritten\n",
     /*127*/ "Es müssen genau 2 Dister-Referenzfelder angegeben werden\n"
   },
   /*2*/ {
