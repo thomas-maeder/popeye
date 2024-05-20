@@ -8,7 +8,7 @@ enum
 {
   NullPieceId = 0,
   MinPieceId = 1,
-  MaxPieceId = 63
+  MaxPieceId = 127
 };
 
 typedef unsigned long       PieceIdType;
