@@ -807,6 +807,15 @@ void verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[republican])
+  {
+    if (being_solved.currPieceId+(RepublicanType==ConditionType1 ? 1 : 2)>MaxPieceId)
+    {
+      output_plaintext_verifie_message(PieceAdditionFailed);
+      return;
+    }
+  }
+
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif
