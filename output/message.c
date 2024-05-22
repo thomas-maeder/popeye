@@ -130,7 +130,10 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inconsistent buts pcpj\n",
     /*122*/ "Regles inconsitentents concernant les CoupsVides\n",
     /*123*/ "Elements feeriques incompatibles changeant la marche de pieces\n",
-    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n"
+    /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n",
+    /*125*/ "Position Forsyth pas reconnue, ou capacite de pieces epuisee\n",
+    /*126*/ "Capacite de pieces epuisee\n",
+    /*127*/ "Exactement 2 cases de reference Dister doivent etre indiquees\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -257,7 +260,10 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inkonsistente Beweispartie-Ziele\n",
     /*122*/ "Inkonsistente Regeln betreffend NullZuegen\n",
     /*123*/ "Inkompatible Maerchenelemente, welche die Gangart aendern\n",
-    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n"
+    /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n",
+    /*125*/ "Forsyth-Position nicht erkannt, oder Steinkapazitaeat erschoepft\n",
+    /*126*/ "Maximale Anzahl Steine überschritten\n",
+    /*127*/ "Es müssen genau 2 Dister-Referenzfelder angegeben werden\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -333,7 +339,7 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*70*/  "_moves.",
     /*71*/  "Stipulation not supported.\n",
     /*72*/  "Multiple goals not allowed if one of them is dia or a=>b\n",
-    /*73*/  "Not more than 2 squares can be putin for en passant keys.\n",
+    /*73*/  "Not more than 2 squares can be input for en passant keys.\n",
     /*74*/  "Abort by signal %d after ",
     /*75*/  "Transmuting/reflecting royal pieces not supported.\n",
     /*76*/  "This rotation/mirroring is not supported: ",
@@ -384,7 +390,10 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*121*/ "Inconsistent proof game targets\n",
     /*122*/ "Inconsistent rules regarding NullMoves\n",
     /*123*/ "Incompatible fairy elements changing piece types\n",
-    /*124*/ "A hopper can not be both Bul and Dob\n"
+    /*124*/ "A hopper can not be both Bul and Dob\n",
+    /*125*/ "Forsyth position not recognized, or pieces capacity exhausted\n",
+    /*126*/ "Pieces capacity exhausted\n",
+    /*127*/ "Exactly 2 dister reference squares have to be indicated\n"
   }
 };
 

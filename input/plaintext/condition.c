@@ -527,25 +527,35 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
   return tok;
 }
 
-static void HandleImitatorPosition(square pos, void *param)
+static boolean HandleImitatorPosition(square pos, void *param)
 {
   unsigned int * const number_of_imitators = param;
 
-  being_solved.isquare[(*number_of_imitators)++] = pos;
+  if (*number_of_imitators<maxinum)
+  {
+    being_solved.isquare[*number_of_imitators] = pos;
+    ++*number_of_imitators;
+    return true;
+  }
+  else
+    return false;
 }
 
-static void HandleGridCell(square cell, void *param)
+static boolean HandleGridCell(square cell, void *param)
 {
   unsigned int * const currentgridnum = param;
 
   ClearGridNum(cell);
   sq_spec(cell) += *currentgridnum << Grid;
+
+  return true;
 }
 
-static void HandleSquaresWithFlag(square sq, void *param)
+static boolean HandleSquaresWithFlag(square sq, void *param)
 {
   SquareFlags * const flag = param;
   SETFLAG(sq_spec(sq),*flag);
+  return true;
 }
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
@@ -570,19 +580,24 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
   return tok;
 }
 
-static void HandleHole(square sq, void *dummy)
+static boolean HandleHole(square sq, void *dummy)
 {
   block_square(sq);
+  return true;
 }
 
-static void HandleDisterReferenceSquare(square sq, void *v)
+static boolean HandleDisterReferenceSquare(square sq, void *v)
 {
   unsigned int *nr_reference_squares_read = (unsigned int *)v;
 
   if (*nr_reference_squares_read<2)
+  {
     dister_reference_square[*nr_reference_squares_read] = sq;
-
-  ++*nr_reference_squares_read;
+    ++*nr_reference_squares_read;
+    return true;
+  }
+  else
+    return false;
 }
 
 static char *ParseRoyalSquare(char *tok, Side side)
@@ -1269,6 +1284,8 @@ char *ParseCond(char *tok)
                                 &being_solved.number_of_imitators);
           if (tok==squares_tok)
             output_plaintext_input_error_message(MissngSquareList);
+          else if (tok==0)
+            output_plaintext_input_error_message(ManyImitators);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
 
@@ -1314,12 +1331,20 @@ char *ParseCond(char *tok)
 
           unsigned int nr_reference_squares_read = 0;
           tok = ParseSquareList(squares_tok,&HandleDisterReferenceSquare,&nr_reference_squares_read);
-          if (tok==squares_tok || nr_reference_squares_read<2)
+          assert(nr_reference_squares_read<=2);
+          if (tok==squares_tok)
           {
             output_plaintext_input_error_message(MissngSquareList);
             CondFlag[cond] = false;
           }
-          else if (*tok!=0 || nr_reference_squares_read>2 || dister_reference_square[0]==dister_reference_square[1])
+          else if (tok==0
+                   || nr_reference_squares_read<2
+                   || dister_reference_square[0]==dister_reference_square[1])
+          {
+            output_plaintext_error_message(TwoDisterReferenceSquaresRequired);
+            CondFlag[cond] = false;
+          }
+          else if (*tok!=0)
           {
             output_plaintext_error_message(WrongSquareList);
             CondFlag[cond] = false;
