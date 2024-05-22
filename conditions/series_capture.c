@@ -21,6 +21,16 @@
 
 #include "debugging/assert.h"
 
+static void dump_en_passant_tops(char const *context)
+{
+/*  ply p;
+  printf("en_passant_tops: %s: ",context);
+
+  for (p = ply_retro_move; p<=nbply; ++p)
+    printf("%u:%u-",p,en_passant_top[p]);
+  printf("\n");*/
+}
+
 static void remember_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const recursion_landing = st->param;
@@ -197,6 +207,7 @@ void series_capture_ply_rewinder_solve(slice_index si)
   while (nbply>save_nbply)
   {
     en_passant_top[nbply-1] = en_passant_top[nbply];
+    dump_en_passant_tops(__func__);
     finply();
   }
 
@@ -231,6 +242,8 @@ void series_capture_journal_fixer_solve(slice_index si)
   {
     move_effect_journal_base[nbply] = move_effect_journal_base[nbply+1];
     --nbply;
+    en_passant_top[nbply] = en_passant_top[nbply+1];
+    dump_en_passant_tops(__func__);
     series_capture_journal_fixer_solve(si);
     ++nbply;
   }
@@ -364,6 +377,7 @@ void series_capture_fork_solve(slice_index si)
     if (post_move_am_i_iterating())
     {
       ++nbply;
+      en_passant_top[nbply] = en_passant_top[nbply-1];
       play_secondary_movement(si);
 
       if (post_move_iteration_is_locked())
