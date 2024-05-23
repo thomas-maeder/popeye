@@ -713,7 +713,6 @@ FOUND_PUTATIVE_SEGMENT:
     if (stepPointer(ptr, (ptrdiff_t)size) == BotFreePtr) {
       BotFreePtr= ptr;
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
-      --sh->MallocCount;
     }
     else {
 #if defined(FREEMAP) && !defined(SEGMENTED)
@@ -724,7 +723,6 @@ FOUND_PUTATIVE_SEGMENT:
           memcpy(ptr, &sh->FreeHead, sizeof sh->FreeHead);
         sh->FreeHead= ptr;
         ++sh->FreeCount;
-        --sh->MallocCount;
         TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
       }
     }
@@ -735,7 +733,6 @@ FOUND_PUTATIVE_SEGMENT:
     if (ptr == TopFreePtr) {
       TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t)size);
       TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
-      --sh->MallocCount;
     }
     else {
 #if defined(FREEMAP) && !defined(SEGMENTED)
@@ -746,11 +743,11 @@ FOUND_PUTATIVE_SEGMENT:
           memcpy(ptr, &sh->FreeHead, sizeof sh->FreeHead);
         sh->FreeHead= ptr;
         ++sh->FreeCount;
-        --sh->MallocCount;
         TMDBG(printf(" FreeCount:%lu",sh->FreeCount));
       }
     }
   }
+  --sh->MallocCount;
   TMDBG(printf(" MallocCount:%lu",sh->MallocCount));
   TMDBG(putchar('\n'));
 }
