@@ -565,7 +565,7 @@ START_LOOKING_FOR_CHUNK:
             SetRange(curBottomIndex,cur_alignment);
 #endif
             if (cur_alignment >= fxfMINSIZE) {
-              SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
+              SizeHead * const cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
               if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
                 if (cur_alignment >= sizeof cur_sh->FreeHead)
                   memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -601,7 +601,7 @@ NEXT_SEGMENT:
         while (curBottomIndex & PTRMASK) {
           size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
           if (cur_alignment >= fxfMINSIZE) {
-            SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
+            SizeHead * const cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(cur_alignment)];
             if ((cur_alignment >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
               if (cur_alignment >= sizeof cur_sh->FreeHead)
                 memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -615,7 +615,7 @@ NEXT_SEGMENT:
         }
         curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
         if (curBottomIndex >= fxfMINSIZE) {
-          SizeHead *cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(curBottomIndex)];
+          SizeHead * const cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(curBottomIndex)];
           if ((curBottomIndex >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
             if (curBottomIndex >= sizeof cur_sh->FreeHead)
               memcpy(BotFreePtr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -635,6 +635,11 @@ NEXT_SEGMENT:
 #else /*SEGMENTED*/
       ptr= Nil(void);
 #endif /*!SEGMENTED*/
+      /* TODO: Instead of returning Nil(void), should we try to satisfy the request with a larger
+               block from the free store?
+               ADVANTAGE: may not have to return Nil(void)
+               DISADVANTAGE: the extra-large nature of the block will be forgotten when/if
+                             the block is returned to the free store */
       TMDBG(printf(" ptr:%p\n", ptr));
     }
   }
@@ -860,9 +865,9 @@ void fxfInfo(FILE *f) {
       if (hd->MallocCount+hd->FreeCount>0) {
         fprintf(f, "%12zu  %10lu%10lu\n", SIZEDATA_INDEX_TO_SIZE(i), hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
-        UsedBytes+= hd->MallocCount*(i+1U);
+        UsedBytes+= hd->MallocCount*SIZEDATA_INDEX_TO_SIZE(i);
         nrFree+= hd->FreeCount;
-        FreeBytes+= hd->FreeCount*(i+1U);
+        FreeBytes+= hd->FreeCount*SIZEDATA_INDEX_TO_SIZE(i);
       }
     }
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
