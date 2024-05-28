@@ -637,11 +637,11 @@ NEXT_SEGMENT:
 #else /*SEGMENTED*/
       ptr= Nil(void);
 #endif /*!SEGMENTED*/
-      /* TODO: Instead of returning Nil(void), should we try to satisfy the request with a larger
-               block from the free store?
+      /* TODO: Instead of returning Nil(void), should we try to satisfy the request by breaking
+               apart a larger block from the free store?
                ADVANTAGE: may not have to return Nil(void)
-               DISADVANTAGE: the extra-large nature of the block will be forgotten when/if
-                             the block is returned to the free store */
+               DISADVANTAGE: we would no longer ever be able to use that contiguous memory to
+                             satisfy a large request */
       TMDBG(printf(" ptr:%p\n", ptr));
     }
   }
