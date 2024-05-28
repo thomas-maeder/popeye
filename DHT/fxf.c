@@ -46,31 +46,33 @@
 #  endif
 #endif
 
-#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
-#  define MAX_ALIGNMENT _Alignof(max_align_t)
-#elif (defined(__cplusplus) && (__cplusplus >= 201103L))
-#  define MAX_ALIGNMENT alignof(max_align_t)
-#else
-#  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-#    include <stdint.h>
-#  endif
-struct GET_MAX_ALIGNMENT_TYPE {
-  unsigned char c;
-  union {
-#  if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-    uintmax_t unsigned_integer;
-#  elif defined(LLONG_MAX) /* We have long long integer types. */
-    unsigned long long int unsigned_integer;
+#if !defined(MAX_ALIGNMENT)
+#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#    define MAX_ALIGNMENT _Alignof(max_align_t)
+#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
+#    define MAX_ALIGNMENT alignof(max_align_t)
 #  else
-    unsigned long int unsigned_integer;
+#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#      include <stdint.h>
+#    endif
+  struct GET_MAX_ALIGNMENT_TYPE {
+    unsigned char c;
+    union {
+#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+      uintmax_t unsigned_integer;
+#    elif defined(LLONG_MAX) /* We have long long integer types. */
+      unsigned long long int unsigned_integer;
+#    else
+      unsigned long int unsigned_integer;
+#    endif
+      const volatile void * object_pointer;
+      void (*function_pointer)(void);  
+      long double floating_point;
+    } max_aligned_union;
+  };
+#    define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
 #  endif
-    const volatile void * object_pointer;
-    void (*function_pointer)(void);  
-    long double floating_point;
-  } max_aligned_union;
-};
-#  define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
-#endif
+#endif /*MAX_ALIGNMENT*/
 
 #if !defined(Nil) && !defined(New) && !defined(nNewUntyped) && !defined(nNewCallocUntyped) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
