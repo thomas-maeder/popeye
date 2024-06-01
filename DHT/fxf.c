@@ -493,7 +493,7 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
          (size <= fxfMAXSIZE) &&
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
-  if ((size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeCount) {
+  if ((size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
     if (size >= sizeof cur_sh->FreeHead)
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
     cur_sh->FreeHead= ptr;
