@@ -559,8 +559,8 @@ void dhtDestroy(HashTable *ht)
     while (b)
     {
       InternHsElement *tmp= b;
-      (ht->procs.FreeKeyValue)(b->HsEl.Key.value);
       (ht->procs.FreeData)(b->HsEl.Data);
+      (ht->procs.FreeKeyValue)(b->HsEl.Key.value);
       b= b->Next;
       FreeInternHsElement(tmp);
     }
@@ -803,11 +803,18 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
+  if (ht->KeyPolicy==dhtNoCopy)
+  {
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",key.value.unsigned_integer);
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
 #else
-  TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
 #endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
   TraceFunctionParamListEnd();
 
   h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
@@ -838,11 +845,18 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
+  if (ht->KeyPolicy==dhtNoCopy)
+  {
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",key.value.unsigned_integer);
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
 #else
-  TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
 #endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
   TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht, key);
@@ -888,40 +902,36 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
 dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 {
   InternHsElement **phe, *he;
-  dhtKey KeyV;
-  dhtValue DataV;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
+  if (ht->KeyPolicy==dhtNoCopy)
+  {
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  TraceFunctionParam("%jx",key.value.unsigned_integer);
-  TraceFunctionParam("%jx",data.unsigned_integer);
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
 #else
-  TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
-  TraceFunctionParam("%lx",(unsigned long)data.unsigned_integer);
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
 #endif
-  TraceFunctionParamListEnd();
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
+  if (ht->DtaPolicy==dhtNoCopy)
+  {
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+    TraceFunctionParam("%jx",data.unsigned_integer);
+#else
+    TraceFunctionParam("%lx",(unsigned long)data.unsigned_integer);
+#endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)data.object_pointer); // TODO: something more generic here?
+  }
 
   assert(key.value.object_pointer!=0); /* TODO: This assert assumes that object_pointer is the active member.
                                           Is there a more generic test we could do?  Do we need one? */
-  if ((ht->procs.DupKeyValue)(key.value, &KeyV.value))
-  {
-    TraceText("key duplication failed\n");
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
-  }
-
-  if ((ht->procs.DupData)(data, &DataV))
-  {
-    (ht->procs.FreeKeyValue)(KeyV.value);
-    TraceText("data duplication failed\n");
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
-  }
 
   phe = LookupInternHsElement(ht,key);
   TraceValue("%p",(void *)phe);
@@ -935,31 +945,50 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
     TraceEOL();
     if (he==0)
     {
-      (ht->procs.FreeKeyValue)(KeyV.value);
-      (ht->procs.FreeData)(DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    else
+    if ((ht->procs.DupKeyValue)(key.value, &he->HsEl.Key.value))
     {
-      *phe = he;
-      he->Next = NilInternHsElement;
-      ht->KeyCount++;
+      FreeInternHsElement(he);
+      TraceText("key duplication failed\n");
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
     }
+    if ((ht->procs.DupData)(data, &he->HsEl.Data))
+    {
+      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
+      FreeInternHsElement(he);
+      TraceText("data duplication failed\n");
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
+    }
+    *phe = he;
+    he->Next = NilInternHsElement;
+    ht->KeyCount++;
   }
   else
   {
+    dhtValue DataV;
+    if ((ht->procs.DupData)(data, &DataV))
+    {
+      TraceText("data duplication failed\n");
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
+    }
     if (ht->DtaPolicy == dhtCopy)
       (ht->procs.FreeData)(he->HsEl.Data);
-    if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
+    he->HsEl.Data = DataV;
   }
-
-  he->HsEl.Key = KeyV;
-  he->HsEl.Data = DataV;
 
   if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
   {

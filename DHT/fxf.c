@@ -493,6 +493,7 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
          (size <= fxfMAXSIZE) &&
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
+  assert((!cur_sh->FreeHead) == (!cur_sh->FreeCount));
   if ((size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
     if (size >= sizeof cur_sh->FreeHead)
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -512,6 +513,7 @@ static void * popOffFreeStore(size_t const size) {
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   ptr= cur_sh->FreeHead;
+  assert((!ptr) == (!cur_sh->FreeCount));
   if (ptr) {
     cur_sh->FreeCount--;
     if (size < sizeof cur_sh->FreeHead)
@@ -621,7 +623,8 @@ START_LOOKING_FOR_CHUNK:
       }
       else {
         /* fully aligned */
-        ptr= (TopFreePtr= stepPointer(TopFreePtr, -(ptrdiff_t)size));
+        TopFreePtr= stepPointer(TopFreePtr, -(ptrdiff_t)size);
+        ptr= TopFreePtr;
       }
       sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
       sh->MallocCount++;
@@ -644,7 +647,7 @@ NEXT_SEGMENT:
           BotFreePtr= stepPointer(BotFreePtr, cur_alignment);
           curBottomIndex+= cur_alignment;
         }
-        curBottomIndex= (size_t)(TopFreePtr-BotFreePtr);
+        curBottomIndex= (size_t)pointerDifference(TopFreePtr,BotFreePtr);
         if (curBottomIndex >= fxfMINSIZE)
           pushOntoFreeStore(BotFreePtr, curBottomIndex);
         TMDBG(fputs(" next seg", stdout));
