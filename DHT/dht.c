@@ -899,9 +899,21 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
   TraceFunctionResultEnd();
 }
 
+/* dhtEnterElement adds the key, data pair.  If an equivalent key already exists
+   then the data will be updated and the existing key will be replaced by the
+   provided key.  (The latter can matter if keys contain data that doesn't affect
+   the equivalence check.)
+   Ths function allocates copies before freeing any old data, allowing us to bail
+   on failure while leaving the old data intact.  This isn't ideal from a memory-
+   usage perspective, so if this "strong exception guarantee" is unnecessary then
+   the code can likely be simplified and improved. */
 dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 {
   InternHsElement **phe, *he;
+  dhtKey KeyV;
+  dhtValue DataV;
+  dhtValue *KeyVPtr;
+  dhtValue *DataVPtr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
@@ -951,43 +963,49 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    if ((ht->procs.DupKeyValue)(key.value, &he->HsEl.Key.value))
-    {
-      FreeInternHsElement(he);
-      TraceText("key duplication failed\n");
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%p",(void *)dhtNilElement);
-      TraceFunctionResultEnd();
-      return dhtNilElement;
-    }
-    if ((ht->procs.DupData)(data, &he->HsEl.Data))
-    {
-      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
-      FreeInternHsElement(he);
-      TraceText("data duplication failed\n");
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%p",(void *)dhtNilElement);
-      TraceFunctionResultEnd();
-      return dhtNilElement;
-    }
-    *phe = he;
-    he->Next = NilInternHsElement;
-    ht->KeyCount++;
+    KeyVPtr = &he->HsEl.Key.value;
+    DataVPtr = &he->HsEl.Data;
   }
   else
   {
-    dhtValue DataV;
-    if ((ht->procs.DupData)(data, &DataV))
-    {
-      TraceText("data duplication failed\n");
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%p",(void *)dhtNilElement);
-      TraceFunctionResultEnd();
-      return dhtNilElement;
-    }
+    KeyVPtr = &KeyV.value;
+    DataVPtr = &DataV;
+  }
+  if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
+  {
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceText("key duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if ((ht->procs.DupData)(data, DataVPtr))
+  {
+    (ht->procs.FreeKeyValue)(*KeyVPtr);
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceText("data duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if (*phe)
+  {
     if (ht->DtaPolicy == dhtCopy)
       (ht->procs.FreeData)(he->HsEl.Data);
+    if (ht->KeyPolicy == dhtCopy)
+      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
+    he->HsEl.Key = KeyV;
     he->HsEl.Data = DataV;
+  }
+  else
+  {
+    *phe = he;
+    he->Next = NilInternHsElement;
+    ht->KeyCount++;
   }
 
   if (ActualLoadFactor(ht)>ht->MaxLoadFactor)

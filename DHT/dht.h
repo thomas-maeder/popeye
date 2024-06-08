@@ -26,7 +26,15 @@ struct dht;
 /* procedures */
 struct dht    *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
                          dhtValueType DtaType, dhtValuePolicy DataPolicy);
+
+/* dhtEnterElement adds the key, data pair.  If an equivalent key already exists
+   then the data will be updated and the existing key will be replaced by the
+   provided key.  (The latter can matter if keys contain data that doesn't affect
+   the equivalence check.)
+   TODO: Is the "equivalent key" behavior what we need/want?  Otherwise it's
+         pessimization in comparison to just leaving the original key intact. */
 dhtElement    *dhtEnterElement(struct dht *, dhtKey key, dhtValue data);
+
 unsigned int   dhtBucketStat(struct dht *, unsigned int *counter, unsigned int n);
 void           dhtDestroy(struct dht *);
 void           dhtDump(struct dht *, FILE *);
