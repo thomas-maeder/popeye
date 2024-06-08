@@ -52,9 +52,6 @@ enum {
                                                            (FXF_MAX_ALIGNMENT <= (size_t)-1) &&
                                                            !(FXF_MAX_ALIGNMENT & (FXF_MAX_ALIGNMENT - 1U)))
 };
-#  if ((FXF_MAX_ALIGNMENT <= 0) || (FXF_MAX_ALIGNMENT & (FXF_MAX_ALIGNMENT - 1U)))
-#    #error "ERROR: MAX_ALIGNMENT must be a power of 2."
-#  endif
 #else
 #  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
 #    define FXF_MAX_ALIGNMENT _Alignof(max_align_t)
