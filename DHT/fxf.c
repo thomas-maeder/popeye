@@ -657,7 +657,7 @@ NEXT_SEGMENT:
 #endif /*SEGMENTED*/
       {
         ptr= Nil(void);
-#if defined(FXF_BREAK_APART_LARGER_CHUNK)
+#if !defined(FXF_DONT_BREAK_LARGE_CHUNKS)
         /* See if we can find a larger chunk to pull a piece out of. */
         for (size_t largerSize= size; largerSize < fxfMAXSIZE;) {
           largerSize+= min_alignment;
@@ -680,7 +680,7 @@ NEXT_SEGMENT:
             break;
           }
         }
-#endif /*FXF_BREAK_APART_LARGER_CHUNK*/
+#endif /*!FXF_DONT_BREAK_LARGE_CHUNKS*/
       }
       TMDBG(printf(" ptr:%p\n", ptr));
     }

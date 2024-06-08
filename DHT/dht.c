@@ -903,7 +903,7 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
    then the data will be updated and the existing key will be replaced by the
    provided key.  (The latter can matter if keys contain data that doesn't affect
    the equivalence check.)
-   Ths function allocates copies before freeing any old data, allowing us to bail
+   This function allocates copies before freeing any old data, allowing us to bail
    on failure while leaving the old data intact.  This isn't ideal from a memory-
    usage perspective, so if this "strong exception guarantee" is unnecessary then
    the code can likely be simplified and improved. */
@@ -1010,22 +1010,25 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 
   if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
   {
-    /*
+#if 0
       fputs("Dumping Hash-Table before expansion\n",stderr);
       fDumpHashTable(ht, stderr);
-    */
+#endif
     if (ExpandHashTable(ht)!=dhtOkStatus)
     {
+      /* TODO: It seems strange to return dhtNilElement AFTER we've added a new entry
+               or overwritten an old one.  Should we return something else here?  Should
+               we check and deal with this issue BEFORE creating or overwriting an entry? */
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    /*
+#if 0
       fputs("Dumping Hash-Table after expansion\n",stderr);
       fDumpHashTable(ht, stderr);
-    */
+#endif
   }
 
   TraceFunctionExit(__func__);
