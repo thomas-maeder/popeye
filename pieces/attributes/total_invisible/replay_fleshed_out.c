@@ -9,7 +9,7 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-ply ply_replayed;
+ply total_invisible_ply_replayed;
 
 static boolean is_move_still_playable(slice_index si)
 {
@@ -20,17 +20,17 @@ static boolean is_move_still_playable(slice_index si)
 
   {
     Side const side = SLICE_STARTER(si);
-    move_effect_journal_index_type const base = move_effect_journal_base[ply_replayed];
+    move_effect_journal_index_type const base = move_effect_journal_base[total_invisible_ply_replayed];
     move_effect_journal_index_type const precapture = base;
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture;
+    square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(total_invisible_ply_replayed)].capture;
 
-    TraceValue("%u",ply_replayed);
+    TraceValue("%u",total_invisible_ply_replayed);
     TraceSquare(sq_departure);
     TraceSquare(sq_arrival);
-    TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture);
+    TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(total_invisible_ply_replayed)].capture);
     TraceEOL();
 
     assert(move_effect_journal[precapture].type==move_effect_none);
@@ -90,17 +90,17 @@ static boolean is_move_still_playable(slice_index si)
 
 static void copy_move_effects(void)
 {
-  move_effect_journal_index_type const replayed_base = move_effect_journal_base[ply_replayed];
-  move_effect_journal_index_type const replayed_top = move_effect_journal_base[ply_replayed+1];
+  move_effect_journal_index_type const replayed_base = move_effect_journal_base[total_invisible_ply_replayed];
+  move_effect_journal_index_type const replayed_top = move_effect_journal_base[total_invisible_ply_replayed+1];
   move_effect_journal_index_type replayed_curr;
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",ply_replayed);
-  TraceValue("%u",move_effect_journal_base[ply_replayed]);
-  TraceValue("%u",move_effect_journal_base[ply_replayed+1]);
+  TraceValue("%u",total_invisible_ply_replayed);
+  TraceValue("%u",move_effect_journal_base[total_invisible_ply_replayed]);
+  TraceValue("%u",move_effect_journal_base[total_invisible_ply_replayed+1]);
   TraceValue("%u",nbply);
   TraceEOL();
 
@@ -142,15 +142,15 @@ void total_invisible_move_repeater_solve(slice_index si)
 
   nextply(SLICE_STARTER(si));
 
-  if (!(move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==kingside_castling
-        || move_generation_stack[CURRMOVE_OF_PLY(ply_replayed)].capture==queenside_castling)
+  if (!(move_generation_stack[CURRMOVE_OF_PLY(total_invisible_ply_replayed)].capture==kingside_castling
+        || move_generation_stack[CURRMOVE_OF_PLY(total_invisible_ply_replayed)].capture==queenside_castling)
       || is_move_still_playable(si))
   {
     copy_move_effects();
     redo_move_effects();
-    ++ply_replayed;
+    ++total_invisible_ply_replayed;
     pipe_solve_delegate(si);
-    --ply_replayed;
+    --total_invisible_ply_replayed;
     undo_move_effects();
   }
   else
@@ -185,7 +185,7 @@ boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay)
       }
       else
       {
-        record_decision_outcome("nbply %u: ply_replayed:%u %s",nbply,ply_replayed,"departure square not empty when retracting");
+        record_decision_outcome("nbply %u: ply_replayed:%u %s",nbply,total_invisible_ply_replayed,"departure square not empty when retracting");
         mate_validation_result = mate_unvalidated;
       }
     }
@@ -195,7 +195,8 @@ boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay)
   {
     result = true;
 
-    ply_replayed = nbply;
+    assert(total_invisible_ply_replayed==ply_nil);
+    total_invisible_ply_replayed = nbply;
     nbply = top_ply_of_regular_play;
 
     TracePosition(being_solved.board,being_solved.spec);
@@ -212,7 +213,8 @@ boolean replay_fleshed_out_move_sequence(play_phase_type phase_replay)
 
     play_phase = play_finalising_replay;
 
-    nbply = ply_replayed;
+    nbply = total_invisible_ply_replayed;
+    total_invisible_ply_replayed = ply_nil;
   }
 
   TraceFunctionExit(__func__);

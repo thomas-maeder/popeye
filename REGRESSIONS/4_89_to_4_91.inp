@@ -77,5 +77,32 @@ Pieces Black Og4 White sc8 ke7
 condition make&take
 option nowk nobk
 
-End
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition imitator a7b7c7d7e7f7g7h7g8h8f8e8
+option vari nothreat
+
+next
+
+pieces ka1
+stip ~1
+option enpassant a5b5c5d5e5
+
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition blackmindister e5b8a1
+option vari nothreat
+
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition blackmindister e5e5
+option vari nothreat
+
+end
 

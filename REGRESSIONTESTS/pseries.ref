@@ -56,10 +56,10 @@ solution finished.
   2->pser-h#3                 5 + 5
 
   1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. #
-  add_to_move_generation_stack:     2469666
-                     play_move:     1600054
- is_white_king_square_attacked:      500356
- is_black_king_square_attacked:     1517182
+  add_to_move_generation_stack:     2469726
+                     play_move:     1600114
+ is_white_king_square_attacked:      500432
+ is_black_king_square_attacked:     1517242
 
 solution finished.
 
@@ -91,10 +91,10 @@ actually a pser-h#7
   Black 13h[1h[#]h]?+?h       2 + 8
 
   1.Sc2-a1   2.Qb1-h7   3.Qh7-b7 + Ra4-e4   4.Kb3-a2   5.Qb7-b1   6.Rb8-b2   7.Sa1-b3 Re4-a4 #
-  add_to_move_generation_stack:     9439012
-                     play_move:     9440314
- is_white_king_square_attacked:     3055532
- is_black_king_square_attacked:     1958942
+  add_to_move_generation_stack:     9371450
+                     play_move:     9372740
+ is_white_king_square_attacked:     3035858
+ is_black_king_square_attacked:     1946492
 
 solution finished.
 
@@ -125,10 +125,10 @@ solution finished.
   pser-h#6                    2 + 5
 
   1.h2-h1=Q   2.Kg1-h2   3.Qh1-c1 + Sd5-f4   4.Qc1-c6 + Sf4-e6   5.Qc6-c1 + Se6-g5   6.Qc1-h1 Sg5-f3 #
-  add_to_move_generation_stack:      281990
-                     play_move:      328445
- is_white_king_square_attacked:       89082
- is_black_king_square_attacked:       55695
+  add_to_move_generation_stack:      279758
+                     play_move:      325370
+ is_white_king_square_attacked:       88501
+ is_black_king_square_attacked:       55340
 
 solution finished.
 
@@ -161,18 +161,18 @@ Dan Meinking (dedicated to Perry Sill)
 a) 
 
   1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 #
-  add_to_move_generation_stack:       46413
-                     play_move:       50130
- is_white_king_square_attacked:       23782
- is_black_king_square_attacked:       21819
+  add_to_move_generation_stack:       46392
+                     play_move:       50103
+ is_white_king_square_attacked:       23772
+ is_black_king_square_attacked:       21812
 
 b) wBd1  
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 #
-  add_to_move_generation_stack:      160327
-                     play_move:      166929
- is_white_king_square_attacked:       76116
- is_black_king_square_attacked:       63427
+  add_to_move_generation_stack:      160281
+                     play_move:      166871
+ is_white_king_square_attacked:       76096
+ is_black_king_square_attacked:       63413
 
 solution finished.
 

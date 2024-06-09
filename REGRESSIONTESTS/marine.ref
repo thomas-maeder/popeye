@@ -869,10 +869,10 @@ solution finished.
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=TR   9.TRd1-d5  10.TRd5*f5-g5  11.TRg5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d6  10.MHd6-e6  11.MHe6*f5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
-  add_to_move_generation_stack:    29467747
-                     play_move:    24006685
- is_white_king_square_attacked:     8105039
- is_black_king_square_attacked:    24006685
+  add_to_move_generation_stack:    29467874
+                     play_move:    24006812
+ is_white_king_square_attacked:     8105042
+ is_black_king_square_attacked:    24006812
 
 solution finished.
 

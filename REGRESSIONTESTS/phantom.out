@@ -270,10 +270,10 @@ Loesung beendet.
 
   1.Kf3-e2   2.Ke2-d1 g7-g8=D =
   1.Kf3-g2   2.Kg2-h1 g7-g8=T =
-  add_to_move_generation_stack:         824
-                     play_move:         349
+  add_to_move_generation_stack:         912
+                     play_move:         383
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         349
+ is_black_king_square_attacked:         383
 
 Loesung beendet.
 

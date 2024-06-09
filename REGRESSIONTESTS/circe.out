@@ -845,10 +845,10 @@ letzte 6 Halbz\"uge - Test f\"urs Hashing
  34  (Kh4-h3 )
  35  (Kh4-g4 )
  36  (Kh4-h5 + )
-  add_to_move_generation_stack:    44735971
-                     play_move:    23799106
- is_white_king_square_attacked:     9855693
- is_black_king_square_attacked:    20042797
+  add_to_move_generation_stack:    44736206
+                     play_move:    23799218
+ is_white_king_square_attacked:     9855727
+ is_black_king_square_attacked:    20042899
 
 Loesung beendet.
 

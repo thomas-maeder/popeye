@@ -26,10 +26,10 @@
              OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 =
-  add_to_move_generation_stack:       12954
-                     play_move:        3848
- is_white_king_square_attacked:        3764
- is_black_king_square_attacked:        3614
+  add_to_move_generation_stack:       13068
+                     play_move:        3872
+ is_white_king_square_attacked:        3788
+ is_black_king_square_attacked:        3629
 
 Loesung beendet.
 
@@ -98,10 +98,10 @@ Loesung beendet.
              OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 =
-  add_to_move_generation_stack:       10009
-                     play_move:        4554
- is_white_king_square_attacked:        4496
- is_black_king_square_attacked:        4746
+  add_to_move_generation_stack:       10057
+                     play_move:        4568
+ is_white_king_square_attacked:        4510
+ is_black_king_square_attacked:        4756
 
 Loesung beendet.
 

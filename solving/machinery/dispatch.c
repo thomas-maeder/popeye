@@ -40,6 +40,7 @@
 #include "conditions/circe/symmetry.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/parachute.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
 #include "conditions/circe/capture_square.h"

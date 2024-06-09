@@ -1162,10 +1162,10 @@ Loesung beendet.
 
   1.Kc7-c6   2.Kc6-b5   3.Kb5-b4   4.Nc5-a6 Nc8-f2 #
   1.Kc7-d7   2.Kd7-e6   3.Nc5-d7   4.Nd7-f8 Nc8-a4 #
-  add_to_move_generation_stack:       33941
-                     play_move:       27288
- is_white_king_square_attacked:       11155
- is_black_king_square_attacked:       28902
+  add_to_move_generation_stack:       33976
+                     play_move:       27305
+ is_white_king_square_attacked:       11159
+ is_black_king_square_attacked:       28919
 
 Loesung beendet.
 
@@ -1280,9 +1280,9 @@ Loesung beendet.
              OhneSchach
 
   1.b7-b5   2.b5-b4   3.b4-b3   4.b3-b2   5.b2-b1=L   6.a2-a1=T   7.Ta1-a7   8.Lb1-e4   9.Le4-a8  10.Ta7-b7 Kf1-g2 =
-  add_to_move_generation_stack:      610595
-                     play_move:      152683
- is_white_king_square_attacked:      181180
+  add_to_move_generation_stack:      611275
+                     play_move:      152771
+ is_white_king_square_attacked:      181268
  is_black_king_square_attacked:           0
 
 Loesung beendet.
@@ -1316,10 +1316,10 @@ Loesung beendet.
              OhneSchach
 
   1.Kh7-g6   2.Kg6-f5   3.Kf5-e4   4.Ke4-d4   5.Kd4-c3   6.Kc3-b4   7.Kb4*b5   8.Kb5-a6   9.b6-b5  10.b5-b4  11.b4-b3  12.b3-b2  13.b2-b1=L  14.Lb1-e4  15.Le4-a8  16.Ka6-b7 Kd6-d5 =
-  add_to_move_generation_stack:      329349
-                     play_move:       71629
- is_white_king_square_attacked:       79541
- is_black_king_square_attacked:       76142
+  add_to_move_generation_stack:      329669
+                     play_move:       71689
+ is_white_king_square_attacked:       79597
+ is_black_king_square_attacked:       76194
 
 Loesung beendet.
 
@@ -1482,10 +1482,10 @@ Loesung beendet.
              OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 =
-  add_to_move_generation_stack:       12954
-                     play_move:        3848
- is_white_king_square_attacked:        3764
- is_black_king_square_attacked:        3614
+  add_to_move_generation_stack:       13068
+                     play_move:        3872
+ is_white_king_square_attacked:        3788
+ is_black_king_square_attacked:        3629
 
 Loesung beendet.
 
@@ -1554,10 +1554,10 @@ Loesung beendet.
              OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 =
-  add_to_move_generation_stack:       10009
-                     play_move:        4554
- is_white_king_square_attacked:        4496
- is_black_king_square_attacked:        4746
+  add_to_move_generation_stack:       10057
+                     play_move:        4568
+ is_white_king_square_attacked:        4510
+ is_black_king_square_attacked:        4756
 
 Loesung beendet.
 

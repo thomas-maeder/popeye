@@ -9,14 +9,15 @@
  * @param created nature of created piece
  * @param createdspec specs of created piece
  * @param for which side is the (potentially neutral) piece created
+ * @return true iff we have successfully created the piece
  */
-void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
-                                           square on,
-                                           piece_walk_type created,
-                                           Flags createdspec,
-                                           Side for_side)
+boolean move_effect_journal_do_piece_creation(move_effect_reason_type reason,
+                                              square on,
+                                              piece_walk_type created,
+                                              Flags createdspec,
+                                              Side for_side)
 {
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_creation,reason);
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -25,21 +26,30 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceEnumerator(Side,for_side);
   TraceFunctionParamListEnd();
 
-  entry->u.piece_addition.added.on = on;
-  entry->u.piece_addition.added.walk = created;
-  entry->u.piece_addition.added.flags = createdspec;
-  entry->u.piece_addition.for_side = for_side;
+  if (being_solved.currPieceId<MaxPieceId)
+  {
+    move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_creation,reason);
 
-  assert(is_square_empty(on));
-  if (TSTFLAG(createdspec,White))
-    ++being_solved.number_of_pieces[White][created];
-  if (TSTFLAG(createdspec,Black))
-    ++being_solved.number_of_pieces[Black][created];
-  occupy_square(on,created,createdspec);
-  SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
+    entry->u.piece_addition.added.on = on;
+    entry->u.piece_addition.added.walk = created;
+    entry->u.piece_addition.added.flags = createdspec;
+    entry->u.piece_addition.for_side = for_side;
+
+    assert(is_square_empty(on));
+    if (TSTFLAG(createdspec,White))
+      ++being_solved.number_of_pieces[White][created];
+    if (TSTFLAG(createdspec,Black))
+      ++being_solved.number_of_pieces[Black][created];
+    occupy_square(on,created,createdspec);
+    SetPieceId(being_solved.spec[on],++being_solved.currPieceId);
+
+    result = true;
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void undo_piece_creation(move_effect_journal_entry_type const *entry)

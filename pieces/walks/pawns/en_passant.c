@@ -173,6 +173,9 @@ void move_effect_journal_do_remember_ep(square s)
   entry->u.ep_capture_potential.capture_square = s;
 
   ++en_passant_top[nbply];
+  TraceValue("%u",nbply);
+  TraceValue("%u",en_passant_top[nbply]);
+  TraceEOL();
   en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
@@ -215,7 +218,7 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *
  */
 boolean en_passant_was_multistep_played(ply ply)
 {
-  boolean const result = en_passant_top[nbply]>en_passant_top[nbply-1];
+  boolean const result = en_passant_top[ply]>en_passant_top[ply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
@@ -334,6 +337,9 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   {
     unsigned int i;
 
+    TraceValue("%u",en_passant_top[ply_parent-1]);
+    TraceValue("%u",en_passant_top[ply_parent]);
+    TraceEOL();
     for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
       if (en_passant_multistep_over[i]==s)
       {

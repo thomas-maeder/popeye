@@ -125,10 +125,10 @@ Loesung beendet.
               BGL -/29
 
   1.nBb2-b1=nT (-/28)   2.nTb1-h1 (-/22)   3.nTh1-a1 (-/15)   4.nTa1-a8 (-/8)   5.nTa8-h8 (-/1) nTh8*h6 #
-  add_to_move_generation_stack:     1275665
-                     play_move:     1161090
+  add_to_move_generation_stack:     1275863
+                     play_move:     1161288
  is_white_king_square_attacked:       94088
- is_black_king_square_attacked:     1161090
+ is_black_king_square_attacked:     1161288
 
 Loesung beendet.
 
