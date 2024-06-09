@@ -43,6 +43,7 @@
 #include "conditions/circe/capture_square.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
@@ -2526,10 +2527,6 @@ void dispatch(slice_index si)
       nanna_generate_moves_for_piece(si);
       break;
 
-    case STPointReflectionMovesForPieceGenerator:
-      point_reflection_generate_moves_for_piece(si);
-      break;
-
     case STFaceToFaceMovesForPieceGenerator:
       facetoface_generate_moves_for_piece(si);
       break;
@@ -2622,6 +2619,14 @@ void dispatch(slice_index si)
 
     case STPepoCheckTestHack:
       pepo_is_square_observed(si);
+      break;
+
+    case STPointReflectionTemporaryWalkChanger:
+      point_reflection_temporarily_change_walks(si);
+      break;
+
+    case STPointReflectionWalkRestorer:
+      point_reflection_restore_walks(si);
       break;
 
     default:

@@ -591,7 +591,8 @@
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \
     ENUMERATOR(STAnnanMovesForPieceGenerator),                          \
     ENUMERATOR(STNannaMovesForPieceGenerator),                          \
-    ENUMERATOR(STPointReflectionMovesForPieceGenerator),                \
+    ENUMERATOR(STPointReflectionTemporaryWalkChanger),                  \
+    ENUMERATOR(STPointReflectionWalkRestorer),                          \
     ENUMERATOR(STFaceToFaceMovesForPieceGenerator),                     \
     ENUMERATOR(STBackToBackMovesForPieceGenerator),                     \
     ENUMERATOR(STCheekToCheekMovesForPieceGenerator),                   \
