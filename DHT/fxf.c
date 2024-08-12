@@ -46,17 +46,23 @@
 #  endif
 #endif
 
-#if defined(FXF_MAX_ALIGNMENT)
-enum {
-  ENSURE_FXF_MAX_ALIGNMENT_IS_REASONABLE_POWER_OF_TWO = 1/((FXF_MAX_ALIGNMENT > 0) &&
-                                                           (FXF_MAX_ALIGNMENT <= (size_t)-1) &&
-                                                           !(FXF_MAX_ALIGNMENT & (FXF_MAX_ALIGNMENT - 1U)))
-};
-#else
+#if defined(FXF_MAX_ALIGNMENT_TYPE)
 #  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
-#    define FXF_MAX_ALIGNMENT _Alignof(max_align_t)
+#    define MAX_ALIGNMENT _Alignof(FXF_MAX_ALIGNMENT_TYPE)
 #  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
-#    define FXF_MAX_ALIGNMENT alignof(max_align_t)
+#    define MAX_ALIGNMENT alignof(FXF_MAX_ALIGNMENT_TYPE)
+#  else
+  struct GET_MAX_ALIGNMENT_TYPE {
+    unsigned char c;
+    FXF_MAX_ALIGNMENT_TYPE max_alignment_member;
+  };
+#    define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_alignment_member)
+#  endif
+#else /*FXF_MAX_ALIGNMENT_TYPE*/
+#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#    define MAX_ALIGNMENT _Alignof(max_align_t)
+#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
+#    define MAX_ALIGNMENT alignof(max_align_t)
 #  else
 #    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #      include <stdint.h>
@@ -76,9 +82,31 @@ enum {
       long double floating_point;
     } max_aligned_union;
   };
-#    define FXF_MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
+#    define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
 #  endif
-#endif /*FXF_MAX_ALIGNMENT*/
+#endif /*!FXF_MAX_ALIGNMENT_TYPE*/
+
+#if defined(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE)
+#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#    define NOT_MULTIPLE_ALIGNMENT ((_Alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE) > MAX_ALIGNMENT) ? \
+                                    MAX_ALIGNMENT : \
+                                    _Alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
+#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
+#    define NOT_MULTIPLE_ALIGNMENT ((alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE) > MAX_ALIGNMENT) ? \
+                                    MAX_ALIGNMENT : \
+                                    alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
+#  else
+  struct GET_NOT_EVEN_ALIGNMENT_TYPE {
+    unsigned char c;
+    FXF_NOT_MULTIPLE_ALIGNMENT_TYPE not_even_alignment_member;
+  };
+#    define NOT_MULTIPLE_ALIGNMENT ((offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member) > MAX_ALIGNMENT) ? \
+                                    MAX_ALIGNMENT : \
+                                    offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member))
+#  endif
+#else /*FXF_NOT_MULTIPLE_ALIGNMENT_TYPE*/
+#  define NOT_MULTIPLE_ALIGNMENT MAX_ALIGNMENT
+#endif /*!FXF_NOT_MULTIPLE_ALIGNMENT_TYPE*/
 
 #if !defined(Nil) && !defined(New) && !defined(nNewUntyped) && !defined(nNewCallocUntyped) /* TODO: Is this the correct check for all of the below lines? */
 #  define Nil(type)      ((type *)0)
@@ -134,7 +162,7 @@ typedef struct {
 #if defined(DOS)
 /* MSDOS 16 Bit support (maxmemory <= 1 MB) */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(32000) & ~(FXF_MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(32000) & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "MSDOS"
 #define OSMAXMEM "1 MB"
@@ -142,7 +170,7 @@ typedef struct {
 /* Win95/Win98/WinME can only allocate chunks up to 255 MB */
 /* maxmemory <= 768 MB */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(1000000) & ~(FXF_MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(1000000) & ~(MAX_ALIGNMENT - 1U))
 #define ARENA_SEG_COUNT ((768*1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "Win95/Win98/WinME"
 #define OSMAXMEM "768 MB"
@@ -166,7 +194,7 @@ enum
 #else
                ((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
 #endif
-                                + (FXF_MAX_ALIGNMENT - 1U)) & ~(FXF_MAX_ALIGNMENT - 1U)) /* Round up if necessary. */
+                                + (MAX_ALIGNMENT - 1U)) & ~(MAX_ALIGNMENT - 1U)) /* Round up if necessary. */
 };
 
 enum {
@@ -175,12 +203,12 @@ enum {
 };
 
 #define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
-#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > FXF_MAX_ALIGNMENT) ? FXF_MAX_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
-                                                                                                                                       (Of course, they're probably the same.)
-                                                                                                                                       TODO: Can we compute what we want at compile time and just use it? */
-static size_t min_alignment= 0; /* for now */
+#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > NOT_MULTIPLE_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
+                                                                                                                                                 (Of course, they're probably the same.)
+                                                                                                                                                 TODO: Can we compute what we want at compile time and just use it? */
+static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
-static SizeHead SizeData[1 + ((fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)]; /* Minimum allocation is (fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U).
+static SizeHead SizeData[1 + ((fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)]; /* Minimum allocation is fxfMINSIZE.
                                                                                           Maximum allocation is fxfMAXSIZE.
                                                                                           All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
 #define SIZEDATA_SIZE_TO_INDEX(s) (((s) - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)
@@ -303,6 +331,8 @@ size_t fxfMaxAllocation(void) {
   return fxfMAXSIZE;
 }
 
+#define ALIGN_TO_MINIMUM(s)  ((((s) - 1U) & ~(min_alignment - 1U)) + min_alignment)
+
 size_t fxfInit(size_t Size) {
 #if defined(LOG)
   static char const * const myname= "fxfInit";
@@ -343,7 +373,7 @@ size_t fxfInit(size_t Size) {
     free(Arena);
   if (Size > MAX_POINTER_DIFFERENCE)
     Size= MAX_POINTER_DIFFERENCE;
-  Size&= ~(FXF_MAX_ALIGNMENT - 1U);
+  Size&= ~(MAX_ALIGNMENT - 1U);
   Arena= nNewUntyped(Size, char);
   if (!Arena) {
     ERROR_LOG3("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " <= %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
@@ -379,12 +409,8 @@ size_t fxfInit(size_t Size) {
     SizeData[Size].FreeHead= Nil(void);
   }
 
-  if (!min_alignment)
-  {
-    min_alignment= FXF_MAX_ALIGNMENT;
-    while (min_alignment > fxfMINSIZE)
-      min_alignment>>= 1;
-  }
+  while ((min_alignment>>1) >= fxfMINSIZE)
+    min_alignment>>= 1;
 
   return GlobalSize;
 }
@@ -475,8 +501,7 @@ void fxfReset(void)
  * SPARC, HPPA, MIPS. We wouldn't need this when running on an
  * Intel *86 type of CPU, but also there, aligned access is faster.
  */
-#define PTRMASK            (FXF_MAX_ALIGNMENT-1U)
-#define ALIGN_TO_MINIMUM(s)  (((s) + (min_alignment - 1U)) & ~(min_alignment - 1U))
+#define PTRMASK            (MAX_ALIGNMENT-1U)
 
 #if defined(FXF_ENABLE_TMDBG)
 #  define TMDBG(x) do {x;} while (0)
@@ -502,7 +527,8 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
   return 0;
 }
 
-static void * popOffFreeStore(size_t const size) {
+static void * popOffFreeStore(size_t const size)
+{
   SizeHead *cur_sh;
   void *ptr;
   assert((size >= fxfMINSIZE) &&
@@ -535,8 +561,7 @@ void *fxfAlloc(size_t size) {
 
   if (size<fxfMINSIZE)
     size= fxfMINSIZE;
-
-  if (size>fxfMAXSIZE)
+  else if (size>fxfMAXSIZE)
   {
     ERROR_LOG3("%s: size=%" SIZE_T_PRINTF_SPECIFIER " > %" SIZE_T_PRINTF_SPECIFIER "\n",
                myname,
@@ -547,6 +572,7 @@ void *fxfAlloc(size_t size) {
 
   // Round up to a multiple of min_alignment
   size= ALIGN_TO_MINIMUM(size);
+
   ptr= popOffFreeStore(size);
 
   if (ptr) {
@@ -598,19 +624,19 @@ START_LOOKING_FOR_CHUNK:
 #else
           (size_t)pointerDifference(BotFreePtr,Arena);
 #endif
-        size_t needed_alignment_mask= PTRMASK;
+        size_t needed_alignment_mask= (NOT_MULTIPLE_ALIGNMENT-1U);
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
-        if (curBottomIndex & needed_alignment_mask) {
-          if ((needed_alignment_mask - (curBottomIndex & needed_alignment_mask)) >= (sizeCurrentSeg-size))
+        curBottomIndex&= needed_alignment_mask;
+        if (curBottomIndex) {
+          if ((needed_alignment_mask - curBottomIndex) >= (sizeCurrentSeg - size))
             goto NEXT_SEGMENT;
           do {
             size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
 #if defined(FREEMAP) && !defined(SEGMENTED)
             SetRange(curBottomIndex,cur_alignment);
 #endif
-            if (cur_alignment >= fxfMINSIZE)
-              pushOntoFreeStore(BotFreePtr, cur_alignment);
+            pushOntoFreeStore(BotFreePtr, cur_alignment);
             BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
           } while (curBottomIndex & needed_alignment_mask);
@@ -635,18 +661,23 @@ START_LOOKING_FOR_CHUNK:
     {
 NEXT_SEGMENT:
 #if defined(SEGMENTED)
-      if (CurrentSeg < (ArenaSegCnt-1)) {
-        size_t curBottomIndex= (BotFreePtr - Arena[CurrentSeg]);
-        while (curBottomIndex & PTRMASK) {
+      if ((CurrentSeg+1) < ArenaSegCnt) {
+        size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
+        while (curBottomIndex & (NOT_MULTIPLE_ALIGNMENT-1U))
+        {
           size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
-          if (cur_alignment >= fxfMINSIZE)
-            pushOntoFreeStore(BotFreePtr, cur_alignment);
-          BotFreePtr= stepPointer(BotFreePtr, cur_alignment);
+          pushOntoFreeStore(BotFreePtr, cur_alignment);
+          BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
           curBottomIndex+= cur_alignment;
         }
         curBottomIndex= (size_t)pointerDifference(TopFreePtr,BotFreePtr);
         if (curBottomIndex >= fxfMINSIZE)
+        {
+          assert(!(curBottomIndex & (NOT_MULTIPLE_ALIGNMENT - 1U)));
           pushOntoFreeStore(BotFreePtr, curBottomIndex);
+        }
+        else if (curBottomIndex)
+          TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)curBottomIndex, CurrentSeg, CurrentSeg+1));
         TMDBG(fputs(" next seg", stdout));
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
@@ -657,30 +688,7 @@ NEXT_SEGMENT:
 #endif /*SEGMENTED*/
       {
         ptr= Nil(void);
-#if !defined(FXF_DONT_BREAK_LARGE_CHUNKS)
-        /* See if we can find a larger chunk to pull a piece out of. */
-        for (size_t largerSize= size; largerSize < fxfMAXSIZE;) {
-          largerSize+= min_alignment;
-          ptr= popOffFreeStore(largerSize);
-          if (ptr) {
-            void *newPtr= stepPointer(ptr, size);
-            size_t cur_alignment= (size & -size);
-            SizeData[SIZEDATA_SIZE_TO_INDEX(size)].MallocCount++;
-            largerSize-= size;
-            while ((cur_alignment < FXF_MAX_ALIGNMENT) && (cur_alignment <= (largerSize>>1))) {
-              if (cur_alignment >= fxfMINSIZE)
-                pushOntoFreeStore(newPtr, cur_alignment);
-              newPtr= stepPointer(newPtr, cur_alignment);
-              largerSize-= cur_alignment;
-              size+= cur_alignment;
-              cur_alignment= (size & -size);
-            }
-            if (largerSize >= fxfMINSIZE)
-              pushOntoFreeStore(newPtr, largerSize);
-            break;
-          }
-        }
-#endif /*!FXF_DONT_BREAK_LARGE_CHUNKS*/
+        /* TODO: Should we try to break apart a larger chunk? */
       }
       TMDBG(printf(" ptr:%p\n", ptr));
     }
@@ -733,7 +741,10 @@ FOUND_PUTATIVE_SEGMENT:
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
   if (size < fxfMINSIZE)
     size= fxfMINSIZE;
-  assert(size <= fxfMAXSIZE);
+  else
+  {
+    assert(size <= fxfMAXSIZE);
+  }
   size= ALIGN_TO_MINIMUM(size);
 #if !defined(NDEBUG)
 #  if defined(SEGMENTED)
@@ -749,7 +760,7 @@ FOUND_PUTATIVE_SEGMENT:
 #endif
     if (ptrIndex > 0)
     {
-      size_t needed_alignment= FXF_MAX_ALIGNMENT;
+      size_t needed_alignment= MAX_ALIGNMENT;
       while (needed_alignment > size)
         needed_alignment>>= 1;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
@@ -818,14 +829,17 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
       size_t needed_alignment;
       if (allocatedSize < fxfMINSIZE)
         allocatedSize= fxfMINSIZE;
-      assert(allocatedSize <= fxfMAXSIZE);
+      else
+      {
+        assert(allocatedSize <= fxfMAXSIZE);
+      }
       allocatedSize= ALIGN_TO_MINIMUM(allocatedSize);
 #  if defined(SEGMENTED)
       assert(allocatedSize <= (ARENA_SEG_SIZE - ptrIndex));
 #  else
       assert(allocatedSize <= (GlobalSize - ptrIndex));
 #  endif
-      needed_alignment= FXF_MAX_ALIGNMENT;
+      needed_alignment= MAX_ALIGNMENT;
       while (needed_alignment > allocatedSize)
         needed_alignment>>= 1;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
@@ -849,27 +863,7 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
     needed_allocation= ALIGN_TO_MINIMUM(needed_allocation);
     if (needed_allocation == original_allocation)  
       return ptr;
-#if defined(FXF_BREAK_APART_LARGER_CHUNK)
-    if (needed_allocation < original_allocation)
-    {
-      size_t cur_alignment= (needed_allocation & -needed_allocation);
-      nptr= stepPointer(ptr, needed_allocation);
-      SizeData[SIZEDATA_SIZE_TO_INDEX(original_allocation)].MallocCount--;
-      SizeData[SIZEDATA_SIZE_TO_INDEX(needed_allocation)].MallocCount++;
-      original_allocation-= needed_allocation;
-      while ((cur_alignment < FXF_MAX_ALIGNMENT) && (cur_alignment <= (original_allocation>>1))) {
-        if (cur_alignment >= fxfMINSIZE)
-          pushOntoFreeStore(nptr, cur_alignment);
-        nptr= stepPointer(nptr, cur_alignment);
-        original_allocation-= cur_alignment;
-        needed_allocation+= cur_alignment;
-        cur_alignment= (needed_allocation & -needed_allocation);
-      }
-      if (original_allocation >= fxfMINSIZE)
-        pushOntoFreeStore(nptr, original_allocation);
-      return ptr;
-    }
-#endif /*FXF_BREAK_APART_LARGER_CHUNK*/
+    /* TODO: Should we try to break apart this chunk? */
   }
   nptr= fxfAlloc(NewSize);
   if (nptr)
