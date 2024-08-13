@@ -187,14 +187,14 @@ enum
   fxfMAXSIZE =
 #if defined(SEGMENTED) || defined(__TURBOC__)
 #  if defined(ARENA_SEG_SIZE)
-               ((((1024 > ARENA_SEG_SIZE) ? ARENA_SEG_SIZE : ((size_t)1024))
+               (((((1024 > (ARENA_SEG_SIZE)) ? (ARENA_SEG_SIZE) : ((size_t)1024))
 #  else
-               ((((size_t)1024)
+               (((((size_t)1024)
 #  endif
 #else
-               ((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
+               (((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
 #endif
-                                + (MAX_ALIGNMENT - 1U)) & ~(MAX_ALIGNMENT - 1U)) /* Round up if necessary. */
+                                - 1U) & ~(MAX_ALIGNMENT - 1U)) + MAX_ALIGNMENT) /* Round up if necessary. */
 };
 
 enum {
