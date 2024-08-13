@@ -208,12 +208,10 @@ enum {
                                                                                                                                                  TODO: Can we compute what we want at compile time and just use it? */
 static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
-static SizeHead SizeData[1 + ((fxfMAXSIZE - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)]; /* Minimum allocation is fxfMINSIZE.
-                                                                                          Maximum allocation is fxfMAXSIZE.
-                                                                                          All allocations will be multiples of MIN_ALIGNMENT_UNDERESTIMATE. */
-#define SIZEDATA_SIZE_TO_INDEX(s) (((s) - fxfMINSIZE)/MIN_ALIGNMENT_UNDERESTIMATE)
-#define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + \
-                                   ((fxfMINSIZE + (MIN_ALIGNMENT_UNDERESTIMATE - 1U)) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U))))
+#define ROUNDED_MIN_SIZE_UNDERESTIMATE (((fxfMINSIZE - 1U) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U)) + MIN_ALIGNMENT_UNDERESTIMATE)
+#define SIZEDATA_SIZE_TO_INDEX(s) (((s) - ROUNDED_MIN_SIZE_UNDERESTIMATE)/MIN_ALIGNMENT_UNDERESTIMATE)
+#define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + ROUNDED_MIN_SIZE_UNDERESTIMATE))
+static SizeHead SizeData[1 + SIZEDATA_SIZE_TO_INDEX(fxfMAXSIZE)];
 
 #if defined(SEGMENTED)
 /* #define  ARENA_SEG_SIZE  32000 */
