@@ -760,9 +760,15 @@ FOUND_PUTATIVE_SEGMENT:
 #endif
     if (ptrIndex > 0)
     {
-      size_t needed_alignment= MAX_ALIGNMENT;
-      while (needed_alignment > size)
-        needed_alignment>>= 1;
+      size_t needed_alignment;
+      if (size&PTRMASK)
+      {
+        needed_alignment= NOT_MULTIPLE_ALIGNMENT;
+        while (needed_alignment > size)
+          needed_alignment>>= 1;
+      }
+      else
+        needed_alignment= MAX_ALIGNMENT;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
     }
   }
@@ -839,9 +845,14 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
 #  else
       assert(allocatedSize <= (GlobalSize - ptrIndex));
 #  endif
-      needed_alignment= MAX_ALIGNMENT;
-      while (needed_alignment > allocatedSize)
-        needed_alignment>>= 1;
+      if (allocatedSize&PTRMASK)
+      {
+        needed_alignment= NOT_MULTIPLE_ALIGNMENT;
+        while (needed_alignment > allocatedSize)
+          needed_alignment>>= 1;
+      }
+      else
+        needed_alignment= MAX_ALIGNMENT;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
     }
   }                  
