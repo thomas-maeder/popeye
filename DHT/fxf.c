@@ -202,10 +202,11 @@ enum {
   ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE)
 };
 
-#define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)
-#define MIN_ALIGNMENT_UNDERESTIMATE ((BOTTOM_BIT_OF_FXFMINSIZE > NOT_MULTIPLE_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : BOTTOM_BIT_OF_FXFMINSIZE) /* We'd prefer the top bit, but we'll compute that during fxfInit.
-                                                                                                                                                 (Of course, they're probably the same.)
-                                                                                                                                                 TODO: Can we compute what we want at compile time and just use it? */
+#define BOTTOM_BIT_OF_FXFMINSIZE ((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE) /* TODO: The top bit would be better below,
+                                                                               but can we determine that at compile time? */
+#define MIN_ALIGNMENT_UNDERESTIMATE ((NOT_MULTIPLE_ALIGNMENT < BOTTOM_BIT_OF_FXFMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
+                                                                                           (BOTTOM_BIT_OF_FXFMINSIZE << ((fxfMINSIZE & (fxfMINSIZE - 1U)) && (NOT_MULTIPLE_ALIGNMENT > BOTTOM_BIT_OF_FXFMINSIZE))))
+
 static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
 #define ROUNDED_MIN_SIZE_UNDERESTIMATE (((fxfMINSIZE - 1U) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U)) + MIN_ALIGNMENT_UNDERESTIMATE)
