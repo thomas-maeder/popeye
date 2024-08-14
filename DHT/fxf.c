@@ -21,6 +21,7 @@
 #  include <inttypes.h>
    typedef ptrdiff_t ptrdiff_t_printf_type;
    typedef size_t size_t_printf_type;
+   typedef uintmax_t largest_integer_type;
 #  define MAX_POINTER_DIFFERENCE PTRDIFF_MAX
 #  if defined(UINTPTR_MAX)
    typedef uintptr_t convert_pointer_to_int_type;
@@ -35,12 +36,14 @@
    typedef long long int ptrdiff_t_printf_type;
    typedef unsigned long long int size_t_printf_type;
    typedef unsigned long long int convert_pointer_to_int_type;
+   typedef unsigned long long int largest_integer_type;
 #    define PTRDIFF_T_PRINTF_SPECIFIER "lld"
 #    define SIZE_T_PRINTF_SPECIFIER "llu"
 #  else /* We don't have long long integer types. */
    typedef long int ptrdiff_t_printf_type;
    typedef unsigned long int size_t_printf_type;
    typedef unsigned long int convert_pointer_to_int_type;
+   typedef unsigned long int largest_integer_type;
 #    define PTRDIFF_T_PRINTF_SPECIFIER "ld"
 #    define SIZE_T_PRINTF_SPECIFIER "lu"
 #  endif
@@ -70,13 +73,7 @@
   struct GET_MAX_ALIGNMENT_TYPE {
     unsigned char c;
     union {
-#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-      uintmax_t unsigned_integer;
-#    elif defined(LLONG_MAX) /* We have long long integer types. */
-      unsigned long long int unsigned_integer;
-#    else
-      unsigned long int unsigned_integer;
-#    endif
+      largest_integer_type unsigned_integer;
       const volatile void * object_pointer;
       void (*function_pointer)(void);  
       long double floating_point;
@@ -199,11 +196,12 @@ enum
 
 enum {
   ENSURE_FXFMINSIZE_GT_0 = 1/(fxfMINSIZE > 0),
-  ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE)
+  ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE),
+  ENSURE_FXFMAXSIZE_FULLY_ALIGNED = 1/!(fxfMAXSIZE & (MAX_ALIGNMENT - 1U))
 };
 
 #define MIN_ALIGNMENT_UNDERESTIMATE (((NOT_MULTIPLE_ALIGNMENT>>1) < fxfMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
-                                                                                  ((fxfMINSIZE & (fxfMINSIZE - 1U)) ? (((size_t)fxfMINSIZE & -(size_t)fxfMINSIZE)<<2) : \
+                                                                                  ((fxfMINSIZE & (fxfMINSIZE - 1U)) ? ((fxfMINSIZE & -(largest_integer_type)fxfMINSIZE)<<2) : \
                                                                                                                       fxfMINSIZE))
 static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
