@@ -711,7 +711,7 @@ void fxfFree(void *ptr, size_t size)
 #if defined(FXF_ENABLE_TMDBG) || !defined(NDEBUG)
   ptrdiff_t ptrIndex;
 #endif
-#if defined(SEGMENTED) && defined(FXF_ENABLE_TMDBG)
+#if defined(SEGMENTED) && (defined(FXF_ENABLE_TMDBG) || !defined(NDEBUG))
   int ptrSegment;
 #endif
   if (!ptr)
