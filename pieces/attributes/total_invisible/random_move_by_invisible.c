@@ -917,9 +917,9 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
-    if (is_rider_check_uninterceptable(side_playing,king_pos,
-                                       vec_queen_start,vec_queen_end,
-                                       Queen))
+    if (!is_rider_check_uninterceptable(side_playing,king_pos,
+                                        vec_queen_start,vec_queen_end,
+                                        Queen))
       forward_random_move_by_existing_invisible_from(sq_departure,Dummy);
     --being_solved.number_of_pieces[side_playing][Queen];
 
@@ -1063,7 +1063,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
     // but we probably save a lot of time by not fleshing it out. As long as we
     // restrict ourselves to h#n, the risk is printing some wrong cooks.
     // Options:
-    // * find out how hight the cost would be
+    // * find out how high the cost would be
     // * fleshing it out
     // * option for activating fleshing out
 
@@ -1660,7 +1660,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
     // but we probably save a lot of time by not fleshing it out. As long as we
     // restrict ourselves to h#n, the risk is printing some wrong cooks.
     // Options:
-    // * find out how hight the cost would be
+    // * find out how high the cost would be
     // * fleshing it out
     // * option for activating fleshing out
 
