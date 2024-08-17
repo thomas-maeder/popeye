@@ -138,7 +138,7 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   printf(" - D:%lu",record_decision_counter);
   printf(" - %lu",record_decision_counter-prev_record_decision_counter);
   ++record_decision_counter;
-  move_numbers_write_history(top_ply_of_regular_play+1);
+  move_numbers_write_history();
   fflush(stdout);
   prev_record_decision_counter = record_decision_counter;
 #endif
@@ -1508,8 +1508,14 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           }
           else
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            TraceText("try harder - a future decision may select an arrival square from where the check can be intercepted\n");
+            /* pieces white ke1 qd5 black be3 totalinvisible 3
+               stipulation h#3
+               would produce the fake solution
+               1.Be3-d4 [+wRh1]0-0[f1=wR]   2.TI~-~ TI~-~   3.Bd4-e5 TI~*e5[e5=wR][e3=bK] #
+               because 2.-Qf2-e3 3.-Qe5: with bK anywhere wouldn't be found
+               (iteration would stop after 2.-Qf2-g2)
+             */
           }
           break;
 
