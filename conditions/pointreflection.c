@@ -28,11 +28,10 @@ static void reflect(slice_index si, reflection_type type)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",forward);
+  TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,side_moving);
-  TraceEnumerator(Side,side_other);
   TraceEOL();
 
   if (type==reflection_reflect)
