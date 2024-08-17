@@ -174,24 +174,18 @@ typedef struct {
 #endif
 
 /* The maximum size an fxfAlloc can handle */
-/* TODO: Do the macros really accurately determine the maximum we need (apparently 1024 or 2048)?
-         Can we instead compute the needed value(s) with expressions involving, say, sizeof(void *)
-         and any other system properties we have access to?
-*/
-enum 
+#define DESIRED_MAX_ALLOC (256 * sizeof(void *))
+/* TODO: Is the above sufficiently large for all of our needs without being excessive? */
+#define DESIRED_MAX_ALLOC_ALIGNMENT ((DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
+#define ROUNDED_DESIRED_MAXIMUM_ALLOCATION (((DESIRED_MAX_ALLOC - 1U) & ~(DESIRED_MAX_ALLOC_ALIGNMENT - 1U)) + DESIRED_MAX_ALLOC_ALIGNMENT)
+enum
 {
   fxfMINSIZE = sizeof(void *), /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
-  fxfMAXSIZE =
-#if defined(SEGMENTED) || defined(__TURBOC__)
-#  if defined(ARENA_SEG_SIZE)
-               (((((1024 > (ARENA_SEG_SIZE)) ? (ARENA_SEG_SIZE) : ((size_t)1024))
-#  else
-               (((((size_t)1024)
-#  endif
+#if defined(SEGMENTED)
+  fxfMAXSIZE = ((ROUNDED_DESIRED_MAXIMUM_ALLOCATION > ARENA_SEG_SIZE) ? ARENA_SEG_SIZE : ROUNDED_DESIRED_MAXIMUM_ALLOCATION)
 #else
-               (((((size_t)2048) /* This is needed only when sizeof(void*)==8. */
+  fxfMAXSIZE = ROUNDED_DESIRED_MAXIMUM_ALLOCATION
 #endif
-                                - 1U) & ~(MAX_ALIGNMENT - 1U)) + MAX_ALIGNMENT) /* Round up if necessary. */
 };
 
 enum {
