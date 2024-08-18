@@ -192,7 +192,7 @@ enum {
   ENSURE_FXFMINSIZE_GT_0 = 1/(fxfMINSIZE > 0),
   ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE),
 #if defined(SEGMENT)
-  ENSURE_SEGMENTS_ALIGNED = 1/!((ARENA_SEG_SIZE & (((ARENA_SEG_SIZE < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT) - 1U)) &&
+  ENSURE_SEGMENTS_ALIGNED = 1/!((ARENeA_SEG_SIZE & (((ARENA_SEG_SIZE < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT) - 1U)) &&
                                 (ARENA_SEG_SIZE & (ARENA_SEG_SIZE - 1U))),
 #endif
   ENSURE_FXFMAXSIZE_ALIGNED = 1/!((fxfMAXSIZE & (NOT_MULTIPLE_ALIGNMENT - 1U)) && (fxfMAXSIZE & (fxfMAXSIZE - 1U))),
@@ -517,6 +517,9 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   assert((!cur_sh->FreeHead) == (!cur_sh->FreeCount));
+#if defined(FREEMAP) && !defined(SEGMENTED)
+  SetRange(pointerDifference(ptr, Arena), size);
+#endif
   if ((size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
     if (size >= sizeof cur_sh->FreeHead)
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -544,6 +547,9 @@ static void * popOffFreeStore(size_t const size)
       cur_sh->FreeHead= Nil(void);
     else
       memcpy(&cur_sh->FreeHead, ptr, sizeof cur_sh->FreeHead);
+#  if defined(FREEMAP) && !defined(SEGMENTED)
+    ClrRange(pointerDifference(ptr, Arena), size);
+#  endif
   }
   return ptr;
 }
@@ -601,9 +607,6 @@ FOUND_PUTATIVE_SEGMENT:
     TMDBG(printf(" FreeCount:%lu ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,sh->MallocCount));
 #  endif /*FXF_ENABLE_TMDBG*/
 #else /*SEGMENTED*/
-#  if defined(FREEMAP)
-    ClrRange(pointerDifference(ptr, Arena), size);
-#  endif
     TMDBG(printf(" FreeCount:%lu ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " MallocCount:%lu\n",sh->FreeCount,(ptrdiff_t_printf_type)pointerDifference(ptr, Arena),sh->MallocCount));
 #endif /*!SEGMENTED*/
   }
@@ -634,9 +637,6 @@ START_LOOKING_FOR_CHUNK:
             goto NEXT_SEGMENT;
           do {
             size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
-#if defined(FREEMAP) && !defined(SEGMENTED)
-            SetRange(curBottomIndex,cur_alignment);
-#endif
             pushOntoFreeStore(BotFreePtr, cur_alignment);
             BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
@@ -782,9 +782,6 @@ FOUND_PUTATIVE_SEGMENT:
       TMDBG(printf(" BotFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
     }
     else {
-#if defined(FREEMAP) && !defined(SEGMENTED)
-      SetRange((pointerDifference(ptr,Arena),size);
-#endif
       pushOntoFreeStore(ptr, size);
     }
   }
@@ -795,12 +792,8 @@ FOUND_PUTATIVE_SEGMENT:
       TopFreePtr= stepPointer(TopFreePtr, (ptrdiff_t)size);
       TMDBG(printf(" TopFreePtr sizeCurrentSeg:%" PTRDIFF_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)pointerDifference(TopFreePtr,BotFreePtr)));
     }
-    else {
-#if defined(FREEMAP) && !defined(SEGMENTED)
-      SetRange(pointerDifference(ptr,Arena),size);
-#endif
+    else
       pushOntoFreeStore(ptr, size);
-    }
   }
   sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   sh->MallocCount--;
