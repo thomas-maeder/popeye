@@ -520,8 +520,10 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
 #if defined(FREEMAP) && !defined(SEGMENTED)
   SetRange(pointerDifference(ptr, Arena), size);
 #endif
-  if ((size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
-    if (size >= sizeof cur_sh->FreeHead)
+  if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
+      (size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
+    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
+        (size >= sizeof cur_sh->FreeHead))
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
     cur_sh->FreeHead= ptr;
     cur_sh->FreeCount++;
@@ -543,7 +545,8 @@ static void * popOffFreeStore(size_t const size)
   assert((!ptr) == (!cur_sh->FreeCount));
   if (ptr) {
     cur_sh->FreeCount--;
-    if (size < sizeof cur_sh->FreeHead)
+    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
+        (size < sizeof cur_sh->FreeHead))
       cur_sh->FreeHead= Nil(void);
     else
       memcpy(&cur_sh->FreeHead, ptr, sizeof cur_sh->FreeHead);
