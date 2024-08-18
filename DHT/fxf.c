@@ -512,7 +512,7 @@ void fxfReset(void)
 
 static int pushOntoFreeStore(void * const ptr, size_t const size) {
   SizeHead *cur_sh;
-  assert((size >= fxfMINSIZE) &&
+  assert((size >= ROUNDED_MIN_SIZE_UNDERESTIMATE) &&
          (size <= fxfMAXSIZE) &&
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
@@ -537,7 +537,7 @@ static void * popOffFreeStore(size_t const size)
 {
   SizeHead *cur_sh;
   void *ptr;
-  assert((size >= fxfMINSIZE) &&
+  assert((size >= ROUNDED_MIN_SIZE_UNDERESTIMATE) &&
          (size <= fxfMAXSIZE) &&
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
