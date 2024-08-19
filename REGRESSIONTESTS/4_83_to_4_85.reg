@@ -176,16 +176,16 @@ a)
                      play_move:    17901512
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:     4032142
-                  TI decisions:    23328604
+                  TI decisions:    23030276
 
 b) bKh3-->f3  
 
   1...Qc1-c6   2.[+wTIe3]f4*e3 TI~*g4   3.[+wTId2]e3*d2[g4=wR] Qc6-e4 #
   add_to_move_generation_stack:     7151440
-                     play_move:    17111174
+                     play_move:    17111179
  is_white_king_square_attacked:           2
- is_black_king_square_attacked:     3783264
-                  TI decisions:    21335415
+ is_black_king_square_attacked:     3783265
+                  TI decisions:    21232950
 
 solution finished.
 

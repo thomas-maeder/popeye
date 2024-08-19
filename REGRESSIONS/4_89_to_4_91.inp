@@ -104,5 +104,12 @@ stipulation s#3
 condition blackmindister e5e5
 option vari nothreat
 
+next
+
+title Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR][b1=bK] #
+pieces white ke1 bc2 black bc3 totalinv 3
+stipulation h#2.5
+option movenum
+
 end
 

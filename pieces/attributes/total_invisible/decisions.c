@@ -2426,21 +2426,32 @@ boolean can_decision_level_be_continued(void)
   TraceEOL();
 
   if (backtracking[decision_top].result==previous_move_has_not_solved)
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
     result = false;
+  }
   else if (decision_level_properties[decision_top+1].relevance==relevance_relevant)
+  {
+    TraceValue("continue on line:%u\n",__LINE__);
     result = true;
+  }
   else if (decision_level_properties[decision_top+1].relevance==relevance_irrelevant)
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
     result = false;
+  }
   else
     switch (backtracking[decision_top].type)
     {
       case backtrack_none:
         assert(backtracking[decision_top].max_level==decision_level_latest);
+        TraceValue("continue on line:%u\n",__LINE__);
         result = true;
         break;
 
       case backtrack_until_level:
         assert(backtracking[decision_top].max_level<decision_level_latest);
+        TraceValue("decide on line:%u\n",__LINE__);
         result = decision_top<backtracking[decision_top].max_level;
         break;
 
@@ -2448,7 +2459,10 @@ boolean can_decision_level_be_continued(void)
         assert(backtracking[decision_top].max_level<decision_level_latest);
         result = decision_top<backtracking[decision_top].max_level;
         if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
+        {
+          TraceValue("skip on line:%u\n",__LINE__);
           result = false;
+        }
         break;
 
       case backtrack_failure_to_intercept_illegal_checks:

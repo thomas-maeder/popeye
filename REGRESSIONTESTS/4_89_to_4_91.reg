@@ -510,3 +510,54 @@ Exactly 2 dister reference squares have to be indicated
 solution finished.
 
 
+
+Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR][b1=bK] #
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                2 + 1 + 3 TI
+
+  1  (TI~-~ )
+  2  (TI~*c3 )
+  3  ([+wRa1]0-0-0 )
+  4  ([+wRh1]0-0 )
+  5  (Ke1-f2 )
+  6  (Ke1-d2 )
+  7  (Ke1-d1 )
+  8  (Ke1-e2 )
+  9  (Ke1-f1 )
+ 10  (Bc2-b1 )
+ 11  (Bc2-d1 )
+ 12  (Bc2-h7 )
+ 13  (Bc2-g6 )
+ 14  (Bc2-f5 )
+ 15  (Bc2-e4 )
+ 16  (Bc2-d3 )
+ 17  (Bc2-a4 )
+ 18  (Bc2-b3 )
+  add_to_move_generation_stack:     1509013
+                     play_move:      862518
+ is_white_king_square_attacked:      172961
+ is_black_king_square_attacked:       36416
+                  TI decisions:     8211658
+
+solution finished.
+
+

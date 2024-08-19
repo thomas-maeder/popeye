@@ -127,7 +127,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
         ++being_solved.number_of_pieces[side][King];
         SETFLAG(being_solved.spec[s],Royal);
 
-        if (is_square_uninterceptably_observed_ortho(advers(side),s)==0)
+        if (side!=trait[nbply]
+            || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
         {
           if (nr_check_vectors==1)
             restart_from_scratch();
@@ -404,7 +405,8 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,King);
 
-    if (is_square_attacked_by_uninterceptable(side,pos))
+    if (side!=trait[nbply]
+        && is_square_attacked_by_uninterceptable(side,pos))
     {
       record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
       REPORT_DEADEND;
@@ -814,6 +816,8 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
   if (TSTFLAG(checkerSpec,Chameleon))
   {
     PieceIdType const id_checker = GetPieceId(checkerSpec);
+    Flags const kingSpec = being_solved.spec[king_pos];
+    PieceIdType const id_king = GetPieceId(kingSpec);
 
     assert(check_by_uninterceptable_delivered_in_ply==ply_nil);
     check_by_uninterceptable_delivered_in_ply = nbply;
@@ -824,16 +828,45 @@ static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
                             dir_check,
                             id_checker);
 
+    TraceValue("%u",decision_levels[id_checker].walk);
+    TraceValue("%u",decision_levels[id_checker].from);
+    TraceValue("%u",decision_levels[id_checker].to);
+    TraceEOL();
+    TraceValue("%u",decision_levels[id_king].walk);
+    TraceValue("%u",decision_levels[id_king].from);
+    TraceValue("%u",decision_levels[id_king].to);
+    TraceEOL();
+    TraceValue("%u",nbply);
+    TraceValue("%u",motivation[id_checker].last.acts_when);
+    TraceValue("%u",motivation[id_king].last.acts_when);
+    TraceEOL();
+
     check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
     if (nbply<=motivation[id_checker].last.acts_when)
     {
-      if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
-        check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;
+      if (decision_levels[id_checker].from>decision_levels[id_king].from)
+      {
+        if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].from)
+          check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].from;
+      }
+      else
+      {
+        if (check_by_uninterceptable_delivered_in_level<decision_levels[id_king].from)
+          check_by_uninterceptable_delivered_in_level = decision_levels[id_king].from;
+      }
     }
     else
     {
-      if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].to)
-        check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].to;
+      if (decision_levels[id_checker].to>decision_levels[id_king].to)
+      {
+        if (check_by_uninterceptable_delivered_in_level<decision_levels[id_checker].to)
+          check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].to;
+      }
+      else
+      {
+        if (check_by_uninterceptable_delivered_in_level<decision_levels[id_king].to)
+          check_by_uninterceptable_delivered_in_level = decision_levels[id_king].to;
+      }
     }
 
     /* taking .from into consideration is relevant if the checker is inserted for a late ply,
@@ -897,7 +930,6 @@ HERE
 
      */
 
-    TraceValue("%u",nbply);TraceEOL();
     if (nbply==ply_retro_move+1)
     {
       REPORT_DEADEND;
