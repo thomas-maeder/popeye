@@ -14,7 +14,7 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static void done_intercepting_illegal_checks(void)
+void done_intercepting_illegal_checks(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -74,17 +74,22 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_dummy_on_line(Side side_in_check,
+                                vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                 unsigned int nr_check_vectors,
-                                boolean inserted_fleshed_out);
+                                boolean inserted_fleshed_out,
+                                deal_with_check_next_phase *next);
 
-static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_dummy_of_side_on_square(Side side_in_check,
+                                          vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                           unsigned int nr_check_vectors,
                                           square s,
                                           Side side,
-                                          boolean inserted_fleshed_out)
+                                          boolean inserted_fleshed_out,
+                                          deal_with_check_next_phase *next)
 {
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceEnumerator(Side,side);
@@ -106,11 +111,8 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
 
       remember_taboo_on_square(s,side,nbply);
 
-      TraceSquare(s);TraceEnumerator(Side,trait[nbply-1]);TraceEOL();
-
       CLRFLAG(being_solved.spec[s],advers(side));
 
-      TraceEnumerator(Side,side);
       TraceSquare(being_solved.king_square[side]);
       TraceValue("%u",nr_total_invisbles_consumed());
       TraceValue("%u",total_invisible_number);
@@ -133,7 +135,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
           if (nr_check_vectors==1)
             restart_from_scratch();
           else
-            place_dummy_on_line(check_vectors,nr_check_vectors-1,true);
+            place_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1,true,next);
         }
         else
           record_decision_outcome("%s","can't place king because of self-check by uninterceptable");
@@ -151,10 +153,10 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
           if (inserted_fleshed_out)
             restart_from_scratch();
           else
-            done_intercepting_illegal_checks();
+            (*next)();
         }
         else
-          place_dummy_on_line(check_vectors,nr_check_vectors-1,inserted_fleshed_out);
+          place_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1,inserted_fleshed_out,next);
       }
 
       SETFLAG(being_solved.spec[s],advers(side));
@@ -164,7 +166,7 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       current_consumption = save_consumption;
 
       if (side==White && can_decision_level_be_continued())
-        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
+        place_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,next);
 
       forget_taboo_on_square(s,side,nbply);
     }
@@ -178,24 +180,27 @@ static void place_dummy_of_side_on_square(vec_index_type const check_vectors[vec
       current_consumption = save_consumption;
 
       if (side==White)
-        place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
+        place_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,next);
 
       forget_taboo_on_square(s,side,nbply);
     }
   }
   else if (side==White)
-    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out);
+    place_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_dummy_on_square(Side side_in_check,
+                                  vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                   unsigned int nr_check_vectors,
                                   square s, numvec dir,
-                                  boolean inserted_fleshed_out)
+                                  boolean inserted_fleshed_out,
+                                  deal_with_check_next_phase *next)
 {
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceFunctionParam("%d",dir);
@@ -219,7 +224,7 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
 
     decision_levels[id_placed].walk = decision_level_forever;
 
-    place_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,White,inserted_fleshed_out);
+    place_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,White,inserted_fleshed_out,next);
 
     empty_square(s);
 
@@ -228,37 +233,38 @@ static void place_dummy_on_square(vec_index_type const check_vectors[vec_queen_e
     uninitialise_motivation(id_placed);
 
     if (can_decision_level_be_continued())
-      place_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir,inserted_fleshed_out);
+      place_dummy_on_square(side_in_check,check_vectors,nr_check_vectors,s+dir,dir,inserted_fleshed_out,next);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_dummy_on_line(Side side_in_check,
+                                vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                 unsigned int nr_check_vectors,
-                                boolean inserted_fleshed_out)
+                                boolean inserted_fleshed_out,
+                                deal_with_check_next_phase *next)
 {
-  Side side_in_check;
   square king_pos;
   vec_index_type kcurr;
   numvec dir;
   unsigned long save_counter;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceFunctionParam("%u",inserted_fleshed_out);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
 
-  side_in_check = trait[nbply-1];
   king_pos = being_solved.king_square[side_in_check];
   kcurr = check_vectors[nr_check_vectors-1];
   dir = vec[kcurr];
   save_counter = record_decision_counter;
 
-  place_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir,inserted_fleshed_out);
+  place_dummy_on_square(side_in_check,check_vectors,nr_check_vectors,king_pos+dir,dir,inserted_fleshed_out,next);
 
   if (record_decision_counter==save_counter)
   {
@@ -279,10 +285,12 @@ static void place_dummy_on_line(vec_index_type const check_vectors[vec_queen_end
   TraceFunctionResultEnd();
 }
 
-static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_non_dummy_on_line(Side side_in_check,
+                                    vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                     unsigned int nr_check_vectors);
 
-static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
+                                                      vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                                       unsigned int nr_check_vectors,
                                                       Side side,
                                                       square pos,
@@ -290,6 +298,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
                                                       piece_walk_type walk)
 {
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
@@ -306,7 +315,7 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
   if (nr_check_vectors==1)
     restart_from_scratch();
   else
-    place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
+    place_non_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1);
 
   pop_decision();
 
@@ -323,20 +332,22 @@ static void place_piece_of_any_walk_of_side_on_square(vec_index_type const check
   TraceFunctionResultEnd();
 }
 
-static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_pawn_of_side_on_square(Side side_in_check,
+                                         vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                          unsigned int nr_check_vectors,
+                                         Side side,
                                          square pos,
-                                         PieceIdType id_placed,
-                                         Side side)
+                                         PieceIdType id_placed)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
+  TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParam("%u",id_placed);
-  TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
   if ((TSTFLAG(sq_spec(pos),basesq) || TSTFLAG(sq_spec(pos),promsq)))
@@ -346,8 +357,7 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
   }
   else
   {
-    Side const side_under_attack = advers(side);
-    square const king_pos = being_solved.king_square[side_under_attack];
+    square const king_pos = being_solved.king_square[advers(side)];
 
     ++being_solved.number_of_pieces[side][Pawn];
 
@@ -361,7 +371,7 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
       if (nr_check_vectors==1)
         restart_from_scratch();
       else
-        place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
+        place_non_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1);
 
       pop_decision();
     }
@@ -377,7 +387,8 @@ static void place_pawn_of_side_on_square(vec_index_type const check_vectors[vec_
   TraceFunctionResultEnd();
 }
 
-static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_king_of_side_on_square(Side side_in_check,
+                                         vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                          unsigned int nr_check_vectors,
                                          Side side,
                                          square pos,
@@ -386,6 +397,7 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
   dynamic_consumption_type const save_consumption = current_consumption;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
@@ -411,14 +423,14 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
       record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
       REPORT_DEADEND;
     }
-    else if (king_check_ortho(trait[nbply],being_solved.king_square[advers(trait[nbply])])==0)
+    else if (king_check_ortho(advers(side_in_check),being_solved.king_square[side_in_check])==0)
     {
       push_decision_walk(id_placed,King,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
         restart_from_scratch();
       else
-        place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
+        place_non_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1);
 
       pop_decision();
     }
@@ -441,31 +453,33 @@ static void place_king_of_side_on_square(vec_index_type const check_vectors[vec_
   TraceFunctionResultEnd();
 }
 
-static void place_knight_of_checking_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                                    unsigned int nr_check_vectors,
-                                                    square pos,
-                                                    PieceIdType id_placed)
+static void place_knight_of_side_on_square(Side side_in_check,
+                                           vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                           unsigned int nr_check_vectors,
+                                           Side side,
+                                           square pos,
+                                           PieceIdType id_placed)
 {
-  Side const side_checking = trait[nbply];
-
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
+  TraceEnumerator(Side,side);
   TraceSquare(pos);
   TraceFunctionParamListEnd();
 
-  ++being_solved.number_of_pieces[side_checking][Knight];
+  ++being_solved.number_of_pieces[side][Knight];
 
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,Knight);
 
-  if (knight_check_ortho(side_checking,being_solved.king_square[advers(side_checking)])==0)
+  if (knight_check_ortho(side,being_solved.king_square[advers(side)])==0)
   {
-    push_decision_walk(id_placed,Knight,decision_purpose_illegal_check_interceptor,side_checking);
+    push_decision_walk(id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
 
     if (nr_check_vectors==1)
       restart_from_scratch();
     else
-      place_non_dummy_on_line(check_vectors,nr_check_vectors-1);
+      place_non_dummy_on_line(side_in_check,check_vectors,nr_check_vectors-1);
 
     pop_decision();
   }
@@ -474,13 +488,14 @@ static void place_knight_of_checking_side_on_square(vec_index_type const check_v
   TraceEOL();
   assert(get_walk_of_piece_on_square(pos)==Knight);
   replace_walk(pos,Dummy);
-  --being_solved.number_of_pieces[side_checking][Knight];
+  --being_solved.number_of_pieces[side][Knight];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_piece_of_side_on_square(Side side_in_check,
+                                          vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                           unsigned int nr_check_vectors,
                                           Side side,
                                           square pos,
@@ -489,6 +504,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
   unsigned long const save_counter = record_decision_counter;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceEnumerator(Side,side);
   TraceSquare(pos);
@@ -499,20 +515,21 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
   TraceEOL();
 
   if (being_solved.king_square[side]==initsquare)
-    place_king_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed);
+    place_king_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
 
   {
     dynamic_consumption_type const save_consumption = current_consumption;
 
     if (allocate_flesh_out_unplaced(side))
     {
+      /* it's hard to understand this distinction, but it seems to speed up things */
       if (side==trait[nbply])
       {
         if (can_decision_level_be_continued())
-          place_pawn_of_side_on_square(check_vectors,nr_check_vectors,pos,id_placed,side);
+          place_pawn_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
 
         if (can_decision_level_be_continued())
-          place_knight_of_checking_side_on_square(check_vectors,nr_check_vectors,pos,id_placed);
+          place_knight_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
 
         if (can_decision_level_be_continued())
         {
@@ -520,9 +537,9 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
           boolean const is_check_orthogonal = k<=vec_rook_end;
 
           if (is_check_orthogonal)
-            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
+            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
           else
-            place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
+            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
         }
       }
       else
@@ -539,7 +556,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
 
           boolean walk_ruled_out[Bishop+1] = { false };
 
-          place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
+          place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
 
           if (has_decision_failed_capture())
           {
@@ -547,7 +564,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             walk_ruled_out[Bishop] = true;
           }
           else if (can_decision_level_be_continued())
-            place_pawn_of_side_on_square(check_vectors,nr_check_vectors,pos,id_placed,side);
+            place_pawn_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
 
           {
             unsigned int i;
@@ -557,7 +574,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
             {
               piece_walk_type const walk = walk_order_after_pawn[i];
               if (!walk_ruled_out[walk])
-                place_piece_of_any_walk_of_side_on_square(check_vectors,nr_check_vectors,side,pos,id_placed,walk);
+                place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,walk);
             }
           }
         }
@@ -568,7 +585,7 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
     {
       record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
-      backtrack_from_failure_to_intercept_illegal_check(trait[nbply-1],nr_check_vectors,check_vectors[0]);
+      backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
     }
 
     current_consumption = save_consumption;
@@ -579,15 +596,17 @@ static void place_piece_of_side_on_square(vec_index_type const check_vectors[vec
   TraceFunctionResultEnd();
 }
 
-static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_non_dummy_of_side_on_square(Side side_in_check,
+                                              vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                               unsigned int nr_check_vectors,
                                               square s,
                                               Side side,
                                               PieceIdType id_placed)
 {
-  Side const preferred_side = trait[nbply-1];
+  Side const preferred_side = side_in_check;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceEnumerator(Side,side);
@@ -603,28 +622,30 @@ static void place_non_dummy_of_side_on_square(vec_index_type const check_vectors
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
-    place_piece_of_side_on_square(check_vectors,nr_check_vectors,side,s,id_placed);
+    place_piece_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,s,id_placed);
     SETFLAG(being_solved.spec[s],advers(side));
 
     pop_decision();
 
     if (side==preferred_side && can_decision_level_be_continued())
-      place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
+      place_non_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
     forget_taboo_on_square(s,side,nbply);
   }
   else if (side==preferred_side)
-    place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
+    place_non_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_non_dummy_on_square(Side side_in_check,
+                                      vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors,
                                       square s, numvec dir)
 {
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceSquare(s);
   TraceFunctionParam("%d",dir);
@@ -632,7 +653,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
 
   if (is_square_empty(s))
   {
-    Side const preferred_side = trait[nbply-1];
+    Side const preferred_side = side_in_check;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
@@ -644,7 +665,7 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    place_non_dummy_of_side_on_square(check_vectors,nr_check_vectors,s,preferred_side,id_placed);
+    place_non_dummy_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,s,preferred_side,id_placed);
 
     empty_square(s);
 
@@ -653,35 +674,35 @@ static void place_non_dummy_on_square(vec_index_type const check_vectors[vec_que
     uninitialise_motivation(id_placed);
 
     if (can_decision_level_be_continued())
-      place_non_dummy_on_square(check_vectors,nr_check_vectors,s+dir,dir);
+      place_non_dummy_on_square(side_in_check,check_vectors,nr_check_vectors,s+dir,dir);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+static void place_non_dummy_on_line(Side side_in_check,
+                                    vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                     unsigned int nr_check_vectors)
 {
-  Side side_in_check;
   square king_pos;
   vec_index_type kcurr;
   numvec dir;
   unsigned long save_counter;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",nr_check_vectors);
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
 
-  side_in_check = trait[nbply-1];
   king_pos = being_solved.king_square[side_in_check];
   kcurr = check_vectors[nr_check_vectors-1];
   dir = vec[kcurr];
   save_counter = record_decision_counter;
 
-  place_non_dummy_on_square(check_vectors,nr_check_vectors,king_pos+dir,dir);
+  place_non_dummy_on_square(side_in_check,check_vectors,nr_check_vectors,king_pos+dir,dir);
 
   if (record_decision_counter==save_counter)
   {
@@ -703,18 +724,19 @@ static void place_non_dummy_on_line(vec_index_type const check_vectors[vec_queen
   TraceFunctionResultEnd();
 }
 
-static void collect_illegal_checks_by_interceptable(vec_index_type start, vec_index_type end,
+static void collect_illegal_checks_by_interceptable(Side side_in_check,
+                                                    vec_index_type start, vec_index_type end,
                                                     piece_walk_type walk_checker,
                                                     vec_index_type check_vectors[vec_queen_end-vec_queen_start+1],
                                                     unsigned int *nr_check_vectors)
 {
-  Side const side_in_check = trait[nbply-1];
   Side const side_checking = advers(side_in_check);
   square const king_pos = being_solved.king_square[side_in_check];
   unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
   vec_index_type kcurr;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",end);
   TraceWalk(walk_checker);
@@ -753,19 +775,23 @@ static void collect_illegal_checks_by_interceptable(vec_index_type start, vec_in
   TraceFunctionResultEnd();
 }
 
-static void deal_with_illegal_checks_by_interceptables(void)
+static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
+                                                       deal_with_check_next_phase *next)
 {
   unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
   vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
   unsigned int nr_check_vectors = 0;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
-  collect_illegal_checks_by_interceptable(vec_rook_start,vec_rook_end,
+  collect_illegal_checks_by_interceptable(side_in_check,
+                                          vec_rook_start,vec_rook_end,
                                           Rook,
                                           check_vectors,&nr_check_vectors);
-  collect_illegal_checks_by_interceptable(vec_bishop_start,vec_bishop_end,
+  collect_illegal_checks_by_interceptable(side_in_check,
+                                          vec_bishop_start,vec_bishop_end,
                                           Bishop,
                                           check_vectors,&nr_check_vectors);
 
@@ -774,17 +800,16 @@ static void deal_with_illegal_checks_by_interceptables(void)
   TraceEOL();
 
   if (nr_check_vectors==0)
-    done_intercepting_illegal_checks();
+    (*next)();
   else if (nr_available>=nr_check_vectors)
   {
     if (play_phase==play_validating_mate)
-      place_dummy_on_line(check_vectors,nr_check_vectors,false);
+      place_dummy_on_line(side_in_check,check_vectors,nr_check_vectors,false,next);
     else
-      place_non_dummy_on_line(check_vectors,nr_check_vectors);
+      place_non_dummy_on_line(side_in_check,check_vectors,nr_check_vectors);
   }
   else
   {
-    Side const side_in_check = trait[nbply-1];
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
     backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
     record_decision_outcome("%s %d %s %d %s","only",nr_available,"available invisibles for intercepting",nr_check_vectors,"illegal checks");
@@ -795,14 +820,15 @@ static void deal_with_illegal_checks_by_interceptables(void)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_illegal_check_by_uninterceptable(vec_index_type k)
+static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
+                                                       vec_index_type k)
 {
-  Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
   numvec const dir_check = vec[k];
   Flags checkerSpec;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParam("%u",k);
   TraceFunctionParamListEnd();
 
@@ -955,26 +981,25 @@ HERE
   TraceFunctionResultEnd();
 }
 
-void deal_with_illegal_checks(void)
+void deal_with_illegal_checks(Side side_in_check, deal_with_check_next_phase *next)
 {
-  Side const side_in_check = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
   if (king_pos==initsquare)
-    done_intercepting_illegal_checks();
+    (*next)();
   else
   {
-    Side const side_in_check = trait[nbply-1];
     square const king_pos = being_solved.king_square[side_in_check];
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_pos);
 
     if (k!=0)
-      deal_with_illegal_check_by_uninterceptable(k);
+      deal_with_illegal_check_by_uninterceptable(side_in_check,k);
     else
-      deal_with_illegal_checks_by_interceptables();
+      deal_with_illegal_checks_by_interceptables(side_in_check,next);
   }
 
   TraceFunctionExit(__func__);

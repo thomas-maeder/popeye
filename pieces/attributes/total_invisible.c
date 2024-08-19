@@ -339,13 +339,15 @@ void insert_invisible_capturer(void)
 
 static void adapt_pre_capture_effect(void)
 {
+  Side const side_just_moved = trait[nbply-1];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (nbply>top_ply_of_regular_play)
   {
     TraceText("there are no post-play pre-capture effects\n");
-    deal_with_illegal_checks();
+    deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
   }
   else
   {
@@ -365,15 +367,18 @@ static void adapt_pre_capture_effect(void)
 
       if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
       {
+        Side const side_capturing_pawn = trait[nbply];
+        Side const side_pawn_victim = advers(side_capturing_pawn);
+
         if (is_square_empty(to))
         {
-          if (!is_taboo(to,advers(trait[nbply]))
-              && !will_be_taboo(to,advers(trait[nbply]))
-              && !was_taboo(to,advers(trait[nbply])))
+          if (!is_taboo(to,side_pawn_victim)
+              && !will_be_taboo(to,side_pawn_victim)
+              && !was_taboo(to,side_pawn_victim))
           {
             dynamic_consumption_type const save_consumption = current_consumption;
 
-            if (allocate_placed(advers(trait[nbply])))
+            if (allocate_placed(side_pawn_victim))
             {
               square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
               piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
@@ -406,7 +411,7 @@ static void adapt_pre_capture_effect(void)
             REPORT_DEADEND;
           }
         }
-        else if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
+        else if (TSTFLAG(being_solved.spec[to],side_pawn_victim))
         {
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
@@ -414,7 +419,7 @@ static void adapt_pre_capture_effect(void)
           record_decision_outcome("%s","no need to add victim of capture by pawn any more");
           move_effect_journal[pre_capture].type = move_effect_none;
           motivation[id].last.purpose = purpose_none;
-          deal_with_illegal_checks();
+          deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
           motivation[id].last.purpose = save_purpose;
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
         }
@@ -466,7 +471,7 @@ static void adapt_pre_capture_effect(void)
               TraceText("addition of a castling partner\n");
               TraceText("castling partner was added as part of applying our knowledge\n");
               move_effect_journal[pre_capture].type = move_effect_none;
-              deal_with_illegal_checks();
+              deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
               move_effect_journal[pre_capture].type = move_effect_piece_readdition;
             }
             else
@@ -486,14 +491,14 @@ static void adapt_pre_capture_effect(void)
         else
         {
           TraceText("possible addition of an invisible capturer - details to be clarified later\n");
-          deal_with_illegal_checks();
+          deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
         }
       }
     }
     else
     {
       TraceText("no piece addition to be adapted\n");
-      deal_with_illegal_checks();
+      deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
     }
   }
 
