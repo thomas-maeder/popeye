@@ -38,6 +38,7 @@
 #include "pieces/attributes/total_invisible/intercept_illegal_checks.h"
 #include "pieces/attributes/total_invisible/attack_mating_piece.h"
 #include "pieces/attributes/total_invisible/replay_fleshed_out.h"
+#include "pieces/attributes/total_invisible/king_placement.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -332,6 +333,66 @@ void insert_invisible_capturer(void)
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void done_intercepting_illegal_checks(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (nbply<=top_ply_of_regular_play)
+  {
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",top_ply_of_regular_play);
+    TraceSquare(sq_departure);
+    TraceValue("%u",sq_departure);
+    TraceValue("%u",capture_by_invisible);
+    TraceSquare(sq_arrival);
+    TraceValue("%u",sq_arrival);
+    TraceValue("%u",move_by_invisible);
+    TraceEOL();
+
+    {
+      PieceIdType id;
+      for (id = get_top_visible_piece_id()+1; id<=get_top_invisible_piece_id(); ++id)
+      {
+        TraceValue("%u",id);TraceEOL();
+        TraceAction(&motivation[id].first);TraceEOL();
+        TraceAction(&motivation[id].last);TraceEOL();
+        TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
+        TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+        TraceEOL();
+      }
+    }
+
+    if (sq_departure==move_by_invisible
+        && sq_arrival==move_by_invisible)
+      flesh_out_random_move_by_invisible();
+    else if (sq_departure==capture_by_invisible
+             && is_on_board(sq_arrival))
+      flesh_out_capture_by_invisible();
+    else
+    {
+      square const first_taboo_violation = find_taboo_violation();
+      if (first_taboo_violation==nullsquare)
+        insert_invisible_capturer();
+      else
+      {
+        // TODO review
+//        assert(is_taboo_violation_acceptable(first_taboo_violation));
+      }
+    }
+  }
+  else
+    validate_king_placements();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

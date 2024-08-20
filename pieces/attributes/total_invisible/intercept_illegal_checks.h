@@ -3,8 +3,6 @@
 
 #include "position/side.h"
 
-void done_intercepting_illegal_checks(void);
-
 typedef void (deal_with_check_next_phase)(void);
 
 void deal_with_illegal_checks(Side side_in_check, deal_with_check_next_phase *next);
