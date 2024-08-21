@@ -111,5 +111,45 @@ pieces white ke1 bc2 black bc3 totalinv 3
 stipulation h#2.5
 option movenum
 
-end
+next
 
+title Popeye 4.89 didn't find this solution
+pieces white ke1 rb2 black bb8 totalinvisible 3
+stipulation h#3.5
+option movenum start 18:9:1:6:10:1 upto 18:9:1:6:10:40 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 bg8 black bc1 totalinvisible 3
+stipulation h#3.5
+option movenum start 15:9:10:2:1:9:3 upto 15:9:10:2:1:9:3 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 pf2 black bh2 totalinvisible 3
+stipulation h#3.5
+option movenum start 3:1:3:4:2:2:5 upto 3:1:3:4:2:2:5 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 ph7 black bb2 totalinvisible 3
+stipulation h#3.5
+option movenum start 4:1:8:7:2:2:7 upto 4:1:8:7:2:2:7 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 qg1 black be3 totalinvisible 3
+stipulation h#3.5
+option movenum start 3:7:15:1:1:8:2 upto 3:7:15:1:1:8:2  
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 rb1 black bg1 totalinvisible 3
+stipulation h#3.5
+option movenum start 9:7:2:2:2:10:6 upto 9:7:2:2:2:10:6  
+end

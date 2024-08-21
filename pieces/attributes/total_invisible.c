@@ -111,7 +111,7 @@ void restart_from_scratch(void)
   TraceFunctionResultEnd();
 }
 
-void recurse_into_child_ply(void)
+static void recurse_into_child_ply(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -144,6 +144,23 @@ void recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
+void protect_castling_king(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+    deal_with_illegal_checks(trait[nbply],&recurse_into_child_ply);
+  else
+    recurse_into_child_ply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void adapt_capture_effect(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -166,7 +183,7 @@ static void adapt_capture_effect(void)
     if (is_square_empty(to))
     {
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
-      recurse_into_child_ply();
+      protect_castling_king();
     }
     else if (TSTFLAG(being_solved.spec[to],Royal))
     {
@@ -188,7 +205,7 @@ static void adapt_capture_effect(void)
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-      recurse_into_child_ply();
+      protect_castling_king();
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
@@ -202,7 +219,7 @@ static void adapt_capture_effect(void)
     TraceText("capture of invisible victim added for the purpose\n");
 
     if (is_square_empty(to))
-      recurse_into_child_ply();
+      protect_castling_king();
     else
     {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
@@ -214,7 +231,7 @@ static void adapt_capture_effect(void)
         /* if the piece to be captured is royal, then our tests for self check have failed */
         assert(!TSTFLAG(being_solved.spec[to],Royal));
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        recurse_into_child_ply();
+        protect_castling_king();
         move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
@@ -237,7 +254,7 @@ static void adapt_capture_effect(void)
     else
     {
       move_effect_journal[capture].type = move_effect_no_piece_removal;
-      recurse_into_child_ply();
+      protect_castling_king();
       move_effect_journal[capture].type = move_effect_piece_removal;
     }
   }
@@ -261,11 +278,11 @@ static void adapt_capture_effect(void)
       TraceEOL();
 
       motivation[id_removed].last.purpose = purpose_none;
-      recurse_into_child_ply();
+      protect_castling_king();
       motivation[id_removed].last.purpose = orig_purpose_removed;
     }
     else
-      recurse_into_child_ply();
+      protect_castling_king();
 
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
