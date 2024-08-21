@@ -195,7 +195,9 @@ enum {
   ENSURE_SEGMENTS_ALIGNED = 1/!((ARENeA_SEG_SIZE & (((ARENA_SEG_SIZE < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT) - 1U)) &&
                                 (ARENA_SEG_SIZE & (ARENA_SEG_SIZE - 1U))),
 #endif
-  ENSURE_FXFMAXSIZE_ALIGNED = 1/!((fxfMAXSIZE & (NOT_MULTIPLE_ALIGNMENT - 1U)) && (fxfMAXSIZE & (fxfMAXSIZE - 1U))),
+  ENSURE_FXFMAXSIZE_ALIGNED = 1/((!(fxfMAXSIZE & (fxfMAXSIZE - 1U))) ||
+                                 ((fxfMAXSIZE < MAX_ALIGNMENT) && !(fxfMAXSIZE & (NOT_MULTIPLE_ALIGNMENT - 1U))) ||
+                                 !(fxfMAXSIZE & (MAX_ALIGNMENT - 1U))),
   ENSURE_ALIGNMENT_ORDERED = 1/((NOT_MULTIPLE_ALIGNMENT > 0) && (NOT_MULTIPLE_ALIGNMENT <= MAX_ALIGNMENT)),
   ENSURE_ALIGNMENTS_POWERS_OF_2 = 1/!((NOT_MULTIPLE_ALIGNMENT & (NOT_MULTIPLE_ALIGNMENT - 1U)) || (MAX_ALIGNMENT & (MAX_ALIGNMENT - 1U)))
 };
@@ -520,8 +522,12 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
 #if defined(FREEMAP) && !defined(SEGMENTED)
   SetRange(pointerDifference(ptr, Arena), size);
 #endif
-  if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
-      (size >= sizeof cur_sh->FreeHead) || !cur_sh->FreeHead) {
+  if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
+      (size < sizeof cur_sh->FreeHead) &&
+      cur_sh->FreeHead)
+    TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of freeing them\n", (size_t_printf_type)curBottomIndex));
+  else
+  {
     if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
         (size >= sizeof cur_sh->FreeHead))
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
@@ -889,10 +895,9 @@ size_t fxfTotal(void) {
 
   size_t i;
   for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
-    if (hd->MallocCount+hd->FreeCount>0) {
-      UsedBytes+= hd->MallocCount*SIZEDATA_INDEX_TO_SIZE(i);
-      FreeBytes+= hd->FreeCount*SIZEDATA_INDEX_TO_SIZE(i);
-    }
+    size_t const cur_size= SIZEDATA_INDEX_TO_SIZE(i);
+    UsedBytes+= hd->MallocCount*cur_size;
+    FreeBytes+= hd->FreeCount*cur_size;
   }
 
   return UsedBytes+FreeBytes;
@@ -925,7 +930,7 @@ void fxfInfo(FILE *f) {
     size_t i;
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
-      if (hd->MallocCount+hd->FreeCount>0) {
+      if (hd->MallocCount || hd->FreeCount) {
         fprintf(f, "%12zu  %10lu%10lu\n", SIZEDATA_INDEX_TO_SIZE(i), hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
         UsedBytes+= hd->MallocCount*SIZEDATA_INDEX_TO_SIZE(i);
