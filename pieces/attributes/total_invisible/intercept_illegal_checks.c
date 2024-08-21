@@ -461,27 +461,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
 
     if (allocate_flesh_out_unplaced(side))
     {
-      /* it's hard to understand this distinction, but it seems to speed up things */
-      if (side==trait[nbply])
-      {
-        if (can_decision_level_be_continued())
-          place_pawn_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
-
-        if (can_decision_level_be_continued())
-          place_knight_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
-
-        if (can_decision_level_be_continued())
-        {
-          vec_index_type const k = check_vectors[nr_check_vectors-1];
-          boolean const is_check_orthogonal = k<=vec_rook_end;
-
-          if (is_check_orthogonal)
-            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
-          else
-            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
-        }
-      }
-      else
+      if (side==side_in_check)
       {
         if (can_decision_level_be_continued())
         {
@@ -516,6 +496,28 @@ static void place_piece_of_side_on_square(Side side_in_check,
                 place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,walk);
             }
           }
+        }
+      }
+      else
+      {
+        /* we don't need to try all walks - e.g. if the check is on the diagonal,
+         * intercepting it with a queen or bishop won't help */
+
+        if (can_decision_level_be_continued())
+          place_pawn_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
+
+        if (can_decision_level_be_continued())
+          place_knight_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed);
+
+        if (can_decision_level_be_continued())
+        {
+          vec_index_type const k = check_vectors[nr_check_vectors-1];
+          boolean const is_check_orthogonal = k<=vec_rook_end;
+
+          if (is_check_orthogonal)
+            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
+          else
+            place_piece_of_any_walk_of_side_on_square(side_in_check,check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
         }
       }
     }

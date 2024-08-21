@@ -552,11 +552,11 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
  16  (Bc2-d3 )
  17  (Bc2-a4 )
  18  (Bc2-b3 )
-  add_to_move_generation_stack:      816196
-                     play_move:      885225
- is_white_king_square_attacked:       54716
- is_black_king_square_attacked:       50755
-                  TI decisions:     7941807
+  add_to_move_generation_stack:      815437
+                     play_move:      884354
+ is_white_king_square_attacked:       54312
+ is_black_king_square_attacked:       50631
+                  TI decisions:     7978543
 
 solution finished.
 
