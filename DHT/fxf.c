@@ -931,11 +931,12 @@ void fxfInfo(FILE *f) {
     fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount || hd->FreeCount) {
-        fprintf(f, "%12zu  %10lu%10lu\n", SIZEDATA_INDEX_TO_SIZE(i), hd->MallocCount, hd->FreeCount);
+        size_t const cur_size= SIZEDATA_INDEX_TO_SIZE(i);
+        fprintf(f, "%12zu  %10lu%10lu\n", cur_size, hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
-        UsedBytes+= hd->MallocCount*SIZEDATA_INDEX_TO_SIZE(i);
+        UsedBytes+= hd->MallocCount*cur_size;
         nrFree+= hd->FreeCount;
-        FreeBytes+= hd->FreeCount*SIZEDATA_INDEX_TO_SIZE(i);
+        FreeBytes+= hd->FreeCount*cur_size;
       }
     }
     fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
