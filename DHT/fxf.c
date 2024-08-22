@@ -156,10 +156,15 @@ typedef struct {
 
 #define CLIP_TO_MAX_POINTER_DIFFERENCE(x) (((x) > MAX_POINTER_DIFFERENCE) ? MAX_POINTER_DIFFERENCE : (x))
 
+#define ROUND_UP_TO_ALIGNMENT(s, a) (((((size_t) (s)) - 1U) & ~(((size_t) (a)) - 1U)) + (size_t) (a))
+#define ROUND_DOWN_TO_ALIGNMENT(s, a) (((size_t) (s)) & ~(((size_t) (a)) - 1U))
+#define BOTTOM_BIT(s) (((size_t) (s)) & -((size_t) (s)))
+#define CLEAR_BOTTOM_BIT(s) ((((size_t) (s)) - 1U) & (size_t) (s))
+
 #if defined(DOS)
 /* MSDOS 16 Bit support (maxmemory <= 1 MB) */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(32000) & ~(MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  ROUND_DOWN_TO_ALIGNMENT(CLIP_TO_MAX_POINTER_DIFFERENCE(32000), MAX_ALIGNMENT)
 #define ARENA_SEG_COUNT ((1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "MSDOS"
 #define OSMAXMEM "1 MB"
@@ -167,7 +172,7 @@ typedef struct {
 /* Win95/Win98/WinME can only allocate chunks up to 255 MB */
 /* maxmemory <= 768 MB */
 #define SEGMENTED
-#define ARENA_SEG_SIZE  (CLIP_TO_MAX_POINTER_DIFFERENCE(1000000) & ~(MAX_ALIGNMENT - 1U))
+#define ARENA_SEG_SIZE  ROUND_DOWN_TO_ALIGNMENT(CLIP_TO_MAX_POINTER_DIFFERENCE(1000000), MAX_ALIGNMENT)
 #define ARENA_SEG_COUNT ((768*1024*1024)/ARENA_SEG_SIZE)
 #define OSNAME "Win95/Win98/WinME"
 #define OSMAXMEM "768 MB"
@@ -177,7 +182,7 @@ typedef struct {
 #define DESIRED_MAX_ALLOC (256 * sizeof(void *))
 /* TODO: Is the above sufficiently large for all of our needs without being excessive? */
 #define DESIRED_MAX_ALLOC_ALIGNMENT ((DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
-#define ROUNDED_DESIRED_MAXIMUM_ALLOCATION (((DESIRED_MAX_ALLOC - 1U) & ~(DESIRED_MAX_ALLOC_ALIGNMENT - 1U)) + DESIRED_MAX_ALLOC_ALIGNMENT)
+#define ROUNDED_DESIRED_MAXIMUM_ALLOCATION ROUND_UP_TO_ALIGNMENT(DESIRED_MAX_ALLOC, DESIRED_MAX_ALLOC_ALIGNMENT)
 enum
 {
   fxfMINSIZE = sizeof(void *), /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -203,11 +208,11 @@ enum {
 };
 
 #define MIN_ALIGNMENT_UNDERESTIMATE (((NOT_MULTIPLE_ALIGNMENT>>1) < fxfMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
-                                                                                  ((fxfMINSIZE & (fxfMINSIZE - 1U)) ? ((fxfMINSIZE & -(largest_integer_type)fxfMINSIZE)<<2) : \
-                                                                                                                      fxfMINSIZE))
+                                                                                  (CLEAR_BOTTOM_BIT(fxfMINSIZE) ? (BOTTOM_BIT(fxfMINSIZE)<<2) : \
+                                                                                                                  fxfMINSIZE))
 static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
-#define ROUNDED_MIN_SIZE_UNDERESTIMATE (((fxfMINSIZE - 1U) & ~(MIN_ALIGNMENT_UNDERESTIMATE - 1U)) + MIN_ALIGNMENT_UNDERESTIMATE)
+#define ROUNDED_MIN_SIZE_UNDERESTIMATE ROUND_UP_TO_ALIGNMENT(fxfMINSIZE, MIN_ALIGNMENT_UNDERESTIMATE)
 #define SIZEDATA_SIZE_TO_INDEX(s) (((s) - ROUNDED_MIN_SIZE_UNDERESTIMATE)/MIN_ALIGNMENT_UNDERESTIMATE)
 #define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + ROUNDED_MIN_SIZE_UNDERESTIMATE))
 static SizeHead SizeData[1 + SIZEDATA_SIZE_TO_INDEX(fxfMAXSIZE)];
@@ -328,7 +333,7 @@ size_t fxfMaxAllocation(void) {
   return fxfMAXSIZE;
 }
 
-#define ALIGN_TO_MINIMUM(s)  ((((s) - 1U) & ~(min_alignment - 1U)) + min_alignment)
+#define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {
 #if defined(LOG)
@@ -371,12 +376,12 @@ size_t fxfInit(size_t Size) {
   if (Size > MAX_POINTER_DIFFERENCE)
     Size= MAX_POINTER_DIFFERENCE;
   if (Size < NOT_MULTIPLE_ALIGNMENT)
-    while (Size & (Size - 1U))
-      Size&= (Size - 1U);
+    while (CLEAR_BOTTOM_BIT(Size))
+      Size= CLEAR_BOTTOM_BIT(Size);
   else if (Size < MAX_ALIGNMENT)
-    Size&= ~(NOT_MULTIPLE_ALIGNMENT - 1U);
+    Size= ROUND_DOWN_TO_ALIGNMENT(Size, NOT_MULTIPLE_ALIGNMENT);
   else
-    Size&= ~(MAX_ALIGNMENT - 1U);
+    Size= ROUND_DOWN_TO_ALIGNMENT(Size, MAX_ALIGNMENT);
   Arena= nNewUntyped(Size, char);
   if (!Arena) {
     ERROR_LOG3("%s: Sorry, cannot allocate arena of %" SIZE_T_PRINTF_SPECIFIER " <= %" SIZE_T_PRINTF_SPECIFIER " bytes\n",
@@ -412,8 +417,9 @@ size_t fxfInit(size_t Size) {
     SizeData[Size].FreeHead= Nil(void);
   }
 
-  while ((min_alignment>>1) >= fxfMINSIZE)
-    min_alignment>>= 1;
+  if ((NOT_MULTIPLE_ALIGNMENT>>1) >= fxfMINSIZE) /* compile-time check that's likely false */
+    while ((min_alignment>>1) >= fxfMINSIZE)
+      min_alignment>>= 1;
 
   return GlobalSize;
 }
@@ -645,7 +651,7 @@ START_LOOKING_FOR_CHUNK:
           if ((needed_alignment_mask - curBottomIndex) >= (sizeCurrentSeg - size))
             goto NEXT_SEGMENT;
           do {
-            size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
+            size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
             pushOntoFreeStore(BotFreePtr, cur_alignment);
             BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
@@ -675,7 +681,7 @@ NEXT_SEGMENT:
         size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
         while (curBottomIndex & (NOT_MULTIPLE_ALIGNMENT-1U))
         {
-          size_t const cur_alignment= (curBottomIndex & -curBottomIndex);
+          size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
           pushOntoFreeStore(BotFreePtr, cur_alignment);
           BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
           curBottomIndex+= cur_alignment;
