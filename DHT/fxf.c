@@ -178,10 +178,13 @@ typedef struct {
 #endif
 
 /* The maximum size an fxfAlloc can handle */
-#define DESIRED_MAX_ALLOC (256 * sizeof(void *))
-/* TODO: Is the above sufficiently large for all of our needs without being excessive? */
-#define DESIRED_MAX_ALLOC_ALIGNMENT ((DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
-#define ROUNDED_DESIRED_MAXIMUM_ALLOC ROUND_UP_TO_ALIGNMENT(DESIRED_MAX_ALLOC, DESIRED_MAX_ALLOC_ALIGNMENT)
+#if !defined(FXF_DESIRED_MAX_ALLOC)
+#  define FXF_DESIRED_MAX_ALLOC (256U * sizeof(void *))
+/* TODO: Is the above a good default, sufficiently large for all of our needs without being excessive? */
+#endif
+
+#define DESIRED_MAX_ALLOC_ALIGNMENT ((FXF_DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
+#define ROUNDED_DESIRED_MAXIMUM_ALLOC ROUND_UP_TO_ALIGNMENT(FXF_DESIRED_MAX_ALLOC, DESIRED_MAX_ALLOC_ALIGNMENT)
 enum
 {
   fxfMINSIZE = sizeof(void *), /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
