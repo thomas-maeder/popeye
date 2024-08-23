@@ -155,9 +155,9 @@ typedef struct {
 } SizeHead;
 
 #define CLIP_TO_MAX_POINTER_DIFFERENCE(x) (((x) > MAX_POINTER_DIFFERENCE) ? MAX_POINTER_DIFFERENCE : (x))
-#define ROUND_UP_TO_ALIGNMENT(s, a) (((((size_t) (a)) - 1U) + (size_t) (s)) & ~(((size_t) (a)) - 1U))
 #define ROUND_DOWN_TO_ALIGNMENT(s, a) (((size_t) (s)) & ~(((size_t) (a)) - 1U))
-#define BOTTOM_BIT(s) (((size_t) (s)) & -((size_t) (s)))
+#define ROUND_UP_TO_ALIGNMENT(s, a) ROUND_DOWN_TO_ALIGNMENT((((size_t) (a)) - 1U) + (size_t) (s), a)
+#define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))
 #define CLEAR_BOTTOM_BIT(s) ((((size_t) (s)) - 1U) & (size_t) (s))
 
 #if defined(DOS)
