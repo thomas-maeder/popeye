@@ -538,10 +538,10 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
     cur_sh->FreeHead= ptr;
     cur_sh->FreeCount++;
+    TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
 #if defined(FREEMAP) && !defined(SEGMENTED)
     SetRange(pointerDifference(ptr, Arena), size);
 #endif
-    TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
     return 1;
   }
   return 0;
