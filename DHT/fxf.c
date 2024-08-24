@@ -527,9 +527,6 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   assert((!cur_sh->FreeHead) == (!cur_sh->FreeCount));
-#if defined(FREEMAP) && !defined(SEGMENTED)
-  SetRange(pointerDifference(ptr, Arena), size);
-#endif
   if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
       (size < sizeof cur_sh->FreeHead) &&
       cur_sh->FreeHead)
@@ -541,6 +538,9 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
     cur_sh->FreeHead= ptr;
     cur_sh->FreeCount++;
+#if defined(FREEMAP) && !defined(SEGMENTED)
+    SetRange(pointerDifference(ptr, Arena), size);
+#endif
     TMDBG(printf(" FreeCount:%lu",cur_sh->FreeCount));
     return 1;
   }
