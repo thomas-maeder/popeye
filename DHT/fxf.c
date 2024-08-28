@@ -338,19 +338,19 @@ size_t fxfMaxAllocation(void) {
 #define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {
-#if defined(LOG)
+#if defined(LOG) && !defined(SEGMENTED)
   static char const * const myname= "fxfInit";
 #endif
 #if defined(SEGMENTED)
   size_t maxSegCnt= (Size / ARENA_SEG_SIZE);
   if (maxSegCnt > ARENA_SEG_COUNT)
     maxSegCnt= ARENA_SEG_COUNT;
-  while (ArenaSegCnt > maxSegCnt) {
+  while (maxSegCnt < (size_t)ArenaSegCnt) {
     --ArenaSegCnt;
     free(Arena[ArenaSegCnt]);
     Arena[ArenaSegCnt]= Nil(void);
   }
-  while (ArenaSegCnt < maxSegCnt) {
+  while (maxSegCnt > (size_t)ArenaSegCnt) {
     Arena[ArenaSegCnt]= nNewUntyped(ARENA_SEG_SIZE, char);
     if (!Arena[ArenaSegCnt])
       break;
@@ -361,7 +361,7 @@ size_t fxfInit(size_t Size) {
   TopFreePtr= Arena[CurrentSeg];
   if (TopFreePtr)
     TopFreePtr= stepPointer(TopFreePtr, ARENA_SEG_SIZE);
-  GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
+  GlobalSize= ARENA_SEG_SIZE*(size_t)ArenaSegCnt;
 #else
 #if defined(FREEMAP)
   if (FreeMap)
@@ -530,7 +530,7 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
   if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
       (size < sizeof cur_sh->FreeHead) &&
       cur_sh->FreeHead)
-    TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of freeing them\n", (size_t_printf_type)curBottomIndex));
+    TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of freeing them\n", (size_t_printf_type)size));
   else
   {
     if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
@@ -717,6 +717,9 @@ NEXT_SEGMENT:
 
 void fxfFree(void *ptr, size_t size)
 {
+#if defined(DEBUG)
+  static char const * const myname= "fxfFree";
+#endif
   SizeHead *sh;
 
 #if defined(FXF_ENABLE_TMDBG) || !defined(NDEBUG)
@@ -736,15 +739,15 @@ void fxfFree(void *ptr, size_t size)
     do {
       convert_pointer_to_int_type segment_begin= (convert_pointer_to_int_type)Arena[ptrSegment];
       if (tmp >= segment_begin) {
-        ptrIndex= (tmp - segment_begin);
-        if (ptrIndex < ARENA_SEG_SIZE)
+        ptrIndex= (ptrdiff_t)(tmp - segment_begin);
+        if (ARENA_SEG_SIZE > (size_t)ptrIndex)
           goto FOUND_PUTATIVE_SEGMENT;
       }
     } while (0 <= --ptrSegment);
     ptrIndex= -1;
   } else {
     ptrIndex= pointerDifference(ptr,Arena[0]);
-    assert((ptrIndex >= 0) && (ptrIndex < ARENA_SEG_SIZE));
+    assert((ptrIndex >= 0) && (ARENA_SEG_SIZE > (size_t)ptrIndex));
   }
 FOUND_PUTATIVE_SEGMENT:
   TMDBG(printf("fxfFree - ptr-Arena[%d]:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,ptrSegment,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
@@ -753,7 +756,7 @@ FOUND_PUTATIVE_SEGMENT:
 #  if defined(FXF_ENABLE_TMDBG) || !defined(NDEBUG)
   ptrIndex= pointerDifference(ptr,Arena);
 #  endif
-  assert((ptrIndex >= 0) && (ptrIndex < GlobalSize));
+  assert((ptrIndex >= 0) && (GlobalSize > (size_t)ptrIndex));
   TMDBG(printf("fxfFree - ptr-Arena:%" PTRDIFF_T_PRINTF_SPECIFIER " size:%" SIZE_T_PRINTF_SPECIFIER,(ptrdiff_t_printf_type)ptrIndex,(size_t_printf_type)size));
 #endif /*!SEGMENTED*/
   DBG((df, "%s(%p, %" SIZE_T_PRINTF_SPECIFIER ")\n", myname, (void *)ptr, (size_t_printf_type) size));
@@ -769,12 +772,12 @@ FOUND_PUTATIVE_SEGMENT:
   if (!CurrentSeg) /* Otherwise we'd be relying on converting to convert_pointer_to_int_type,
                       and such calculations aren't guaranteed to provide exactly what we need. */
   {
-    assert(size <= (ARENA_SEG_SIZE - ptrIndex));
-    assert(((ptrIndex + size) <= pointerDifference(BotFreePtr,Arena[0])) || (ptr >= TopFreePtr));
+    assert(size <= (ARENA_SEG_SIZE - (size_t)ptrIndex));
+    assert(((size + (size_t)ptrIndex) <= (size_t)pointerDifference(BotFreePtr,Arena[0])) || (ptr >= TopFreePtr));
 #  else
   {
-    assert(size <= (GlobalSize - ptrIndex));
-    assert(((ptrIndex + size) <= pointerDifference(BotFreePtr,Arena)) || (ptr >= TopFreePtr));
+    assert(size <= (GlobalSize - (size_t)ptrIndex));
+    assert(((size + (size_t)ptrIndex) <= (size_t)pointerDifference(BotFreePtr,Arena)) || (ptr >= TopFreePtr));
 #endif
     if (ptrIndex > 0)
     {
@@ -833,11 +836,11 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
                       and such calculations aren't guaranteed to provide exactly what we need. */
   {
     ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena[0]);
-    assert(ptrIndex < ARENA_SEG_SIZE);
+    assert(ARENA_SEG_SIZE > (size_t)ptrIndex);
 #  else
   {
     ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena);
-    assert(ptrIndex < GlobalSize);
+    assert(GlobalSize > (size_t)ptrIndex);
 #  endif
     assert(ptrIndex >= 0); 
     if (ptrIndex > 0)
@@ -852,9 +855,9 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
       }
       allocatedSize= ALIGN_TO_MINIMUM(allocatedSize);
 #  if defined(SEGMENTED)
-      assert(allocatedSize <= (ARENA_SEG_SIZE - ptrIndex));
+      assert(allocatedSize <= (ARENA_SEG_SIZE - (size_t)ptrIndex));
 #  else
-      assert(allocatedSize <= (GlobalSize - ptrIndex));
+      assert(allocatedSize <= (GlobalSize - (size_t)ptrIndex));
 #  endif
       if (allocatedSize&PTRMASK)
       {
@@ -917,7 +920,7 @@ void fxfInfo(FILE *f) {
   size_t const sizeArenaUsed =
           GlobalSize-sizeCurrentSeg
 #if defined(SEGMENTED)
-          - (ArenaSegCnt-CurrentSeg-1)*ARENA_SEG_SIZE
+          - ARENA_SEG_SIZE*(size_t)(ArenaSegCnt-CurrentSeg-1)
 #endif /*SEGMENTED*/
       ;
   assert(GlobalSize/one_kilo<=ULONG_MAX);
@@ -940,7 +943,7 @@ void fxfInfo(FILE *f) {
     for (i=0; i<((sizeof SizeData)/(sizeof *SizeData)); i++,hd++) {
       if (hd->MallocCount || hd->FreeCount) {
         size_t const cur_size= SIZEDATA_INDEX_TO_SIZE(i);
-        fprintf(f, "%12zu  %10lu%10lu\n", cur_size, hd->MallocCount, hd->FreeCount);
+        fprintf(f, "%12" SIZE_T_PRINTF_SPECIFIER "  %10lu%10lu\n", (size_t_printf_type)cur_size, hd->MallocCount, hd->FreeCount);
         nrUsed+= hd->MallocCount;
         UsedBytes+= hd->MallocCount*cur_size;
         nrFree+= hd->FreeCount;
