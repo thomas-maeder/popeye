@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22113
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6858
-                  TI decisions:      164975
+                  TI decisions:      166077
 
 solution finished.
 
@@ -241,10 +241,10 @@ capture by invisible pawn results in promotion
   1.Rb1-b5 TI~*b8   2.Rh7-c7 TI~*c7[c7=wB] #
   1.Rb1-b5 TI~*b8   2.Rh7-d7 TI~*d7[d7=wS] #
   add_to_move_generation_stack:      264765
-                     play_move:      576280
+                     play_move:      576348
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      146330
-                  TI decisions:      667509
+ is_black_king_square_attacked:      146347
+                  TI decisions:      677677
 
 solution finished.
 
@@ -275,10 +275,10 @@ random move by invisible pawn results in promotion
 
   1.TI~-~ Kf3-g3   2.TI~*e2[e2=bS] Bh5*e2 #
   add_to_move_generation_stack:        3894
-                     play_move:        7591
+                     play_move:        7599
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        1093
-                  TI decisions:       10725
+ is_black_king_square_attacked:        1095
+                  TI decisions:       11384
 
 solution finished.
 

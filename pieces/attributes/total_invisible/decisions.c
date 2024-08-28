@@ -1610,20 +1610,29 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
       && decision_level_properties[decision_top].object==decision_object_arrival)
   {
     if (nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
-      /* the situation is hopeless */
+    {
+      TraceValue("the situation is hopeless:%u\n",__LINE__);
       decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    }
 
     if (backtracking[decision_top-1].type==backtrack_failure_to_intercept_illegal_checks
         && (nr_check_vectors>backtracking[decision_top-1].nr_check_vectors)
         && decision_level_properties[decision_top+1].ply+1==nbply)
-      /* moving the currently moving pieces makes the situation worse */
+    {
+      TraceValue("moving the currently moving pieces makes the situation worse:%u\n",__LINE__);
       decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    }
   }
 
   if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
       && decision_level_properties[decision_top].object==decision_object_departure
       && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+  {
+    //TraceValue("??:%u\n",__LINE__);
+    //decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    //  1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ TI~*g5   4.TI~*h3[g5=wQ][h3=bK] Rf1-f3 #
+    //Warum denn g5=wQ - das kann auch ein Bauer oder Springer sein
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1648,9 +1657,13 @@ void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_chec
   try_to_avoid_insertion[White] = false;
 
   if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_forward
-      /* restrict this to fleshed out random moves */
       && decision_level_properties[decision_top].object==decision_object_arrival)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+  {
+    //TraceValue("restrict this to fleshed out random moves:%u\n",__LINE__);
+    //decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    //  1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK]   3.Ba5-e1 Rd1-d2   4.Kf2-g1 TI~*e1 #
+    // Mit sKf3/g2 und wSb4 geht 2.K*f2 Sb4-c2 4.-Sc2*e1 und kein Matt
+  }
 
   if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
       && decision_level_properties[decision_top].object==decision_object_departure)

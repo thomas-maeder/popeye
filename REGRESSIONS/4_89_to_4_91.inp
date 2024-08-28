@@ -152,4 +152,20 @@ title Popeye 4.89 considered this move sequence a solution
 pieces white ke1 rb1 black bg1 totalinvisible 3
 stipulation h#3.5
 option movenum start 9:7:2:2:2:10:6 upto 9:7:2:2:2:10:6  
+
+next
+
+title an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ TI~*g5   4.TI~*h3[g5=wQ!!!][h3=bK] Rf1-f3 # here
+pieces white ke1 bg4 black bd8 totalinv 3
+stipulation h#3.5
+option movenum start 4:8:22:1:2:2 upto 4:8:22:1:2:2
+
+next
+
+title an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK]   3.Ba5-e1 Rd1-d2   4.Kf2-g1 TI~*e1 #, but 2.-Sb4-c2 and no mate
+pieces white ke1 pf2 black ba5 totalinv 3
+stipulation h#3.5
+option movenum start 3:2:1:11:13:4:2:1 upto 3:2:1:11:13:4:2:40
+
 end
+
