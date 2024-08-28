@@ -420,7 +420,7 @@ size_t fxfInit(size_t Size) {
   }
 
   if ((NOT_MULTIPLE_ALIGNMENT>>1) >= fxfMINSIZE) /* compile-time check that's likely false */
-    while ((min_alignment>>1) >= fxfMINSIZE)
+    while (min_alignment >= (((size_t)fxfMINSIZE)<<1))
       min_alignment>>= 1;
 
   return GlobalSize;
