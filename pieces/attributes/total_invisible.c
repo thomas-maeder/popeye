@@ -621,6 +621,8 @@ static void validate_mate(void)
     combined_validation_result = mate_unvalidated;
     initialise_decision_context();
     start_iteration();
+    record_decision_outcome("validate_mate(): combined_validation_result:%u",
+                            combined_validation_result);
   }
 
   TraceFunctionExit(__func__);
@@ -646,12 +648,16 @@ static void test_mate(void)
     case mate_defendable_by_interceptors:
       initialise_decision_context();
       start_iteration();
+      record_decision_outcome("test_mate(): get_decision_result():%u",
+                              get_decision_result());
       break;
 
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       initialise_decision_context();
       start_iteration();
+      record_decision_outcome("test_mate(): get_decision_result():%u",
+                              get_decision_result());
       assert(get_decision_result()==previous_move_has_solved);
       break;
 

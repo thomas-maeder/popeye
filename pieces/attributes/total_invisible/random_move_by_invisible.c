@@ -1600,7 +1600,8 @@ static square const *find_next_backward_mover(square const *start_square)
         && TSTFLAG(being_solved.spec[*result],side_playing))
     {
       PieceIdType const id = GetPieceId(being_solved.spec[*result]);
-      if (motivation[id].first.acts_when>nbply)
+      if (motivation[id].first.acts_when>nbply
+          && motivation[id].first.purpose!=purpose_castling_partner)
         break;
     }
 

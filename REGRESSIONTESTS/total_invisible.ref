@@ -739,7 +739,7 @@ a)
                      play_move:      162669
  is_white_king_square_attacked:       12060
  is_black_king_square_attacked:       41522
-                  TI decisions:      127680
+                  TI decisions:      127669
 
 b) bKg1-->g2  
 
@@ -758,7 +758,7 @@ b) bKg1-->g2
                      play_move:      237898
  is_white_king_square_attacked:       13572
  is_black_king_square_attacked:       61744
-                  TI decisions:      233092
+                  TI decisions:      233089
 
 solution finished.
 
@@ -968,7 +968,7 @@ Michel Caillaud & Igor Vere\vs\vcagin
                      play_move:     1449454
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      484556
-                  TI decisions:      844203
+                  TI decisions:      843293
 
 solution finished.
 
@@ -1042,11 +1042,11 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
   1...[+wRa1]0-0-0[d1=wR]   2.[+wTIg3]f4*g3 nQh1-g1   3.nQg1-c5 Rd1-d4 #
   1...nQh1-g1   2.nQg1-c5 [+wRa1]0-0-0[d1=wR]   3.[+wTIg3]f4*g3 Rd1-d4 #
   1...nQh1-g1   2.[+wTIg3]f4*g3 [+wRa1]0-0-0[d1=wR]   3.nQg1-c5 Rd1-d4 #
-  add_to_move_generation_stack:    62999416
-                     play_move:    34532187
- is_white_king_square_attacked:    23478200
- is_black_king_square_attacked:     5189251
-                  TI decisions:   131378487
+  add_to_move_generation_stack:    58286277
+                     play_move:    32400123
+ is_white_king_square_attacked:    21425138
+ is_black_king_square_attacked:     5189515
+                  TI decisions:   125536295
 
 solution finished.
 
