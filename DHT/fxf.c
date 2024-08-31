@@ -55,6 +55,8 @@
 #  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
 #    define MAX_ALIGNMENT alignof(FXF_MAX_ALIGNMENT_TYPE)
 #  else
+  /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
+     https://stackoverflow.com/a/228015/1019990. */
   struct GET_MAX_ALIGNMENT_TYPE {
     unsigned char c;
     FXF_MAX_ALIGNMENT_TYPE max_alignment_member;
@@ -70,6 +72,8 @@
 #    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #      include <stdint.h>
 #    endif
+  /* This technique for getting the maximum alignment is taken from Steve Jessop's comment at
+     https://stackoverflow.com/a/228015/1019990. */
   struct GET_MAX_ALIGNMENT_TYPE {
     unsigned char c;
     union {
@@ -93,6 +97,8 @@
                                     MAX_ALIGNMENT : \
                                     alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
 #  else
+  /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
+     https://stackoverflow.com/a/228015/1019990. */
   struct GET_NOT_EVEN_ALIGNMENT_TYPE {
     unsigned char c;
     FXF_NOT_MULTIPLE_ALIGNMENT_TYPE not_even_alignment_member;
