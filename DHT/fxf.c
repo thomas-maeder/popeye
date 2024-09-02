@@ -425,7 +425,7 @@ size_t fxfInit(size_t Size) {
     SizeData[Size].FreeHead= Nil(void);
   }
 
-  if ((NOT_MULTIPLE_ALIGNMENT>>1) >= fxfMINSIZE) /* compile-time check that's likely false */
+  if ((NOT_MULTIPLE_ALIGNMENT>>1) >= fxfMINSIZE) /* compile-time check */
     while (min_alignment >= (((size_t)fxfMINSIZE)<<1))
       min_alignment>>= 1;
 
@@ -533,13 +533,13 @@ static int pushOntoFreeStore(void * const ptr, size_t const size) {
          !(size & (min_alignment - 1U)));
   cur_sh= &SizeData[SIZEDATA_SIZE_TO_INDEX(size)];
   assert((!cur_sh->FreeHead) == (!cur_sh->FreeCount));
-  if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
+  if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check */ &&
       (size < sizeof cur_sh->FreeHead) &&
       cur_sh->FreeHead)
     TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of freeing them\n", (size_t_printf_type)size));
   else
   {
-    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check that's likely true */ ||
+    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE >= sizeof cur_sh->FreeHead) /* compile-time check */ ||
         (size >= sizeof cur_sh->FreeHead))
       memcpy(ptr, &cur_sh->FreeHead, sizeof cur_sh->FreeHead);
     cur_sh->FreeHead= ptr;
@@ -565,7 +565,7 @@ static void * popOffFreeStore(size_t const size)
   assert((!ptr) == (!cur_sh->FreeCount));
   if (ptr) {
     cur_sh->FreeCount--;
-    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check that's likely false */ &&
+    if ((ROUNDED_MIN_SIZE_UNDERESTIMATE < sizeof cur_sh->FreeHead) /* compile-time check */ &&
         (size < sizeof cur_sh->FreeHead))
       cur_sh->FreeHead= Nil(void);
     else
