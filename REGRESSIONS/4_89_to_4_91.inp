@@ -167,5 +167,23 @@ pieces white ke1 pf2 black ba5 totalinv 3
 stipulation h#3.5
 option movenum start 3:2:1:11:13:4:2:1 upto 3:2:1:11:13:4:2:40
 
-end
+next
 
+title so far, Popeye hasn't found this solution
+pieces white kh8 qe3 sc1 black pe4 totalinv 2
+stip h#2
+
+next
+
+title an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]0-0-0[b2=wR][h1=bK][d1=wR] # here
+pieces white ke1 bf3 black bb2 totalinv 3
+stip h#3
+option movenum start 11:1:1:12:2:3 upto 11:1:1:12:2:3
+
+next
+
+title an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*a4   4.TI~*f1[a4=wQ][f1=bK] Qa4-d1 #
+pieces white ke1 rf1 black pb5 totalinv 3
+stip h#3.5
+option movenum start 4:5:12:1:2:2:1 upto 4:5:12:1:2:2:40
+end

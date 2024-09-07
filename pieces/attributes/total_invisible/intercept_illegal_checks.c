@@ -836,6 +836,9 @@ static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
       }
     }
 
+    TraceValue("%u",check_by_uninterceptable_delivered_in_level);
+    TraceEOL();
+
     /* taking .from into consideration is relevant if the checker is inserted for a late ply,
      * e.g. as a mating piece attacker:
 begin

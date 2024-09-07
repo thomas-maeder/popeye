@@ -1665,9 +1665,12 @@ void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_chec
     // Mit sKf3/g2 und wSb4 geht 2.K*f2 Sb4-c2 4.-Sc2*e1 und kein Matt
   }
 
-  if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
-      && decision_level_properties[decision_top].object==decision_object_departure)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+//  if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
+//      && decision_level_properties[decision_top].object==decision_object_departure)
+//    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+// otherwise we find
+//  1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*a4   4.TI~*f1[a4=wQ][f1=bK] Qa4-d1 #
+// in white ke1 rf1 black pb5 totalinv 3 h#3.5
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

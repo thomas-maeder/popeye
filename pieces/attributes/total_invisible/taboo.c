@@ -68,18 +68,19 @@ boolean was_taboo(square s, Side side)
   assert(is_on_board(s));
 
   for (ply = nbply-1; ply>ply_retro_move; --ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-    TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+    if (is_move_by_invisible(s,side,ply))
+      break;
+    else
     {
-      result = true;
-      break;
+      TraceValue("%u",ply);
+      TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+      TraceEOL();
+      if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+      {
+        result = true;
+        break;
+      }
     }
-    else if (is_move_by_invisible(s,side,ply))
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -177,7 +178,8 @@ boolean will_be_taboo(square s, Side side)
 
   assert(is_on_board(s));
 
-  if (nbply<=top_ply_of_regular_play)
+  if (nbply<=top_ply_of_regular_play && !is_move_by_invisible(s,side,ply))
+  {
     while (true)
     {
       if (side!=trait[ply] && is_taboo_candidate_captured(ply,s))
@@ -205,6 +207,7 @@ boolean will_be_taboo(square s, Side side)
           break;
       }
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
