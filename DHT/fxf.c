@@ -31,7 +31,6 @@
 #  define PTRDIFF_T_PRINTF_SPECIFIER "td"
 #  define SIZE_T_PRINTF_SPECIFIER "zu"
 #else
-#  define MAX_POINTER_DIFFERENCE (((size_t)-1)>>1) /* just a guess */
 #  if defined(LLONG_MAX) /* We have long long integer types. */
    typedef long long int ptrdiff_t_printf_type;
    typedef unsigned long long int size_t_printf_type;
@@ -47,6 +46,7 @@
 #    define PTRDIFF_T_PRINTF_SPECIFIER "ld"
 #    define SIZE_T_PRINTF_SPECIFIER "lu"
 #  endif
+#  define MAX_POINTER_DIFFERENCE ((ptrdiff_t_printf_type)(((size_t)-1)>>1)) /* just a guess */
 #endif
 
 #if defined(FXF_MAX_ALIGNMENT_TYPE)
