@@ -47,6 +47,11 @@
 #    define SIZE_T_PRINTF_SPECIFIER "lu"
 #  endif
 #  define MAX_POINTER_DIFFERENCE ((ptrdiff_t_printf_type)(((size_t)-1)>>1)) /* just a guess */
+enum
+{
+  ENSURE_MAX_POINTER_DIFFERENCE_POSITIVE = 1/(MAX_POINTER_DIFFERENCE > 0) /* I'm not sure what would happen if this fails,
+                                                                             but it likely wouldn't be pretty. */
+};
 #endif
 
 #if defined(FXF_MAX_ALIGNMENT_TYPE)
