@@ -608,7 +608,9 @@ void *fxfAllocWithAlignment(size_t size, size_t alignment) {
   // Round up to a multiple of min_alignment
   size= ALIGN_TO_MINIMUM(size);
 
-#if !defined(NDEBUG)
+#if defined(NDEBUG)
+  (void) alignment; /* Ensure we "use" alignment. */
+#else /*NDEBUG*/
   /* Check our alignment assumptions, purely for informational purposes. */
   if (size&PTRMASK) {
     if (alignment > NOT_MULTIPLE_ALIGNMENT)
@@ -624,7 +626,7 @@ void *fxfAllocWithAlignment(size_t size, size_t alignment) {
                       (size_t_printf_type) alignment,
                       (size_t_printf_type) NOT_MULTIPLE_ALIGNMENT);
   }
-#endif
+#endif /*!NDEBUG*/
 
   ptr= popOffFreeStore(size);
 
