@@ -101,7 +101,7 @@ static int DupBCMemValue(dhtValue kv, dhtValue *output)
     size += (length - num_bytes_in_Data);
   }
 
-  result = (BCMemValue *)fxfAlloc(size);
+  result = (BCMemValue *)fxfAlloc(size, BCMemValue);
   if (result)
   {
     result->Leng = length;

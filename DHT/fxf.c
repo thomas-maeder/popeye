@@ -582,13 +582,13 @@ static void * popOffFreeStore(size_t const size)
   return ptr;
 }
 
-void *fxfAlloc(size_t size) {
+void *fxfAllocWithAlignment(size_t size, size_t alignment) {
 #if defined(LOG) || defined(DEBUG)
-  static char const * const myname= "fxfAlloc";
+  static char const * const myname= "fxfAllocWithAlignment";
 #endif
   void *ptr= Nil(void);
 
-  TMDBG(printf("fxfAlloc - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
+  TMDBG(printf("fxfAllocWithAlignment - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
 
   if (!size)
@@ -607,6 +607,24 @@ void *fxfAlloc(size_t size) {
 
   // Round up to a multiple of min_alignment
   size= ALIGN_TO_MINIMUM(size);
+
+#if !defined(NDEBUG)
+  /* Check our alignment assumptions, purely for informational purposes. */
+  if (size&PTRMASK) {
+    if (alignment > NOT_MULTIPLE_ALIGNMENT)
+      fprintf(stderr, "WARNING: Not fully aligned allocation of size %" SIZE_T_PRINTF_SPECIFIER "needs %" SIZE_T_PRINTF_SPECIFIER "-byte allocation, > the %" SIZE_T_PRINTF_SPECIFIER " byte(s) that FXF will guarantee\n",
+                      (size_t_printf_type) size,
+                      (size_t_printf_type) alignment,
+                      (size_t_printf_type) NOT_MULTIPLE_ALIGNMENT);
+  }
+  else {
+    if (alignment > MAX_ALIGNMENT)
+      fprintf(stderr, "WARNING: fully aligned allocation of size %" SIZE_T_PRINTF_SPECIFIER " needs %" SIZE_T_PRINTF_SPECIFIER "-byte allocation, > the %" SIZE_T_PRINTF_SPECIFIER " byte(s) that FXF will guarantee\n",
+                      (size_t_printf_type) size,
+                      (size_t_printf_type) alignment,
+                      (size_t_printf_type) NOT_MULTIPLE_ALIGNMENT);
+  }
+#endif
 
   ptr= popOffFreeStore(size);
 
@@ -832,13 +850,13 @@ FOUND_PUTATIVE_SEGMENT:
   TMDBG(putchar('\n'));
 }
 
-void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
+void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t alignment) {
   void *nptr;
   size_t original_allocation;
   if (!ptr)
   {
     assert(!OldSize);
-    return fxfAlloc(NewSize);
+    return fxfAllocWithAlignment(NewSize, alignment);
   }
   assert(OldSize && (OldSize <= fxfMAXSIZE));
 #if !defined(NDEBUG)
@@ -901,7 +919,7 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
       return ptr;
     /* TODO: Should we try to break apart this chunk? */
   }
-  nptr= fxfAlloc(NewSize);
+  nptr= fxfAllocWithAlignment(NewSize, alignment);
   if (nptr)
   {
     memcpy(nptr, ptr, ((NewSize < OldSize) ? NewSize : OldSize));

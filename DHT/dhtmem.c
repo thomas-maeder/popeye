@@ -96,7 +96,7 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   if (mv) {
     mv->Leng= length;
     if (length) {
-      void *newBuffer= fxfAlloc(length);
+      void *newBuffer= fxfAlloc(length, unsigned char);
       if (newBuffer) {
         memcpy(newBuffer, data, length);
         mv->Data = (uChar *)newBuffer;

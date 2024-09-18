@@ -50,11 +50,18 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #endif /*DEBUG_DHT*/
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
-#  define New(type)    ((type *)fxfAlloc(sizeof(type)))
-#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type)))
+#if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#  define DHT_ALIGNMENT_OF_TYPE(type) _Alignof(type)
+#elif (defined(__cplusplus) && (__cplusplus >= 201103L))
+#  define DHT_ALIGNMENT_OF_TYPE(type) alignof(type)
+#else
+#  define DHT_ALIGNMENT_OF_TYPE(type) offsetof(struct {unsigned char c; type t;}, t)
+#endif
+#  define New(type)    ((type *)fxfAlloc(sizeof(type), type))
+#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),DHT_ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
-static inline void * nNewImpl(size_t const nmemb, size_t const size) {
-  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAlloc(nmemb*size));
+static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t alignment) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocWithAlignment(nmemb*size, alignment));
 }
 #endif /*New*/
 
@@ -197,7 +204,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)dt);
   TraceFunctionParam("%p",elmt_to_append);
-  TraceFunctionParam("%d",elmt_depth);
+  TraceFunctionParam("%u",elmt_depth);
   TraceFunctionParamListEnd();
 
   if (elmt_depth>dt->level)
@@ -263,7 +270,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
+  TraceFunctionResult("%d",(int)result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -423,7 +430,7 @@ typedef struct dht {
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
-#define NewHashTable        ((HashTable *)fxfAlloc(sizeof(dht)))
+#define NewHashTable        ((HashTable *)fxfAlloc(sizeof(dht), HashTable))
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
 #define OVERFLOW_SAVE 1
 #if defined(OVERFLOW_SAVE)
