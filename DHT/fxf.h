@@ -6,8 +6,8 @@
 
 size_t fxfInit(size_t Size); /* returns the number of bytes actually allocated */
 int fxfInitialised(void);
-void *fxfAllocWithAlignment(size_t size, size_t alignment);
-void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t alignment);
+void *fxfAllocWithAlignment(size_t size, size_t desired_alignment);
+void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t desired_alignment);
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
 #  define fxfAlloc(size, type) fxfAllocWithAlignment(size, _Alignof(type))
 #  define fxfReAlloc(ptr, OldSize, NewSize, type) fxfReAllocWithAlignment(ptr, OldSize, NewSize, _Alignof(type))
