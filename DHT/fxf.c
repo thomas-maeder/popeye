@@ -54,6 +54,8 @@ enum
 };
 #endif
 
+#define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))
+
 #if defined(FXF_MAX_ALIGNMENT_TYPE)
 #  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
 #    define MAX_ALIGNMENT _Alignof(FXF_MAX_ALIGNMENT_TYPE)
@@ -61,12 +63,14 @@ enum
 #    define MAX_ALIGNMENT alignof(FXF_MAX_ALIGNMENT_TYPE)
 #  else
   /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990. */
+     https://stackoverflow.com/a/228015/1019990.
+     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
+     this should at least be closer to the correct value. */
   struct GET_MAX_ALIGNMENT_TYPE {
     unsigned char c;
     FXF_MAX_ALIGNMENT_TYPE max_alignment_member;
   };
-#    define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_alignment_member)
+#    define MAX_ALIGNMENT BOTTOM_BIT(offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_alignment_member))
 #  endif
 #else /*FXF_MAX_ALIGNMENT_TYPE*/
 #  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
@@ -78,7 +82,9 @@ enum
 #      include <stdint.h>
 #    endif
   /* This technique for getting the maximum alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990. */
+     https://stackoverflow.com/a/228015/1019990.
+     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
+     this should at least be closer to the correct value. */
   struct GET_MAX_ALIGNMENT_TYPE {
     unsigned char c;
     union {
@@ -88,7 +94,7 @@ enum
       long double floating_point;
     } max_aligned_union;
   };
-#    define MAX_ALIGNMENT offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union)
+#    define MAX_ALIGNMENT BOTTOM_BIT(offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union))
 #  endif
 #endif /*!FXF_MAX_ALIGNMENT_TYPE*/
 
@@ -103,14 +109,16 @@ enum
                                     alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
 #  else
   /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990. */
+     https://stackoverflow.com/a/228015/1019990.
+     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
+     this should at least be closer to the correct value. */
   struct GET_NOT_EVEN_ALIGNMENT_TYPE {
     unsigned char c;
     FXF_NOT_MULTIPLE_ALIGNMENT_TYPE not_even_alignment_member;
   };
-#    define NOT_MULTIPLE_ALIGNMENT ((offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member) > MAX_ALIGNMENT) ? \
+#    define NOT_MULTIPLE_ALIGNMENT ((BOTTOM_BIT(offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member)) > MAX_ALIGNMENT) ? \
                                     MAX_ALIGNMENT : \
-                                    offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member))
+                                    BOTTOM_BIT(offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member)))
 #  endif
 #else /*FXF_NOT_MULTIPLE_ALIGNMENT_TYPE*/
 #  define NOT_MULTIPLE_ALIGNMENT MAX_ALIGNMENT
@@ -168,7 +176,6 @@ typedef struct {
 #define CLIP_TO_MAX_POINTER_DIFFERENCE(x) (((x) > MAX_POINTER_DIFFERENCE) ? MAX_POINTER_DIFFERENCE : (x))
 #define ROUND_DOWN_TO_ALIGNMENT(s, a) (((size_t) (s)) & ~(((size_t) (a)) - 1U))
 #define ROUND_UP_TO_ALIGNMENT(s, a) ROUND_DOWN_TO_ALIGNMENT((((size_t) (a)) - 1U) + (size_t) (s), a)
-#define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))
 #define CLEAR_BOTTOM_BIT(s) ((((size_t) (s)) - 1U) & (size_t) (s))
 
 #if defined(DOS)

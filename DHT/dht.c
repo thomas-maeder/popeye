@@ -56,7 +56,7 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
 #    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),alignof(type)))
 #  else
-#    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),offsetof(struct {unsigned char c; type t;}, t)))
+#    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),(offsetof(struct {unsigned char c; type t;}, t)&-offsetof(struct {unsigned char c; type t;}, t))))
 #  endif
 #  define Nil(type)    ((type *)0)
 static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t alignment) {
