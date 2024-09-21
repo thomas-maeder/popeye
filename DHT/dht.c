@@ -51,16 +51,10 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
 #  define New(type)    ((type *)fxfAlloc(sizeof(type), type))
-#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
-#    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),_Alignof(type)))
-#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
-#    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),alignof(type)))
-#  else
-#    define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),(offsetof(struct {unsigned char c; type t;}, t)&-offsetof(struct {unsigned char c; type t;}, t))))
-#  endif
+#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
-static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t alignment) {
-  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocWithAlignment(nmemb*size, alignment));
+static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desired_alignment) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocWithAlignment(nmemb*size, desired_alignment));
 }
 #endif /*New*/
 

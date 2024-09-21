@@ -57,21 +57,7 @@ enum
 #define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))
 
 #if defined(FXF_MAX_ALIGNMENT_TYPE)
-#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
-#    define MAX_ALIGNMENT _Alignof(FXF_MAX_ALIGNMENT_TYPE)
-#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
-#    define MAX_ALIGNMENT alignof(FXF_MAX_ALIGNMENT_TYPE)
-#  else
-  /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990.
-     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
-     this should at least be closer to the correct value. */
-  struct GET_MAX_ALIGNMENT_TYPE {
-    unsigned char c;
-    FXF_MAX_ALIGNMENT_TYPE max_alignment_member;
-  };
-#    define MAX_ALIGNMENT BOTTOM_BIT(offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_alignment_member))
-#  endif
+#  define MAX_ALIGNMENT ALIGNMENT_OF_TYPE(FXF_MAX_ALIGNMENT_TYPE)
 #else /*FXF_MAX_ALIGNMENT_TYPE*/
 #  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
 #    define MAX_ALIGNMENT _Alignof(max_align_t)
@@ -81,45 +67,17 @@ enum
 #    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #      include <stdint.h>
 #    endif
-  /* This technique for getting the maximum alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990.
-     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
-     this should at least be closer to the correct value. */
-  struct GET_MAX_ALIGNMENT_TYPE {
-    unsigned char c;
-    union {
-      largest_integer_type unsigned_integer;
-      const volatile void * object_pointer;
-      void (*function_pointer)(void);  
-      long double floating_point;
-    } max_aligned_union;
-  };
-#    define MAX_ALIGNMENT BOTTOM_BIT(offsetof(struct GET_MAX_ALIGNMENT_TYPE, max_aligned_union))
+#    define MAX_ALIGNMENT ALIGNMENT_OF_TYPE(union {largest_integer_type unsigned_integer; \
+                                                   const volatile void * object_pointer; \
+                                                   void (*function_pointer)(void); \
+                                                   long double floating_point;})
 #  endif
 #endif /*!FXF_MAX_ALIGNMENT_TYPE*/
 
 #if defined(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE)
-#  if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
-#    define NOT_MULTIPLE_ALIGNMENT ((_Alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE) > MAX_ALIGNMENT) ? \
-                                    MAX_ALIGNMENT : \
-                                    _Alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
-#  elif (defined(__cplusplus) && (__cplusplus >= 201103L))
-#    define NOT_MULTIPLE_ALIGNMENT ((alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE) > MAX_ALIGNMENT) ? \
-                                    MAX_ALIGNMENT : \
-                                    alignof(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
-#  else
-  /* This technique for getting a type's alignment is taken from Steve Jessop's comment at
-     https://stackoverflow.com/a/228015/1019990.
-     We take the bottom bit in case the calculated value is some multiple of the correct alignment;
-     this should at least be closer to the correct value. */
-  struct GET_NOT_EVEN_ALIGNMENT_TYPE {
-    unsigned char c;
-    FXF_NOT_MULTIPLE_ALIGNMENT_TYPE not_even_alignment_member;
-  };
-#    define NOT_MULTIPLE_ALIGNMENT ((BOTTOM_BIT(offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member)) > MAX_ALIGNMENT) ? \
-                                    MAX_ALIGNMENT : \
-                                    BOTTOM_BIT(offsetof(struct GET_NOT_EVEN_ALIGNMENT_TYPE, not_even_alignment_member)))
-#  endif
+#  define NOT_MULTIPLE_ALIGNMENT ((ALIGNMENT_OF_TYPE(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE) > MAX_ALIGNMENT) ? \
+                                   MAX_ALIGNMENT : \
+                                   ALIGNMENT_OF_TYPE(FXF_NOT_MULTIPLE_ALIGNMENT_TYPE))
 #else /*FXF_NOT_MULTIPLE_ALIGNMENT_TYPE*/
 #  define NOT_MULTIPLE_ALIGNMENT MAX_ALIGNMENT
 #endif /*!FXF_NOT_MULTIPLE_ALIGNMENT_TYPE*/
