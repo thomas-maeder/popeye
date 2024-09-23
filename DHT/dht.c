@@ -50,11 +50,11 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #endif /*DEBUG_DHT*/
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
-#  define New(type)    ((type *)fxfAlloc(sizeof(type), type))
+#  define New(type)    fxfAlloc(sizeof(type), type)
 #  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
 static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desired_alignment) {
-  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocWithAlignment(nmemb*size, desired_alignment));
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocRaw(nmemb*size, desired_alignment));
 }
 #endif /*New*/
 
@@ -423,7 +423,7 @@ typedef struct dht {
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
-#define NewHashTable        ((HashTable *)fxfAlloc(sizeof(dht), HashTable))
+#define NewHashTable        fxfAlloc(sizeof(dht), HashTable)
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
 #define OVERFLOW_SAVE 1
 #if defined(OVERFLOW_SAVE)

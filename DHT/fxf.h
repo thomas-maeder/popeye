@@ -18,10 +18,10 @@
 
 size_t fxfInit(size_t Size); /* returns the number of bytes actually allocated */
 int fxfInitialised(void);
-void *fxfAllocWithAlignment(size_t size, size_t desired_alignment);
-void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t desired_alignment);
-#define fxfAlloc(size, type) fxfAllocWithAlignment(size, ALIGNMENT_OF_TYPE(type))
-#define fxfReAlloc(ptr, OldSize, NewSize, type) fxfReAllocWithAlignment(ptr, OldSize, NewSize, ALIGNMENT_OF_TYPE(type))
+void *fxfAllocRaw(size_t size, size_t desired_alignment);
+void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_alignment);
+#define fxfAlloc(size, type) ((type *) fxfAllocRaw(size, ALIGNMENT_OF_TYPE(type)))
+#define fxfReAlloc(ptr, OldSize, NewSize, type) ((type *) fxfReAllocRaw(ptr, OldSize, NewSize, ALIGNMENT_OF_TYPE(type)))
 void fxfFree(void *ptr, size_t size);
 void fxfInfo(FILE *);
 size_t fxfTotal(void);

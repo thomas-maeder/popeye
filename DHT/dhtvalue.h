@@ -31,7 +31,7 @@
 #include "fxf.h"
 #else
 #include <stdlib.h>
-#define	fxfAlloc(x,t)		malloc(x) /* TODO: Should we track allocations to ensure that we never allocate more than some chosen number (e.g., hashtable_kilos*1024) of total byte(s)? */
+#define	fxfAlloc(x,type)	((type *) malloc(x)) /* TODO: Should we track allocations to ensure that we never allocate more than some chosen number (e.g., hashtable_kilos*1024) of total byte(s)? */
 #define fxfFree(x,n)		free(x)
 #endif /*FXF*/
 

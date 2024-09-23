@@ -547,13 +547,13 @@ static void * popOffFreeStore(size_t const size)
   return ptr;
 }
 
-void *fxfAllocWithAlignment(size_t size, size_t desired_alignment) {
+void *fxfAllocRaw(size_t size, size_t desired_alignment) {
 #if defined(LOG) || defined(DEBUG)
-  static char const * const myname= "fxfAllocWithAlignment";
+  static char const * const myname= "fxfAllocRaw";
 #endif
   void *ptr= Nil(void);
 
-  TMDBG(printf("fxfAllocWithAlignment - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
+  TMDBG(printf("fxfAllocRaw - size:%" SIZE_T_PRINTF_SPECIFIER,(size_t_printf_type)size));
   DBG((stderr, "%s(%" SIZE_T_PRINTF_SPECIFIER ") =", myname, (size_t_printf_type)size));
   assert(desired_alignment && !CLEAR_BOTTOM_BIT(desired_alignment));
 
@@ -819,13 +819,13 @@ FOUND_PUTATIVE_SEGMENT:
   TMDBG(putchar('\n'));
 }
 
-void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t desired_alignment) {
+void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_alignment) {
   void *nptr;
   size_t original_allocation;
   if (!ptr)
   {
     assert(!OldSize);
-    return fxfAllocWithAlignment(NewSize, desired_alignment);
+    return fxfAllocRaw(NewSize, desired_alignment);
   }
   assert(OldSize && (OldSize <= fxfMAXSIZE));
 #if !defined(NDEBUG)
@@ -891,7 +891,7 @@ void *fxfReAllocWithAlignment(void *ptr, size_t OldSize, size_t NewSize, size_t 
       return ptr;
     /* TODO: Should we try to break apart this chunk? */
   }
-  nptr= fxfAllocWithAlignment(NewSize, desired_alignment);
+  nptr= fxfAllocRaw(NewSize, desired_alignment);
   if (nptr)
   {
     memcpy(nptr, ptr, ((NewSize < OldSize) ? NewSize : OldSize));

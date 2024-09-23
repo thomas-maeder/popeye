@@ -96,7 +96,7 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
     size += (length - num_bytes_in_Data);
   }
 
-  result = (CompactMemVal *)fxfAlloc(size, CompactMemVal);
+  result = fxfAlloc(size, CompactMemVal);
   if (result)
   {
     result->Leng = length;

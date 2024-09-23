@@ -62,7 +62,7 @@ static int	DupString(dhtValue v, dhtValue *output)
 	len= strlen(original);
 	if ((len < ((size_t)-1)) && !original[len]) {
 		++len;
-		nv= (char *)fxfAlloc(len, char);
+		nv= fxfAlloc(len, char);
 		if (nv) {
 			memcpy(nv, original, len);
 			output->object_pointer= nv;
