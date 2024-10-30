@@ -1493,43 +1493,52 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
     {
       case move_effect_revelation_of_new_invisible:
       {
-        square const on = entry->u.piece_addition.added.on;
-        piece_walk_type const walk = entry->u.piece_addition.added.walk;
-        Flags const spec = entry->u.piece_addition.added.flags;
-        Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
+        square const revealed_on = entry->u.piece_addition.added.on;
+        piece_walk_type const walk_revealed = entry->u.piece_addition.added.walk;
+        Flags const spec_revealed = entry->u.piece_addition.added.flags;
+        Side const side_revealed = TSTFLAG(spec_revealed,White) ? White : Black;
+        piece_walk_type const walk_on_board = get_walk_of_piece_on_square(revealed_on);
+        Flags const spec_on_board = being_solved.spec[revealed_on];
 
-        if (is_square_empty(on))
+        if (is_square_empty(revealed_on))
         {
           TraceText("revelation expected, but square is empty - aborting\n");
           record_decision_outcome("%s","revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
         }
-        else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
+        else if (play_phase==play_validating_mate && walk_on_board==Dummy)
         {
-          if (TSTFLAG(spec,Royal)
-              && walk==King
+          TraceWalk(walk_revealed);
+          TraceValue("%0x",spec_revealed);
+          TraceEnumerator(Side,side_revealed);
+          TraceSquare(revealed_on);
+          TraceEOL();
+          TraceWalk(walk_on_board);
+          TraceValue("%0x",spec_on_board);
+          TraceValue("%u",TSTFLAG(spec_on_board,side_revealed));
+          TraceEOL();
+
+          if (TSTFLAG(spec_revealed,Royal)
+              && walk_revealed==King
               && being_solved.king_square[side_revealed]!=initsquare)
           {
             TraceText("revelation of king - but king has already been placed - aborting\n");
             record_decision_outcome("%s","revelation of king - but king has already been placed - aborting");
             REPORT_DEADEND;
           }
-          else if (TSTFLAG(being_solved.spec[on],side_revealed))
+          else if (TSTFLAG(spec_on_board,side_revealed))
           {
-            square const on = entry->u.piece_addition.added.on;
-            Flags const spec_on_board = being_solved.spec[on];
             PieceIdType const id_on_board = GetPieceId(spec_on_board);
             purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
 
-            Flags const spec_added = entry->u.piece_addition.added.flags;
-            PieceIdType const id_added = GetPieceId(spec_added);
-            purpose_type const purpose_added = motivation[id_added].last.purpose;
+            PieceIdType const id_revealed = GetPieceId(spec_revealed);
+            purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
             reveal_new(entry);
             motivation[id_on_board].last.purpose = purpose_none;
-            motivation[id_added].last.purpose = purpose_none;
+            motivation[id_revealed].last.purpose = purpose_none;
             test_and_execute_revelations(curr+1);
-            motivation[id_added].last.purpose = purpose_added;
+            motivation[id_revealed].last.purpose = purpose_revealed;
             motivation[id_on_board].last.purpose = purpose_on_board;
             unreveal_new(entry);
           }
@@ -1540,13 +1549,13 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
             REPORT_DEADEND;
           }
         }
-        else if (get_walk_of_piece_on_square(on)==walk
-                 && TSTFLAG(being_solved.spec[on],side_revealed))
+        else if (walk_on_board==walk_revealed
+                 && TSTFLAG(spec_on_board,side_revealed))
         {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[revealed_on]);
           purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
 
-          PieceIdType const id_revealed = GetPieceId(spec);
+          PieceIdType const id_revealed = GetPieceId(spec_revealed);
           purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
           TraceText("treat revelation of new invisible as revelation of placed invisible\n");
@@ -1554,11 +1563,11 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           assert(id_on_board!=id_revealed);
 
           entry->type = move_effect_revelation_of_placed_invisible;
-          entry->u.revelation_of_placed_piece.on = on;
-          entry->u.revelation_of_placed_piece.walk_original = get_walk_of_piece_on_square(on);
-          entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
-          entry->u.revelation_of_placed_piece.walk_revealed = walk;
-          entry->u.revelation_of_placed_piece.flags_revealed = spec;
+          entry->u.revelation_of_placed_piece.on = revealed_on;
+          entry->u.revelation_of_placed_piece.walk_original = walk_on_board;
+          entry->u.revelation_of_placed_piece.flags_original = spec_on_board;
+          entry->u.revelation_of_placed_piece.walk_revealed = walk_revealed;
+          entry->u.revelation_of_placed_piece.flags_revealed = spec_revealed;
 
           adapt_id_of_existing_to_revealed(entry);
 
@@ -1573,9 +1582,9 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           unadapt_id_of_existing_to_revealed(entry);
 
           entry->type = move_effect_revelation_of_new_invisible;
-          entry->u.piece_addition.added.on = on;
-          entry->u.piece_addition.added.walk = walk;
-          entry->u.piece_addition.added.flags = spec;
+          entry->u.piece_addition.added.on = revealed_on;
+          entry->u.piece_addition.added.walk = walk_revealed;
+          entry->u.piece_addition.added.flags = spec_revealed;
         }
         else
         {

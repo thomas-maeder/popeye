@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22164
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6885
-                  TI decisions:      148184
+                  TI decisions:      157123
 
 solution finished.
 
@@ -244,7 +244,7 @@ capture by invisible pawn results in promotion
                      play_move:      576886
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      146482
-                  TI decisions:      678759
+                  TI decisions:      678959
 
 solution finished.
 
@@ -278,7 +278,7 @@ random move by invisible pawn results in promotion
                      play_move:       11966
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2185
-                  TI decisions:       16497
+                  TI decisions:       16501
 
 solution finished.
 

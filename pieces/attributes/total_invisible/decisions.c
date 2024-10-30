@@ -1285,70 +1285,8 @@ WE HAVE TO TRY OTHER WALKS - E.G. BISHOP TO ALLOW BG6-F5 IN PLY 7
             }
             else
             {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
-              /* e.g.
-begin
-origin 1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
-pieces TotalInvisible 2 white ka5 rh1 bh8 black ka1 pa2
-stipulation h#1.5
-option movenum start 1:2
-end
-
-1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   B   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   K   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2  -P   .   .   .   .   .   .   .   2
-|                                   |
-1  -K   .   .   .   .   .   .   R   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#1.5                3 + 2 + 2 TI
-
-!make_revelations 6:TI~-~ 7:TI~-h8 - revelations.c:#1430 - D:35 - 34
-use option start 1:2 to replay
-! >2 + 6 b2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#487 - D:37
-!  >3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#450 - D:39
-!   >4 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#253 - D:41
-!    >5 + 6 b1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#487 - D:43
-...
-!    >5 + 6 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#487 - D:309
-!     >6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#450 - D:311
-...
-!     >6 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#450 - D:313
-!       7 6 pawn is placed on impossible square - intercept_illegal_checks.c:#292
-!      >7 + 6 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#253 - D:315
-...
-!      >7 + 6 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#253 - D:331
-!       >8 > 6 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#544 - D:333
-!        >9 > 6 f2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#25 - D:335
-...
-!        >9 > 6 h2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#25 - D:359
-!         >10 x 7 b2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:6 - capture_by_invisible.c:#800 - D:361
-!           11 8 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#619
-!         <10 - r:1 t:3 m:10
-!        <9 - r:1 t:3 m:10
-!       <8 - r:1 t:3 m:10
-!      <7 - r:1 t:3 m:10
-!     <6 - r:1 t:3 m:10
-!    <5 - r:1 t:3 m:10
-!   <4 - r:1 t:3 m:10
-
-HERE - no need to try other walks on b2
-             */
+              TraceText("try harder - an interceptor with a different walk may help us out\n");
+              /* e.g. 1...TI~-~   2.Qh1-h3 Ke1-f1   3.Qh3-f5 Sa1-c2   4.Qf5-f4[f3=bK][g2=bR] TI~*g2[g2=wQ] # */
             }
           }
           break;

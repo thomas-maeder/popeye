@@ -552,11 +552,11 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
  16  (Bc2-d3 )
  17  (Bc2-a4 )
  18  (Bc2-b3 )
-  add_to_move_generation_stack:      797650
-                     play_move:      879864
- is_white_king_square_attacked:       47244
- is_black_king_square_attacked:       50671
-                  TI decisions:     8215502
+  add_to_move_generation_stack:      777959
+                     play_move:      866210
+ is_white_king_square_attacked:       44300
+ is_black_king_square_attacked:       50631
+                  TI decisions:     7898406
 
 solution finished.
 
@@ -805,7 +805,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          91
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           5
-                  TI decisions:        2342
+                  TI decisions:        2362
 
 solution finished.
 
@@ -884,7 +884,7 @@ an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK] 
                      play_move:         155
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          25
-                  TI decisions:        4790
+                  TI decisions:        4578
 
 solution finished.
 
@@ -918,7 +918,7 @@ so far, Popeye hasn't found this solution
                      play_move:       25737
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4665
-                  TI decisions:      106137
+                  TI decisions:      106217
 
 solution finished.
 
