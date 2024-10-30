@@ -144,16 +144,35 @@ static void recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
-void protect_castling_king(void)
+static void protect_castling_king_on_intermediate_square(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  Side const side_in_check = trait[nbply];
+  square const intermediate_square = (move_effect_journal[movement].u.piece_movement.to+move_effect_journal[movement].u.piece_movement.from)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
+  deal_with_illegal_checks(side_in_check,intermediate_square,&recurse_into_child_ply);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void protect_castling_king_at_home(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  Side const side_in_check = trait[nbply];
+  square const king_pos = being_solved.king_square[side_in_check];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
-    deal_with_illegal_checks(trait[nbply],&recurse_into_child_ply);
+    deal_with_illegal_checks(side_in_check,king_pos,&protect_castling_king_on_intermediate_square);
   else
     recurse_into_child_ply();
 
@@ -183,7 +202,7 @@ static void adapt_capture_effect(void)
     if (is_square_empty(to))
     {
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
-      protect_castling_king();
+      protect_castling_king_at_home();
     }
     else if (TSTFLAG(being_solved.spec[to],Royal))
     {
@@ -205,7 +224,7 @@ static void adapt_capture_effect(void)
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-      protect_castling_king();
+      protect_castling_king_at_home();
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
@@ -219,7 +238,7 @@ static void adapt_capture_effect(void)
     TraceText("capture of invisible victim added for the purpose\n");
 
     if (is_square_empty(to))
-      protect_castling_king();
+      protect_castling_king_at_home();
     else
     {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
@@ -231,7 +250,7 @@ static void adapt_capture_effect(void)
         /* if the piece to be captured is royal, then our tests for self check have failed */
         assert(!TSTFLAG(being_solved.spec[to],Royal));
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        protect_castling_king();
+        protect_castling_king_at_home();
         move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
@@ -254,7 +273,7 @@ static void adapt_capture_effect(void)
     else
     {
       move_effect_journal[capture].type = move_effect_no_piece_removal;
-      protect_castling_king();
+      protect_castling_king_at_home();
       move_effect_journal[capture].type = move_effect_piece_removal;
     }
   }
@@ -278,11 +297,11 @@ static void adapt_capture_effect(void)
       TraceEOL();
 
       motivation[id_removed].last.purpose = purpose_none;
-      protect_castling_king();
+      protect_castling_king_at_home();
       motivation[id_removed].last.purpose = orig_purpose_removed;
     }
     else
-      protect_castling_king();
+      protect_castling_king_at_home();
 
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
@@ -424,8 +443,9 @@ static void adapt_pre_capture_effect(void)
 
   if (nbply>top_ply_of_regular_play)
   {
+    square const king_pos = being_solved.king_square[side_just_moved];
     TraceText("there are no post-play pre-capture effects\n");
-    deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
+    deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
   }
   else
   {
@@ -493,11 +513,12 @@ static void adapt_pre_capture_effect(void)
         {
           PieceIdType const id = GetPieceId(being_solved.spec[to]);
           purpose_type const save_purpose = motivation[id].last.purpose;
+          square const king_pos = being_solved.king_square[side_just_moved];
 
           record_decision_outcome("%s","no need to add victim of capture by pawn any more");
           move_effect_journal[pre_capture].type = move_effect_none;
           motivation[id].last.purpose = purpose_none;
-          deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
+          deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
           motivation[id].last.purpose = save_purpose;
           move_effect_journal[pre_capture].type = move_effect_piece_readdition;
         }
@@ -546,10 +567,11 @@ static void adapt_pre_capture_effect(void)
             PieceIdType const id_on_board = GetPieceId(being_solved.spec[sq_addition]);
             if (id_added==id_on_board)
             {
+              square const king_pos = being_solved.king_square[side_just_moved];
               TraceText("addition of a castling partner\n");
               TraceText("castling partner was added as part of applying our knowledge\n");
               move_effect_journal[pre_capture].type = move_effect_none;
-              deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
+              deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
               move_effect_journal[pre_capture].type = move_effect_piece_readdition;
             }
             else
@@ -568,15 +590,17 @@ static void adapt_pre_capture_effect(void)
         }
         else
         {
+          square const king_pos = being_solved.king_square[side_just_moved];
           TraceText("possible addition of an invisible capturer - details to be clarified later\n");
-          deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
+          deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
         }
       }
     }
     else
     {
+      square const king_pos = being_solved.king_square[side_just_moved];
       TraceText("no piece addition to be adapted\n");
-      deal_with_illegal_checks(side_just_moved,&done_intercepting_illegal_checks);
+      deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
     }
   }
 

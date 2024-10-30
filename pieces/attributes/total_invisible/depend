@@ -569,13 +569,12 @@ debugging/assert.h:
 pieces/attributes/total_invisible/intercept_illegal_checks$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/intercept_illegal_checks.c \
  pieces/attributes/total_invisible/intercept_illegal_checks.h \
- position/side.h position/side.enum.h position/side.enum \
- pieces/attributes/total_invisible/taboo.h position/position.h \
- position/board.h utilities/bitmask.h position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h \
- pieces/attributes/total_invisible/revelations.h \
+ position/side.h position/side.enum.h position/side.enum position/board.h \
+ utilities/bitmask.h pieces/attributes/total_invisible/taboo.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h pieces/attributes/total_invisible/revelations.h \
  pieces/attributes/total_invisible.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
@@ -596,10 +595,10 @@ pieces/attributes/total_invisible/intercept_illegal_checks.h:
 position/side.h:
 position/side.enum.h:
 position/side.enum:
-pieces/attributes/total_invisible/taboo.h:
-position/position.h:
 position/board.h:
 utilities/bitmask.h:
+pieces/attributes/total_invisible/taboo.h:
+position/position.h:
 position/color.h:
 position/color.enum.h:
 position/color.enum:

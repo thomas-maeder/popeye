@@ -54,7 +54,7 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
       if (walk_moving==Dummy)
         restart_from_scratch();
       else
-        protect_castling_king();
+        protect_castling_king_at_home();
       pieces_pawns_continue_promotee_sequence(&sequence);
       pop_decision();
     } while (sequence.promotee!=Empty && can_decision_level_be_continued());
@@ -66,7 +66,7 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
     if (walk_moving==Dummy)
       restart_from_scratch();
     else
-      protect_castling_king();
+      protect_castling_king_at_home();
   }
 
   forget_taboos_for_current_move();
@@ -1077,7 +1077,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
       TraceText("stick to random move by unplaced invisible\n");
       TraceValue("%u",__LINE__);TraceEOL();
       push_decision_random_move(decision_purpose_random_mover_forward);
-      protect_castling_king();
+      protect_castling_king_at_home();
       pop_decision();
     }
 

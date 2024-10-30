@@ -326,7 +326,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   WriteSpec(&output_plaintext_engine,
             stdout,
             BIT(side),
-            initsquare,
+            Empty,
             true);
   printf(" %lu",id);
 #endif
