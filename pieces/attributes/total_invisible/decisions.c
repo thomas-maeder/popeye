@@ -1667,7 +1667,8 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
 
         default:
           TraceValue("skip on line:%u\n",__LINE__);
-          skip = true;
+//          skip = true;
+          /* e.g. 1...[+wRa1]0-0-0[d1=wR]   2.Sg3-h1 Sc2-e1   3.TI~-~ Rd1-d2   4.TI~*e1 TI~*h1[e1=bK] # */
           break;
       }
       break;
@@ -2392,7 +2393,8 @@ boolean can_decision_level_be_continued(void)
   else if (decision_level_properties[decision_top+1].relevance==relevance_irrelevant)
   {
     TraceValue("skip on line:%u\n",__LINE__);
-    result = false;
+    result = true;
+    /* e.g. 1...[+wRa1]0-0-0[d1=wR]   2.TI~*g1 TI~-~[g1=bK]   3.Kg1-g2 TI~-~   4.Kg2-h1[f1=wS???] Sf1-e3 # */
   }
   else
     switch (backtracking[decision_top].type)
