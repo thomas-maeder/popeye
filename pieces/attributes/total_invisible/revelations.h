@@ -41,9 +41,6 @@ PieceIdType initialise_motivation(purpose_type purpose, square sq_first,
 PieceIdType initialise_motivation_from_revelation(revelation_status_type const *revelation);
 void uninitialise_motivation(PieceIdType id_uninitialised);
 
-void reveal_new(move_effect_journal_entry_type *entry);
-void unreveal_new(move_effect_journal_entry_type *entry);
-
 void reveal_placed(move_effect_journal_entry_type const *entry);
 void unreveal_placed(move_effect_journal_entry_type const *entry);
 

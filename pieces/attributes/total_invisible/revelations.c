@@ -146,7 +146,7 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-void reveal_new(move_effect_journal_entry_type *entry)
+static void reveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -182,7 +182,7 @@ void reveal_new(move_effect_journal_entry_type *entry)
   TraceFunctionResultEnd();
 }
 
-void unreveal_new(move_effect_journal_entry_type *entry)
+static void unreveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -1007,8 +1007,9 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
   if (is_square_empty(s))
   {
     TraceValue("%u",nbply);TraceEOL();
-    TraceConsumption();
-    TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
+    TraceConsumption();TraceEOL();
+    record_decision_outcome("revelation of a hitherto unplaced invisible side:%u walk:%u on:%u",
+                            TSTFLAG(spec,White) ? White : Black, status->walk, s);
 
     {
       result = initialise_motivation_from_revelation(status);
@@ -1032,7 +1033,8 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
         && (GetPieceId(move_effect_journal[base].u.piece_addition.added.flags)
             ==GetPieceId(spec)))
     {
-      TraceText("pseudo revelation of a castling partner\n");
+      record_decision_outcome("pseudo revelation of a castling partner side:%u walk:%u on:%u",
+                              TSTFLAG(spec,White) ? White : Black, status->walk, s);
       assert(TSTFLAG(being_solved.spec[s],Chameleon));
       CLRFLAG(being_solved.spec[s],Chameleon);
       assert(GetPieceId(spec)==GetPieceId(being_solved.spec[s]));
@@ -1041,7 +1043,8 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
     }
     else
     {
-      TraceText("revelation of a placed invisible\n");
+      record_decision_outcome("revelation of a placed invisible side:%u walk:%u on:%u",
+                              TSTFLAG(spec,White) ? White : Black, status->walk, s);
       SetPieceId(spec,GetPieceId(being_solved.spec[s]));
 
       if (status->walk==King)
@@ -1126,6 +1129,11 @@ void initialise_revelations(void)
       revelation_status[i].spec = being_solved.spec[s];
       revelation_status[i].first = motivation[id].first;
 
+      record_decision_outcome("revelation candidate - side:%u walk:%u on:%u",
+                              TSTFLAG(being_solved.spec[s],White) ? White : Black,
+                              walk,
+                              s);
+
       assert(motivation[id].first.acts_when<=motivation[id].last.acts_when);
       if (motivation[id].first.acts_when<motivation[id].last.acts_when
           || motivation[id].first.purpose==purpose_capturer
@@ -1175,6 +1183,12 @@ void update_revelations(void)
       TraceWalk(get_walk_of_piece_on_square(s));
       TraceValue("%x",being_solved.spec[s]);
       TraceEOL();
+
+      record_decision_outcome("ruling out revelation candidate - side:%u walk:%u on:%u",
+                              TSTFLAG(revelation_status[i].spec,White) ? White : Black,
+                              revelation_status[i].walk,
+                              revelation_status[i].first_on);
+
       memmove(&revelation_status[i],&revelation_status[i+1],
               (nr_potential_revelations-i-1)*sizeof revelation_status[0]);
       --nr_potential_revelations;
