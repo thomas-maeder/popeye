@@ -98,7 +98,7 @@ void restart_from_scratch(void)
   else if (nbply==ply_retro_move+1)
   {
     TraceValue("%u",nbply);TraceEOL();
-    start_iteration();
+    adapt_pre_capture_effect();
   }
   else
   {
@@ -439,7 +439,7 @@ static void done_intercepting_illegal_checks(void)
   TraceFunctionResultEnd();
 }
 
-static void adapt_pre_capture_effect(void)
+void adapt_pre_capture_effect(void)
 {
   Side const side_just_moved = trait[nbply-1];
 
@@ -570,17 +570,6 @@ static void adapt_pre_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-void start_iteration(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  adapt_pre_capture_effect();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void validate_mate(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[top_ply_of_regular_play];
@@ -606,7 +595,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     initialise_decision_context();
-    start_iteration();
+    adapt_pre_capture_effect();
     record_decision_outcome("validate_mate(): combined_validation_result:%u",
                             combined_validation_result);
   }
@@ -633,7 +622,7 @@ static void test_mate(void)
     case mate_attackable:
     case mate_defendable_by_interceptors:
       initialise_decision_context();
-      start_iteration();
+      adapt_pre_capture_effect();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       break;
@@ -641,7 +630,7 @@ static void test_mate(void)
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       initialise_decision_context();
-      start_iteration();
+      adapt_pre_capture_effect();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       assert(get_decision_result()==previous_move_has_solved);
