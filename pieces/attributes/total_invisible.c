@@ -321,59 +321,32 @@ void insert_invisible_capturer(void)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const pre_capture = effects_base;
 
+  square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
+  piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
+  Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
+  Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+
+  PieceIdType const id = GetPieceId(flags_added);
+
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  switch (move_effect_journal[pre_capture].type)
-  {
-    case move_effect_piece_readdition:
-    {
-      square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-      piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-      Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-      Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
+  assert(sq_addition!=to);
+  assert(is_square_empty(sq_addition));
+  assert(!was_taboo(sq_addition,side_added));
 
-      PieceIdType const id = GetPieceId(flags_added);
-
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      square const to = move_effect_journal[movement].u.piece_movement.to;
-
-      assert(sq_addition!=to);
-      assert(is_square_empty(sq_addition));
-      assert(!was_taboo(sq_addition,side_added));
-
-      move_effect_journal[pre_capture].type = move_effect_none;
-      record_decision_for_inserted_invisible(id);
-      ++being_solved.number_of_pieces[side_added][walk_added];
-      occupy_square(sq_addition,walk_added,flags_added);
-      restart_from_scratch();
-      empty_square(sq_addition);
-      --being_solved.number_of_pieces[side_added][walk_added];
-      move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-
-      break;
-    }
-
-    case move_effect_none:
-    {
-      ply const ply_capture_by_pawn = nbply+1;
-
-      TraceText("no capturer to be inserted\n");
-      if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)==initsquare)
-        adapt_capture_effect();
-      else
-      {
-        record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
-        REPORT_DEADEND;
-        backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
-      }
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
-  }
+  move_effect_journal[pre_capture].type = move_effect_none;
+  record_decision_for_inserted_invisible(id);
+  ++being_solved.number_of_pieces[side_added][walk_added];
+  occupy_square(sq_addition,walk_added,flags_added);
+  restart_from_scratch();
+  empty_square(sq_addition);
+  --being_solved.number_of_pieces[side_added][walk_added];
+  move_effect_journal[pre_capture].type = move_effect_piece_readdition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -386,8 +359,8 @@ static void done_intercepting_illegal_checks(void)
 
   if (nbply<=top_ply_of_regular_play)
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
@@ -424,7 +397,27 @@ static void done_intercepting_illegal_checks(void)
     {
       square const first_taboo_violation = find_taboo_violation();
       if (first_taboo_violation==nullsquare)
-        insert_invisible_capturer();
+      {
+        move_effect_journal_index_type const pre_capture = effects_base;
+
+        if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
+          insert_invisible_capturer();
+        else
+        {
+          ply const ply_capture_by_pawn = nbply+1;
+
+          assert(move_effect_journal[pre_capture].type==move_effect_none);
+
+          if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)==initsquare)
+            adapt_capture_effect();
+          else
+          {
+            record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
+            REPORT_DEADEND;
+            backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
+          }
+        }
+      }
       else
       {
         // TODO review
