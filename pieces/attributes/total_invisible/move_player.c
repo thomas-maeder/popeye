@@ -39,14 +39,18 @@ static void play_castling_with_invisible_partner(slice_index si,
     {
       PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,
                                                            purpose_castling_partner,sq_arrival_partner);
-      Flags spec = BIT(side)|BIT(Chameleon);
+      Flags spec = BIT(side);
       ply ply_taboo;
 
       TraceConsumption();
 
       SetPieceId(spec,id_partner);
-      move_effect_journal_do_piece_readdition(move_effect_reason_castling_partner,
-                                              sq_departure_partner,Rook,spec,side);
+      assert(is_square_empty(sq_departure_partner));
+      if (TSTFLAG(spec,White))
+        ++being_solved.number_of_pieces[White][Rook];
+      if (TSTFLAG(spec,Black))
+        ++being_solved.number_of_pieces[Black][Rook];
+      occupy_square(sq_departure_partner,Rook,spec);
 
       for (ply_taboo = ply_retro_move+1; ply_taboo<=nbply; ++ply_taboo)
       {
@@ -54,6 +58,7 @@ static void play_castling_with_invisible_partner(slice_index si,
         remember_taboo_on_square(sq_departure_partner,Black,ply_taboo);
       }
 
+      move_effect_journal_do_null_effect(move_effect_no_reason);
       pipe_solve_delegate(si);
 
       for (ply_taboo = ply_retro_move+1; ply_taboo<=nbply; ++ply_taboo)
@@ -61,6 +66,23 @@ static void play_castling_with_invisible_partner(slice_index si,
         forget_taboo_on_square(sq_departure_partner,White,ply_taboo);
         forget_taboo_on_square(sq_departure_partner,Black,ply_taboo);
       }
+
+      {
+        move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+        move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+        move_effect_journal_index_type const partner_movement = movement+1;
+
+        assert(move_effect_journal[partner_movement].type==move_effect_piece_movement);
+        assert(move_effect_journal[partner_movement].reason==move_effect_reason_castling_partner);
+        assert(move_effect_journal[partner_movement].u.piece_movement.from==sq_departure_partner);
+
+        empty_square(move_effect_journal[partner_movement].u.piece_movement.to);
+        move_effect_journal[partner_movement].type = move_effect_none;
+      }
+      if (TSTFLAG(spec,White))
+        --being_solved.number_of_pieces[White][Rook];
+      if (TSTFLAG(spec,Black))
+        --being_solved.number_of_pieces[Black][Rook];
 
       uninitialise_motivation(id_partner);
     }

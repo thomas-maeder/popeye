@@ -133,7 +133,12 @@ static void recurse_into_child_ply(void)
   redo_move_effects();
   move_effect_journal_base[nbply+1] = save_top;
 
-  test_and_execute_revelations(top_before_revelations[nbply]);
+  ++nbply;
+  TraceValue("%u",nbply);TraceEOL();
+
+  test_and_execute_revelations(top_before_revelations[nbply-1]);
+
+  --nbply;
 
   move_effect_journal_base[nbply+1] = top_before_revelations[nbply];
   assert(top_before_revelations[nbply]>move_effect_journal_base[nbply]);
@@ -539,50 +544,7 @@ static void adapt_pre_capture_effect(void)
         TraceValue("%u",move_effect_journal[pre_capture].reason);
         TraceEOL();
 
-        if (move_effect_journal[pre_capture].reason==move_effect_reason_castling_partner)
-        {
-          if (is_square_empty(sq_addition))
-          {
-            square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-            piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-            Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-            PieceIdType const id_added = GetPieceId(flags_added);
-
-            TraceText("addition of a castling partner - not yet revealed\n");
-            assert(play_phase==play_detecting_revelations /* going to be revealed now */
-                   || nbply==top_ply_of_regular_play);    /* going to be revealed if we have solved */
-            record_decision_outcome("%s","adding castling partner");
-            move_effect_journal[pre_capture].type = move_effect_none;
-            record_decision_for_inserted_invisible(id_added);
-            ++being_solved.number_of_pieces[trait[nbply]][walk_added];
-            occupy_square(sq_addition,walk_added,flags_added);
-            restart_from_scratch();
-            empty_square(sq_addition);
-            --being_solved.number_of_pieces[trait[nbply]][walk_added];
-            move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-          }
-          else
-          {
-            PieceIdType const id_added = GetPieceId(flags_added);
-            PieceIdType const id_on_board = GetPieceId(being_solved.spec[sq_addition]);
-            if (id_added==id_on_board)
-            {
-              square const king_pos = being_solved.king_square[side_just_moved];
-              TraceText("addition of a castling partner\n");
-              TraceText("castling partner was added as part of applying our knowledge\n");
-              move_effect_journal[pre_capture].type = move_effect_none;
-              deal_with_illegal_checks(side_just_moved,king_pos,&done_intercepting_illegal_checks);
-              move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-            }
-            else
-            {
-              TraceText("The departure square of the castling partner is occupied by somebody else\n");
-              TraceText("This should have been prevented by the taboo machinery\n");
-              assert(0);
-            }
-          }
-        }
-        else if (was_taboo_forever(sq_addition,side_added))
+        if (was_taboo_forever(sq_addition,side_added))
         {
           TraceText("Hmm - some invisible piece must have traveled through the castling partner's square\n");
           TraceText("This should have been prevented by the taboo machinery\n");
@@ -1256,10 +1218,6 @@ void solving_instrument_total_invisible(slice_index si)
   move_effect_journal_set_effect_doers(move_effect_revelation_of_new_invisible,
                                        &undo_revelation_of_new_invisible,
                                        &redo_revelation_of_new_invisible);
-
-  move_effect_journal_set_effect_doers(move_effect_revelation_of_castling_partner,
-                                       &undo_revelation_of_castling_partner,
-                                       &redo_revelation_of_castling_partner);
 
   move_effect_journal_set_effect_doers(move_effect_revelation_of_placed_invisible,
                                        &undo_revelation_of_placed_invisible,

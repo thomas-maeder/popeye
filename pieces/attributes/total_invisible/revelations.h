@@ -47,9 +47,6 @@ void unreveal_placed(move_effect_journal_entry_type const *entry);
 void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry);
 void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry);
 
-void undo_revelation_of_castling_partner(move_effect_journal_entry_type const *entry);
-void redo_revelation_of_castling_partner(move_effect_journal_entry_type const *entry);
-
 void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entry);
 void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entry);
 

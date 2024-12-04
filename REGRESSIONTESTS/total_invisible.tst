@@ -170,7 +170,7 @@ a)
 
 b)   
 
-  1...[+wRh1]0-0[f1=wR]   2.h5-h4 Rf1-f3 #
+  1...0-0   2.h5-h4 Rf1-f3 #
   add_to_move_generation_stack:        3107
                      play_move:        5380
  is_white_king_square_attacked:         380

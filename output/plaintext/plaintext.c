@@ -906,7 +906,6 @@ static void write_other_effects(output_plaintext_move_context_type *context,
         write_bgl_status(context,curr);
         break;
 
-      case move_effect_revelation_of_castling_partner:
       case move_effect_revelation_of_new_invisible:
         write_revelation(context,curr);
         break;
