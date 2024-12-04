@@ -124,8 +124,8 @@ extern play_phase_type play_phase;
 extern slice_index tester_slice;
 
 void restart_from_scratch(void);
-void protect_castling_king_at_home(void);
 void adapt_pre_capture_effect(void);
+void recurse_into_child_ply(void);
 
 void rewind_effects(void);
 void unrewind_effects(void);

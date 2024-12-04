@@ -111,7 +111,7 @@ void restart_from_scratch(void)
   TraceFunctionResultEnd();
 }
 
-static void recurse_into_child_ply(void)
+void recurse_into_child_ply(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -166,30 +166,11 @@ static void protect_castling_king_on_intermediate_square(void)
   TraceFunctionResultEnd();
 }
 
-void protect_castling_king_at_home(void)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  Side const side_in_check = trait[nbply];
-  square const king_pos = being_solved.king_square[side_in_check];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
-    deal_with_illegal_checks(side_in_check,king_pos,&protect_castling_king_on_intermediate_square);
-  else
-    recurse_into_child_ply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void adapt_capture_effect(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const to = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
@@ -207,7 +188,16 @@ static void adapt_capture_effect(void)
     if (is_square_empty(to))
     {
       TraceText("no capture planned and destination square empty - no need for adaptation\n");
-      protect_castling_king_at_home();
+
+      if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+      {
+        Side const side_castling = trait[nbply];
+        square const king_pos = being_solved.king_square[side_castling];
+
+        deal_with_illegal_checks(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
+      }
+      else
+        recurse_into_child_ply();
     }
     else if (TSTFLAG(being_solved.spec[to],Royal))
     {
@@ -229,21 +219,21 @@ static void adapt_capture_effect(void)
       move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
       move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-      protect_castling_king_at_home();
+      recurse_into_child_ply();
 
       move_effect_journal[capture].type = move_effect_no_piece_removal;
 
       motivation[id_captured].last.purpose = save_purpose;
     }
   }
-  else if (move_effect_journal[base].type==move_effect_piece_readdition)
+  else if (move_effect_journal[effects_base].type==move_effect_piece_readdition)
   {
-    assert(move_effect_journal[base].u.piece_addition.added.on==to);
+    assert(move_effect_journal[effects_base].u.piece_addition.added.on==to);
 
     TraceText("capture of invisible victim added for the purpose\n");
 
     if (is_square_empty(to))
-      protect_castling_king_at_home();
+      recurse_into_child_ply();
     else
     {
       assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
@@ -255,7 +245,7 @@ static void adapt_capture_effect(void)
         /* if the piece to be captured is royal, then our tests for self check have failed */
         assert(!TSTFLAG(being_solved.spec[to],Royal));
         move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        protect_castling_king_at_home();
+        recurse_into_child_ply();
         move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
       }
       else
@@ -278,7 +268,7 @@ static void adapt_capture_effect(void)
     else
     {
       move_effect_journal[capture].type = move_effect_no_piece_removal;
-      protect_castling_king_at_home();
+      recurse_into_child_ply();
       move_effect_journal[capture].type = move_effect_piece_removal;
     }
   }
@@ -302,11 +292,11 @@ static void adapt_capture_effect(void)
       TraceEOL();
 
       motivation[id_removed].last.purpose = purpose_none;
-      protect_castling_king_at_home();
+      recurse_into_child_ply();
       motivation[id_removed].last.purpose = orig_purpose_removed;
     }
     else
-      protect_castling_king_at_home();
+      recurse_into_child_ply();
 
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;

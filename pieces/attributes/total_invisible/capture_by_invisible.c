@@ -356,7 +356,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-  protect_castling_king_at_home();
+  recurse_into_child_ply();
 
   motivation[id_inserted] = motivation_inserted;
 
