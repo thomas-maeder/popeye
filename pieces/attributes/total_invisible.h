@@ -130,8 +130,6 @@ void recurse_into_child_ply(void);
 void rewind_effects(void);
 void unrewind_effects(void);
 
-void insert_invisible_capturer(void);
-
 void report_deadend(char const *s, unsigned int lineno);
 
 //#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
