@@ -588,6 +588,7 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
                                         move_effect_journal_index_type movement)
 {
   square result = nullsquare;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",capture);
@@ -597,7 +598,6 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     Flags const spec = move_effect_journal[movement].u.piece_movement.movingspec;
     int const dir_move = TSTFLAG(spec,White) ? dir_up : dir_down;
     square s = sq_departure;
@@ -614,8 +614,12 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
     }
     while (s!=sq_arrival);
   }
-  else
-    result = find_taboo_violation_leaper(movement);
+  else if (is_square_empty(sq_arrival)
+           || !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
+  {
+    TraceText("no capturable piece on arrival square of capture\n");
+    result = sq_arrival;
+  }
 
   TraceFunctionExit(__func__);
   TraceSquare(result);
