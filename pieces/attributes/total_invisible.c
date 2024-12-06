@@ -199,10 +199,6 @@ static void adapt_capture_effect(void)
       else
         recurse_into_child_ply();
     }
-    else if (TSTFLAG(being_solved.spec[to],Royal))
-    {
-      TraceText("we don't capture the king\n");
-    }
     else
     {
       PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
