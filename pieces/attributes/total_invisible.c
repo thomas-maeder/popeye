@@ -222,36 +222,6 @@ static void adapt_capture_effect(void)
       motivation[id_captured].last.purpose = save_purpose;
     }
   }
-  else if (move_effect_journal[effects_base].type==move_effect_piece_readdition)
-  {
-    assert(move_effect_journal[effects_base].u.piece_addition.added.on==to);
-
-    TraceText("capture of invisible victim added for the purpose\n");
-
-    if (is_square_empty(to))
-      recurse_into_child_ply();
-    else
-    {
-      assert(move_effect_journal[movement].u.piece_movement.moving==Pawn);
-      TraceText("another total invisible has appeared on the arrival square\n");
-
-      if (TSTFLAG(being_solved.spec[to],advers(trait[nbply])))
-      {
-        piece_walk_type const walk_victim_orig = move_effect_journal[capture].u.piece_removal.walk;
-        /* if the piece to be captured is royal, then our tests for self check have failed */
-        assert(!TSTFLAG(being_solved.spec[to],Royal));
-        move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-        recurse_into_child_ply();
-        move_effect_journal[capture].u.piece_removal.walk = walk_victim_orig;
-      }
-      else
-      {
-        TraceText("move is now blocked\n");
-        record_decision_outcome("%s","move is now blocked");
-        REPORT_DEADEND;
-      }
-    }
-  }
   else if (is_square_empty(to))
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
