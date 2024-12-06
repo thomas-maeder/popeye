@@ -225,18 +225,9 @@ static void adapt_capture_effect(void)
   else if (is_square_empty(to))
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
-    if (is_pawn(move_effect_journal[movement].u.piece_movement.moving))
-    {
-      TraceText("bad idea if the capturer is a pawn!\n");
-      record_decision_outcome("%s","bad idea if the capturer is a pawn!");
-      REPORT_DEADEND;
-    }
-    else
-    {
-      move_effect_journal[capture].type = move_effect_no_piece_removal;
-      recurse_into_child_ply();
-      move_effect_journal[capture].type = move_effect_piece_removal;
-    }
+    move_effect_journal[capture].type = move_effect_no_piece_removal;
+    recurse_into_child_ply();
+    move_effect_journal[capture].type = move_effect_piece_removal;
   }
   else
   {
@@ -306,6 +297,8 @@ static void prepare_move_by_visible(void)
   }
   else
   {
+    record_decision_outcome("%s","planned move impossible because of TI activity");
+    REPORT_DEADEND;
     // TODO review
 //        assert(is_taboo_violation_acceptable(first_taboo_violation));
   }
