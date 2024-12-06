@@ -306,42 +306,6 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-static void insert_invisible_capturer(void)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const pre_capture = effects_base;
-
-  square const sq_addition = move_effect_journal[pre_capture].u.piece_addition.added.on;
-  piece_walk_type const walk_added = move_effect_journal[pre_capture].u.piece_addition.added.walk;
-  Flags const flags_added = move_effect_journal[pre_capture].u.piece_addition.added.flags;
-  Side const side_added = TSTFLAG(flags_added,White) ? White : Black;
-
-  PieceIdType const id = GetPieceId(flags_added);
-
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const to = move_effect_journal[movement].u.piece_movement.to;
-
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(sq_addition!=to);
-  assert(is_square_empty(sq_addition));
-  assert(!was_taboo(sq_addition,side_added));
-
-  move_effect_journal[pre_capture].type = move_effect_none;
-  record_decision_for_inserted_invisible(id);
-  ++being_solved.number_of_pieces[side_added][walk_added];
-  occupy_square(sq_addition,walk_added,flags_added);
-  restart_from_scratch();
-  empty_square(sq_addition);
-  --being_solved.number_of_pieces[side_added][walk_added];
-  move_effect_journal[pre_capture].type = move_effect_piece_readdition;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void prepare_move_by_visible(void)
 {
   square const first_taboo_violation = find_taboo_violation();
@@ -355,7 +319,9 @@ static void prepare_move_by_visible(void)
     move_effect_journal_index_type const pre_capture = effects_base;
 
     if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
-      insert_invisible_capturer();
+    {
+      assert(0);
+    }
     else
     {
       ply const ply_capture_by_pawn = nbply+1;
