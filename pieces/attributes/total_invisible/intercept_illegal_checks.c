@@ -950,7 +950,7 @@ HERE
   TraceFunctionResultEnd();
 }
 
-void deal_with_illegal_checks(Side side_in_check,
+void protect_king(Side side_in_check,
                               square king_in_check_pos,
                               deal_with_check_next_phase *next)
 {

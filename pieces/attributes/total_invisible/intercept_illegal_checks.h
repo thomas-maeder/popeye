@@ -6,6 +6,6 @@
 
 typedef void (deal_with_check_next_phase)(void);
 
-void deal_with_illegal_checks(Side side_in_check, square king_pos, deal_with_check_next_phase *next);
+void protect_king(Side side_in_check, square king_pos, deal_with_check_next_phase *next);
 
 #endif

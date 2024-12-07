@@ -98,7 +98,7 @@ void restart_from_scratch(void)
   else if (nbply==ply_retro_move+1)
   {
     TraceValue("%u",nbply);TraceEOL();
-    adapt_pre_capture_effect();
+    deal_with_illegal_checks();
   }
   else
   {
@@ -151,16 +151,18 @@ void recurse_into_child_ply(void)
 
 static void protect_castling_king_on_intermediate_square(void)
 {
+  Side const side_castling = trait[nbply];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  Side const side_in_check = trait[nbply];
-  square const intermediate_square = (move_effect_journal[movement].u.piece_movement.to+move_effect_journal[movement].u.piece_movement.from)/2;
+  square const from = move_effect_journal[movement].u.piece_movement.from;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+  square const intermediate_square = (from+to)/2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
-  deal_with_illegal_checks(side_in_check,intermediate_square,&recurse_into_child_ply);
+  protect_king(side_castling,intermediate_square,&recurse_into_child_ply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -194,7 +196,7 @@ static void adapt_capture_effect(void)
         Side const side_castling = trait[nbply];
         square const king_pos = being_solved.king_square[side_castling];
 
-        deal_with_illegal_checks(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
+        protect_king(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
       }
       else
         recurse_into_child_ply();
@@ -263,7 +265,7 @@ static void adapt_capture_effect(void)
   TraceFunctionResultEnd();
 }
 
-static void prepare_move_by_visible(void)
+static void detect_deadend_by_ti_activity(void)
 {
   square const first_taboo_violation = find_taboo_violation();
 
@@ -272,27 +274,16 @@ static void prepare_move_by_visible(void)
 
   if (first_taboo_violation==nullsquare)
   {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const pre_capture = effects_base;
+    ply const ply_capture_by_pawn = nbply+1;
 
-    if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
-    {
-      assert(0);
-    }
+    if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)
+        ==initsquare)
+      adapt_capture_effect();
     else
     {
-      ply const ply_capture_by_pawn = nbply+1;
-
-      assert(move_effect_journal[pre_capture].type==move_effect_none);
-
-      if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)==initsquare)
-        adapt_capture_effect();
-      else
-      {
-        record_decision_outcome("capture in ply %u will not be possible",ply_capture_by_pawn);
-        REPORT_DEADEND;
-        backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
-      }
+      record_decision_outcome("capture by pawn in ply %u will not be possible",ply_capture_by_pawn);
+      REPORT_DEADEND;
+      backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
     }
   }
   else
@@ -302,66 +293,6 @@ static void prepare_move_by_visible(void)
     // TODO review
 //        assert(is_taboo_violation_acceptable(first_taboo_violation));
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void prepare_move_to_be_played(void)
-{
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u",top_ply_of_regular_play);
-  TraceSquare(sq_departure);
-  TraceValue("%u",sq_departure);
-  TraceValue("%u",capture_by_invisible);
-  TraceSquare(sq_arrival);
-  TraceValue("%u",sq_arrival);
-  TraceValue("%u",move_by_invisible);
-  TraceEOL();
-
-  {
-    PieceIdType id;
-    for (id = get_top_visible_piece_id()+1; id<=get_top_invisible_piece_id(); ++id)
-    {
-      TraceValue("%u",id);TraceEOL();
-      TraceAction(&motivation[id].first);TraceEOL();
-      TraceAction(&motivation[id].last);TraceEOL();
-      TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
-      TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
-      TraceEOL();
-    }
-  }
-
-  if (sq_departure==move_by_invisible
-      && sq_arrival==move_by_invisible)
-    flesh_out_random_move_by_invisible();
-  else if (sq_departure==capture_by_invisible
-           && is_on_board(sq_arrival))
-    flesh_out_capture_by_invisible();
-  else
-    prepare_move_by_visible();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void conclude_move_just_played(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (nbply<=top_ply_of_regular_play)
-    prepare_move_to_be_played();
-  else
-    validate_king_placements();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -435,15 +366,13 @@ static void use_pawn_capture_victim_already_present(void)
 
   if (TSTFLAG(being_solved.spec[to],side_pawn_victim))
   {
-    Side const side_just_moved = trait[nbply-1];
     PieceIdType const id = GetPieceId(being_solved.spec[to]);
     purpose_type const save_purpose = motivation[id].last.purpose;
-    square const king_pos = being_solved.king_square[side_just_moved];
 
     record_decision_outcome("%s","no need to add victim of capture by pawn any more");
     move_effect_journal[pre_capture].type = move_effect_none;
     motivation[id].last.purpose = purpose_none;
-    deal_with_illegal_checks(side_just_moved,king_pos,&conclude_move_just_played);
+    detect_deadend_by_ti_activity();
     motivation[id].last.purpose = save_purpose;
     move_effect_journal[pre_capture].type = move_effect_piece_readdition;
   }
@@ -475,51 +404,106 @@ static void provide_pawn_capture_victim(void)
   TraceFunctionResultEnd();
 }
 
-void adapt_pre_capture_effect(void)
+static void prepare_move_by_visible(void)
 {
-  Side const side_just_moved = trait[nbply-1];
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const pre_capture = effects_base;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",move_effect_journal[pre_capture].type);
+  TraceEOL();
+
+  if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
+  {
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const to = move_effect_journal[movement].u.piece_movement.to;
+
+    assert(is_on_board(to));
+
+    if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
+      provide_pawn_capture_victim();
+    else
+      detect_deadend_by_ti_activity();
+  }
+  else
+    detect_deadend_by_ti_activity();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void prepare_move_to_be_played(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply>top_ply_of_regular_play)
+  TraceValue("%u",nbply);
+  TraceValue("%u",top_ply_of_regular_play);
+  TraceSquare(sq_departure);
+  TraceValue("%u",sq_departure);
+  TraceValue("%u",capture_by_invisible);
+  TraceSquare(sq_arrival);
+  TraceValue("%u",sq_arrival);
+  TraceValue("%u",move_by_invisible);
+  TraceEOL();
+
   {
-    square const king_pos = being_solved.king_square[side_just_moved];
-    TraceText("there are no post-play pre-capture effects\n");
-    deal_with_illegal_checks(side_just_moved,king_pos,&conclude_move_just_played);
+    PieceIdType id;
+    for (id = get_top_visible_piece_id()+1; id<=get_top_invisible_piece_id(); ++id)
+    {
+      TraceValue("%u",id);TraceEOL();
+      TraceAction(&motivation[id].first);TraceEOL();
+      TraceAction(&motivation[id].last);TraceEOL();
+      TraceWalk(get_walk_of_piece_on_square(motivation[id].last.on));
+      TraceValue("%u",GetPieceId(being_solved.spec[motivation[id].last.on]));
+      TraceEOL();
+    }
   }
+
+  if (sq_departure==move_by_invisible
+      && sq_arrival==move_by_invisible)
+    flesh_out_random_move_by_invisible();
+  else if (sq_departure==capture_by_invisible
+           && is_on_board(sq_arrival))
+    flesh_out_capture_by_invisible();
   else
-  {
-    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const pre_capture = effects_base;
+    prepare_move_by_visible();
 
-    TraceValue("%u",nbply);
-    TraceValue("%u",move_effect_journal[pre_capture].type);
-    TraceEOL();
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-    if (move_effect_journal[pre_capture].type==move_effect_piece_readdition)
-    {
-      move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-      square const to = move_effect_journal[movement].u.piece_movement.to;
+static void conclude_move_just_played(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-      assert(is_on_board(to));
+  if (nbply<=top_ply_of_regular_play)
+    prepare_move_to_be_played();
+  else
+    validate_king_placements();
 
-      if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
-        provide_pawn_capture_victim();
-      else
-      {
-        square const king_pos = being_solved.king_square[side_just_moved];
-        TraceText("possible addition of an invisible capturer - details to be clarified later\n");
-        deal_with_illegal_checks(side_just_moved,king_pos,&conclude_move_just_played);
-      }
-    }
-    else
-    {
-      square const king_pos = being_solved.king_square[side_just_moved];
-      TraceText("no piece addition to be adapted\n");
-      deal_with_illegal_checks(side_just_moved,king_pos,&conclude_move_just_played);
-    }
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void deal_with_illegal_checks(void)
+{
+  Side const side_just_moved = trait[nbply-1];
+  square const king_pos = being_solved.king_square[side_just_moved];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  protect_king(side_just_moved,king_pos,&conclude_move_just_played);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -550,7 +534,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     initialise_decision_context();
-    adapt_pre_capture_effect();
+    deal_with_illegal_checks();
     record_decision_outcome("validate_mate(): combined_validation_result:%u",
                             combined_validation_result);
   }
@@ -577,7 +561,7 @@ static void test_mate(void)
     case mate_attackable:
     case mate_defendable_by_interceptors:
       initialise_decision_context();
-      adapt_pre_capture_effect();
+      deal_with_illegal_checks();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       break;
@@ -585,7 +569,7 @@ static void test_mate(void)
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       initialise_decision_context();
-      adapt_pre_capture_effect();
+      deal_with_illegal_checks();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       assert(get_decision_result()==previous_move_has_solved);

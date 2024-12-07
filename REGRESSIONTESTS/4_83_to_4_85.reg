@@ -172,20 +172,20 @@ solution finished.
 a) 
 
   1...Qc1-f1   2.[+wTIg3]f4*g3 Qf1-f4   3.[+wTIh2]g3*h2 TI~*h2 #
-  add_to_move_generation_stack:     5519972
-                     play_move:    17910874
+  add_to_move_generation_stack:     5541656
+                     play_move:    17930074
  is_white_king_square_attacked:           2
- is_black_king_square_attacked:     4037175
-                  TI decisions:    25680336
+ is_black_king_square_attacked:     4056199
+                  TI decisions:    26970925
 
 b) bKh3-->f3  
 
   1...Qc1-c6   2.[+wTIe3]f4*e3 TI~*g4   3.[+wTId2]e3*d2[g4=wR] Qc6-e4 #
-  add_to_move_generation_stack:     7160545
-                     play_move:    17125952
+  add_to_move_generation_stack:     7185864
+                     play_move:    17139869
  is_white_king_square_attacked:           2
- is_black_king_square_attacked:     3789634
-                  TI decisions:    23870940
+ is_black_king_square_attacked:     3803201
+                  TI decisions:    25264038
 
 solution finished.
 

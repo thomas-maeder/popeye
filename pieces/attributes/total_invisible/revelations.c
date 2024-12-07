@@ -1138,7 +1138,7 @@ void make_revelations(void)
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
-  adapt_pre_capture_effect();
+  deal_with_illegal_checks();
 
   static_consumption.king[White] = false;
   static_consumption.king[Black] = false;
@@ -1309,7 +1309,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
   TraceFunctionParamListEnd();
 
   if (curr==move_effect_journal_base[nbply])
-    adapt_pre_capture_effect();
+    deal_with_illegal_checks();
   else
   {
     move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
