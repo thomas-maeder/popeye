@@ -136,7 +136,7 @@ void recurse_into_child_ply(void)
   ++nbply;
   TraceValue("%u",nbply);TraceEOL();
 
-  test_and_execute_revelations(top_before_revelations[nbply-1]);
+  deal_with_illegal_checks();
 
   --nbply;
 
@@ -279,11 +279,6 @@ static void adapt_capture_effect(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(to);
-  TraceWalk(get_walk_of_piece_on_square(to));
-  TraceValue("%x",being_solved.spec[to]);
-  TraceEOL();
-
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
@@ -297,31 +292,33 @@ static void adapt_capture_effect(void)
 
 static void detect_deadend_by_ti_activity(void)
 {
-  square const first_taboo_violation = find_taboo_violation();
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (first_taboo_violation==nullsquare)
   {
-    ply const ply_capture_by_pawn = nbply+1;
+    square const first_taboo_violation = find_taboo_violation();
 
-    if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)
-        ==initsquare)
-      adapt_capture_effect();
+    if (first_taboo_violation==nullsquare)
+    {
+      ply const ply_capture_by_pawn = nbply+1;
+
+      if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)
+          ==initsquare)
+        adapt_capture_effect();
+      else
+      {
+        record_decision_outcome("capture by pawn in ply %u will not be possible",ply_capture_by_pawn);
+        REPORT_DEADEND;
+        backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
+      }
+    }
     else
     {
-      record_decision_outcome("capture by pawn in ply %u will not be possible",ply_capture_by_pawn);
+      record_decision_outcome("%s","planned move impossible because of TI activity");
       REPORT_DEADEND;
-      backtrack_from_failed_capture_of_invisible_by_pawn(trait[ply_capture_by_pawn]);
+      // TODO review
+  //        assert(is_taboo_violation_acceptable(first_taboo_violation));
     }
-  }
-  else
-  {
-    record_decision_outcome("%s","planned move impossible because of TI activity");
-    REPORT_DEADEND;
-    // TODO review
-//        assert(is_taboo_violation_acceptable(first_taboo_violation));
   }
 
   TraceFunctionExit(__func__);
@@ -511,7 +508,7 @@ static void prepare_move_to_be_played(void)
   TraceFunctionResultEnd();
 }
 
-static void conclude_move_just_played(void)
+void conclude_move_just_played(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -533,7 +530,7 @@ void deal_with_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  protect_king(side_just_moved,king_pos,&conclude_move_just_played);
+  protect_king(side_just_moved,king_pos,&test_and_execute_revelations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

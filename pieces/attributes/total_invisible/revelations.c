@@ -1302,14 +1302,14 @@ void undo_revelation_effects(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void test_and_execute_revelations(move_effect_journal_index_type curr)
+static void test_and_execute_revelations_recursive(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
   if (curr==move_effect_journal_base[nbply])
-    deal_with_illegal_checks();
+    conclude_move_just_played();
   else
   {
     move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
@@ -1362,7 +1362,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
             reveal_new(entry);
             motivation[id_on_board].last.purpose = purpose_none;
             motivation[id_revealed].last.purpose = purpose_none;
-            test_and_execute_revelations(curr+1);
+            test_and_execute_revelations_recursive(curr+1);
             motivation[id_revealed].last.purpose = purpose_revealed;
             motivation[id_on_board].last.purpose = purpose_on_board;
             unreveal_new(entry);
@@ -1399,7 +1399,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           motivation[id_on_board].last.purpose = purpose_none;
           motivation[id_revealed].last.purpose = purpose_none;
 
-          test_and_execute_revelations(curr+1);
+          test_and_execute_revelations_recursive(curr+1);
 
           motivation[id_revealed].last.purpose = purpose_revealed;
           motivation[id_on_board].last.purpose = purpose_on_board;
@@ -1458,11 +1458,11 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
             /* the following distinction isn't strictly necessary, but it clarifies nicely
              * that the two ids may be, but aren't necessarily equal */
             if (id_revealed==id_original)
-              test_and_execute_revelations(curr+1);
+              test_and_execute_revelations_recursive(curr+1);
             else
             {
               motivation[id_original].last.purpose = purpose_none;
-              test_and_execute_revelations(curr+1);
+              test_and_execute_revelations_recursive(curr+1);
               motivation[id_original].last.purpose = purpose_original;
             }
 
@@ -1490,6 +1490,14 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void test_and_execute_revelations(void)
+{
+  if (nbply==6)
+    conclude_move_just_played();
+  else
+    test_and_execute_revelations_recursive(top_before_revelations[nbply-1]);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

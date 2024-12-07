@@ -20,6 +20,34 @@ static void place_dummy_on_line(Side side_in_check,
                                 boolean inserted_fleshed_out,
                                 deal_with_check_next_phase *next);
 
+static void restart_from_scratch_before_revelations(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);TraceEOL();
+
+  if (nbply==ply_retro_move+1)
+    deal_with_illegal_checks();
+  else
+  {
+    TraceValue("%u",move_effect_journal_base[nbply-1]);
+    TraceValue("%u",move_effect_journal_base[nbply]);
+    TraceValue("%u",move_effect_journal_base[nbply+1]);
+    TraceValue("%u",top_before_revelations[nbply-1]);
+    TraceValue("%u",top_before_revelations[nbply]);
+    TraceValue("%u",top_before_revelations[nbply+1]);
+    TraceEOL();
+
+    --nbply;
+    undo_revelation_effects(top_before_revelations[nbply]);
+    ++nbply;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_dummy_of_side_on_square(Side side_in_check,
                                           square king_in_check_pos,
                                           vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
@@ -74,7 +102,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
             || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
         {
           if (nr_check_vectors==1)
-            restart_from_scratch();
+            restart_from_scratch_before_revelations();
           else
             place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,true,next);
         }
@@ -92,7 +120,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
         if (nr_check_vectors==1)
         {
           if (inserted_fleshed_out)
-            restart_from_scratch();
+            restart_from_scratch_before_revelations();
           else
             (*next)();
         }
@@ -259,7 +287,7 @@ static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
   push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
 
   if (nr_check_vectors==1)
-    restart_from_scratch();
+    restart_from_scratch_before_revelations();
   else
     place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
 
@@ -317,7 +345,7 @@ static void place_pawn_of_side_on_square(Side side_in_check,
       push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
-        restart_from_scratch();
+        restart_from_scratch_before_revelations();
       else
         place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
 
@@ -378,7 +406,7 @@ static void place_king_of_side_on_square(Side side_in_check,
       push_decision_walk(id_placed,King,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
-        restart_from_scratch();
+        restart_from_scratch_before_revelations();
       else
         place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
 
@@ -429,7 +457,7 @@ static void place_knight_of_side_on_square(Side side_in_check,
     push_decision_walk(id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
 
     if (nr_check_vectors==1)
-      restart_from_scratch();
+      restart_from_scratch_before_revelations();
     else
       place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
 
@@ -932,7 +960,7 @@ HERE
       backtrack_no_further_than(check_by_uninterceptable_delivered_in_level);
     }
     else
-      restart_from_scratch();
+      restart_from_scratch_before_revelations();
 
     check_by_uninterceptable_delivered_in_level = decision_level_uninitialised;
 

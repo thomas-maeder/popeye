@@ -637,6 +637,10 @@ square find_taboo_violation(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",base);
+  TraceValue("%u",top);
+  TraceEOL();
+
   for (curr = base; curr!=top && result==nullsquare; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
@@ -644,6 +648,10 @@ square find_taboo_violation(void)
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+
+      TraceValue("%u",curr);
+      TraceSquare(sq_departure);
+      TraceEOL();
 
       assert(sq_departure!=move_by_invisible);
       assert(sq_departure!=capture_by_invisible);

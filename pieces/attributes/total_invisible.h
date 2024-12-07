@@ -132,6 +132,8 @@ void unrewind_effects(void);
 
 void report_deadend(char const *s, unsigned int lineno);
 
+void conclude_move_just_played(void);
+
 //#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
 //#define REPORT_EXIT report_deadend("EXIT",__LINE__)
 
