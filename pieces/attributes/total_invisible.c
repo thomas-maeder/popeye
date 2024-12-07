@@ -168,7 +168,7 @@ static void protect_castling_king_on_intermediate_square(void)
   TraceFunctionResultEnd();
 }
 
-static void adapt_capture_effect(void)
+static void adapt_capture_effect_no_capture_planned(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -178,53 +178,58 @@ static void adapt_capture_effect(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(to);
-  TraceWalk(get_walk_of_piece_on_square(to));
-  TraceValue("%x",being_solved.spec[to]);
-  TraceEOL();
-
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-
-  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+  if (is_square_empty(to))
   {
-    if (is_square_empty(to))
+    TraceText("no capture planned and destination square empty - no need for adaptation\n");
+
+    if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
     {
-      TraceText("no capture planned and destination square empty - no need for adaptation\n");
+      Side const side_castling = trait[nbply];
+      square const king_pos = being_solved.king_square[side_castling];
 
-      if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
-      {
-        Side const side_castling = trait[nbply];
-        square const king_pos = being_solved.king_square[side_castling];
-
-        protect_king(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
-      }
-      else
-        recurse_into_child_ply();
+      protect_king(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
     }
     else
-    {
-      PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
-      purpose_type const save_purpose = motivation[id_captured].last.purpose;
-
-      TraceText("capture of a total invisible that happened to land on the arrival square\n");
-
-      assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
-      assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
-
-      move_effect_journal[capture].type = move_effect_piece_removal;
-      move_effect_journal[capture].reason = move_effect_reason_regular_capture;
-      move_effect_journal[capture].u.piece_removal.on = to;
-      move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
-      move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
-
       recurse_into_child_ply();
-
-      move_effect_journal[capture].type = move_effect_no_piece_removal;
-
-      motivation[id_captured].last.purpose = save_purpose;
-    }
   }
-  else if (is_square_empty(to))
+  else
+  {
+    PieceIdType const id_captured = GetPieceId(being_solved.spec[to]);
+    purpose_type const save_purpose = motivation[id_captured].last.purpose;
+
+    TraceText("capture of a total invisible that happened to land on the arrival square\n");
+
+    assert(TSTFLAG(being_solved.spec[to],advers(trait[nbply])));
+    assert(move_effect_journal[movement].u.piece_movement.moving!=Pawn);
+
+    move_effect_journal[capture].type = move_effect_piece_removal;
+    move_effect_journal[capture].reason = move_effect_reason_regular_capture;
+    move_effect_journal[capture].u.piece_removal.on = to;
+    move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
+    move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
+
+    recurse_into_child_ply();
+
+    move_effect_journal[capture].type = move_effect_no_piece_removal;
+
+    motivation[id_captured].last.purpose = save_purpose;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void adapt_capture_effect_capture_planned(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  square const to = move_effect_journal[movement].u.piece_movement.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (is_square_empty(to))
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
     move_effect_journal[capture].type = move_effect_no_piece_removal;
@@ -260,6 +265,31 @@ static void adapt_capture_effect(void)
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void adapt_capture_effect(void)
+{
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(to);
+  TraceWalk(get_walk_of_piece_on_square(to));
+  TraceValue("%x",being_solved.spec[to]);
+  TraceEOL();
+
+  assert(move_effect_journal[movement].type==move_effect_piece_movement);
+
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
+    adapt_capture_effect_no_capture_planned();
+  else
+    adapt_capture_effect_capture_planned();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
