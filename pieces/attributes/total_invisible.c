@@ -160,10 +160,8 @@ static void forward_resume_after_protecting_castling_king(void)
 
 static void forward_protect_castling_king_on_intermediate_square(void)
 {
-  ++nbply;
-
-  Side const side_castling = trait[nbply];
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  Side const side_castling = trait[nbply+1];
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const from = move_effect_journal[movement].u.piece_movement.from;
   square const to = move_effect_journal[movement].u.piece_movement.to;
@@ -173,14 +171,10 @@ static void forward_protect_castling_king_on_intermediate_square(void)
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
-  --nbply;
   forward_protect_king(side_castling,intermediate_square,&forward_resume_after_protecting_castling_king);
-  ++nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-
-  --nbply;
 }
 
 static void forward_adapt_capture_effect_no_capture_planned(void)
