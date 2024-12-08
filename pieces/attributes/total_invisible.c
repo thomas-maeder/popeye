@@ -145,8 +145,23 @@ void forward_recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
+static void forward_resume_after_protecting_castling_king(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ++nbply;
+  forward_recurse_into_child_ply();
+  --nbply;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void forward_protect_castling_king_on_intermediate_square(void)
 {
+  ++nbply;
+
   Side const side_castling = trait[nbply];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -159,11 +174,13 @@ static void forward_protect_castling_king_on_intermediate_square(void)
 
   assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
   --nbply;
-  forward_protect_king(side_castling,intermediate_square,&forward_recurse_into_child_ply);
+  forward_protect_king(side_castling,intermediate_square,&forward_resume_after_protecting_castling_king);
   ++nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+
+  --nbply;
 }
 
 static void forward_adapt_capture_effect_no_capture_planned(void)
@@ -513,10 +530,15 @@ void forward_conclude_move_just_played(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  ++nbply;
+  TraceValue("%u",nbply);TraceEOL();
+
   if (nbply<=top_ply_of_regular_play)
     forward_prepare_move_to_be_played();
   else
     validate_king_placements();
+
+  --nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

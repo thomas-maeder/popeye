@@ -118,11 +118,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
           if (inserted_fleshed_out)
             backward_before_revelations();
           else
-          {
-            ++nbply;
             (*forward_from_protect_king)();
-            --nbply;
-          }
         }
         else
           place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,inserted_fleshed_out,forward_from_protect_king);
@@ -821,11 +817,7 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
   TraceEOL();
 
   if (nr_check_vectors==0)
-  {
-    ++nbply;
     (*forward_from_protect_king)();
-    --nbply;
-  }
   else if (nr_available>=nr_check_vectors)
   {
     if (play_phase==play_validating_mate)
@@ -1024,11 +1016,7 @@ void forward_protect_king(Side side_in_check,
   TraceFunctionParamListEnd();
 
   if (king_in_check_pos==initsquare)
-  {
-    ++nbply;
     (*forward_from_protect_king)();
-    --nbply;
-  }
   else
   {
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_in_check_pos);

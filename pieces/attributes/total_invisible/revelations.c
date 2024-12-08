@@ -562,7 +562,7 @@ void adapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *entr
   assert(id_on_board!=id_revealed);
   assert(TSTFLAG(being_solved.spec[on],Chameleon));
   being_solved.spec[on] = flags_revealed;
-  replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed,nbply-1);
+  replace_moving_piece_ids_in_past_moves(id_on_board,id_revealed,nbply);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
 
   TraceFunctionExit(__func__);
@@ -590,7 +590,7 @@ void unadapt_id_of_existing_to_revealed(move_effect_journal_entry_type const *en
   assert(get_walk_of_piece_on_square(on)==walk_revealed);
   assert(!TSTFLAG(being_solved.spec[on],Chameleon));
   assert((being_solved.spec[on]&PieSpMask)==(flags_revealed&PieSpMask));
-  replace_moving_piece_ids_in_past_moves(id_revealed,id_original,nbply-1);
+  replace_moving_piece_ids_in_past_moves(id_revealed,id_original,nbply);
   being_solved.spec[on] = flags_original;
 
   TraceFunctionExit(__func__);
@@ -1310,7 +1310,7 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
   TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-  if (curr==move_effect_journal_base[nbply])
+  if (curr==move_effect_journal_base[nbply+1])
     forward_conclude_move_just_played();
   else
   {
@@ -1499,10 +1499,10 @@ void forward_test_and_execute_revelations(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply==ply_retro_move+1)
+  if (nbply==ply_retro_move)
     forward_conclude_move_just_played();
   else
-    test_and_execute_revelations_recursive(top_before_revelations[nbply-1]);
+    test_and_execute_revelations_recursive(top_before_revelations[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
