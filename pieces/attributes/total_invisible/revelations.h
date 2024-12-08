@@ -64,9 +64,9 @@ void make_revelations(void);
 
 void do_revelation_bookkeeping(void);
 
-void undo_revelation_effects(move_effect_journal_index_type curr);
+void backward_undo_move_effects(move_effect_journal_index_type curr);
 
-void test_and_execute_revelations(void);
+void forward_test_and_execute_revelations(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

@@ -123,16 +123,16 @@ extern play_phase_type play_phase;
 
 extern slice_index tester_slice;
 
-void restart_from_scratch(void);
-void deal_with_illegal_checks(void);
-void recurse_into_child_ply(void);
+void backward_previous_move(void);
+void forward_prevent_illegal_checks(void);
+void forward_recurse_into_child_ply(void);
 
 void rewind_effects(void);
 void unrewind_effects(void);
 
 void report_deadend(char const *s, unsigned int lineno);
 
-void conclude_move_just_played(void);
+void forward_conclude_move_just_played(void);
 
 //#define REPORT_DEADEND report_deadend("DEADEND",__LINE__)
 //#define REPORT_EXIT report_deadend("EXIT",__LINE__)

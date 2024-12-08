@@ -145,7 +145,7 @@ HERE
       move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
       remember_taboos_for_current_move();
-      restart_from_scratch();
+      backward_previous_move();
       forget_taboos_for_current_move();
 
       motivation[id_inserted] = save_motivation;
@@ -268,7 +268,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
       {
         push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
         move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
-        restart_from_scratch();
+        backward_previous_move();
         pieces_pawns_continue_promotee_sequence(&sequence);
         pop_decision();
       } while (sequence.promotee!=Empty && can_decision_level_be_continued());
@@ -276,7 +276,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
       move_effect_journal[promotion].type = move_effect_none;
     }
     else
-      restart_from_scratch();
+      backward_previous_move();
 
     current_consumption = save_consumption;
 
@@ -356,7 +356,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-  recurse_into_child_ply();
+  forward_recurse_into_child_ply();
 
   motivation[id_inserted] = motivation_inserted;
 
@@ -1387,7 +1387,7 @@ square need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
   return result;
 }
 
-void flesh_out_capture_by_invisible(void)
+void forward_flesh_out_capture_by_invisible(void)
 {
   ply const ply_capture_by_pawn = nbply+1;
 

@@ -80,7 +80,7 @@ void total_invisible_write_flesh_out_history(void)
   }
 }
 
-void restart_from_scratch(void)
+void backward_previous_move(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -93,17 +93,17 @@ void restart_from_scratch(void)
   {
     record_decision_outcome("%s","uninterceptable piece delivering check can't be captured by random move");
     REPORT_DEADEND;
-    backtrack_from_failure_to_capture_uninterceptable_checker(advers(trait[check_by_uninterceptable_delivered_in_ply]),1);
+    deadend_by_failure_to_capture_uninterceptable_checker(advers(trait[check_by_uninterceptable_delivered_in_ply]),1);
   }
   else if (nbply==ply_retro_move+1)
   {
     TraceValue("%u",nbply);TraceEOL();
-    deal_with_illegal_checks();
+    forward_prevent_illegal_checks();
   }
   else
   {
     --nbply;
-    undo_revelation_effects(move_effect_journal_base[nbply+1]);
+    backward_undo_move_effects(move_effect_journal_base[nbply+1]);
     ++nbply;
   }
 
@@ -111,7 +111,7 @@ void restart_from_scratch(void)
   TraceFunctionResultEnd();
 }
 
-void recurse_into_child_ply(void)
+void forward_recurse_into_child_ply(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -136,7 +136,7 @@ void recurse_into_child_ply(void)
   ++nbply;
   TraceValue("%u",nbply);TraceEOL();
 
-  deal_with_illegal_checks();
+  forward_prevent_illegal_checks();
 
   --nbply;
 
@@ -149,7 +149,7 @@ void recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
-static void protect_castling_king_on_intermediate_square(void)
+static void forward_protect_castling_king_on_intermediate_square(void)
 {
   Side const side_castling = trait[nbply];
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
@@ -162,13 +162,13 @@ static void protect_castling_king_on_intermediate_square(void)
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
-  protect_king(side_castling,intermediate_square,&recurse_into_child_ply);
+  forward_protect_king(side_castling,intermediate_square,&forward_recurse_into_child_ply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void adapt_capture_effect_no_capture_planned(void)
+static void forward_adapt_capture_effect_no_capture_planned(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -187,10 +187,10 @@ static void adapt_capture_effect_no_capture_planned(void)
       Side const side_castling = trait[nbply];
       square const king_pos = being_solved.king_square[side_castling];
 
-      protect_king(side_castling,king_pos,&protect_castling_king_on_intermediate_square);
+      forward_protect_king(side_castling,king_pos,&forward_protect_castling_king_on_intermediate_square);
     }
     else
-      recurse_into_child_ply();
+      forward_recurse_into_child_ply();
   }
   else
   {
@@ -208,7 +208,7 @@ static void adapt_capture_effect_no_capture_planned(void)
     move_effect_journal[capture].u.piece_removal.walk = get_walk_of_piece_on_square(to);
     move_effect_journal[capture].u.piece_removal.flags = being_solved.spec[to];
 
-    recurse_into_child_ply();
+    forward_recurse_into_child_ply();
 
     move_effect_journal[capture].type = move_effect_no_piece_removal;
 
@@ -219,7 +219,7 @@ static void adapt_capture_effect_no_capture_planned(void)
   TraceFunctionResultEnd();
 }
 
-static void adapt_capture_effect_capture_planned(void)
+static void forward_adapt_capture_effect_capture_planned(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -233,7 +233,7 @@ static void adapt_capture_effect_capture_planned(void)
   {
     TraceText("original capture victim was captured by a TI that has since left\n");
     move_effect_journal[capture].type = move_effect_no_piece_removal;
-    recurse_into_child_ply();
+    forward_recurse_into_child_ply();
     move_effect_journal[capture].type = move_effect_piece_removal;
   }
   else
@@ -256,11 +256,11 @@ static void adapt_capture_effect_capture_planned(void)
       TraceEOL();
 
       motivation[id_removed].last.purpose = purpose_none;
-      recurse_into_child_ply();
+      forward_recurse_into_child_ply();
       motivation[id_removed].last.purpose = orig_purpose_removed;
     }
     else
-      recurse_into_child_ply();
+      forward_recurse_into_child_ply();
 
     move_effect_journal[capture].u.piece_removal.walk = orig_walk_removed;
     move_effect_journal[capture].u.piece_removal.flags = orig_flags_removed;
@@ -270,7 +270,7 @@ static void adapt_capture_effect_capture_planned(void)
   TraceFunctionResultEnd();
 }
 
-static void adapt_capture_effect(void)
+static void forward_adapt_capture_effect(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
@@ -282,15 +282,15 @@ static void adapt_capture_effect(void)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-    adapt_capture_effect_no_capture_planned();
+    forward_adapt_capture_effect_no_capture_planned();
   else
-    adapt_capture_effect_capture_planned();
+    forward_adapt_capture_effect_capture_planned();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void detect_deadend_by_ti_activity(void)
+static void forward_detect_deadend_by_ti_activity(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -304,7 +304,7 @@ static void detect_deadend_by_ti_activity(void)
 
       if (need_existing_invisible_as_victim_for_capture_by_pawn(ply_capture_by_pawn)
           ==initsquare)
-        adapt_capture_effect();
+        forward_adapt_capture_effect();
       else
       {
         record_decision_outcome("capture by pawn in ply %u will not be possible",ply_capture_by_pawn);
@@ -325,7 +325,7 @@ static void detect_deadend_by_ti_activity(void)
   TraceFunctionResultEnd();
 }
 
-static void insert_pawn_capture_victim(void)
+static void forward_insert_pawn_capture_victim(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const pre_capture = effects_base;
@@ -353,7 +353,7 @@ static void insert_pawn_capture_victim(void)
       assert(move_effect_journal[pre_capture].type==move_effect_piece_readdition);
       move_effect_journal[pre_capture].type = move_effect_none;
       occupy_square(sq_addition,walk_added,flags_added);
-      restart_from_scratch();
+      backward_previous_move();
       empty_square(sq_addition);
       move_effect_journal[pre_capture].type = move_effect_piece_readdition;
     }
@@ -379,7 +379,7 @@ static void insert_pawn_capture_victim(void)
   TraceFunctionResultEnd();
 }
 
-static void use_pawn_capture_victim_already_present(void)
+static void forward_use_pawn_capture_victim_already_present(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const pre_capture = effects_base;
@@ -399,7 +399,7 @@ static void use_pawn_capture_victim_already_present(void)
     record_decision_outcome("%s","no need to add victim of capture by pawn any more");
     move_effect_journal[pre_capture].type = move_effect_none;
     motivation[id].last.purpose = purpose_none;
-    detect_deadend_by_ti_activity();
+    forward_detect_deadend_by_ti_activity();
     motivation[id].last.purpose = save_purpose;
     move_effect_journal[pre_capture].type = move_effect_piece_readdition;
   }
@@ -413,7 +413,7 @@ static void use_pawn_capture_victim_already_present(void)
   TraceFunctionResultEnd();
 }
 
-static void provide_pawn_capture_victim(void)
+static void forward_provide_pawn_capture_victim(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -423,15 +423,15 @@ static void provide_pawn_capture_victim(void)
   TraceFunctionParamListEnd();
 
   if (is_square_empty(to))
-    insert_pawn_capture_victim();
+    forward_insert_pawn_capture_victim();
   else
-    use_pawn_capture_victim_already_present();
+    forward_use_pawn_capture_victim_already_present();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void prepare_move_by_visible(void)
+static void forward_prepare_move_by_visible(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -451,18 +451,18 @@ static void prepare_move_by_visible(void)
     assert(is_on_board(to));
 
     if (move_effect_journal[pre_capture].u.piece_addition.added.on==to)
-      provide_pawn_capture_victim();
+      forward_provide_pawn_capture_victim();
     else
-      detect_deadend_by_ti_activity();
+      forward_detect_deadend_by_ti_activity();
   }
   else
-    detect_deadend_by_ti_activity();
+    forward_detect_deadend_by_ti_activity();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void prepare_move_to_be_played(void)
+static void forward_prepare_move_to_be_played(void)
 {
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -497,24 +497,24 @@ static void prepare_move_to_be_played(void)
 
   if (sq_departure==move_by_invisible
       && sq_arrival==move_by_invisible)
-    flesh_out_random_move_by_invisible();
+    forward_flesh_out_random_move_by_invisible();
   else if (sq_departure==capture_by_invisible
            && is_on_board(sq_arrival))
-    flesh_out_capture_by_invisible();
+    forward_flesh_out_capture_by_invisible();
   else
-    prepare_move_by_visible();
+    forward_prepare_move_by_visible();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void conclude_move_just_played(void)
+void forward_conclude_move_just_played(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (nbply<=top_ply_of_regular_play)
-    prepare_move_to_be_played();
+    forward_prepare_move_to_be_played();
   else
     validate_king_placements();
 
@@ -522,7 +522,7 @@ void conclude_move_just_played(void)
   TraceFunctionResultEnd();
 }
 
-void deal_with_illegal_checks(void)
+void forward_prevent_illegal_checks(void)
 {
   Side const side_just_moved = trait[nbply-1];
   square const king_pos = being_solved.king_square[side_just_moved];
@@ -530,7 +530,7 @@ void deal_with_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  protect_king(side_just_moved,king_pos,&test_and_execute_revelations);
+  forward_protect_king(side_just_moved,king_pos,&forward_test_and_execute_revelations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -561,7 +561,7 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     initialise_decision_context();
-    deal_with_illegal_checks();
+    forward_prevent_illegal_checks();
     record_decision_outcome("validate_mate(): combined_validation_result:%u",
                             combined_validation_result);
   }
@@ -588,7 +588,7 @@ static void test_mate(void)
     case mate_attackable:
     case mate_defendable_by_interceptors:
       initialise_decision_context();
-      deal_with_illegal_checks();
+      forward_prevent_illegal_checks();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       break;
@@ -596,7 +596,7 @@ static void test_mate(void)
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       initialise_decision_context();
-      deal_with_illegal_checks();
+      forward_prevent_illegal_checks();
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       assert(get_decision_result()==previous_move_has_solved);

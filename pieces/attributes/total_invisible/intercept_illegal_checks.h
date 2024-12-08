@@ -4,8 +4,10 @@
 #include "position/side.h"
 #include "position/board.h"
 
-typedef void (deal_with_check_next_phase)(void);
+typedef void (forward_from_protect_king_type)(void);
 
-void protect_king(Side side_in_check, square king_pos, deal_with_check_next_phase *next);
+void forward_protect_king(Side side_in_check,
+                          square king_pos,
+                          forward_from_protect_king_type *forward_from_protect_king);
 
 #endif

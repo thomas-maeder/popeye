@@ -39,7 +39,7 @@ static void done_validating_king_placements(void)
           && current_consumption.placed[White]+current_consumption.placed[Black]>0)
       {
         record_decision_outcome("ply %u: %s",nbply,"replaying failed - restarting from scratch");
-        restart_from_scratch();
+        backward_previous_move();
       }
       else
       {
@@ -161,7 +161,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
         push_decision_king_nomination(id_king,*s);
-        restart_from_scratch();
+        backward_previous_move();
         pop_decision();
         decision_levels[id_king].walk = save_decision_walk;
         set_walk_of_piece_on_square(*s, Dummy);

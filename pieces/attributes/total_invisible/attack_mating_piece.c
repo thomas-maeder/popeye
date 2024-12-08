@@ -45,7 +45,7 @@ static void place_mating_piece_attacker(Side side_attacking,
       ++being_solved.number_of_pieces[side_attacking][walk];
       SetPieceId(spec,id_placed);
       occupy_square(s,walk,spec);
-      restart_from_scratch();
+      backward_previous_move();
       empty_square(s);
       --being_solved.number_of_pieces[side_attacking][walk];
 

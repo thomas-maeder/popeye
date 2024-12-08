@@ -52,9 +52,9 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
       push_decision_walk(id,sequence.promotee,decision_purpose_invisible_capturer_existing,side);
       move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
       if (walk_moving==Dummy)
-        restart_from_scratch();
+        backward_previous_move();
       else
-        recurse_into_child_ply();;
+        forward_recurse_into_child_ply();;
       pieces_pawns_continue_promotee_sequence(&sequence);
       pop_decision();
     } while (sequence.promotee!=Empty && can_decision_level_be_continued());
@@ -64,9 +64,9 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
   else
   {
     if (walk_moving==Dummy)
-      restart_from_scratch();
+      backward_previous_move();
     else
-      recurse_into_child_ply();;
+      forward_recurse_into_child_ply();;
   }
 
   forget_taboos_for_current_move();
@@ -1077,7 +1077,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
       TraceText("stick to random move by unplaced invisible\n");
       TraceValue("%u",__LINE__);TraceEOL();
       push_decision_random_move(decision_purpose_random_mover_forward);
-      recurse_into_child_ply();
+      forward_recurse_into_child_ply();
       pop_decision();
     }
 
@@ -1089,7 +1089,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
   TraceFunctionResultEnd();
 }
 
-void flesh_out_random_move_by_invisible(void)
+void forward_flesh_out_random_move_by_invisible(void)
 {
   square sq_required_sacrifice;
 
@@ -1148,7 +1148,7 @@ static void done_backward_random_move_by_specific_invisible_to(void)
       motivation[id].first.acts_when = nbply;
 
       remember_taboos_for_current_move();
-      restart_from_scratch();
+      backward_previous_move();
 
       forget_taboos_for_current_move();
 
@@ -1673,7 +1673,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
       TraceText("stick to random move by unplaced invisible\n");
       TraceValue("%u",__LINE__);TraceEOL();
       push_decision_random_move(decision_purpose_random_mover_backward);
-      restart_from_scratch();
+      backward_previous_move();
       pop_decision();
     }
 
