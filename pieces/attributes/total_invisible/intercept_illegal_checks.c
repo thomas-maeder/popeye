@@ -20,22 +20,10 @@ static void backward_before_revelations(void)
 
   TraceValue("%u",nbply);TraceEOL();
 
-  if (nbply==ply_retro_move+1)
+  if (nbply==ply_retro_move)
     forward_prevent_illegal_checks();
   else
-  {
-    TraceValue("%u",move_effect_journal_base[nbply-1]);
-    TraceValue("%u",move_effect_journal_base[nbply]);
-    TraceValue("%u",move_effect_journal_base[nbply+1]);
-    TraceValue("%u",top_before_revelations[nbply-1]);
-    TraceValue("%u",top_before_revelations[nbply]);
-    TraceValue("%u",top_before_revelations[nbply+1]);
-    TraceEOL();
-
-    --nbply;
     backward_undo_move_effects(top_before_revelations[nbply]);
-    ++nbply;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -57,6 +45,8 @@ static void place_dummy_of_side_on_square(Side side_in_check,
                                           boolean inserted_fleshed_out,
                                           forward_from_protect_king_type *forward_from_protect_king)
 {
+  boolean is_placement_taboo;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
   TraceSquare(king_in_check_pos);
@@ -68,7 +58,11 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
   assert(is_on_board(s));
 
-  if (!(is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side)))
+  ++nbply;
+  is_placement_taboo = is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side);
+  --nbply;
+
+  if (!is_placement_taboo)
   {
     dynamic_consumption_type const save_consumption = current_consumption;
     PieceIdType const id_placed = GetPieceId(being_solved.spec[s]);
@@ -77,9 +71,11 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
     if (allocate_placed(side))
     {
+      ++nbply;
       push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+      --nbply;
 
-      remember_taboo_on_square(s,side,nbply);
+      remember_taboo_on_square(s,side,nbply+1);
 
       CLRFLAG(being_solved.spec[s],advers(side));
 
@@ -98,7 +94,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
         ++being_solved.number_of_pieces[side][King];
         SETFLAG(being_solved.spec[s],Royal);
 
-        if (side!=trait[nbply]
+        if (side!=trait[nbply+1]
             || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
         {
           if (nr_check_vectors==1)
@@ -122,7 +118,11 @@ static void place_dummy_of_side_on_square(Side side_in_check,
           if (inserted_fleshed_out)
             backward_before_revelations();
           else
+          {
+            ++nbply;
             (*forward_from_protect_king)();
+            --nbply;
+          }
         }
         else
           place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,inserted_fleshed_out,forward_from_protect_king);
@@ -137,11 +137,11 @@ static void place_dummy_of_side_on_square(Side side_in_check,
       if (side==White && can_decision_level_be_continued())
         place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,forward_from_protect_king);
 
-      forget_taboo_on_square(s,side,nbply);
+      forget_taboo_on_square(s,side,nbply+1);
     }
     else
     {
-      remember_taboo_on_square(s,side,nbply);
+      remember_taboo_on_square(s,side,nbply+1);
 
       record_decision_outcome("can't allocate an invisible of side %s for intercepting an illegal check",Side_names[side]);
       REPORT_DEADEND;
@@ -151,7 +151,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
       if (side==White)
         place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,forward_from_protect_king);
 
-      forget_taboo_on_square(s,side,nbply);
+      forget_taboo_on_square(s,side,nbply+1);
     }
   }
   else if (side==White)
@@ -183,10 +183,15 @@ static void place_dummy_on_square(Side side_in_check,
   if (is_square_empty(s))
   {
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+    // TODO this should not be necessary:
+    ++nbply;
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
+    --nbply;
 
+    ++nbply;
     push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
+    --nbply;
 
     decision_levels[id_placed].from = decision_level_forever;
 
@@ -230,6 +235,7 @@ static void place_dummy_on_line(Side side_in_check,
   TraceFunctionParamListEnd();
 
   assert(nr_check_vectors>0);
+
 
   kcurr = check_vectors[nr_check_vectors-1];
   dir = vec[kcurr];
@@ -284,7 +290,9 @@ static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
 
+  ++nbply;
   push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
+  --nbply;
 
   if (nr_check_vectors==1)
     backward_before_revelations();
@@ -342,7 +350,9 @@ static void place_pawn_of_side_on_square(Side side_in_check,
 
     if (king_pos==initsquare || pawn_check_ortho(side,king_pos)==0)
     {
+      ++nbply;
       push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
+      --nbply;
 
       if (nr_check_vectors==1)
         backward_before_revelations();
@@ -350,6 +360,7 @@ static void place_pawn_of_side_on_square(Side side_in_check,
         place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
 
       pop_decision();
+
     }
 
     TraceWalk(get_walk_of_piece_on_square(pos));
@@ -395,7 +406,7 @@ static void place_king_of_side_on_square(Side side_in_check,
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,King);
 
-    if (side!=trait[nbply]
+    if (side!=trait[nbply+1]
         && is_square_attacked_by_uninterceptable(side,pos))
     {
       record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
@@ -403,7 +414,9 @@ static void place_king_of_side_on_square(Side side_in_check,
     }
     else if (king_check_ortho(advers(side_in_check),being_solved.king_square[side_in_check])==0)
     {
+      ++nbply;
       push_decision_walk(id_placed,King,decision_purpose_illegal_check_interceptor,side);
+      --nbply;
 
       if (nr_check_vectors==1)
         backward_before_revelations();
@@ -454,7 +467,9 @@ static void place_knight_of_side_on_square(Side side_in_check,
 
   if (knight_check_ortho(side,being_solved.king_square[advers(side)])==0)
   {
+    ++nbply;
     push_decision_walk(id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
+    --nbply;
 
     if (nr_check_vectors==1)
       backward_before_revelations();
@@ -569,7 +584,9 @@ static void place_piece_of_side_on_square(Side side_in_check,
     {
       record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
+      ++nbply;
       backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
+      --nbply;
     }
 
     current_consumption = save_consumption;
@@ -589,6 +606,7 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
                                               PieceIdType id_placed)
 {
   Side const preferred_side = side_in_check;
+  boolean is_placement_taboo;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -599,13 +617,19 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
+  ++nbply;
+  is_placement_taboo = is_taboo(s,side) || was_taboo(s,side);
+  --nbply;
+
   assert(is_on_board(s));
 
-  if (!(is_taboo(s,side) || was_taboo(s,side)))
+  if (!is_placement_taboo)
   {
-    remember_taboo_on_square(s,side,nbply);
+    remember_taboo_on_square(s,side,nbply+1);
 
+    ++nbply;
     push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
+    --nbply;
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,s,id_placed);
@@ -616,7 +640,7 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
     if (side==preferred_side && can_decision_level_be_continued())
       place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
 
-    forget_taboo_on_square(s,side,nbply);
+    forget_taboo_on_square(s,side,nbply+1);
   }
   else if (side==preferred_side)
     place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
@@ -643,10 +667,14 @@ static void place_non_dummy_on_square(Side side_in_check,
   {
     Side const preferred_side = side_in_check;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
+    ++nbply;
     PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
                                                         purpose_interceptor,s);
+    --nbply;
 
+    ++nbply;
     push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
+    --nbply;
 
     decision_levels[id_placed].from = decision_level_forever;
 
@@ -793,7 +821,11 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
   TraceEOL();
 
   if (nr_check_vectors==0)
+  {
+    ++nbply;
     (*forward_from_protect_king)();
+    --nbply;
+  }
   else if (nr_available>=nr_check_vectors)
   {
     if (play_phase==play_validating_mate)
@@ -804,7 +836,9 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
   else
   {
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
+    ++nbply;
     backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
+    --nbply;
     record_decision_outcome("%s %d %s %d %s","only",nr_available,"available invisibles for intercepting",nr_check_vectors,"illegal checks");
     REPORT_DEADEND;
   }
@@ -840,7 +874,9 @@ static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
     PieceIdType const id_king = GetPieceId(kingSpec);
 
     assert(check_by_uninterceptable_delivered_in_ply==ply_nil);
+    ++nbply;
     check_by_uninterceptable_delivered_in_ply = nbply;
+    --nbply;
 
     record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
@@ -862,7 +898,7 @@ static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
     TraceEOL();
 
     check_by_uninterceptable_delivered_in_level = decision_levels[id_checker].walk;
-    if (nbply<=motivation[id_checker].last.acts_when)
+    if (nbply<motivation[id_checker].last.acts_when)
     {
       if (decision_levels[id_checker].from>decision_levels[id_king].from)
       {
@@ -953,7 +989,7 @@ HERE
 
      */
 
-    if (nbply==ply_retro_move+1)
+    if (nbply==ply_retro_move)
     {
       REPORT_DEADEND;
       backtrack_definitively();
@@ -988,7 +1024,11 @@ void forward_protect_king(Side side_in_check,
   TraceFunctionParamListEnd();
 
   if (king_in_check_pos==initsquare)
+  {
+    ++nbply;
     (*forward_from_protect_king)();
+    --nbply;
+  }
   else
   {
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_in_check_pos);

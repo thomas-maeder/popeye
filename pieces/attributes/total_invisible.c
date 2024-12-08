@@ -95,15 +95,16 @@ void backward_previous_move(void)
     REPORT_DEADEND;
     deadend_by_failure_to_capture_uninterceptable_checker(advers(trait[check_by_uninterceptable_delivered_in_ply]),1);
   }
-  else if (nbply==ply_retro_move+1)
-  {
-    TraceValue("%u",nbply);TraceEOL();
-    forward_prevent_illegal_checks();
-  }
   else
   {
     --nbply;
-    backward_undo_move_effects(move_effect_journal_base[nbply+1]);
+    TraceValue("%u",nbply);TraceEOL();
+
+    if (nbply==ply_retro_move)
+      forward_prevent_illegal_checks();
+    else
+      backward_undo_move_effects(move_effect_journal_base[nbply+1]);
+
     ++nbply;
   }
 
@@ -133,12 +134,7 @@ void forward_recurse_into_child_ply(void)
   redo_move_effects();
   move_effect_journal_base[nbply+1] = save_top;
 
-  ++nbply;
-  TraceValue("%u",nbply);TraceEOL();
-
   forward_prevent_illegal_checks();
-
-  --nbply;
 
   move_effect_journal_base[nbply+1] = top_before_revelations[nbply];
   assert(top_before_revelations[nbply]>move_effect_journal_base[nbply]);
@@ -162,7 +158,9 @@ static void forward_protect_castling_king_on_intermediate_square(void)
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
+  --nbply;
   forward_protect_king(side_castling,intermediate_square,&forward_recurse_into_child_ply);
+  ++nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -187,7 +185,9 @@ static void forward_adapt_capture_effect_no_capture_planned(void)
       Side const side_castling = trait[nbply];
       square const king_pos = being_solved.king_square[side_castling];
 
+      --nbply;
       forward_protect_king(side_castling,king_pos,&forward_protect_castling_king_on_intermediate_square);
+      ++nbply;
     }
     else
       forward_recurse_into_child_ply();
@@ -524,7 +524,7 @@ void forward_conclude_move_just_played(void)
 
 void forward_prevent_illegal_checks(void)
 {
-  Side const side_just_moved = trait[nbply-1];
+  Side const side_just_moved = trait[nbply];
   square const king_pos = being_solved.king_square[side_just_moved];
 
   TraceFunctionEntry(__func__);
@@ -561,7 +561,9 @@ static void validate_mate(void)
   {
     combined_validation_result = mate_unvalidated;
     initialise_decision_context();
+    --nbply;
     forward_prevent_illegal_checks();
+    ++nbply;
     record_decision_outcome("validate_mate(): combined_validation_result:%u",
                             combined_validation_result);
   }
@@ -588,7 +590,9 @@ static void test_mate(void)
     case mate_attackable:
     case mate_defendable_by_interceptors:
       initialise_decision_context();
+      --nbply;
       forward_prevent_illegal_checks();
+      ++nbply;
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       break;
@@ -596,7 +600,9 @@ static void test_mate(void)
     case mate_with_2_uninterceptable_doublechecks:
       /* we only replay moves for TI revelation */
       initialise_decision_context();
+      --nbply;
       forward_prevent_illegal_checks();
+      ++nbply;
       record_decision_outcome("test_mate(): get_decision_result():%u",
                               get_decision_result());
       assert(get_decision_result()==previous_move_has_solved);

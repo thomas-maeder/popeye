@@ -1138,7 +1138,9 @@ void make_revelations(void)
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
+  --nbply;
   forward_prevent_illegal_checks();
+  ++nbply;
 
   static_consumption.king[White] = false;
   static_consumption.king[Black] = false;
@@ -1494,10 +1496,16 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
 
 void forward_test_and_execute_revelations(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (nbply==ply_retro_move+1)
     forward_conclude_move_just_played();
   else
     test_and_execute_revelations_recursive(top_before_revelations[nbply-1]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

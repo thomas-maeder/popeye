@@ -1577,7 +1577,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 }
 
 void deadend_by_failure_to_capture_uninterceptable_checker(Side side_in_check,
-                                                               unsigned int nr_check_vectors)
+                                                           unsigned int nr_check_vectors)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
