@@ -348,9 +348,9 @@ static void forward_insert_pawn_capture_victim(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!is_taboo(to,side_pawn_victim)
-      && !will_be_taboo(to,side_pawn_victim)
-      && !was_taboo(to,side_pawn_victim))
+  if (!is_taboo(to,side_pawn_victim,nbply)
+      && !will_be_taboo(to,side_pawn_victim,nbply)
+      && !was_taboo(to,side_pawn_victim,nbply))
   {
     dynamic_consumption_type const save_consumption = current_consumption;
 

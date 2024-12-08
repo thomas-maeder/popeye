@@ -31,9 +31,9 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
     square s = king_pos+vec[k];
 
     while (is_square_empty(s)
-           && ((is_taboo(s,White) && is_taboo(s,Black))
-               || (was_taboo(s,White) && was_taboo(s,Black))
-               || (will_be_taboo(s,White) && will_be_taboo(s,Black))))
+           && ((is_taboo(s,White,nbply) && is_taboo(s,Black,nbply))
+               || (was_taboo(s,White,nbply) && was_taboo(s,Black,nbply))
+               || (will_be_taboo(s,White,nbply) && will_be_taboo(s,Black,nbply))))
       s += vec[k];
 
     {

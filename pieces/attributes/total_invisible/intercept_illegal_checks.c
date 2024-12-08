@@ -45,8 +45,6 @@ static void place_dummy_of_side_on_square(Side side_in_check,
                                           boolean inserted_fleshed_out,
                                           forward_from_protect_king_type *forward_from_protect_king)
 {
-  boolean is_placement_taboo;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
   TraceSquare(king_in_check_pos);
@@ -58,11 +56,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
   assert(is_on_board(s));
 
-  ++nbply;
-  is_placement_taboo = is_taboo(s,side) || was_taboo(s,side) || will_be_taboo(s,side);
-  --nbply;
-
-  if (!is_placement_taboo)
+  if (!(is_taboo(s,side,nbply+1) || was_taboo(s,side,nbply+1) || will_be_taboo(s,side,nbply+1)))
   {
     dynamic_consumption_type const save_consumption = current_consumption;
     PieceIdType const id_placed = GetPieceId(being_solved.spec[s]);
@@ -602,7 +596,6 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
                                               PieceIdType id_placed)
 {
   Side const preferred_side = side_in_check;
-  boolean is_placement_taboo;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -613,13 +606,9 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
   TraceFunctionParam("%u",id_placed);
   TraceFunctionParamListEnd();
 
-  ++nbply;
-  is_placement_taboo = is_taboo(s,side) || was_taboo(s,side);
-  --nbply;
-
   assert(is_on_board(s));
 
-  if (!is_placement_taboo)
+  if (!(is_taboo(s,side,nbply+1) || was_taboo(s,side,nbply+1)))
   {
     remember_taboo_on_square(s,side,nbply+1);
 

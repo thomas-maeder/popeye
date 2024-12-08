@@ -32,7 +32,7 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
 
   assert(is_on_board(sq_departure));
 
-  if (was_taboo(sq_departure,side_playing) || is_taboo(sq_departure,side_playing))
+  if (was_taboo(sq_departure,side_playing,nbply) || is_taboo(sq_departure,side_playing,nbply))
   {
     record_decision_outcome("%s","capturer can't be placed on taboo square");
     REPORT_DEADEND;

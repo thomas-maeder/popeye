@@ -422,7 +422,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].u.piece_movement.from==move_by_invisible);
   assert(is_on_board(sq_arrival));
-  assert(!will_be_taboo(sq_arrival,trait[nbply]));
+  assert(!will_be_taboo(sq_arrival,trait[nbply],nbply));
 
   move_effect_journal[movement].u.piece_movement.to = sq_arrival;
 
@@ -486,7 +486,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
         Side const side = trait[nbply];
         int const dir_singlestep = side==White ? dir_up : dir_down;
 
-        assert(!will_be_taboo(sq_arrival,side));
+        assert(!will_be_taboo(sq_arrival,side,nbply));
 
         if (is_square_empty(sq_arrival))
         {
@@ -622,7 +622,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
 
     if (is_square_empty(sq_singlestep))
     {
-      if (!will_be_taboo(sq_singlestep,side))
+      if (!will_be_taboo(sq_singlestep,side,nbply))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_singlestep;
 
@@ -638,7 +638,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
           TraceSquare(sq_doublestep);TraceEOL();
           if (is_square_empty(sq_doublestep))
           {
-            if (!will_be_taboo(sq_doublestep,side))
+            if (!will_be_taboo(sq_doublestep,side,nbply))
             {
               move_effect_journal[movement].u.piece_movement.to = sq_doublestep;
               done_forward_random_move_by_invisible(walk_moving);
@@ -654,7 +654,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
     {
       square const sq_arrival = sq_singlestep+dir_right;
 
-      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
+      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply],nbply))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         forward_accidental_capture_by_invisible(walk_moving);
@@ -665,7 +665,7 @@ static void forward_random_move_by_invisible_pawn_from(piece_walk_type walk_movi
     {
       square const sq_arrival = sq_singlestep+dir_left;
 
-      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
+      if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply],nbply))
       {
         move_effect_journal[movement].u.piece_movement.to = sq_arrival;
         forward_accidental_capture_by_invisible(walk_moving);
@@ -711,12 +711,12 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
        */
       if (is_square_empty(sq_arrival))
       {
-        if (!will_be_taboo(sq_arrival,trait[nbply]))
+        if (!will_be_taboo(sq_arrival,trait[nbply],nbply))
           done_forward_random_move_by_invisible(walk_moving);
       }
       else
       {
-        if (!will_be_taboo(sq_arrival,trait[nbply]))
+        if (!will_be_taboo(sq_arrival,trait[nbply],nbply))
           forward_accidental_capture_by_invisible(walk_moving);
         break;
       }
@@ -750,7 +750,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
   {
     square const sq_arrival = sq_departure+vec[k];
 
-    if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply]))
+    if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply],nbply))
     {
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
       /* just in case: */
@@ -1123,7 +1123,7 @@ static void done_backward_random_move_by_specific_invisible_to(void)
 
   assert(is_on_board(sq_departure));
 
-  if (!was_taboo(sq_departure,side_moving))
+  if (!was_taboo(sq_departure,side_moving,nbply))
   {
     Side const side_attacked = advers(side_moving);
     square const king_pos = being_solved.king_square[side_attacked];

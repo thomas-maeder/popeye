@@ -31,7 +31,7 @@ static void place_mating_piece_attacker(Side side_attacking,
   /* only now that we have decided not to use an accidental attack! */
   if (allocate_flesh_out_unplaced(side_attacking))
   {
-    if (!was_taboo(s,side_attacking))
+    if (!was_taboo(s,side_attacking,nbply))
     {
       Flags spec = BIT(side_attacking)|BIT(Chameleon);
 

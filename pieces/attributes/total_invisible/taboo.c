@@ -55,7 +55,7 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean was_taboo(square s, Side side)
+boolean was_taboo(square s, Side side, ply startply)
 {
   boolean result = false;
   ply ply;
@@ -63,11 +63,12 @@ boolean was_taboo(square s, Side side)
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",startply);
   TraceFunctionParamListEnd();
 
   assert(is_on_board(s));
 
-  for (ply = nbply-1; ply>ply_retro_move; --ply)
+  for (ply = startply-1; ply>ply_retro_move; --ply)
     if (is_move_by_invisible(s,side,ply))
       break;
     else
@@ -160,14 +161,14 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean will_be_taboo(square s, Side side)
+boolean will_be_taboo(square s, Side side, ply ply)
 {
   boolean result = false;
-  ply ply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
@@ -178,7 +179,7 @@ boolean will_be_taboo(square s, Side side)
 
   assert(is_on_board(s));
 
-  if (nbply<=top_ply_of_regular_play && !is_move_by_invisible(s,side,ply))
+  if (ply<=top_ply_of_regular_play && !is_move_by_invisible(s,side,ply))
   {
     while (true)
     {
@@ -221,16 +222,17 @@ boolean will_be_taboo(square s, Side side)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean is_taboo(square s, Side side)
+boolean is_taboo(square s, Side side, ply startply)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",startply);
   TraceFunctionParamListEnd();
 
-  result = nr_taboos_for_current_move_in_ply[nbply][side][s]>0;
+  result = nr_taboos_for_current_move_in_ply[startply][side][s]>0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
