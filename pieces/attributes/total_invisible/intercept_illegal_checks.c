@@ -171,11 +171,9 @@ static void place_dummy_on_square(Side side_in_check,
   if (is_square_empty(s))
   {
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
-    // TODO this should not be necessary:
-    ++nbply;
-    PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+    PieceIdType const id_placed = initialise_motivation(nbply+1,
+                                                        purpose_interceptor,s,
                                                         purpose_interceptor,s);
-    --nbply;
 
     push_decision_placement(nbply+1,id_placed,s,decision_purpose_illegal_check_interceptor);
 
@@ -638,10 +636,9 @@ static void place_non_dummy_on_square(Side side_in_check,
   {
     Side const preferred_side = side_in_check;
     Flags spec = BIT(White)|BIT(Black)|BIT(Chameleon);
-    ++nbply;
-    PieceIdType const id_placed = initialise_motivation(purpose_interceptor,s,
+    PieceIdType const id_placed = initialise_motivation(nbply+1,
+                                                        purpose_interceptor,s,
                                                         purpose_interceptor,s);
-    --nbply;
 
     push_decision_placement(nbply+1,id_placed,s,decision_purpose_illegal_check_interceptor);
 

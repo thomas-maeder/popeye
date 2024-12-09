@@ -37,7 +37,8 @@ static void play_castling_with_invisible_partner(slice_index si,
 
     if (allocate_flesh_out_unclaimed(trait[nbply]))
     {
-      PieceIdType const id_partner = initialise_motivation(purpose_castling_partner,sq_departure_partner,
+      PieceIdType const id_partner = initialise_motivation(nbply,
+                                                           purpose_castling_partner,sq_departure_partner,
                                                            purpose_castling_partner,sq_arrival_partner);
       Flags spec = BIT(side);
       ply ply_taboo;
@@ -146,7 +147,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
     }
     else if (sq_departure==capture_by_invisible)
     {
-      PieceIdType const id_capturer = initialise_motivation(purpose_capturer,sq_departure,
+      PieceIdType const id_capturer = initialise_motivation(nbply,
+                                                            purpose_capturer,sq_departure,
                                                             purpose_capturer,sq_departure);
       Side const side = trait[nbply];
       Flags spec = BIT(side)|BIT(Chameleon);
@@ -222,7 +224,8 @@ void total_invisible_special_moves_player_solve(slice_index si)
           /* pawn captures total invisible? */
           if (is_square_empty(sq_capture))
           {
-            PieceIdType const id_victim = initialise_motivation(purpose_victim,sq_capture,
+            PieceIdType const id_victim = initialise_motivation(nbply,
+                                                                purpose_victim,sq_capture,
                                                                 purpose_victim,sq_capture);
             Side const side_victim = advers(SLICE_STARTER(si));
             Flags spec = BIT(side_victim)|BIT(Chameleon);

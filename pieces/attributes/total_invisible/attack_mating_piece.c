@@ -221,7 +221,8 @@ void attack_mating_piece(Side side_attacking,
   TraceFunctionParamListEnd();
 
   {
-    PieceIdType const id_placed = initialise_motivation(purpose_attacker,initsquare,
+    PieceIdType const id_placed = initialise_motivation(nbply,
+                                                        purpose_attacker,initsquare,
                                                         purpose_attacker,initsquare);
 
     place_mating_piece_attacking_rider(side_attacking,

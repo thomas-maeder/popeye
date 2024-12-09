@@ -47,7 +47,8 @@ PieceIdType get_top_invisible_piece_id(void)
   return top_invisible_piece_id;
 }
 
-PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
+PieceIdType initialise_motivation(ply ply,
+                                  purpose_type purpose_first, square sq_first,
                                   purpose_type purpose_last, square sq_last)
 {
   PieceIdType const result = ++top_invisible_piece_id;
@@ -61,10 +62,10 @@ PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
 
   assert(motivation[result].last.purpose==purpose_none);
   motivation[result].first.purpose = purpose_first;
-  motivation[result].first.acts_when = nbply;
+  motivation[result].first.acts_when = ply;
   motivation[result].first.on = sq_first;
   motivation[result].last.purpose = purpose_last;
-  motivation[result].last.acts_when = nbply;
+  motivation[result].last.acts_when = ply;
   motivation[result].last.on = sq_last;
 
   TraceFunctionExit(__func__);
