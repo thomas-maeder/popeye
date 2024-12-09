@@ -45,7 +45,7 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
     TraceConsumption();TraceEOL();
     assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
-    push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
+    push_decision_departure(nbply,id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
 
     ++being_solved.number_of_pieces[side_playing][walk_capturing];
     occupy_square(sq_departure,walk_capturing,flags_inserted);
@@ -220,7 +220,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
-    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,side_playing);
+    push_decision_walk(nbply,id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,side_playing);
     decision_levels[id_inserted].walk = decision_levels[id_existing].walk;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_inserted,nbply-1);
@@ -266,7 +266,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
       do
       {
-        push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+        push_decision_walk(nbply,id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
         move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
         backward_previous_move();
         pieces_pawns_continue_promotee_sequence(&sequence);
@@ -395,13 +395,13 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square sq_departure;
 
-      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
+      push_decision_move_vector(nbply,id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
 
       for (sq_departure = sq_arrival+vec[kcurr];
            is_square_empty(sq_departure) && can_decision_level_be_continued();
@@ -438,7 +438,7 @@ static unsigned int capture_by_inserted_invisible_king(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+  push_decision_walk(nbply,id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
@@ -506,7 +506,7 @@ static unsigned int capture_by_invisible_leaper_inserted(piece_walk_type walk_le
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-    push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
@@ -579,7 +579,7 @@ static unsigned int capture_by_invisible_pawn_inserted(void)
     Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
     PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
-    push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
@@ -858,7 +858,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   assert(motivation[id_existing].first.purpose!=purpose_none);
   assert(motivation[id_existing].last.purpose!=purpose_none);
 
-  push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
+  push_decision_departure(nbply,id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
 
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -946,7 +946,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
 
               do
               {
-                push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+                push_decision_walk(nbply,id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
                 move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
                 capture_by_invisible_with_defined_walk(Pawn,sq_departure);
                 pieces_pawns_continue_promotee_sequence(&sequence);
@@ -1263,7 +1263,7 @@ static unsigned int capture_by_inserted_invisible(void)
   {
     /* no problem - we can simply insert a capturer */
 
-    push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+    push_decision_insertion(nbply,id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
     result = capture_by_inserted_invisible_all_walks();
 
@@ -1293,7 +1293,7 @@ static unsigned int capture_by_inserted_invisible(void)
 
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-        push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+        push_decision_insertion(nbply,id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
         capture_by_inserted_invisible_king();
 

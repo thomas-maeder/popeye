@@ -160,7 +160,7 @@ static void nominate_king_invisible_by_invisible(void)
         set_walk_of_piece_on_square(*s, King);
         being_solved.king_square[side_to_be_mated] = *s;
         TraceSquare(*s);TraceEOL();
-        push_decision_king_nomination(id_king,*s);
+        push_decision_king_nomination(nbply,id_king,*s);
         backward_previous_move();
         pop_decision();
         decision_levels[id_king].walk = save_decision_walk;

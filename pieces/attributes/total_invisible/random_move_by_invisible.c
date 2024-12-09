@@ -25,7 +25,7 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
   TraceWalk(walk_moving);
   TraceFunctionParamListEnd();
 
-  push_decision_arrival(id,sq_arrival,decision_purpose_random_mover_forward);
+  push_decision_arrival(nbply,id,sq_arrival,decision_purpose_random_mover_forward);
 
   motivation[id].last.on = sq_arrival;
 
@@ -49,7 +49,7 @@ static void done_forward_random_move_by_invisible(piece_walk_type walk_moving)
 
     do
     {
-      push_decision_walk(id,sequence.promotee,decision_purpose_invisible_capturer_existing,side);
+      push_decision_walk(nbply,id,sequence.promotee,decision_purpose_invisible_capturer_existing,side);
       move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
       if (walk_moving==Dummy)
         backward_previous_move();
@@ -290,7 +290,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
         {
           if (diff==dir_singlestep)
           {
-            push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
+            push_decision_walk(nbply,id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
             forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Dummy);
             pop_decision();
           }
@@ -301,7 +301,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
 
             if (is_square_empty(sq_singlestep) && TSTFLAG(sq_spec(sq_departure),doublstepsq))
             {
-              push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
+              push_decision_walk(nbply,id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
               forward_random_move_by_pawn_no_capture_to(sq_arrival,sq_departure,Dummy);
               pop_decision();
             }
@@ -311,7 +311,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
         {
           if (diff==dir_singlestep+dir_right || diff==dir_singlestep+dir_left)
           {
-            push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
+            push_decision_walk(nbply,id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
             forward_random_move_by_pawn_capture_to(sq_arrival,sq_departure,Dummy);
             pop_decision();
           }
@@ -331,7 +331,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
 
       if (!(king_pos!=initsquare && knight_check_ortho(side_playing,king_pos)))
       {
-        push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward,side_playing);
+        push_decision_walk(nbply,id_moving,Knight,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_leaper_to(sq_arrival,sq_departure,Knight,Dummy);
         pop_decision();
       }
@@ -351,7 +351,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
                                           vec_bishop_start,vec_bishop_end,
                                           Bishop))
       {
-        push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward,side_playing);
+        push_decision_walk(nbply,id_moving,Bishop,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Bishop,Dummy);
         pop_decision();
       }
@@ -371,7 +371,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
                                           vec_rook_start,vec_rook_end,
                                           Rook))
       {
-        push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward,side_playing);
+        push_decision_walk(nbply,id_moving,Rook,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Rook,Dummy);
         pop_decision();
       }
@@ -391,7 +391,7 @@ static void forward_random_move_by_unfleshed_out_non_king_to(square sq_arrival,
                                           vec_queen_start,vec_queen_end,
                                           Queen))
       {
-        push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward,side_playing);
+        push_decision_walk(nbply,id_moving,Queen,decision_purpose_random_mover_forward,side_playing);
         forward_random_move_by_invisible_rider_to(sq_arrival,sq_departure,Queen,Dummy);
         pop_decision();
       }
@@ -447,7 +447,7 @@ static void forward_random_move_by_invisible_to(square sq_arrival, boolean is_sa
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    push_decision_departure(id,sq_departure,decision_purpose_random_mover_forward);
+    push_decision_departure(nbply,id,sq_departure,decision_purpose_random_mover_forward);
 
     switch (walk)
     {
@@ -856,7 +856,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
     SquareFlags const basesq = side_playing==White ? WhBaseSq : BlBaseSq;
     if (!(TSTFLAG(sq_spec(sq_departure),basesq) || TSTFLAG(sq_spec(sq_departure),promsq)))
     {
-      push_decision_walk(id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
+      push_decision_walk(nbply,id_moving,Pawn,decision_purpose_random_mover_forward,trait[nbply]);
 
       ++being_solved.number_of_pieces[side_playing][Pawn];
       replace_walk(sq_departure,Pawn);
@@ -870,7 +870,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
   if (can_decision_level_be_continued())
   {
-    push_decision_walk(id_moving,Knight,decision_purpose_random_mover_forward,trait[nbply]);
+    push_decision_walk(nbply,id_moving,Knight,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Knight];
     replace_walk(sq_departure,Knight);
@@ -883,7 +883,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
   if (can_decision_level_be_continued())
   {
-    push_decision_walk(id_moving,Bishop,decision_purpose_random_mover_forward,trait[nbply]);
+    push_decision_walk(nbply,id_moving,Bishop,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Bishop];
     replace_walk(sq_departure,Bishop);
@@ -898,7 +898,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
   if (can_decision_level_be_continued())
   {
-    push_decision_walk(id_moving,Rook,decision_purpose_random_mover_forward,trait[nbply]);
+    push_decision_walk(nbply,id_moving,Rook,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Rook];
     replace_walk(sq_departure,Rook);
@@ -913,7 +913,7 @@ static void forward_random_move_by_existing_invisible_as_non_king_from(square sq
 
   if (can_decision_level_be_continued())
   {
-    push_decision_walk(id_moving,Queen,decision_purpose_random_mover_forward,trait[nbply]);
+    push_decision_walk(nbply,id_moving,Queen,decision_purpose_random_mover_forward,trait[nbply]);
 
     ++being_solved.number_of_pieces[side_playing][Queen];
     replace_walk(sq_departure,Queen);
@@ -973,7 +973,7 @@ static void forward_random_move_by_specific_invisible_from(square sq_departure)
       if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
       {
         PieceIdType const id_moving = GetPieceId(being_solved.spec[sq_departure]);
-        push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
+        push_decision_walk(nbply,id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
         forward_random_move_by_existing_invisible_from(sq_departure,save_walk_moving);
         pop_decision();
       }
@@ -1048,7 +1048,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
     motivation[id].last.acts_when = nbply;
     motivation[id].last.purpose = purpose_random_mover;
 
-    push_decision_departure(id,*s,decision_purpose_random_mover_forward);
+    push_decision_departure(nbply,id,*s,decision_purpose_random_mover_forward);
     forward_random_move_by_specific_invisible_from(*s);
     pop_decision();
 
@@ -1076,7 +1076,7 @@ static void forward_random_move_by_invisible_from(square const *start_square)
     {
       TraceText("stick to random move by unplaced invisible\n");
       TraceValue("%u",__LINE__);TraceEOL();
-      push_decision_random_move(decision_purpose_random_mover_forward);
+      push_decision_random_move(nbply,decision_purpose_random_mover_forward);
       forward_recurse_into_child_ply();
       pop_decision();
     }
@@ -1129,7 +1129,7 @@ static void done_backward_random_move_by_specific_invisible_to(void)
     square const king_pos = being_solved.king_square[side_attacked];
     PieceIdType const id = GetPieceId(being_solved.spec[sq_arrival]);
 
-    push_decision_departure(id,sq_departure,decision_purpose_random_mover_backward);
+    push_decision_departure(nbply,id,sq_departure,decision_purpose_random_mover_backward);
 
     /* we can't do undo_move_effects() because we might inadvertently undo a piece
      * revelation!
@@ -1198,7 +1198,7 @@ static void unpromote_random_mover(void)
 
       move_effect_journal[movement].u.piece_movement.moving = Pawn;
 
-      push_decision_walk(GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec),
+      push_decision_walk(nbply,GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec),
                          Pawn,
                          decision_purpose_random_mover_backward,
                          side_playing);
@@ -1454,7 +1454,7 @@ static void backward_random_move_by_specific_invisible_as_non_king_to(square sq_
   }
   else
   {
-    push_decision_walk(id,Pawn,decision_purpose_random_mover_backward,side_playing);
+    push_decision_walk(nbply,id,Pawn,decision_purpose_random_mover_backward,side_playing);
 
     ++being_solved.number_of_pieces[side_playing][Pawn];
     replace_walk(sq_arrival,Pawn);
@@ -1468,7 +1468,7 @@ static void backward_random_move_by_specific_invisible_as_non_king_to(square sq_
 
   for (walk = Pawn+1; walk<=Bishop && can_decision_level_be_continued(); ++walk)
   {
-    push_decision_walk(id,walk,decision_purpose_random_mover_backward,side_playing);
+    push_decision_walk(nbply,id,walk,decision_purpose_random_mover_backward,side_playing);
 
     ++being_solved.number_of_pieces[side_playing][walk];
     replace_walk(sq_arrival,walk);
@@ -1531,7 +1531,7 @@ static void backward_random_move_by_specific_invisible_to(square sq_arrival)
         if (!(king_pos!=initsquare && king_check_ortho(side_playing,king_pos)))
         {
           PieceIdType const id_moving = GetPieceId(save_flags_moving);
-          push_decision_walk(id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
+          push_decision_walk(nbply,id_moving,King,decision_purpose_random_mover_forward,trait[nbply]);
           backward_random_move_by_specific_invisible_to_according_to_walk(sq_arrival);
           pop_decision();
         }
@@ -1635,7 +1635,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
 
     motivation[id].first.acts_when = nbply;
 
-    push_decision_arrival(id,*s,decision_purpose_random_mover_backward);
+    push_decision_arrival(nbply,id,*s,decision_purpose_random_mover_backward);
 
     backward_random_move_by_specific_invisible_to(*s);
 
@@ -1672,7 +1672,7 @@ static void backward_random_move_by_invisible_to(square const *start_square)
     {
       TraceText("stick to random move by unplaced invisible\n");
       TraceValue("%u",__LINE__);TraceEOL();
-      push_decision_random_move(decision_purpose_random_mover_backward);
+      push_decision_random_move(nbply,decision_purpose_random_mover_backward);
       backward_previous_move();
       pop_decision();
     }

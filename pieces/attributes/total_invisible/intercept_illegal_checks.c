@@ -65,9 +65,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
     if (allocate_placed(side))
     {
-      ++nbply;
-      push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
-      --nbply;
+      push_decision_side(nbply+1,id_placed,side,decision_purpose_illegal_check_interceptor);
 
       remember_taboo_on_square(s,side,nbply+1);
 
@@ -179,9 +177,7 @@ static void place_dummy_on_square(Side side_in_check,
                                                         purpose_interceptor,s);
     --nbply;
 
-    ++nbply;
-    push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
-    --nbply;
+    push_decision_placement(nbply+1,id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_forever;
 
@@ -280,9 +276,7 @@ static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
   assert(get_walk_of_piece_on_square(pos)==Dummy);
   replace_walk(pos,walk);
 
-  ++nbply;
-  push_decision_walk(id_placed,walk,decision_purpose_illegal_check_interceptor,side);
-  --nbply;
+  push_decision_walk(nbply+1,id_placed,walk,decision_purpose_illegal_check_interceptor,side);
 
   if (nr_check_vectors==1)
     backward_before_revelations();
@@ -340,9 +334,7 @@ static void place_pawn_of_side_on_square(Side side_in_check,
 
     if (king_pos==initsquare || pawn_check_ortho(side,king_pos)==0)
     {
-      ++nbply;
-      push_decision_walk(id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
-      --nbply;
+      push_decision_walk(nbply+1,id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
         backward_before_revelations();
@@ -404,9 +396,7 @@ static void place_king_of_side_on_square(Side side_in_check,
     }
     else if (king_check_ortho(advers(side_in_check),being_solved.king_square[side_in_check])==0)
     {
-      ++nbply;
-      push_decision_walk(id_placed,King,decision_purpose_illegal_check_interceptor,side);
-      --nbply;
+      push_decision_walk(nbply+1,id_placed,King,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
         backward_before_revelations();
@@ -457,9 +447,7 @@ static void place_knight_of_side_on_square(Side side_in_check,
 
   if (knight_check_ortho(side,being_solved.king_square[advers(side)])==0)
   {
-    ++nbply;
-    push_decision_walk(id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
-    --nbply;
+    push_decision_walk(nbply+1,id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
 
     if (nr_check_vectors==1)
       backward_before_revelations();
@@ -612,9 +600,7 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
   {
     remember_taboo_on_square(s,side,nbply+1);
 
-    ++nbply;
-    push_decision_side(id_placed,side,decision_purpose_illegal_check_interceptor);
-    --nbply;
+    push_decision_side(nbply+1,id_placed,side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
     place_piece_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,s,id_placed);
@@ -657,9 +643,7 @@ static void place_non_dummy_on_square(Side side_in_check,
                                                         purpose_interceptor,s);
     --nbply;
 
-    ++nbply;
-    push_decision_placement(id_placed,s,decision_purpose_illegal_check_interceptor);
-    --nbply;
+    push_decision_placement(nbply+1,id_placed,s,decision_purpose_illegal_check_interceptor);
 
     decision_levels[id_placed].from = decision_level_forever;
 
@@ -855,9 +839,7 @@ static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
     PieceIdType const id_king = GetPieceId(kingSpec);
 
     assert(check_by_uninterceptable_delivered_in_ply==ply_nil);
-    ++nbply;
-    check_by_uninterceptable_delivered_in_ply = nbply;
-    --nbply;
+    check_by_uninterceptable_delivered_in_ply = nbply+1;
 
     record_decision_outcome("illegal check by uninterceptable invisible piece"
                             " from dir:%d"
