@@ -560,9 +560,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
     {
       record_decision_outcome("%s","not enough available invisibles for intercepting all illegal checks");
       REPORT_DEADEND;
-      ++nbply;
       backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
-      --nbply;
     }
 
     current_consumption = save_consumption;
@@ -798,9 +796,7 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
   else
   {
     TraceText("not enough available invisibles for intercepting all illegal checks\n");
-    ++nbply;
     backtrack_from_failure_to_intercept_illegal_check(side_in_check,nr_check_vectors,check_vectors[0]);
-    --nbply;
     record_decision_outcome("%s %d %s %d %s","only",nr_available,"available invisibles for intercepting",nr_check_vectors,"illegal checks");
     REPORT_DEADEND;
   }

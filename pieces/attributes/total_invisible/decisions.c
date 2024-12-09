@@ -1539,7 +1539,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 
   backtracking[decision_top].type = backtrack_failure_to_intercept_illegal_checks;
   backtracking[decision_top].nr_check_vectors = nr_check_vectors;
-  backtracking[decision_top].ply_failure = nbply;
+  backtracking[decision_top].ply_failure = nbply+1;
   backtracking[decision_top].side_failure = side_in_check;
   backtracking[decision_top].max_level = decision_level_latest;
 
@@ -1558,7 +1558,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 
     if (backtracking[decision_top-1].type==backtrack_failure_to_intercept_illegal_checks
         && (nr_check_vectors>backtracking[decision_top-1].nr_check_vectors)
-        && decision_level_properties[decision_top+1].ply+1==nbply)
+        && decision_level_properties[decision_top+1].ply==nbply)
     {
       TraceValue("moving the currently moving pieces makes the situation worse:%u\n",__LINE__);
       decision_level_properties[decision_top].relevance = relevance_irrelevant;
