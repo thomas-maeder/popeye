@@ -1268,8 +1268,6 @@ static unsigned int capture_by_inserted_invisible(void)
     result = capture_by_inserted_invisible_all_walks();
 
     pop_decision();
-
-    current_consumption = save_consumption;
   }
   else
   {
@@ -1279,6 +1277,7 @@ static unsigned int capture_by_inserted_invisible(void)
 
     TraceEnumerator(Side,trait[nbply]);
     TraceSquare(being_solved.king_square[trait[nbply]]);
+    TraceValue("%u",current_consumption.is_king_unplaced[trait[nbply]]);
     TraceEOL();
     if (current_consumption.is_king_unplaced[trait[nbply]])
     {
@@ -1309,10 +1308,10 @@ static unsigned int capture_by_inserted_invisible(void)
       {
         TraceText("the king has already been placed implicitly (e.g. while intercepting a check)\n");
       }
-
-      current_consumption = save_consumption;
     }
   }
+
+  current_consumption = save_consumption;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

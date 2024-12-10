@@ -556,7 +556,7 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
                      play_move:      913616
  is_white_king_square_attacked:       58844
  is_black_king_square_attacked:       58588
-                  TI decisions:     8077449
+                  TI decisions:     7430481
 
 solution finished.
 
@@ -884,7 +884,7 @@ an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK] 
                      play_move:         155
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          25
-                  TI decisions:        4578
+                  TI decisions:         986
 
 solution finished.
 
@@ -918,7 +918,7 @@ so far, Popeye hasn't found this solution
                      play_move:       25737
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4665
-                  TI decisions:      106489
+                  TI decisions:       68589
 
 solution finished.
 

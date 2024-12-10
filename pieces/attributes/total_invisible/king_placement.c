@@ -169,7 +169,7 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.spec[*s] = save_flags;
       }
 
-    current_consumption.is_king_unplaced[side_to_be_mated] = false;
+    current_consumption.is_king_unplaced[side_to_be_mated] = true;
     being_solved.king_square[side_to_be_mated] = initsquare;
   }
 
