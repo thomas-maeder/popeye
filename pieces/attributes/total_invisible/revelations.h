@@ -45,6 +45,9 @@ void uninitialise_motivation(PieceIdType id_uninitialised);
 void reveal_placed(move_effect_journal_entry_type const *entry);
 void unreveal_placed(move_effect_journal_entry_type const *entry);
 
+void reveal_new(move_effect_journal_entry_type *entry);
+void unreveal_new(move_effect_journal_entry_type *entry);
+
 void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry);
 void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entry);
 
@@ -64,8 +67,6 @@ void evaluate_revelations(slice_index si, unsigned int nr_potential_revelations)
 void make_revelations(void);
 
 void do_revelation_bookkeeping(void);
-
-void backward_undo_move_effects(move_effect_journal_index_type curr);
 
 void forward_test_and_execute_revelations(void);
 

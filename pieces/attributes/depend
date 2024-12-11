@@ -404,11 +404,13 @@ pieces/attributes/total_invisible$(OBJ_SUFFIX): pieces/attributes/total_invisibl
  debugging/trace.h pieces/walks/classification.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  pieces/walks/vectors.h position/castling_rights.h \
+ pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h solving/move_effect_journal.h \
+ solving/observation.h solving/temporary_hacks.h solving/fork.h \
  position/move_diff_code.h position/effects/piece_readdition.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h position/effects/piece_movement.h \
- position/effects/null_move.h position/effects/walk_change.h \
- position/effects/flags_change.h position/effects/king_square.h \
+ position/effects/piece_movement.h position/effects/null_move.h \
+ position/effects/walk_change.h position/effects/flags_change.h \
+ position/effects/king_square.h position/effects/piece_removal.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -466,16 +468,21 @@ position/color.enum.h:
 position/color.enum:
 pieces/walks/vectors.h:
 position/castling_rights.h:
-position/move_diff_code.h:
-position/effects/piece_readdition.h:
-solving/move_effect_journal.h:
+pieces/walks/pawns/en_passant.h:
 solving/machinery/solve.h:
 solving/machinery/dispatch.h:
+solving/move_effect_journal.h:
+solving/observation.h:
+solving/temporary_hacks.h:
+solving/fork.h:
+position/move_diff_code.h:
+position/effects/piece_readdition.h:
 position/effects/piece_movement.h:
 position/effects/null_move.h:
 position/effects/walk_change.h:
 position/effects/flags_change.h:
 position/effects/king_square.h:
+position/effects/piece_removal.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
 stipulation/slice_structural_type.h:

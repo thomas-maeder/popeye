@@ -552,11 +552,11 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
  16  (Bc2-d3 )
  17  (Bc2-a4 )
  18  (Bc2-b3 )
-  add_to_move_generation_stack:      829853
-                     play_move:      913616
- is_white_king_square_attacked:       58844
- is_black_king_square_attacked:       58588
-                  TI decisions:     7430481
+  add_to_move_generation_stack:      839371
+                     play_move:      921168
+ is_white_king_square_attacked:       59810
+ is_black_king_square_attacked:       65800
+                  TI decisions:     7170354
 
 solution finished.
 
@@ -601,11 +601,11 @@ Popeye 4.89 didn't find this solution
  18:9:1:6:10:8  (Bg3-d6 )
  18:9:1:6:10:9  (Bg3-e5 )
  18:9:1:6:10:10  (Bg3-f4 )
-  add_to_move_generation_stack:         483
-                     play_move:         554
+  add_to_move_generation_stack:         480
+                     play_move:         517
  is_white_king_square_attacked:          30
- is_black_king_square_attacked:         177
-                  TI decisions:        7272
+ is_black_king_square_attacked:         170
+                  TI decisions:        7753
 
 solution finished.
 
@@ -641,11 +641,11 @@ Popeye 4.89 considered this move sequence a solution
  15:9:10:2:1  (TI~-~ )
  15:9:10:2:1:9  (Bb2-c3 )
  15:9:10:2:1:9:3  (0-0 )
-  add_to_move_generation_stack:          87
-                     play_move:          85
- is_white_king_square_attacked:           2
- is_black_king_square_attacked:           2
-                  TI decisions:         104
+  add_to_move_generation_stack:         527
+                     play_move:         569
+ is_white_king_square_attacked:          46
+ is_black_king_square_attacked:         354
+                  TI decisions:         143
 
 solution finished.
 
@@ -915,10 +915,10 @@ so far, Popeye hasn't found this solution
 
   1.TI~*c1 TI~*e4[e4=wS][c1=bK]   2.Kc1-d1 Qe3-d2 #
   add_to_move_generation_stack:       15246
-                     play_move:       25737
+                     play_move:       25739
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4665
-                  TI decisions:       68589
+ is_black_king_square_attacked:        4667
+                  TI decisions:       71919
 
 solution finished.
 

@@ -13,28 +13,12 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-static void backward_before_revelations(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);TraceEOL();
-
-  if (nbply==ply_retro_move)
-    forward_prevent_illegal_checks();
-  else
-    backward_undo_move_effects(top_before_revelations[nbply]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void place_dummy_on_line(Side side_in_check,
                                 square king_in_check_pos,
                                 vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                 unsigned int nr_check_vectors,
                                 boolean inserted_fleshed_out,
-                                forward_from_protect_king_type *forward_from_protect_king);
+                                done_protecting_king_type *done_protecting_king);
 
 static void place_dummy_of_side_on_square(Side side_in_check,
                                           square king_in_check_pos,
@@ -43,7 +27,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
                                           square s,
                                           Side side,
                                           boolean inserted_fleshed_out,
-                                          forward_from_protect_king_type *forward_from_protect_king)
+                                          done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -90,9 +74,9 @@ static void place_dummy_of_side_on_square(Side side_in_check,
             || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
         {
           if (nr_check_vectors==1)
-            backward_before_revelations();
+            (*done_protecting_king)(done_protecting_king_backward);
           else
-            place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,true,forward_from_protect_king);
+            place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,true,done_protecting_king);
         }
         else
           record_decision_outcome("%s","can't place king because of self-check by uninterceptable");
@@ -106,14 +90,9 @@ static void place_dummy_of_side_on_square(Side side_in_check,
       else
       {
         if (nr_check_vectors==1)
-        {
-          if (inserted_fleshed_out)
-            backward_before_revelations();
-          else
-            (*forward_from_protect_king)();
-        }
+          (*done_protecting_king)(done_protecting_king_backward);
         else
-          place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,inserted_fleshed_out,forward_from_protect_king);
+          place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,inserted_fleshed_out,done_protecting_king);
       }
 
       SETFLAG(being_solved.spec[s],advers(side));
@@ -123,7 +102,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
       current_consumption = save_consumption;
 
       if (side==White && can_decision_level_be_continued())
-        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,forward_from_protect_king);
+        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
 
       forget_taboo_on_square(s,side,nbply+1);
     }
@@ -137,13 +116,13 @@ static void place_dummy_of_side_on_square(Side side_in_check,
       current_consumption = save_consumption;
 
       if (side==White)
-        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,forward_from_protect_king);
+        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
 
       forget_taboo_on_square(s,side,nbply+1);
     }
   }
   else if (side==White)
-    place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,forward_from_protect_king);
+    place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -155,7 +134,7 @@ static void place_dummy_on_square(Side side_in_check,
                                   unsigned int nr_check_vectors,
                                   square s, numvec dir,
                                   boolean inserted_fleshed_out,
-                                  forward_from_protect_king_type *forward_from_protect_king)
+                                  done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -184,7 +163,7 @@ static void place_dummy_on_square(Side side_in_check,
 
     decision_levels[id_placed].walk = decision_level_forever;
 
-    place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,White,inserted_fleshed_out,forward_from_protect_king);
+    place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,White,inserted_fleshed_out,done_protecting_king);
 
     empty_square(s);
 
@@ -193,7 +172,7 @@ static void place_dummy_on_square(Side side_in_check,
     uninitialise_motivation(id_placed);
 
     if (can_decision_level_be_continued())
-      place_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s+dir,dir,inserted_fleshed_out,forward_from_protect_king);
+      place_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s+dir,dir,inserted_fleshed_out,done_protecting_king);
   }
 
   TraceFunctionExit(__func__);
@@ -205,7 +184,7 @@ static void place_dummy_on_line(Side side_in_check,
                                 vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                 unsigned int nr_check_vectors,
                                 boolean inserted_fleshed_out,
-                                forward_from_protect_king_type *forward_from_protect_king)
+                                done_protecting_king_type *done_protecting_king)
 {
   vec_index_type kcurr;
   numvec dir;
@@ -225,7 +204,7 @@ static void place_dummy_on_line(Side side_in_check,
   dir = vec[kcurr];
   save_counter = record_decision_counter;
 
-  place_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,king_in_check_pos+dir,dir,inserted_fleshed_out,forward_from_protect_king);
+  place_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,king_in_check_pos+dir,dir,inserted_fleshed_out,done_protecting_king);
 
   if (record_decision_counter==save_counter)
   {
@@ -249,7 +228,8 @@ static void place_dummy_on_line(Side side_in_check,
 static void place_non_dummy_on_line(Side side_in_check,
                                     square king_in_check_pos,
                                     vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                    unsigned int nr_check_vectors);
+                                    unsigned int nr_check_vectors,
+                                    done_protecting_king_type *done_protecting_king);
 
 static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
                                                       square king_in_check_pos,
@@ -258,7 +238,8 @@ static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
                                                       Side side,
                                                       square pos,
                                                       PieceIdType id_placed,
-                                                      piece_walk_type walk)
+                                                      piece_walk_type walk,
+                                                      done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -277,9 +258,9 @@ static void place_piece_of_any_walk_of_side_on_square(Side side_in_check,
   push_decision_walk(nbply+1,id_placed,walk,decision_purpose_illegal_check_interceptor,side);
 
   if (nr_check_vectors==1)
-    backward_before_revelations();
+    (*done_protecting_king)(done_protecting_king_backward);
   else
-    place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
+    place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,done_protecting_king);
 
   pop_decision();
 
@@ -302,7 +283,8 @@ static void place_pawn_of_side_on_square(Side side_in_check,
                                          unsigned int nr_check_vectors,
                                          Side side,
                                          square pos,
-                                         PieceIdType id_placed)
+                                         PieceIdType id_placed,
+                                         done_protecting_king_type *done_protecting_king)
 {
   SquareFlags const promsq = side==White ? WhPromSq : BlPromSq;
   SquareFlags const basesq = side==White ? WhBaseSq : BlBaseSq;
@@ -335,9 +317,9 @@ static void place_pawn_of_side_on_square(Side side_in_check,
       push_decision_walk(nbply+1,id_placed,Pawn,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
-        backward_before_revelations();
+        (*done_protecting_king)(done_protecting_king_backward);
       else
-        place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
+        place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,done_protecting_king);
 
       pop_decision();
 
@@ -360,7 +342,8 @@ static void place_king_of_side_on_square(Side side_in_check,
                                          unsigned int nr_check_vectors,
                                          Side side,
                                          square pos,
-                                         PieceIdType id_placed)
+                                         PieceIdType id_placed,
+                                         done_protecting_king_type *done_protecting_king)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
 
@@ -397,9 +380,9 @@ static void place_king_of_side_on_square(Side side_in_check,
       push_decision_walk(nbply+1,id_placed,King,decision_purpose_illegal_check_interceptor,side);
 
       if (nr_check_vectors==1)
-        backward_before_revelations();
+        (*done_protecting_king)(done_protecting_king_backward);
       else
-        place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
+        place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,done_protecting_king);
 
       pop_decision();
     }
@@ -428,7 +411,8 @@ static void place_knight_of_side_on_square(Side side_in_check,
                                            unsigned int nr_check_vectors,
                                            Side side,
                                            square pos,
-                                           PieceIdType id_placed)
+                                           PieceIdType id_placed,
+                                           done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -448,9 +432,9 @@ static void place_knight_of_side_on_square(Side side_in_check,
     push_decision_walk(nbply+1,id_placed,Knight,decision_purpose_illegal_check_interceptor,side);
 
     if (nr_check_vectors==1)
-      backward_before_revelations();
+      (*done_protecting_king)(done_protecting_king_backward);
     else
-      place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1);
+      place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,done_protecting_king);
 
     pop_decision();
   }
@@ -471,7 +455,8 @@ static void place_piece_of_side_on_square(Side side_in_check,
                                           unsigned int nr_check_vectors,
                                           Side side,
                                           square pos,
-                                          PieceIdType id_placed)
+                                          PieceIdType id_placed,
+                                          done_protecting_king_type *done_protecting_king)
 {
   unsigned long const save_counter = record_decision_counter;
 
@@ -488,7 +473,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
   TraceEOL();
 
   if (being_solved.king_square[side]==initsquare)
-    place_king_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed);
+    place_king_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,done_protecting_king);
 
   {
     dynamic_consumption_type const save_consumption = current_consumption;
@@ -509,7 +494,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
 
           boolean walk_ruled_out[Bishop+1] = { false };
 
-          place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Queen);
+          place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Queen,done_protecting_king);
 
           if (has_decision_failed_capture())
           {
@@ -517,7 +502,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
             walk_ruled_out[Bishop] = true;
           }
           else if (can_decision_level_be_continued())
-            place_pawn_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed);
+            place_pawn_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,done_protecting_king);
 
           {
             unsigned int i;
@@ -527,7 +512,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
             {
               piece_walk_type const walk = walk_order_after_pawn[i];
               if (!walk_ruled_out[walk])
-                place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,walk);
+                place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,walk,done_protecting_king);
             }
           }
         }
@@ -538,10 +523,10 @@ static void place_piece_of_side_on_square(Side side_in_check,
          * intercepting it with a queen or bishop won't help */
 
         if (can_decision_level_be_continued())
-          place_pawn_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed);
+          place_pawn_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,done_protecting_king);
 
         if (can_decision_level_be_continued())
-          place_knight_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed);
+          place_knight_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,done_protecting_king);
 
         if (can_decision_level_be_continued())
         {
@@ -549,9 +534,9 @@ static void place_piece_of_side_on_square(Side side_in_check,
           boolean const is_check_orthogonal = k<=vec_rook_end;
 
           if (is_check_orthogonal)
-            place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Bishop);
+            place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Bishop,done_protecting_king);
           else
-            place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Rook);
+            place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Rook,done_protecting_king);
         }
       }
     }
@@ -577,7 +562,8 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
                                               unsigned int nr_check_vectors,
                                               square s,
                                               Side side,
-                                              PieceIdType id_placed)
+                                              PieceIdType id_placed,
+                                              done_protecting_king_type *done_protecting_king)
 {
   Side const preferred_side = side_in_check;
 
@@ -599,18 +585,18 @@ static void place_non_dummy_of_side_on_square(Side side_in_check,
     push_decision_side(nbply+1,id_placed,side,decision_purpose_illegal_check_interceptor);
 
     CLRFLAG(being_solved.spec[s],advers(side));
-    place_piece_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,s,id_placed);
+    place_piece_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,s,id_placed,done_protecting_king);
     SETFLAG(being_solved.spec[s],advers(side));
 
     pop_decision();
 
     if (side==preferred_side && can_decision_level_be_continued())
-      place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
+      place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed,done_protecting_king);
 
     forget_taboo_on_square(s,side,nbply+1);
   }
   else if (side==preferred_side)
-    place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed);
+    place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,advers(preferred_side),id_placed,done_protecting_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -620,7 +606,8 @@ static void place_non_dummy_on_square(Side side_in_check,
                                       square king_in_check_pos,
                                       vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
                                       unsigned int nr_check_vectors,
-                                      square s, numvec dir)
+                                      square s, numvec dir,
+                                      done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -645,7 +632,7 @@ static void place_non_dummy_on_square(Side side_in_check,
     SetPieceId(spec,id_placed);
     occupy_square(s,Dummy,spec);
 
-    place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,preferred_side,id_placed);
+    place_non_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,preferred_side,id_placed,done_protecting_king);
 
     empty_square(s);
 
@@ -654,7 +641,7 @@ static void place_non_dummy_on_square(Side side_in_check,
     uninitialise_motivation(id_placed);
 
     if (can_decision_level_be_continued())
-      place_non_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s+dir,dir);
+      place_non_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s+dir,dir,done_protecting_king);
   }
 
   TraceFunctionExit(__func__);
@@ -664,7 +651,8 @@ static void place_non_dummy_on_square(Side side_in_check,
 static void place_non_dummy_on_line(Side side_in_check,
                                     square king_in_check_pos,
                                     vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
-                                    unsigned int nr_check_vectors)
+                                    unsigned int nr_check_vectors,
+                                    done_protecting_king_type *done_protecting_king)
 {
   vec_index_type kcurr;
   numvec dir;
@@ -682,7 +670,7 @@ static void place_non_dummy_on_line(Side side_in_check,
   dir = vec[kcurr];
   save_counter = record_decision_counter;
 
-  place_non_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,king_in_check_pos+dir,dir);
+  place_non_dummy_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,king_in_check_pos+dir,dir,done_protecting_king);
 
   if (record_decision_counter==save_counter)
   {
@@ -758,7 +746,7 @@ static void collect_illegal_checks_by_interceptable(Side side_in_check,
 
 static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
                                                        square king_in_check_pos,
-                                                       forward_from_protect_king_type *forward_from_protect_king)
+                                                       done_protecting_king_type *done_protecting_king)
 {
   unsigned int const nr_available = nr_placeable_invisibles_for_both_sides();
   vec_index_type check_vectors[vec_queen_end-vec_queen_start+1];
@@ -785,13 +773,13 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
   TraceEOL();
 
   if (nr_check_vectors==0)
-    (*forward_from_protect_king)();
+    (*done_protecting_king)(done_protecting_king_forward);
   else if (nr_available>=nr_check_vectors)
   {
     if (play_phase==play_validating_mate)
-      place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,false,forward_from_protect_king);
+      place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,false,done_protecting_king);
     else
-      place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors);
+      place_non_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,done_protecting_king);
   }
   else
   {
@@ -807,7 +795,8 @@ static void deal_with_illegal_checks_by_interceptables(Side side_in_check,
 
 static void deal_with_illegal_check_by_uninterceptable(Side side_in_check,
                                                        square king_in_check_pos,
-                                                       vec_index_type k)
+                                                       vec_index_type k,
+                                                       done_protecting_king_type *done_protecting_king)
 {
   numvec const dir_check = vec[k];
   Flags checkerSpec;
@@ -952,7 +941,7 @@ HERE
       backtrack_no_further_than(check_by_uninterceptable_delivered_in_level);
     }
     else
-      backward_before_revelations();
+      (*done_protecting_king)(done_protecting_king_backward);
 
     check_by_uninterceptable_delivered_in_level = decision_level_uninitialised;
 
@@ -972,7 +961,7 @@ HERE
 
 void forward_protect_king(Side side_in_check,
                           square king_in_check_pos,
-                          forward_from_protect_king_type *forward_from_protect_king)
+                          done_protecting_king_type *done_protecting_king)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -980,15 +969,15 @@ void forward_protect_king(Side side_in_check,
   TraceFunctionParamListEnd();
 
   if (king_in_check_pos==initsquare)
-    (*forward_from_protect_king)();
+    (*done_protecting_king)(done_protecting_king_forward);
   else
   {
     vec_index_type const k = is_square_attacked_by_uninterceptable(side_in_check,king_in_check_pos);
 
     if (k!=0)
-      deal_with_illegal_check_by_uninterceptable(side_in_check,king_in_check_pos,k);
+      deal_with_illegal_check_by_uninterceptable(side_in_check,king_in_check_pos,k,done_protecting_king);
     else
-      deal_with_illegal_checks_by_interceptables(side_in_check,king_in_check_pos,forward_from_protect_king);
+      deal_with_illegal_checks_by_interceptables(side_in_check,king_in_check_pos,done_protecting_king);
   }
 
   TraceFunctionExit(__func__);

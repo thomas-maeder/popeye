@@ -2,20 +2,9 @@
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/taboo.h"
-#include "pieces/attributes/total_invisible/random_move_by_invisible.h"
-#include "pieces/attributes/total_invisible/capture_by_invisible.h"
-#include "pieces/walks/pawns/en_passant.h"
-#include "position/effects/piece_removal.h"
-#include "position/effects/piece_movement.h"
-#include "position/effects/walk_change.h"
-#include "position/effects/king_square.h"
 #include "solving/pipe.h"
-#include "solving/castling.h"
-#include "solving/has_solution_type.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
-
-#include <string.h>
 
 boolean revelation_status_is_uninitialised;
 unsigned int nr_potential_revelations;
@@ -148,7 +137,7 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void reveal_new(move_effect_journal_entry_type *entry)
+void reveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -185,7 +174,7 @@ static void reveal_new(move_effect_journal_entry_type *entry)
   TraceFunctionResultEnd();
 }
 
-static void unreveal_new(move_effect_journal_entry_type *entry)
+void unreveal_new(move_effect_journal_entry_type *entry)
 {
   square const on = entry->u.piece_addition.added.on;
   piece_walk_type const walk = entry->u.piece_addition.added.walk;
@@ -1203,109 +1192,9 @@ void do_revelation_bookkeeping(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-
 }
 
-void backward_undo_move_effects(move_effect_journal_index_type curr)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",move_effect_journal_base[nbply+1]);
-  TraceValue("%u",top_before_revelations[nbply]);
-  TraceEOL();
-
-  if (curr==move_effect_journal_base[nbply])
-  {
-    if (is_random_move_by_invisible(nbply))
-      backward_fleshout_random_move_by_invisible();
-    else
-      backward_previous_move();
-  }
-  else
-  {
-    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
-
-    TraceValue("%u",entry->type);TraceEOL();
-    switch (entry->type)
-    {
-      case move_effect_none:
-      case move_effect_no_piece_removal:
-        backward_undo_move_effects(curr-1);
-        break;
-
-      case move_effect_piece_removal:
-        undo_piece_removal(entry);
-        backward_undo_move_effects(curr-1);
-        redo_piece_removal(entry);
-        break;
-
-      case move_effect_piece_movement:
-        /* we may have added an interceptor on the square evacuated here, but failed to move
-         * it to our departure square in a random move
-         */
-        if (is_square_empty(entry->u.piece_movement.from))
-        {
-          undo_piece_movement(entry);
-          backward_undo_move_effects(curr-1);
-          redo_piece_movement(entry);
-        }
-        else
-          record_decision_outcome("%s","an invisible was added on our departure square and not removed while retracting");
-        break;
-
-      case move_effect_walk_change:
-        undo_walk_change(entry);
-        backward_undo_move_effects(curr-1);
-        redo_walk_change(entry);
-        break;
-
-      case move_effect_king_square_movement:
-        undo_king_square_movement(entry);
-        backward_undo_move_effects(curr-1);
-        redo_king_square_movement(entry);
-        break;
-
-      case move_effect_disable_castling_right:
-        move_effect_journal_undo_disabling_castling_right(entry);
-        backward_undo_move_effects(curr-1);
-        move_effect_journal_redo_disabling_castling_right(entry);
-        break;
-
-      case move_effect_remember_ep_capture_potential:
-        move_effect_journal_undo_remember_ep(entry);
-        backward_undo_move_effects(curr-1);
-        move_effect_journal_redo_remember_ep(entry);
-        break;
-
-      case move_effect_revelation_of_new_invisible:
-        unreveal_new(entry);
-        backward_undo_move_effects(curr-1);
-        reveal_new(entry);
-        break;
-
-      case move_effect_revelation_of_placed_invisible:
-        undo_revelation_of_placed_invisible(entry);
-        backward_undo_move_effects(curr-1);
-        redo_revelation_of_placed_invisible(entry);
-        break;
-
-      case move_effect_enable_castling_right:
-        backward_undo_move_effects(curr-1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void test_and_execute_revelations_recursive(move_effect_journal_index_type curr)
+static void forward_test_and_execute_revelations_recursive(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -1328,9 +1217,16 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
         piece_walk_type const walk_on_board = get_walk_of_piece_on_square(revealed_on);
         Flags const spec_on_board = being_solved.spec[revealed_on];
 
+        TraceSquare(revealed_on);TraceEOL();
+
         if (is_square_empty(revealed_on))
         {
-//          assert(0);
+          /* This can happen because we don't flesh out all invisibles while
+           * validating a mate. We make use from the knowledge gained when
+           * detecting revelations to prune paths that we know won't lead
+           * anywhere.
+           */
+          assert(play_phase==play_validating_mate);
           TraceText("revelation expected, but square is empty - aborting\n");
           record_decision_outcome("%s","revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
@@ -1366,7 +1262,7 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
             reveal_new(entry);
             motivation[id_on_board].last.purpose = purpose_none;
             motivation[id_revealed].last.purpose = purpose_none;
-            test_and_execute_revelations_recursive(curr+1);
+            forward_test_and_execute_revelations_recursive(curr+1);
             motivation[id_revealed].last.purpose = purpose_revealed;
             motivation[id_on_board].last.purpose = purpose_on_board;
             unreveal_new(entry);
@@ -1403,7 +1299,7 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
           motivation[id_on_board].last.purpose = purpose_none;
           motivation[id_revealed].last.purpose = purpose_none;
 
-          test_and_execute_revelations_recursive(curr+1);
+          forward_test_and_execute_revelations_recursive(curr+1);
 
           motivation[id_revealed].last.purpose = purpose_revealed;
           motivation[id_on_board].last.purpose = purpose_on_board;
@@ -1462,11 +1358,11 @@ static void test_and_execute_revelations_recursive(move_effect_journal_index_typ
             /* the following distinction isn't strictly necessary, but it clarifies nicely
              * that the two ids may be, but aren't necessarily equal */
             if (id_revealed==id_original)
-              test_and_execute_revelations_recursive(curr+1);
+              forward_test_and_execute_revelations_recursive(curr+1);
             else
             {
               motivation[id_original].last.purpose = purpose_none;
-              test_and_execute_revelations_recursive(curr+1);
+              forward_test_and_execute_revelations_recursive(curr+1);
               motivation[id_original].last.purpose = purpose_original;
             }
 
@@ -1501,10 +1397,7 @@ void forward_test_and_execute_revelations(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply==ply_retro_move)
-    forward_conclude_move_just_played();
-  else
-    test_and_execute_revelations_recursive(top_before_revelations[nbply]);
+  forward_test_and_execute_revelations_recursive(top_before_revelations[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

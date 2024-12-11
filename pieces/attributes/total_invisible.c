@@ -1,5 +1,6 @@
 #include "pieces/attributes/total_invisible.h"
 #include "pieces/walks/classification.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "position/move_diff_code.h"
 #include "position/effects/piece_readdition.h"
@@ -8,6 +9,7 @@
 #include "position/effects/walk_change.h"
 #include "position/effects/flags_change.h"
 #include "position/effects/king_square.h"
+#include "position/effects/piece_removal.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -80,6 +82,105 @@ void total_invisible_write_flesh_out_history(void)
   }
 }
 
+static void backward_undo_move_effects(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",move_effect_journal_base[nbply+1]);
+  TraceValue("%u",top_before_revelations[nbply]);
+  TraceEOL();
+
+  if (curr==move_effect_journal_base[nbply])
+  {
+    if (is_random_move_by_invisible(nbply))
+      backward_fleshout_random_move_by_invisible();
+    else
+      backward_previous_move();
+  }
+  else
+  {
+    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
+
+    TraceValue("%u",entry->type);TraceEOL();
+    switch (entry->type)
+    {
+      case move_effect_none:
+      case move_effect_no_piece_removal:
+        backward_undo_move_effects(curr-1);
+        break;
+
+      case move_effect_piece_removal:
+        undo_piece_removal(entry);
+        backward_undo_move_effects(curr-1);
+        redo_piece_removal(entry);
+        break;
+
+      case move_effect_piece_movement:
+        /* we may have added an interceptor on the square evacuated here, but failed to move
+         * it to our departure square in a random move
+         */
+        if (is_square_empty(entry->u.piece_movement.from))
+        {
+          undo_piece_movement(entry);
+          backward_undo_move_effects(curr-1);
+          redo_piece_movement(entry);
+        }
+        else
+          record_decision_outcome("%s","an invisible was added on our departure square and not removed while retracting");
+        break;
+
+      case move_effect_walk_change:
+        undo_walk_change(entry);
+        backward_undo_move_effects(curr-1);
+        redo_walk_change(entry);
+        break;
+
+      case move_effect_king_square_movement:
+        undo_king_square_movement(entry);
+        backward_undo_move_effects(curr-1);
+        redo_king_square_movement(entry);
+        break;
+
+      case move_effect_disable_castling_right:
+        move_effect_journal_undo_disabling_castling_right(entry);
+        backward_undo_move_effects(curr-1);
+        move_effect_journal_redo_disabling_castling_right(entry);
+        break;
+
+      case move_effect_remember_ep_capture_potential:
+        move_effect_journal_undo_remember_ep(entry);
+        backward_undo_move_effects(curr-1);
+        move_effect_journal_redo_remember_ep(entry);
+        break;
+
+      case move_effect_revelation_of_new_invisible:
+        unreveal_new(entry);
+        backward_undo_move_effects(curr-1);
+        reveal_new(entry);
+        break;
+
+      case move_effect_revelation_of_placed_invisible:
+        undo_revelation_of_placed_invisible(entry);
+        backward_undo_move_effects(curr-1);
+        redo_revelation_of_placed_invisible(entry);
+        break;
+
+      case move_effect_enable_castling_right:
+        backward_undo_move_effects(curr-1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void backward_previous_move(void)
 {
   TraceFunctionEntry(__func__);
@@ -145,33 +246,49 @@ void forward_recurse_into_child_ply(void)
   TraceFunctionResultEnd();
 }
 
-static void forward_resume_after_protecting_castling_king(void)
+static void done_protecting_castling_king_on_intermediate_square(done_protecting_king_direction direction)
 {
   TraceFunctionEntry(__func__);
+  TraceValue("%u",direction);
   TraceFunctionParamListEnd();
 
   ++nbply;
-  forward_recurse_into_child_ply();
+
+  if (direction==done_protecting_king_forward)
+    forward_recurse_into_child_ply();
+  else
+    backward_undo_move_effects(move_effect_journal_base[nbply]);
+
   --nbply;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void forward_protect_castling_king_on_intermediate_square(void)
+static void done_protecting_castling_king_on_home_square(done_protecting_king_direction direction)
 {
-  Side const side_castling = trait[nbply+1];
-  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
-  square const from = move_effect_journal[movement].u.piece_movement.from;
-  square const to = move_effect_journal[movement].u.piece_movement.to;
-  square const intermediate_square = (from+to)/2;
-
   TraceFunctionEntry(__func__);
+  TraceValue("%u",direction);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
-  forward_protect_king(side_castling,intermediate_square,&forward_resume_after_protecting_castling_king);
+  if (direction==done_protecting_king_forward)
+  {
+    Side const side_castling = trait[nbply+1];
+    move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply+1];
+    move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+    square const from = move_effect_journal[movement].u.piece_movement.from;
+    square const to = move_effect_journal[movement].u.piece_movement.to;
+    square const intermediate_square = (from+to)/2;
+
+    assert(move_effect_journal[movement].reason==move_effect_reason_castling_king_movement);
+    forward_protect_king(side_castling,intermediate_square,&done_protecting_castling_king_on_intermediate_square);
+  }
+  else
+  {
+    ++nbply;
+    backward_undo_move_effects(move_effect_journal_base[nbply]);
+    --nbply;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -197,7 +314,7 @@ static void forward_adapt_capture_effect_no_capture_planned(void)
       square const king_pos = being_solved.king_square[side_castling];
 
       --nbply;
-      forward_protect_king(side_castling,king_pos,&forward_protect_castling_king_on_intermediate_square);
+      forward_protect_king(side_castling,king_pos,&done_protecting_castling_king_on_home_square);
       ++nbply;
     }
     else
@@ -538,6 +655,33 @@ void forward_conclude_move_just_played(void)
   TraceFunctionResultEnd();
 }
 
+static void done_preventing_illegal_checks(done_protecting_king_direction direction)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",direction);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",nbply);TraceEOL();
+
+  if (direction==done_protecting_king_forward)
+  {
+    if (nbply==ply_retro_move)
+      forward_conclude_move_just_played();
+    else
+      forward_test_and_execute_revelations();
+  }
+  else
+  {
+    if (nbply==ply_retro_move)
+      forward_prevent_illegal_checks();
+    else
+      backward_undo_move_effects(top_before_revelations[nbply]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void forward_prevent_illegal_checks(void)
 {
   Side const side_just_moved = trait[nbply];
@@ -546,7 +690,7 @@ void forward_prevent_illegal_checks(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  forward_protect_king(side_just_moved,king_pos,&forward_test_and_execute_revelations);
+  forward_protect_king(side_just_moved,king_pos,&done_preventing_illegal_checks);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

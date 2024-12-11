@@ -4,10 +4,16 @@
 #include "position/side.h"
 #include "position/board.h"
 
-typedef void (forward_from_protect_king_type)(void);
+typedef enum
+{
+  done_protecting_king_forward,
+  done_protecting_king_backward
+} done_protecting_king_direction;
+
+typedef void (done_protecting_king_type)(done_protecting_king_direction direction);
 
 void forward_protect_king(Side side_in_check,
                           square king_pos,
-                          forward_from_protect_king_type *forward_from_protect_king);
+                          done_protecting_king_type *done_protecting_king);
 
 #endif
