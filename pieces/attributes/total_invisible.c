@@ -1147,13 +1147,7 @@ void total_invisible_instrumenter_solve(slice_index si)
     slice_insertion_insert(si,&prototype,1);
   }
 
-  current_consumption.is_king_unplaced[White] = being_solved.king_square[White]==initsquare;
-  current_consumption.is_king_unplaced[Black] = being_solved.king_square[Black]==initsquare;
-
   pipe_solve_delegate(si);
-
-  current_consumption.is_king_unplaced[White] = false;
-  current_consumption.is_king_unplaced[Black] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

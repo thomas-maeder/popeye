@@ -17,7 +17,6 @@ typedef struct
     unsigned int fleshed_out[nr_sides];
     unsigned int placed[nr_sides];
     boolean claimed[nr_sides];
-    boolean is_king_unplaced[nr_sides];
 } dynamic_consumption_type;
 
 void TraceConsumption(void);

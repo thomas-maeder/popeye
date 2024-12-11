@@ -130,7 +130,6 @@ static void do_revelation_of_new_invisible(move_effect_reason_type reason,
   {
     Side const side = TSTFLAG(spec,White) ? White : Black;
     being_solved.king_square[side] = on;
-    current_consumption.is_king_unplaced[side] = false;
   }
 
   TraceFunctionExit(__func__);
@@ -164,7 +163,6 @@ void reveal_new(move_effect_journal_entry_type *entry)
   {
     TraceSquare(being_solved.king_square[side_revealed]);
     being_solved.king_square[side_revealed] = on;
-    current_consumption.is_king_unplaced[side_revealed] = false;
   }
 
   TraceValue("%x",being_solved.spec[on]);TraceEOL();
@@ -189,10 +187,7 @@ void unreveal_new(move_effect_journal_entry_type *entry)
 
   TraceText("substituting dummy for revealed piece\n");
   if (TSTFLAG(being_solved.spec[on],Royal) && walk==King)
-  {
     being_solved.king_square[side_revealed] = initsquare;
-    current_consumption.is_king_unplaced[side_revealed] = true;
-  }
 
   entry->u.piece_addition.added.flags = being_solved.spec[on];
   being_solved.spec[on] = spec;
@@ -240,7 +235,6 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = initsquare;
-        current_consumption.is_king_unplaced[side] = true;
       }
       break;
 
@@ -302,7 +296,6 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
       {
         Side const side = TSTFLAG(spec,White) ? White : Black;
         being_solved.king_square[side] = on;
-        current_consumption.is_king_unplaced[side] = false;
       }
       assert(!TSTFLAG(being_solved.spec[on],Chameleon));
       break;
@@ -500,7 +493,6 @@ static void do_revelation_of_placed_invisible(move_effect_reason_type reason,
   {
     Side const side = TSTFLAG(spec,White) ? White : Black;
     being_solved.king_square[side] = on;
-    current_consumption.is_king_unplaced[side] = false;
   }
 
   replace_walk(on,walk);
@@ -661,7 +653,6 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       {
         Side const side = TSTFLAG(flags_revealed,White) ? White : Black;
         being_solved.king_square[side] = initsquare;
-        current_consumption.is_king_unplaced[side] = true;
       }
 
       replace_walk(on,walk_original);
@@ -703,7 +694,6 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
         assert(being_solved.king_square[side]==on);
         assert(TSTFLAG(flags_revealed,Royal));
         being_solved.king_square[side] = initsquare;
-        current_consumption.is_king_unplaced[side] = true;
         CLRFLAG(being_solved.spec[on],Royal);
       }
       break;
@@ -763,7 +753,6 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       {
         Side const side = TSTFLAG(flags_revealed,White) ? White : Black;
         being_solved.king_square[side] = on;
-        current_consumption.is_king_unplaced[side] = false;
       }
 
       replace_walk(on,walk_revealed);
@@ -812,7 +801,6 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
       {
         assert(being_solved.king_square[side_revealed]==initsquare);
         being_solved.king_square[side_revealed] = on;
-        current_consumption.is_king_unplaced[side_revealed] = false;
       }
       break;
     }

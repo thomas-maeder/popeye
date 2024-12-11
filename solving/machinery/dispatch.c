@@ -385,9 +385,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);
@@ -2637,9 +2637,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);

@@ -144,8 +144,6 @@ static void nominate_king_invisible_by_invisible(void)
 
     TraceText("Try to make one of the placed invisibles the king to be mated\n");
 
-    current_consumption.is_king_unplaced[side_to_be_mated] = false;
-
     for (s = boardnum; *s && can_decision_level_be_continued(); ++s)
       if (get_walk_of_piece_on_square(*s)==Dummy
           && TSTFLAG(being_solved.spec[*s],side_to_be_mated))
@@ -169,7 +167,6 @@ static void nominate_king_invisible_by_invisible(void)
         being_solved.spec[*s] = save_flags;
       }
 
-    current_consumption.is_king_unplaced[side_to_be_mated] = true;
     being_solved.king_square[side_to_be_mated] = initsquare;
   }
 
