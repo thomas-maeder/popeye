@@ -20,6 +20,27 @@ static void place_dummy_on_line(Side side_in_check,
                                 boolean inserted_fleshed_out,
                                 done_protecting_king_type *done_protecting_king);
 
+static void placed_dummy_of_side_on_square(Side side_in_check,
+                                           square king_in_check_pos,
+                                           vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
+                                           unsigned int nr_check_vectors,
+                                           done_protecting_king_type *done_protecting_king)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check);
+  TraceSquare(king_in_check_pos);
+  TraceFunctionParam("%u",nr_check_vectors);
+  TraceFunctionParamListEnd();
+
+  if (nr_check_vectors==1)
+    (*done_protecting_king)(done_protecting_king_backward);
+  else
+    place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,true,done_protecting_king);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void place_dummy_of_side_on_square(Side side_in_check,
                                           square king_in_check_pos,
                                           vec_index_type const check_vectors[vec_queen_end-vec_queen_start+1],
@@ -71,12 +92,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
         if (side!=trait[nbply+1]
             || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
-        {
-          if (nr_check_vectors==1)
-            (*done_protecting_king)(done_protecting_king_backward);
-          else
-            place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,true,done_protecting_king);
-        }
+          placed_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,done_protecting_king);
         else
           record_decision_outcome("%s","can't place king because of self-check by uninterceptable");
 
@@ -86,12 +102,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
         being_solved.king_square[side] = initsquare;
       }
       else
-      {
-        if (nr_check_vectors==1)
-          (*done_protecting_king)(done_protecting_king_backward);
-        else
-          place_dummy_on_line(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors-1,inserted_fleshed_out,done_protecting_king);
-      }
+        placed_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,done_protecting_king);
 
       SETFLAG(being_solved.spec[s],advers(side));
 

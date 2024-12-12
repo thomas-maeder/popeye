@@ -105,14 +105,6 @@ HERE
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
-//    else if (walk_capturing==King
-//             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
-//    {
-//      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
-// WRONG - such a check is legal if it has just been delivered!
-// TODO can we detect checks that have not just been delivered? should we?
-//      REPORT_DEADEND;
-//    }
     else
     {
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -121,11 +113,10 @@ HERE
 
       assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-      /* adding the total invisible in the pre-capture effect sounds tempting, but
-       * we have to make sure that there was no illegal check from it before this
-       * move!
+      /* we have to make sure that there was no illegal check from the inserted
+       * piece before this move!
        * NB: this works with illegal checks both from the inserted piece and to
-       * the inserted king (afert we restart_from_scratch()).
+       * the inserted king (after we backward_previous_move()).
        */
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
@@ -1267,10 +1258,6 @@ static unsigned int capture_by_inserted_invisible(void)
 
     current_consumption = save_consumption;
 
-    TraceEnumerator(Side,trait[nbply]);
-    TraceSquare(being_solved.king_square[trait[nbply]]);
-    TraceValue("%u",current_consumption.is_king_unplaced[trait[nbply]]);
-    TraceEOL();
     if (being_solved.king_square[trait[nbply]]==initsquare)
     {
       if (insert_capturing_king(trait[nbply]))

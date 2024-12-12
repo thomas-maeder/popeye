@@ -15,8 +15,6 @@ void TraceConsumption(void)
   TraceValue("%u\n",current_consumption.placed[Black]);
   TraceValue("%u\n",current_consumption.claimed[White]);
   TraceValue("%u\n",current_consumption.claimed[Black]);
-  TraceValue("%u\n",current_consumption.is_king_unplaced[White]);
-  TraceValue("%u\n",current_consumption.is_king_unplaced[Black]);
   TraceValue("%u\n",static_consumption.pawn_victims[White]);
   TraceValue("%u\n",static_consumption.pawn_victims[Black]);
   TraceValue("%u\n",static_consumption.king[White]);
