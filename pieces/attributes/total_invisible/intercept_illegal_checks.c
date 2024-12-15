@@ -945,8 +945,14 @@ HERE
     if (nbply==ply_retro_move)
     {
       REPORT_DEADEND;
-      backtrack_definitively();
+      /*backtrack_definitively();
       backtrack_no_further_than(check_by_uninterceptable_delivered_in_level);
+      this optimization doesn't work, e.g. in
+      pieces white ke1 sd2 black qh7 total 3
+      stip h#3
+      option movenum start 13:11:13:1:11:3 upto 13:11:13:1:11:3
+      1.Qh7-h4 Sd2-f3   2.Qh4-b4 TI~-~   3.Qb4-b1 0-0[d2=wR][c1=bK] #
+      */
     }
     else
       (*done_protecting_king)(done_protecting_king_backward);
