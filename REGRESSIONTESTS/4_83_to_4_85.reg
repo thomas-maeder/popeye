@@ -176,7 +176,7 @@ a)
                      play_move:    17945954
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:     4071087
-                  TI decisions:    29246434
+                  TI decisions:    29247351
 
 b) bKh3-->f3  
 
@@ -185,7 +185,7 @@ b) bKh3-->f3
                      play_move:    17153670
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:     3816346
-                  TI decisions:    26832185
+                  TI decisions:    26914571
 
 solution finished.
 

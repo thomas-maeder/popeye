@@ -90,7 +90,7 @@ static void place_dummy_of_side_on_square(Side side_in_check,
         ++being_solved.number_of_pieces[side][King];
         SETFLAG(being_solved.spec[s],Royal);
 
-        if (side!=trait[nbply+1]
+        if (side!=trait[nbply]
             || is_square_uninterceptably_observed_ortho(advers(side),s)==0)
           placed_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,done_protecting_king);
         else

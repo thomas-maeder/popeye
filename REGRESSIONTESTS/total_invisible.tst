@@ -244,7 +244,7 @@ capture by invisible pawn results in promotion
                      play_move:      576910
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      146488
-                  TI decisions:      688312
+                  TI decisions:      694769
 
 solution finished.
 
@@ -279,6 +279,50 @@ random move by invisible pawn results in promotion
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2185
                   TI decisions:       16577
+
+solution finished.
+
+
+
+the mate wasn't recognized for a long time because of a silly bug
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   Q   .  -Q   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 1 + 3 TI
+
+ 16  (Qg4-f4 )
+ 16:4  (0-0 )
+ 16:4:10  (Qf4-g5 )
+ 16:4:10:7  (Rf1-e1 )
+ 16:4:10:8  (Rf1-f8 )
+ 16:4:10:9  (Rf1-f7 )
+ 16:4:10:10  (Rf1-f6 )
+ 16:4:10:11  (Rf1-f5 )
+ 16:4:10:12  (Rf1-f4 )
+ 16:4:10:13  (Rf1-f3 )
+  1.Qg4-f4 0-0   2.Qf4-g5 Rf1-f3[g3=bK] #
+  add_to_move_generation_stack:         230
+                     play_move:         223
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          88
+                  TI decisions:         106
 
 solution finished.
 
