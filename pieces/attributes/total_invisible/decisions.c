@@ -1478,8 +1478,17 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           }
           else
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
+            /*
+              begin
+              pieces white ke1 ba7 black qa8 total 3
+              stip h#2.5
+              option movenum start 16:6:1:6:3 upto 16:6:1:6:3
+              end
+              The solution:
+              1...Ba7-b8   2.Qa8-e4 TI~-~   3.Qe4-h1 0-0-0[e2=wR][g1=bK] #
+              wouldn't be found if we stopped the iteration here.
+             */
           }
           break;
 

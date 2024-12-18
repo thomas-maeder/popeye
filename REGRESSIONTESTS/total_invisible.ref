@@ -173,7 +173,7 @@ Sake tourney 2018, 1st prize, b) cooked
                      play_move:     2820622
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      705838
-                  TI decisions:     3676873
+                  TI decisions:     3677656
 
 solution finished.
 
@@ -210,7 +210,7 @@ a)
                      play_move:     2467830
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      603696
-                  TI decisions:     3467395
+                  TI decisions:     3467700
 
 b) 
 
@@ -219,7 +219,7 @@ b)
                      play_move:     2508172
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      612618
-                  TI decisions:     2195603
+                  TI decisions:     2196202
 
 solution finished.
 
@@ -303,7 +303,7 @@ a)
                      play_move:     1152332
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      244627
-                  TI decisions:     2069753
+                  TI decisions:     2072995
 
 b) wPg6-->d4  
 
@@ -313,7 +313,7 @@ b) wPg6-->d4
                      play_move:     1056386
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      223697
-                  TI decisions:     1783924
+                  TI decisions:     1787202
 
 solution finished.
 
@@ -350,7 +350,7 @@ a)
                      play_move:      840094
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      177860
-                  TI decisions:     1339301
+                  TI decisions:     1339644
 
 b) wPg6-->d4  
 
@@ -359,7 +359,7 @@ b) wPg6-->d4
                      play_move:      759120
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      160359
-                  TI decisions:     1171640
+                  TI decisions:     1172212
 
 solution finished.
 
@@ -404,7 +404,7 @@ Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not 
                      play_move:     4020459
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1132379
-                  TI decisions:   162558250
+                  TI decisions:   162586213
 
 solution finished.
 
@@ -449,7 +449,7 @@ solution finished.
                      play_move:     5560892
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1201203
-                  TI decisions:     5695270
+                  TI decisions:     5697300
 
 solution finished.
 
@@ -528,7 +528,7 @@ Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
                      play_move:     7875563
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1693008
-                  TI decisions:   297986732
+                  TI decisions:   298026040
 
 solution finished.
 
@@ -564,7 +564,7 @@ Sake tourney 2018, 3rd HM, corrected
                      play_move:     5832124
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      961023
-                  TI decisions:   211685506
+                  TI decisions:   211689606
 
 solution finished.
 
@@ -600,7 +600,7 @@ solution finished.
                      play_move:     6441074
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1704294
-                  TI decisions:     4724845
+                  TI decisions:     4725651
 
 solution finished.
 
@@ -931,7 +931,7 @@ solution finished.
                      play_move:      183909
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       40839
-                  TI decisions:     1228250
+                  TI decisions:     1228288
 
 solution finished.
 
@@ -1042,11 +1042,11 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
   1...0-0-0   2.[+wTIg3]f4*g3 nQh1-g1   3.nQg1-c5 Rd1-d4 #
   1...nQh1-g1   2.nQg1-c5 0-0-0   3.[+wTIg3]f4*g3 Rd1-d4 #
   1...nQh1-g1   2.[+wTIg3]f4*g3 0-0-0   3.nQg1-c5 Rd1-d4 #
-  add_to_move_generation_stack:    12835986
-                     play_move:    25294011
+  add_to_move_generation_stack:    12836027
+                     play_move:    25294079
  is_white_king_square_attacked:     1336122
- is_black_king_square_attacked:     5244355
-                  TI decisions:   112816829
+ is_black_king_square_attacked:     5244379
+                  TI decisions:   113089028
 
 solution finished.
 
@@ -1083,7 +1083,7 @@ a)
                      play_move:     4608094
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1031718
-                  TI decisions:   165954450
+                  TI decisions:   165961408
 
 b) wKa4-->h6  
 
@@ -1092,7 +1092,7 @@ b) wKa4-->h6
                      play_move:     3871709
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      854789
-                  TI decisions:   170014914
+                  TI decisions:   170015392
 
 solution finished.
 
@@ -1131,7 +1131,7 @@ a)
                      play_move:     4350846
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1847375
-                  TI decisions:   391532300
+                  TI decisions:   391532808
 
 b) wKh2-->f8  
 
@@ -1145,7 +1145,7 @@ b) wKh2-->f8
                      play_move:     8041469
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     4697090
-                  TI decisions:   412009960
+                  TI decisions:   412011681
 
 solution finished.
 
