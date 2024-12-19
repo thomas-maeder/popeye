@@ -377,7 +377,12 @@ static void place_king_of_side_on_square(Side side_in_check,
     assert(get_walk_of_piece_on_square(pos)==Dummy);
     replace_walk(pos,King);
 
-    if (side!=trait[nbply+1]
+    TraceValue("%u",nbply);
+    TraceEnumerator(Side,trait[nbply]);
+    TraceEnumerator(Side,trait[nbply+1]);
+    TraceEOL();
+
+    if (side==trait[nbply]
         && is_square_attacked_by_uninterceptable(side,pos))
     {
       record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");

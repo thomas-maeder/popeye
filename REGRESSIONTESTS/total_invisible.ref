@@ -528,7 +528,7 @@ Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
                      play_move:     7875563
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1693008
-                  TI decisions:   298026040
+                  TI decisions:   298026352
 
 solution finished.
 
@@ -564,7 +564,7 @@ Sake tourney 2018, 3rd HM, corrected
                      play_move:     5832124
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      961023
-                  TI decisions:   211689606
+                  TI decisions:   211689628
 
 solution finished.
 

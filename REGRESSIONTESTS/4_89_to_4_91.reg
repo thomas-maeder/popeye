@@ -556,7 +556,7 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
                      play_move:      921147
  is_white_king_square_attacked:       59810
  is_black_king_square_attacked:       65779
-                  TI decisions:     7202163
+                  TI decisions:     7202441
 
 solution finished.
 

@@ -165,6 +165,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
         if ((walk_attacker==Queen || walk_attacker==Rook)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
         {
+          TraceWalk(walk_attacker);TraceSquare(sq_attacker);TraceEOL();
           result = k;
           break;
         }
@@ -181,6 +182,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
         if ((walk_attacker==Queen || walk_attacker==Bishop)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
         {
+          TraceWalk(walk_attacker);TraceSquare(sq_attacker);TraceEOL();
           result = k;
           break;
         }
