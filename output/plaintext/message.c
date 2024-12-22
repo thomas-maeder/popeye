@@ -166,7 +166,6 @@ void output_plaintext_print_time(char const *header, char const *trail)
     format_time();
     protocol_fprintf(stdout,"%s",trail);
   }
-  protocol_fflush(stdout);
 }
 
 #if !defined(OSTYPE)
