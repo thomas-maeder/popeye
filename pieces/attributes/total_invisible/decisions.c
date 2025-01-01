@@ -1311,7 +1311,12 @@ WE HAVE TO TRY OTHER WALKS - E.G. BISHOP TO ALLOW BG6-F5 IN PLY 7
                 >backtracking[curr_level-1].ply_failure)
             {
               TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
+              /* skip = true;
+               * pieces white ke1 bd5 black qd2 total 3
+               * stip h#3.5
+               * option movenum start 5:17:14:24:1:2:2 upto 5:17:14:24:1:2:2
+               *
+               */
             }
             else
             {
