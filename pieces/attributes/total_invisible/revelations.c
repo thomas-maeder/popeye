@@ -1244,7 +1244,6 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           }
           else
           {
-            assert(0);
             TraceText("revealed piece belongs to different side than actual piece\n");
             record_decision_outcome("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
