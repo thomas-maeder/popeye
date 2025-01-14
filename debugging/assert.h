@@ -6,7 +6,11 @@
 
 #if defined(NDEBUG)
 
-#define assert(expr)
+#include <assert.h>
+
+#elif !defined(__GNUC__) && !defined(__clang__)
+
+#include <assert.h>
 
 #elif defined(AUXILIARY)
 
@@ -15,16 +19,11 @@
 
 #include <assert.h>
 
-#elif defined(__APPLE__)
-
-/* the cross compiler that we are using seems not to support __assert */
-
-#include <assert.h>
-
 #else
 
-#define assert(expr) ((expr) ? (void)0 : assert_impl(#expr,__FILE__,__LINE__))
+void assert_impl(char const *assertion, char const *file, int line, char const *func);
+
+#define assert(expr) ((expr) ? (void)0 : assert_impl(#expr,__FILE__,__LINE__,__func__))
 
 #endif
 
-void assert_impl(char const *assertion, char const *file, int line);
