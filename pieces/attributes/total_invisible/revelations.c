@@ -1092,11 +1092,6 @@ void evaluate_revelations(slice_index si,
 
   current_consumption = save_consumption;
 
-  /* we have to undo 'our' effects immediately to make sure that the following
-   * invariant is kept:
-   * !current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare
-   * or (in pseudo code)
-   * if current_consumption.is_king_unplaced[Black] then being_solved.king_square[Black]==initsquare */
   while (move_effect_journal_base[nbply+1]>top)
     move_effect_journal_pop_effect();
 }
@@ -1231,15 +1226,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           TraceValue("%u",TSTFLAG(spec_on_board,side_revealed));
           TraceEOL();
 
-          if (TSTFLAG(spec_revealed,Royal)
-              && walk_revealed==King
-              && being_solved.king_square[side_revealed]!=initsquare)
-          {
-            TraceText("revelation of king - but king has already been placed - aborting\n");
-            record_decision_outcome("%s","revelation of king - but king has already been placed - aborting");
-            REPORT_DEADEND;
-          }
-          else if (TSTFLAG(spec_on_board,side_revealed))
+          if (TSTFLAG(spec_on_board,side_revealed))
           {
             PieceIdType const id_on_board = GetPieceId(spec_on_board);
             purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
@@ -1257,6 +1244,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           }
           else
           {
+            assert(0);
             TraceText("revealed piece belongs to different side than actual piece\n");
             record_decision_outcome("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
