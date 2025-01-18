@@ -1326,30 +1326,22 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           square const on = entry->u.revelation_of_placed_piece.on;
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
 
-          if (id_revealed==id_on_board)
-          {
-            reveal_placed(entry);
+          reveal_placed(entry);
 
-            assert(id_revealed==id_on_board);
+          assert(id_revealed==id_on_board);
 
-            /* the following distinction isn't strictly necessary, but it clarifies nicely
-             * that the two ids may be, but aren't necessarily equal */
-            if (id_revealed==id_original)
-              forward_test_and_execute_revelations_recursive(curr+1);
-            else
-            {
-              motivation[id_original].last.purpose = purpose_none;
-              forward_test_and_execute_revelations_recursive(curr+1);
-              motivation[id_original].last.purpose = purpose_original;
-            }
-
-            unreveal_placed(entry);
-          }
+          /* the following distinction isn't strictly necessary, but it clarifies nicely
+           * that the two ids may be, but aren't necessarily equal */
+          if (id_revealed==id_original)
+            forward_test_and_execute_revelations_recursive(curr+1);
           else
           {
-            assert(play_phase==play_validating_mate);
-            TraceText("it is unclear what happend here\n");
+            motivation[id_original].last.purpose = purpose_none;
+            forward_test_and_execute_revelations_recursive(curr+1);
+            motivation[id_original].last.purpose = purpose_original;
           }
+
+          unreveal_placed(entry);
         }
         else
         {
