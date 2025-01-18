@@ -1244,6 +1244,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           }
           else
           {
+            assert(play_phase==play_validating_mate);
             TraceText("revealed piece belongs to different side than actual piece\n");
             record_decision_outcome("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
@@ -1288,6 +1289,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
         }
         else
         {
+          assert(play_phase==play_validating_mate);
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
           record_decision_outcome("%s","revelation expected - but walk of present piece is different - aborting");
           REPORT_DEADEND;
@@ -1345,11 +1347,13 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
           }
           else
           {
+            assert(play_phase==play_validating_mate);
             TraceText("it is unclear what happend here\n");
           }
         }
         else
         {
+          assert(play_phase==play_validating_mate);
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
           record_decision_outcome("%s","the revelation has been violated - terminating redoing effects with this ply");
           REPORT_DEADEND;

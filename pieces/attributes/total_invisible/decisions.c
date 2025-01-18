@@ -2155,8 +2155,8 @@ HERE
   return skip;
 }
 
-/* Optimise backtracking considering that we have
- * reached a position where we won't able to execute the planned capture by an invisble
+/* Optimize backtracking considering that we have
+ * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because
  * - no existing invisible of the relevant side can reach the capture square
  * - no invisible of the relevant side can be inserted
@@ -2207,7 +2207,6 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
   switch (decision_level_properties[curr_level].purpose)
   {
     case decision_purpose_random_mover_backward:
-    case decision_purpose_invisible_capturer_inserted:
     case decision_purpose_invisible_capturer_existing:
       assert(decision_level_properties[curr_level].side!=no_side);
       switch (decision_level_properties[curr_level].object)
@@ -2222,6 +2221,60 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           }
           else
             skip = true;
+          break;
+
+        case decision_object_departure:
+          if (decision_level_properties[curr_level].ply
+              <backtracking[curr_level-1].ply_failure)
+            skip = true;
+          else
+          {
+            /* we may be able to sacrifice ourselves, either to the capturing pawn or
+             * a pawn sacrificing itself to the capturing pawn
+             * - by staying where we are (and let another piece move)
+             * - by moving away to allow a pawn to sacrifice itself
+             */
+          }
+          break;
+
+        default:
+          skip = true;
+          break;
+      }
+      break;
+
+    case decision_purpose_invisible_capturer_inserted:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      switch (decision_level_properties[curr_level].object)
+      {
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply
+              <backtracking[curr_level-1].ply_failure)
+          {
+            /* depending on the walk, this piece may eventually sacrifice itself
+             * to allow the capture by pawn
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_move_vector:
+          /* begin
+             pieces total 4 white ke1 black kg4 pf4h3 neutral qh1 pg2
+             stipulation h#2.5
+             option movenum start 3:26:17:1 upto 3:26:17:40
+             end'
+             without this, we'd erroneously reveal a wSh3 after
+             1...TI~*h3 2.Kg4-h5 [+bTIf3]nPg2*f3
+             because we'd fail to try 1...Rh2*h3
+           * */
+          skip = false;
+          /* TODO
+           * can we restrict this depending on
+           * decision_level_properties[curr_level].ply and
+           * backtracking[curr_level-1].ply_failure?
+           */
           break;
 
         case decision_object_departure:
@@ -2394,6 +2447,7 @@ boolean can_decision_level_be_continued(void)
   TraceValue("%u",decision_top);
   TraceValue("%u",backtracking[decision_top].type);
   TraceValue("%u",backtracking[decision_top].max_level);
+  TraceValue("%u",backtracking[decision_top].result);
   TraceValue("%u",decision_level_properties[decision_top+1].relevance);
   TraceEOL();
 
@@ -2436,6 +2490,8 @@ boolean can_decision_level_be_continued(void)
           TraceValue("skip on line:%u\n",__LINE__);
           result = false;
         }
+        else
+          result = true;
         break;
 
       case backtrack_failure_to_intercept_illegal_checks:

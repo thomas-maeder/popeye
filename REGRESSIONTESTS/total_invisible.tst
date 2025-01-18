@@ -60,7 +60,7 @@ solution finished.
                      play_move:       17789
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        5461
-                  TI decisions:        9201
+                  TI decisions:       12051
 
 solution finished.
 
@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22164
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6885
-                  TI decisions:      173460
+                  TI decisions:      982449
 
 solution finished.
 
@@ -131,7 +131,7 @@ solution finished.
                      play_move:       13666
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4877
-                  TI decisions:        7346
+                  TI decisions:        9387
 
 solution finished.
 
@@ -166,7 +166,7 @@ a)
                      play_move:        5950
  is_white_king_square_attacked:         252
  is_black_king_square_attacked:        1527
-                  TI decisions:        1021
+                  TI decisions:        1491
 
 b)   
 
@@ -175,7 +175,7 @@ b)
                      play_move:        5380
  is_white_king_square_attacked:         380
  is_black_king_square_attacked:        1387
-                  TI decisions:         904
+                  TI decisions:        1330
 
 solution finished.
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       12928
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        7735
-                  TI decisions:       18824
+                  TI decisions:       25200
 
 solution finished.
 
@@ -244,7 +244,7 @@ capture by invisible pawn results in promotion
                      play_move:      576910
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      146488
-                  TI decisions:      694769
+                  TI decisions:      743786
 
 solution finished.
 
@@ -278,7 +278,7 @@ random move by invisible pawn results in promotion
                      play_move:       11966
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2185
-                  TI decisions:       16577
+                  TI decisions:       17370
 
 solution finished.
 
@@ -322,7 +322,7 @@ the mate wasn't recognized for a long time because of a silly bug
                      play_move:         223
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          88
-                  TI decisions:         106
+                  TI decisions:         138
 
 solution finished.
 

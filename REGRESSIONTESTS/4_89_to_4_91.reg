@@ -552,11 +552,11 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
  16  (Bc2-d3 )
  17  (Bc2-a4 )
  18  (Bc2-b3 )
-  add_to_move_generation_stack:      841216
-                     play_move:      922661
- is_white_king_square_attacked:       60408
- is_black_king_square_attacked:       66097
-                  TI decisions:     7204772
+  add_to_move_generation_stack:      841219
+                     play_move:      922663
+ is_white_king_square_attacked:       60410
+ is_black_king_square_attacked:       66098
+                  TI decisions:    11305677
 
 solution finished.
 
@@ -605,7 +605,7 @@ Popeye 4.89 didn't find this solution
                      play_move:         517
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:         170
-                  TI decisions:        7753
+                  TI decisions:        9314
 
 solution finished.
 
@@ -645,7 +645,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:         569
  is_white_king_square_attacked:          46
  is_black_king_square_attacked:         354
-                  TI decisions:         143
+                  TI decisions:        1821
 
 solution finished.
 
@@ -685,7 +685,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          98
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           4
-                  TI decisions:         398
+                  TI decisions:         426
 
 solution finished.
 
@@ -725,7 +725,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:         121
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           2
-                  TI decisions:         595
+                  TI decisions:         645
 
 solution finished.
 
@@ -765,7 +765,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:         210
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          36
-                  TI decisions:        2559
+                  TI decisions:        4208
 
 solution finished.
 
@@ -805,7 +805,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          91
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           5
-                  TI decisions:         775
+                  TI decisions:        1861
 
 solution finished.
 
@@ -844,7 +844,7 @@ an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ 
                      play_move:         218
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:          17
-                  TI decisions:         624
+                  TI decisions:         655
 
 solution finished.
 
@@ -884,7 +884,7 @@ an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK] 
                      play_move:         155
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          25
-                  TI decisions:         991
+                  TI decisions:        3641
 
 solution finished.
 
@@ -918,7 +918,7 @@ so far, Popeye hasn't found this solution
                      play_move:       25739
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4667
-                  TI decisions:       71919
+                  TI decisions:      124070
 
 solution finished.
 
@@ -957,7 +957,7 @@ an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]
                      play_move:          84
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           2
-                  TI decisions:         133
+                  TI decisions:       46541
 
 solution finished.
 
@@ -1005,7 +1005,7 @@ an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*
                      play_move:         125
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
-                  TI decisions:         714
+                  TI decisions:         794
 
 solution finished.
 
