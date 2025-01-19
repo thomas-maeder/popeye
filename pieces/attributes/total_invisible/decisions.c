@@ -94,7 +94,7 @@ static char const *basename(char const *path)
 
 static void report_endline(char const *file, unsigned int line)
 {
-  printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u)"
+  printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u TOT:%u+%u %u)"
          , (unsigned int) static_consumption.king[White]
          , (unsigned int) static_consumption.king[Black]
          , static_consumption.pawn_victims[White]
@@ -105,6 +105,9 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.placed[Black]
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
+         , nr_total_invisbles_consumed_for_side(White)
+         , nr_total_invisbles_consumed_for_side(Black)
+         , total_invisible_number
          );
   printf(" - %u: r:%u t:%u m:%u n:%u p:%u i:%lu",
          decision_top-1,
