@@ -19,8 +19,8 @@ void TraceConsumption(void)
   TraceValue("%u\n",static_consumption.pawn_victims[Black]);
   TraceValue("%u\n",static_consumption.king[White]);
   TraceValue("%u\n",static_consumption.king[Black]);
-  TraceValue("%u\n",static_consumption.move_after_victim[White]);
-  TraceValue("%u\n",static_consumption.move_after_victim[Black]);
+  TraceValue("%u\n",static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[White]);
+  TraceValue("%u\n",static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[Black]);
   TraceSquare(being_solved.king_square[White]);TraceEOL();
   TraceSquare(being_solved.king_square[Black]);TraceEOL();
   TraceValue("%u\n",nr_total_invisbles_consumed_for_side(White));
@@ -44,9 +44,9 @@ unsigned int nr_total_invisbles_consumed_for_side(Side side)
       >result)
     result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
 
-  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side])
+  if ((static_consumption.pawn_victims[side]+static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[side])
       >result)
-    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side]);
+    result = (static_consumption.pawn_victims[side]+static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[side]);
 
   return result;
 }
