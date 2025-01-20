@@ -110,9 +110,6 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
       current_consumption = save_consumption;
 
-      if (side==White && can_decision_level_be_continued())
-        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
-
       forget_taboo_on_square(s,side,nbply+1);
     }
     else
@@ -124,14 +121,9 @@ static void place_dummy_of_side_on_square(Side side_in_check,
 
       current_consumption = save_consumption;
 
-      if (side==White)
-        place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
-
       forget_taboo_on_square(s,side,nbply+1);
     }
   }
-  else if (side==White)
-    place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -173,6 +165,8 @@ static void place_dummy_on_square(Side side_in_check,
     decision_levels[id_placed].walk = decision_level_forever;
 
     place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,White,inserted_fleshed_out,done_protecting_king);
+    if (can_decision_level_be_continued())
+      place_dummy_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,s,Black,inserted_fleshed_out,done_protecting_king);
 
     empty_square(s);
 
