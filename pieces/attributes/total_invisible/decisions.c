@@ -1,5 +1,6 @@
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/revelations.h"
 #include "solving/ply.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
@@ -2454,7 +2455,12 @@ boolean can_decision_level_be_continued(void)
   TraceValue("%u",decision_level_properties[decision_top+1].relevance);
   TraceEOL();
 
-  if (backtracking[decision_top].result==previous_move_has_not_solved)
+  if (play_phase==play_detecting_revelations && nr_potential_revelations==0)
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
+    result = false;
+  }
+  else if (backtracking[decision_top].result==previous_move_has_not_solved)
   {
     TraceValue("skip on line:%u\n",__LINE__);
     result = false;
