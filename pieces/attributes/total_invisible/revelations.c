@@ -1311,6 +1311,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
 
         if (is_square_empty(on))
         {
+          assert(play_phase==play_validating_mate);
           TraceText("the revealed piece isn't here (any more?)\n");
           record_decision_outcome("%s","the revealed piece isn't here (any more?)");
           REPORT_DEADEND;
