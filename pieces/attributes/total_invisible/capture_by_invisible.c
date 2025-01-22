@@ -394,9 +394,9 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
 
       push_decision_move_vector(nbply,id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
 
-      for (sq_departure = sq_arrival+vec[kcurr];
+      for (sq_departure = sq_arrival-vec[kcurr];
            is_square_empty(sq_departure) && can_decision_level_be_continued();
-           sq_departure += vec[kcurr])
+           sq_departure -= vec[kcurr])
         result += capture_by_invisible_inserted_on(walk_rider,sq_departure);
 
       pop_decision();
@@ -411,7 +411,7 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
   return result;
 }
 
-static unsigned int capture_by_inserted_invisible_king(void)
+static unsigned int capture_by_inserted_invisible_king_inserted(void)
 {
   unsigned int result = 0;
 
@@ -426,42 +426,43 @@ static unsigned int capture_by_inserted_invisible_king(void)
   move_effect_journal_index_type const king_square_movement = movement+1;
   vec_index_type kcurr;
 
+  Side const side_capturing = trait[nbply];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk(nbply,id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+  push_decision_walk(nbply,id_inserted,King,decision_purpose_invisible_capturer_inserted,side_capturing);
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
+  move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+  move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+  move_effect_journal[king_square_movement].u.king_square_movement.side = side_capturing;
+
   for (kcurr = vec_queen_start;
        kcurr<=vec_queen_end && can_decision_level_be_continued();
        ++kcurr)
   {
-    square const sq_departure = sq_arrival+vec[kcurr];
+    being_solved.king_square[side_capturing] = sq_arrival-vec[kcurr];
 
-    if (is_square_empty(sq_departure))
+    if (is_square_empty(being_solved.king_square[side_capturing]))
     {
-      being_solved.king_square[trait[nbply]] = sq_departure;
-
-      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+      move_effect_journal[king_square_movement].u.king_square_movement.from = being_solved.king_square[side_capturing];
 
       assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
       SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-      result += capture_by_invisible_inserted_on(King,sq_departure);
+      result += capture_by_invisible_inserted_on(King,being_solved.king_square[side_capturing]);
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-
-      being_solved.king_square[trait[nbply]] = initsquare;
-
-      move_effect_journal[king_square_movement].type = move_effect_none;
     }
   }
+
+  being_solved.king_square[side_capturing] = initsquare;
+
+  move_effect_journal[king_square_movement].type = move_effect_none;
 
   pop_decision();
 
@@ -497,7 +498,7 @@ static unsigned int capture_by_invisible_leaper_inserted(piece_walk_type walk_le
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
-      square const sq_departure = sq_arrival+vec[kcurr];
+      square const sq_departure = sq_arrival-vec[kcurr];
 
       if (is_square_empty(sq_departure))
         result += capture_by_invisible_inserted_on(walk_leaper,sq_departure);
@@ -598,7 +599,7 @@ static unsigned int capture_by_inserted_invisible_all_walks(void)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
-    result += capture_by_inserted_invisible_king();
+    result += capture_by_inserted_invisible_king_inserted();
 
   result += capture_by_invisible_pawn_inserted();
   result += capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
@@ -1271,7 +1272,7 @@ static unsigned int capture_by_inserted_invisible(void)
 
         push_decision_insertion(nbply,id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
-        capture_by_inserted_invisible_king();
+        capture_by_inserted_invisible_king_inserted();
 
         move_effect_journal[movement].u.piece_movement.from = save_from;
         move_effect_journal[movement].u.piece_movement.moving = save_moving;
