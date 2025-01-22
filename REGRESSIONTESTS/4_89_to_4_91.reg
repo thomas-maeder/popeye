@@ -552,11 +552,11 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
  16  (Bc2-d3 )
  17  (Bc2-a4 )
  18  (Bc2-b3 )
-  add_to_move_generation_stack:      841219
-                     play_move:      922663
+  add_to_move_generation_stack:      841131
+                     play_move:      921472
  is_white_king_square_attacked:       60410
- is_black_king_square_attacked:       66098
-                  TI decisions:     7657316
+ is_black_king_square_attacked:       65819
+                  TI decisions:     8967760
 
 solution finished.
 
@@ -605,7 +605,7 @@ Popeye 4.89 didn't find this solution
                      play_move:         517
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:         170
-                  TI decisions:        8324
+                  TI decisions:       14906
 
 solution finished.
 
@@ -685,7 +685,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          98
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           4
-                  TI decisions:         421
+                  TI decisions:         420
 
 solution finished.
 
@@ -725,7 +725,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:         121
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           2
-                  TI decisions:         621
+                  TI decisions:         834
 
 solution finished.
 
@@ -805,7 +805,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          91
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           5
-                  TI decisions:         552
+                  TI decisions:         391
 
 solution finished.
 
@@ -844,7 +844,7 @@ an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ 
                      play_move:         218
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:          17
-                  TI decisions:         627
+                  TI decisions:         955
 
 solution finished.
 
@@ -884,7 +884,7 @@ an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK] 
                      play_move:         155
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          25
-                  TI decisions:        1426
+                  TI decisions:        1434
 
 solution finished.
 
@@ -914,11 +914,11 @@ so far, Popeye hasn't found this solution
   h#2                  3 + 1 + 2 TI
 
   1.TI~*c1 TI~*e4[e4=wS][c1=bK]   2.Kc1-d1 Qe3-d2 #
-  add_to_move_generation_stack:       15246
-                     play_move:       25739
+  add_to_move_generation_stack:       15228
+                     play_move:       25735
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4667
-                  TI decisions:       86876
+ is_black_king_square_attacked:        4663
+                  TI decisions:       87587
 
 solution finished.
 
@@ -953,11 +953,11 @@ an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]
  11:1:1:12  (Bf3-h1 )
  11:1:1:12:2  (TI~*h1 )
  11:1:1:12:2:3  (0-0-0 )
-  add_to_move_generation_stack:          86
-                     play_move:          84
- is_white_king_square_attacked:           2
- is_black_king_square_attacked:           2
-                  TI decisions:         240
+  add_to_move_generation_stack:         266
+                     play_move:         264
+ is_white_king_square_attacked:          26
+ is_black_king_square_attacked:         122
+                  TI decisions:         241
 
 solution finished.
 
@@ -1005,7 +1005,7 @@ an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*
                      play_move:         125
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
-                  TI decisions:         727
+                  TI decisions:         534
 
 solution finished.
 

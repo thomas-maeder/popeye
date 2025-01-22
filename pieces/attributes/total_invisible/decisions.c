@@ -963,73 +963,63 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           if (decision_level_properties[curr_level].side
               ==backtracking[curr_level-1].side_failure)
           {
-            // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
-            if (decision_level_properties[curr_level].ply
-                <backtracking[curr_level-1].ply_failure-2)
-            {
-              TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
-              /* e.g.
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
+            /* e.g.
 
-  begin
-  author Michel Caillaud
-  origin Sake tourney 2018, 1st prize, corrected
-  pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
-  stipulation h#2
-  option movenum start 4:4:4:21
-  end
+begin
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, corrected
+pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+stipulation h#2
+option movenum start 4:4:4:21
+end
 
-             Michel Caillaud
-  Sake tourney 2018, 1st prize, corrected
+           Michel Caillaud
+Sake tourney 2018, 1st prize, corrected
 
-  +---a---b---c---d---e---f---g---h---+
-  |                                   |
-  8   .   .   .   .   .   .   .   .   8
-  |                                   |
-  7   .   .   .   .   .   .   .   .   7
-  |                                   |
-  6   .   .   .   .   .   .   .   .   6
-  |                                   |
-  5   .   .   .   .   .  -P   .   .   5
-  |                                   |
-  4   .   .   .   .  -P  -K   .   .   4
-  |                                   |
-  3   .   .   .   .   .   .   .  -P   3
-  |                                   |
-  2   .   Q   .   .   .   .   .   .   2
-  |                                   |
-  1   .   .   .   K  -B   .   .  -R   1
-  |                                   |
-  +---a---b---c---d---e---f---g---h---+
-    h#2                  2 + 6 + 2 TI
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   Q   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 6 + 2 TI
 
-  !validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
-  use option start 4:4:4:21 to replay
-  !  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
-  !   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
-  ...
-  !   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
-  !    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
-  !     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
-  !    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
-  !     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
-  !     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
-  !     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
-  !      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
-  !       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+!validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
+use option start 4:4:4:21 to replay
+!  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
+!   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
+...
+!   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
+!    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
+!     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
+!    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
+!     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
+!     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
+!     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
+!      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
+!       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
 
-  Here! BTW: ply_skip-3 would be too strong
+Here! BTW: ply_skip-3 would be too strong
 
-  !   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
-  ...
-  !   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
-  ...
-               */
-            }
-            else
-            {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
-            }
+!   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
+...
+!   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
+...
+             */
           }
           else
           {
@@ -2282,17 +2272,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           break;
 
         case decision_object_departure:
-          if (decision_level_properties[curr_level].ply
-              <backtracking[curr_level-1].ply_failure)
-            skip = true;
-          else
-          {
-            /* we may be able to sacrifice ourselves, either to the capturing pawn or
-             * a pawn sacrificing itself to the capturing pawn
-             * - by staying where we are (and let another piece move)
-             * - by moving away to allow a pawn to sacrifice itself
-             */
-          }
+          skip = false;
           break;
 
         default:

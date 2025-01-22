@@ -56,11 +56,11 @@ solution finished.
   1...Rb1-b8   2.TI~-~ [+bTIb6]a5*b6 #
   1...Rb1-b5   2.TI~*a5 Ra1*a5 #
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
-  add_to_move_generation_stack:        6997
-                     play_move:       17789
+  add_to_move_generation_stack:        7013
+                     play_move:       18091
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        5461
-                  TI decisions:        9182
+ is_black_king_square_attacked:        5569
+                  TI decisions:        9488
 
 solution finished.
 
@@ -128,10 +128,10 @@ solution finished.
   1...Rb1-b4   2.Ka6*a5 Ra1-a4 #
   1...Kc5-c6   2.TI~-~ [+bTIb6]a5*b6 #
   add_to_move_generation_stack:        5612
-                     play_move:       13666
+                     play_move:       13807
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4877
-                  TI decisions:        7364
+ is_black_king_square_attacked:        4924
+                  TI decisions:        7850
 
 solution finished.
 
@@ -163,19 +163,19 @@ no castling if the invisible rook would have delivered check
 a) 
 
   add_to_move_generation_stack:        3001
-                     play_move:        5950
+                     play_move:        5968
  is_white_king_square_attacked:         252
- is_black_king_square_attacked:        1527
-                  TI decisions:        1032
+ is_black_king_square_attacked:        1533
+                  TI decisions:        1039
 
 b)   
 
   1...0-0   2.h5-h4 Rf1-f3 #
   add_to_move_generation_stack:        3107
-                     play_move:        5380
+                     play_move:        5398
  is_white_king_square_attacked:         380
- is_black_king_square_attacked:        1387
-                  TI decisions:         915
+ is_black_king_square_attacked:        1393
+                  TI decisions:         922
 
 solution finished.
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       12928
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        7735
-                  TI decisions:       19165
+                  TI decisions:       70258
 
 solution finished.
 
