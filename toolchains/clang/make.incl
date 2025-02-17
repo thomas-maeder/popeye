@@ -37,3 +37,13 @@ CCTARGET=clang
 
 # Linker for creating executables on target
 LDTARGET=clang
+
+# Implicit declaration of functions has been forbidden ever since the 1999
+# version of the C standard but compilers have been treating it as a warning.
+# Since Apple clang 12, and LLVM clang 16, implicit function declarations are
+# treated as an error.
+#
+# See:
+#   https://www.redhat.com/en/blog/new-warnings-and-errors-clang-16
+#   https://github.com/shellinabox/shellinabox/issues/518#issuecomment-2094883404
+WARN += -Wno-implicit-function-declaration
