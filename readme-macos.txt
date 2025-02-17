@@ -14,7 +14,7 @@ export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include" 
 ```
 
-3. Now simply run `make -f makefile.unx TOOLCHAING=clang`, which, after compiling and linking 500-odd source files, should result in a working Popeye binary called `py` in the current directory.
+3. Now simply run `make -f makefile.unx TOOLCHAIN=clang`, which, after compiling and linking 500-odd source files, should result in a working Popeye binary called `py` in the current directory.
 
 4. (Optional: basic testing) Launch `py` with no arguments. It should display the following header (or some variation, depending on your MacOS version):
 
