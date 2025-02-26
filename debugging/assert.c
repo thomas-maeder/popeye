@@ -5,20 +5,24 @@
 
 #include <assert.h>
 
-#if defined(_WIN32) || defined(_WIN64)
-  #if !defined(_assert)
-    #if defined(__assert)
-      #define _assert(cond, file, line) __assert(cond, file, line)
+#ifndef EMSCRIPTEN
+  #if !defined(NDEBUG)
+    #if defined(_WIN32) || defined(_WIN64)
+      #if !defined(_assert)
+        #if defined(__assert)
+          #define _assert(cond, file, line) __assert(cond, file, line)
+        #else
+          extern void _assert(char const *cond, char const *file, int line);
+        #endif
+      #endif
     #else
-      extern void _assert(char const *cond, char const *file, int line);
-    #endif
-  #endif
-#else
-  #if !defined(__assert)
-    #if defined(_assert)
-      #define __assert(cond, file, line) _assert(cond, file, line)
-    #else
-      extern void __assert(char const *cond, char const *file, int line);
+      #if !defined(__assert)
+        #if defined(_assert)
+          #define __assert(cond, file, line) _assert(cond, file, line)
+        #else
+          extern void __assert(char const *cond, char const *file, int line);
+        #endif
+      #endif
     #endif
   #endif
 #endif
