@@ -10,7 +10,7 @@
     #if defined(__assert)
       #define _assert(cond, file, line) __assert(cond, file, line)
     #else
-      void _assert(char const *cond, char const *file, int line);
+      extern void _assert(char const *cond, char const *file, int line);
     #endif
   #endif
 #else
@@ -18,7 +18,7 @@
     #if defined(_assert)
       #define __assert(cond, file, line) _assert(cond, file, line)
     #else
-      void __assert(char const *cond, char const *file, int line);
+      extern void __assert(char const *cond, char const *file, int line);
     #endif
   #endif
 #endif
