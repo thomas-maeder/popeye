@@ -5,6 +5,24 @@
 
 #include <assert.h>
 
+#if defined(_WIN32) || defined(_WIN64)
+  #if !defined(_assert)
+    #if defined(__assert)
+      #define _assert(cond, file, line) __assert(cond, file, line)
+    #else
+      void _assert(char const *cond, char const *file, int line);
+    #endif
+  #endif
+#else
+  #if !defined(__assert)
+    #if defined(_assert)
+      #define __assert(cond, file, line) _assert(cond, file, line)
+    #else
+      void __assert(char const *cond, char const *file, int line);
+    #endif
+  #endif
+#endif
+
 void assert_impl(char const *assertion, const char *file, int line)
 {
   static boolean recursion_guard = false;
