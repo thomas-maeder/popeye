@@ -1204,7 +1204,7 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
 
         if (is_square_empty(revealed_on))
         {
-          /* This can happen because we don't flesh out all invisibles while
+          /* These dead ends can happen because we don't flesh out all invisibles while
            * validating a mate. We make use from the knowledge gained when
            * detecting revelations to prune paths that we know won't lead
            * anywhere.
