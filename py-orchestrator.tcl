@@ -319,6 +319,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	debug.processes "inserting fake zero position"
 	puts $pipe "Zero rotate 90 rotate 270"
     } else {
+	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
 	puts $pipe $accumulatedTwinnings
     }
     puts $pipe $endToken
