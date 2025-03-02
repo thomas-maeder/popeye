@@ -98,7 +98,7 @@ variable frontend::selected "olive"
 
 proc frontend::get {id} {
     variable selected
-    
+
     return [set ${selected}::$id]
 }
 
@@ -119,7 +119,7 @@ proc parseCommandLine {} {
 	    lappend options [subst { debug-$name.arg "0" "debug level for tag $name" }]
 	}
     }
-    
+
     set usage ": [::cmdline::getArgv0] \[options] \[inputfile]\noptions:"
 
     try {
@@ -133,7 +133,7 @@ proc parseCommandLine {} {
 	puts stderr [::cmdline::usage $options $usage]
 	exit 1
     }
-    
+
     if {[llength $::argv]>0} {
 	set ::params(inputfile) [lindex $::argv 0]
     }
@@ -161,13 +161,15 @@ proc solution {pipe endToken chunk terminator} {
 	
     set finishPos [string first "solution finished." $chunk]
     debug.solution "finishPos:$finishPos"
-    
+
     if {$terminatorPos==-1} {
-	if {$finishPos!=-1 && $endToken=="EndProblem"} {
+	if {$finishPos!=-1
+	    && ($endToken=="NextProblem" || $endToken=="EndProblem")} {
 	    close $pipe
 	    
 	    global processSync
 	    incr processSync
+	    debug.solution processSync:$processSync
 
 	    if {$processSync==$::params(nrprocs)} {
 		puts -nonewline $chunk
@@ -187,6 +189,7 @@ proc solution {pipe endToken chunk terminator} {
 	
 	global processSync
 	incr processSync
+	debug.solution processSync:$processSync
 
 	if {$processSync==$::params(nrprocs)} {
 	    puts -nonewline [string range $chunk 0 [expr {$finishPos-2}]]
@@ -211,6 +214,7 @@ proc onlyTwinOfProblemFirstProcess {pipe endToken chunk} {
 
 	global processSync
 	set processSync 1
+	debug.board processSync:$processSync
     } else {
 	fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $endToken $chunk]
     }
@@ -232,13 +236,13 @@ proc onlyTwinOfProblemOtherProcess {pipe endToken chunk} {
 
 proc firstTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
     debug.board "firstTwinOfRegularTwinning pipe:$pipe endToken:$endToken chunk:|$chunk|"
-    
+
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
     set aPos [string first "a) \n\n" $chunk]
     debug.board "aPos:$aPos"
-    
+
     if {$aPos==-1} {
 	fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe $endToken $chunk]
     } else {
@@ -252,18 +256,19 @@ proc firstTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
 
 	global processSync
 	set processSync 1
+	debug.board processSync:$processSync
     }
 }
 
 proc firstTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
     debug.board "firstTwinOfRegularTwinningOtherProcess pipe:$pipe endToken:$endToken chunk:|$chunk|"
-    
+
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
     set aPos [string first "a) \n\n" $chunk]
     debug.board "aPos:$aPos"
-    
+
     if {$aPos==-1} {
 	fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe $endToken $chunk]
     } else {
@@ -276,7 +281,7 @@ proc firstTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
 
 proc otherTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
     debug.board "otherTwinOfRegularTwinningFirstProcess pipe:$pipe endToken:$endToken chunk:|$chunk|"
-    
+
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
@@ -285,6 +290,7 @@ proc otherTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
 
 	global processSync
 	set processSync 1
+	debug.board processSync:$processSync
     } else {
 	fileevent $pipe readable [list otherTwinOfRegularTwinningFirstProcess $pipe $endToken $chunk]
     }
@@ -292,7 +298,7 @@ proc otherTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
 
 proc otherTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
     debug.board "otherTwinOfRegularTwinningOtherProcess pipe:$pipe endToken:$endToken chunk:|$chunk|"
-    
+
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
@@ -311,9 +317,9 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	append commandline " -maxmem $::params(maxmem)"
     }
     debug.processes "commandline:$commandline"
-    
+
     set options "option MoveNumber Start $start Upto $upto"
-   
+
     set pipe [open "| $commandline" "r+"]
 
     gets $pipe greetingLine
@@ -345,7 +351,11 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 		fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $endToken ""]
 	    }
 	    global processSync
+	    set processSync 0
+	    debug.processes "vwait processSync:$processSync"
 	    vwait processSync
+	    debug.processes "vwait <- processSync:$processSync"
+	    unset processSync
 	} else {
 	    # first twin of zeroposition
 	}
@@ -360,12 +370,18 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	    if {$processnr==1} {
 		fileevent $pipe readable [list otherTwinOfRegularTwinningFirstProcess $pipe $endToken ""]
 		global processSync
+		set processSync 0
+		debug.processes "vwait processSync:$processSync"
 		vwait processSync
+		debug.processes "vwait <- processSync:$processSync"
+		unset processSync
 	    } else {
 		fileevent $pipe readable [list otherTwinOfRegularTwinningOtherProcess $pipe $endToken ""]
 	    }
 	}
     }
+
+    debug.processes "tryPartialTwin <-"
 }
 
 proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights weightTotal} {
@@ -414,13 +430,18 @@ proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights wei
 
     set processSync 0
     while {$processSync<$::params(nrprocs)} {
+	debug.processes "vwait processSync:$processSync"
 	vwait processSync
+	debug.processes "vwait <- processSync:$processSync"
     }
+    unset processSync
+
+    debug.processes "tryEntireTwin <-"
 }
 
 proc findMoveWeights {firstTwin twinnings whomoves} {
     debug.weight "findMoveWeights firstTwin:$firstTwin twinnings:$twinnings whomoves:$whomoves"
-    
+
     set options "option Noboard MoveNumber"
     if {$whomoves=="black"} {
 	append options " HalfDuplex"
@@ -444,7 +465,7 @@ proc findMoveWeights {firstTwin twinnings whomoves} {
     puts $pipe "EndProblem"
 
     set output ""
-    
+
     set weightTotal 0
     while {[gets $pipe line]>=0} {
 	append output "$line\n"
@@ -474,7 +495,7 @@ proc findMoveWeights {firstTwin twinnings whomoves} {
 	    }
 	}
     }
-    
+
     if {[catch {
 	close $pipe
     } error]} {
@@ -499,9 +520,9 @@ proc findMoveWeights {firstTwin twinnings whomoves} {
 
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:$twin twinnings:$twinnings"
-    
+
     set options "option noboard movenumber maxtime 1"
-    
+
     set accumulatedZeroposition ""
     foreach t $twinnings {
 	lassign $t key twinning
@@ -531,7 +552,7 @@ proc whoMoves {twin twinnings} {
 	    set result "black"
 	}
     }
-    
+
     if {[catch {
 	close $pipe
     } error]} {
@@ -553,16 +574,23 @@ proc whoMoves {twin twinnings} {
 
 proc solveTwin {problemnr firstTwin endToken twinnings skipMoves} {
     debug.twin "solveTwin problemnr:$problemnr firstTwin:$firstTwin endToken:$endToken twinnings:$twinnings skipMoves:$skipMoves"
+
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves"
     lassign [findMoveWeights $firstTwin $twinnings $whomoves] weights weightTotal
     debug.twin "weights:$weights weightTotal:$weightTotal"
     tryEntireTwin $problemnr $firstTwin $endToken $twinnings $skipMoves $weights $weightTotal
-    return [llength $weights]
+
+    set result [llength $weights]
+
+    debug.twin "solveTwin <- $result"
+    return $result
 }
 
-proc handleFirstTwin {problemnr chan} {
-    set firstTwin ""
+proc handleFirstTwin {chan problemnr {languageSelectorWord ""}} {
+    debug.problem "handleFirstTwin problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+
+    set firstTwin "$languageSelectorWord "
     while {[gets $chan line]>=0} {
 	if {$line==[frontend::get EndProblem]
 	    || $line==[frontend::get NextProblem]
@@ -577,24 +605,53 @@ proc handleFirstTwin {problemnr chan} {
     }
 }
 
-proc handleProblem {chan} {
-    set problemnr 1
-    
-    lassign [handleFirstTwin $problemnr $chan] firstTwin endTokenLine nrFirstMoves
-    debug.problem firstTwin:$firstTwin
-    debug.problem endTokenLine:$endTokenLine
+proc handleOtherTwins {chan problemnr firstTwin endTokenLine nrFirstMoves} {
+    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin endTokenLine:$endTokenLine nrFirstMoves:$nrFirstMoves"
 
     set twinnings {}
-    if {[regexp "[frontend::get Twin] (.*)" $endTokenLine - twinning]} {
+    while {[regexp "[frontend::get Twin] (.*)" $endTokenLine - twinning]} {
 	lappend twinnings [list "Twin" $twinning]
-	gets $chan line
-	solveTwin $problemnr $firstTwin $line $twinnings $nrFirstMoves
+	gets $chan endTokenLine
+	solveTwin $problemnr $firstTwin $endTokenLine $twinnings $nrFirstMoves
     }
+
     return $endTokenLine
 }
 
+proc handleFirstProblem {chan problemnr} {
+    debug.problem "handleFirstProblem problemnr:$problemnr"
+
+    lassign [handleFirstTwin $chan $problemnr] firstTwin endTokenLine nrFirstMoves
+    set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $endTokenLine $nrFirstMoves]
+    debug.problem endTokenLine:$endTokenLine
+
+    set languageSelectorWord [lindex [split [string trim $firstTwin]] 0]
+
+    set result [list $languageSelectorWord $endTokenLine]
+    debug.problem "handleFirstProblem <- $result"
+    return $result
+}
+
+proc handleNextProblem {chan problemnr languageSelectorWord} {
+    debug.problem "handleNextProblem problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+
+    lassign [handleFirstTwin $chan $problemnr $languageSelectorWord] firstTwin endTokenLine nrFirstMoves
+    set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $endTokenLine $nrFirstMoves]
+    debug.problem endTokenLine:$endTokenLine
+
+    set result $endTokenLine
+    debug.problem "handleNextProblem <- $result"
+    return $result
+}
+
 proc handleInput {chan} {
-    while {[handleProblem $chan]==[frontend::get NextProblem]} {
+    set problemnr 1
+
+    lassign [handleFirstProblem $chan $problemnr] languageSelectorWord endToken
+
+    while {$endToken==[frontend::get NextProblem]} {
+	incr problemnr
+	set endToken [handleNextProblem $chan $problemnr $languageSelectorWord]
     }
 }
 
