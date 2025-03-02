@@ -164,7 +164,7 @@ proc solution {pipe endToken chunk terminator} {
 
     if {$terminatorPos==-1} {
 	if {$finishPos!=-1
-	    && ($endToken=="NextProblem" || $endToken=="EndProblem")} {
+	    && ($endToken==[::frontend::get "NextProblem"] || $endToken==[::frontend::get "EndProblem"])} {
 	    close $pipe
 	    
 	    global processSync
@@ -315,7 +315,8 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 
     puts $pipe $firstTwin
     puts $pipe $options
-    if {$endToken=="EndProblem" && [llength $accumulatedTwinnings]==0} {
+    if {($endToken==[frontend::get "EndProblem"] || $endToken==[frontend::get "NextProblem"])
+	&& [llength $accumulatedTwinnings]==0} {
 	debug.processes "inserting fake zero position"
 	puts $pipe "Zero rotate 90 rotate 270"
     } else {
