@@ -322,7 +322,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	puts $pipe $accumulatedTwinnings
     }
     puts $pipe $endToken
-    puts $pipe "EndSolution"
+    puts $pipe "EndProblem"
     flush $pipe
 
     if {$start==1} {
