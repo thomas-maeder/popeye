@@ -7,7 +7,6 @@ package require debug
 # they can be activated using command line options
 debug off board
 debug off cmdline
-debug off executable
 debug off problem
 debug off processes
 debug off solution
@@ -63,37 +62,25 @@ proc defaultNumberOfProcesses {} {
 }
 
 proc defaultPopeyeExecutable {} {
-    set basenames {
-	"py"
-	"pywin64.exe"
-	"pywin32.exe"
-    }
+    set basenames(unix) { py }
+    set basenames(windows) { pywin64.exe pywin32.exe }
+
     set result ""
 
-    set pwd [file dirname $::argv0]
-    debug.executable "pwd:$pwd" 2
-    
-    foreach basename $basenames {
-	set candidate [file join $pwd $basename]
-	debug.executable "candidate:$candidate" 2
+    if {[info exists basenames($::tcl_platform(platform))]} {
+	set pwd [file dirname $::argv0]
 
-	set find [glob -nocomplain $candidate]
-	if {[llength $find]>0} {
-	    set result [lindex $find 0]
-	    break
-	}
-    }
+	foreach basename $basenames($::tcl_platform(platform)) {
+	    set candidate [file join $pwd $basename]
 
-    if {$result==""} {
-	foreach basename $basenames {
-	    set result [auto_execok $basename]
-	    if {$result!=""} {
+	    set find [glob -nocomplain $candidate]
+	    if {[llength $find]>0} {
+		set result [lindex $find 0]
 		break
 	    }
 	}
     }
 
-    debug.executable "default executable:$result"
     return $result
 }
 
