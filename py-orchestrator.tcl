@@ -150,6 +150,32 @@ proc parseCommandLine {} {
     debug.cmdline params:[debug parray ::params]
 }
 
+proc syncWait {value} {
+    global processSync processValue
+
+    set processSync 0
+    set processValue $value
+    while {$processSync<$processValue} {
+	debug.processes "vwait processSync:$processSync"
+	vwait processSync
+	debug.processes "vwait <- processSync:$processSync"
+    }
+    unset processSync
+}
+
+proc syncEnded {} {
+    global processSync processValue
+
+    return [expr {$processSync==$processValue}]
+}
+
+proc syncNotify {} {
+    global processSync
+
+    incr processSync
+    debug.processes processSync:$processSync
+}
+
 proc solution {pipe endToken chunk terminator} {
     debug.solution "solution pipe:$pipe endToken:$endToken chunk:|$chunk| terminator:$terminator"
 
@@ -166,12 +192,9 @@ proc solution {pipe endToken chunk terminator} {
 	if {$finishPos!=-1
 	    && ($endToken==[::frontend::get "NextProblem"] || $endToken==[::frontend::get "EndProblem"])} {
 	    close $pipe
-	    
-	    global processSync
-	    incr processSync
-	    debug.solution processSync:$processSync
 
-	    if {$processSync==$::params(nrprocs)} {
+	    syncNotify
+	    if {[syncEnded]} {
 		puts -nonewline $chunk
 	    } else {
 		puts -nonewline [string range $chunk 0 [expr {$finishPos-2}]]
@@ -186,12 +209,9 @@ proc solution {pipe endToken chunk terminator} {
 	}
     } else {
 	close $pipe
-	
-	global processSync
-	incr processSync
-	debug.solution processSync:$processSync
 
-	if {$processSync==$::params(nrprocs)} {
+	syncNotify
+	if {[syncEnded]} {
 	    puts -nonewline [string range $chunk 0 [expr {$finishPos-2}]]
 	} else {
 	    puts -nonewline [string range $chunk 0 [expr {$terminatorPos-1}]]
@@ -209,12 +229,8 @@ proc onlyTwinOfProblemFirstProcess {pipe endToken chunk} {
 
     if {[regexp -- "(.*)${fakeTerminator}(.*)" $chunk - board remainder]} {
 	puts -nonewline $board
-
 	fileevent $pipe readable [list solution $pipe $endToken $remainder "\nb)"]
-
-	global processSync
-	set processSync 1
-	debug.board processSync:$processSync
+	syncNotify
     } else {
 	fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $endToken $chunk]
     }
@@ -251,12 +267,8 @@ proc firstTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
 	debug.board "board:|$board| remainder:|$remainder|"
 
 	puts -nonewline $board
-
 	fileevent $pipe readable [list solution $pipe $endToken $remainder "\nb)"]
-
-	global processSync
-	set processSync 1
-	debug.board processSync:$processSync
+	syncNotify
     }
 }
 
@@ -319,40 +331,37 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	&& [llength $accumulatedTwinnings]==0} {
 	debug.processes "inserting fake zero position"
 	puts $pipe "Zero rotate 90 rotate 270"
+	puts $pipe $endToken
+	puts $pipe "EndProblem"
+	flush $pipe
+
+	if {$start==1} {
+	    fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $endToken ""]
+	    syncWait 1
+	} else {
+	    fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe $endToken ""]
+	}
     } else {
 	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
 	puts $pipe $accumulatedTwinnings
-    }
-    puts $pipe $endToken
-    puts $pipe "EndProblem"
-    flush $pipe
+	puts $pipe $endToken
+	puts $pipe "EndProblem"
+	flush $pipe
 
-    if {$start==1} {
-	# first process of first twin of problem
-	if {[llength $accumulatedTwinnings]==0} {
-	    if {[string match "[frontend::get Twin] *" $endToken]} {
+	if {$start==1} {
+	    # first process of first twin of problem
+	    if {[llength $accumulatedTwinnings]==0} {
 		fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe $endToken ""]
+		syncWait 1
 	    } else {
-		fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $endToken ""]
+		# first twin of zeroposition
 	    }
-	    global processSync
-	    set processSync 0
-	    debug.processes "vwait processSync:$processSync"
-	    vwait processSync
-	    debug.processes "vwait <- processSync:$processSync"
-	    unset processSync
 	} else {
-	    # first twin of zeroposition
-	}
-    } else {
-	if {[llength $accumulatedTwinnings]==0} {
-	    if {[string match "[frontend::get Twin] *" $endToken]} {
+	    if {[llength $accumulatedTwinnings]==0} {
 		fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe $endToken ""]
 	    } else {
-		fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe $endToken ""]
+		fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $endToken ""]
 	    }
-	} else {
-	    fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $endToken ""]
 	}
     }
 
@@ -360,7 +369,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 }
 
 proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights weightTotal} {
-    global processSync isTwinningWritten
+    global isTwinningWritten
 
     debug.processes "tryEntireTwin problemnr:$problemnr firstTwin:$firstTwin endToken:$endToken twinnings:$twinnings skipMoves:$skipMoves weights:$weights weightTotal:$weightTotal"
 
@@ -407,13 +416,7 @@ proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights wei
     }
     tryPartialTwin $problemnr $firstTwin $endToken $accumulatedTwinnings $start [expr {$skipMoves+[llength $weights]}] $processnr
 
-    set processSync 0
-    while {$processSync<$::params(nrprocs)} {
-	debug.processes "vwait processSync:$processSync"
-	vwait processSync
-	debug.processes "vwait <- processSync:$processSync"
-    }
-    unset processSync
+    syncWait $::params(nrprocs)
 
     debug.processes "tryEntireTwin <-"
 }
