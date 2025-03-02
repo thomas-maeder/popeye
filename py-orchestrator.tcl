@@ -279,25 +279,8 @@ proc firstTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
     }
 }
 
-proc otherTwinOfRegularTwinningFirstProcess {pipe endToken chunk} {
-    debug.board "otherTwinOfRegularTwinningFirstProcess pipe:$pipe endToken:$endToken chunk:|$chunk|"
-
-    append chunk [read $pipe]
-    debug.board "chunk:|$chunk|"
-
-    if {[regexp -- {b[)] [^\n]*\n\n(.*)} $chunk - remainder]} {
-	fileevent $pipe readable [list solution $pipe $endToken $remainder "\nc)"]
-
-	global processSync
-	set processSync 1
-	debug.board processSync:$processSync
-    } else {
-	fileevent $pipe readable [list otherTwinOfRegularTwinningFirstProcess $pipe $endToken $chunk]
-    }
-}
-
-proc otherTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
-    debug.board "otherTwinOfRegularTwinningOtherProcess pipe:$pipe endToken:$endToken chunk:|$chunk|"
+proc otherTwinOfRegularTwinning {pipe endToken chunk} {
+    debug.board "otherTwinOfRegularTwinning pipe:$pipe endToken:$endToken chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
@@ -305,7 +288,7 @@ proc otherTwinOfRegularTwinningOtherProcess {pipe endToken chunk} {
     if {[regexp -- {b[)] [^\n]*\n\n(.*)} $chunk - remainder]} {
 	fileevent $pipe readable [list solution $pipe $endToken $remainder "\nc)"]
     } else {
-	fileevent $pipe readable [list otherTwinOfRegularTwinningOtherProcess $pipe $endToken $chunk]
+	fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $endToken $chunk]
     }
 }
 
@@ -367,17 +350,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 		fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe $endToken ""]
 	    }
 	} else {
-	    if {$processnr==1} {
-		fileevent $pipe readable [list otherTwinOfRegularTwinningFirstProcess $pipe $endToken ""]
-		global processSync
-		set processSync 0
-		debug.processes "vwait processSync:$processSync"
-		vwait processSync
-		debug.processes "vwait <- processSync:$processSync"
-		unset processSync
-	    } else {
-		fileevent $pipe readable [list otherTwinOfRegularTwinningOtherProcess $pipe $endToken ""]
-	    }
+	    fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $endToken ""]
 	}
     }
 
