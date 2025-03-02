@@ -391,11 +391,15 @@ proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights wei
 
     set isTwinningWritten false
 
-    set accumulatedTwinnings ""
-    foreach t $twinnings {
-	lassign $t key twinning
-	debug.processes "key:$key twinning:$twinning"
-	append accumulatedTwinnings "$key $twinning "
+    if {[llength $twinnings]==0} {
+	set accumulatedTwinnings ""
+    } else {
+	set accumulatedTwinnings "Twin"
+	foreach t $twinnings {
+	    lassign $t key twinning
+	    debug.processes "key:$key twinning:$twinning"
+	    append accumulatedTwinnings " $twinning"
+	}
     }
     debug.processes accumulatedTwinnings:$accumulatedTwinnings
 
@@ -611,7 +615,9 @@ proc handleOtherTwins {chan problemnr firstTwin endTokenLine nrFirstMoves} {
     set twinnings {}
     while {[regexp "[frontend::get Twin] (.*)" $endTokenLine - twinning]} {
 	lappend twinnings [list "Twin" $twinning]
+	debug.problem "twinnings:$twinnings"
 	gets $chan endTokenLine
+	debug.problem endTokenLine:$endTokenLine
 	solveTwin $problemnr $firstTwin $endTokenLine $twinnings $nrFirstMoves
     }
 
