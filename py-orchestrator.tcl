@@ -176,13 +176,13 @@ proc syncNotify {} {
     debug.processes processSync:$processSync
 }
 
-proc solution {pipe chunk terminatorRE} {
+proc solution {pipe chunk solutionTerminatorRE} {
     debug.solution "solution pipe:$pipe chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.solution "chunk:|$chunk|"
 
-    if {[regexp -- "^(.*)\n($terminatorRE)(.*)$" $chunk - solution terminator remainder]} {
+    if {[regexp -- "^(.*)\n($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
 	debug.solution "terminator found"
 
 	set lines [split $solution "\n"]
@@ -203,11 +203,11 @@ proc solution {pipe chunk terminatorRE} {
 	    puts $line
 	}
 
-	fileevent $pipe readable [list solution $pipe [lindex $lines end] $terminatorRE]
+	fileevent $pipe readable [list solution $pipe [lindex $lines end] $solutionTerminatorRE]
     }
 }
 
-proc onlyTwinOfProblemFirstProcess {pipe chunk terminatorRE} {
+proc onlyTwinOfProblemFirstProcess {pipe chunk solutionTerminatorRE} {
     debug.board "onlyTwinOfProblemFirstProcess pipe:$pipe chunk:|$chunk|"
 
     append  chunk [read $pipe]
@@ -217,78 +217,72 @@ proc onlyTwinOfProblemFirstProcess {pipe chunk terminatorRE} {
 
     if {[regexp -- "(.*)${fakeTerminator}(.*)" $chunk - board remainder]} {
 	puts -nonewline $board
-	fileevent $pipe readable [list solution $pipe $remainder $terminatorRE]
+	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
 	syncNotify
     } else {
-	fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $chunk $terminatorRE]
+	fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe $chunk $solutionTerminatorRE]
     }
 }
 
-proc onlyTwinOfProblemOtherProcess {pipe chunk terminatorRE} {
+proc onlyTwinOfProblemOtherProcess {pipe chunk solutionTerminatorRE} {
     debug.board "onlyTwinOfProblemOtherProcess pipe:$pipe chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.board "chunk:$chunk"
 
-    set fakeTerminator {zeroposition.*?270 *\n\n}
-    if {[regexp -- ".*${fakeTerminator}(.*)" $chunk - remainder]} {
-	fileevent $pipe readable [list solution $pipe $remainder $terminatorRE]
+    set boardTerminatorRE {zeroposition.*?270 *\n\n}
+
+    if {[regexp -- "(.*)${boardTerminatorRE}(.*)" $chunk - board remainder]} {
+	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
     } else {
-	fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe $chunk $terminatorRE]
+	fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe $chunk $solutionTerminatorRE]
     }
 }
 
-proc firstTwinOfRegularTwinningFirstProcess {pipe chunk terminatorRE} {
+proc firstTwinOfRegularTwinningFirstProcess {pipe chunk solutionTerminatorRE} {
     debug.board "firstTwinOfRegularTwinningFirstProcess pipe:$pipe chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    set aPos [string first "a) \n\n" $chunk]
-    debug.board "aPos:$aPos"
+    set boardTerminatorRE {a[\)] \n\n}
 
-    if {$aPos==-1} {
-	fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe $chunk $terminatorRE]
-    } else {
-	set board [string range $chunk 0 [expr {$aPos+4}]]
-	set remainder [string range $chunk [expr {$aPos+5}] end]
-	debug.board "board:|$board| remainder:|$remainder|"
-
+    if {[regexp -- "(.*)(${boardTerminatorRE}.*)" $chunk - board remainder]} {
 	puts -nonewline $board
-	fileevent $pipe readable [list solution $pipe $remainder $terminatorRE]
+	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
 	syncNotify
+    } else {
+	fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe $chunk $solutionTerminatorRE]
     }
 }
 
-proc firstTwinOfRegularTwinningOtherProcess {pipe chunk terminatorRE} {
+proc firstTwinOfRegularTwinningOtherProcess {pipe chunk solutionTerminatorRE} {
     debug.board "firstTwinOfRegularTwinningOtherProcess pipe:$pipe chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    set aPos [string first "a) \n\n" $chunk]
-    debug.board "aPos:$aPos"
+    set boardTerminatorRE {a[\)] \n\n}
 
-    if {$aPos==-1} {
-	fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe $chunk $terminatorRE]
+    if {[regexp -- "(.*)${boardTerminatorRE}(.*)" $chunk - board remainder]} {
+	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
     } else {
-	set remainder [string range $chunk [expr {$aPos+5}] end]
-	debug.board "remainder:|$remainder|"
-
-	fileevent $pipe readable [list solution $pipe $remainder $terminatorRE]
+	fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe $chunk $solutionTerminatorRE]
     }
 }
 
-proc otherTwinOfRegularTwinning {pipe chunk terminatorRE} {
+proc otherTwinOfRegularTwinning {pipe chunk solutionTerminatorRE} {
     debug.board "otherTwinOfRegularTwinning pipe:$pipe chunk:|$chunk|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    if {[regexp -- {b[)] [^\n]*\n\n(.*)} $chunk - remainder]} {
-	fileevent $pipe readable [list solution $pipe $remainder $terminatorRE]
+    set boardTerminatorRE {b[\)] [^\n]*\n\n}
+
+    if {[regexp -- "(.*)${boardTerminatorRE}(.*)" $chunk - board remainder]} {
+	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
     } else {
-	fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $chunk $terminatorRE]
+	fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe $chunk $solutionTerminatorRE]
     }
 }
 
@@ -306,9 +300,9 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
     set pipe [open "| $commandline" "r+"]
 
     if {[string match "[::frontend::get Twin]*" $endToken]} {
-	set terminatorRE {\n..?[\)][^\n]+\n}
+	set solutionTerminatorRE {\n..?[\)][^\n]+\n}
     } else {
-	set terminatorRE {\nsolution finished[^\n]+}
+	set solutionTerminatorRE {\nsolution finished[^\n]+}
     }
 
     gets $pipe greetingLine
@@ -330,10 +324,10 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	flush $pipe
 
 	if {$start==1} {
-	    fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe "" $terminatorRE]
+	    fileevent $pipe readable [list onlyTwinOfProblemFirstProcess $pipe "" $solutionTerminatorRE]
 	    syncWait 1
 	} else {
-	    fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe "" $terminatorRE]
+	    fileevent $pipe readable [list onlyTwinOfProblemOtherProcess $pipe "" $solutionTerminatorRE]
 	}
     } else {
 	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
@@ -345,16 +339,16 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	if {$start==1} {
 	    # first process of first twin of problem
 	    if {[llength $accumulatedTwinnings]==0} {
-		fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe "" $terminatorRE]
+		fileevent $pipe readable [list firstTwinOfRegularTwinningFirstProcess $pipe "" $solutionTerminatorRE]
 		syncWait 1
 	    } else {
 		# first twin of zeroposition
 	    }
 	} else {
 	    if {[llength $accumulatedTwinnings]==0} {
-		fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe "" $terminatorRE]
+		fileevent $pipe readable [list firstTwinOfRegularTwinningOtherProcess $pipe "" $solutionTerminatorRE]
 	    } else {
-		fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe "" $terminatorRE]
+		fileevent $pipe readable [list otherTwinOfRegularTwinning $pipe "" $solutionTerminatorRE]
 	    }
 	}
     }
