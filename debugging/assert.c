@@ -4,30 +4,12 @@
 #include "pieces/attributes/total_invisible.h"
 
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#ifndef EMSCRIPTEN
-  #if !defined(NDEBUG)
-    #if defined(_WIN32) || defined(_WIN64)
-      #if !defined(_assert)
-        #if defined(__assert)
-          #define _assert(cond, file, line) __assert(cond, file, line)
-        #else
-          extern void _assert(char const *cond, char const *file, int line);
-        #endif
-      #endif
-    #else
-      #if !defined(__assert)
-        #if defined(_assert)
-          #define __assert(cond, file, line) _assert(cond, file, line)
-        #else
-          extern void __assert(char const *cond, char const *file, int line);
-        #endif
-      #endif
-    #endif
-  #endif
-#endif
+#if defined(__GNUC__)
 
-void assert_impl(char const *assertion, const char *file, int line)
+void assert_impl(char const *assertion, char const *file, int line, char const *func)
 {
   static boolean recursion_guard = false;
 
@@ -42,19 +24,8 @@ void assert_impl(char const *assertion, const char *file, int line)
     recursion_guard = false;
   }
 
-#ifndef EMSCRIPTEN
-
-#if !defined(NDEBUG)
-
-#if defined(_WIN32) || defined(_WIN64)
-  /* why can't these guys do anything in a standard conforming way??? */
-  _assert
-#else
-  __assert
-#endif
-  (assertion,file,line);
-
-#endif
-
-#endif
+  fprintf(stderr,"%s:%d: %s: Assertion `%s' failed.\n",file,line,func,assertion);
+  exit(1);
 }
+
+#endif
