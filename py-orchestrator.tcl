@@ -214,10 +214,12 @@ proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTer
     debug.board "chunk:|$chunk|"
 
     if {[regexp -- "(.*)(${boardTerminatorRE})${boardTerminatorSilentRE}(.*)" $chunk - board terminator remainder]} {
+	debug.board "terminator found"
 	puts -nonewline "$board$terminator"
-	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
 	syncNotify
+	solution $pipe $remainder $solutionTerminatorRE
     } else {
+	debug.board "terminator not found"
 	fileevent $pipe readable [list firstTwin $pipe $chunk $boardTerminatorRE $boardTerminatorSilentRE $solutionTerminatorRE]
     }
 }
@@ -229,8 +231,10 @@ proc otherTwin {pipe chunk boardTerminatorSilentRE solutionTerminatorRE} {
     debug.board "chunk:|$chunk|"
 
     if {[regexp -- "(.*)${boardTerminatorSilentRE}(.*)" $chunk - board remainder]} {
-	fileevent $pipe readable [list solution $pipe $remainder $solutionTerminatorRE]
+	debug.board "terminator found"
+	solution $pipe $remainder $solutionTerminatorRE
     } else {
+	debug.board "terminator not found"
 	fileevent $pipe readable [list otherTwin $pipe $chunk $boardTerminatorSilentRE $solutionTerminatorRE]
     }
 }
@@ -247,6 +251,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
     set options "option MoveNumber Start $start Upto $upto"
 
     set pipe [open "| $commandline" "r+"]
+    debug.processes "pipe:$pipe"
 
     if {[string match "[::frontend::get Twin]*" $endToken]} {
 	set solutionTerminatorRE {\n..?[\)][^\n]+\n}
@@ -268,7 +273,6 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	&& [llength $accumulatedTwinnings]==0} {
 	debug.processes "inserting fake zero position"
 	puts $pipe "Zero rotate 90 rotate 270"
-	puts $pipe $endToken
 	puts $pipe "EndProblem"
 	flush $pipe
 
@@ -309,15 +313,11 @@ proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights wei
 
     set isTwinningWritten false
 
-    if {[llength $twinnings]==0} {
-	set accumulatedTwinnings ""
-    } else {
-	set accumulatedTwinnings "Twin"
-	foreach t $twinnings {
-	    lassign $t key twinning
-	    debug.processes "key:$key twinning:$twinning"
-	    append accumulatedTwinnings " $twinning"
-	}
+    set accumulatedTwinnings ""
+    foreach t $twinnings {
+	lassign $t key twinning
+	debug.processes "key:$key twinning:$twinning"
+	append accumulatedTwinnings " $key $twinning"
     }
     debug.processes accumulatedTwinnings:$accumulatedTwinnings
 
@@ -530,7 +530,7 @@ proc handleOtherTwins {chan problemnr firstTwin endTokenLine nrFirstMoves} {
 	debug.problem "twinnings:$twinnings"
 	gets $chan endTokenLine
 	debug.problem endTokenLine:$endTokenLine
-	solveTwin $problemnr $firstTwin $endTokenLine $twinnings $nrFirstMoves
+	incr nrFirstMoves [solveTwin $problemnr $firstTwin $endTokenLine $twinnings $nrFirstMoves]
     }
 
     return $endTokenLine
