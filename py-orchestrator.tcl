@@ -368,7 +368,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     foreach t $twinnings {
 	lassign $t key twinning
 	debug.weight "key:$key twinning:$twinning"
-	append accumulatedTwinnings "$key $twinning stipulation ~1 "
+	append accumulatedTwinnings "$key $twinning "
     }
     debug.weight accumulatedTwinnings:$accumulatedTwinnings
 
@@ -378,7 +378,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     puts $pipe $firstTwin
     puts $pipe $options
     puts $pipe "zeroposition stipulation ~1"
-    puts $pipe "$accumulatedTwinnings"
+    puts $pipe "$accumulatedTwinnings stipulation ~1"
     puts $pipe "EndProblem"
 
     set output ""
