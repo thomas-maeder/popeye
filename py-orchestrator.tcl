@@ -3,6 +3,13 @@
 package require cmdline
 package require debug
 
+# debug.something has the nasty habit of subst-in its argument
+# to protect it from subst, do something like
+# debug.something "argument:[debuggable $argument]"
+proc debuggable {string} {
+    return [regsub -all {\[} $string {[return "\["]}]
+}
+
 # define the debugging tags in deactivated state
 # they can be activated using command line options
 debug off board
@@ -411,6 +418,9 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 	    {!} {
 		set weight 20
 	    }
+	    {TI~-~} {
+		set weight 100
+	    }
 	    default {
 	    }
 	}
@@ -466,10 +476,12 @@ proc whoMoves {twin twinnings} {
     puts $pipe "EndProblem"
 
     set result "white"
+    debug.whomoves "assuming white"
     while {[gets $pipe line]>=0} {
-	debug.whomoves "line:$line" 2
+	debug.whomoves "line:[debuggable $line]" 2
 	if {[string first "b5-b4" $line]>=0} {
 	    set result "black"
+	    debug.whomoves "detected black"
 	}
     }
 
@@ -479,7 +491,7 @@ proc whoMoves {twin twinnings} {
 	debug.whomoves error:$error
 
 	# don't confuse caller with errors caused by us
-	regsub -all {..: square is empty - cannot .re.move any piece.\n} $error {} error
+	regsub -all {..: square is empty - cannot .re.move any piece.\n?} $error {} error
 	regsub {both sides need a king} $error {} error
 	
 	if {$error!=""} {
