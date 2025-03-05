@@ -186,10 +186,10 @@ proc syncNotify {} {
 }
 
 proc flushSolution {pipe chunk solutionTerminatorRE} {
-    debug.solution "flushSolution chunk:|$chunk|"
+    debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]|"
 
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
-	debug.solution "solution:|$solution|"
+	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
 
 	puts -nonewline $solution
@@ -216,13 +216,13 @@ proc solution {pipe solutionTerminatorRE} {
 }
 
 proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTerminatorRE} {
-    debug.board "firstTwin pipe:$pipe chunk:|$chunk|"
+    debug.board "firstTwin pipe:$pipe chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
     if {[regexp -- "(.*)(${boardTerminatorRE})${boardTerminatorSilentRE}(.*)" $chunk - board terminator remainder]} {
-	debug.board "terminator found"
+	debug.board "terminator:|[debuggable $terminator]|"
 	puts -nonewline "$board$terminator"
 	syncNotify
 	flushSolution $pipe $remainder $solutionTerminatorRE
@@ -234,13 +234,13 @@ proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTer
 }
 
 proc otherTwin {pipe chunk boardTerminatorSilentRE solutionTerminatorRE} {
-    debug.board "otherTwin pipe:$pipe chunk:|$chunk|"
+    debug.board "otherTwin pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorSilentRE:[debuggable $boardTerminatorSilentRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE]"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    if {[regexp -- "(.*)${boardTerminatorSilentRE}(.*)" $chunk - board remainder]} {
-	debug.board "terminator found"
+    if {[regexp -- "(.*)($boardTerminatorSilentRE)(.*)" $chunk - board terminator remainder]} {
+	debug.board "terminator:|[debuggable $terminator]|"
 	flushSolution $pipe $remainder $solutionTerminatorRE
 	fileevent $pipe readable [list solution $pipe $solutionTerminatorRE]
     } else {
@@ -286,7 +286,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	puts $pipe "EndProblem"
 	flush $pipe
 
-	set boardTerminatorRE {zeroposition.*?270 *\n\n}
+	set boardTerminatorRE {\nzeroposition.*?270 *\n}
 	if {$start==1} {
 	    fileevent $pipe readable [list firstTwin $pipe "" "" $boardTerminatorRE $solutionTerminatorRE]
 	    syncWait 1
@@ -396,7 +396,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     set weightTotal 0
     while {[gets $pipe line]>=0} {
 	append output "$line\n"
-	debug.weight "line:$line" 2
+	debug.weight "line:[debuggable $line]" 2
 	# TODO lower weight for capturing moves?
 	switch -regexp $line {
 	    {Time = } {
@@ -429,8 +429,8 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     if {[catch {
 	close $pipe
     } error]} {
-	debug.weight output:$output 2
-	debug.weight error:$error 2
+	debug.weight output:[debuggable $output] 2
+	debug.weight error:[debuggable $error] 2
 	
 	# don't confuse caller with "zeroposition" inserted by us
 	regsub -- {zeroposition.*} $output {} output
@@ -488,7 +488,7 @@ proc whoMoves {twin twinnings} {
     if {[catch {
 	close $pipe
     } error]} {
-	debug.whomoves error:$error
+	debug.whomoves error:[debuggable $error]
 
 	# don't confuse caller with errors caused by us
 	regsub -all {..: square is empty - cannot .re.move any piece.\n?} $error {} error
