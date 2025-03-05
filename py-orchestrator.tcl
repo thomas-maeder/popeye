@@ -355,29 +355,30 @@ proc tryEntireTwin {problemnr firstTwin endToken twinnings skipMoves weights wei
     debug.processes "tryEntireTwin <-"
 }
 
-proc findMoveWeights {firstTwin twinnings whomoves} {
-    debug.weight "findMoveWeights firstTwin:$firstTwin twinnings:$twinnings whomoves:$whomoves"
+proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
+    debug.weight "findMoveWeights firstTwin:$firstTwin twinnings:$twinnings whomoves:$whomoves skipmoves:$skipmoves"
 
-    set options "option Noboard MoveNumber"
+    set options "option Noboard MoveNumber start [expr {$skipmoves+1}]"
     if {$whomoves=="black"} {
 	append options " HalfDuplex"
     }
     debug.weight "options:$options"
 
-    set accumulatedZeroposition ""
+    set accumulatedTwinnings ""
     foreach t $twinnings {
 	lassign $t key twinning
 	debug.weight "key:$key twinning:$twinning"
-	append accumulatedZeroposition "$twinning "
+	append accumulatedTwinnings "$key $twinning stipulation ~1 "
     }
-    debug.weight accumulatedZeroposition:$accumulatedZeroposition
+    debug.weight accumulatedTwinnings:$accumulatedTwinnings
 
     set pipe [open "| $::params(executable)" "r+"]
     fconfigure $pipe -encoding binary -buffering line
 
     puts $pipe $firstTwin
     puts $pipe $options
-    puts $pipe "zeroposition $accumulatedZeroposition stipulation ~1"
+    puts $pipe "zeroposition stipulation ~1"
+    puts $pipe "$accumulatedTwinnings"
     puts $pipe "EndProblem"
 
     set output ""
@@ -493,7 +494,7 @@ proc solveTwin {problemnr firstTwin endToken twinnings skipMoves} {
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves"
-    lassign [findMoveWeights $firstTwin $twinnings $whomoves] weights weightTotal
+    lassign [findMoveWeights $firstTwin $twinnings $whomoves $skipMoves] weights weightTotal
     debug.twin "weights:$weights weightTotal:$weightTotal"
     tryEntireTwin $problemnr $firstTwin $endToken $twinnings $skipMoves $weights $weightTotal
 
