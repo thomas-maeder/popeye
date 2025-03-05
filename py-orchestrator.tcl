@@ -166,7 +166,9 @@ proc syncWait {value} {
 proc syncEnded {} {
     global processSync processValue
 
-    return [expr {$processSync==$processValue}]
+    set result [expr {$processSync==$processValue}]
+    debug.processes "syncEnded <- $result"
+    return $result
 }
 
 proc syncNotify {} {
@@ -176,35 +178,34 @@ proc syncNotify {} {
     debug.processes processSync:$processSync
 }
 
-proc solution {pipe chunk solutionTerminatorRE} {
-    debug.solution "solution pipe:$pipe chunk:|$chunk|"
+proc flushSolution {pipe chunk solutionTerminatorRE} {
+    debug.solution "flushSolution chunk:|$chunk|"
 
-    append chunk [read $pipe]
-    debug.solution "chunk:|$chunk|"
+    if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
+	debug.solution "solution:|$solution|"
+	debug.solution "terminator:|$terminator|"
 
-    if {[regexp -- "^(.*)\n($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
-	debug.solution "terminator found"
+	puts -nonewline $solution
 
-	set lines [split $solution "\n"]
-	foreach line $lines {
-	    puts $line
-	}
         syncNotify
 	if {[syncEnded]} {
-	    puts $terminator
+	    puts -nonewline $terminator
 	}
 
 	close $pipe
     } else {
 	debug.solution "terminator not found"
 
-	set lines [split $chunk "\n"]
-	foreach line [lrange $lines 0 end-1] {
-	    puts $line
-	}
-
-	fileevent $pipe readable [list solution $pipe [lindex $lines end] $solutionTerminatorRE]
+	puts -nonewline $chunk
     }
+
+    flush stdout
+}
+
+proc solution {pipe solutionTerminatorRE} {
+    debug.solution "solution pipe:$pipe"
+
+    flushSolution $pipe [read $pipe] $solutionTerminatorRE
 }
 
 proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTerminatorRE} {
@@ -217,7 +218,8 @@ proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTer
 	debug.board "terminator found"
 	puts -nonewline "$board$terminator"
 	syncNotify
-	solution $pipe $remainder $solutionTerminatorRE
+	flushSolution $pipe $remainder $solutionTerminatorRE
+	fileevent $pipe readable [list solution $pipe $solutionTerminatorRE]
     } else {
 	debug.board "terminator not found"
 	fileevent $pipe readable [list firstTwin $pipe $chunk $boardTerminatorRE $boardTerminatorSilentRE $solutionTerminatorRE]
@@ -232,7 +234,8 @@ proc otherTwin {pipe chunk boardTerminatorSilentRE solutionTerminatorRE} {
 
     if {[regexp -- "(.*)${boardTerminatorSilentRE}(.*)" $chunk - board remainder]} {
 	debug.board "terminator found"
-	solution $pipe $remainder $solutionTerminatorRE
+	flushSolution $pipe $remainder $solutionTerminatorRE
+	fileevent $pipe readable [list solution $pipe $solutionTerminatorRE]
     } else {
 	debug.board "terminator not found"
 	fileevent $pipe readable [list otherTwin $pipe $chunk $boardTerminatorSilentRE $solutionTerminatorRE]
@@ -254,9 +257,9 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
     debug.processes "pipe:$pipe"
 
     if {[string match "[::frontend::get Twin]*" $endToken]} {
-	set solutionTerminatorRE {\n..?[\)][^\n]+\n}
+	set solutionTerminatorRE {\n\n..?[\)][^\n]+\n}
     } else {
-	set solutionTerminatorRE {\nsolution finished[^\n]+}
+	set solutionTerminatorRE {\n\nsolution finished[^\n]+\n\n\n}
     }
 
     gets $pipe greetingLine
@@ -290,7 +293,7 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	puts $pipe "EndProblem"
 	flush $pipe
 
-	set boardTerminatorRE {\n..?[\)] [^\n]*\n\n}
+	set boardTerminatorRE {\n..?[\)] [^\n]*\n}
 	if {$start==1} {
 	    if {[llength $accumulatedTwinnings]==0} {
 		fileevent $pipe readable [list firstTwin $pipe "" $boardTerminatorRE "" $solutionTerminatorRE]
