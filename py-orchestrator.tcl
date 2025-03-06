@@ -297,7 +297,9 @@ proc tryPartialTwin {problemnr firstTwin endToken accumulatedTwinnings start upt
 	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
 	puts $pipe $accumulatedTwinnings
 	puts $pipe $endToken
-	puts $pipe "EndProblem"
+	if {!($endToken==[frontend::get "EndProblem"] || $endToken==[frontend::get "NextProblem"])} {
+	    puts $pipe "EndProblem"
+	}
 	flush $pipe
 
 	set boardTerminatorRE {\n..?[\)] [^\n]*\n}
@@ -451,7 +453,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:$twin twinnings:$twinnings"
 
-    set options "option noboard movenumber maxtime 1"
+    set options "option noboard movenumber start 1 upto 1"
 
     set accumulatedZeroposition ""
     foreach t $twinnings {
@@ -482,6 +484,10 @@ proc whoMoves {twin twinnings} {
 	if {[string first "b5-b4" $line]>=0} {
 	    set result "black"
 	    debug.whomoves "detected black"
+	    break
+	} elseif {[string first "b5-b6" $line]>=0} {
+	    debug.whomoves "detected white"
+	    break
 	}
     }
 
