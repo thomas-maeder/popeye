@@ -557,25 +557,39 @@ proc areMoveNumbersActivated {firstTwin} {
     return $result
 }
 
-proc handleFirstTwin {chan problemnr {languageSelectorWord ""}} {
-    debug.problem "handleFirstTwin problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+proc readFirstTwin {chan languageSelectorWord} {
+    debug.problem "readFirstTwin languageSelectorWord:$languageSelectorWord"
 
     set firstTwin "$languageSelectorWord "
     while {[gets $chan line]>=0} {
 	debug.problem "line:[debuggable $line]"
 	if {$line==[frontend::get EndProblem]
 	    || $line==[frontend::get NextProblem]
-	    || [string match "[frontend::get Twin] *" $line]} {
-	    set twinnings {}
-	    set movenumbers [areMoveNumbersActivated $firstTwin]
-	    set result [list $firstTwin $movenumbers $line [solveTwin $problemnr $firstTwin $movenumbers $line $twinnings 0]]
-	    break
-	} elseif {[string match "[frontend::get Zero] *" $line]} {
-	    set result [list $firstTwin $movenumbers $line 0]
+	    || [string match "[frontend::get Twin] *" $line]
+	    || [string match "[frontend::get Zero] *" $line]} {
+	    set result [list $firstTwin $line]
 	    break
 	} else {
 	    append firstTwin "$line\n"
 	}
+    }
+
+    debug.problem "readFirstTwin <- $result"
+    return $result
+}
+
+proc handleFirstTwin {chan problemnr {languageSelectorWord ""}} {
+    debug.problem "handleFirstTwin problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+
+    lassign [readFirstTwin $chan $languageSelectorWord] firstTwin endTokenLine
+
+    if {[string match "[frontend::get Zero] *" $endTokenLine]} {
+	set result [list $firstTwin $movenumbers $endTokenLine 0]
+    } else {
+	set twinnings {}
+	set movenumbers [areMoveNumbersActivated $firstTwin]
+	set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endTokenLine $twinnings 0]
+	set result [list $firstTwin $movenumbers $endTokenLine $solveResult]
     }
 
     debug.problem "handleFirstTwin <- $result"
