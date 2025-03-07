@@ -393,13 +393,9 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     puts $pipe "$accumulatedTwinnings stipulation ~1"
     puts $pipe "EndProblem"
 
-    set output ""
-
     set weightTotal 0
     while {[gets $pipe line]>=0} {
-	append output "$line\n"
 	debug.weight "line:[debuggable $line]" 2
-	# TODO lower weight for capturing moves?
 	switch -regexp $line {
 	    {Time = } {
 		# this matches both
@@ -431,7 +427,6 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     if {[catch {
 	close $pipe
     } error]} {
-	debug.weight output:[debuggable $output] 2
 	debug.weight error:[debuggable $error] 2
 	
 	# don't confuse caller with "zeroposition" inserted by us
@@ -446,7 +441,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     }
 
     set result [list $weights $weightTotal]
-    debug.weight weights:$result
+    debug.weight "findMoveWeights <- $result"
     return $result
 }
 
