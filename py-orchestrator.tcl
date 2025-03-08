@@ -14,6 +14,7 @@ proc debuggable {string} {
 # they can be activated using command line options
 debug off board
 debug off cmdline
+debug off input
 debug off movenumbers
 debug off problem
 debug off processes
@@ -90,6 +91,104 @@ proc defaultPopeyeExecutable {} {
     }
 
     return $result
+}
+
+namespace eval language {
+    namespace eval english {
+	variable BeginProblem "BeginProblem"
+	variable NextProblem "NextProblem"
+	variable EndProblem "EndProblem"
+	variable Zero "ZeroPosition"
+	variable Twin "Twin"
+	variable MoveNumber "MoveNumber"
+    }
+}
+
+namespace eval input {
+    variable detectedLanguage
+    variable lineBuffer ""
+    variable minTokenLength 3
+
+    variable whiteSpaceRE {[[:blank:]]}
+    variable tokenRE {[^[:blank:]]}
+}
+
+proc ::input::getLanguageSelector {} {
+    variable detectedLanguage
+
+    debug.input "getLanguageSelector"
+
+    set result [set ${detectedLanguage}::BeginProblem]
+
+    debug.input "getLanguageSelector <- $result"
+    return $result
+}
+
+proc ::input::nextToken {chan} {
+    variable lineBuffer
+    variable whiteSpaceRE
+    variable tokenRE
+
+    debug.input "nextToken"
+
+    while {true} {
+	debug.input "lineBuffer:|[debuggable $lineBuffer]|" 2
+	if {[regexp -- "$whiteSpaceRE*($tokenRE+)(.*)" $lineBuffer - result lineBuffer]} {
+	    break
+	} elseif {[gets $chan lineBuffer]<0} {
+	    set result ""
+	    break
+	}
+    }
+
+    debug.input "nextToken <- $result"
+    return $result
+}
+
+proc ::input::reportNoLanguageDetected {token} {
+    debug.input "::input::reportNoLanguageDetected token:$token"
+
+    puts stderr "erreur d'entree:pas debut probleme"
+    puts stderr "element d'offenser: $token"
+    exit
+}
+
+proc ::input::detectLanguage {chan} {
+    variable detectedLanguage
+    variable minTokenLength
+
+    debug.input "detectLanguage"
+
+    set languages [namespace children ::language]
+    debug.input "languages:$languages" 2
+
+    set token [nextToken $chan]
+    set tokenLength [string length $token]
+    debug.input "tokenLength:$tokenLength" 2
+
+    if {$tokenLength<$minTokenLength} {
+	reportNoLanguageDetected $token
+    } else {
+	foreach language $languages {
+	    set BeginProblem [set ${language}::BeginProblem]
+	    debug.input "BeginProblem:$BeginProblem" 2
+
+	    set BeginProblemFragment [string range $BeginProblem 0 [expr {$tokenLength-1}]]
+	    debug.input "BeginProblemFragment:$BeginProblemFragment" 2
+
+	    if {[string compare -nocase $BeginProblemFragment $token]==0} {
+		set detectedLanguage $language
+		debug.input "detectedLanguage:$detectedLanguage"
+		break
+	    }
+	}
+
+	if {![info exists detectedLanguage]} {
+	    reportNoLanguageDetected $token
+	}
+    }
+
+    debug.input "detectLanguage <-"
 }
 
 namespace eval frontend {
@@ -570,10 +669,10 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     return $result
 }
 
-proc readFirstTwin {chan languageSelectorWord} {
-    debug.problem "readFirstTwin languageSelectorWord:$languageSelectorWord"
+proc readFirstTwin {chan} {
+    debug.problem "readFirstTwin"
 
-    set firstTwin "$languageSelectorWord "
+    set firstTwin "[::input::getLanguageSelector] "
     while {[gets $chan line]>=0} {
 	debug.problem "line:[debuggable $line]" 2
 	if {$line==[frontend::get EndProblem]
@@ -591,10 +690,10 @@ proc readFirstTwin {chan languageSelectorWord} {
     return $result
 }
 
-proc handleFirstTwin {chan problemnr {languageSelectorWord ""}} {
-    debug.problem "handleFirstTwin problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+proc handleFirstTwin {chan problemnr} {
+    debug.problem "handleFirstTwin problemnr:$problemnr"
 
-    lassign [readFirstTwin $chan $languageSelectorWord] firstTwin endTokenLine
+    lassign [readFirstTwin $chan] firstTwin endTokenLine
 
     if {[regexp -- "[frontend::get Zero] (.*)" $endTokenLine - zeroTwinning]} {
 	lappend twinnings [list "Zero" $zeroTwinning]
@@ -632,20 +731,16 @@ proc handleFirstProblem {chan problemnr} {
     debug.problem "handleFirstProblem problemnr:$problemnr"
 
     lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endTokenLine nrFirstMoves
-    set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
-    debug.problem endTokenLine:$endTokenLine
+    set result [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
 
-    set languageSelectorWord [lindex [split [string trim $firstTwin]] 0]
-
-    set result [list $languageSelectorWord $endTokenLine]
     debug.problem "handleFirstProblem <- $result"
     return $result
 }
 
-proc handleNextProblem {chan problemnr languageSelectorWord} {
-    debug.problem "handleNextProblem problemnr:$problemnr languageSelectorWord:$languageSelectorWord"
+proc handleNextProblem {chan problemnr} {
+    debug.problem "handleNextProblem problemnr:$problemnr"
 
-    lassign [handleFirstTwin $chan $problemnr $languageSelectorWord] firstTwin movenumbers endTokenLine nrFirstMoves
+    lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endTokenLine nrFirstMoves
     set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
     debug.problem endTokenLine:$endTokenLine
 
@@ -657,11 +752,13 @@ proc handleNextProblem {chan problemnr languageSelectorWord} {
 proc handleInput {chan} {
     set problemnr 1
 
-    lassign [handleFirstProblem $chan $problemnr] languageSelectorWord endToken
+    ::input::detectLanguage $chan
+
+    set endToken [handleFirstProblem $chan $problemnr]
 
     while {$endToken==[frontend::get NextProblem]} {
 	incr problemnr
-	set endToken [handleNextProblem $chan $problemnr $languageSelectorWord]
+	set endToken [handleNextProblem $chan $problemnr]
     }
 }
 
