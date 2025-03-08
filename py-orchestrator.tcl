@@ -447,14 +447,14 @@ proc syncNotify {} {
 }
 
 proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
-    debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| movenumbers:$movenumbers"
+    debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE] movenumbers:$movenumbers"
 
     if {!$movenumbers} {
 	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::input::getElement Time] = [^\)]+[\)]}
 	regsub -all "\n$movenumbersRE" $chunk "" chunk
     }
 
-    if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
+    if {[regexp -- "^(.*)${solutionTerminatorRE}(.*)$" $chunk - solution terminator remainder]} {
 	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
 
@@ -486,13 +486,13 @@ proc solution {pipe solutionTerminatorRE movenumbers} {
     flushSolution $pipe [read $pipe] $solutionTerminatorRE $movenumbers
 }
 
-proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTerminatorRE movenumbers} {
-    debug.board "firstTwin pipe:$pipe chunk:|[debuggable $chunk]| movenumbers:$movenumbers"
+proc firstProcessOfTwin {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
+    debug.board "firstProcessOfTwin pipe:$pipe movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    if {[regexp -- "(.*)(${boardTerminatorRE})${boardTerminatorSilentRE}(.*)" $chunk - board terminator remainder]} {
+    if {[regexp -- "$boardRE${boardTerminatorRE}(.*)" $chunk - board terminator remainder]} {
 	debug.board "terminator:|[debuggable $terminator]|"
 	puts -nonewline "$board$terminator"
 	syncNotify
@@ -501,24 +501,24 @@ proc firstTwin {pipe chunk boardTerminatorRE boardTerminatorSilentRE solutionTer
 	}
     } else {
 	debug.board "terminator not found"
-	fileevent $pipe readable [list firstTwin $pipe $chunk $boardTerminatorRE $boardTerminatorSilentRE $solutionTerminatorRE $movenumbers]
+	fileevent $pipe readable [list firstProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
     }
 }
 
-proc otherTwin {pipe chunk boardTerminatorSilentRE solutionTerminatorRE movenumbers} {
-    debug.board "otherTwin pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorSilentRE:[debuggable $boardTerminatorSilentRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] movenumbers:$movenumbers"
+proc otherProcessOfTwin {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
+    debug.board "otherProcessOfTwin pipe:$pipe boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    if {[regexp -- "(.*)($boardTerminatorSilentRE)(.*)" $chunk - board terminator remainder]} {
-	debug.board "terminator:|[debuggable $terminator]|"
+    if {[regexp -- "(.*)($boardTerminatorRE)(.*)" $chunk - board terminator remainder]} {
+	debug.board "terminator(suppressed from output):|[debuggable $terminator]|"
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE $movenumbers]} {
 	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $movenumbers]
 	}
     } else {
 	debug.board "terminator not found"
-	fileevent $pipe readable [list otherTwin $pipe $chunk $boardTerminatorSilentRE $solutionTerminatorRE $movenumbers]
+	fileevent $pipe readable [list otherProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
     }
 }
 
@@ -536,12 +536,6 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
     set pipe [open "| $commandline" "r+"]
     debug.processes "pipe:$pipe"
 
-    if {$endElmt=="Twin"} {
-	set solutionTerminatorRE {\n\n..?[\)][^\n]+\n}
-    } else {
-	set solutionTerminatorRE "\n\n[::input::getElement SolutionFinished]\[^\n]+\n\n\n"
-    }
-
     gets $pipe greetingLine
     if {$problemnr==1 && $start==1} {
 	# first twin of first problem: print greeting line
@@ -550,39 +544,72 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 
     fconfigure $pipe -blocking false -encoding binary
 
+    set anySequenceCaptureRE "(.*)"
+    set anySequenceDontCaptureRE "()(?:.*)"
+    set fakeZeroPositionRE "\n[::input::getElement ZeroPosition].*?270 *\n"
+    set twinningRE {\n\n..?[\)] [^\n]*\n}
+    set solutionFinishedRE "\n\n[::input::getElement SolutionFinished]\[^\n]+\n\n\n"
+
     puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
     puts $pipe $options
     if {$endElmt!="Twin"
 	&& [llength $accumulatedTwinnings]==0} {
-	debug.processes "inserting fake zero position"
+	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
 	puts $pipe "[::input::getElement ZeroPosition] [::input::getElement Rotate] 90 [::input::getElement Rotate] 270"
 	puts $pipe "[::input::getElement EndProblem]"
 	flush $pipe
 
-	set boardTerminatorRE "\n[::input::getElement ZeroPosition].*?270 *\n"
-	if {$start==1} {
-	    fileevent $pipe readable [list firstTwin $pipe "" "" $boardTerminatorRE $solutionTerminatorRE $movenumbers]
-	    syncWait 1
+	if {$processnr==1} {
+	    debug.processes "write board, but not fake terminator" 2
+	    set boardRE $anySequenceCaptureRE
+	    set boardTerminatorRE "()(?:$fakeZeroPositionRE)"
 	} else {
-	    fileevent $pipe readable [list otherTwin $pipe "" $boardTerminatorRE $solutionTerminatorRE $movenumbers]
+	    debug.processes "don't write board" 2
+	    set boardRE $anySequenceDontCaptureRE
+	    set boardTerminatorRE $fakeZeroPositionRE
 	}
+
+	debug.processes "write solution finished if we are the last process" 2
+	set solutionTerminatorRE "($solutionFinishedRE)"
     } else {
-	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
+	debug.processes "twinning involved - inserting accumulated twinnings" 2
 	puts $pipe $accumulatedTwinnings
 	puts $pipe [::input::getElement $endElmt]
 	if {$endElmt=="Twin"} {
-	    puts $pipe [::input::getElement EndProblem]
+	    puts $pipe "[::input::getElement EndProblem]"
 	}
 	flush $pipe
 
-	set boardTerminatorRE {\n..?[\)] [^\n]*\n}
-	if {$start==1} {
-	    fileevent $pipe readable [list firstTwin $pipe "" $boardTerminatorRE "" $solutionTerminatorRE $movenumbers]
-	    syncWait 1
+	if {$processnr==1} {
+	    if {$start==1} {
+		debug.processes "write board" 2
+		set boardRE $anySequenceCaptureRE
+	    } else {
+		debug.processes "don't write board" 2
+		set boardRE $anySequenceDontCaptureRE
+	    }
+	    debug.processes "write twinning" 2
+	    set boardTerminatorRE "($twinningRE)"
 	} else {
-	    fileevent $pipe readable [list otherTwin $pipe "" $boardTerminatorRE $solutionTerminatorRE $movenumbers]
+	    debug.processes "don't write board or twinning" 2
+	    set boardRE $anySequenceDontCaptureRE
+	    set boardTerminatorRE $twinningRE
 	}
+	if {$endElmt=="Twin"} {
+	    debug.processes "don't write next twinning" 2
+	    set solutionTerminatorRE "()(?:$twinningRE)"
+	} else {
+	    debug.processes "write solution finished if we are the last process" 2
+	    set solutionTerminatorRE "($solutionFinishedRE)"
+	}
+    }
+
+    if {$processnr==1} {
+	fileevent $pipe readable [list firstProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
+	syncWait 1
+    } else {
+	fileevent $pipe readable [list otherProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
     }
 
     debug.processes "tryPartialTwin <-"
@@ -859,7 +886,7 @@ proc handleFirstTwin {chan problemnr} {
 	set twinnings {}
 	set movenumbers [areMoveNumbersActivated $firstTwin ""]
     }
-
+    
     set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
     set result [list $firstTwin $movenumbers $endElmt $solveResult]
 
