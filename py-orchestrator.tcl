@@ -405,6 +405,7 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnin
 
     fconfigure $pipe -blocking false -encoding binary
 
+    puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
     puts $pipe $options
     if {($endToken==[frontend::get "EndProblem"] || $endToken==[frontend::get "NextProblem"])
@@ -515,6 +516,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     set pipe [open "| $::params(executable)" "r+"]
     fconfigure $pipe -encoding binary -buffering line
 
+    puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
     puts $pipe $options
     if {!$isZero} {
@@ -597,6 +599,7 @@ proc whoMoves {twin twinnings} {
     set pipe [open "| $::params(executable)" "r+"]
     fconfigure $pipe -encoding binary -buffering line
 
+    puts $pipe [::input::getLanguageSelector]
     puts $pipe $twin
     puts $pipe $options
     puts $pipe "zeroposition $accumulatedZeroposition"
@@ -656,6 +659,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     set pipe [open "| $::params(executable)" "r+"]
     fconfigure $pipe -encoding binary -buffering line
 
+    puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
     puts $pipe "zeroposition $zeroTwinning stipulation ~1"
     puts $pipe "EndProblem"
@@ -683,7 +687,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 proc readFirstTwin {chan} {
     debug.problem "readFirstTwin"
 
-    set firstTwin "[::input::getLanguageSelector] "
+    set firstTwin ""
     while {[gets $chan line]>=0} {
 	debug.problem "line:[debuggable $line]" 2
 	if {$line==[frontend::get EndProblem]
