@@ -1,6 +1,7 @@
 #! /usr/bin/env tclsh
 
 package require cmdline
+package require control
 package require debug
 
 # debug.something has the nasty habit of subst-in its argument
@@ -9,6 +10,8 @@ package require debug
 proc debuggable {string} {
     return [regsub -all {\[} $string {[return "\["]}]
 }
+
+control::control assert enabled 0
 
 # define the debugging tags in deactivated state
 # they can be activated using command line options
@@ -94,13 +97,97 @@ proc defaultPopeyeExecutable {} {
 }
 
 namespace eval language {
+    namespace eval francais {
+	variable BeginProblem "DebugProblem"
+	variable NextProblem "Asuivre"
+	variable EndProblem "FinProblem"
+	variable ZeroPosition "zeroposition"
+	variable Twin "Jumeau"
+	variable Title "Titre"
+	variable Author "Auteur"
+	variable Origin "Source"
+	variable Remark "Remarque"
+	variable Protocol "Protocol"
+	variable LaTeX "LaTeX"
+	variable Stipulation "Enonce"
+	variable Option "Option"
+	variable MoveNumber "Trace"
+	variable StartMoveNumber "Enroute"
+	variable UpToMoveNumber "JusquAuCoup"
+	variable NoBoard "SansEchiquier"
+	variable MaxSolutions "MaxSolutions"
+	variable HalfDuplex "DemiDuplex"
+	variable Rotate "Rotation"
+	variable Add "ajoute"
+	variable Remove "ote"
+	variable Neutral "Neutre"
+	variable Pawn "p"
+	variable Time "Temps"
+	variable SolutionFinished "solution terminee"
+	variable SquareIsEmptyRE "la case est vide - on ne peut pas oter ou deplacer une piece."
+	variable BothSidesNeedAKingRE "il faut un roi de chaque couleur"
+    }
+
+    namespace eval deutsch {
+	variable BeginProblem "AnfangProblem"
+	variable NextProblem "WeiteresProblem"
+	variable EndProblem "EndeProblem"
+	variable ZeroPosition "NullStellung"
+	variable Twin "Zwilling"
+	variable Title "Titel"
+	variable Author "Autor"
+	variable Origin "Quelle"
+	variable Remark "Bemerkung"
+	variable Protocol "Protokoll"
+	variable LaTeX "LaTeX"
+	variable Stipulation "Forderung"
+	variable Option "Option"
+	variable MoveNumber "ZugNummer"
+	variable StartMoveNumber "StartZugnummer"
+	variable UpToMoveNumber "BisZugnummer"
+	variable NoBoard "OhneBrett"
+	variable MaxSolutions "MaxLoesungen"
+	variable HalfDuplex "HalbDuplex"
+	variable Rotate "Drehung"
+	variable Add "hinzufuegen"
+	variable Remove "entferne"
+	variable Neutral "Neutral"
+	variable Pawn "b"
+	variable Time "Zeit"
+	variable SolutionFinished "Loesung beendet"
+	variable SquareIsEmptyRE "Feld leer - kann keine Figur entfernen/versetzen."
+	variable BothSidesNeedAKingRE "Es fehlt ein weisser oder schwarzer Koenig\n"
+    }
+
     namespace eval english {
 	variable BeginProblem "BeginProblem"
 	variable NextProblem "NextProblem"
 	variable EndProblem "EndProblem"
-	variable Zero "ZeroPosition"
+	variable ZeroPosition "zeroposition"
 	variable Twin "Twin"
+	variable Title "Title"
+	variable Author "Author"
+	variable Origin "Origin"
+	variable Remark "Remark"
+	variable Protocol "Protocol"
+	variable LaTeX "LaTeX"
+	variable Stipulation "Stipulation"
+	variable Option "Option"
 	variable MoveNumber "MoveNumber"
+	variable StartMoveNumber "StartMoveNumber"
+	variable UpToMoveNumber "UpToMoveNumber"
+	variable NoBoard "NoBoard"
+	variable MaxSolutions "MaxSolutions"
+	variable HalfDuplex "HalfDuplex"
+	variable Rotate "Rotate"
+	variable Add "add"
+	variable Remove "remove"
+	variable Neutral "Neutral"
+	variable Pawn "p"
+	variable Time "Time"
+	variable SolutionFinished "solution finished"
+	variable SquareIsEmptyRE "square is empty - cannot .re.move any piece."
+	variable BothSidesNeedAKingRE "both sides need a king"
     }
 }
 
@@ -111,6 +198,15 @@ namespace eval input {
 
     variable whiteSpaceRE {[[:blank:]]}
     variable tokenRE {[^[:blank:]]}
+
+    variable lineElements {
+	Title
+	Author
+	Origin
+	Remark
+	Protocol
+	LaTeX
+    }
 }
 
 proc ::input::getLanguageSelector {} {
@@ -153,8 +249,13 @@ proc ::input::reportNoLanguageDetected {token} {
     exit
 }
 
-proc ::input::tokenIsElement {token language elementId} {
-    debug.input "tokenIsElement token:$token language:$language elementid:$elementId"
+proc ::input::tokenIsElement {token elementId {language ""}} {
+    variable detectedLanguage
+
+    if {$language==""} {
+	set language $detectedLanguage
+    }
+    debug.input "tokenIsElement token:$token elementId:$elementId language:$language"
 
     set tokenLength [string length $token]
 
@@ -167,6 +268,25 @@ proc ::input::tokenIsElement {token language elementId} {
     set result [expr {[string compare -nocase $elementStringFragment $token]==0}]
 
     debug.input "tokenIsElement <- $result"
+    return $result
+}
+
+proc ::input::isLineElement {token} {
+    variable lineElements
+    variable detectedLanguage
+
+    debug.input "isLineElement token:$token"
+
+    set result false
+
+    foreach elmt $lineElements {
+	if {[tokenIsElement $token $elmt]} {
+	    set result true
+	    break
+	}
+    }
+
+    debug.input "isLineElement <- $result"
     return $result
 }
 
@@ -187,7 +307,7 @@ proc ::input::detectLanguage {chan} {
 	reportNoLanguageDetected $token
     } else {
 	foreach language $languages {
-	    if {[tokenIsElement $token $language BeginProblem]} {
+	    if {[tokenIsElement $token BeginProblem $language]} {
 		set detectedLanguage $language
 		debug.input "detectedLanguage:$detectedLanguage"
 		break
@@ -202,37 +322,59 @@ proc ::input::detectLanguage {chan} {
     debug.input "detectLanguage <-"
 }
 
-namespace eval frontend {
-    namespace eval olive {
-	variable MoveNumber "MoveNumber"
-	variable Zero "Zero"
-	variable Twin "Twin"
-	variable NextProblem "NextProblem"
-	variable EndProblem "EndProblem"
+proc ::input::readUpTo {chan elementIds} {
+    variable detectedLanguage
+    variable lineBuffer
+
+    debug.input "readUpTo elementIds:$elementIds"
+
+    set skipped ""
+    while {true} {
+	set token [nextToken $chan]
+	debug.input "token:$token" 2
+
+	foreach id $elementIds {
+	    if {[tokenIsElement $token $id]} {
+		debug.input "identified element $id" 2
+		set result [list $skipped $id]
+		break
+	    }
+	}
+
+	if {[info exists result]} {
+	    break
+	} elseif {[isLineElement $token]} {
+	    append skipped "$token $lineBuffer\n"
+	    set lineBuffer ""
+	} else {
+	    append skipped "$token "
+	}
+	debug.input "skipped:|$skipped|"
     }
+
+    debug.input "readUpTo <- $result"
+    return $result
 }
 
-variable frontend::selected "olive"
+proc ::input::getElement {elementId} {
+    variable detectedLanguage
 
-proc frontend::get {id} {
-    variable selected
+    debug.input "getElement elementId:$elementId"
 
-    return [set ${selected}::$id]
+    set result [set ${detectedLanguage}::$elementId]
+
+    debug.input "getElement <- $result"
+    return $result
 }
 
 proc parseCommandLine {} {
-
-    set frontends {}
-    foreach frontend [namespace children ::frontend] {
-	lappend frontends [namespace tail $frontend]
-    }
     set options [subst {
 	{ executable.arg "[defaultPopeyeExecutable]"  "path to Popeye executable" }
 	{ nrprocs.arg    "[defaultNumberOfProcesses]" "number of Popeye processes to spawn" }
 	{ maxmem.arg     "Popeye default"             "maximum memory for each process" }
-	{ frontend.arg   "$::frontend::selected"      "frontend invoking [::cmdline::getArgv0]; one of ([join $frontends ,])" }
     }]
     if {[string match "*.tcl" $::argv0]} {
+	lappend options { assert false "enable asserts" }
 	foreach name [debug names] {
 	    lappend options [subst { debug-$name.arg "0" "debug level for tag $name" }]
 	}
@@ -254,6 +396,10 @@ proc parseCommandLine {} {
 
     if {[llength $::argv]>0} {
 	set ::params(inputfile) [lindex $::argv 0]
+    }
+
+    if {$::params(assert)} {
+	control::control assert enabled 1
     }
 
     foreach name [array names ::params -glob "debug-*"] {
@@ -300,15 +446,14 @@ proc syncNotify {} {
     debug.processes processSync:$processSync
 }
 
-set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+Time = [^\)]+[\)]}
-
 proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
     debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| movenumbers:$movenumbers"
 
     if {!$movenumbers} {
-	regsub -all "\n$::movenumbersRE" $chunk "" chunk
+	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::input::getElement Time] = [^\)]+[\)]}
+	regsub -all "\n$movenumbersRE" $chunk "" chunk
     }
-    
+
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
 	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
@@ -377,8 +522,8 @@ proc otherTwin {pipe chunk boardTerminatorSilentRE solutionTerminatorRE movenumb
     }
 }
 
-proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnings start upto processnr} {
-    debug.processes "tryPartialTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endToken:$endToken accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto $processnr"
+proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
+    debug.processes "tryPartialTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto $processnr"
 
     set commandline $::params(executable)
     if {$::params(maxmem)!="Popeye default"} {
@@ -386,15 +531,15 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnin
     }
     debug.processes "commandline:$commandline"
 
-    set options "option MoveNumber Start $start Upto $upto"
+    set options "[::input::getElement Option] [::input::getElement MoveNumber] [::input::getElement StartMoveNumber] $start [::input::getElement UpToMoveNumber] $upto"
 
     set pipe [open "| $commandline" "r+"]
     debug.processes "pipe:$pipe"
 
-    if {[string match "[::frontend::get Twin]*" $endToken]} {
+    if {$endElmt=="Twin"} {
 	set solutionTerminatorRE {\n\n..?[\)][^\n]+\n}
     } else {
-	set solutionTerminatorRE {\n\nsolution finished[^\n]+\n\n\n}
+	set solutionTerminatorRE "\n\n[::input::getElement SolutionFinished]\[^\n]+\n\n\n"
     }
 
     gets $pipe greetingLine
@@ -408,14 +553,14 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnin
     puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
     puts $pipe $options
-    if {($endToken==[frontend::get "EndProblem"] || $endToken==[frontend::get "NextProblem"])
+    if {$endElmt!="Twin"
 	&& [llength $accumulatedTwinnings]==0} {
 	debug.processes "inserting fake zero position"
-	puts $pipe "Zero rotate 90 rotate 270"
-	puts $pipe "EndProblem"
+	puts $pipe "[::input::getElement ZeroPosition] [::input::getElement Rotate] 90 [::input::getElement Rotate] 270"
+	puts $pipe "[::input::getElement EndProblem]"
 	flush $pipe
 
-	set boardTerminatorRE {\nzeroposition.*?270 *\n}
+	set boardTerminatorRE "\n[::input::getElement ZeroPosition].*?270 *\n"
 	if {$start==1} {
 	    fileevent $pipe readable [list firstTwin $pipe "" "" $boardTerminatorRE $solutionTerminatorRE $movenumbers]
 	    syncWait 1
@@ -425,9 +570,9 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnin
     } else {
 	debug.processes "inserting accumulated twinnings $accumulatedTwinnings"
 	puts $pipe $accumulatedTwinnings
-	puts $pipe $endToken
-	if {!($endToken==[frontend::get "EndProblem"] || $endToken==[frontend::get "NextProblem"])} {
-	    puts $pipe "EndProblem"
+	puts $pipe [::input::getElement $endElmt]
+	if {$endElmt=="Twin"} {
+	    puts $pipe [::input::getElement EndProblem]
 	}
 	flush $pipe
 
@@ -443,10 +588,10 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endToken accumulatedTwinnin
     debug.processes "tryPartialTwin <-"
 }
 
-proc tryEntireTwin {problemnr firstTwin movenumbers endToken twinnings skipMoves weights weightTotal} {
+proc tryEntireTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves weights weightTotal} {
     global isTwinningWritten
 
-    debug.processes "tryEntireTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endToken:$endToken twinnings:$twinnings skipMoves:$skipMoves weights:$weights weightTotal:$weightTotal"
+    debug.processes "tryEntireTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves weights:$weights weightTotal:$weightTotal"
 
     set isTwinningWritten false
 
@@ -454,7 +599,7 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endToken twinnings skipMoves
     foreach t $twinnings {
 	lassign $t key twinning
 	debug.processes "key:$key twinning:$twinning"
-	append accumulatedTwinnings " $key $twinning"
+	append accumulatedTwinnings " [::input::getElement $key] $twinning"
     }
     debug.processes accumulatedTwinnings:$accumulatedTwinnings
 
@@ -475,17 +620,17 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endToken twinnings skipMoves
 	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
 	    debug.processes "weightExcess:$weightExcess"
 	    if {$weightExcess>$weight/2} {
-		tryPartialTwin $problemnr $firstTwin $movenumbers $endToken $accumulatedTwinnings $start [expr {$curr-1}] $processnr
+		tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start [expr {$curr-1}] $processnr
 		set start $curr
 	    } else {
-		tryPartialTwin $problemnr $firstTwin $movenumbers $endToken $accumulatedTwinnings $start $curr $processnr
+		tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start $curr $processnr
 		set start [expr {$curr+1}]
 	    }
 	    incr processnr
 	    incr weightTarget $avgWeightPerProcess
 	}
     }
-    tryPartialTwin $problemnr $firstTwin $movenumbers $endToken $accumulatedTwinnings $start [expr {$skipMoves+[llength $weights]}] $processnr
+    tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start [expr {$skipMoves+[llength $weights]}] $processnr
 
     syncWait $processnr
 
@@ -495,9 +640,9 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endToken twinnings skipMoves
 proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     debug.weight "findMoveWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipmoves:$skipmoves"
 
-    set options "option Noboard MoveNumber start [expr {$skipmoves+1}]"
+    set options "[::input::getElement Option] [::input::getElement NoBoard] [::input::getElement MoveNumber] [::input::getElement StartMoveNumber] [expr {$skipmoves+1}]"
     if {$whomoves=="black"} {
-	append options " HalfDuplex"
+	append options " [::input::getElement HalfDuplex]"
     }
     debug.weight "options:$options"
 
@@ -506,8 +651,8 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     foreach t $twinnings {
 	lassign $t key twinning
 	debug.weight "key:$key twinning:$twinning"
-	append accumulatedTwinnings "$key $twinning "
-	if {$key==[frontend::get Zero]} {
+	append accumulatedTwinnings "[::input::getElement $key] $twinning "
+	if {$key=="ZeroPosition"} {
 	    set isZero true
 	}
     }
@@ -520,16 +665,17 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     puts $pipe $firstTwin
     puts $pipe $options
     if {!$isZero} {
-	puts $pipe "zeroposition stipulation ~1"
+	puts $pipe "[::input::getElement ZeroPosition] [::input::getElement Stipulation] ~1"
     }
-    puts $pipe "$accumulatedTwinnings stipulation ~1"
-    puts $pipe "EndProblem"
+    puts $pipe "$accumulatedTwinnings [::input::getElement Stipulation] ~1"
+    puts $pipe "[::input::getElement EndProblem]"
 
     set weightTotal 0
     while {[gets $pipe line]>=0} {
 	debug.weight "line:[debuggable $line]" 2
-	switch -regexp $line {
-	    {Time = } {
+	switch -glob $line {
+	    "*[::input::getElement Time] = *" {
+		debug.weight "next move" 2
 		# this matches both
 		#  21  (Ke6-e7    Time = 0.016 s)
 		# solution finished. Time = 0.016 s
@@ -542,16 +688,20 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 		set weight 0
 		regexp -- {[(]([^ ]+).*[)]} $line - move
 	    }
-	    {[+] !} {
+	    {*+ !} {
+		debug.weight "checking move" 2
 		set weight 2
 	    }
-	    {!} {
+	    {*!} {
+		debug.weight "non-checking move" 2
 		set weight 20
 	    }
-	    {TI~-~} {
+	    {*TI~-~*} {
+		debug.weight "random move by TI" 2
 		set weight 100
 	    }
 	    default {
+		debug.weight "other line" 2
 	    }
 	}
     }
@@ -562,8 +712,8 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 	debug.weight error:[debuggable $error] 2
 	
 	# don't confuse caller with "zeroposition" inserted by us
-	regsub -- {zeroposition.*} $output {} output
-	regsub -- {\noffending item: zeroposition} $error {} error
+	regsub -- "[::input::getElement ZeroPosition].*" $output {} output
+	regsub -- "\noffending item: [::input::getElement ZeroPosition]" $error {} error
 
 	puts [string trim $output]
 	puts ""
@@ -580,7 +730,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:|$twin| twinnings:$twinnings"
 
-    set options "option noboard movenumber start 1 upto 1"
+    set options "[::input::getElement Option] [::input::getElement NoBoard] [::input::getElement MoveNumber] [::input::getElement StartMoveNumber] 1 [::input::getElement UpToMoveNumber] 1"
 
     set accumulatedZeroposition ""
     foreach t $twinnings {
@@ -590,10 +740,10 @@ proc whoMoves {twin twinnings} {
     }
     foreach row {1 2 3 4 5 6 7 8} {
 	foreach col {a b c d e f g h} {
-	    append accumulatedZeroposition "remove $col$row "
+	    append accumulatedZeroposition "[::input::getElement Remove] $col$row "
 	}
     }
-    append accumulatedZeroposition "add neutral pb5"
+    append accumulatedZeroposition "[::input::getElement Add] [::input::getElement Neutral] [::input::getElement Pawn]b5"
     debug.whomoves accumulatedZeroposition:$accumulatedZeroposition
 
     set pipe [open "| $::params(executable)" "r+"]
@@ -602,8 +752,8 @@ proc whoMoves {twin twinnings} {
     puts $pipe [::input::getLanguageSelector]
     puts $pipe $twin
     puts $pipe $options
-    puts $pipe "zeroposition $accumulatedZeroposition"
-    puts $pipe "EndProblem"
+    puts $pipe "[::input::getElement ZeroPosition] $accumulatedZeroposition"
+    puts $pipe "[::input::getElement EndProblem]"
 
     set result "white"
     debug.whomoves "assuming white"
@@ -625,8 +775,8 @@ proc whoMoves {twin twinnings} {
 	debug.whomoves error:[debuggable $error]
 
 	# don't confuse caller with errors caused by us
-	regsub -all {..: square is empty - cannot .re.move any piece.\n?} $error {} error
-	regsub {both sides need a king} $error {} error
+	regsub -all "..: [::input::getElement SquareIsEmptyRE]\n?" $error {} error
+	regsub "[::input::getElement BothSidesNeedAKingRE]" $error {} error
 	
 	if {$error!=""} {
 	    puts stderr $error
@@ -638,14 +788,14 @@ proc whoMoves {twin twinnings} {
     return $result
 }
 
-proc solveTwin {problemnr firstTwin movenumbers endToken twinnings skipMoves} {
-    debug.twin "solveTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endToken:$endToken twinnings:$twinnings skipMoves:$skipMoves"
+proc solveTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
+    debug.twin "solveTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
     lassign [findMoveWeights $firstTwin $twinnings $whomoves $skipMoves] weights weightTotal
     debug.twin "weights:$weights weightTotal:$weightTotal" 2
-    tryEntireTwin $problemnr $firstTwin $movenumbers $endToken $twinnings $skipMoves $weights $weightTotal
+    tryEntireTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $skipMoves $weights $weightTotal
 
     set result [llength $weights]
 
@@ -661,14 +811,16 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 
     puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
-    puts $pipe "zeroposition $zeroTwinning stipulation ~1"
-    puts $pipe "EndProblem"
+    puts $pipe "[::input::getElement Option] [::input::getElement MaxSolutions] 1"
+    puts $pipe "[::input::getElement ZeroPosition] $zeroTwinning [::input::getElement Stipulation] ~1"
+    puts $pipe "[::input::getElement EndProblem]"
     flush $pipe
 
     set result false
     while {[gets $pipe line]>=0} {
 	debug.movenumbers "line:[debuggable $line]" 2
-	if {[regexp -- "^$::movenumbersRE\$" $line]} {
+	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::input::getElement Time] = [^\)]+[\)]}
+	if {[regexp -- "^$movenumbersRE\$" $line]} {
 	    set result true
 	    break
 	}
@@ -687,19 +839,8 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 proc readFirstTwin {chan} {
     debug.problem "readFirstTwin"
 
-    set firstTwin ""
-    while {[gets $chan line]>=0} {
-	debug.problem "line:[debuggable $line]" 2
-	if {$line==[frontend::get EndProblem]
-	    || $line==[frontend::get NextProblem]
-	    || [string match "[frontend::get Twin] *" $line]
-	    || [string match "[frontend::get Zero] *" $line]} {
-	    set result [list $firstTwin $line]
-	    break
-	} else {
-	    append firstTwin "$line\n"
-	}
-    }
+    lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem}] firstTwin endElmt
+    set result [list $firstTwin $endElmt]
 
     debug.problem "readFirstTwin <- $result"
     return $result
@@ -708,48 +849,51 @@ proc readFirstTwin {chan} {
 proc handleFirstTwin {chan problemnr} {
     debug.problem "handleFirstTwin problemnr:$problemnr"
 
-    lassign [readFirstTwin $chan] firstTwin endTokenLine
+    lassign [readFirstTwin $chan] firstTwin endElmt
 
-    if {[regexp -- "[frontend::get Zero] (.*)" $endTokenLine - zeroTwinning]} {
-	lappend twinnings [list "Zero" $zeroTwinning]
-	lassign [readFirstTwin $chan ""] dummy endTokenLine
+    if {$endElmt=="ZeroPosition"} {
+	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
+	lappend twinnings [list "ZeroPosition" $zeroTwinning]
 	set movenumbers [areMoveNumbersActivated $firstTwin $zeroTwinning]
-	set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endTokenLine $twinnings 0]
-	set result [list $firstTwin $movenumbers $endTokenLine $solveResult]
     } else {
 	set twinnings {}
 	set movenumbers [areMoveNumbersActivated $firstTwin ""]
-	set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endTokenLine $twinnings 0]
-	set result [list $firstTwin $movenumbers $endTokenLine $solveResult]
     }
+
+    set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
+    set result [list $firstTwin $movenumbers $endElmt $solveResult]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
 }
 
-proc handleOtherTwins {chan problemnr firstTwin movenumbers endTokenLine nrFirstMoves} {
-    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin movenumbers:$movenumbers endTokenLine:$endTokenLine nrFirstMoves:$nrFirstMoves"
+proc handleOtherTwins {chan problemnr firstTwin movenumbers nrFirstMoves} {
+    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin movenumbers:$movenumbers nrFirstMoves:$nrFirstMoves"
 
     set twinnings {}
-    while {[regexp -- "[frontend::get Twin] (.*)" $endTokenLine - twinning]} {
+    while {true} {
+	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
 	lappend twinnings [list "Twin" $twinning]
 	debug.problem "twinnings:$twinnings"
-	gets $chan endTokenLine
-	debug.problem endTokenLine:$endTokenLine
-	incr nrFirstMoves [solveTwin $problemnr $firstTwin $movenumbers $endTokenLine $twinnings $nrFirstMoves]
+	incr nrFirstMoves [solveTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $nrFirstMoves]
+	if {$endElmt!="Twin"} {
+	    break
+	}
     }
 
-    return $endTokenLine
+    return $endElmt
 }
 
 proc handleProblem {chan problemnr} {
     debug.problem "handleProblem problemnr:$problemnr"
 
-    lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endTokenLine nrFirstMoves
-    set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
-    debug.problem endTokenLine:$endTokenLine
+    lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endElmt nrFirstMoves
+    if {$endElmt=="Twin"} {
+	set endElmt [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $nrFirstMoves]
+    }
+    debug.problem endElmt:$endElmt
 
-    set result $endTokenLine
+    set result $endElmt
     debug.problem "handleProblem <- $result"
     return $result
 }
@@ -759,11 +903,11 @@ proc handleInput {chan} {
 
     ::input::detectLanguage $chan
 
-    set endToken [handleProblem $chan $problemnr]
+    set endElmt [handleProblem $chan $problemnr]
 
-    while {$endToken==[frontend::get NextProblem]} {
+    while {$endElmt=="NextProblem"} {
 	incr problemnr
-	set endToken [handleProblem $chan $problemnr]
+	set endElmt [handleProblem $chan $problemnr]
     }
 }
 
