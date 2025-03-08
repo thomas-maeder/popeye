@@ -727,25 +727,15 @@ proc handleOtherTwins {chan problemnr firstTwin movenumbers endTokenLine nrFirst
     return $endTokenLine
 }
 
-proc handleFirstProblem {chan problemnr} {
-    debug.problem "handleFirstProblem problemnr:$problemnr"
-
-    lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endTokenLine nrFirstMoves
-    set result [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
-
-    debug.problem "handleFirstProblem <- $result"
-    return $result
-}
-
-proc handleNextProblem {chan problemnr} {
-    debug.problem "handleNextProblem problemnr:$problemnr"
+proc handleProblem {chan problemnr} {
+    debug.problem "handleProblem problemnr:$problemnr"
 
     lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endTokenLine nrFirstMoves
     set endTokenLine [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $endTokenLine $nrFirstMoves]
     debug.problem endTokenLine:$endTokenLine
 
     set result $endTokenLine
-    debug.problem "handleNextProblem <- $result"
+    debug.problem "handleProblem <- $result"
     return $result
 }
 
@@ -754,11 +744,11 @@ proc handleInput {chan} {
 
     ::input::detectLanguage $chan
 
-    set endToken [handleFirstProblem $chan $problemnr]
+    set endToken [handleProblem $chan $problemnr]
 
     while {$endToken==[frontend::get NextProblem]} {
 	incr problemnr
-	set endToken [handleNextProblem $chan $problemnr]
+	set endToken [handleProblem $chan $problemnr]
     }
 }
 
