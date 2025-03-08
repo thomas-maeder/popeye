@@ -153,6 +153,23 @@ proc ::input::reportNoLanguageDetected {token} {
     exit
 }
 
+proc ::input::tokenIsElement {token language elementId} {
+    debug.input "tokenIsElement token:$token language:$language elementid:$elementId"
+
+    set tokenLength [string length $token]
+
+    set elementString [set ${language}::$elementId]
+    debug.input "elementString:$elementString" 2
+
+    set elementStringFragment [string range $elementString 0 [expr {$tokenLength-1}]]
+    debug.input "elementStringFragment:$elementStringFragment" 2
+
+    set result [expr {[string compare -nocase $elementStringFragment $token]==0}]
+
+    debug.input "tokenIsElement <- $result"
+    return $result
+}
+
 proc ::input::detectLanguage {chan} {
     variable detectedLanguage
     variable minTokenLength
@@ -170,13 +187,7 @@ proc ::input::detectLanguage {chan} {
 	reportNoLanguageDetected $token
     } else {
 	foreach language $languages {
-	    set BeginProblem [set ${language}::BeginProblem]
-	    debug.input "BeginProblem:$BeginProblem" 2
-
-	    set BeginProblemFragment [string range $BeginProblem 0 [expr {$tokenLength-1}]]
-	    debug.input "BeginProblemFragment:$BeginProblemFragment" 2
-
-	    if {[string compare -nocase $BeginProblemFragment $token]==0} {
+	    if {[tokenIsElement $token $language BeginProblem]} {
 		set detectedLanguage $language
 		debug.input "detectedLanguage:$detectedLanguage"
 		break
