@@ -531,7 +531,10 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
     }
     debug.processes "commandline:$commandline"
 
-    set options "[::input::getElement Option] [::input::getElement MoveNumber] [::input::getElement StartMoveNumber] $start [::input::getElement UpToMoveNumber] $upto"
+    set options "[::input::getElement Option] [::input::getElement MoveNumber] [::input::getElement UpToMoveNumber] $upto"
+    if {$start>1} {
+	append options " [::input::getElement StartMoveNumber] $start"
+    }
 
     set pipe [open "| $commandline" "r+"]
     debug.processes "pipe:$pipe"
