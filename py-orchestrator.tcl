@@ -754,6 +754,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     set weightTotal 0
     while {[gets $pipe line]>=0} {
 	debug.weight "line:[debuggable $line]" 2
+	append output "$line\n"
 	switch -glob $line {
 	    "*[::input::getElement Time] = *" {
 		debug.weight "next move" 2
