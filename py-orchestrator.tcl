@@ -566,8 +566,8 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chu
     }
 }
 
-proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
-    debug.processes "tryPartialTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto $processnr"
+proc testPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
+    debug.processes "testPartialTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto processnr:$processnr"
 
     set commandline $::params(executable)
     if {$::params(maxmem)!="Popeye default"} {
@@ -607,7 +607,7 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 	puts $pipe "[::input::getElement EndProblem]"
 	flush $pipe
 
-	if {$processnr==1} {
+	if {$processnr==0} {
 	    debug.processes "write board, but not fake terminator" 2
 	    set boardRE $anySequenceCaptureRE
 	} else {
@@ -627,7 +627,7 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 	}
 	flush $pipe
 
-	if {$processnr==1} {
+	if {$processnr==0} {
 	    if {$start==1} {
 		debug.processes "write board" 2
 		set boardRE $anySequenceCaptureRE
@@ -653,17 +653,17 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 
     fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
 
-    if {$processnr==1} {
+    if {$processnr==0} {
 	syncWait 1
     }
 
-    debug.processes "tryPartialTwin <-"
+    debug.processes "testPartialTwin <-"
 }
 
-proc tryEntireTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves weights weightTotal} {
+proc testEntireTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
     global isTwinningWritten
 
-    debug.processes "tryEntireTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves weights:$weights weightTotal:$weightTotal"
+    debug.processes "testEntireTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings groups:$groups"
 
     set isTwinningWritten false
 
@@ -675,41 +675,62 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves 
     }
     debug.processes accumulatedTwinnings:$accumulatedTwinnings
 
+    set processnr 0
+
+    syncInit
+
+    foreach group $groups {
+	lassign $group start upto
+	testPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start $upto $processnr
+	incr processnr
+    }
+
+    syncWait [expr {2*$processnr}]
+    syncFini
+
+    debug.processes "testEntireTwin <-"
+}
+
+proc groupByWeight {weights skipMoves} {
+    debug.weight "groupByWeight weights:$weights skipMoves:$skipMoves"
+
+    set weightTotal 0
+    foreach weight $weights {
+	incr weightTotal $weight
+    }
+    debug.weight "weightTotal:$weightTotal" 2
+
     set avgWeightPerProcess [expr {($weightTotal+$::params(nrprocs)-1)/$::params(nrprocs)}]
-    debug.processes "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess"
+    debug.weight "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess" 2
 
     set start [expr {$skipMoves+1}]
     set curr $skipMoves
     set weightTarget $avgWeightPerProcess
     set weightAccumulated 0
-    set processnr 1
 
-    syncInit
+    set result {}
 
     foreach weight $weights {
 	incr curr
 	incr weightAccumulated $weight
-	debug.processes "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated"
+	debug.weight "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
 	if {$weightAccumulated>$weightTarget} {
 	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
 	    debug.processes "weightExcess:$weightExcess"
 	    if {$weightExcess>$weight/2} {
-		tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start [expr {$curr-1}] $processnr
+		lappend result [list $start [expr {$curr-1}]]
 		set start $curr
 	    } else {
-		tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start $curr $processnr
+		lappend result [list $start $curr]
 		set start [expr {$curr+1}]
 	    }
-	    incr processnr
 	    incr weightTarget $avgWeightPerProcess
 	}
     }
-    tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start [expr {$skipMoves+[llength $weights]}] $processnr
+    lappend result [list $start [expr {$skipMoves+[llength $weights]}]]
 
-    syncWait [expr {2*$processnr}]
-    syncFini
-
-    debug.processes "tryEntireTwin <-"
+    debug.weight "groupByWeight <- $result"
+    return $result
 }
 
 proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
@@ -745,7 +766,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     puts $pipe "$accumulatedTwinnings [::input::getElement Stipulation] ~1"
     puts $pipe "[::input::getElement EndProblem]"
 
-    set weightTotal 0
+    set result {}
     while {[gets $pipe line]>=0} {
 	debug.weight "line:[debuggable $line]" 2
 	append output "$line\n"
@@ -757,9 +778,8 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 		# solution finished. Time = 0.016 s
 		# so all moves are taken care of
 		if {[info exists move]} {
-		    lappend weights $weight
-		    debug.weight "[llength $weights] move:$move weight:$weight" 2
-		    incr weightTotal $weight
+		    lappend result $weight
+		    debug.weight "[llength $result] move:$move weight:$weight" 2
 		}
 		set weight 0
 		regexp -- {[(]([^ ]+).*[)]} $line - move
@@ -798,7 +818,6 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 	exit 1
     }
 
-    set result [list $weights $weightTotal]
     debug.weight "findMoveWeights <- $result"
     return $result
 }
@@ -869,9 +888,14 @@ proc solveTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
-    lassign [findMoveWeights $firstTwin $twinnings $whomoves $skipMoves] weights weightTotal
-    debug.twin "weights:$weights weightTotal:$weightTotal" 2
-    tryEntireTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $skipMoves $weights $weightTotal
+
+    set weights [findMoveWeights $firstTwin $twinnings $whomoves $skipMoves]
+    debug.twin "weights:$weights" 2
+
+    set groups [groupByWeight $weights $skipMoves]
+    debug.twin "groups:$groups" 2
+
+    testEntireTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $groups
 
     set result [llength $weights]
 
