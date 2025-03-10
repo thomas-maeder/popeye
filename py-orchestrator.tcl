@@ -465,21 +465,31 @@ proc parseCommandLine {} {
     debug.cmdline params:[debug parray ::params]
 }
 
+proc syncInit {} {
+    global processSync
+
+    set processSync 0
+}
+
 proc syncWait {value} {
     global processSync processValue
 
     debug.processes "syncWait value:$value"
 
-    set processSync 0
     set processValue $value
     while {$processSync<$processValue} {
 	debug.processes "vwait processSync:$processSync"
 	vwait processSync
 	debug.processes "vwait <- processSync:$processSync"
     }
-    unset processSync
 
     debug.processes "syncWait <-"
+}
+
+proc syncFini {} {
+    global processSync
+
+    unset processSync
 }
 
 proc syncEnded {} {
@@ -537,8 +547,8 @@ proc solution {pipe solutionTerminatorRE movenumbers} {
     flushSolution $pipe [read $pipe] $solutionTerminatorRE $movenumbers
 }
 
-proc firstProcessOfTwin {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
-    debug.board "firstProcessOfTwin pipe:$pipe movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
+proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
+    debug.board "board pipe:$pipe movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
@@ -552,24 +562,7 @@ proc firstProcessOfTwin {pipe boardRE boardTerminatorRE solutionTerminatorRE mov
 	}
     } else {
 	debug.board "terminator not found"
-	fileevent $pipe readable [list firstProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
-    }
-}
-
-proc otherProcessOfTwin {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
-    debug.board "otherProcessOfTwin pipe:$pipe boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
-
-    append chunk [read $pipe]
-    debug.board "chunk:|$chunk|"
-
-    if {[regexp -- "(.*)($boardTerminatorRE)(.*)" $chunk - board terminator remainder]} {
-	debug.board "terminator(suppressed from output):|[debuggable $terminator]|"
-	if {![flushSolution $pipe $remainder $solutionTerminatorRE $movenumbers]} {
-	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $movenumbers]
-	}
-    } else {
-	debug.board "terminator not found"
-	fileevent $pipe readable [list otherProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
+	fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
     }
 }
 
@@ -617,12 +610,11 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 	if {$processnr==1} {
 	    debug.processes "write board, but not fake terminator" 2
 	    set boardRE $anySequenceCaptureRE
-	    set boardTerminatorRE "()(?:$fakeZeroPositionRE)"
 	} else {
 	    debug.processes "don't write board" 2
 	    set boardRE $anySequenceDontCaptureRE
-	    set boardTerminatorRE $fakeZeroPositionRE
 	}
+	set boardTerminatorRE "()(?:$fakeZeroPositionRE)"
 
 	debug.processes "write solution finished if we are the last process" 2
 	set solutionTerminatorRE "($solutionFinishedRE)"
@@ -648,7 +640,7 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 	} else {
 	    debug.processes "don't write board or twinning" 2
 	    set boardRE $anySequenceDontCaptureRE
-	    set boardTerminatorRE $twinningRE
+	    set boardTerminatorRE "()(?:$twinningRE)"
 	}
 	if {$endElmt=="Twin"} {
 	    debug.processes "don't write next twinning" 2
@@ -659,11 +651,10 @@ proc tryPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinning
 	}
     }
 
+    fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
+
     if {$processnr==1} {
-	fileevent $pipe readable [list firstProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
 	syncWait 1
-    } else {
-	fileevent $pipe readable [list otherProcessOfTwin $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
     }
 
     debug.processes "tryPartialTwin <-"
@@ -693,6 +684,8 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves 
     set weightAccumulated 0
     set processnr 1
 
+    syncInit
+
     foreach weight $weights {
 	incr curr
 	incr weightAccumulated $weight
@@ -713,7 +706,8 @@ proc tryEntireTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves 
     }
     tryPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start [expr {$skipMoves+[llength $weights]}] $processnr
 
-    syncWait $processnr
+    syncWait [expr {2*$processnr}]
+    syncFini
 
     debug.processes "tryEntireTwin <-"
 }
