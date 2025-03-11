@@ -21,6 +21,7 @@ debug off input
 debug off output
 debug off language
 debug off movenumbers
+debug off popeye
 debug off problem
 debug off processes
 debug off solution
@@ -439,6 +440,45 @@ proc ::output::puts {string} {
     }
 }
 
+namespace eval popeye {
+    variable executablePath
+}
+
+proc ::popeye::setExecutable {path} {
+    variable executablePath
+    variable maxmemOption ""
+
+    debug.popeye "setExecutable path:$path"
+
+    set executablePath $path
+}
+
+proc ::popeye::setMaxmem {setting} {
+    variable maxmemOption
+
+    set maxmemOption "-maxmem $setting"
+}
+
+proc ::popeye::spawn {firstTwin} {
+    variable executablePath
+    variable maxmemOption
+
+    debug.popeye "spawn firstTwin:|$firstTwin|"
+
+    set pipe [open "| $executablePath $maxmemOption" "r+"]
+    fconfigure $pipe -encoding binary -buffering line
+
+    gets $pipe greetingLine
+
+    set result [list $pipe $greetingLine]
+
+    puts $pipe [::language::getSelector]
+    puts $pipe $firstTwin
+
+    debug.popeye "spawn <- $result"
+    return $result
+}
+
 proc parseCommandLine {} {
     set options [subst {
 	{ executable.arg "[defaultPopeyeExecutable]"  "path to Popeye executable" }
@@ -464,6 +504,11 @@ proc parseCommandLine {} {
     if {$::params(executable)==""} {
 	puts stderr [::cmdline::usage $options $usage]
 	exit 1
+    } else {
+	::popeye::setExecutable $::params(executable)
+    }
+    if {$::params(maxmem)!="Popeye default"} {
+	::popeye::setMaxmem $::params(maxmem)
     }
 
     if {[llength $::argv]>0} {
@@ -590,27 +635,18 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chu
 proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
     debug.processes "testMoveRange problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto processnr:$processnr"
 
-    set commandline $::params(executable)
-    if {$::params(maxmem)!="Popeye default"} {
-	append commandline " -maxmem $::params(maxmem)"
-    }
-    debug.processes "commandline:$commandline"
-
     set options "[::language::getElement MoveNumber] [::language::getElement UpToMoveNumber] $upto"
     if {$start>1} {
 	append options " [::language::getElement StartMoveNumber] $start"
     }
 
-    set pipe [open "| $commandline" "r+"]
-    debug.processes "pipe:$pipe"
+    lassign [::popeye::spawn $firstTwin] pipe greetingLine
+    debug.processes "pipe:$pipe" 2
 
-    gets $pipe greetingLine
     if {$problemnr==1 && $start==1} {
-	# first twin of first problem: print greeting line
+	debug.processes "first twin of first problem: print greeting line" 2
 	::output::puts $greetingLine
     }
-
-    fconfigure $pipe -blocking false -encoding binary
 
     set anySequenceCaptureRE "(.*)"
     set anySequenceDontCaptureRE "()(?:.*)"
@@ -623,8 +659,6 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings
 
     set solutionFinishedCaptureRE "(\n\n[::language::getElement SolutionFinished]\[^\n]+\n\n\n)"
 
-    puts $pipe [::language::getSelector]
-    puts $pipe $firstTwin
     puts $pipe "[::language::getElement Option] $options"
     if {$endElmt!="Twin"
 	&& [string length $accumulatedTwinnings]==0} {
@@ -650,8 +684,6 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings
 	}
     }
 
-    flush $pipe
-
     if {$processnr==0 && $start==1} {
 	debug.processes "first twin, first group - write board" 2
 	set boardRE $anySequenceCaptureRE
@@ -668,6 +700,7 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings
 	set solutionTerminatorRE $solutionFinishedCaptureRE
     }
 
+    fconfigure $pipe -blocking false
     fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
 
     if {$processnr==0} {
@@ -768,11 +801,8 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     }
     debug.weight accumulatedTwinnings:$accumulatedTwinnings
 
-    set pipe [open "| $::params(executable)" "r+"]
-    fconfigure $pipe -encoding binary -buffering line
+    lassign [::popeye::spawn $firstTwin] pipe greetingLine
 
-    puts $pipe [::language::getSelector]
-    puts $pipe $firstTwin
     puts $pipe $options
     if {!$isZero} {
 	puts $pipe "[::language::getElement ZeroPosition] [::language::getElement Stipulation] ~1"
@@ -855,11 +885,8 @@ proc whoMoves {twin twinnings} {
     append accumulatedZeroposition "[::language::getElement Add] [::language::getElement Neutral] [::language::getElement Pawn]b5"
     debug.whomoves accumulatedZeroposition:$accumulatedZeroposition
 
-    set pipe [open "| $::params(executable)" "r+"]
-    fconfigure $pipe -encoding binary -buffering line
+    lassign [::popeye::spawn $twin] pipe greetingLine
 
-    puts $pipe [::language::getSelector]
-    puts $pipe $twin
     puts $pipe $options
     puts $pipe "[::language::getElement ZeroPosition] $accumulatedZeroposition"
     puts $pipe "[::language::getElement EndProblem]"
@@ -920,15 +947,11 @@ proc handleTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
 proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     debug.movenumbers "areMoveNumbersActivated firstTwin:|$firstTwin| zeroTwinning:$zeroTwinning"
 
-    set pipe [open "| $::params(executable)" "r+"]
-    fconfigure $pipe -encoding binary -buffering line
+    lassign [::popeye::spawn $firstTwin] pipe greetingLine
 
-    puts $pipe [::language::getSelector]
-    puts $pipe $firstTwin
     puts $pipe "[::language::getElement Option] [::language::getElement MaxSolutions] 1"
     puts $pipe "[::language::getElement ZeroPosition] $zeroTwinning [::language::getElement Stipulation] ~1"
     puts $pipe "[::language::getElement EndProblem]"
-    flush $pipe
 
     set result false
     while {[gets $pipe line]>=0} {
