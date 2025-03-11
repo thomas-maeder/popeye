@@ -566,8 +566,8 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chu
     }
 }
 
-proc testPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
-    debug.processes "testPartialTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto processnr:$processnr"
+proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings start upto processnr} {
+    debug.processes "testMoveRange problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt accumulatedTwinnings:$accumulatedTwinnings start:$start upto:$upto processnr:$processnr"
 
     set commandline $::params(executable)
     if {$::params(maxmem)!="Popeye default"} {
@@ -575,7 +575,7 @@ proc testPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnin
     }
     debug.processes "commandline:$commandline"
 
-    set options "[::input::getElement Option] [::input::getElement MoveNumber] [::input::getElement UpToMoveNumber] $upto"
+    set options "[::input::getElement MoveNumber] [::input::getElement UpToMoveNumber] $upto"
     if {$start>1} {
 	append options " [::input::getElement StartMoveNumber] $start"
     }
@@ -593,31 +593,25 @@ proc testPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnin
 
     set anySequenceCaptureRE "(.*)"
     set anySequenceDontCaptureRE "()(?:.*)"
-    set fakeZeroPositionRE "\n[::input::getElement ZeroPosition].*?270 *\n"
+
+    set fakeZeroPositionRE "()(?:\n[::input::getElement ZeroPosition].*?270 *\n)"
+
     set twinningRE {\n\n..?[\)] [^\n]*\n}
-    set solutionFinishedRE "\n\n[::input::getElement SolutionFinished]\[^\n]+\n\n\n"
+    set twinningCapureRE "($twinningRE)"
+    set twinningDontCaptureRE "()(?:$twinningRE)"
+
+    set solutionFinishedCaptureRE "(\n\n[::input::getElement SolutionFinished]\[^\n]+\n\n\n)"
 
     puts $pipe [::input::getLanguageSelector]
     puts $pipe $firstTwin
-    puts $pipe $options
+    puts $pipe "[::input::getElement Option] $options"
     if {$endElmt!="Twin"
-	&& [llength $accumulatedTwinnings]==0} {
+	&& [string length $accumulatedTwinnings]==0} {
 	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
 	puts $pipe "[::input::getElement ZeroPosition] [::input::getElement Rotate] 90 [::input::getElement Rotate] 270"
 	puts $pipe "[::input::getElement EndProblem]"
-	flush $pipe
 
-	if {$processnr==0} {
-	    debug.processes "write board, but not fake terminator" 2
-	    set boardRE $anySequenceCaptureRE
-	} else {
-	    debug.processes "don't write board" 2
-	    set boardRE $anySequenceDontCaptureRE
-	}
-	set boardTerminatorRE "()(?:$fakeZeroPositionRE)"
-
-	debug.processes "write solution finished if we are the last process" 2
-	set solutionTerminatorRE "($solutionFinishedRE)"
+	set boardTerminatorRE $fakeZeroPositionRE
     } else {
 	debug.processes "twinning involved - inserting accumulated twinnings" 2
 	puts $pipe $accumulatedTwinnings
@@ -625,47 +619,46 @@ proc testPartialTwin {problemnr firstTwin movenumbers endElmt accumulatedTwinnin
 	if {$endElmt=="Twin"} {
 	    puts $pipe "[::input::getElement EndProblem]"
 	}
-	flush $pipe
 
 	if {$processnr==0} {
-	    if {$start==1} {
-		debug.processes "write board" 2
-		set boardRE $anySequenceCaptureRE
-	    } else {
-		debug.processes "don't write board" 2
-		set boardRE $anySequenceDontCaptureRE
-	    }
 	    debug.processes "write twinning" 2
-	    set boardTerminatorRE "($twinningRE)"
+	    set boardTerminatorRE $twinningCapureRE
 	} else {
 	    debug.processes "don't write board or twinning" 2
-	    set boardRE $anySequenceDontCaptureRE
-	    set boardTerminatorRE "()(?:$twinningRE)"
+	    set boardTerminatorRE $twinningDontCaptureRE
 	}
-	if {$endElmt=="Twin"} {
-	    debug.processes "don't write next twinning" 2
-	    set solutionTerminatorRE "()(?:$twinningRE)"
-	} else {
-	    debug.processes "write solution finished if we are the last process" 2
-	    set solutionTerminatorRE "($solutionFinishedRE)"
-	}
+    }
+
+    flush $pipe
+
+    if {$processnr==0 && $start==1} {
+	debug.processes "first twin, first group - write board" 2
+	set boardRE $anySequenceCaptureRE
+    } else {
+	debug.processes "later twin or group - don't write board" 2
+	set boardRE $anySequenceDontCaptureRE
+    }
+
+    if {$endElmt=="Twin"} {
+	debug.processes "don't write next twinning" 2
+	set solutionTerminatorRE $twinningDontCaptureRE
+    } else {
+	debug.processes "write solution finished if we are the last process" 2
+	set solutionTerminatorRE $solutionFinishedCaptureRE
     }
 
     fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
 
     if {$processnr==0} {
+	debug.processes "wait for board and/or twinning to be written by first process" 2
 	syncWait 1
     }
 
-    debug.processes "testPartialTwin <-"
+    debug.processes "testMoveRange <-"
 }
 
-proc testEntireTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
-    global isTwinningWritten
-
-    debug.processes "testEntireTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings groups:$groups"
-
-    set isTwinningWritten false
+proc testTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
+    debug.processes "testTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings groups:$groups"
 
     set accumulatedTwinnings ""
     foreach t $twinnings {
@@ -681,14 +674,14 @@ proc testEntireTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
 
     foreach group $groups {
 	lassign $group start upto
-	testPartialTwin $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start $upto $processnr
+	testMoveRange $problemnr $firstTwin $movenumbers $endElmt $accumulatedTwinnings $start $upto $processnr
 	incr processnr
     }
 
     syncWait [expr {2*$processnr}]
     syncFini
 
-    debug.processes "testEntireTwin <-"
+    debug.processes "testTwin <-"
 }
 
 proc groupByWeight {weights skipMoves} {
@@ -883,8 +876,8 @@ proc whoMoves {twin twinnings} {
     return $result
 }
 
-proc solveTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
-    debug.twin "solveTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
+proc handleTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
+    debug.twin "handleTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
@@ -895,11 +888,11 @@ proc solveTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
     set groups [groupByWeight $weights $skipMoves]
     debug.twin "groups:$groups" 2
 
-    testEntireTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $groups
+    testTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $groups
 
     set result [llength $weights]
 
-    debug.twin "solveTwin <- $result"
+    debug.twin "handleTwin <- $result"
     return $result
 }
 
@@ -965,16 +958,17 @@ proc handleFirstTwin {chan problemnr} {
 
     lassign [readFirstTwin $chan] firstTwin endElmt
 
+    set twinnings {}
+
     if {$endElmt=="ZeroPosition"} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
 	lappend twinnings [list "ZeroPosition" $zeroTwinning]
 	set movenumbers [areMoveNumbersActivated $firstTwin $zeroTwinning]
     } else {
-	set twinnings {}
 	set movenumbers [areMoveNumbersActivated $firstTwin ""]
     }
 
-    set solveResult [solveTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
+    set solveResult [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
     set result [list $firstTwin $movenumbers $endElmt $solveResult]
 
     debug.problem "handleFirstTwin <- $result"
@@ -985,11 +979,15 @@ proc handleOtherTwins {chan problemnr firstTwin movenumbers nrFirstMoves} {
     debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin movenumbers:$movenumbers nrFirstMoves:$nrFirstMoves"
 
     set twinnings {}
+
     while {true} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
+
 	lappend twinnings [list "Twin" $twinning]
 	debug.problem "twinnings:$twinnings"
-	incr nrFirstMoves [solveTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $nrFirstMoves]
+
+	incr nrFirstMoves [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $nrFirstMoves]
+
 	if {$endElmt!="Twin"} {
 	    break
 	}
