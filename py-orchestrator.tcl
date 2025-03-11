@@ -615,10 +615,10 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt accumulatedTwinnings
     } else {
 	debug.processes "twinning involved - inserting accumulated twinnings" 2
 	puts $pipe $accumulatedTwinnings
-	puts $pipe [::input::getElement $endElmt]
 	if {$endElmt=="Twin"} {
-	    puts $pipe "[::input::getElement EndProblem]"
+	    puts $pipe "[::input::getElement Twin] rotate 180"
 	}
+	puts $pipe "[::input::getElement EndProblem]"
 
 	if {$processnr==0} {
 	    debug.processes "write twinning" 2
