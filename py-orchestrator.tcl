@@ -968,40 +968,26 @@ proc handleFirstTwin {chan problemnr} {
 	set movenumbers [areMoveNumbersActivated $firstTwin ""]
     }
 
-    set solveResult [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
-    set result [list $firstTwin $twinnings $movenumbers $endElmt $solveResult]
+    set nrFirstMoves [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
+    set result [list $firstTwin $twinnings $movenumbers $endElmt $nrFirstMoves]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
-}
-
-proc handleOtherTwins {chan problemnr firstTwin twinnings movenumbers nrFirstMoves} {
-    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin twinnings:$twinnings movenumbers:$movenumbers nrFirstMoves:$nrFirstMoves"
-
-    while {true} {
-	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
-
-	lappend twinnings [list "Twin" $twinning]
-	debug.problem "twinnings:$twinnings"
-
-	incr nrFirstMoves [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $nrFirstMoves]
-
-	if {$endElmt!="Twin"} {
-	    break
-	}
-    }
-
-    return $endElmt
 }
 
 proc handleProblem {chan problemnr} {
     debug.problem "handleProblem problemnr:$problemnr"
 
     lassign [handleFirstTwin $chan $problemnr] firstTwin twinnings movenumbers endElmt nrFirstMoves
-    if {$endElmt=="Twin"} {
-	set endElmt [handleOtherTwins $chan $problemnr $firstTwin $twinnings $movenumbers $nrFirstMoves]
+
+    while {$endElmt=="Twin"} {
+	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
+
+	lappend twinnings [list "Twin" $twinning]
+	debug.problem "twinnings:$twinnings" 2
+
+	incr nrFirstMoves [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $nrFirstMoves]
     }
-    debug.problem endElmt:$endElmt
 
     set result $endElmt
     debug.problem "handleProblem <- $result"
