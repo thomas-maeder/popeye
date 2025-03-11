@@ -969,16 +969,14 @@ proc handleFirstTwin {chan problemnr} {
     }
 
     set solveResult [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
-    set result [list $firstTwin $movenumbers $endElmt $solveResult]
+    set result [list $firstTwin $twinnings $movenumbers $endElmt $solveResult]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
 }
 
-proc handleOtherTwins {chan problemnr firstTwin movenumbers nrFirstMoves} {
-    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin movenumbers:$movenumbers nrFirstMoves:$nrFirstMoves"
-
-    set twinnings {}
+proc handleOtherTwins {chan problemnr firstTwin twinnings movenumbers nrFirstMoves} {
+    debug.problem "handleOtherTwins problemnr:$problemnr firstTwin:$firstTwin twinnings:$twinnings movenumbers:$movenumbers nrFirstMoves:$nrFirstMoves"
 
     while {true} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
@@ -999,9 +997,9 @@ proc handleOtherTwins {chan problemnr firstTwin movenumbers nrFirstMoves} {
 proc handleProblem {chan problemnr} {
     debug.problem "handleProblem problemnr:$problemnr"
 
-    lassign [handleFirstTwin $chan $problemnr] firstTwin movenumbers endElmt nrFirstMoves
+    lassign [handleFirstTwin $chan $problemnr] firstTwin twinnings movenumbers endElmt nrFirstMoves
     if {$endElmt=="Twin"} {
-	set endElmt [handleOtherTwins $chan $problemnr $firstTwin $movenumbers $nrFirstMoves]
+	set endElmt [handleOtherTwins $chan $problemnr $firstTwin $twinnings $movenumbers $nrFirstMoves]
     }
     debug.problem endElmt:$endElmt
 
