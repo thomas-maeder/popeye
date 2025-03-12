@@ -514,7 +514,14 @@ proc ::popeye::spawn {firstTwin options} {
 proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
     debug.popeye "terminate pipe:$pipe expectedErrorMessageREs:$expectedErrorMessageREs"
     if {[catch {
+	# empty the buffer first to avoid "child killed: write on pipe with no readers"
+	# cf. https://stackoverflow.com/questions/38020500/tcl-script-breaks-with-child-killed-write-on-pipe-with-no-readers
+	fconfigure $pipe -blocking false
+	set pending [read $pipe]
 	close $pipe
+	if {$pending!=""} {
+	    debug.popeye "pending:|[debuggable $pending]|" 2
+	}
     } error]} {
 	debug.popeye "caught error |[debuggable $error]|" 2
 	foreach expectedErrorMesssageRE $expectedErrorMessageREs {
