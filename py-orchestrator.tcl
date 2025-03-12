@@ -602,12 +602,22 @@ proc ::sync::Notify {} {
     debug.sync "Notify state:$state (target:$target)"
 }
 
-proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
-    debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE] movenumbers:$movenumbers"
+proc flushSolution {pipe chunk solutionTerminatorRE suppressMovenumbers} {
+    debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE] suppressMovenumbers:$suppressMovenumbers"
 
-    if {!$movenumbers} {
-	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::language::getElement Time] = [^\)]+[\)]}
-	regsub -all "\n$movenumbersRE" $chunk "" chunk
+    if {$suppressMovenumbers} {
+	set parenOpenRE {[\(]}
+	set parenCloseRE {[\)]}
+	set movenumberRE { *[[:digit:]]+}
+	set moveRE {[^\n]+}
+	set timeLabelRE [::language::getElement Time]
+	set timeRE {[[:digit:]:.]+}
+	set timeUnitRE {(?:(?:h:)?m:)?s}
+	set movenumberLineRE "$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+	debug.solution "movenumberLineRE:[debuggable $movenumberLineRE]" 2
+	if {[regsub -all "\n${movenumberLineRE}" $chunk "" chunk]>0} {
+	    debug.solution "removed move numbers - chunk:|$chunk|"
+	}
     }
 
     if {[regexp -- "^(.*)${solutionTerminatorRE}(.*)$" $chunk - solution terminator remainder]} {
@@ -624,7 +634,7 @@ proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
 	close $pipe
 	set result true
     } else {
-	debug.solution "terminator not found"
+	debug.solution "terminator not found" 2
 
 	::output::puts $chunk
 	set result false
@@ -636,14 +646,14 @@ proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
     return $result
 }
 
-proc solution {pipe solutionTerminatorRE movenumbers} {
-    debug.solution "solution pipe:$pipe movenumbers:$movenumbers"
+proc solution {pipe solutionTerminatorRE suppressMovenumbers} {
+    debug.solution "solution pipe:$pipe suppressMovenumbers:$suppressMovenumbers"
 
-    flushSolution $pipe [read $pipe] $solutionTerminatorRE $movenumbers
+    flushSolution $pipe [read $pipe] $solutionTerminatorRE $suppressMovenumbers
 }
 
-proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chunk ""}} {
-    debug.board "board pipe:$pipe movenumbers:$movenumbers chunk:|[debuggable $chunk]|"
+proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE suppressMovenumbers {chunk ""}} {
+    debug.board "board pipe:$pipe suppressMovenumbers:$suppressMovenumbers chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
@@ -652,17 +662,17 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chu
 	debug.board "terminator:|[debuggable $terminator]|"
 	::output::puts "$board$terminator"
 	::sync::Notify
-	if {![flushSolution $pipe $remainder $solutionTerminatorRE $movenumbers]} {
-	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $movenumbers]
+	if {![flushSolution $pipe $remainder $solutionTerminatorRE $suppressMovenumbers]} {
+	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $suppressMovenumbers]
 	}
     } else {
 	debug.board "terminator not found"
-	fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers $chunk]
+	fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers $chunk]
     }
 }
 
-proc testMoveRange {problemnr firstTwin movenumbers endElmt twinnings start upto processnr} {
-    debug.processes "testMoveRange problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings start:$start upto:$upto processnr:$processnr"
+proc testMoveRange {problemnr firstTwin suppressMovenumbers endElmt twinnings start upto processnr} {
+    debug.processes "testMoveRange problemnr:$problemnr firstTwin:|$firstTwin| suppressMovenumbers:$suppressMovenumbers endElmt:$endElmt twinnings:$twinnings start:$start upto:$upto processnr:$processnr"
 
     set options "[::language::getElement MoveNumber] [::language::getElement UpToMoveNumber] $upto"
     if {$start>1} {
@@ -734,7 +744,7 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt twinnings start upto
     ::popeye::EndProblem $pipe
 
     fconfigure $pipe -blocking false
-    fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $movenumbers]
+    fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers]
 
     if {$processnr==0} {
 	debug.processes "wait for board and/or twinning to be written by first process" 2
@@ -744,8 +754,8 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt twinnings start upto
     debug.processes "testMoveRange <-"
 }
 
-proc testTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
-    debug.processes "testTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings groups:$groups"
+proc testTwin {problemnr firstTwin suppressMovenumbers endElmt twinnings groups} {
+    debug.processes "testTwin problemnr:$problemnr firstTwin:|$firstTwin| suppressMovenumbers:$suppressMovenumbers endElmt:$endElmt twinnings:$twinnings groups:$groups"
 
     set processnr 0
 
@@ -753,7 +763,7 @@ proc testTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
 
     foreach group $groups {
 	lassign $group start upto
-	testMoveRange $problemnr $firstTwin $movenumbers $endElmt $twinnings $start $upto $processnr
+	testMoveRange $problemnr $firstTwin $suppressMovenumbers $endElmt $twinnings $start $upto $processnr
 	incr processnr
     }
 
@@ -939,8 +949,8 @@ proc whoMoves {twin twinnings} {
     return $result
 }
 
-proc handleTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
-    debug.twin "handleTwin problemnr:$problemnr firstTwin:|$firstTwin| movenumbers:$movenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
+proc handleTwin {problemnr firstTwin suppressMovenumbers endElmt twinnings skipMoves} {
+    debug.twin "handleTwin problemnr:$problemnr firstTwin:|$firstTwin| suppressMovenumbers:$suppressMovenumbers endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
@@ -951,7 +961,7 @@ proc handleTwin {problemnr firstTwin movenumbers endElmt twinnings skipMoves} {
     set groups [groupByWeight $weights $skipMoves]
     debug.twin "groups:$groups" 2
 
-    testTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings $groups
+    testTwin $problemnr $firstTwin $suppressMovenumbers $endElmt $twinnings $groups
 
     set result [llength $weights]
 
@@ -1022,13 +1032,13 @@ proc handleFirstTwin {chan problemnr} {
     if {$endElmt=="ZeroPosition"} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
 	lappend twinnings [list "ZeroPosition" $zeroTwinning]
-	set movenumbers [areMoveNumbersActivated $firstTwin $zeroTwinning]
+	set suppressMovenumbers [expr {![areMoveNumbersActivated $firstTwin $zeroTwinning]}]
     } else {
-	set movenumbers [areMoveNumbersActivated $firstTwin ""]
+	set suppressMovenumbers [expr {![areMoveNumbersActivated $firstTwin ""]}]
     }
 
-    set nrFirstMoves [handleTwin $problemnr $firstTwin $movenumbers $endElmt $twinnings 0]
-    set result [list $firstTwin $twinnings $movenumbers $endElmt $nrFirstMoves]
+    set nrFirstMoves [handleTwin $problemnr $firstTwin $suppressMovenumbers $endElmt $twinnings 0]
+    set result [list $firstTwin $twinnings $suppressMovenumbers $endElmt $nrFirstMoves]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
