@@ -405,7 +405,12 @@ proc ::input::getLine {} {
 
 namespace eval output {
     variable protocol
-    variable suppressMovenumbers true
+
+    variable isGreetingLineSuppressed false
+    variable isBoardSuppressed
+    variable isBoardTerminatorSuppressed
+    variable areMovenumbersSuppressed true
+    variable isSolutionTerminatorSuppressed true
 }
 
 proc ::output::openProtocol {path} {
@@ -432,7 +437,7 @@ proc ::output::closeProtocol {} {
     debug.output "closeProtocol <-"
 }
 
-proc ::output::puts {string} {
+proc ::output::_puts {string} {
     variable protocol
 
     ::puts -nonewline $string
@@ -442,18 +447,40 @@ proc ::output::puts {string} {
     }
 }
 
+proc ::output::greetingLine {greetingLine} {
+    variable isGreetingLineSuppressed
+
+    if {!$isGreetingLineSuppressed} {
+	_puts $greetingLine
+	set isGreetingLineSuppressed true
+    }
+}
+
+proc ::output::board {board terminator} {
+    variable isBoardSuppressed
+    variable isBoardTerminatorSuppressed
+
+    if {!$isBoardSuppressed} {
+	_puts "$board"
+    }
+
+    if {!$isBoardTerminatorSuppressed} {
+	_puts "$terminator"
+    }
+}
+
 proc ::output::enableMovenumbers {enable} {
-    variable suppressMovenumbers
+    variable areMovenumbersSuppressed
 
     debug.output "enableMovenumbers enable:$enable"
 
-    set suppressMovenumbers [expr {!$enable}]
+    set areMovenumbersSuppressed [expr {!$enable}]
 }
 
 proc ::output::solution {string} {
-    variable suppressMovenumbers
+    variable areMovenumbersSuppressed
 
-    if {$suppressMovenumbers} {
+    if {$areMovenumbersSuppressed} {
 	set parenOpenRE {[\(]}
 	set parenCloseRE {[\)]}
 	set movenumberRE { *[[:digit:]]+}
@@ -468,7 +495,15 @@ proc ::output::solution {string} {
 	}
     }
 
-    puts $string
+    _puts $string
+}
+
+proc ::output::solutionTerminator {terminator} {
+    variable isSolutionTerminatorSuppressed
+
+    if {!$isSolutionTerminatorSuppressed} {
+	_puts $terminator
+    }
 }
 
 namespace eval popeye {
@@ -646,7 +681,7 @@ proc ::sync::Fini {} {
     unset state
 }
 
-proc ::sync::Wait {waitFor} {
+proc ::sync::Wait {waitFor callback args} {
     variable state
     variable target
 
@@ -656,20 +691,10 @@ proc ::sync::Wait {waitFor} {
     while {$state<$target} {
 	debug.sync "vwait state:$state (target:$target)" 2
 	vwait ::sync::state
+	$callback $state $target {*}$args
     }
 
     debug.sync "Wait <-"
-}
-
-proc ::sync::Ended {} {
-    variable state
-    variable target
-
-    debug.sync "Ended state:$state target:$target" 2
-    set result [expr {$state==$target}]
-
-    debug.sync "Ended <- $result"
-    return $result
 }
 
 proc ::sync::Notify {} {
@@ -683,16 +708,14 @@ proc ::sync::Notify {} {
 proc flushSolution {pipe chunk solutionTerminatorRE} {
     debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
 
-    if {[regexp -- "^(.*)${solutionTerminatorRE}(.*)$" $chunk - solution terminator remainder]} {
+    if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
 	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
 
-	::output::solution $solution
-
         ::sync::Notify
-	if {[::sync::Ended]} {
-	    ::output::puts $terminator
-	}
+
+	::output::solution $solution
+	::output::solutionTerminator $terminator
 
 	::popeye::terminate $pipe
 	set result true
@@ -715,27 +738,28 @@ proc solution {pipe solutionTerminatorRE} {
     flushSolution $pipe [read $pipe] $solutionTerminatorRE
 }
 
-proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE {chunk ""}} {
+proc board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
     debug.board "board pipe:$pipe chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
     debug.board "chunk:|$chunk|"
 
-    if {[regexp -- "$boardRE${boardTerminatorRE}(.*)" $chunk - board terminator remainder]} {
+    if {[regexp -- "(.*)($boardTerminatorRE)(.*)" $chunk - board terminator remainder]} {
 	debug.board "terminator:|[debuggable $terminator]|"
-	::output::puts "$board$terminator"
+	debug.board "remainder:|[debuggable $remainder]|"
+	::output::board $board $terminator
 	::sync::Notify
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE]} {
 	    ::popeye::output::doAsync $pipe solution [list $solutionTerminatorRE]
 	}
     } else {
 	debug.board "terminator not found"
-	::popeye::output::doAsync $pipe board [list $boardRE $boardTerminatorRE $solutionTerminatorRE $chunk]
+	::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
     }
 }
 
-proc testMoveRange {problemnr firstTwin endElmt twinnings start upto processnr} {
-    debug.processes "testMoveRange problemnr:$problemnr firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings start:$start upto:$upto processnr:$processnr"
+proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE solutionTerminatorRE} {
+    debug.processes "testMoveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings start:$start upto:$upto boardTerminatorRE:$boardTerminatorRE solutionTerminatorRE:$solutionTerminatorRE"
 
     set options "[::language::getElement MoveNumber] [::language::getElement UpToMoveNumber] $upto"
     if {$start>1} {
@@ -745,91 +769,72 @@ proc testMoveRange {problemnr firstTwin endElmt twinnings start upto processnr} 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
     debug.processes "pipe:$pipe" 2
 
-    if {$problemnr==1 && $start==1} {
-	debug.processes "first twin of first problem: print greeting line" 2
-	::output::puts $greetingLine
-    }
+    ::output::greetingLine $greetingLine
 
-    set anySequenceCaptureRE "(.*)"
-    set anySequenceDontCaptureRE "()(?:.*)"
-
-    set fakeZeroPositionRE "()(?:\n[::language::getElement ZeroPosition].*?270 *\n)"
-
-    set twinningRE {\n\n..?[\)] [^\n]*\n}
-    set twinningCapureRE "($twinningRE)"
-    set twinningDontCaptureRE "()(?:$twinningRE)"
-
-    set solutionFinishedCaptureRE "(\n\n[::language::getElement SolutionFinished]\[^\n]+\n\n\n)"
-
-    if {$endElmt!="Twin"
-	&& [llength $twinnings]==0} {
-	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
-	::popeye::input::ZeroPosition $pipe "[::language::getElement Rotate] 90 [::language::getElement Rotate] 270"
-
-	set boardTerminatorRE $fakeZeroPositionRE
-    } else {
-	debug.processes "twinning involved - inserting accumulated twinnings" 2
-	foreach t $twinnings {
-	    lassign $t key twinning
-	    ::popeye::input::$key $pipe $twinning
-	}
-
-	if {$endElmt=="Twin"} {
-	    debug.processes "inserting fake twinning as solution terminator" 2
-	    ::popeye::input::Twin $pipe "rotate 180"
-	}
-
-	if {$processnr==0} {
-	    debug.processes "first process - write twinning" 2
-	    set boardTerminatorRE $twinningCapureRE
-	} else {
-	    debug.processes "not first process - don't write twinning" 2
-	    set boardTerminatorRE $twinningDontCaptureRE
-	}
-    }
-
-    if {$processnr==0 && $start==1} {
-	debug.processes "first twin, first group - write board" 2
-	set boardRE $anySequenceCaptureRE
-    } else {
-	debug.processes "later twin or group - don't write board" 2
-	set boardRE $anySequenceDontCaptureRE
-    }
-
-    if {$endElmt=="Twin"} {
-	debug.processes "don't write next twinning" 2
-	set solutionTerminatorRE $twinningDontCaptureRE
-    } else {
-	debug.processes "write solution finished if we are the last process" 2
-	set solutionTerminatorRE $solutionFinishedCaptureRE
+    debug.processes "inserting accumulated twinnings" 2
+    foreach t $twinnings {
+	lassign $t key twinning
+	::popeye::input::$key $pipe $twinning
     }
 
     ::popeye::input::EndProblem $pipe
 
-    ::popeye::output::doAsync $pipe board [list $boardRE $boardTerminatorRE $solutionTerminatorRE]
-
-    if {$processnr==0} {
-	debug.processes "wait for board and/or twinning to be written by first process" 2
-	::sync::Wait 1
-    }
+    ::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE]
 
     debug.processes "testMoveRange <-"
 }
 
-proc testTwin {problemnr firstTwin endElmt twinnings groups} {
-    debug.processes "testTwin problemnr:$problemnr firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings groups:$groups"
+proc testTwinProgress {state target endElmt} {
+    # we print board an board terminator only once (if at all)
+    if {$state==1} {
+	set ::output::isBoardSuppressed true
+	set ::output::isBoardTerminatorSuppressed true
+    }
+
+    # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
+    if {$endElmt!="Twin" && $state==[expr {$target-1}]} {
+	set ::output::isSolutionTerminatorSuppressed false
+    }
+}
+
+proc testTwin {firstTwin twinnings endElmt groups} {
+    debug.processes "testTwin firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt groups:$groups"
 
     set processnr 0
 
     ::sync::Init
 
+    set ::output::isSolutionTerminatorSuppressed true
+
+    set twinningRE {\n\n..?[\)] [^\n]*\n}
+
+    if {[llength $twinnings]==0 && $endElmt!="Twin"} {
+	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
+	set twinnings [linsert $twinnings 0 [list "ZeroPosition" "[::language::getElement Rotate] 90 [::language::getElement Rotate] 270"]]
+	set fakeZeroPositionRE "\n[::language::getElement ZeroPosition].*?270 *\n"
+	set boardTerminatorRE $fakeZeroPositionRE
+	set ::output::isBoardTerminatorSuppressed true
+    } else {
+	set boardTerminatorRE $twinningRE
+    }
+
+    if {$endElmt=="Twin"} {
+	debug.processes "inserting fake twinning as solution terminator" 2
+	lappend twinnings [list Twin "rotate 180"]
+	set solutionTerminatorRE $twinningRE
+    } else {
+	set solutionFinishedRE "\n\n[::language::getElement SolutionFinished]\[^\n]+\n\n\n"
+	set solutionTerminatorRE $solutionFinishedRE
+    }
+
     foreach group $groups {
 	lassign $group start upto
-	testMoveRange $problemnr $firstTwin $endElmt $twinnings $start $upto $processnr
+	testMoveRange $firstTwin $endElmt $twinnings $start $upto $boardTerminatorRE $solutionTerminatorRE
 	incr processnr
     }
 
-    ::sync::Wait [expr {2*$processnr}]
+    ::sync::Wait [expr {2*$processnr}] testTwinProgress $endElmt
+
     ::sync::Fini
 
     debug.processes "testTwin <-"
@@ -988,8 +993,10 @@ proc whoMoves {twin twinnings} {
     return $result
 }
 
-proc handleTwin {problemnr firstTwin endElmt twinnings skipMoves} {
-    debug.twin "handleTwin problemnr:$problemnr firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
+proc handleTwin {firstTwin endElmt twinnings skipMoves} {
+    debug.twin "handleTwin firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
+
+    set ::output::isBoardTerminatorSuppressed false
 
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
@@ -1000,7 +1007,7 @@ proc handleTwin {problemnr firstTwin endElmt twinnings skipMoves} {
     set groups [groupByWeight $weights $skipMoves]
     debug.twin "groups:$groups" 2
 
-    testTwin $problemnr $firstTwin $endElmt $twinnings $groups
+    testTwin $firstTwin $twinnings $endElmt $groups
 
     set result [llength $weights]
 
@@ -1057,8 +1064,8 @@ proc readFirstTwin {chan} {
     return $result
 }
 
-proc handleFirstTwin {chan problemnr} {
-    debug.problem "handleFirstTwin problemnr:$problemnr"
+proc handleFirstTwin {chan} {
+    debug.problem "handleFirstTwin"
 
     lassign [readFirstTwin $chan] firstTwin endElmt
 
@@ -1072,17 +1079,19 @@ proc handleFirstTwin {chan problemnr} {
 	::output::enableMovenumbers [areMoveNumbersActivated $firstTwin ""]
     }
 
-    set nrFirstMoves [handleTwin $problemnr $firstTwin $endElmt $twinnings 0]
+    set nrFirstMoves [handleTwin $firstTwin $endElmt $twinnings 0]
     set result [list $firstTwin $twinnings $endElmt $nrFirstMoves]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
 }
 
-proc handleProblem {chan problemnr} {
-    debug.problem "handleProblem problemnr:$problemnr"
+proc handleProblem {chan} {
+    debug.problem "handleProblem"
 
-    lassign [handleFirstTwin $chan $problemnr] firstTwin twinnings endElmt nrFirstMoves
+    set ::output::isBoardSuppressed false
+
+    lassign [handleFirstTwin $chan] firstTwin twinnings endElmt nrFirstMoves
 
     while {$endElmt=="Twin"} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
@@ -1090,7 +1099,7 @@ proc handleProblem {chan problemnr} {
 	lappend twinnings [list "Twin" $twinning]
 	debug.problem "twinnings:$twinnings" 2
 
-	incr nrFirstMoves [handleTwin $problemnr $firstTwin $endElmt $twinnings $nrFirstMoves]
+	incr nrFirstMoves [handleTwin $firstTwin $endElmt $twinnings $nrFirstMoves]
     }
 
     set result $endElmt
@@ -1099,15 +1108,11 @@ proc handleProblem {chan problemnr} {
 }
 
 proc handleInput {chan} {
-    set problemnr 1
-
     ::input::detectLanguage $chan
 
-    set endElmt [handleProblem $chan $problemnr]
-
+    set endElmt [handleProblem $chan]
     while {$endElmt=="NextProblem"} {
-	incr problemnr
-	set endElmt [handleProblem $chan $problemnr]
+	set endElmt [handleProblem $chan]
     }
 }
 
