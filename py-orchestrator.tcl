@@ -481,6 +481,26 @@ proc ::popeye::spawn {firstTwin options} {
     return $result
 }
 
+proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
+    debug.popeye "terminate pipe:$pipe expectedErrorMessageREs:$expectedErrorMessageREs"
+    if {[catch {
+	close $pipe
+    } error]} {
+	debug.popeye "caught error |[debuggable $error]|" 2
+	foreach expectedErrorMesssageRE $expectedErrorMessageREs {
+	    if {[regsub -all "$expectedErrorMesssageRE" $error "" error]>0} {
+		debug.popeye "suppressed [debuggable $expectedErrorMesssageRE]" 2
+		debug.popeye "error:[debuggable $error]" 2
+	    }
+	}
+	if {$error!=""} {
+	    puts stderr $error
+	    exit 1
+	}
+    }
+    debug.popeye "terminate <-"
+}
+
 proc ::popeye::ZeroPosition {pipe twinning} {
     debug.popeye "ZeroPosition twinning:|$twinning|"
 
@@ -631,7 +651,7 @@ proc flushSolution {pipe chunk solutionTerminatorRE suppressMovenumbers} {
 	    ::output::puts $terminator
 	}
 
-	close $pipe
+	::popeye::terminate $pipe
 	set result true
     } else {
 	debug.solution "terminator not found" 2
@@ -872,21 +892,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 	}
     }
 
-    if {[catch {
-	close $pipe
-    } error]} {
-	debug.weight error:[debuggable $error] 2
-	
-	# don't confuse caller with "zeroposition" inserted by us
-	regsub -- "[::language::getElement ZeroPosition].*" $output {} output
-	regsub -- "\noffending item: [::language::getElement ZeroPosition]" $error {} error
-
-	output::puts [string trim $output]
-	output::puts ""
-
-	puts stderr $error
-	exit 1
-    }
+    ::popeye::terminate $pipe
 
     debug.weight "findMoveWeights <- $result"
     return $result
@@ -930,20 +936,11 @@ proc whoMoves {twin twinnings} {
 	}
     }
 
-    if {[catch {
-	close $pipe
-    } error]} {
-	debug.whomoves error:[debuggable $error]
+    # don't confuse caller with errors caused by us
+    lappend expectedErrorMessageREs "..: [::language::getElement SquareIsEmptyRE]\\n?"
+    lappend expectedErrorMessageREs "[::language::getElement BothSidesNeedAKingRE]"
 
-	# don't confuse caller with errors caused by us
-	regsub -all "..: [::language::getElement SquareIsEmptyRE]\n?" $error {} error
-	regsub "[::language::getElement BothSidesNeedAKingRE]" $error {} error
-	
-	if {$error!=""} {
-	    puts stderr $error
-	    exit 1
-	}
-    }
+    ::popeye::terminate $pipe $expectedErrorMessageREs
 
     debug.whomoves "result:$result"
     return $result
@@ -988,11 +985,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 	}
     }
 
-    if {[catch {
-	close $pipe
-    } error]} {
-	debug.movenumbers "error:[debuggable $error]" 2
-    }
+    ::popeye::terminate $pipe
 
     debug.movenumbers "areMoveNumbersActivated <- $result"
     return $result
