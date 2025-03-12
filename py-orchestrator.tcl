@@ -501,22 +501,37 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
     debug.popeye "terminate <-"
 }
 
-proc ::popeye::ZeroPosition {pipe twinning} {
-    debug.popeye "ZeroPosition twinning:|$twinning|"
+namespace eval ::popeye::input {
+}
+
+proc ::popeye::input::ZeroPosition {pipe twinning} {
+    debug.popeye "input::ZeroPosition twinning:|$twinning|"
 
     puts $pipe "[::language::getElement ZeroPosition] $twinning"
 }
 
-proc ::popeye::Twin {pipe twinning} {
-    debug.popeye "Twin twinning:|$twinning|"
+proc ::popeye::input::Twin {pipe twinning} {
+    debug.popeye "input::Twin twinning:|$twinning|"
 
     puts $pipe "[::language::getElement Twin] $twinning"
 }
 
-proc ::popeye::EndProblem {pipe} {
-    debug.popeye "EndProblem"
+proc ::popeye::input::EndProblem {pipe} {
+    debug.popeye "input::EndProblem"
 
     puts $pipe "[::language::getElement EndProblem]"
+}
+
+namespace eval ::popeye::output {
+}
+
+proc ::popeye::output::doAsync {pipe listener arguments} {
+    debug.popeye "output::doAsync pipe:$pipe listener:$listener arguments:[debuggable $arguments]"
+
+    fconfigure $pipe -blocking false
+
+    set callback [linsert $arguments 0 $listener $pipe]
+    fileevent $pipe readable $callback
 }
 
 proc parseCommandLine {} {
@@ -683,11 +698,11 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE suppressMovenumb
 	::output::puts "$board$terminator"
 	::sync::Notify
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE $suppressMovenumbers]} {
-	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $suppressMovenumbers]
+	    ::popeye::output::doAsync $pipe solution [list $solutionTerminatorRE $suppressMovenumbers]
 	}
     } else {
 	debug.board "terminator not found"
-	fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers $chunk]
+	::popeye::output::doAsync $pipe board [list $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers $chunk]
     }
 }
 
@@ -721,19 +736,19 @@ proc testMoveRange {problemnr firstTwin suppressMovenumbers endElmt twinnings st
     if {$endElmt!="Twin"
 	&& [llength $twinnings]==0} {
 	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
-	::popeye::ZeroPosition $pipe "[::language::getElement Rotate] 90 [::language::getElement Rotate] 270"
+	::popeye::input::ZeroPosition $pipe "[::language::getElement Rotate] 90 [::language::getElement Rotate] 270"
 
 	set boardTerminatorRE $fakeZeroPositionRE
     } else {
 	debug.processes "twinning involved - inserting accumulated twinnings" 2
 	foreach t $twinnings {
 	    lassign $t key twinning
-	    ::popeye::$key $pipe $twinning
+	    ::popeye::input::$key $pipe $twinning
 	}
 
 	if {$endElmt=="Twin"} {
 	    debug.processes "inserting fake twinning as solution terminator" 2
-	    ::popeye::Twin $pipe "rotate 180"
+	    ::popeye::input::Twin $pipe "rotate 180"
 	}
 
 	if {$processnr==0} {
@@ -761,10 +776,9 @@ proc testMoveRange {problemnr firstTwin suppressMovenumbers endElmt twinnings st
 	set solutionTerminatorRE $solutionFinishedCaptureRE
     }
 
-    ::popeye::EndProblem $pipe
+    ::popeye::input::EndProblem $pipe
 
-    fconfigure $pipe -blocking false
-    fileevent $pipe readable [list board $pipe $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers]
+    ::popeye::output::doAsync $pipe board [list $boardRE $boardTerminatorRE $solutionTerminatorRE $suppressMovenumbers]
 
     if {$processnr==0} {
 	debug.processes "wait for board and/or twinning to be written by first process" 2
@@ -847,14 +861,14 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
     if {[llength $twinnings]==0} {
-	::popeye::ZeroPosition $pipe "[::language::getElement Stipulation] ~1"
+	::popeye::input::ZeroPosition $pipe "[::language::getElement Stipulation] ~1"
     } else {
 	foreach t $twinnings {
 	    lassign $t key twinning
-	    ::popeye::$key $pipe "$twinning [::language::getElement Stipulation] ~1"
+	    ::popeye::input::$key $pipe "$twinning [::language::getElement Stipulation] ~1"
 	}
     }
-    ::popeye::EndProblem $pipe
+    ::popeye::input::EndProblem $pipe
 
     set result {}
     while {[gets $pipe line]>=0} {
@@ -919,8 +933,8 @@ proc whoMoves {twin twinnings} {
 
     lassign [::popeye::spawn $twin $options] pipe greetingLine
 
-    ::popeye::ZeroPosition $pipe "$accumulatedZeroposition"
-    ::popeye::EndProblem $pipe
+    ::popeye::input::ZeroPosition $pipe "$accumulatedZeroposition"
+    ::popeye::input::EndProblem $pipe
 
     set result "white"
     debug.whomoves "assuming white"
@@ -972,8 +986,8 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     set options "[::language::getElement MaxSolutions] 1"
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    ::popeye::ZeroPosition $pipe "$zeroTwinning [::language::getElement Stipulation] ~1"
-    ::popeye::EndProblem $pipe
+    ::popeye::input::ZeroPosition $pipe "$zeroTwinning [::language::getElement Stipulation] ~1"
+    ::popeye::input::EndProblem $pipe
 
     set result false
     while {[gets $pipe line]>=0} {
