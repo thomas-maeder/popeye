@@ -525,6 +525,12 @@ proc ::popeye::input::EndProblem {pipe} {
 namespace eval ::popeye::output {
 }
 
+proc ::popeye::output::getLine {pipe varname} {
+    upvar $varname line
+
+    return [gets $pipe line]
+}
+
 proc ::popeye::output::doAsync {pipe listener arguments} {
     debug.popeye "output::doAsync pipe:$pipe listener:$listener arguments:[debuggable $arguments]"
 
@@ -871,7 +877,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     ::popeye::input::EndProblem $pipe
 
     set result {}
-    while {[gets $pipe line]>=0} {
+    while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.weight "line:[debuggable $line]" 2
 	append output "$line\n"
 	switch -glob $line {
@@ -938,7 +944,7 @@ proc whoMoves {twin twinnings} {
 
     set result "white"
     debug.whomoves "assuming white"
-    while {[gets $pipe line]>=0} {
+    while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.whomoves "line:[debuggable $line]" 2
 	if {[string first "b5-b4" $line]>=0} {
 	    set result "black"
@@ -990,7 +996,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     ::popeye::input::EndProblem $pipe
 
     set result false
-    while {[gets $pipe line]>=0} {
+    while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.movenumbers "line:[debuggable $line]" 2
 	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::language::getElement Time] = [^\)]+[\)]}
 	if {[regexp -- "^$movenumbersRE\$" $line]} {
