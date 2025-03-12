@@ -25,6 +25,7 @@ debug off popeye
 debug off problem
 debug off processes
 debug off solution
+debug off sync
 debug off twin
 debug off weight
 debug off whomoves
@@ -550,46 +551,55 @@ proc parseCommandLine {} {
     debug.cmdline params:[debug parray ::params]
 }
 
-proc syncInit {} {
-    global processSync
-
-    set processSync 0
+namespace eval sync {
+    variable state
+    variable target
 }
 
-proc syncWait {value} {
-    global processSync processValue
+proc ::sync::Init {} {
+    variable state
 
-    debug.processes "syncWait value:$value"
+    set state 0
+}
 
-    set processValue $value
-    while {$processSync<$processValue} {
-	debug.processes "vwait processSync:$processSync"
-	vwait processSync
-	debug.processes "vwait <- processSync:$processSync"
+proc ::sync::Fini {} {
+    variable state
+
+    unset state
+}
+
+proc ::sync::Wait {waitFor} {
+    variable state
+    variable target
+
+    debug.sync "Wait waitFor:$waitFor"
+
+    set target $waitFor
+    while {$state<$target} {
+	debug.sync "vwait state:$state (target:$target)" 2
+	vwait ::sync::state
     }
 
-    debug.processes "syncWait <-"
+    debug.sync "Wait <-"
 }
 
-proc syncFini {} {
-    global processSync
+proc ::sync::Ended {} {
+    variable state
+    variable target
 
-    unset processSync
-}
+    debug.sync "Ended state:$state target:$target" 2
+    set result [expr {$state==$target}]
 
-proc syncEnded {} {
-    global processSync processValue
-
-    set result [expr {$processSync==$processValue}]
-    debug.processes "syncEnded <- $result"
+    debug.sync "Ended <- $result"
     return $result
 }
 
-proc syncNotify {} {
-    global processSync
+proc ::sync::Notify {} {
+    variable state
+    variable target
 
-    incr processSync
-    debug.processes processSync:$processSync
+    incr state
+    debug.sync "Notify state:$state (target:$target)"
 }
 
 proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
@@ -606,8 +616,8 @@ proc flushSolution {pipe chunk solutionTerminatorRE movenumbers} {
 
 	::output::puts $solution
 
-        syncNotify
-	if {[syncEnded]} {
+        ::sync::Notify
+	if {[::sync::Ended]} {
 	    ::output::puts $terminator
 	}
 
@@ -641,7 +651,7 @@ proc board {pipe boardRE boardTerminatorRE solutionTerminatorRE movenumbers {chu
     if {[regexp -- "$boardRE${boardTerminatorRE}(.*)" $chunk - board terminator remainder]} {
 	debug.board "terminator:|[debuggable $terminator]|"
 	::output::puts "$board$terminator"
-	syncNotify
+	::sync::Notify
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE $movenumbers]} {
 	    fileevent $pipe readable [list solution $pipe $solutionTerminatorRE $movenumbers]
 	}
@@ -728,7 +738,7 @@ proc testMoveRange {problemnr firstTwin movenumbers endElmt twinnings start upto
 
     if {$processnr==0} {
 	debug.processes "wait for board and/or twinning to be written by first process" 2
-	syncWait 1
+	::sync::Wait 1
     }
 
     debug.processes "testMoveRange <-"
@@ -739,7 +749,7 @@ proc testTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
 
     set processnr 0
 
-    syncInit
+    ::sync::Init
 
     foreach group $groups {
 	lassign $group start upto
@@ -747,8 +757,8 @@ proc testTwin {problemnr firstTwin movenumbers endElmt twinnings groups} {
 	incr processnr
     }
 
-    syncWait [expr {2*$processnr}]
-    syncFini
+    ::sync::Wait [expr {2*$processnr}]
+    ::sync::Fini
 
     debug.processes "testTwin <-"
 }
@@ -804,24 +814,16 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
     }
     debug.weight "options:$options"
 
-    set isZero false
-    set accumulatedTwinnings ""
-    foreach t $twinnings {
-	lassign $t key twinning
-	debug.weight "key:$key twinning:$twinning"
-	append accumulatedTwinnings "[::language::getElement $key] $twinning "
-	if {$key=="ZeroPosition"} {
-	    set isZero true
-	}
-    }
-    debug.weight accumulatedTwinnings:$accumulatedTwinnings
-
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    if {!$isZero} {
+    if {[llength $twinnings]==0} {
 	::popeye::ZeroPosition $pipe "[::language::getElement Stipulation] ~1"
+    } else {
+	foreach t $twinnings {
+	    lassign $t key twinning
+	    ::popeye::$key $pipe "$twinning [::language::getElement Stipulation] ~1"
+	}
     }
-    puts $pipe "$accumulatedTwinnings [::language::getElement Stipulation] ~1"
     ::popeye::EndProblem $pipe
 
     set result {}
