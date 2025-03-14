@@ -665,30 +665,30 @@ proc parseCommandLine {} {
 }
 
 namespace eval sync {
-    variable state
+    variable notification
 }
 
 proc ::sync::Init {} {
-    variable state
+    variable notification
 
-    set state 0
+    set notification ""
 }
 
 proc ::sync::Fini {} {
-    variable state
+    variable notification
 
-    unset state
+    unset notification
 }
 
 proc ::sync::Wait {callback args} {
-    variable state
+    variable notification
 
     debug.sync "Wait callback:$callback args:[debuggable $args]"
 
     while {true} {
-	debug.sync "vwait state:$state" 2
-	vwait ::sync::state
-	if {[$callback $state {*}$args]} {
+	debug.sync "vwait notification:$notification" 2
+	vwait ::sync::notification
+	if {[$callback $notification {*}$args]} {
 	    break
 	}
     }
@@ -696,11 +696,11 @@ proc ::sync::Wait {callback args} {
     debug.sync "Wait <-"
 }
 
-proc ::sync::Notify {} {
-    variable state
+proc ::sync::Notify {n} {
+    variable notification
 
-    incr state
-    debug.sync "Notify state:$state"
+    set notification $n
+    debug.sync "Notify notification:$notification"
 }
 
 proc flushSolution {pipe chunk solutionTerminatorRE} {
@@ -710,7 +710,7 @@ proc flushSolution {pipe chunk solutionTerminatorRE} {
 	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
 
-        ::sync::Notify
+        ::sync::Notify "solution"
 
 	::output::solution $solution
 	::output::solutionTerminator $terminator
@@ -746,7 +746,7 @@ proc board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
 	debug.board "terminator:|[debuggable $terminator]|"
 	debug.board "remainder:|[debuggable $remainder]|"
 	::output::board $board $terminator
-	::sync::Notify
+	::sync::Notify "board"
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE]} {
 	    ::popeye::output::doAsync $pipe solution [list $solutionTerminatorRE]
 	}
@@ -782,21 +782,26 @@ proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE sol
     debug.processes "testMoveRange <-"
 }
 
-proc testTwinProgress {state endElmt target} {
-    debug.processes "testTwinProgress state:$state endElmt:$endElmt $target:$target"
+proc testTwinProgress {notification endElmt target} {
+    debug.processes "testTwinProgress notification:$notification endElmt:$endElmt $target:$target"
+
+    variable board
+    variable solution
+
+    incr $notification
 
     # we print board a board terminator only once (if at all)
-    if {$state==1} {
+    if {$board==1} {
 	set ::output::isBoardSuppressed true
 	set ::output::isBoardTerminatorSuppressed true
     }
 
     # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
-    if {$endElmt!="Twin" && $state==[expr {$target-1}]} {
+    if {$endElmt!="Twin" && $solution==[expr {$target-1}]} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
 
-    return [expr {$state==$target}]
+    return [expr {$solution==$target}]
 }
 
 proc testTwin {firstTwin twinnings endElmt groups} {
@@ -835,7 +840,13 @@ proc testTwin {firstTwin twinnings endElmt groups} {
 	incr processnr
     }
 
-    ::sync::Wait testTwinProgress $endElmt [expr {2*$processnr}]
+    variable board 0
+    variable solution 0
+
+    ::sync::Wait testTwinProgress $endElmt $processnr
+
+    unset board
+    unset solution
 
     ::sync::Fini
 
