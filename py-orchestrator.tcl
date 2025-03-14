@@ -680,17 +680,15 @@ proc ::sync::Fini {} {
     unset notification
 }
 
-proc ::sync::Wait {callback args} {
+proc ::sync::Wait {callback state args} {
     variable notification
 
     debug.sync "Wait callback:$callback args:[debuggable $args]"
 
-    while {true} {
+    while {[llength $state]>0} {
 	debug.sync "vwait notification:$notification" 2
 	vwait ::sync::notification
-	if {[$callback $notification {*}$args]} {
-	    break
-	}
+	set state [$callback $notification $state {*}$args]
     }
 
     debug.sync "Wait <-"
@@ -782,11 +780,10 @@ proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE sol
     debug.processes "testMoveRange <-"
 }
 
-proc testTwinProgress {notification endElmt target} {
-    debug.processes "testTwinProgress notification:$notification endElmt:$endElmt $target:$target"
+proc testTwinProgress {notification state endElmt} {
+    debug.processes "testTwinProgress notification:$notification state:$state endElmt:$endElmt"
 
-    variable board
-    variable solution
+    lassign $state target board solution
 
     incr $notification
 
@@ -801,7 +798,11 @@ proc testTwinProgress {notification endElmt target} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
 
-    return [expr {$solution==$target}]
+    if {$solution==$target} {
+	return {}
+    } else {
+	return [list $target $board $solution]
+    }
 }
 
 proc testTwin {firstTwin twinnings endElmt groups} {
@@ -840,13 +841,7 @@ proc testTwin {firstTwin twinnings endElmt groups} {
 	incr processnr
     }
 
-    variable board 0
-    variable solution 0
-
-    ::sync::Wait testTwinProgress $endElmt $processnr
-
-    unset board
-    unset solution
+    ::sync::Wait testTwinProgress [list $processnr 0 0] $endElmt
 
     ::sync::Fini
 
