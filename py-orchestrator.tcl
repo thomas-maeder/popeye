@@ -685,7 +685,7 @@ proc ::sync::Wait {callback state args} {
 
     debug.sync "Wait callback:$callback args:[debuggable $args]"
 
-    while {[llength $state]>0} {
+    while {true} {
 	debug.sync "vwait notification:$notification" 2
 	vwait ::sync::notification
 	set state [$callback $notification $state {*}$args]
@@ -799,7 +799,7 @@ proc testTwinProgress {notification state endElmt} {
     }
 
     if {$solution==$target} {
-	return {}
+	return -code break
     } else {
 	return [list $target $board $solution]
     }
