@@ -666,7 +666,6 @@ proc parseCommandLine {} {
 
 namespace eval sync {
     variable state
-    variable target
 }
 
 proc ::sync::Init {} {
@@ -681,17 +680,17 @@ proc ::sync::Fini {} {
     unset state
 }
 
-proc ::sync::Wait {waitFor callback args} {
+proc ::sync::Wait {callback args} {
     variable state
-    variable target
 
-    debug.sync "Wait waitFor:$waitFor"
+    debug.sync "Wait callback:$callback args:[debuggable $args]"
 
-    set target $waitFor
-    while {$state<$target} {
-	debug.sync "vwait state:$state (target:$target)" 2
+    while {true} {
+	debug.sync "vwait state:$state" 2
 	vwait ::sync::state
-	$callback $state $target {*}$args
+	if {[$callback $state {*}$args]} {
+	    break
+	}
     }
 
     debug.sync "Wait <-"
@@ -699,10 +698,9 @@ proc ::sync::Wait {waitFor callback args} {
 
 proc ::sync::Notify {} {
     variable state
-    variable target
 
     incr state
-    debug.sync "Notify state:$state (target:$target)"
+    debug.sync "Notify state:$state"
 }
 
 proc flushSolution {pipe chunk solutionTerminatorRE} {
@@ -784,8 +782,10 @@ proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE sol
     debug.processes "testMoveRange <-"
 }
 
-proc testTwinProgress {state target endElmt} {
-    # we print board an board terminator only once (if at all)
+proc testTwinProgress {state endElmt target} {
+    debug.processes "testTwinProgress state:$state endElmt:$endElmt $target:$target"
+
+    # we print board a board terminator only once (if at all)
     if {$state==1} {
 	set ::output::isBoardSuppressed true
 	set ::output::isBoardTerminatorSuppressed true
@@ -795,6 +795,8 @@ proc testTwinProgress {state target endElmt} {
     if {$endElmt!="Twin" && $state==[expr {$target-1}]} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
+
+    return [expr {$state==$target}]
 }
 
 proc testTwin {firstTwin twinnings endElmt groups} {
@@ -833,7 +835,7 @@ proc testTwin {firstTwin twinnings endElmt groups} {
 	incr processnr
     }
 
-    ::sync::Wait [expr {2*$processnr}] testTwinProgress $endElmt
+    ::sync::Wait testTwinProgress $endElmt [expr {2*$processnr}]
 
     ::sync::Fini
 
