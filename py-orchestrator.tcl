@@ -754,8 +754,10 @@ proc board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
     }
 }
 
-proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE solutionTerminatorRE} {
-    debug.processes "testMoveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings start:$start upto:$upto boardTerminatorRE:$boardTerminatorRE solutionTerminatorRE:$solutionTerminatorRE"
+proc testMoveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
+    debug.processes "testMoveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:$boardTerminatorRE solutionTerminatorRE:$solutionTerminatorRE moveRange:$moveRange"
+
+    lassign $moveRange start upto
 
     set options "[::language::getElement MoveNumber] [::language::getElement UpToMoveNumber] $upto"
     if {$start>1} {
@@ -780,35 +782,40 @@ proc testMoveRange {firstTwin endElmt twinnings start upto boardTerminatorRE sol
     debug.processes "testMoveRange <-"
 }
 
-proc testTwinProgress {notification state endElmt} {
-    debug.processes "testTwinProgress notification:$notification state:$state endElmt:$endElmt"
+proc testMoveRangesProgress {notification state endElmt} {
+    debug.processes "testMoveRangesProgress notification:$notification state:$state endElmt:$endElmt"
 
-    lassign $state target board solution
+    lassign $state nrProcesses board
 
-    incr $notification
+    if {$notification=="board"} {
+	incr board
+    } else {
+	incr nrProcesses -1
+    }
 
-    # we print board a board terminator only once (if at all)
+    # we print board and board terminator only once (if at all)
     if {$board==1} {
 	set ::output::isBoardSuppressed true
 	set ::output::isBoardTerminatorSuppressed true
     }
 
     # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
-    if {$endElmt!="Twin" && $solution==[expr {$target-1}]} {
+    if {$endElmt!="Twin" && $nrProcesses==1} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
 
-    if {$solution==$target} {
+    if {$nrProcesses==0} {
+	debug.processes "testMoveRangesProgress <- break"
 	return -code break
     } else {
-	return [list $target $board $solution]
+	set result [list $nrProcesses $board]
+	debug.processes "testMoveRangesProgress <- $result"
+	return $result
     }
 }
 
-proc testTwin {firstTwin twinnings endElmt groups} {
-    debug.processes "testTwin firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt groups:$groups"
-
-    set processnr 0
+proc testMoveRanges {firstTwin twinnings endElmt moveRanges} {
+    debug.processes "testMoveRanges firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
 
     ::sync::Init
 
@@ -835,17 +842,19 @@ proc testTwin {firstTwin twinnings endElmt groups} {
 	set solutionTerminatorRE $solutionFinishedRE
     }
 
-    foreach group $groups {
-	lassign $group start upto
-	testMoveRange $firstTwin $endElmt $twinnings $start $upto $boardTerminatorRE $solutionTerminatorRE
-	incr processnr
+    set testMoveRangeArguments [list $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE]
+
+    set nrProcesses 0
+    foreach moveRange $moveRanges {
+	testMoveRange {*}$testMoveRangeArguments $moveRange
+	incr nrProcesses
     }
 
-    ::sync::Wait testTwinProgress [list $processnr 0 0] $endElmt
+    ::sync::Wait testMoveRangesProgress [list $nrProcesses 0] $endElmt
 
     ::sync::Fini
 
-    debug.processes "testTwin <-"
+    debug.processes "testMoveRanges <-"
 }
 
 proc groupByWeight {weights skipMoves} {
@@ -1015,7 +1024,7 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
     set groups [groupByWeight $weights $skipMoves]
     debug.twin "groups:$groups" 2
 
-    testTwin $firstTwin $twinnings $endElmt $groups
+    testMoveRanges $firstTwin $twinnings $endElmt $groups
 
     set result [llength $weights]
 
