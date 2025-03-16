@@ -601,6 +601,38 @@ proc ::popeye::output::doAsync {pipe listener arguments} {
     fileevent $pipe readable $callback
 }
 
+# this is a hack
+# ::cmdline::usage from Tcllib has "-name value" format hard-wired
+# I prefer "--name=value"
+proc ::cmdline::usage {optlist {usage {options:}}} {
+    set str "[getArgv0] $usage\n"
+    set longest 20
+    set lines {}
+    foreach opt [concat $optlist \
+             {{"" "Forcibly stop option processing"} {help "Print this message"} {? "Print this message"}}] {
+        set name "--[lindex $opt 0]"
+        if {[regsub -- {\.secret$} $name {} name] == 1} {
+            # Hidden option
+            continue
+        }
+        if {[regsub -- {\.arg$} $name {} name] == 1} {
+            append name "=value"
+            set desc "[lindex $opt 2] <[lindex $opt 1]>"
+        } else {
+            set desc "[lindex $opt 1]"
+        }
+        set n [string length $name]
+        if {$n > $longest} { set longest $n }
+        # max not available before 8.5 - set longest [expr {max($longest, )}]
+        lappend lines $name $desc
+    }
+    foreach {name desc} $lines {
+        append str "[string trimright [format " %-*s %s" $longest $name $desc]]\n"
+    }
+
+    return $str
+}
+
 proc parseCommandLine {} {
     set options [subst {
 	{ executable.arg "[defaultPopeyeExecutable]"  "path to Popeye executable" }
