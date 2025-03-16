@@ -665,55 +665,57 @@ proc parseCommandLine {} {
 }
 
 namespace eval sync {
-    variable notification
+    variable latestNotification
 }
 
 proc ::sync::Init {} {
-    variable notification
+    variable latestNotification
 
-    set notification ""
+    set latestNotification ""
 }
 
 proc ::sync::Fini {} {
-    variable notification
+    variable latestNotification
 
-    unset notification
+    unset latestNotification
 }
 
-proc ::sync::Wait {callback state args} {
-    variable notification
+proc ::sync::Wait {callback state} {
+    variable latestNotification
 
-    debug.sync "Wait callback:$callback args:[debuggable $args]"
+    debug.sync "Wait callback:$callback state:[debuggable $state]"
 
     while {true} {
-	debug.sync "vwait notification:$notification" 2
-	vwait ::sync::notification
-	set state [$callback $notification $state {*}$args]
+	debug.sync "vwait latestNotification:$latestNotification" 2
+	vwait ::sync::latestNotification
+	set state [eval $callback $latestNotification $state]
     }
 
     debug.sync "Wait <-"
 }
 
-proc ::sync::Notify {n} {
-    variable notification
+proc ::sync::Notify {sender notification} {
+    variable latestNotification
 
-    set notification $n
-    debug.sync "Notify notification:$notification"
+    debug.sync "Notify sender:$sender notification:$notification"
+    set latestNotification [list $sender $notification]
 }
 
-proc flushSolution {pipe chunk solutionTerminatorRE} {
+namespace eval tester {
+}
+
+proc ::tester::flushSolution {pipe chunk solutionTerminatorRE} {
     debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
 
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
 	debug.solution "solution:|[debuggable $solution]|"
 	debug.solution "terminator:|$terminator|"
 
-        ::sync::Notify "solution"
+        ::sync::Notify $pipe "solution"
 
 	::output::solution $solution
 	::output::solutionTerminator $terminator
 
-	::popeye::terminate $pipe
 	set result true
     } else {
 	debug.solution "terminator not found" 2
@@ -728,13 +730,13 @@ proc flushSolution {pipe chunk solutionTerminatorRE} {
     return $result
 }
 
-proc solution {pipe solutionTerminatorRE} {
+proc ::tester::solution {pipe solutionTerminatorRE} {
     debug.solution "solution pipe:$pipe"
 
     flushSolution $pipe [read $pipe] $solutionTerminatorRE
 }
 
-proc board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
+proc ::tester::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
     debug.board "board pipe:$pipe chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
@@ -744,17 +746,17 @@ proc board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
 	debug.board "terminator:|[debuggable $terminator]|"
 	debug.board "remainder:|[debuggable $remainder]|"
 	::output::board $board $terminator
-	::sync::Notify "board"
+	::sync::Notify $pipe "board"
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE]} {
-	    ::popeye::output::doAsync $pipe solution [list $solutionTerminatorRE]
+	    ::popeye::output::doAsync $pipe ::tester::solution [list $solutionTerminatorRE]
 	}
     } else {
 	debug.board "terminator not found"
-	::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
+	::popeye::output::doAsync $pipe ::tester::board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
     }
 }
 
-proc testMoveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
+proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
     debug.processes "testMoveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:$boardTerminatorRE solutionTerminatorRE:$solutionTerminatorRE moveRange:$moveRange"
 
     lassign $moveRange start upto
@@ -777,44 +779,43 @@ proc testMoveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTermin
 
     ::popeye::input::EndProblem $pipe
 
-    ::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE]
+    ::popeye::output::doAsync $pipe ::tester::board [list $boardTerminatorRE $solutionTerminatorRE]
 
     debug.processes "testMoveRange <-"
 }
 
-proc testMoveRangesProgress {notification state endElmt} {
-    debug.processes "testMoveRangesProgress notification:$notification state:$state endElmt:$endElmt"
-
-    lassign $state nrProcesses board
+proc ::tester::moveRangesProgress {endElmt pipe notification nrRunningProcesses nrBoardsRead} {
+    debug.processes "testMoveRangesProgress endElmt:$endElmt pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead"
 
     if {$notification=="board"} {
-	incr board
+	incr nrBoardsRead
     } else {
-	incr nrProcesses -1
+	::popeye::terminate $pipe
+	incr nrRunningProcesses -1
     }
 
     # we print board and board terminator only once (if at all)
-    if {$board==1} {
+    if {$nrBoardsRead==1} {
 	set ::output::isBoardSuppressed true
 	set ::output::isBoardTerminatorSuppressed true
     }
 
     # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
-    if {$endElmt!="Twin" && $nrProcesses==1} {
+    if {$endElmt!="Twin" && $nrRunningProcesses==1} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
 
-    if {$nrProcesses==0} {
+    if {$nrRunningProcesses==0} {
 	debug.processes "testMoveRangesProgress <- break"
 	return -code break
     } else {
-	set result [list $nrProcesses $board]
+	set result [list $nrRunningProcesses $nrBoardsRead]
 	debug.processes "testMoveRangesProgress <- $result"
 	return $result
     }
 }
 
-proc testMoveRanges {firstTwin twinnings endElmt moveRanges} {
+proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     debug.processes "testMoveRanges firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
 
     ::sync::Init
@@ -844,13 +845,14 @@ proc testMoveRanges {firstTwin twinnings endElmt moveRanges} {
 
     set testMoveRangeArguments [list $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE]
 
-    set nrProcesses 0
+    set nrRunningProcesses 0
     foreach moveRange $moveRanges {
-	testMoveRange {*}$testMoveRangeArguments $moveRange
-	incr nrProcesses
+	moveRange {*}$testMoveRangeArguments $moveRange
+	incr nrRunningProcesses
     }
 
-    ::sync::Wait testMoveRangesProgress [list $nrProcesses 0] $endElmt
+    set nrBoardsRead 0
+    ::sync::Wait [namespace code [list moveRangesProgress $endElmt]] [list $nrRunningProcesses $nrBoardsRead]
 
     ::sync::Fini
 
@@ -1024,7 +1026,7 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
     set groups [groupByWeight $weights $skipMoves]
     debug.twin "groups:$groups" 2
 
-    testMoveRanges $firstTwin $twinnings $endElmt $groups
+    ::tester::moveRanges $firstTwin $twinnings $endElmt $groups
 
     set result [llength $weights]
 
