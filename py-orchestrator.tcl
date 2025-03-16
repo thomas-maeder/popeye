@@ -15,7 +15,6 @@ control::control assert enabled 0
 
 # define the debugging tags in deactivated state
 # they can be activated using command line options
-debug off board
 debug off cmdline
 debug off input
 debug off output
@@ -23,9 +22,8 @@ debug off language
 debug off movenumbers
 debug off popeye
 debug off problem
-debug off processes
-debug off solution
 debug off sync
+debug off tester
 debug off twin
 debug off weight
 debug off whomoves
@@ -725,7 +723,7 @@ namespace eval tester::async {
 }
 
 proc ::tester::async::flushSolution {pipe solution} {
-    debug.solution "flushSolution pipe:$pipe solution:[debuggable $solution]"
+    debug.tester "flushSolution pipe:$pipe solution:[debuggable $solution]"
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -740,7 +738,7 @@ proc ::tester::async::flushSolution {pipe solution} {
 
     set prevEnd 0
     foreach moveNumberLineRange $moveNumberLineRanges {
-	debug.solution "moveNumberLineRange:$moveNumberLineRange" 2
+	debug.tester "moveNumberLineRange:$moveNumberLineRange" 2
         ::sync::Notify $pipe "move"
 	lassign $moveNumberLineRange start end
 	::output::solution [string range $solution $prevEnd [expr {$start-1}]]
@@ -750,15 +748,15 @@ proc ::tester::async::flushSolution {pipe solution} {
 
     ::output::solution [string range $solution $prevEnd "end"]
 
-    debug.solution "flushSolution <-"
+    debug.tester "flushSolution <-"
 }
 
 proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
-    debug.solution "flushBelowBoard pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
+    debug.tester "flushBelowBoard pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
 
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
-	debug.solution "solution:|[debuggable $solution]|"
-	debug.solution "terminator:|$terminator|"
+	debug.tester "solution:|[debuggable $solution]|"
+	debug.tester "terminator:|$terminator|"
 
 	flushSolution $pipe $solution
 	::output::solutionTerminator $terminator
@@ -767,7 +765,7 @@ proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
 
 	set result true
     } else {
-	debug.solution "terminator not found" 2
+	debug.tester "terminator not found" 2
 
 	flushSolution $pipe $chunk
 	set result false
@@ -775,38 +773,38 @@ proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
 
     flush stdout
 
-    debug.solution "flushBelowBoard <- $result"
+    debug.tester "flushBelowBoard <- $result"
     return $result
 }
 
 proc ::tester::async::belowBoard {pipe solutionTerminatorRE} {
-    debug.solution "belowBoard pipe:$pipe"
+    debug.tester "belowBoard pipe:$pipe"
 
     flushBelowBoard $pipe [read $pipe] $solutionTerminatorRE
 }
 
 proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
-    debug.board "board pipe:$pipe chunk:|[debuggable $chunk]|"
+    debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
-    debug.board "chunk:|$chunk|"
+    debug.tester "chunk:|$chunk|"
 
     if {[regexp -- "(.*)($boardTerminatorRE)(.*)" $chunk - board terminator remainder]} {
-	debug.board "terminator:|[debuggable $terminator]|"
-	debug.board "remainder:|[debuggable $remainder]|"
+	debug.tester "terminator:|[debuggable $terminator]|"
+	debug.tester "remainder:|[debuggable $remainder]|"
 	::output::board $board $terminator
 	::sync::Notify $pipe "board"
 	if {![flushBelowBoard $pipe $remainder $solutionTerminatorRE]} {
 	    ::popeye::output::doAsync $pipe belowBoard [list $solutionTerminatorRE]
 	}
     } else {
-	debug.board "terminator not found"
+	debug.tester "terminator not found"
 	::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
     }
 }
 
 proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
-    debug.processes "moveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] moveRange:$moveRange"
+    debug.tester "moveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] moveRange:$moveRange"
 
     lassign $moveRange start upto
 
@@ -816,11 +814,11 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
     }
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-    debug.processes "pipe:$pipe" 2
+    debug.tester "pipe:$pipe" 2
 
     ::output::greetingLine $greetingLine
 
-    debug.processes "inserting accumulated twinnings" 2
+    debug.tester "inserting accumulated twinnings" 2
     foreach t $twinnings {
 	lassign $t key twinning
 	::popeye::input::$key $pipe $twinning
@@ -830,11 +828,11 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
 
     ::popeye::output::doAsync $pipe async::board [list $boardTerminatorRE $solutionTerminatorRE]
 
-    debug.processes "testMoveRange <-"
+    debug.tester "testMoveRange <-"
 }
 
 proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses nrBoardsRead nrMovesPlayed} {
-    debug.processes "moveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead nrMovesPlayed:$nrMovesPlayed"
+    debug.tester "moveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead nrMovesPlayed:$nrMovesPlayed"
 
     switch -exact $notification {
 	board {
@@ -861,17 +859,17 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
     }
 
     if {$nrRunningProcesses==0} {
-	debug.processes "testMoveRangesProgress <- break"
+	debug.tester "testMoveRangesProgress <- break"
 	return -code break
     } else {
 	set result [list $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed]
-	debug.processes "testMoveRangesProgress <- $result"
+	debug.tester "testMoveRangesProgress <- $result"
 	return $result
     }
 }
 
 proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
-    debug.processes "moveRanges firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
+    debug.tester "moveRanges firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
 
     ::sync::Init
 
@@ -880,7 +878,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     set twinningRE {\n\n..?[\)] [^\n]*\n}
 
     if {[llength $twinnings]==0 && $endElmt!="Twin"} {
-	debug.processes "no twin and no zeroposition - inserting fake zero position as board terminator" 2
+	debug.tester "no twin and no zeroposition - inserting fake zero position as board terminator" 2
 	set twinnings [linsert $twinnings 0 [list "ZeroPosition" "[::language::getElement Rotate] 90 [::language::getElement Rotate] 270"]]
 	set fakeZeroPositionRE "\n[::language::getElement ZeroPosition].*?270 *\n"
 	set boardTerminatorRE $fakeZeroPositionRE
@@ -890,7 +888,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     }
 
     if {$endElmt=="Twin"} {
-	debug.processes "inserting fake twinning as solution terminator" 2
+	debug.tester "inserting fake twinning as solution terminator" 2
 	lappend twinnings [list Twin "rotate 180"]
 	set solutionTerminatorRE $twinningRE
     } else {
@@ -912,7 +910,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 
     ::sync::Fini
 
-    debug.processes "testMoveRanges <- $nrMovesPlayed"
+    debug.tester "testMoveRanges <- $nrMovesPlayed"
     return $nrMovesPlayed
 }
 
@@ -947,7 +945,7 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
 	debug.weight "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
 	if {$weightAccumulated>$weightTarget} {
 	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
-	    debug.processes "weightExcess:$weightExcess"
+	    debug.tester "weightExcess:$weightExcess"
 	    if {$weightExcess>$weight/2} {
 		lappend result [list $start [expr {$curr-1}]]
 		set start $curr
