@@ -680,15 +680,15 @@ proc ::sync::Fini {} {
     unset latestNotification
 }
 
-proc ::sync::Wait {callback state} {
+proc ::sync::Wait {callback args} {
     variable latestNotification
 
-    debug.sync "Wait callback:$callback state:[debuggable $state]"
+    debug.sync "Wait callback:$callback args:[debuggable $args]"
 
     while {true} {
 	debug.sync "vwait latestNotification:$latestNotification" 2
 	vwait ::sync::latestNotification
-	set state [eval $callback $latestNotification $state]
+	set args [eval [uplevel namespace code $callback] $latestNotification {*}$args]
     }
 
     debug.sync "Wait <-"
@@ -787,8 +787,8 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
     debug.processes "testMoveRange <-"
 }
 
-proc ::tester::moveRangesProgress {endElmt pipe notification nrRunningProcesses nrBoardsRead} {
-    debug.processes "testMoveRangesProgress endElmt:$endElmt pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead"
+proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses nrBoardsRead} {
+    debug.processes "testMoveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead"
 
     if {$notification=="board"} {
 	incr nrBoardsRead
@@ -812,7 +812,7 @@ proc ::tester::moveRangesProgress {endElmt pipe notification nrRunningProcesses 
 	debug.processes "testMoveRangesProgress <- break"
 	return -code break
     } else {
-	set result [list $nrRunningProcesses $nrBoardsRead]
+	set result [list $endElmt $nrRunningProcesses $nrBoardsRead]
 	debug.processes "testMoveRangesProgress <- $result"
 	return $result
     }
@@ -855,7 +855,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     }
 
     set nrBoardsRead 0
-    ::sync::Wait [namespace code [list moveRangesProgress $endElmt]] [list $nrRunningProcesses $nrBoardsRead]
+    ::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead
 
     ::sync::Fini
 
