@@ -862,8 +862,14 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     debug.processes "testMoveRanges <-"
 }
 
-proc groupByWeight {weights skipMoves} {
-    debug.weight "groupByWeight weights:$weights skipMoves:$skipMoves"
+namespace eval grouping {
+}
+
+namespace eval grouping::byweight {
+}
+
+proc grouping::byweight::makeGroups {weights skipMoves} {
+    debug.weight "grouping::byweight::makeGroups weights:$weights skipMoves:$skipMoves"
 
     set weightTotal 0
     foreach weight $weights {
@@ -900,12 +906,12 @@ proc groupByWeight {weights skipMoves} {
     }
     lappend result [list $start [expr {$skipMoves+[llength $weights]}]]
 
-    debug.weight "groupByWeight <- $result"
+    debug.weight "grouping::byweight::makeGroups <- $result"
     return $result
 }
 
-proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
-    debug.weight "findMoveWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipmoves:$skipmoves"
+proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipmoves} {
+    debug.weight "grouping::byweight::findWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipmoves:$skipmoves"
 
     set options "[::language::getElement NoBoard] [::language::getElement MoveNumber] [::language::getElement StartMoveNumber] [expr {$skipmoves+1}]"
     if {$whomoves=="black"} {
@@ -963,7 +969,7 @@ proc findMoveWeights {firstTwin twinnings whomoves skipmoves} {
 
     ::popeye::terminate $pipe
 
-    debug.weight "findMoveWeights <- $result"
+    debug.weight "grouping::byweight::findWeights <- $result"
     return $result
 }
 
@@ -1023,13 +1029,13 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
     set whomoves [whoMoves $firstTwin $twinnings]
     debug.twin "whomoves:$whomoves" 2
 
-    set weights [findMoveWeights $firstTwin $twinnings $whomoves $skipMoves]
+    set weights [::grouping::byweight::findWeights $firstTwin $twinnings $whomoves $skipMoves]
     debug.twin "weights:$weights" 2
 
-    set groups [groupByWeight $weights $skipMoves]
-    debug.twin "groups:$groups" 2
+    set ranges [::grouping::byweight::makeGroups $weights $skipMoves]
+    debug.twin "ranges:$ranges" 2
 
-    ::tester::moveRanges $firstTwin $twinnings $endElmt $groups
+    ::tester::moveRanges $firstTwin $twinnings $endElmt $ranges
 
     set result [llength $weights]
 
