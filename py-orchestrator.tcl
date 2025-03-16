@@ -25,7 +25,8 @@ debug off problem
 debug off sync
 debug off tester
 debug off twin
-debug off weight
+debug off byweight
+debug off movebymove
 debug off whomoves
 
 # shamelessly copied from
@@ -706,12 +707,14 @@ proc ::sync::Wait {callback args} {
 
     debug.sync "Wait callback:$callback args:[debuggable $args]"
 
+    set callback [uplevel namespace which -command $callback]
+
     while {true} {
 	debug.sync "vwait latestNotification:$latestNotification" 2
 	vwait [namespace which -variable latestNotification]
 	foreach l $latestNotification {
 	    set result [catch {
-		set args [eval [uplevel namespace code $callback] $l {*}$args]
+		set args [$callback {*}$l {*}$args]
 	    } error options]
 	}
 
@@ -845,26 +848,25 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
 	append options " [::language::getElement StartMoveNumber] $start"
     }
 
-    lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-    debug.tester "pipe:$pipe" 2
+    lassign [::popeye::spawn $firstTwin $options] result greetingLine
+    debug.tester "result:$result" 2
 
     ::output::greetingLine $greetingLine
 
     debug.tester "inserting accumulated twinnings" 2
     foreach t $twinnings {
 	lassign $t key twinning
-	::popeye::input::$key $pipe $twinning
+	::popeye::input::$key $result $twinning
     }
 
-    ::popeye::input::EndProblem $pipe
+    ::popeye::output::doAsync $result async::board [list $boardTerminatorRE $solutionTerminatorRE]
 
-    ::popeye::output::doAsync $pipe async::board [list $boardTerminatorRE $solutionTerminatorRE]
-
-    debug.tester "testMoveRange <-"
+    debug.tester "testMoveRange <- $result"
+    return $result
 }
 
-proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses nrBoardsRead nrMovesPlayed} {
-    debug.tester "moveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead nrMovesPlayed:$nrMovesPlayed"
+proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses nrBoardsRead nrMovesPlayed pipes} {
+    debug.tester "moveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead nrMovesPlayed:$nrMovesPlayed pipes:$pipes"
 
     switch -exact $notification {
 	board {
@@ -875,7 +877,14 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 	}
 	solution  {
 	    ::popeye::terminate $pipe
-	    incr nrRunningProcesses -1
+	    if {[llength $pipes]==0} {
+		incr nrRunningProcesses -1
+	    } else {
+		debug.tester "moveRangesProgress - [llength $pipes] left - spawning next process" 2
+		set pipe [lindex $pipes 0]
+		set pipes [lrange $pipes 1 end]
+		::popeye::input::EndProblem $pipe
+	    }
 	}
     }
 
@@ -894,8 +903,8 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 	debug.tester "testMoveRangesProgress <- break"
 	return -code break
     } else {
-	set result [list $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed]
-	debug.tester "testMoveRangesProgress <- $result"
+	set result [list $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes]
+	debug.tester "testMoveRangesProgress <- [debuggable $result]"
 	return $result
     }
 }
@@ -928,17 +937,20 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	set solutionTerminatorRE $solutionFinishedRE
     }
 
-    set testMoveRangeArguments [list $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE]
-
-    set nrRunningProcesses 0
+    set pipes {}
     foreach moveRange $moveRanges {
-	moveRange {*}$testMoveRangeArguments $moveRange
-	incr nrRunningProcesses
+	lappend pipes [moveRange $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE $moveRange]
+    }
+    for {set i 0} {$i<$::params(nrprocs)} {incr i} {
+	set pipe [lindex $pipes $i]
+	::popeye::input::EndProblem $pipe
     }
     
     set nrBoardsRead 0
     set nrMovesPlayed 0
-    lassign [::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed] endElmt nrProcesses nrBoardsRead nrMovesPlayed
+    set nrRunningProcesses $::params(nrprocs)
+    set pipes [lrange $pipes $::params(nrprocs) end]
+    lassign [::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes] endElmt nrProcesses nrBoardsRead nrMovesPlayed
 
     ::sync::Fini
 
@@ -953,16 +965,16 @@ namespace eval grouping::byweight {
 }
 
 proc grouping::byweight::makeGroups {weights skipMoves} {
-    debug.weight "grouping::byweight::makeGroups weights:$weights skipMoves:$skipMoves"
+    debug.byweight "grouping::byweight::makeGroups weights:$weights skipMoves:$skipMoves"
 
     set weightTotal 0
     foreach weight $weights {
 	incr weightTotal $weight
     }
-    debug.weight "weightTotal:$weightTotal" 2
+    debug.byweight "weightTotal:$weightTotal" 2
 
     set avgWeightPerProcess [expr {($weightTotal+$::params(nrprocs)-1)/$::params(nrprocs)}]
-    debug.weight "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess" 2
+    debug.byweight "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess" 2
 
     set start [expr {$skipMoves+1}]
     set curr $skipMoves
@@ -974,7 +986,7 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
     foreach weight $weights {
 	incr curr
 	incr weightAccumulated $weight
-	debug.weight "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
+	debug.byweight "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
 	if {$weightAccumulated>$weightTarget} {
 	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
 	    debug.tester "weightExcess:$weightExcess"
@@ -990,18 +1002,18 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
     }
     lappend result [list $start [expr {$skipMoves+[llength $weights]}]]
 
-    debug.weight "grouping::byweight::makeGroups <- $result"
+    debug.byweight "grouping::byweight::makeGroups <- $result"
     return $result
 }
 
 proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
-    debug.weight "grouping::byweight::findWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
+    debug.byweight "grouping::byweight::findWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
 
     set options "[::language::getElement NoBoard] [::language::getElement MoveNumber] [::language::getElement StartMoveNumber] [expr {$skipMoves+1}]"
     if {$whomoves=="black"} {
 	append options " [::language::getElement HalfDuplex]"
     }
-    debug.weight "options:$options"
+    debug.byweight "options:$options"
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
@@ -1014,62 +1026,82 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
 
     set result {}
     while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.weight "line:[debuggable $line]" 2
+	debug.byweight "line:[debuggable $line]" 2
 	append output "$line\n"
 	switch -glob $line {
 	    "*[::language::getElement Time] = *" {
-		debug.weight "next move" 2
+		debug.byweight "next move" 2
 		# this matches both
 		#  21  (Ke6-e7    Time = 0.016 s)
 		# solution finished. Time = 0.016 s
 		# so all moves are taken care of
 		if {[info exists move]} {
 		    lappend result $weight
-		    debug.weight "[llength $result] move:$move weight:$weight" 2
+		    debug.byweight "[llength $result] move:$move weight:$weight" 2
 		}
 		set weight 0
 		regexp -- {[(]([^ ]+).*[)]} $line - move
 	    }
 	    {*+ !} {
-		debug.weight "checking move" 2
+		debug.byweight "checking move" 2
 		set weight 2
 	    }
 	    {*!} {
-		debug.weight "non-checking move" 2
+		debug.byweight "non-checking move" 2
 		set weight 20
 	    }
 	    {*TI~-~*} {
-		debug.weight "random move by TI" 2
+		debug.byweight "random move by TI" 2
 		set weight 100
 	    }
 	    default {
-		debug.weight "other line" 2
+		debug.byweight "other line" 2
 	    }
 	}
     }
 
     ::popeye::terminate $pipe
 
-    debug.weight "grouping::byweight::findWeights <- $result"
+    debug.byweight "grouping::byweight::findWeights <- $result"
     return $result
 }
 
 proc ::grouping::byweight::makeRanges {firstTwin twinnings whomoves skipMoves} {
-    debug.weight "makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
+    debug.byweight "makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
 
     set weights [::grouping::byweight::findWeights $firstTwin $twinnings $whomoves $skipMoves]
     debug.twin "weights:$weights" 2
 
-    set result [::grouping::byweight::makeGroups $weights $skipMoves]
+    if {[llength $weights]==0} {
+	set result {}
+    } else {
+	set result [::grouping::byweight::makeGroups $weights $skipMoves]
+    }
 
-    debug.weight "makeRanges <- $result"
+    debug.byweight "makeRanges <- $result"
+    return $result
+}
+
+namespace eval ::grouping::movebymove {
+}
+
+proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves} {
+    debug.movebymove "makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
+
+    set result {}
+
+    for {set i 1} {$i<=31} {incr i} {
+	lappend result [list $i $i]
+    }
+
+    debug.movebymove "makeRanges <- $result"
     return $result
 }
 
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:|$twin| twinnings:$twinnings"
 
-    set options "[::language::getElement NoBoard] [::language::getElement MoveNumber] [::language::getElement StartMoveNumber] 1 [::language::getElement UpToMoveNumber] 1"
+    set options "[::language::getElement NoBoard] [::language::getElement MoveNumber]"
 
     set accumulatedZeroposition ""
     foreach t $twinnings {
@@ -1123,8 +1155,11 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
     debug.twin "whomoves:$whomoves" 2
 
     set ranges [::grouping::byweight::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
+    if {[llength $ranges]==0} {
+	set ranges [::grouping::movebymove::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
+    }
     debug.twin "ranges:$ranges" 2
-
+    
     set result [::tester::moveRanges $firstTwin $twinnings $endElmt $ranges]
 
     debug.twin "handleTwin <- $result"
