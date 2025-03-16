@@ -608,7 +608,7 @@ proc ::popeye::output::doAsync {pipe listener arguments} {
 
     fconfigure $pipe -blocking false
 
-    set callback [linsert $arguments 0 $listener $pipe]
+    set callback [linsert $arguments 0 [uplevel namespace which -command $listener] $pipe]
     fileevent $pipe readable $callback
 }
 
@@ -704,7 +704,10 @@ proc ::sync::Notify {sender notification} {
 namespace eval tester {
 }
 
-proc ::tester::flushSolution {pipe chunk solutionTerminatorRE} {
+namespace eval tester::async {
+}
+
+proc ::tester::async::flushSolution {pipe chunk solutionTerminatorRE} {
     debug.solution "flushSolution pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
 
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
@@ -730,13 +733,13 @@ proc ::tester::flushSolution {pipe chunk solutionTerminatorRE} {
     return $result
 }
 
-proc ::tester::solution {pipe solutionTerminatorRE} {
+proc ::tester::async::solution {pipe solutionTerminatorRE} {
     debug.solution "solution pipe:$pipe"
 
     flushSolution $pipe [read $pipe] $solutionTerminatorRE
 }
 
-proc ::tester::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
+proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
     debug.board "board pipe:$pipe chunk:|[debuggable $chunk]|"
 
     append chunk [read $pipe]
@@ -748,11 +751,11 @@ proc ::tester::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
 	::output::board $board $terminator
 	::sync::Notify $pipe "board"
 	if {![flushSolution $pipe $remainder $solutionTerminatorRE]} {
-	    ::popeye::output::doAsync $pipe ::tester::solution [list $solutionTerminatorRE]
+	    ::popeye::output::doAsync $pipe solution [list $solutionTerminatorRE]
 	}
     } else {
 	debug.board "terminator not found"
-	::popeye::output::doAsync $pipe ::tester::board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
+	::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
     }
 }
 
@@ -779,7 +782,7 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
 
     ::popeye::input::EndProblem $pipe
 
-    ::popeye::output::doAsync $pipe ::tester::board [list $boardTerminatorRE $solutionTerminatorRE]
+    ::popeye::output::doAsync $pipe async::board [list $boardTerminatorRE $solutionTerminatorRE]
 
     debug.processes "testMoveRange <-"
 }
