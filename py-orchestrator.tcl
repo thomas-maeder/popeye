@@ -1035,7 +1035,7 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
 
     set result {}
     while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.byweight "line:[debuggable $line]" 2
+	debug.byweight "line:|[debuggable $line]|" 2
 	append output "$line\n"
 	switch -glob $line {
 	    "*[::language::getElement Time] = *" {
@@ -1079,7 +1079,7 @@ proc ::grouping::byweight::makeRanges {firstTwin twinnings whomoves skipMoves} {
     debug.byweight "makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
 
     set weights [::grouping::byweight::findWeights $firstTwin $twinnings $whomoves $skipMoves]
-    debug.twin "weights:$weights" 2
+    debug.byweight "weights:$weights" 2
 
     if {[llength $weights]==0} {
 	set result {}
