@@ -123,7 +123,10 @@ namespace eval language {
 	variable Rotate "Rotation"
 	variable Add "ajoute"
 	variable Remove "ote"
+	variable White "Blanc"
+	variable Black "Noir"
 	variable Neutral "Neutre"
+	variable King "r"
 	variable Pawn "p"
 	variable Time "Temps"
 	variable SolutionFinished "solution terminee"
@@ -154,7 +157,10 @@ namespace eval language {
 	variable Rotate "Drehung"
 	variable Add "hinzufuegen"
 	variable Remove "entferne"
+	variable White "Weiss"
+	variable Black "Schwarz"
 	variable Neutral "Neutral"
+	variable King "k"
 	variable Pawn "b"
 	variable Time "Zeit"
 	variable SolutionFinished "Loesung beendet"
@@ -185,7 +191,10 @@ namespace eval language {
 	variable Rotate "Rotate"
 	variable Add "add"
 	variable Remove "remove"
+	variable White "White"
+	variable Black "Black"
 	variable Neutral "Neutral"
+	variable King "k"
 	variable Pawn "p"
 	variable Time "Time"
 	variable SolutionFinished "solution finished"
@@ -1172,7 +1181,15 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     set options "[::language::getElement MaxSolutions] 1"
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    ::popeye::input::ZeroPosition $pipe "$zeroTwinning [::language::getElement Stipulation] ~1"
+    foreach row {1 2 3 4 5 6 7 8} {
+	foreach col {a b c d e f g h} {
+	    append zeroTwinning " [::language::getElement Remove] $col$row"
+	}
+    }
+    append zeroTwinning " [::language::getElement Add] [::language::getElement White] [::language::getElement King]a1"
+    append zeroTwinning " [::language::getElement Add] [::language::getElement Black] [::language::getElement King]h8"
+
+    ::popeye::input::ZeroPosition $pipe $zeroTwinning
     ::popeye::input::EndProblem $pipe
 
     set result false
