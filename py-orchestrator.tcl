@@ -1199,22 +1199,32 @@ proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves}
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
+    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
     foreach t $twinnings {
 	lassign $t key twinning
-	::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] ~1"
+	::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] h#0.5"
     }
     ::popeye::input::EndProblem $pipe
 
+    set parenOpenRE {[\(]}
+    set parenCloseRE {[\)]}
+    set movenumberRE { *[[:digit:]]+}
+    set moveRE {[^\n]+}
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set timeUnitRE {(?:(?:h:)?m:)?s}
+    set movenumberLineRE "$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+
     set result {}
+    set nrMoves 0
     while {[::popeye::output::getLine $pipe line]>=0} {
+	debug.grouping "line:[debuggable $line]" 2
+	if {[regexp -- $movenumberLineRE $line]} {
+	    incr nrMoves
+	    lappend result [list $nrMoves $nrMoves]
+	}
     }
-
-    set result {}
-
-    for {set i 1} {$i<=40} {incr i} {
-	lappend result [list $i $i]
-    }
+    debug.grouping "nrMoves:$nrMoves" 2
 
     debug.grouping "movebymove::makeRanges <- $result"
     return $result
