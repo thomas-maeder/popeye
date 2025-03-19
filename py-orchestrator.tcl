@@ -672,11 +672,11 @@ proc ::popeye::output::doAsync {pipe listener arguments} {
 
 # this is a hack
 # ::cmdline::usage from Tcllib has "-name value" format hard-wired - I prefer "--name=value"
-# Also, I want the usage string to be language-dependant if the user has correctly selected a language
+# Also, I want the usage string to be language-dependant
 proc ::cmdline::usage {optlist {usage {options:}}} {
-    lappend optlist { "" {[::msgcat::mc cmdline::stopProcessing]} }
-    lappend optlist { help {[::msgcat::mc cmdline::printThis]} }
-    lappend optlist { ? {[::msgcat::mc cmdline::printThis]} }
+    lappend optlist [list "" "[::msgcat::mc cmdline::stopProcessing]" ]
+    lappend optlist [list help "[::msgcat::mc cmdline::printThis]" ]
+    lappend optlist [list ? "[::msgcat::mc cmdline::printThis]" ]
 
     set str "[getArgv0] [subst $usage]\n"
     set longest 20
@@ -689,9 +689,9 @@ proc ::cmdline::usage {optlist {usage {options:}}} {
         }
         if {[regsub -- {\.arg$} $name {} name] == 1} {
             append name "=[::msgcat::mc cmdline::value]"
-            set desc "[subst [lindex $opt 2]] <[subst [lindex $opt 1]]>"
+            set desc "[lindex $opt 2] <[lindex $opt 1]>"
         } else {
-            set desc "[subst [lindex $opt 1]]"
+            set desc "[lindex $opt 1]"
         }
         set n [string length $name]
         if {$n > $longest} {
@@ -716,13 +716,13 @@ proc getAllNames {ns} {
 }
 
 proc parseCommandLine {} {
-    set options {
-	{ executable.arg {[defaultPopeyeExecutable]}             {[::msgcat::mc cmdline::popeyePath]} }
-	{ nrprocs.arg    {[defaultNumberOfProcesses]}            {[::msgcat::mc cmdline::numberProcesses]} }
-	{ maxmem.arg     {[::msgcat::mc cmdline::popeyeDefault]} {[::msgcat::mc cmdline::processMemory]} }
-	{ grouping.arg   "auto"                                  {([join [getAllNames ::grouping] ,])} }
+    set options [subst {
+	{ executable.arg "[defaultPopeyeExecutable]"             "[::msgcat::mc cmdline::popeyePath]" }
+	{ nrprocs.arg    "[defaultNumberOfProcesses]"            "[::msgcat::mc cmdline::numberProcesses]" }
+	{ maxmem.arg     "[::msgcat::mc cmdline::popeyeDefault]" "[::msgcat::mc cmdline::processMemory]" }
+	{ grouping.arg   "auto"                                  "([join [getAllNames ::grouping] ,])" }
 	{ help-grouping }
-    }
+    }]
     if {[string match "*.tcl" $::argv0]} {
 	lappend options { assert.arg false "enable asserts" }
 	foreach name [debug names] {
@@ -762,11 +762,8 @@ proc parseCommandLine {} {
     } else {
 	::popeye::setExecutable $::params(executable)
     }
-    if {$::params(maxmem)!={[::msgcat::mc cmdline::popeyeDefault]}} {
+    if {$::params(maxmem)!=[::msgcat::mc cmdline::popeyeDefault]} {
 	::popeye::setMaxmem $::params(maxmem)
-    }
-    if {$::params(nrprocs)=={[defaultNumberOfProcesses]}} {
-	set ::params(nrprocs) [defaultNumberOfProcesses]
     }
 
     if {[llength $::argv]>0} {
@@ -1314,6 +1311,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     debug.movenumbers "areMoveNumbersActivated firstTwin:|$firstTwin| zeroTwinning:$zeroTwinning"
 
     set options "[::msgcat::mc input::MaxSolutions] 1"
+    debug.movenumbers "options:$options" 2
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
     foreach row {1 2 3 4 5 6 7 8} {
@@ -1324,6 +1322,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     append zeroTwinning " [::msgcat::mc input::Add] [::msgcat::mc input::White] [::msgcat::mc input::King]a1"
     append zeroTwinning " [::msgcat::mc input::Add] [::msgcat::mc input::Black] [::msgcat::mc input::King]h8"
 
+    debug.movenumbers "zeroTwinning:|$zeroTwinning|" 2
     ::popeye::input::ZeroPosition $pipe $zeroTwinning
     ::popeye::input::EndProblem $pipe
 
