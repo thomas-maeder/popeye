@@ -122,6 +122,7 @@ namespace eval language {
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "DemiDuplex"
 	    variable Rotate "Rotation"
+	    variable Pieces "Pieces"
 	}
 
 	namespace eval output {
@@ -172,6 +173,7 @@ namespace eval language {
 	    variable MaxSolutions "MaxLoesungen"
 	    variable HalfDuplex "HalbDuplex"
 	    variable Rotate "Drehung"
+	    variable Pieces "Steine"
 	}
 
 	namespace eval output {
@@ -222,6 +224,7 @@ namespace eval language {
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "HalfDuplex"
 	    variable Rotate "Rotate"
+	    variable Pieces "Pieces"
 	}
 
 	namespace eval output {
@@ -628,6 +631,12 @@ proc ::popeye::input::Twin {pipe twinning} {
     puts $pipe "[::msgcat::mc input::Twin] $twinning"
 }
 
+proc ::popeye::input::Pieces {pipe pieces} {
+    debug.popeye "input::Pieces pieces:|$pieces|"
+
+    puts $pipe "[::msgcat::mc input::Pieces] $pieces"
+}
+
 proc ::popeye::input::EndProblem {pipe} {
     debug.popeye "input::EndProblem"
 
@@ -1023,15 +1032,20 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     foreach moveRange $moveRanges {
 	lappend pipes [moveRange $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE $moveRange]
     }
-    for {set i 0} {$i<$::params(nrprocs)} {incr i} {
-	set pipe [lindex $pipes $i]
+    debug.tester "pipes:$pipes" 2
+
+    set nrRunningProcesses 0
+    foreach pipe $pipes {
 	::popeye::input::EndProblem $pipe
+	incr nrRunningProcesses
+	if {$nrRunningProcesses==$::params(nrprocs)} {
+	    break
+	}
     }
 
     set nrBoardsRead 0
     set nrMovesPlayed 0
-    set nrRunningProcesses $::params(nrprocs)
-    set pipes [lrange $pipes $::params(nrprocs) end]
+    set pipes [lrange $pipes $nrRunningProcesses end]
     lassign [::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes] endElmt nrProcesses nrBoardsRead nrMovesPlayed
 
     ::sync::Fini
@@ -1227,53 +1241,60 @@ proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:|$twin| twinnings:$twinnings"
 
+    set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] =}
+
     set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] 1"
 
     lassign [::popeye::spawn $twin $options] pipe greetingLine
+    ::popeye::input::Pieces $pipe "total 0"
     ::popeye::input::EndProblem $pipe
 
-    while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.whomoves "line:[debuggable $line]" 2
-	if {[regexp -- "(.*)[::msgcat::mc output::Time]" $line - firstLine]} {
+    fconfigure $pipe -blocking false
+    set output ""
+    variable whomovesReadable false
+    fileevent $pipe readable { set whomovesReadable true }
+    while {![eof $pipe]} {
+	vwait whomovesReadable
+	set readable false
+	append output [read $pipe]
+	debug.whomoves "output:|[debuggable $output]|" 2
+	if {[regexp -- "\n($movenumbersRE)" $output - firstLine]} {
 	    debug.whomoves "firstLine:[debuggable $firstLine]"
 	    break
 	}
     }
-
     ::popeye::terminate $pipe
 
-    if {![info exists firstLine]} {
-	debug.whomoves "oops" 2
-	# WHAT NOW?
-	exit 1
-    }
-
     lassign [::popeye::spawn $twin $options] pipe greetingLine
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
+    ::popeye::input::Pieces $pipe "total 0"
+    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#1"
     ::popeye::input::EndProblem $pipe
-    
-    while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.whomoves "line:[debuggable $line]" 2
-	if {[regexp -- "(.*)[::msgcat::mc output::Time]" $line - firstLineWhite]} {
-	    debug.whomoves "firstLineWhite:[debuggable $firstLineWhite]"
+
+    fconfigure $pipe -blocking false
+    set output ""
+    variable whomovesReadable false
+    fileevent $pipe readable { set whomovesReadable true }
+    while {![eof $pipe]} {
+	vwait whomovesReadable
+	set readable false
+	append output [read $pipe]
+	debug.whomoves "output:|[debuggable $output]|" 2
+	if {[regexp -- "\n($movenumbersRE)" $output - firstLineBlack]} {
+	    debug.whomoves "firstLineBlack:[debuggable $firstLineBlack]"
 	    break
 	}
     }
     ::popeye::terminate $pipe
 
-    if {![info exists firstLineWhite]} {
-	debug.whomoves "oops" 2
-	# WHAT NOW?
-	exit 1
-    }
-
-    if {$firstLine==$firstLineWhite} {
+    if {[info exists firstLine]!=[info exists firstLineBlack]} {
 	set result "white"
-    } else {
+    } elseif {$firstLine==$firstLineBlack} {
 	set result "black"
+    } else {
+	set result "white"
     }
 
-    debug.whomoves "result:$result"
+    debug.whomoves "whoMoves <- $result"
     return $result
 }
 
