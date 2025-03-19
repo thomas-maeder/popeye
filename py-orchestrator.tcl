@@ -1229,9 +1229,19 @@ namespace eval ::grouping::auto {
 proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
     debug.grouping "auto::makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
 
-    set result [::grouping::byweight::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
-    if {[llength $result]==0} {
-	set result [::grouping::movebymove::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
+    set byweight [::grouping::byweight::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
+    set movebymove [::grouping::movebymove::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
+
+    # we currently prefer byweight in general, but this method may miss some moves...
+    if {[llength $byweight]==0} {
+	set result $movebymove
+    } else {
+	lassign [lindex $byweight end] first last
+	if {$last>=[llength $movebymove]} {
+	    set result $byweight
+	} else {
+	    set result $movebymove
+	}
     }
 
     debug.grouping "auto::makeRanges <- $result"
