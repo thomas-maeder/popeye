@@ -277,6 +277,8 @@ proc ::language::tokenIsElement {token elementId} {
 
     set tokenLength [string length $token]
 
+    debug.language "language:[::msgcat::mclocale]" 2
+
     set elementString [msgcat::mc $elementId]
     debug.language "elementString:$elementString" 2
 
@@ -376,7 +378,7 @@ proc ::input::isLineElement {token} {
     set result false
 
     foreach elmt $lineElements {
-	if {[::language::tokenIsElement $token $elmt]} {
+	if {[::language::tokenIsElement $token input::$elmt]} {
 	    set result true
 	    break
 	}
@@ -404,6 +406,7 @@ proc ::input::detectLanguage {chan} {
 	set detected false
 	set saveLocale [::msgcat::mclocale]
 	foreach language $languages {
+	    debug.input "trying $language" 2
 	    ::msgcat::mclocale $language
 	    if {[::language::tokenIsElement $token input::BeginProblem]} {
 		set detected true
@@ -431,7 +434,7 @@ proc ::input::readUpTo {chan elementIds} {
 	debug.input "token:$token" 2
 
 	foreach id $elementIds {
-	    if {[::language::tokenIsElement $token $id]} {
+	    if {[::language::tokenIsElement $token input::$id]} {
 		debug.input "identified element $id" 2
 		set result [list $skipped $id]
 		break
@@ -480,7 +483,7 @@ proc ::output::openProtocol {path} {
 
     debug.output "openProtocol $path"
 
-    close
+    closeProtocol
     set protocol [::open $path "w+"]
 
     debug.output "openProtocol <-"
@@ -1346,10 +1349,13 @@ proc readFirstTwin {chan} {
     debug.problem "readFirstTwin"
 
     lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwin endElmt
+    debug.problem "firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt" 2
     while {true} {
 	if {$endElmt=="Protocol"} {
 	    set protocol [string trim [::input::getLine]]
+	    debug.problem "protocol:[debuggable $protocol]" 2
 	    lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwinPart2 endElmt
+	    debug.problem "firstTwinPart2:|[debuggable $firstTwinPart2]| endElmt:$endElmt" 2
 	    append firstTwin $firstTwinPart2
 	} else {
 	    break
