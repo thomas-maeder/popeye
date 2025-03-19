@@ -122,13 +122,6 @@ namespace eval language {
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "DemiDuplex"
 	    variable Rotate "Rotation"
-	    variable Add "ajoute"
-	    variable Remove "ote"
-	    variable White "Blanc"
-	    variable Black "Noir"
-	    variable Neutral "Neutre"
-	    variable King "r"
-	    variable Pawn "p"
 	}
 
 	namespace eval output {
@@ -179,13 +172,6 @@ namespace eval language {
 	    variable MaxSolutions "MaxLoesungen"
 	    variable HalfDuplex "HalbDuplex"
 	    variable Rotate "Drehung"
-	    variable Add "hinzufuegen"
-	    variable Remove "entferne"
-	    variable White "Weiss"
-	    variable Black "Schwarz"
-	    variable Neutral "Neutral"
-	    variable King "k"
-	    variable Pawn "b"
 	}
 
 	namespace eval output {
@@ -236,13 +222,6 @@ namespace eval language {
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "HalfDuplex"
 	    variable Rotate "Rotate"
-	    variable Add "add"
-	    variable Remove "remove"
-	    variable White "White"
-	    variable Black "Black"
-	    variable Neutral "Neutral"
-	    variable King "k"
-	    variable Pawn "p"
 	}
 
 	namespace eval output {
@@ -1248,46 +1227,51 @@ proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:|$twin| twinnings:$twinnings"
 
-    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber]"
-
-    set accumulatedZeroposition ""
-    foreach t $twinnings {
-	lassign $t key twinning
-	debug.whomoves "key:$key twinning:$twinning"
-	append accumulatedZeroposition "$twinning "
-    }
-    foreach row {1 2 3 4 5 6 7 8} {
-	foreach col {a b c d e f g h} {
-	    append accumulatedZeroposition "[::msgcat::mc input::Remove] $col$row "
-	}
-    }
-    append accumulatedZeroposition "[::msgcat::mc input::Add] [::msgcat::mc input::Neutral] [::msgcat::mc input::Pawn]b5"
-    debug.whomoves accumulatedZeroposition:$accumulatedZeroposition
+    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] 1"
 
     lassign [::popeye::spawn $twin $options] pipe greetingLine
-
-    ::popeye::input::ZeroPosition $pipe "$accumulatedZeroposition"
     ::popeye::input::EndProblem $pipe
 
-    set result "white"
-    debug.whomoves "assuming white"
     while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.whomoves "line:[debuggable $line]" 2
-	if {[string first "b5-b4" $line]>=0} {
-	    set result "black"
-	    debug.whomoves "detected black"
-	    break
-	} elseif {[string first "b5-b6" $line]>=0} {
-	    debug.whomoves "detected white"
+	if {[regexp -- "(.*)[::msgcat::mc output::Time]" $line - firstLine]} {
+	    debug.whomoves "firstLine:[debuggable $firstLine]"
 	    break
 	}
     }
 
-    # don't confuse caller with errors caused by us
-    lappend expectedErrorMessageREs "..: [::msgcat::mc output::SquareIsEmptyRE]\\n?"
-    lappend expectedErrorMessageREs "[::msgcat::mc output::BothSidesNeedAKingRE]"
+    ::popeye::terminate $pipe
 
-    ::popeye::terminate $pipe $expectedErrorMessageREs
+    if {![info exists firstLine]} {
+	debug.whomoves "oops" 2
+	# WHAT NOW?
+	exit 1
+    }
+
+    lassign [::popeye::spawn $twin $options] pipe greetingLine
+    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
+    ::popeye::input::EndProblem $pipe
+    
+    while {[::popeye::output::getLine $pipe line]>=0} {
+	debug.whomoves "line:[debuggable $line]" 2
+	if {[regexp -- "(.*)[::msgcat::mc output::Time]" $line - firstLineWhite]} {
+	    debug.whomoves "firstLineWhite:[debuggable $firstLineWhite]"
+	    break
+	}
+    }
+    ::popeye::terminate $pipe
+
+    if {![info exists firstLineWhite]} {
+	debug.whomoves "oops" 2
+	# WHAT NOW?
+	exit 1
+    }
+
+    if {$firstLine==$firstLineWhite} {
+	set result "white"
+    } else {
+	set result "black"
+    }
 
     debug.whomoves "result:$result"
     return $result
@@ -1313,23 +1297,17 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
 proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     debug.movenumbers "areMoveNumbersActivated firstTwin:|$firstTwin| zeroTwinning:$zeroTwinning"
 
-    set options "[::msgcat::mc input::MaxSolutions] 1"
+    set result false
+
+    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MaxSolutions] 1"
     debug.movenumbers "options:$options" 2
+
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    foreach row {1 2 3 4 5 6 7 8} {
-	foreach col {a b c d e f g h} {
-	    append zeroTwinning " [::msgcat::mc input::Remove] $col$row"
-	}
-    }
-    append zeroTwinning " [::msgcat::mc input::Add] [::msgcat::mc input::White] [::msgcat::mc input::King]a1"
-    append zeroTwinning " [::msgcat::mc input::Add] [::msgcat::mc input::Black] [::msgcat::mc input::King]h8"
-
     debug.movenumbers "zeroTwinning:|$zeroTwinning|" 2
-    ::popeye::input::ZeroPosition $pipe $zeroTwinning
+    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
     ::popeye::input::EndProblem $pipe
 
-    set result false
     while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.movenumbers "line:[debuggable $line]" 2
 	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] = [^\)]+[\)]}
@@ -1340,6 +1318,26 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
     }
 
     ::popeye::terminate $pipe
+
+    if {!$result} {
+	append options "[::msgcat::mc input::HalfDuplex]"
+	lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
+
+	debug.movenumbers "zeroTwinning:|$zeroTwinning|" 2
+	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
+	::popeye::input::EndProblem $pipe
+
+	while {[::popeye::output::getLine $pipe line]>=0} {
+	    debug.movenumbers "line:[debuggable $line]" 2
+	    set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] = [^\)]+[\)]}
+	    if {[regexp -- "^$movenumbersRE\$" $line]} {
+		set result true
+		break
+	    }
+	}
+
+	::popeye::terminate $pipe
+    }
 
     debug.movenumbers "areMoveNumbersActivated <- $result"
     return $result
