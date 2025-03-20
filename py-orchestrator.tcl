@@ -1069,7 +1069,13 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
     }
     debug.grouping "weightTotal:$weightTotal" 2
 
-    set avgWeightPerProcess [expr {($weightTotal+$::params(nrprocs)-1)/$::params(nrprocs)}]
+    set nrGroups $::params(nrprocs)
+    if {[llength $weights]<$nrGroups} {
+	set nrGroups [llength $weights]
+    }
+    debug.grouping "nrGroups:$nrGroups" 2
+
+    set avgWeightPerProcess [expr {($weightTotal+$::params(nrprocs)-1)/$nrGroups}]
     debug.grouping "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess" 2
 
     set start [expr {$skipMoves+1}]
