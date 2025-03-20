@@ -576,6 +576,7 @@ proc ::popeye::spawn {firstTwin options} {
 
     set pipe [open "| $executablePath $maxmemOption" "r+"]
     debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
+    debug.popeye "caller:[debuggable [info level -1]]" 2
 
     fconfigure $pipe -encoding binary -buffering line
 
@@ -622,13 +623,13 @@ namespace eval ::popeye::input {
 }
 
 proc ::popeye::input::ZeroPosition {pipe twinning} {
-    debug.popeye "input::ZeroPosition twinning:|$twinning|"
+    debug.popeye "input::ZeroPosition pipe:$pipe twinning:|$twinning|"
 
     puts $pipe "[::msgcat::mc input::ZeroPosition] $twinning"
 }
 
 proc ::popeye::input::Twin {pipe twinning} {
-    debug.popeye "input::Twin twinning:|$twinning|"
+    debug.popeye "input::Twin pipe:$pipe twinning:|$twinning|"
 
     puts $pipe "[::msgcat::mc input::Twin] $twinning"
 }
@@ -640,7 +641,7 @@ proc ::popeye::input::Pieces {pipe pieces} {
 }
 
 proc ::popeye::input::EndProblem {pipe} {
-    debug.popeye "input::EndProblem"
+    debug.popeye "input::EndProblem pipe:$pipe"
 
     puts $pipe "[::msgcat::mc input::EndProblem]"
 }
