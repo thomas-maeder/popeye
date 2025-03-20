@@ -575,6 +575,8 @@ proc ::popeye::spawn {firstTwin options} {
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
 
     set pipe [open "| $executablePath $maxmemOption" "r+"]
+    debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
+
     fconfigure $pipe -encoding binary -buffering line
 
     gets $pipe greetingLine
@@ -1223,6 +1225,9 @@ proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves}
 	    lappend result [list $nrMoves $nrMoves]
 	}
     }
+
+    ::popeye::terminate $pipe
+
     debug.grouping "nrMoves:$nrMoves" 2
 
     debug.grouping "movebymove::makeRanges <- $result"
