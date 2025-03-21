@@ -1091,11 +1091,11 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
     foreach weight $weights {
 	incr curr
 	incr weightAccumulated $weight
-	debug.grouping "curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
+	debug.grouping "start:$start curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
 	if {$weightAccumulated>$weightTarget} {
 	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
 	    debug.tester "weightExcess:$weightExcess"
-	    if {$weightExcess>$weight/2} {
+	    if {$weightExcess>$weight/2 && $start>$curr} {
 		lappend result [list $start [expr {$curr-1}]]
 		set start $curr
 	    } else {
@@ -1105,7 +1105,10 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
 	    incr weightTarget $avgWeightPerProcess
 	}
     }
-    lappend result [list $start [expr {$skipMoves+[llength $weights]}]]
+    set end [expr {$skipMoves+[llength $weights]}]
+    if {$start<=$end} {
+	lappend result [list $start $end]
+    }
 
     debug.grouping "byweight::makeGroups <- $result"
     return $result
