@@ -128,6 +128,7 @@ namespace eval language {
 	namespace eval output {
 	    variable Time "Temps"
 	    variable SolutionFinished "solution terminee"
+	    variable PartialSolution "solution partielle"
 	    variable SquareIsEmptyRE "la case est vide - on ne peut pas oter ou deplacer une piece."
 	    variable BothSidesNeedAKingRE "il faut un roi de chaque couleur"
 	}
@@ -179,6 +180,7 @@ namespace eval language {
 	namespace eval output {
 	    variable Time "Zeit"
 	    variable SolutionFinished "Loesung beendet"
+	    variable PartialSolution "Partielle Loesung"
 	    variable SquareIsEmptyRE "Feld leer - kann keine Figur entfernen/versetzen."
 	    variable BothSidesNeedAKingRE "Es fehlt ein weisser oder schwarzer Koenig\n"
 	}
@@ -230,6 +232,7 @@ namespace eval language {
 	namespace eval output {
 	    variable Time "Time"
 	    variable SolutionFinished "solution finished"
+	    variable PartialSolution "Partial solution"
 	    variable SquareIsEmptyRE "square is empty - cannot .re.move any piece."
 	    variable BothSidesNeedAKingRE "both sides need a king"
 	}
@@ -1018,7 +1021,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	lappend twinnings [list Twin $fakeTwinning]
 	set solutionTerminatorRE "\n\n..?\[\)] $fakeTwinning *\n"
     } else {
-	set solutionFinishedRE "\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n\n\n"
+	set solutionFinishedRE "\n(?:\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\n]+\n\n\n"
 	set solutionTerminatorRE $solutionFinishedRE
     }
 
