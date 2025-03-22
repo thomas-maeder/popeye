@@ -258,22 +258,30 @@ namespace eval language {
 	    variable popeyeDefault "Popeye default"
 	}
     }
+
+    set minElementLength 3
 }
 
 proc ::language::tokenIsElement {token elementId} {
+    variable minElementLength
+
     debug.language "tokenIsElement token:$token elementId:$elementId"
 
     set tokenLength [string length $token]
 
-    debug.language "language:[::msgcat::mclocale]" 2
+    if {$tokenLength>=$minElementLength} {
+	debug.language "language:[::msgcat::mclocale]" 2
 
-    set elementString [msgcat::mc $elementId]
-    debug.language "elementString:$elementString" 2
+	set elementString [msgcat::mc $elementId]
+	debug.language "elementString:$elementString" 2
 
-    set elementStringFragment [string range $elementString 0 [expr {$tokenLength-1}]]
-    debug.language "elementStringFragment:$elementStringFragment" 2
+	set elementStringFragment [string range $elementString 0 [expr {$tokenLength-1}]]
+	debug.language "elementStringFragment:$elementStringFragment" 2
 
-    set result [expr {[string compare -nocase $elementStringFragment $token]==0}]
+	set result [expr {[string compare -nocase $elementStringFragment $token]==0}]
+    } else {
+	set result false
+    }
 
     debug.language "tokenIsElement <- $result"
     return $result
