@@ -110,6 +110,7 @@ namespace eval language {
 	    variable Title "Titre"
 	    variable Author "Auteur"
 	    variable Origin "Source"
+	    variable Award "prix"
 	    variable Remark "Remarque"
 	    variable Protocol "Protocol"
 	    variable LaTeX "LaTeX"
@@ -162,6 +163,7 @@ namespace eval language {
 	    variable Title "Titel"
 	    variable Author "Autor"
 	    variable Origin "Quelle"
+	    variable Award "Auszeichnung"
 	    variable Remark "Bemerkung"
 	    variable Protocol "Protokoll"
 	    variable LaTeX "LaTeX"
@@ -206,16 +208,17 @@ namespace eval language {
 
     namespace eval en {
 	namespace eval input {
-	    variable BeginProblem "BeginProblem"
-	    variable NextProblem "NextProblem"
-	    variable EndProblem "EndProblem"
+	    variable BeginProblem "beginproblem"
+	    variable NextProblem "nextproblem"
+	    variable EndProblem "endproblem"
 	    variable ZeroPosition "zeroposition"
-	    variable Twin "Twin"
-	    variable Title "Title"
-	    variable Author "Author"
-	    variable Origin "Origin"
-	    variable Remark "Remark"
-	    variable Protocol "Protocol"
+	    variable Twin "twin"
+	    variable Title "title"
+	    variable Author "author"
+	    variable Origin "origin"
+	    variable Award "award"
+	    variable Remark "remark"
+	    variable Protocol "protocol"
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "Stipulation"
 	    variable Option "Option"
@@ -320,6 +323,7 @@ namespace eval input {
 	Title
 	Author
 	Origin
+	Award
 	Remark
 	Protocol
 	LaTeX
