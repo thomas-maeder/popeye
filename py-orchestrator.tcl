@@ -220,8 +220,8 @@ namespace eval language {
 	    variable Remark "remark"
 	    variable Protocol "protocol"
 	    variable LaTeX "LaTeX"
-	    variable Stipulation "Stipulation"
-	    variable Option "Option"
+	    variable Stipulation "stipulation"
+	    variable Option "option"
 	    variable MoveNumber "MoveNumber"
 	    variable StartMoveNumber "StartMoveNumber"
 	    variable UpToMoveNumber "UpToMoveNumber"
@@ -892,7 +892,7 @@ proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
 
     if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
 	debug.tester "solution:|[debuggable $solution]|"
-	debug.tester "terminator:|$terminator|"
+	debug.tester "terminator:|[debuggable $terminator]|"
 
 	flushSolution $pipe $solution
 	::output::solutionTerminator $terminator
@@ -923,7 +923,7 @@ proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk 
     debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorRE:[debuggable $boardTerminatorRE]"
 
     append chunk [read $pipe]
-    debug.tester "chunk:|$chunk|"
+    debug.tester "chunk:|[debuggable $chunk]|"
 
     if {[regexp -- "^(.*)($boardTerminatorRE)(.*)$" $chunk - board terminator remainder]} {
 	debug.tester "terminator:|[debuggable $terminator]|"
@@ -1025,7 +1025,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	lappend twinnings [list Twin $fakeTwinning]
 	set solutionTerminatorRE "\n\n..?\[\)] $fakeTwinning *\n"
     } else {
-	set solutionFinishedRE "\n(?:\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\n]+\n\n\n"
+	set solutionFinishedRE "\n(?:\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\n]+\n+"
 	set solutionTerminatorRE $solutionFinishedRE
     }
 
@@ -1160,7 +1160,7 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
 		# so all moves are taken care of
 		if {[info exists move]} {
 		    lappend result $weight
-		    debug.grouping "[llength $result] move:$move weight:$weight" 2
+		    debug.grouping "[llength $result] move:[debuggable $move] weight:$weight" 2
 		}
 		set weight 0
 		regexp -- {[(]([^ ]+).*[)]} $line - move
