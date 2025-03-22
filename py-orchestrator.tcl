@@ -546,6 +546,10 @@ proc ::output::movenumberLine {line} {
 proc ::output::solutionTerminator {terminator} {
     variable isSolutionTerminatorSuppressed
 
+    debug.output "solutionTerminator terminator:$terminator"
+
+    debug.output "isSolutionTerminatorSuppressed:$isSolutionTerminatorSuppressed" 2
+
     if {!$isSolutionTerminatorSuppressed} {
 	_puts $terminator
     }
@@ -895,9 +899,8 @@ proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
 	debug.tester "terminator:|[debuggable $terminator]|"
 
 	flushSolution $pipe $solution
-	::output::solutionTerminator $terminator
-
         ::sync::Notify $pipe "solution"
+	::output::solutionTerminator $terminator
 
 	set result true
     } else {
@@ -931,7 +934,8 @@ proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk 
 	::output::board $board $terminator
 	::sync::Notify $pipe "board"
 	if {![flushBelowBoard $pipe $remainder $solutionTerminatorRE]} {
-	    ::popeye::output::doAsync $pipe belowBoard [list $solutionTerminatorRE]
+	    # While writing the solution, Popeye writes EOLs before the next line
+	    ::popeye::output::doAsync $pipe belowBoard [list "\\n$solutionTerminatorRE"]
 	}
     } else {
 	debug.tester "terminator not found"
@@ -1023,23 +1027,23 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	debug.tester "inserting fake twinning as solution terminator" 2
 	set fakeTwinning "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
 	lappend twinnings [list Twin $fakeTwinning]
-	set solutionTerminatorRE "\n\n..?\[\)] $fakeTwinning *\n"
+	set solutionTerminatorRE "\\n..?\[\)] $fakeTwinning *\\n"
     } else {
-	set solutionFinishedRE "\n(?:\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\n]+\n+"
+	set solutionFinishedRE "(?:\\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\\n]+\\n+"
 	set solutionTerminatorRE $solutionFinishedRE
     }
 
     if {[llength $twinnings]==0 && $endElmt!="Twin"} {
 	debug.tester "no twin and no zeroposition - inserting fake zero position as board terminator" 2
 	set twinnings [linsert $twinnings 0 [list "ZeroPosition" "[::msgcat::mc input::Rotate] 90 [::msgcat::mc input::Rotate] 270"]]
-	set fakeZeroPositionRE "\n[::msgcat::mc input::ZeroPosition].*?270 *\n"
+	set fakeZeroPositionRE "\\n[::msgcat::mc input::ZeroPosition].*?270 *\\n"
 	set boardTerminatorRE $fakeZeroPositionRE
 	set ::output::isBoardTerminatorSuppressed true
     } else {
 	if {[info exists fakeTwinning]} {
-	    set boardTerminatorRE "\n\n..?\[\)] (?!$fakeTwinning)\[^\n]*\n"
+	    set boardTerminatorRE "\\n\\n..?\[\)] (?!$fakeTwinning)\[^\\n]*\\n"
 	} else {
-	    set boardTerminatorRE "\n\n..?\[\)] \[^\n]*\n"
+	    set boardTerminatorRE "\\n\\n..?\[\)] \[^\\n]*\\n"
 	}
     }
 
@@ -1056,6 +1060,10 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	if {$nrRunningProcesses==$::params(nrprocs)} {
 	    break
 	}
+    }
+
+    if {$endElmt!="Twin" && $nrRunningProcesses==1} {
+	set ::output::isSolutionTerminatorSuppressed false
     }
 
     set nrBoardsRead 0
