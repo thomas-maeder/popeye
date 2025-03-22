@@ -121,7 +121,7 @@ namespace eval language {
 	    variable NoBoard "SansEchiquier"
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "DemiDuplex"
-	    variable Rotate "Rotation"
+	    variable Rotate "rotation"
 	    variable Pieces "Pieces"
 	}
 
@@ -223,7 +223,7 @@ namespace eval language {
 	    variable NoBoard "NoBoard"
 	    variable MaxSolutions "MaxSolutions"
 	    variable HalfDuplex "HalfDuplex"
-	    variable Rotate "Rotate"
+	    variable Rotate "rotate"
 	    variable Pieces "Pieces"
 	}
 
@@ -913,12 +913,12 @@ proc ::tester::async::belowBoard {pipe solutionTerminatorRE} {
 }
 
 proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
-    debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]|"
+    debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorRE:[debuggable $boardTerminatorRE]"
 
     append chunk [read $pipe]
     debug.tester "chunk:|$chunk|"
 
-    if {[regexp -- "(.*)($boardTerminatorRE)(.*)" $chunk - board terminator remainder]} {
+    if {[regexp -- "^(.*)($boardTerminatorRE)(.*)$" $chunk - board terminator remainder]} {
 	debug.tester "terminator:|[debuggable $terminator]|"
 	debug.tester "remainder:|[debuggable $remainder]|"
 	::output::board $board $terminator
@@ -955,7 +955,7 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
 
     ::popeye::output::doAsync $result async::board [list $boardTerminatorRE $solutionTerminatorRE]
 
-    debug.tester "testMoveRange <- $result"
+    debug.tester "moveRange <- $result"
     return $result
 }
 
@@ -994,11 +994,11 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
     }
 
     if {$nrRunningProcesses==0} {
-	debug.tester "testMoveRangesProgress <- break"
+	debug.tester "moveRangesProgress <- break"
 	return -code break
     } else {
 	set result [list $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes]
-	debug.tester "testMoveRangesProgress <- [debuggable $result]"
+	debug.tester "moveRangesProgress <- [debuggable $result]"
 	return $result
     }
 }
@@ -1012,6 +1012,16 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 
     set twinningRE {\n\n..?[\)] [^\n]*\n}
 
+    if {$endElmt=="Twin"} {
+	debug.tester "inserting fake twinning as solution terminator" 2
+	set fakeTwinning "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
+	lappend twinnings [list Twin $fakeTwinning]
+	set solutionTerminatorRE "\n\n..?\[\)] $fakeTwinning *\n"
+    } else {
+	set solutionFinishedRE "\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n\n\n"
+	set solutionTerminatorRE $solutionFinishedRE
+    }
+
     if {[llength $twinnings]==0 && $endElmt!="Twin"} {
 	debug.tester "no twin and no zeroposition - inserting fake zero position as board terminator" 2
 	set twinnings [linsert $twinnings 0 [list "ZeroPosition" "[::msgcat::mc input::Rotate] 90 [::msgcat::mc input::Rotate] 270"]]
@@ -1019,16 +1029,11 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 	set boardTerminatorRE $fakeZeroPositionRE
 	set ::output::isBoardTerminatorSuppressed true
     } else {
-	set boardTerminatorRE $twinningRE
-    }
-
-    if {$endElmt=="Twin"} {
-	debug.tester "inserting fake twinning as solution terminator" 2
-	lappend twinnings [list Twin "rotate 180"]
-	set solutionTerminatorRE $twinningRE
-    } else {
-	set solutionFinishedRE "\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n\n\n"
-	set solutionTerminatorRE $solutionFinishedRE
+	if {[info exists fakeTwinning]} {
+	    set boardTerminatorRE "\n\n..?\[\)] (?!$fakeTwinning)\[^\n]*\n"
+	} else {
+	    set boardTerminatorRE "\n\n..?\[\)] \[^\n]*\n"
+	}
     }
 
     set pipes {}
@@ -1053,7 +1058,7 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 
     ::sync::Fini
 
-    debug.tester "testMoveRanges <- $nrMovesPlayed"
+    debug.tester "moveRanges <- $nrMovesPlayed"
     return $nrMovesPlayed
 }
 
@@ -1125,10 +1130,13 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
-    foreach t $twinnings {
-	lassign $t key twinning
-	::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] ~1"
+    if {[llength $twinnings]==0} {
+	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
+    } else {
+	foreach t $twinnings {
+	    lassign $t key twinning
+	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] ~1"
+	}
     }
     ::popeye::input::EndProblem $pipe
 
@@ -1204,10 +1212,13 @@ proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves}
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
 
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
-    foreach t $twinnings {
-	lassign $t key twinning
-	::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] h#0.5"
+    if {[llength $twinnings]==0} {
+	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
+    } else {
+	foreach t $twinnings {
+	    lassign $t key twinning
+	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] h#0.5"
+	}
     }
     ::popeye::input::EndProblem $pipe
 
@@ -1311,8 +1322,10 @@ proc whoMoves {twin twinnings} {
     }
     ::popeye::terminate $pipe
 
-    if {[info exists firstLine]!=[info exists firstLineBlack]} {
+    if {![info exists firstLineBlack]} {
 	set result "white"
+    } elseif {![info exists firstLine]} {
+	set result "black"
     } elseif {$firstLine==$firstLineBlack} {
 	set result "black"
     } else {
@@ -1334,8 +1347,11 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
     set ranges [::grouping::auto::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
     debug.twin "ranges:$ranges" 2
 
+    if {[llength $ranges]==0} {
+	lappend ranges [list [expr {$skipMoves+1}] [expr {$skipMoves+1}]]
+    }
     set result [::tester::moveRanges $firstTwin $twinnings $endElmt $ranges]
-
+	
     debug.twin "handleTwin <- $result"
     return $result
 }
