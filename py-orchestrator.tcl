@@ -600,7 +600,7 @@ proc ::popeye::spawn {firstTwin options} {
     variable executablePath
     variable maxmemOption
 
-    debug.popeye "spawn firstTwin:|$firstTwin| options:|$options|"
+    debug.popeye "spawn firstTwin:|[debuggable $firstTwin]| options:|$options|"
 
     debug.popeye "executablePath:$executablePath" 2
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
