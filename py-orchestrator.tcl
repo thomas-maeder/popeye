@@ -1026,6 +1026,7 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 	}
 	default {
 	    control::assert false "::tester::moveRangesProgress: unexpected notification $notification"
+	    exit 1
 	}
     }
 
