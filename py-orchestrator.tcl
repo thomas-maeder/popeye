@@ -1172,7 +1172,7 @@ proc grouping::byweight::makeGroups {weights skipMoves} {
 }
 
 proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "byweight::findWeights firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
+    debug.grouping "byweight::findWeights firstTwin:|[debuggable $firstTwin]| twinnings:[debuggable $twinnings] whomoves:$whomoves skipMoves:$skipMoves"
 
     set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] [expr {$skipMoves+1}]"
     if {$whomoves=="black"} {
@@ -1185,6 +1185,13 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
     if {[llength $twinnings]==0} {
 	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
     } else {
+	lassign [lindex $twinnings 0] key change
+	if {$key=="ZeroPosition"} {
+	    lappend change " [::msgcat::mc input::Stipulation] ~1"
+	    set twinnings [lreplace $twinnings 0 0 [list "ZeroPosition" $change]]
+	} else {
+	    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
+	}
 	foreach t $twinnings {
 	    lassign $t key twinning
 	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] ~1"
@@ -1235,7 +1242,7 @@ proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
 }
 
 proc ::grouping::byweight::makeRanges {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "byweight::makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
+    debug.grouping "byweight::makeRanges firstTwin:|[debuggable $firstTwin]| twinnings:[debuggable $twinnings] whomoves:$whomoves skipMoves:$skipMoves"
 
     set weights [::grouping::byweight::findWeights $firstTwin $twinnings $whomoves $skipMoves]
     debug.grouping "weights:$weights" 2
@@ -1267,6 +1274,13 @@ proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves}
     if {[llength $twinnings]==0} {
 	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
     } else {
+	lassign [lindex $twinnings 0] key change
+	if {$key=="ZeroPosition"} {
+	    lappend change " [::msgcat::mc input::Stipulation] h#0.5"
+	    set twinnings [lreplace $twinnings 0 0 [list "ZeroPosition" $change]]
+	} else {
+	    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
+	}
 	foreach t $twinnings {
 	    lassign $t key twinning
 	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] h#0.5"
