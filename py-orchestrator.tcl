@@ -12,7 +12,7 @@ proc debuggable {string} {
     return [regsub -all {\[} $string {[return "\["]}]
 }
 
-control::control assert enabled 0
+control::control assert enabled [string match "*.tcl" $::argv0]
 
 # define the debugging tags in deactivated state
 # they can be activated using command line options
@@ -151,6 +151,10 @@ namespace eval language {
 	    variable processMemory "Mémoire maximale par processus"
 	    variable popeyeDefault "valeur standard de Popeye"
 	}
+
+	namespace eval orchestrator {
+	    variable unexpectedEOF "Fin d'output inattendue d'un sous-processus Popeye"
+	}
     }
 
     namespace eval de {
@@ -204,6 +208,10 @@ namespace eval language {
 	    variable processMemory "Maximaler Arbeitsspeicher pro Prozess"
 	    variable popeyeDefault "Popeye-Vorgabe"
 	}
+
+	namespace eval orchestrator {
+	    variable unexpectedEOF "Unerwartetes Ende der Ausgabe von einem Popeye-Unterprozess"
+	}
     }
 
     namespace eval en {
@@ -256,6 +264,10 @@ namespace eval language {
 	    variable numberProcesses "number of Popeye processes to spawn"
 	    variable processMemory "maximum memory for each process"
 	    variable popeyeDefault "Popeye default"
+	}
+
+	namespace eval orchestrator {
+	    variable unexpectedEOF "Unexpected end of output from a Popeye sub-process"
 	}
     }
 
@@ -364,7 +376,7 @@ proc ::input::reportNoLanguageDetected {token} {
 
     puts stderr "erreur d'entree:pas debut probleme"
     puts stderr "element d'offenser: $token"
-    exit
+    exit 1
 }
 
 proc ::input::isLineElement {token} {
@@ -927,32 +939,41 @@ proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
 proc ::tester::async::belowBoard {pipe solutionTerminatorRE} {
     debug.tester "belowBoard pipe:$pipe"
 
-    flushBelowBoard $pipe [read $pipe] $solutionTerminatorRE
+    debug.tester "eof:[eof $pipe]"
+    if {[eof $pipe]} {
+	::sync::Notify $pipe "eof"
+    } else {
+        flushBelowBoard $pipe [read $pipe] $solutionTerminatorRE
+    }
 }
 
 proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
     debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorRE:[debuggable $boardTerminatorRE]"
 
-    append chunk [read $pipe]
-    debug.tester "chunk:|[debuggable $chunk]|"
-
-    if {[regexp -- "^(.*)($boardTerminatorRE)(.*)$" $chunk - board terminator remainder]} {
-	debug.tester "terminator:|[debuggable $terminator]|"
-	debug.tester "remainder:|[debuggable $remainder]|"
-	::output::board $board $terminator
-	::sync::Notify $pipe "board"
-	if {![flushBelowBoard $pipe $remainder $solutionTerminatorRE]} {
-	    # While writing the solution, Popeye writes EOLs before the next line
-	    ::popeye::output::doAsync $pipe belowBoard [list "\\n$solutionTerminatorRE"]
-	}
+    if {[eof $pipe]} {
+	::sync::Notify $pipe "eof"
     } else {
-	debug.tester "terminator not found"
-	::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
+	append chunk [read $pipe]
+	debug.tester "chunk:|[debuggable $chunk]|"
+
+	if {[regexp -- "^(.*)($boardTerminatorRE)(.*)$" $chunk - board terminator remainder]} {
+	    debug.tester "terminator:|[debuggable $terminator]|"
+	    debug.tester "remainder:|[debuggable $remainder]|"
+	    ::output::board $board $terminator
+	    ::sync::Notify $pipe "board"
+	    if {![flushBelowBoard $pipe $remainder $solutionTerminatorRE]} {
+		# While writing the solution, Popeye writes EOLs before the next line
+		::popeye::output::doAsync $pipe belowBoard [list "\\n$solutionTerminatorRE"]
+	    }
+	} else {
+	    debug.tester "terminator not found"
+	    ::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
+	}
     }
 }
 
 proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
-    debug.tester "moveRange firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] moveRange:$moveRange"
+    debug.tester "moveRange firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] moveRange:$moveRange"
 
     lassign $moveRange start upto
 
@@ -999,6 +1020,13 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 		::popeye::input::EndProblem $pipe
 	    }
 	}
+	eof {
+	    puts stderr "[::msgcat::mc orchestrator::unexpectedEOF]"
+	    exit 1
+	}
+	default {
+	    control::assert false "::tester::moveRangesProgress: unexpected notification $notification"
+	}
     }
 
     # we print board and board terminator only once (if at all)
@@ -1023,7 +1051,7 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 }
 
 proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
-    debug.tester "moveRanges firstTwin:|$firstTwin| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
+    debug.tester "moveRanges firstTwin:|[debuggable $firstTwin]| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
 
     ::sync::Init
 
@@ -1298,7 +1326,7 @@ proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
 }
 
 proc whoMoves {twin twinnings} {
-    debug.whomoves "whoMoves twin:|$twin| twinnings:$twinnings"
+    debug.whomoves "whoMoves twin:|[debuggable $twin]| twinnings:$twinnings"
 
     set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] =}
 
@@ -1360,7 +1388,7 @@ proc whoMoves {twin twinnings} {
 }
 
 proc handleTwin {firstTwin endElmt twinnings skipMoves} {
-    debug.twin "handleTwin firstTwin:|$firstTwin| endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
+    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
 
     set ::output::isBoardTerminatorSuppressed false
 
@@ -1380,7 +1408,7 @@ proc handleTwin {firstTwin endElmt twinnings skipMoves} {
 }
 
 proc areMoveNumbersActivated {firstTwin zeroTwinning} {
-    debug.movenumbers "areMoveNumbersActivated firstTwin:|$firstTwin| zeroTwinning:$zeroTwinning"
+    debug.movenumbers "areMoveNumbersActivated firstTwin:|[debuggable $firstTwin]| zeroTwinning:$zeroTwinning"
 
     set result false
 
@@ -1451,7 +1479,7 @@ proc readFirstTwin {chan} {
 
     set result [list $firstTwin $endElmt]
 
-    debug.problem "readFirstTwin <- $result"
+    debug.problem "readFirstTwin <- [debuggable $result]"
     return $result
 }
 
