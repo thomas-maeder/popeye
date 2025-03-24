@@ -1343,7 +1343,7 @@ proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
 proc whoMoves {twin twinnings} {
     debug.whomoves "whoMoves twin:|[debuggable $twin]| twinnings:$twinnings"
 
-    set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] =}
+    set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] =}
 
     set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] 1"
 
@@ -1438,7 +1438,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 
     while {[::popeye::output::getLine $pipe line]>=0} {
 	debug.movenumbers "line:[debuggable $line]" 2
-	set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] = [^\)]+[\)]}
+	set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] = [^\)]+[\)]}
 	if {[regexp -- "^$movenumbersRE\$" $line]} {
 	    set result true
 	    break
@@ -1457,7 +1457,7 @@ proc areMoveNumbersActivated {firstTwin zeroTwinning} {
 
 	while {[::popeye::output::getLine $pipe line]>=0} {
 	    debug.movenumbers "line:[debuggable $line]" 2
-	    set movenumbersRE { *[[:digit:]]+ +[\(][^\)]+[::msgcat::mc output::Time] = [^\)]+[\)]}
+	    set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] = [^\)]+[\)]}
 	    if {[regexp -- "^$movenumbersRE\$" $line]} {
 		set result true
 		break
