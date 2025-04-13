@@ -972,8 +972,8 @@ proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk 
     }
 }
 
-proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solutionTerminatorRE moveRange} {
-    debug.tester "moveRange firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings boardTerminatorRE:[debuggable $boardTerminatorRE] solutionTerminatorRE:[debuggable $solutionTerminatorRE] moveRange:$moveRange"
+proc ::tester::moveRange {firstTwin endElmt twinnings moveRange} {
+    debug.tester "moveRange firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings moveRange:$moveRange"
 
     lassign $moveRange start upto
 
@@ -993,8 +993,6 @@ proc ::tester::moveRange {firstTwin endElmt twinnings boardTerminatorRE solution
 	::popeye::input::$key $result $twinning
     }
 
-    ::popeye::output::doAsync $result async::board [list $boardTerminatorRE $solutionTerminatorRE]
-
     debug.tester "moveRange <- $result"
     return $result
 }
@@ -1008,6 +1006,19 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
 	}
 	move {
 	    incr nrMovesPlayed
+	    if {$nrMovesPlayed==1} {
+		# the first tester has started with the first regular move,
+		# after possibly having dealt with set play
+		# we can now let the first bunch of other processes off the hook
+		foreach pipe $pipes {
+		    ::popeye::input::EndProblem $pipe
+		    set pipes [lrange $pipes 1 end]
+		    incr nrRunningProcesses
+		    if {$nrRunningProcesses==$::params(nrprocs)} {
+			break
+		    }
+		}
+	    }
 	}
 	solution  {
 	    ::popeye::terminate $pipe
@@ -1037,7 +1048,7 @@ proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses 
     }
 
     # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
-    if {$endElmt!="Twin" && $nrRunningProcesses==1} {
+    if {$endElmt!="Twin" && $nrRunningProcesses==1 && [llength $pipes]==0} {
 	set ::output::isSolutionTerminatorSuppressed false
     }
 
@@ -1086,7 +1097,9 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
 
     set pipes {}
     foreach moveRange $moveRanges {
-	lappend pipes [moveRange $firstTwin $endElmt $twinnings $boardTerminatorRE $solutionTerminatorRE $moveRange]
+	set pipe [moveRange $firstTwin $endElmt $twinnings $moveRange]
+	::popeye::output::doAsync $pipe async::board [list $boardTerminatorRE $solutionTerminatorRE]
+	lappend pipes $pipe
     }
     debug.tester "pipes:$pipes" 2
 
@@ -1094,18 +1107,12 @@ proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
     foreach pipe $pipes {
 	::popeye::input::EndProblem $pipe
 	incr nrRunningProcesses
-	if {$nrRunningProcesses==$::params(nrprocs)} {
-	    break
-	}
-    }
-
-    if {$endElmt!="Twin" && $nrRunningProcesses==1} {
-	set ::output::isSolutionTerminatorSuppressed false
+	set pipes [lrange $pipes $nrRunningProcesses end]
+	break
     }
 
     set nrBoardsRead 0
     set nrMovesPlayed 0
-    set pipes [lrange $pipes $nrRunningProcesses end]
     lassign [::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes] endElmt nrProcesses nrBoardsRead nrMovesPlayed
 
     ::sync::Fini
