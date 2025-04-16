@@ -55,7 +55,7 @@ static boolean is_move_by_invisible(square from, Side side, ply ply)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean was_taboo(square s, Side side)
+boolean was_taboo(square s, Side side, ply startply)
 {
   boolean result = false;
   ply ply;
@@ -63,23 +63,25 @@ boolean was_taboo(square s, Side side)
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",startply);
   TraceFunctionParamListEnd();
 
   assert(is_on_board(s));
 
-  for (ply = nbply-1; ply>ply_retro_move; --ply)
-  {
-    TraceValue("%u",ply);
-    TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
-    TraceEOL();
-    if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+  for (ply = startply-1; ply>ply_retro_move; --ply)
+    if (is_move_by_invisible(s,side,ply))
+      break;
+    else
     {
-      result = true;
-      break;
+      TraceValue("%u",ply);
+      TraceValue("%u",nr_taboos_for_current_move_in_ply[ply][side][s]);
+      TraceEOL();
+      if (nr_taboos_for_current_move_in_ply[ply][side][s]>0)
+      {
+        result = true;
+        break;
+      }
     }
-    else if (is_move_by_invisible(s,side,ply))
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,14 +161,14 @@ static boolean is_taboo_candidate_captured(ply ply, square s)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean will_be_taboo(square s, Side side)
+boolean will_be_taboo(square s, Side side, ply ply)
 {
   boolean result = false;
-  ply ply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",ply);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
@@ -177,7 +179,8 @@ boolean will_be_taboo(square s, Side side)
 
   assert(is_on_board(s));
 
-  if (nbply<=top_ply_of_regular_play)
+  if (ply<=top_ply_of_regular_play && !is_move_by_invisible(s,side,ply))
+  {
     while (true)
     {
       if (side!=trait[ply] && is_taboo_candidate_captured(ply,s))
@@ -205,6 +208,7 @@ boolean will_be_taboo(square s, Side side)
           break;
       }
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -218,16 +222,17 @@ boolean will_be_taboo(square s, Side side)
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean is_taboo(square s, Side side)
+boolean is_taboo(square s, Side side, ply startply)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceEnumerator(Side,side);
+  TraceValue("%u",startply);
   TraceFunctionParamListEnd();
 
-  result = nr_taboos_for_current_move_in_ply[nbply][side][s]>0;
+  result = nr_taboos_for_current_move_in_ply[startply][side][s]>0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -585,6 +590,7 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
                                         move_effect_journal_index_type movement)
 {
   square result = nullsquare;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",capture);
@@ -594,7 +600,6 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     Flags const spec = move_effect_journal[movement].u.piece_movement.movingspec;
     int const dir_move = TSTFLAG(spec,White) ? dir_up : dir_down;
     square s = sq_departure;
@@ -611,8 +616,12 @@ static square find_taboo_violation_pawn(move_effect_journal_index_type capture,
     }
     while (s!=sq_arrival);
   }
-  else
-    result = find_taboo_violation_leaper(movement);
+  else if (is_square_empty(sq_arrival)
+           || !TSTFLAG(being_solved.spec[sq_arrival],advers(trait[nbply])))
+  {
+    TraceText("no capturable piece on arrival square of capture\n");
+    result = sq_arrival;
+  }
 
   TraceFunctionExit(__func__);
   TraceSquare(result);
@@ -630,6 +639,10 @@ square find_taboo_violation(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",base);
+  TraceValue("%u",top);
+  TraceEOL();
+
   for (curr = base; curr!=top && result==nullsquare; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
@@ -637,6 +650,10 @@ square find_taboo_violation(void)
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       piece_walk_type const walk = move_effect_journal[movement].u.piece_movement.moving;
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+
+      TraceValue("%u",curr);
+      TraceSquare(sq_departure);
+      TraceEOL();
 
       assert(sq_departure!=move_by_invisible);
       assert(sq_departure!=capture_by_invisible);

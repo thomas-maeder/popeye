@@ -2,20 +2,9 @@
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/taboo.h"
-#include "pieces/attributes/total_invisible/random_move_by_invisible.h"
-#include "pieces/attributes/total_invisible/capture_by_invisible.h"
-#include "pieces/walks/pawns/en_passant.h"
-#include "position/effects/piece_removal.h"
-#include "position/effects/piece_movement.h"
-#include "position/effects/walk_change.h"
-#include "position/effects/king_square.h"
 #include "solving/pipe.h"
-#include "solving/castling.h"
-#include "solving/has_solution_type.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
-
-#include <string.h>
 
 boolean revelation_status_is_uninitialised;
 unsigned int nr_potential_revelations;
@@ -47,7 +36,8 @@ PieceIdType get_top_invisible_piece_id(void)
   return top_invisible_piece_id;
 }
 
-PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
+PieceIdType initialise_motivation(ply ply,
+                                  purpose_type purpose_first, square sq_first,
                                   purpose_type purpose_last, square sq_last)
 {
   PieceIdType const result = ++top_invisible_piece_id;
@@ -61,10 +51,10 @@ PieceIdType initialise_motivation(purpose_type purpose_first, square sq_first,
 
   assert(motivation[result].last.purpose==purpose_none);
   motivation[result].first.purpose = purpose_first;
-  motivation[result].first.acts_when = nbply;
+  motivation[result].first.acts_when = ply;
   motivation[result].first.on = sq_first;
   motivation[result].last.purpose = purpose_last;
-  motivation[result].last.acts_when = nbply;
+  motivation[result].last.acts_when = ply;
   motivation[result].last.on = sq_last;
 
   TraceFunctionExit(__func__);
@@ -326,163 +316,6 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
     case play_testing_mate:
     case play_attacking_mating_piece:
     case play_rewinding:
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void do_revelation_of_castling_partner(move_effect_reason_type reason,
-                                              square on,
-                                              piece_walk_type walk,
-                                              Flags spec)
-{
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_revelation_of_castling_partner,reason);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceSquare(on);
-  TraceWalk(walk);
-  TraceFunctionParam("%x",spec);
-  TraceFunctionParamListEnd();
-
-  assert(play_phase==play_regular);
-
-  entry->u.piece_addition.added.on = on;
-  entry->u.piece_addition.added.walk = walk;
-  entry->u.piece_addition.added.flags = spec;
-
-  assert(get_walk_of_piece_on_square(on)==Rook);
-  assert(walk==Rook);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void undo_revelation_of_castling_partner(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.piece_addition.added.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",play_phase);
-  TraceEOL();
-
-  switch (play_phase)
-  {
-    case play_regular:
-      TraceSquare(on);
-      TraceWalk(get_walk_of_piece_on_square(on));
-      TraceValue("%x",being_solved.spec[on]);
-      TraceEOL();
-      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      SETFLAG(being_solved.spec[on],Chameleon);
-      break;
-
-    case play_rewinding:
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const precapture = effects_base;
-
-      /* there is no need to remove an inserted castling partner while rewinding */
-      assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
-      move_effect_journal[precapture].type = move_effect_none;
-
-      TraceSquare(on);
-      TraceWalk(get_walk_of_piece_on_square(on));
-      TraceValue("%x",being_solved.spec[on]);
-      TraceEOL();
-      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      SETFLAG(being_solved.spec[on],Chameleon);
-      break;
-    }
-
-    case play_detecting_revelations:
-    case play_validating_mate:
-    case play_testing_mate:
-    case play_attacking_mating_piece:
-    case play_initialising_replay:
-    case play_replay_validating:
-    case play_replay_testing:
-    case play_finalising_replay:
-      assert(!TSTFLAG(being_solved.spec[on],Chameleon));
-      SETFLAG(being_solved.spec[on],Chameleon);
-      break;
-
-    case play_unwinding:
-      assert(0);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void redo_revelation_of_castling_partner(move_effect_journal_entry_type const *entry)
-{
-  square const on = entry->u.piece_addition.added.on;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceSquare(on);
-  TraceEOL();
-
-  switch (play_phase)
-  {
-    case play_regular:
-      TraceSquare(on);
-      TraceValue("%x",being_solved.spec[on]);
-      TraceEOL();
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
-      break;
-
-    case play_unwinding:
-    {
-      move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const precapture = effects_base;
-
-      assert(move_effect_journal[precapture].type==move_effect_none);
-      move_effect_journal[precapture].type = move_effect_piece_readdition;
-
-      TraceSquare(on);
-      TraceValue("%x",being_solved.spec[on]);
-      TraceEOL();
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
-      break;
-    }
-
-    case play_rewinding:
-      assert(0);
-      break;
-
-    case play_detecting_revelations:
-    case play_validating_mate:
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
-      break;
-
-    case play_testing_mate:
-    case play_attacking_mating_piece:
-    case play_initialising_replay:
-    case play_replay_validating:
-    case play_replay_testing:
-    case play_finalising_replay:
-      assert(!is_square_empty(on));
-      assert(TSTFLAG(being_solved.spec[on],Chameleon));
-      CLRFLAG(being_solved.spec[on],Chameleon);
-      break;
-
     default:
       assert(0);
       break;
@@ -981,16 +814,18 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
   TraceFunctionResultEnd();
 }
 
+static void evaluate_revelations_recursive(slice_index si,
+                                           unsigned int nr_potential_revelations);
+
 /* Create a piece revelation effect in the move effects journal
  * @param s place of revelation
  * @param ids identifies the revelation in revelation_status
- * @return NullPieceId iff the revealed piece was already allocated
- *         the id of the revealed piece allocated by this function otherwise
  */
-static PieceIdType add_revelation_effect(square s, revelation_status_type * const status)
+static void add_revelation_effect(square s,
+                                  slice_index si,
+                                  unsigned int i)
 {
-  PieceIdType result = NullPieceId;
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  revelation_status_type const * const status = &revelation_status[i];
   Flags spec = status->spec;
 
   TraceFunctionEntry(__func__);
@@ -1007,60 +842,41 @@ static PieceIdType add_revelation_effect(square s, revelation_status_type * cons
   if (is_square_empty(s))
   {
     TraceValue("%u",nbply);TraceEOL();
-    TraceConsumption();
-    TraceText("revelation of a hitherto unplaced invisible (typically a king)\n");
+    TraceConsumption();TraceEOL();
+    record_decision_outcome("revelation of a hitherto unplaced invisible side:%u walk:%u on:%u",
+                            TSTFLAG(spec,White) ? White : Black, status->walk, s);
 
     {
-      result = initialise_motivation_from_revelation(status);
+      PieceIdType const id_revealed = initialise_motivation_from_revelation(status);
 
-      SetPieceId(spec,result);
-
-      if (status->walk==King)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        current_consumption.is_king_unplaced[side] = false;
-      }
+      SetPieceId(spec,id_revealed);
 
       do_revelation_of_new_invisible(move_effect_reason_revelation_of_invisible,
                                      s,status->walk,spec);
+
+      assert(!TSTFLAG(being_solved.spec[s],Chameleon));
+
+      evaluate_revelations_recursive(si,i);
+
+      uninitialise_motivation(id_revealed);
     }
   }
   else
   {
-    if (move_effect_journal[base].type==move_effect_piece_readdition
-        && move_effect_journal[base].reason==move_effect_reason_castling_partner
-        && (GetPieceId(move_effect_journal[base].u.piece_addition.added.flags)
-            ==GetPieceId(spec)))
-    {
-      TraceText("pseudo revelation of a castling partner\n");
-      assert(TSTFLAG(being_solved.spec[s],Chameleon));
-      CLRFLAG(being_solved.spec[s],Chameleon);
-      assert(GetPieceId(spec)==GetPieceId(being_solved.spec[s]));
-      do_revelation_of_castling_partner(move_effect_reason_revelation_of_invisible,
-                                        s,status->walk,spec);
-    }
-    else
-    {
-      TraceText("revelation of a placed invisible\n");
-      SetPieceId(spec,GetPieceId(being_solved.spec[s]));
+    record_decision_outcome("revelation of a placed invisible side:%u walk:%u on:%u",
+                            TSTFLAG(spec,White) ? White : Black, status->walk, s);
+    SetPieceId(spec,GetPieceId(being_solved.spec[s]));
 
-      if (status->walk==King)
-      {
-        Side const side = TSTFLAG(spec,White) ? White : Black;
-        current_consumption.is_king_unplaced[side] = false;
-      }
+    do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
+                                      s,status->walk,spec);
 
-      do_revelation_of_placed_invisible(move_effect_reason_revelation_of_invisible,
-                                        s,status->walk,spec);
-    }
+    assert(!TSTFLAG(being_solved.spec[s],Chameleon));
+
+    evaluate_revelations_recursive(si,i);
   }
 
-  assert(!TSTFLAG(being_solved.spec[s],Chameleon));
-
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 void setup_revelations(void)
@@ -1126,6 +942,11 @@ void initialise_revelations(void)
       revelation_status[i].spec = being_solved.spec[s];
       revelation_status[i].first = motivation[id].first;
 
+      record_decision_outcome("revelation candidate - side:%u walk:%u on:%u",
+                              TSTFLAG(being_solved.spec[s],White) ? White : Black,
+                              walk,
+                              s);
+
       assert(motivation[id].first.acts_when<=motivation[id].last.acts_when);
       if (motivation[id].first.acts_when<motivation[id].last.acts_when
           || motivation[id].first.purpose==purpose_capturer
@@ -1175,6 +996,12 @@ void update_revelations(void)
       TraceWalk(get_walk_of_piece_on_square(s));
       TraceValue("%x",being_solved.spec[s]);
       TraceEOL();
+
+      record_decision_outcome("ruling out revelation candidate - side:%u walk:%u on:%u",
+                              TSTFLAG(revelation_status[i].spec,White) ? White : Black,
+                              revelation_status[i].walk,
+                              revelation_status[i].first_on);
+
       memmove(&revelation_status[i],&revelation_status[i+1],
               (nr_potential_revelations-i-1)*sizeof revelation_status[0]);
       --nr_potential_revelations;
@@ -1248,14 +1075,7 @@ static void evaluate_revelations_recursive(slice_index si,
     if (revelation_status[i].walk==Empty)
       evaluate_revelations_recursive(si,i);
     else
-    {
-      PieceIdType const id_new = add_revelation_effect(s,&revelation_status[i]);
-
-      evaluate_revelations_recursive(si,i);
-
-      if (id_new!=NullPieceId)
-        uninitialise_motivation(id_new);
-    }
+      add_revelation_effect(s,si,i);
   }
 
   TraceFunctionExit(__func__);
@@ -1272,11 +1092,6 @@ void evaluate_revelations(slice_index si,
 
   current_consumption = save_consumption;
 
-  /* we have to undo 'our' effects immediately to make sure that the following
-   * invariant is kept:
-   * !current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare
-   * or (in pseudo code)
-   * if current_consumption.is_king_unplaced[Black] then being_solved.king_square[Black]==initsquare */
   while (move_effect_journal_base[nbply+1]>top)
     move_effect_journal_pop_effect();
 }
@@ -1296,7 +1111,9 @@ void make_revelations(void)
   static_consumption.king[White] = being_solved.king_square[White]==initsquare;
   static_consumption.king[Black] = being_solved.king_square[Black]==initsquare;
 
-  start_iteration();
+  --nbply;
+  forward_prevent_illegal_checks();
+  ++nbply;
 
   static_consumption.king[White] = false;
   static_consumption.king[Black] = false;
@@ -1358,133 +1175,16 @@ void do_revelation_bookkeeping(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-
 }
 
-void undo_revelation_effects(move_effect_journal_index_type curr)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",move_effect_journal_base[nbply+1]);
-  TraceValue("%u",top_before_revelations[nbply]);
-  TraceEOL();
-
-  if (curr==move_effect_journal_base[nbply])
-  {
-    if (is_random_move_by_invisible(nbply))
-      backward_fleshout_random_move_by_invisible();
-    else
-      restart_from_scratch();
-  }
-  else
-  {
-    move_effect_journal_entry_type * const entry = &move_effect_journal[curr-1];
-
-    TraceValue("%u",entry->type);TraceEOL();
-    switch (entry->type)
-    {
-      case move_effect_none:
-      case move_effect_no_piece_removal:
-        undo_revelation_effects(curr-1);
-        break;
-
-      case move_effect_piece_removal:
-        undo_piece_removal(entry);
-        undo_revelation_effects(curr-1);
-        redo_piece_removal(entry);
-        break;
-
-      case move_effect_piece_movement:
-        /* we may have added an interceptor on the square evacuated here, but failed to move
-         * it to our departure square in a random move
-         */
-        if (is_square_empty(entry->u.piece_movement.from))
-        {
-          undo_piece_movement(entry);
-          undo_revelation_effects(curr-1);
-          redo_piece_movement(entry);
-        }
-        else
-          record_decision_outcome("%s","an invisible was added on our departure square and not removed while retracting");
-        break;
-
-      case move_effect_walk_change:
-        undo_walk_change(entry);
-        undo_revelation_effects(curr-1);
-        redo_walk_change(entry);
-        break;
-
-      case move_effect_king_square_movement:
-        undo_king_square_movement(entry);
-        undo_revelation_effects(curr-1);
-        redo_king_square_movement(entry);
-        break;
-
-      case move_effect_disable_castling_right:
-        move_effect_journal_undo_disabling_castling_right(entry);
-        undo_revelation_effects(curr-1);
-        move_effect_journal_redo_disabling_castling_right(entry);
-        break;
-
-      case move_effect_remember_ep_capture_potential:
-        move_effect_journal_undo_remember_ep(entry);
-        undo_revelation_effects(curr-1);
-        move_effect_journal_redo_remember_ep(entry);
-        break;
-
-      case move_effect_revelation_of_new_invisible:
-        unreveal_new(entry);
-        undo_revelation_effects(curr-1);
-        reveal_new(entry);
-        break;
-
-      case move_effect_revelation_of_placed_invisible:
-        undo_revelation_of_placed_invisible(entry);
-        undo_revelation_effects(curr-1);
-        redo_revelation_of_placed_invisible(entry);
-        break;
-
-      case move_effect_revelation_of_castling_partner:
-      {
-        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
-
-        undo_revelation_of_castling_partner(entry);
-        motivation[id].last.purpose = purpose_castling_partner;
-        undo_revelation_effects(curr-1);
-        motivation[id].last.purpose = purpose_none;
-        redo_revelation_of_castling_partner(entry);
-        break;
-      }
-
-      case move_effect_enable_castling_right:
-        undo_revelation_effects(curr-1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void test_and_execute_revelations(move_effect_journal_index_type curr)
+static void forward_test_and_execute_revelations_recursive(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
   if (curr==move_effect_journal_base[nbply+1])
-  {
-    ++nbply;
-    TraceValue("%u",nbply);TraceEOL();
-    start_iteration();
-    --nbply;
-  }
+    forward_conclude_move_just_played();
   else
   {
     move_effect_journal_entry_type * const entry = &move_effect_journal[curr];
@@ -1493,60 +1193,70 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
     {
       case move_effect_revelation_of_new_invisible:
       {
-        square const on = entry->u.piece_addition.added.on;
-        piece_walk_type const walk = entry->u.piece_addition.added.walk;
-        Flags const spec = entry->u.piece_addition.added.flags;
-        Side const side_revealed = TSTFLAG(spec,White) ? White : Black;
+        square const revealed_on = entry->u.piece_addition.added.on;
+        piece_walk_type const walk_revealed = entry->u.piece_addition.added.walk;
+        Flags const spec_revealed = entry->u.piece_addition.added.flags;
+        Side const side_revealed = TSTFLAG(spec_revealed,White) ? White : Black;
+        piece_walk_type const walk_on_board = get_walk_of_piece_on_square(revealed_on);
+        Flags const spec_on_board = being_solved.spec[revealed_on];
 
-        if (is_square_empty(on))
+        TraceSquare(revealed_on);TraceEOL();
+
+        if (is_square_empty(revealed_on))
         {
+          /* These dead ends can happen because we don't flesh out all invisibles while
+           * validating a mate. We make use from the knowledge gained when
+           * detecting revelations to prune paths that we know won't lead
+           * anywhere.
+           */
+          assert(play_phase==play_validating_mate);
           TraceText("revelation expected, but square is empty - aborting\n");
           record_decision_outcome("%s","revelation expected, but square is empty - aborting");
           REPORT_DEADEND;
         }
-        else if (play_phase==play_validating_mate && get_walk_of_piece_on_square(on)==Dummy)
+        else if (play_phase==play_validating_mate && walk_on_board==Dummy)
         {
-          if (TSTFLAG(spec,Royal)
-              && walk==King
-              && being_solved.king_square[side_revealed]!=initsquare)
+          TraceWalk(walk_revealed);
+          TraceValue("%0x",spec_revealed);
+          TraceEnumerator(Side,side_revealed);
+          TraceSquare(revealed_on);
+          TraceEOL();
+          TraceWalk(walk_on_board);
+          TraceValue("%0x",spec_on_board);
+          TraceValue("%u",TSTFLAG(spec_on_board,side_revealed));
+          TraceEOL();
+
+          if (TSTFLAG(spec_on_board,side_revealed))
           {
-            TraceText("revelation of king - but king has already been placed - aborting\n");
-            record_decision_outcome("%s","revelation of king - but king has already been placed - aborting");
-            REPORT_DEADEND;
-          }
-          else if (TSTFLAG(being_solved.spec[on],side_revealed))
-          {
-            square const on = entry->u.piece_addition.added.on;
-            Flags const spec_on_board = being_solved.spec[on];
             PieceIdType const id_on_board = GetPieceId(spec_on_board);
             purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
 
-            Flags const spec_added = entry->u.piece_addition.added.flags;
-            PieceIdType const id_added = GetPieceId(spec_added);
-            purpose_type const purpose_added = motivation[id_added].last.purpose;
+            PieceIdType const id_revealed = GetPieceId(spec_revealed);
+            purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
             reveal_new(entry);
             motivation[id_on_board].last.purpose = purpose_none;
-            motivation[id_added].last.purpose = purpose_none;
-            test_and_execute_revelations(curr+1);
-            motivation[id_added].last.purpose = purpose_added;
+            motivation[id_revealed].last.purpose = purpose_none;
+            forward_test_and_execute_revelations_recursive(curr+1);
+            motivation[id_revealed].last.purpose = purpose_revealed;
             motivation[id_on_board].last.purpose = purpose_on_board;
             unreveal_new(entry);
           }
           else
           {
+            assert(play_phase==play_validating_mate);
             TraceText("revealed piece belongs to different side than actual piece\n");
             record_decision_outcome("%s","revealed piece belongs to different side than actual piece");
             REPORT_DEADEND;
           }
         }
-        else if (get_walk_of_piece_on_square(on)==walk
-                 && TSTFLAG(being_solved.spec[on],side_revealed))
+        else if (walk_on_board==walk_revealed
+                 && TSTFLAG(spec_on_board,side_revealed))
         {
-          PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
+          PieceIdType const id_on_board = GetPieceId(being_solved.spec[revealed_on]);
           purpose_type const purpose_on_board = motivation[id_on_board].last.purpose;
 
-          PieceIdType const id_revealed = GetPieceId(spec);
+          PieceIdType const id_revealed = GetPieceId(spec_revealed);
           purpose_type const purpose_revealed = motivation[id_revealed].last.purpose;
 
           TraceText("treat revelation of new invisible as revelation of placed invisible\n");
@@ -1554,18 +1264,18 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           assert(id_on_board!=id_revealed);
 
           entry->type = move_effect_revelation_of_placed_invisible;
-          entry->u.revelation_of_placed_piece.on = on;
-          entry->u.revelation_of_placed_piece.walk_original = get_walk_of_piece_on_square(on);
-          entry->u.revelation_of_placed_piece.flags_original = being_solved.spec[on];
-          entry->u.revelation_of_placed_piece.walk_revealed = walk;
-          entry->u.revelation_of_placed_piece.flags_revealed = spec;
+          entry->u.revelation_of_placed_piece.on = revealed_on;
+          entry->u.revelation_of_placed_piece.walk_original = walk_on_board;
+          entry->u.revelation_of_placed_piece.flags_original = spec_on_board;
+          entry->u.revelation_of_placed_piece.walk_revealed = walk_revealed;
+          entry->u.revelation_of_placed_piece.flags_revealed = spec_revealed;
 
           adapt_id_of_existing_to_revealed(entry);
 
           motivation[id_on_board].last.purpose = purpose_none;
           motivation[id_revealed].last.purpose = purpose_none;
 
-          test_and_execute_revelations(curr+1);
+          forward_test_and_execute_revelations_recursive(curr+1);
 
           motivation[id_revealed].last.purpose = purpose_revealed;
           motivation[id_on_board].last.purpose = purpose_on_board;
@@ -1573,12 +1283,13 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           unadapt_id_of_existing_to_revealed(entry);
 
           entry->type = move_effect_revelation_of_new_invisible;
-          entry->u.piece_addition.added.on = on;
-          entry->u.piece_addition.added.walk = walk;
-          entry->u.piece_addition.added.flags = spec;
+          entry->u.piece_addition.added.on = revealed_on;
+          entry->u.piece_addition.added.walk = walk_revealed;
+          entry->u.piece_addition.added.flags = spec_revealed;
         }
         else
         {
+          assert(play_phase==play_validating_mate);
           TraceText("revelation expected - but walk of present piece is different - aborting\n");
           record_decision_outcome("%s","revelation expected - but walk of present piece is different - aborting");
           REPORT_DEADEND;
@@ -1600,6 +1311,7 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
 
         if (is_square_empty(on))
         {
+          assert(play_phase==play_validating_mate);
           TraceText("the revealed piece isn't here (any more?)\n");
           record_decision_outcome("%s","the revealed piece isn't here (any more?)");
           REPORT_DEADEND;
@@ -1615,48 +1327,30 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
           square const on = entry->u.revelation_of_placed_piece.on;
           PieceIdType const id_on_board = GetPieceId(being_solved.spec[on]);
 
-          if (id_revealed==id_on_board)
-          {
-            reveal_placed(entry);
+          reveal_placed(entry);
 
-            assert(id_revealed==id_on_board);
+          assert(id_revealed==id_on_board);
 
-            /* the following distinction isn't strictly necessary, but it clarifies nicely
-             * that the two ids may be, but aren't necessarily equal */
-            if (id_revealed==id_original)
-              test_and_execute_revelations(curr+1);
-            else
-            {
-              motivation[id_original].last.purpose = purpose_none;
-              test_and_execute_revelations(curr+1);
-              motivation[id_original].last.purpose = purpose_original;
-            }
-
-            unreveal_placed(entry);
-          }
+          /* the following distinction isn't strictly necessary, but it clarifies nicely
+           * that the two ids may be, but aren't necessarily equal */
+          if (id_revealed==id_original)
+            forward_test_and_execute_revelations_recursive(curr+1);
           else
           {
-            TraceText("it is unclear what happend here\n");
+            motivation[id_original].last.purpose = purpose_none;
+            forward_test_and_execute_revelations_recursive(curr+1);
+            motivation[id_original].last.purpose = purpose_original;
           }
+
+          unreveal_placed(entry);
         }
         else
         {
+          assert(play_phase==play_validating_mate);
           TraceText("the revelation has been violated - terminating redoing effects with this ply\n");
           record_decision_outcome("%s","the revelation has been violated - terminating redoing effects with this ply");
           REPORT_DEADEND;
         }
-        break;
-      }
-
-      case move_effect_revelation_of_castling_partner:
-      {
-        PieceIdType const id = GetPieceId(entry->u.piece_addition.added.flags);
-
-        redo_revelation_of_castling_partner(entry);
-        motivation[id].last.purpose = purpose_none;
-        test_and_execute_revelations(curr+1);
-        motivation[id].last.purpose = purpose_castling_partner;
-        undo_revelation_of_castling_partner(entry);
         break;
       }
 
@@ -1665,6 +1359,17 @@ void test_and_execute_revelations(move_effect_journal_index_type curr)
         break;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void forward_test_and_execute_revelations(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  forward_test_and_execute_revelations_recursive(top_before_revelations[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
