@@ -186,4 +186,16 @@ title an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-
 pieces white ke1 rf1 black pb5 totalinv 3
 stip h#3.5
 option movenum start 4:5:12:1:2:2:1 upto 4:5:12:1:2:2:40
+
+next
+
+title option movenum produced misleading output in ser-r=3
+auth Nils Adrian Bakke
+orig feenschach 1991
+fors 32/2k5/8/7p/1K6
+stip ser-r=3
+cond castl
+option movenum
+
 end
+
