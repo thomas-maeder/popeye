@@ -587,10 +587,10 @@ Loesung beendet.
          Circe Equipollents
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a5   7.Da5*b6[+wBc7]   8.Db6-b8 + c7*b8=L =
-  add_to_move_generation_stack:       60240
-                     play_move:       33065
- is_white_king_square_attacked:       14062
- is_black_king_square_attacked:       28538
+  add_to_move_generation_stack:       59079
+                     play_move:       32395
+ is_white_king_square_attacked:       13783
+ is_black_king_square_attacked:       27922
 
 Loesung beendet.
 
