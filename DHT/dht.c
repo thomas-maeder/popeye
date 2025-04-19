@@ -50,11 +50,11 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #endif /*DEBUG_DHT*/
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
-#  define New(type)    ((type *)fxfAlloc(sizeof(type)))
-#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type)))
+#  define New(type)    fxfAlloc(sizeof(type), type)
+#  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
-static inline void * nNewImpl(size_t const nmemb, size_t const size) {
-  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAlloc(nmemb*size));
+static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desired_alignment) {
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocRaw(nmemb*size, desired_alignment));
 }
 #endif /*New*/
 
@@ -197,7 +197,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)dt);
   TraceFunctionParam("%p",elmt_to_append);
-  TraceFunctionParam("%d",elmt_depth);
+  TraceFunctionParam("%u",elmt_depth);
   TraceFunctionParamListEnd();
 
   if (elmt_depth>dt->level)
@@ -263,7 +263,7 @@ static boolean appendDirTable_recursive(dirTable *dt,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
+  TraceFunctionResult("%d",(int)result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -396,14 +396,14 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
 typedef struct
 {
-    dhtHashValue (*Hash)(dhtConstValue);
-    int     (*Equal)(dhtConstValue, dhtConstValue);
-    dhtConstValue    (*DupKey)(dhtConstValue);
-    dhtConstValue    (*DupData)(dhtConstValue);
-    void        (*FreeKey)(dhtValue);
+    dhtHashValue (*Hash)(dhtKey);
+    int         (*Equal)(dhtKey, dhtKey);
+    int         (*DupKeyValue)(dhtValue, dhtValue *);
+    int         (*DupData)(dhtValue, dhtValue *);
+    void        (*FreeKeyValue)(dhtValue);
     void        (*FreeData)(dhtValue);
-    void        (*DumpData)(dhtConstValue,FILE *);
-    void        (*DumpKey)(dhtConstValue,FILE *);
+    void        (*DumpData)(dhtValue,FILE *);
+    void        (*DumpKeyValue)(dhtValue,FILE *);
 } Procedures;
 
 typedef struct dht {
@@ -423,7 +423,7 @@ typedef struct dht {
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
-#define NewHashTable        ((HashTable *)fxfAlloc(sizeof(dht)))
+#define NewHashTable        fxfAlloc(sizeof(dht), HashTable)
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
 #define OVERFLOW_SAVE 1
 #if defined(OVERFLOW_SAVE)
@@ -436,7 +436,7 @@ typedef struct dht {
 #define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
 #endif /*OVERFLOW_SAVE*/
 
-unsigned long dhtKeyCount(dht *h)
+unsigned long dhtKeyCount(dht const *h)
 {
   return h->KeyCount;
 }
@@ -508,17 +508,17 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
         ht->procs.Hash=     dhtProcedures[KeyType]->Hash;
         ht->procs.Equal=    dhtProcedures[KeyType]->Equal;
         ht->procs.DumpData= dhtProcedures[DtaType]->Dump;
-        ht->procs.DumpKey=  dhtProcedures[KeyType]->Dump;
+        ht->procs.DumpKeyValue=  dhtProcedures[KeyType]->Dump;
 
         if (KeyPolicy==dhtNoCopy)
         {
-          ht->procs.DupKey= dhtProcedures[dhtSimpleValue]->Dup;
-          ht->procs.FreeKey= dhtProcedures[dhtSimpleValue]->Free;
+          ht->procs.DupKeyValue= dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.FreeKeyValue= dhtProcedures[dhtSimpleValue]->Free;
         }
         else if (KeyPolicy==dhtCopy)
         {
-          ht->procs.DupKey= dhtProcedures[KeyType]->Dup;
-          ht->procs.FreeKey= dhtProcedures[KeyType]->Free;
+          ht->procs.DupKeyValue= dhtProcedures[KeyType]->Dup;
+          ht->procs.FreeKeyValue= dhtProcedures[KeyType]->Free;
         }
 
         if (DataPolicy==dhtNoCopy)
@@ -559,8 +559,8 @@ void dhtDestroy(HashTable *ht)
     while (b)
     {
       InternHsElement *tmp= b;
-      (ht->procs.FreeKey)((dhtValue)b->HsEl.Key);
-      (ht->procs.FreeData)((dhtValue)b->HsEl.Data);
+      (ht->procs.FreeData)(b->HsEl.Data);
+      (ht->procs.FreeKeyValue)(b->HsEl.Key.value);
       b= b->Next;
       FreeInternHsElement(tmp);
     }
@@ -599,7 +599,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
     while (b)
     {
       fprintf(f, "%*s    ", ind, "");
-      (ht->procs.DumpKey)(b->HsEl.Key, f);
+      (ht->procs.DumpKeyValue)(b->HsEl.Key.value, f);
       fputs("->", f);
       (ht->procs.DumpData)(b->HsEl.Data, f);
       b= b->Next;
@@ -796,14 +796,25 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   shrinkDirTable(&ht->DirTab);
 }
 
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
+LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
 {
   uLong h;
   InternHsElement **phe;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
+  if (ht->KeyPolicy==dhtNoCopy)
+  {
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
+#else
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
+#endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
   TraceFunctionParamListEnd();
 
   h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
@@ -827,14 +838,25 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   return phe;
 }
 
-void dhtRemoveElement(HashTable *ht, dhtConstValue key)
+void dhtRemoveElement(HashTable *ht, dhtKey key)
 {
   MYNAME(dhtRemoveElement)
   InternHsElement **phe, *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
+  if (ht->KeyPolicy==dhtNoCopy)
+  {
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
+#else
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
+#endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
   TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht, key);
@@ -849,8 +871,8 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
       ht->NextStep= ht->NextStep->Next;
 
     *phe= he->Next;
-    (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
-    (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
+    (ht->procs.FreeData)(he->HsEl.Data);
+    (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
     FreeInternHsElement(he);
     ht->KeyCount--;
     if (ActualLoadFactor(ht) < ht->MinLoadFactor)
@@ -877,39 +899,51 @@ void dhtRemoveElement(HashTable *ht, dhtConstValue key)
   TraceFunctionResultEnd();
 }
 
-dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data)
+/* dhtEnterElement adds the key, data pair.  If an equivalent key already exists
+   then the data will be updated and the existing key will be replaced by the
+   provided key.  (The latter can matter if keys contain data that doesn't affect
+   the equivalence check.)
+   This function allocates copies before freeing any old data, allowing us to bail
+   on failure while leaving the old data intact.  This isn't ideal from a memory-
+   usage perspective, so if this "strong exception guarantee" is unnecessary then
+   the code can likely be simplified and improved. */
+dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 {
   InternHsElement **phe, *he;
-  dhtConstValue KeyV;
-  dhtConstValue DataV;
+  dhtKey KeyV;
+  dhtValue DataV;
+  dhtValue *KeyVPtr;
+  dhtValue *DataVPtr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParam("%p",(void const *)key);
-  TraceFunctionParam("%p",(void const *)data);
-  TraceFunctionParamListEnd();
-
-  assert(key!=0);
-  KeyV = (ht->procs.DupKey)(key);
-  if (KeyV==0)
+  if (ht->KeyPolicy==dhtNoCopy)
   {
-    TraceText("key duplication failed\n");
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+    TraceFunctionParam("%jx",key.value.unsigned_integer);
+#else
+    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
+#endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
+  }
+  if (ht->DtaPolicy==dhtNoCopy)
+  {
+#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
+    TraceFunctionParam("%jx",data.unsigned_integer);
+#else
+    TraceFunctionParam("%lx",(unsigned long)data.unsigned_integer);
+#endif
+  }
+  else
+  {
+    TraceFunctionParam("%p",(void const *)data.object_pointer); // TODO: something more generic here?
   }
 
-  DataV = data==0 ? 0 : (ht->procs.DupData)(data);
-  if (data!=0 && DataV==0)
-  {
-    (ht->procs.FreeKey)((dhtValue)KeyV);
-    TraceText("data duplication failed\n");
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
-  }
+  assert(key.value.object_pointer!=0); /* TODO: This assert assumes that object_pointer is the active member.
+                                          Is there a more generic test we could do?  Do we need one? */
 
   phe = LookupInternHsElement(ht,key);
   TraceValue("%p",(void *)phe);
@@ -923,50 +957,78 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
     TraceEOL();
     if (he==0)
     {
-      (ht->procs.FreeKey)((dhtValue)KeyV);
-      (ht->procs.FreeData)((dhtValue)DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    else
-    {
-      *phe = he;
-      he->Next = NilInternHsElement;
-      ht->KeyCount++;
-    }
+    KeyVPtr = &he->HsEl.Key.value;
+    DataVPtr = &he->HsEl.Data;
   }
   else
   {
-    if (ht->DtaPolicy == dhtCopy)
-      (ht->procs.FreeData)((dhtValue)he->HsEl.Data);
-    if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKey)((dhtValue)he->HsEl.Key);
+    KeyVPtr = &KeyV.value;
+    DataVPtr = &DataV;
   }
-
-  he->HsEl.Key = KeyV;
-  he->HsEl.Data = DataV;
+  if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
+  {
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceText("key duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if ((ht->procs.DupData)(data, DataVPtr))
+  {
+    (ht->procs.FreeKeyValue)(*KeyVPtr);
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceText("data duplication failed\n");
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if (*phe)
+  {
+    if (ht->DtaPolicy == dhtCopy)
+      (ht->procs.FreeData)(he->HsEl.Data);
+    if (ht->KeyPolicy == dhtCopy)
+      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
+    he->HsEl.Key = KeyV;
+    he->HsEl.Data = DataV;
+  }
+  else
+  {
+    *phe = he;
+    he->Next = NilInternHsElement;
+    ht->KeyCount++;
+  }
 
   if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
   {
-    /*
+#if 0
       fputs("Dumping Hash-Table before expansion\n",stderr);
       fDumpHashTable(ht, stderr);
-    */
+#endif
     if (ExpandHashTable(ht)!=dhtOkStatus)
     {
+      /* TODO: It seems strange to return dhtNilElement AFTER we've added a new entry
+               or overwritten an old one.  Should we return something else here?  Should
+               we check and deal with this issue BEFORE creating or overwriting an entry? */
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    /*
+#if 0
       fputs("Dumping Hash-Table after expansion\n",stderr);
       fDumpHashTable(ht, stderr);
-    */
+#endif
   }
 
   TraceFunctionExit(__func__);
@@ -975,7 +1037,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtConstValue data
   return &he->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
+dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   InternHsElement **phe;
   dhtElement *result;

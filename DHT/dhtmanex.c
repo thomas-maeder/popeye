@@ -4,7 +4,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany  
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 
@@ -32,6 +32,8 @@ int main( )
     int 	Age, Room;
     struct dht	*OurTable;
     dhtElement	*he;
+    dhtKey k;
+    dhtValue v;
 
 #if defined(FXF)
     /* we want to use only 100K for all hashing */
@@ -59,19 +61,21 @@ int main( )
     	info_to_enter->age= Age;
     	info_to_enter->room= Room;
     	/* the string will be duplicated the info not */
-    	dhtEnterElement(OurTable,
-	    (dhtValue)string_to_enter, (dhtValue)info_to_enter);
+        k.value.object_pointer = string_to_enter;
+        v.object_pointer = info_to_enter;
+    	dhtEnterElement(OurTable, k, v);
     }
 
     /* access table */
     while (scanf("%127s", name_to_find) != EOF) {
-	he= dhtLookupElement(OurTable, (dhtValue)name_to_find);
+    k.value.object_pointer = name_to_find;
+	he= dhtLookupElement(OurTable, k);
 	if (he != dhtNilElement) {
 	    /* if item is in the table */
 	    (void)printf("found %s, age = %d, room = %d\n",
-			(char *)he->Key,
-			((struct info *)he->Data)->age,
-			((struct info *)he->Data)->room);
+			(char *)he->Key.value.object_pointer,
+			((struct info *)he->Data.object_pointer)->age,
+			((struct info *)he->Data.object_pointer)->room);
 	} else {
 	    (void)printf("no such employee %s\n", name_to_find);
 	}
@@ -79,7 +83,7 @@ int main( )
     /* now delete all struct info in the table */
     he= dhtGetFirstElement(OurTable);
     while (he) {
-    	free((dhtValue)he->Data);
+    	free(he->Data.object_pointer);
 	he= dhtGetNextElement(OurTable);
     }
     /* now destroy the whole table */

@@ -6,7 +6,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 typedef enum {
@@ -15,28 +15,36 @@ typedef enum {
 
 /* Now finally this is the HashElement */
 typedef struct {
-  dhtConstValue	Key;
-  dhtConstValue	Data;
+  dhtKey    Key;
+  dhtValue  Data;
 } dhtElement;
-#define dhtNilElement	((dhtElement *)0)
+#define dhtNilElement  ((dhtElement *)0)
 
 struct dht;
-#define dhtNilHashTable			((struct dht *)0)
+#define dhtNilHashTable ((struct dht *)0)
 
 /* procedures */
-struct dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
-                      dhtValueType DtaType, dhtValuePolicy DataPolicy);
-dhtElement *dhtEnterElement(struct dht *, dhtConstValue key, dhtConstValue data);
-unsigned int dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
-void	      dhtDestroy	(struct dht *);
-void	      dhtDump		(struct dht *, FILE *);
-void	      dhtDumpIndented	(int i, struct dht *, FILE *);
-void	      dhtRemoveElement	(struct dht *, dhtConstValue key);
-dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
-dhtElement   *dhtGetFirstElement(struct dht *);
-dhtElement   *dhtGetNextElement	(struct dht *);
-unsigned long dhtKeyCount	(struct dht *);
-char const   *dhtErrorMsg	(void);
+struct dht    *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
+                         dhtValueType DtaType, dhtValuePolicy DataPolicy);
+
+/* dhtEnterElement adds the key, data pair.  If an equivalent key already exists
+   then the data will be updated and the existing key will be replaced by the
+   provided key.  (The latter can matter if keys contain data that doesn't affect
+   the equivalence check.)
+   TODO: Is the "equivalent key" behavior what we need/want?  Otherwise it's
+         pessimization in comparison to just leaving the original key intact. */
+dhtElement    *dhtEnterElement(struct dht *, dhtKey key, dhtValue data);
+
+unsigned int   dhtBucketStat(struct dht *, unsigned int *counter, unsigned int n);
+void           dhtDestroy(struct dht *);
+void           dhtDump(struct dht *, FILE *);
+void           dhtDumpIndented(int ind, struct dht *, FILE *);
+void           dhtRemoveElement(struct dht *, dhtKey key);
+dhtElement    *dhtLookupElement(struct dht *, dhtKey key);
+dhtElement    *dhtGetFirstElement(struct dht *);
+dhtElement    *dhtGetNextElement(struct dht *);
+unsigned long  dhtKeyCount(struct dht const *);
+char const    *dhtErrorMsg(void);
 
 extern char dhtError[];
 
