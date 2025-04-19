@@ -1053,3 +1053,39 @@ option movenum produced misleading output in ser-r=3
 solution finished.
 
 
+
+          Walter Lindenthal
+https://github.com/thomas-maeder/popeye/issues/489 2024
+Until 4.89, Popeye would print two solutions with null moves
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .  -S   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .  -R   6
+|                                   |
+5   .   .   .   .   .   .   .   R   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -R   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2.5                      2 + 5
+            AntiMarsCirce
+
+  1...Sh1-g8-f6   2.Rh5-h1-f1 Rh6-h8-g8   3.Rf1*f6 + Se8*f6 #
+  add_to_move_generation_stack:       37529
+                     play_move:        6111
+ is_white_king_square_attacked:        5804
+ is_black_king_square_attacked:        3983
+
+solution finished.
+
+
