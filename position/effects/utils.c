@@ -88,7 +88,6 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_remember_volcanic:
       case move_effect_swap_volcanic:
       case move_effect_revelation_of_new_invisible:
-      case move_effect_revelation_of_castling_partner:
       case move_effect_revelation_of_placed_invisible:
       case move_effect_total_side_exchange:
         /* nothing */

@@ -48,5 +48,13 @@ origin random move by invisible pawn results in promotion
 pieces total 1 white kf3 bf2h5 sf4 pe2e3 black kf1 bh1 
 stipulation h#2
 
+next
+
+title the mate wasn't recognized for a long time because of a silly bug
+pieces white ke1 qe4 black qg4
+total 3
+stip h#2
+option movenum start 16:4:10:7 upto 16:4:10:13
+
 end
 

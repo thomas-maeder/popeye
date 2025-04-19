@@ -240,7 +240,9 @@ static slice_type const move_generator_slice_types[] =
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,
     STNullMoveGenerator,
-    STRoleExchangeMoveGenerator
+    STRoleExchangeMoveGenerator,
+    STPointReflectionTemporaryWalkChanger,
+    STPointReflectionWalkRestorer,
 };
 
 static slice_type const move_reordering_optimiser_slice_types[] =

@@ -58,8 +58,11 @@ char *ParseSquareList(char *tok,
     tok = ParseSquare(tok,&sq);
     if (sq==initsquare)
       break;
-    else
-      handleSquare(sq,param);
+    else if (!handleSquare(sq,param))
+    {
+      tok = 0;
+      break;
+    }
   }
 
   TraceFunctionExit(__func__);

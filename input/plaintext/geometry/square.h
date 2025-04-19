@@ -2,6 +2,7 @@
 #define INPUT_PLAINTEXT_GEOMETRY_SQUARE_H
 
 #include "position/board.h"
+#include "utilities/boolean.h"
 
 #include <limits.h>
 
@@ -12,7 +13,7 @@
  */
 char *ParseSquare(char *tok, square *s);
 
-typedef void (*parsed_square_handler)(square s, void *param);
+typedef boolean (*parsed_square_handler)(square s, void *param);
 
 /* Parse a list of squares from an input token
  * @param tok the input token

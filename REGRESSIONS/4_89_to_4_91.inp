@@ -77,5 +77,125 @@ Pieces Black Og4 White sc8 ke7
 condition make&take
 option nowk nobk
 
-End
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition imitator a7b7c7d7e7f7g7h7g8h8f8e8
+option vari nothreat
+
+next
+
+pieces ka1
+stip ~1
+option enpassant a5b5c5d5e5
+
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition blackmindister e5b8a1
+option vari nothreat
+
+next
+
+pieces white ka1 se5 black kb3 rb8
+stipulation s#3
+condition blackmindister e5e5
+option vari nothreat
+
+next
+
+title Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR][b1=bK] #
+pieces white ke1 bc2 black bc3 totalinv 3
+stipulation h#2.5
+option movenum
+
+next
+
+title Popeye 4.89 didn't find this solution
+pieces white ke1 rb2 black bb8 totalinvisible 3
+stipulation h#3.5
+option movenum start 18:9:1:6:10:1 upto 18:9:1:6:10:40 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 bg8 black bc1 totalinvisible 3
+stipulation h#3.5
+option movenum start 15:9:10:2:1:9:3 upto 15:9:10:2:1:9:3 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 pf2 black bh2 totalinvisible 3
+stipulation h#3.5
+option movenum start 3:1:3:4:2:2:5 upto 3:1:3:4:2:2:5 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 ph7 black bb2 totalinvisible 3
+stipulation h#3.5
+option movenum start 4:1:8:7:2:2:7 upto 4:1:8:7:2:2:7 
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 qg1 black be3 totalinvisible 3
+stipulation h#3.5
+option movenum start 3:7:15:1:1:8:2 upto 3:7:15:1:1:8:2  
+
+next
+
+title Popeye 4.89 considered this move sequence a solution
+pieces white ke1 rb1 black bg1 totalinvisible 3
+stipulation h#3.5
+option movenum start 9:7:2:2:2:10:6 upto 9:7:2:2:2:10:6  
+
+next
+
+title an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ TI~*g5   4.TI~*h3[g5=wQ!!!][h3=bK] Rf1-f3 # here
+pieces white ke1 bg4 black bd8 totalinv 3
+stipulation h#3.5
+option movenum start 4:8:22:1:2:2 upto 4:8:22:1:2:2
+
+next
+
+title an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK]   3.Ba5-e1 Rd1-d2   4.Kf2-g1 TI~*e1 #, but 2.-Sb4-c2 and no mate
+pieces white ke1 pf2 black ba5 totalinv 3
+stipulation h#3.5
+option movenum start 3:2:1:11:13:4:2:1 upto 3:2:1:11:13:4:2:40
+
+next
+
+title so far, Popeye hasn't found this solution
+pieces white kh8 qe3 sc1 black pe4 totalinv 2
+stip h#2
+
+next
+
+title an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]0-0-0[b2=wR][h1=bK][d1=wR] # here
+pieces white ke1 bf3 black bb2 totalinv 3
+stip h#3
+option movenum start 11:1:1:12:2:3 upto 11:1:1:12:2:3
+
+next
+
+title an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*a4   4.TI~*f1[a4=wQ][f1=bK] Qa4-d1 #
+pieces white ke1 rf1 black pb5 totalinv 3
+stip h#3.5
+option movenum start 4:5:12:1:2:2:1 upto 4:5:12:1:2:2:40
+
+next
+
+title option movenum produced misleading output in ser-r=3
+auth Nils Adrian Bakke
+orig feenschach 1991
+fors 32/2k5/8/7p/1K6
+stip ser-r=3
+cond castl
+option movenum
+
+end
 

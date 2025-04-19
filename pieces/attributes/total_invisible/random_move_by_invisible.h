@@ -4,7 +4,7 @@
 #include "position/position.h"
 #include "solving/ply.h"
 
-void flesh_out_random_move_by_invisible(void);
+void forward_flesh_out_random_move_by_invisible(void);
 
 boolean is_random_move_by_invisible(ply ply);
 

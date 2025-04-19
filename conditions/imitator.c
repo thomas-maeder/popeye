@@ -1055,9 +1055,11 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
 
   if (being_solved.number_of_imitators==maxinum)
     output_plaintext_fatal_message(ManyImitators);
-
-  being_solved.isquare[being_solved.number_of_imitators] = to;
-  ++being_solved.number_of_imitators;
+  else
+  {
+    being_solved.isquare[being_solved.number_of_imitators] = to;
+    ++being_solved.number_of_imitators;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1084,9 +1086,11 @@ static void redo_imitator_addition(move_effect_journal_entry_type const *entry)
 
   if (being_solved.number_of_imitators==maxinum)
     output_plaintext_fatal_message(ManyImitators);
-
-  being_solved.isquare[being_solved.number_of_imitators] = to;
-  ++being_solved.number_of_imitators;
+  else
+  {
+    being_solved.isquare[being_solved.number_of_imitators] = to;
+    ++being_solved.number_of_imitators;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

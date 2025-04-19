@@ -594,10 +594,11 @@ optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c 
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  debugging/measure.h solving/move_effect_journal.h \
-  position/castling_rights.h position/pieceid.h stipulation/pipe.h \
-  stipulation/move.h solving/machinery/slack_length.h solving/pipe.h \
-  stipulation/proxy.h stipulation/slice_insertion.h debugging/assert.h
+  debugging/measure.h output/plaintext/protocol.h \
+  solving/move_effect_journal.h position/castling_rights.h \
+  position/pieceid.h stipulation/pipe.h stipulation/move.h \
+  solving/machinery/slack_length.h solving/pipe.h stipulation/proxy.h \
+  stipulation/slice_insertion.h debugging/assert.h
 
 optimisations/detect_retraction.h:
 
@@ -667,6 +668,8 @@ stipulation/traversal.h:
 
 debugging/measure.h:
 
+output/plaintext/protocol.h:
+
 solving/move_effect_journal.h:
 
 position/castling_rights.h:
@@ -710,8 +713,8 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
   stipulation/slice_contextual_type.h \
   stipulation/slice_contextual_type.enum.h \
   stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  debugging/measure.h solving/pipe.h stipulation/branch.h \
-  stipulation/pipe.h
+  debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+  stipulation/branch.h stipulation/pipe.h
 
 optimisations/observation.h:
 
@@ -806,6 +809,8 @@ stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 solving/pipe.h:
 

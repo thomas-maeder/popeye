@@ -1,4 +1,4 @@
-solving/machinery/solvers.obj: solving/machinery/solvers.c \
+solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/machinery/solvers.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -13,7 +13,7 @@ solving/machinery/solvers.obj: solving/machinery/solvers.c \
  pieces/walks/vectors.h retro/retro.h solving/selfcheck_guard.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/check.h debugging/measure.h \
- pieces/attributes/total_invisible.h \
+ output/plaintext/protocol.h pieces/attributes/total_invisible.h \
  pieces/attributes/total_invisible/goal_validation.h \
  pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -162,6 +162,7 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 solving/check.h:
 debugging/measure.h:
+output/plaintext/protocol.h:
 pieces/attributes/total_invisible.h:
 pieces/attributes/total_invisible/goal_validation.h:
 pieces/walks/pawns/promotion.h:
@@ -385,7 +386,7 @@ optimisations/goals/remove_non_reachers.h:
 optimisations/detect_retraction.h:
 optimisations/observation.h:
 debugging/assert.h:
-solving/machinery/solve.obj: solving/machinery/solve.c \
+solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -395,7 +396,7 @@ solving/machinery/solve.obj: solving/machinery/solve.c \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/machinery/slack_length.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
- debugging/measure.h debugging/assert.h
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 solving/machinery/solve.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -419,8 +420,9 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 debugging/measure.h:
+output/plaintext/protocol.h:
 debugging/assert.h:
-solving/machinery/twin.obj: solving/machinery/twin.c \
+solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  solving/machinery/twin.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -461,11 +463,11 @@ solving/machinery/twin.obj: solving/machinery/twin.c \
  conditions/football.h conditions/forced_squares.h conditions/geneva.h \
  conditions/imitator.h conditions/immune.h conditions/isardam.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
- debugging/measure.h conditions/marscirce/anti.h \
- conditions/marscirce/phantom.h conditions/must_capture.h \
- conditions/republican.h conditions/sentinelles.h \
- conditions/singlebox/type1.h conditions/synchronous.h \
- conditions/transmuting_kings/super.h \
+ debugging/measure.h output/plaintext/protocol.h \
+ conditions/marscirce/anti.h conditions/marscirce/phantom.h \
+ conditions/must_capture.h conditions/republican.h \
+ conditions/sentinelles.h conditions/singlebox/type1.h \
+ conditions/synchronous.h conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/multicaptures.h \
  options/options.h optimisations/count_nr_opponent_moves/move_generator.h \
@@ -562,6 +564,7 @@ conditions/isardam.h:
 conditions/marscirce/marscirce.h:
 solving/move_generator.h:
 debugging/measure.h:
+output/plaintext/protocol.h:
 conditions/marscirce/anti.h:
 conditions/marscirce/phantom.h:
 conditions/must_capture.h:
@@ -594,7 +597,7 @@ stipulation/branch.h:
 stipulation/proxy.h:
 stipulation/pipe.h:
 debugging/assert.h:
-solving/machinery/intro.obj: solving/machinery/intro.c \
+solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/machinery/intro.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -614,7 +617,7 @@ solving/machinery/intro.obj: solving/machinery/intro.c \
  solving/battle_play/attack_adapter.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/battle_play/defense_adapter.h solving/help_play/adapter.h \
- debugging/assert.h debugging/measure.h
+ debugging/assert.h debugging/measure.h output/plaintext/protocol.h
 solving/machinery/intro.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -652,7 +655,8 @@ solving/battle_play/defense_adapter.h:
 solving/help_play/adapter.h:
 debugging/assert.h:
 debugging/measure.h:
-solving/machinery/dispatch.obj: solving/machinery/dispatch.c \
+output/plaintext/protocol.h:
+solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/machinery/dispatch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -704,8 +708,9 @@ solving/machinery/dispatch.obj: solving/machinery/dispatch.c \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
  conditions/monochrome.h solving/move_generator.h debugging/measure.h \
- conditions/bichrome.h conditions/transmissionmenace.h \
- conditions/powertransfer.h conditions/ultraschachzwang/legality_tester.h \
+ output/plaintext/protocol.h conditions/bichrome.h \
+ conditions/transmissionmenace.h conditions/powertransfer.h \
+ conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
@@ -976,6 +981,7 @@ conditions/patrol.h:
 conditions/monochrome.h:
 solving/move_generator.h:
 debugging/measure.h:
+output/plaintext/protocol.h:
 conditions/bichrome.h:
 conditions/transmissionmenace.h:
 conditions/powertransfer.h:
@@ -1276,7 +1282,7 @@ platform/platform.h:
 platform/maxmem.h:
 platform/timer.h:
 pieces/attributes/total_invisible/consumption.h:
-solving/machinery/slack_length.obj: solving/machinery/slack_length.c \
+solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
  solving/machinery/slack_length.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \

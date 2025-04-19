@@ -12,10 +12,15 @@
  */
 boolean point_reflection_enforce_observer_walk(slice_index si);
 
-/* Generate moves for a single piece
+/* Temporarily change walks of oppenent's pieces before move generation
  * @param identifies generator slice
  */
-void point_reflection_generate_moves_for_piece(slice_index si);
+void point_reflection_temporarily_change_walks(slice_index si);
+
+/* Resotre walks of oppenent's pieces
+ * @param identifies generator slice
+ */
+void point_reflection_restore_walks(slice_index si);
 
 /* Inialise the solving machinery with Annan Chess
  * @param si identifies root slice of solving machinery

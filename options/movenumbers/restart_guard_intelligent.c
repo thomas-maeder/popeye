@@ -71,6 +71,7 @@ static void print_nr_potential_target_positions(void)
   output_plaintext_message(PotentialMates,
           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
   output_plaintext_print_time("  (",")");
+  protocol_fflush(stdout);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

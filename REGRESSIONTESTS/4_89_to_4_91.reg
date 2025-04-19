@@ -373,3 +373,683 @@ clarification of Orphan + Make&Take - the wK "makes" like a black Orphan when it
 solution finished.
 
 
+input-error:too many imitators
+offending item: a7b7c7d7e7f7g7h7g8h8f8e8
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .   .   .   I   I   8
+|                                   |
+7   I   I   I   I   I   I   I   I   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         2 + 2
+Imitator a7 b7 c7 d7 e7 f7 g7 h7 g8 h8
+
+  add_to_move_generation_stack:          11
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+
+solution finished.
+
+
+input-error:no color specified - all specification input ignored
+offending item: ka1
+input-error:offending item: ka1
+offending item: ka1
+Not more than 2 squares can be input for en passant keys.
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          0 + 0
+both sides need a king
+Inconsistent retro information
+
+problem ignored
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+Exactly 2 dister reference squares have to be indicated
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         2 + 2
+
+  add_to_move_generation_stack:        3322
+                     play_move:        2224
+ is_white_king_square_attacked:        2053
+ is_black_king_square_attacked:         375
+
+solution finished.
+
+
+Exactly 2 dister reference squares have to be indicated
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         2 + 2
+
+  add_to_move_generation_stack:        3322
+                     play_move:        2224
+ is_white_king_square_attacked:        2053
+ is_black_king_square_attacked:         375
+
+solution finished.
+
+
+
+Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR][b1=bK] #
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                2 + 1 + 3 TI
+
+  1  (TI~-~ )
+  2  (TI~*c3 )
+  3  (0-0-0 )
+  4  (0-0 )
+  5  (Ke1-f2 )
+  6  (Ke1-d2 )
+  7  (Ke1-d1 )
+  8  (Ke1-e2 )
+  9  (Ke1-f1 )
+ 10  (Bc2-b1 )
+ 11  (Bc2-d1 )
+ 12  (Bc2-h7 )
+ 13  (Bc2-g6 )
+ 14  (Bc2-f5 )
+ 15  (Bc2-e4 )
+ 16  (Bc2-d3 )
+ 17  (Bc2-a4 )
+ 18  (Bc2-b3 )
+  add_to_move_generation_stack:      841131
+                     play_move:      921472
+ is_white_king_square_attacked:       60410
+ is_black_king_square_attacked:       65819
+                  TI decisions:     8967760
+
+solution finished.
+
+
+
+Popeye 4.89 didn't find this solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -B   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   R   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+ 18  (Rb2-h2 )
+ 18:9  (Bb8-c7 )
+ 18:9:1  (TI~-~ )
+ 18:9:1:6  (Bc7-g3 )
+ 18:9:1:6:10  (Rh2-h1 )
+ 18:9:1:6:10:1  (TI~-~ )
+ 18:9:1:6:10:2  (TI~*h1 )
+  1...Rb2-h2   2.Bb8-c7 TI~-~   3.Bc7-g3 Rh2-h1   4.TI~*h1 0-0-0[f2=wR][h1=bK] #
+ 18:9:1:6:10:3  (Bg3-f2 )
+ 18:9:1:6:10:4  (Bg3-h2 )
+ 18:9:1:6:10:5  (Bg3-h4 )
+ 18:9:1:6:10:6  (Bg3-b8 )
+ 18:9:1:6:10:7  (Bg3-c7 )
+ 18:9:1:6:10:8  (Bg3-d6 )
+ 18:9:1:6:10:9  (Bg3-e5 )
+ 18:9:1:6:10:10  (Bg3-f4 )
+  add_to_move_generation_stack:         480
+                     play_move:         517
+ is_white_king_square_attacked:          30
+ is_black_king_square_attacked:         170
+                  TI decisions:       14906
+
+solution finished.
+
+
+
+Popeye 4.89 considered this move sequence a solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   B   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -B   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+ 15  (Bg8-h7 )
+ 15:9  (Bc1-b2 )
+ 15:9:10  (Bh7-b1 )
+ 15:9:10:2  (TI~*b1 )
+ 15:9:10:2:1  (TI~-~ )
+ 15:9:10:2:1:9  (Bb2-c3 )
+ 15:9:10:2:1:9:3  (0-0 )
+  add_to_move_generation_stack:         527
+                     play_move:         569
+ is_white_king_square_attacked:          46
+ is_black_king_square_attacked:         354
+                  TI decisions:        1452
+
+solution finished.
+
+
+
+Popeye 4.89 considered this move sequence a solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .  -B   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  3  (0-0-0 )
+  3:1  (TI~-~ )
+  3:1:3  (Kc1-d2 )
+  3:1:3:4  (Bh2-g1 )
+  3:1:3:4:2  (TI~*g1 )
+  3:1:3:4:2:2  (TI~*f2 )
+  3:1:3:4:2:2:5  (Rd1-f1 )
+  add_to_move_generation_stack:         100
+                     play_move:          98
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           4
+                  TI decisions:         420
+
+solution finished.
+
+
+
+Popeye 4.89 considered this move sequence a solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  4  (0-0 )
+  4:1  (TI~-~ )
+  4:1:8  (Rf1-f8 )
+  4:1:8:7  (Bb2-g7 )
+  4:1:8:7:2  (TI~*g7 )
+  4:1:8:7:2:2  (TI~*f8 )
+  4:1:8:7:2:2:7  (h7-h8=Q )
+  add_to_move_generation_stack:         100
+                     play_move:         121
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           2
+                  TI decisions:         834
+
+solution finished.
+
+
+
+Popeye 4.89 considered this move sequence a solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   Q   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  3  (0-0-0 )
+  3:7  (Be3-h6 )
+  3:7:15  (Rd1-e1 )
+  3:7:15:1  (TI~-~ )
+  3:7:15:1:1  (TI~-~ )
+  3:7:15:1:1:8  (Bh6-f8 )
+  3:7:15:1:1:8:2  (TI~*f8 )
+  add_to_move_generation_stack:         202
+                     play_move:         210
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          36
+                  TI decisions:        2519
+
+solution finished.
+
+
+
+Popeye 4.89 considered this move sequence a solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   R   .   .   K   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  9  (Rb1-b3 )
+  9:7  (Bg1-d4 )
+  9:7:2  (TI~*d4 )
+  9:7:2:2  (TI~*b3 )
+  9:7:2:2:2  (0-0-0 )
+  9:7:2:2:2:10  (Kb3-c3 )
+  9:7:2:2:2:10:6  (Rd1-d3 )
+  add_to_move_generation_stack:          94
+                     play_move:          91
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           5
+                  TI decisions:         391
+
+solution finished.
+
+
+
+an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ TI~*g5   4.TI~*h3[g5=wQ!!!][h3=bK] Rf1-f3 # here
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -B   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  4  (0-0 )
+  4:8  (Bd8-g5 )
+  4:8:22  (Bg4-h3 )
+  4:8:22:1  (TI~-~ )
+  4:8:22:1:2  (TI~*g5 )
+  4:8:22:1:2:2  (TI~*h3 )
+  add_to_move_generation_stack:         206
+                     play_move:         218
+ is_white_king_square_attacked:          30
+ is_black_king_square_attacked:          17
+                  TI decisions:         955
+
+solution finished.
+
+
+
+an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK]   3.Ba5-e1 Rd1-d2   4.Kf2-g1 TI~*e1 #, but 2.-Sb4-c2 and no mate
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -B   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  3  (0-0-0 )
+  3:2  (TI~*f2 )
+  3:2:1  (TI~-~ )
+  3:2:1:11  (Ba5-e1 )
+  3:2:1:11:13  (Rd1-d2 )
+  3:2:1:11:13:4  (Kf2-g1 )
+  3:2:1:11:13:4:2  (TI~*e1 )
+  add_to_move_generation_stack:         145
+                     play_move:         155
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          25
+                  TI decisions:        1434
+
+solution finished.
+
+
+
+so far, Popeye hasn't found this solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   Q   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 1 + 2 TI
+
+  1.TI~*c1 TI~*e4[e4=wS][c1=bK]   2.Kc1-d1 Qe3-d2 #
+  add_to_move_generation_stack:       15228
+                     play_move:       25735
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        4663
+                  TI decisions:       87587
+
+solution finished.
+
+
+
+an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]0-0-0[b2=wR][h1=bK][d1=wR] # here
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .  -B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                  2 + 1 + 3 TI
+
+ 11  (Bb2-a3 )
+ 11:1  (TI~-~ )
+ 11:1:1  (TI~-~ )
+ 11:1:1:12  (Bf3-h1 )
+ 11:1:1:12:2  (TI~*h1 )
+ 11:1:1:12:2:3  (0-0-0 )
+  add_to_move_generation_stack:         266
+                     play_move:         264
+ is_white_king_square_attacked:          26
+ is_black_king_square_attacked:         122
+                  TI decisions:         241
+
+solution finished.
+
+
+
+an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*a4   4.TI~*f1[a4=wQ][f1=bK] Qa4-d1 #
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  4  (Ke1-f2 )
+  4:5  ([+wTIa4]b5*a4 )
+  4:5:12  (Kf2-g3 )
+  4:5:12:1  (TI~-~ )
+  4:5:12:1:2  (TI~*a4 )
+  4:5:12:1:2:2  (TI~*f1 )
+  4:5:12:1:2:2:1  (TI~-~ )
+  4:5:12:1:2:2:2  (Kg3-f2 )
+  4:5:12:1:2:2:3  (Kg3-h2 )
+  4:5:12:1:2:2:4  (Kg3-h4 )
+  4:5:12:1:2:2:5  (Kg3-f4 )
+  4:5:12:1:2:2:6  (Kg3-g2 )
+  4:5:12:1:2:2:7  (Kg3-f3 )
+  4:5:12:1:2:2:8  (Kg3-g4 )
+  4:5:12:1:2:2:9  (Kg3-h3 )
+  add_to_move_generation_stack:          76
+                     play_move:         125
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           7
+                  TI decisions:         534
+
+solution finished.
+
+
+
+          Nils Adrian Bakke
+           feenschach 1991
+option movenum produced misleading output in ser-r=3
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-r=3                     1 + 2
+            CastlingChess
+
+  1  (Kb1-c2 )
+  1.Kb1-c2   2.Kc2-e2/bPh2-d2   3.Ke2-d1 Kc4-d3 =
+  2  (Kb1-a2 )
+  1.Kb1-a2   2.Ka2-c2/bPh2-b2   3.Kc2-b1 Kc4-b3 =
+  3  (Kb1-a1 )
+  4  (Kb1-b2 )
+  1.Kb1-b2   2.Kb2-d2/bPh2-c2   3.Kd2-c1 Kc4-c3 =
+  5  (Kb1-c1 )
+  add_to_move_generation_stack:        7245
+                     play_move:        2601
+ is_white_king_square_attacked:        3257
+ is_black_king_square_attacked:        1716
+
+solution finished.
+
+

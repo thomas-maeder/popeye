@@ -31,7 +31,9 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
     square s = king_pos+vec[k];
 
     while (is_square_empty(s)
-           && (is_taboo(s,side_checking) || was_taboo(s,side_checking) || will_be_taboo(s,side_checking)))
+           && ((is_taboo(s,White,nbply) && is_taboo(s,Black,nbply))
+               || (was_taboo(s,White,nbply) && was_taboo(s,Black,nbply))
+               || (will_be_taboo(s,White,nbply) && will_be_taboo(s,Black,nbply))))
       s += vec[k];
 
     {
@@ -163,6 +165,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
         if ((walk_attacker==Queen || walk_attacker==Rook)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
         {
+          TraceWalk(walk_attacker);TraceSquare(sq_attacker);TraceEOL();
           result = k;
           break;
         }
@@ -179,6 +182,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
         if ((walk_attacker==Queen || walk_attacker==Bishop)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
         {
+          TraceWalk(walk_attacker);TraceSquare(sq_attacker);TraceEOL();
           result = k;
           break;
         }

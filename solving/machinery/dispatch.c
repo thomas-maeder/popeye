@@ -43,6 +43,7 @@
 #include "conditions/circe/capture_square.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
@@ -384,9 +385,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);
@@ -2526,10 +2527,6 @@ void dispatch(slice_index si)
       nanna_generate_moves_for_piece(si);
       break;
 
-    case STPointReflectionMovesForPieceGenerator:
-      point_reflection_generate_moves_for_piece(si);
-      break;
-
     case STFaceToFaceMovesForPieceGenerator:
       facetoface_generate_moves_for_piece(si);
       break;
@@ -2624,6 +2621,14 @@ void dispatch(slice_index si)
       pepo_is_square_observed(si);
       break;
 
+    case STPointReflectionTemporaryWalkChanger:
+      point_reflection_temporarily_change_walks(si);
+      break;
+
+    case STPointReflectionWalkRestorer:
+      point_reflection_restore_walks(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -2632,9 +2637,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);

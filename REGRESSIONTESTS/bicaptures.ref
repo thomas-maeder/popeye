@@ -71,10 +71,10 @@ solution finished.
 
   1.f2-f1=R d7*e8=Q   2.Rf1*f5 Qe8-e7 #
   1.f2*g1=B d7-d8=S   2.Bg1*c5 Sd8-b7 #
-  add_to_move_generation_stack:      678567
-                     play_move:      434889
+  add_to_move_generation_stack:      680121
+                     play_move:      436396
  is_white_king_square_attacked:       99197
- is_black_king_square_attacked:      345812
+ is_black_king_square_attacked:      347319
 
 solution finished.
 
@@ -108,18 +108,18 @@ solution finished.
 a) 
 
   1.Rd4*e4 a6*b7   2.Kf3*e4 Qa8*b7 #
-  add_to_move_generation_stack:      664938
-                     play_move:      222303
+  add_to_move_generation_stack:      664987
+                     play_move:      222339
  is_white_king_square_attacked:       79495
- is_black_king_square_attacked:      219767
+ is_black_king_square_attacked:      219795
 
 b) wQa8<-->bQf8  
 
   1.Sh5*f4 g6*f7   2.Kf3*f4 Qf8*f7 #
-  add_to_move_generation_stack:      698203
-                     play_move:      221146
+  add_to_move_generation_stack:      698255
+                     play_move:      221190
  is_white_king_square_attacked:       79984
- is_black_king_square_attacked:      218534
+ is_black_king_square_attacked:      218573
 
 solution finished.
 
@@ -153,17 +153,17 @@ solution finished.
 a) 
 
   1.Sb6*c4 Qf5*e6   2.Sc4-b6 Qe6-e3   3.Sb6-d5 + Rg5*d5 #
-  add_to_move_generation_stack:    51962999
-                     play_move:    24182387
- is_white_king_square_attacked:    23620667
+  add_to_move_generation_stack:    51963833
+                     play_move:    24182657
+ is_white_king_square_attacked:    23620833
  is_black_king_square_attacked:    16975716
 
 b) wSb6-->f2  
 
   1.Sf2*h3 Qf5*g5   2.Sh3-f2 Qg5-e3   3.Sf2-g4 + Be6*g4 #
-  add_to_move_generation_stack:    48753779
-                     play_move:    22348935
- is_white_king_square_attacked:    21753750
+  add_to_move_generation_stack:    48754444
+                     play_move:    22349277
+ is_white_king_square_attacked:    21754026
  is_black_king_square_attacked:    15623237
 
 solution finished.

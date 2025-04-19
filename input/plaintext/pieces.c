@@ -48,7 +48,7 @@ typedef struct
  * @param s where to add the piece
  * @param param other aspectes of the piece
  */
-static void HandleAddedPiece(square s, void *param)
+static boolean HandleAddedPiece(square s, void *param)
 {
   piece_addition_settings * const settings = param;
 
@@ -62,10 +62,10 @@ static void HandleAddedPiece(square s, void *param)
     move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
   }
 
-  move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                        s,settings->walk,
-                                        settings->spec,
-                                        no_side);
+  return move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                               s,settings->walk,
+                                               settings->spec,
+                                               no_side);
 }
 
 /* Parse a piece walk from its shortcut
@@ -240,6 +240,8 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
         tok = ParseSquareList(squares_tok,&HandleAddedPiece,&settings);
         if (tok==squares_tok)
           output_plaintext_input_error_message(MissngSquareList);
+        else if (tok==0)
+          output_plaintext_error_message(PieceAdditionFailed);
         else if (*tok!=0)
           output_plaintext_error_message(WrongSquareList);
       }
@@ -249,7 +251,13 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec)
          * * a valid square list, e.g. Ba1b2
          * * the remainder of a different word e.g. Black
          */
-        if (*ParseSquareList(tok,&HandleAddedPiece,&settings)!=0)
+        char * const tmp = ParseSquareList(tok,&HandleAddedPiece,&settings);
+        if (tmp==0)
+        {
+          output_plaintext_error_message(PieceAdditionFailed);
+          tok = 0;
+        }
+        else if (*tmp!=0)
         {
           tok = save_tok;
           break;
