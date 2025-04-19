@@ -9,6 +9,11 @@
 
 extern circe_variant_type antimars_variant;
 
+/* Prevent Anti-Marscirce from generating null moves
+ * @param si identifies the slice
+ */
+void anti_mars_circe_reject_null_moves(slice_index si);
+
 /* Inialise solving in Anti-Mars Circe
  */
 void solving_initialise_antimars(slice_index si);

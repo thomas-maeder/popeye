@@ -571,6 +571,7 @@
     ENUMERATOR(STMarsCirceGenerateFromRebirthSquare),                   \
     ENUMERATOR(STMoveGeneratorRejectCaptures),                          \
     ENUMERATOR(STMoveGeneratorRejectNoncaptures),                       \
+    ENUMERATOR(STAntiMarsCirceRejectNullMoves),                         \
     ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
     ENUMERATOR(STHaanChessHoleInserter),                                \
     ENUMERATOR(STCastlingChessMovePlayer),                              \

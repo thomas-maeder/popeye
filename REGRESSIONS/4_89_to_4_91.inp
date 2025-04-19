@@ -197,5 +197,14 @@ stip ser-r=3
 cond castl
 option movenum
 
+next
+
+title Until 4.89, Popeye would print two solutions with null moves
+author Walter Lindenthal
+origin https://github.com/thomas-maeder/popeye/issues/489 2024
+stip hs#2.5
+cond antimarscirce
+piec Whit Kc8 Rh5 blac Ka6 Se8 Sh1 Re1 Rh6
+
 end
 

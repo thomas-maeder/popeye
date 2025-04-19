@@ -87,6 +87,7 @@ static slice_index const slice_rank_order[] =
     STMarsCirceMoveGeneratorEnforceRexInclusive,
     STMakeTakeGenerateCapturesWalkByWalk,
     STBoleroGenerateMovesWalkByWalk,
+    STAntiMarsCirceRejectNullMoves,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,
