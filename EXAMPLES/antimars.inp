@@ -15,4 +15,14 @@ opt set var try
 fors 1S1S4/5R2/8/2k2P2/8/4Rp1b/8/K2s4/
 cond antimarscirce
 
-end
+next
+
+author Walter Lindenthal
+origin Andernach solving tourney 2024
+Stipulation h#2
+Condition AntiMarsCirce
+Pieces black Kf6 Bg1 Rh5 Pe6d7
+       white Kf1 Rh1 Sh4 Bf5
+
+EndProblem
+

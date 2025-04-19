@@ -33,7 +33,8 @@ void anti_mars_circe_reject_null_moves(slice_index si)
     TraceSquare(move_generation_stack[i].departure);
     TraceSquare(move_generation_stack[i].arrival);
 
-    if (move_generation_stack[i].arrival==move_generation_stack[i].departure)
+    if (move_generation_stack[i].arrival==move_generation_stack[i].departure
+        && move_generation_stack[i].capture==no_capture)
     {
       TraceText("rejecting");
     }
