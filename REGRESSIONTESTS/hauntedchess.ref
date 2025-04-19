@@ -320,10 +320,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
             HauntedChess
 
   1.h2-h1=Q + Be4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Bh1-a8[+bQh1]   4.Qh1*a8 Ke2-d2   5.Qa8-a3[+wBa8] Ba8-d5 #
-  add_to_move_generation_stack:   156050941
-                     play_move:   130481836
- is_white_king_square_attacked:    34629453
- is_black_king_square_attacked:   106030160
+  add_to_move_generation_stack:   158243690
+                     play_move:   131304573
+ is_white_king_square_attacked:    34932581
+ is_black_king_square_attacked:   106852897
 
 solution finished.
 
