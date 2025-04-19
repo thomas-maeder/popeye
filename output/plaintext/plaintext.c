@@ -142,6 +142,17 @@ static void write_departure(output_plaintext_move_context_type *context,
 static void write_castling(output_plaintext_move_context_type *context,
                            move_effect_journal_index_type movement)
 {
+  move_effect_journal_index_type const phantom_movement = find_pre_move_effect(move_effect_piece_movement,
+                                                                               move_effect_reason_phantom_movement);
+
+  if (phantom_movement!=move_effect_journal_index_null)
+  {
+    write_departing_piece(context,phantom_movement);
+    (*context->engine->fputc)('-',context->file);
+    WriteSquare(context->engine,context->file,move_effect_journal[phantom_movement].u.piece_movement.to);
+    (*context->engine->fputc)('-',context->file);
+  }
+
   if (CondFlag[castlingchess] || CondFlag[rokagogo])
   {
     WriteWalk(context->engine,context->file,move_effect_journal[movement].u.piece_movement.moving);
@@ -925,6 +936,7 @@ static void write_pre_capture_effect(output_engine_type const *engine,
                                      output_symbol_table_type const *symbol_table)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+
   switch (move_effect_journal[base].type)
   {
     case move_effect_walk_change:
