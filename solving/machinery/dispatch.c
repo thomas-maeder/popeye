@@ -2483,6 +2483,10 @@ void dispatch(slice_index si)
       move_generation_reject_non_captures(si);
       break;
 
+    case STAntiMarsCirceRejectNullMoves:
+      anti_mars_circe_reject_null_moves(si);
+      break;
+
     case STVaultingKingsMovesForPieceGenerator:
       vaulting_kings_generate_moves_for_piece(si);
       break;

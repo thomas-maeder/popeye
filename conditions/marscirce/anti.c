@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
@@ -11,6 +12,46 @@
 #include "debugging/assert.h"
 
 circe_variant_type antimars_variant;
+
+/* Prevent Anti-Marscirce from generating null moves
+ * @param si identifies the slice
+ */
+void anti_mars_circe_reject_null_moves(slice_index si)
+{
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  numecoup i;
+  numecoup new_top = base;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_move_generation_delegate(si);
+
+  for (i = base+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+  {
+    TraceSquare(move_generation_stack[i].departure);
+    TraceSquare(move_generation_stack[i].arrival);
+
+    if (move_generation_stack[i].arrival==move_generation_stack[i].departure)
+    {
+      TraceText("rejecting");
+    }
+    else
+    {
+      TraceText("accepting");
+      ++new_top;
+      move_generation_stack[new_top] = move_generation_stack[i];
+    }
+
+    TraceEOL();
+  }
+
+  SET_CURRMOVE(nbply,new_top);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
@@ -44,6 +85,7 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STAntiMarsCirceRejectNullMoves),
         alloc_pipe(STMarsCirceFixDeparture),
         alloc_pipe(STMarsCirceGenerateFromRebirthSquare),
         alloc_pipe(STMarsCirceRememberRebirth),
