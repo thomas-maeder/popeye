@@ -67,7 +67,6 @@ static slice_index const slice_rank_order[] =
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
     STTotalInvisibleSpecialMoveGenerator,
-    STCastlingGenerator,
     STAnnanMovesForPieceGenerator,
     STNannaMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
@@ -78,7 +77,6 @@ static slice_index const slice_rank_order[] =
     STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
     STRokagogoMovesForPieceGeneratorFilter,
-    STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
     STMoveForPieceGeneratorTwoPaths,
@@ -94,6 +92,8 @@ static slice_index const slice_rank_order[] =
     STAntimarsCirceConsideringRebirth,
     STCirceDoneWithRebirth,
     STMarsCirceGenerateFromRebirthSquare,
+    STCastlingGenerator,
+    STCastlingChessMovesForPieceGenerator,
     STPlusAdditionalCapturesForPieceGenerator,
     STMarsCirceRememberRebirth,
     STMarsCirceRememberNoRebirth,
@@ -304,8 +304,8 @@ void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
   stip_structure_traversal st;
 
   solving_instrument_moves_for_piece_generation(si,
-                                     side,
-                                     STMoveForPieceGeneratorPathsJoint);
+                                                side,
+                                                STMoveForPieceGeneratorPathsJoint);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,

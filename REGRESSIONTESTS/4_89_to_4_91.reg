@@ -1089,3 +1089,67 @@ Until 4.89, Popeye would print two solutions with null moves
 solution finished.
 
 
+
+ generate castling with reborn king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 0
+            AntiMarsCirce
+both sides need a king
+
+   1.0-0 !
+
+   1.Kd1-e1-f2 !
+
+   1.Kd1-e1-d2 !
+
+   1.Kd1-e1-e2 !
+
+   1.Kd1-e1-f1 !
+
+   1.Rh1-h1-e1 !
+
+   1.Rh1-h1-f1 !
+
+   1.Rh1-h1-g1 !
+
+   1.Rh1-h1-h8 !
+
+   1.Rh1-h1-h7 !
+
+   1.Rh1-h1-h6 !
+
+   1.Rh1-h1-h5 !
+
+   1.Rh1-h1-h4 !
+
+   1.Rh1-h1-h3 !
+
+   1.Rh1-h1-h2 !
+
+  add_to_move_generation_stack:          31
+                     play_move:          15
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

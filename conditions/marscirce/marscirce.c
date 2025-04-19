@@ -1,6 +1,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/circe/circe.h"
+#include "solving/castling.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "position/effects/piece_movement.h"
@@ -213,7 +214,22 @@ void marscirce_generate_from_rebirth_square(slice_index si)
   curr_generation->departure = sq_rebirth;
 
   occupy_square(sq_rebirth,context->reborn_walk,context->reborn_spec);
-  pipe_move_generation_delegate(si);
+
+  if (TSTFLAG(context->reborn_spec,Royal))
+  {
+    castling_rights_type const save_castling_rights = being_solved.castling_rights;
+
+    being_solved.king_square[trait[nbply]] = sq_rebirth;
+    SETCASTLINGFLAGMASK(trait[nbply],k_cancastle);
+
+    pipe_move_generation_delegate(si);
+
+    being_solved.castling_rights = save_castling_rights;
+    being_solved.king_square[trait[nbply]] = sq_departure;
+  }
+  else
+    pipe_move_generation_delegate(si);
+
   empty_square(sq_rebirth);
 
   curr_generation->departure = sq_departure;

@@ -206,5 +206,12 @@ stip hs#2.5
 cond antimarscirce
 piec Whit Kc8 Rh5 blac Ka6 Se8 Sh1 Re1 Rh6
 
+next
+
+title generate castling with reborn king
+stip ~1
+cond antimarscirce
+pieces white kd1 rh1
+
 end
 
