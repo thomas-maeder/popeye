@@ -129,7 +129,7 @@ solution finished.
             AntiMarsCirce
 
   1.Rh5*h4 Bf5*e6   2.Rh4-h8-e8 Rh1-h1-h6 #
-  1.Rh5*f5 + Kf1*g1   2.Rf5-a8-e8 Kg1-e1-0-0 #
+  1.Rh5*f5 + Kf1*g1   2.Rf5-a8-e8 0-0 #
   add_to_move_generation_stack:      169988
                      play_move:       63740
  is_white_king_square_attacked:        4299
