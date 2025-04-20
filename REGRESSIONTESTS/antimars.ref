@@ -95,9 +95,45 @@ solution finished.
           2.Sb8*d7 #
 
   add_to_move_generation_stack:        5324
-                     play_move:        1584
+                     play_move:        1549
  is_white_king_square_attacked:          93
- is_black_king_square_attacked:        1573
+ is_black_king_square_attacked:        1538
+
+solution finished.
+
+
+
+          Walter Lindenthal
+   Andernach solving tourney 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .  -R   5
+|                                   |
+4   .   .   .   .   .   .   .   S   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K  -B   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 5
+            AntiMarsCirce
+
+  1.Rh5*h4 Bf5*e6   2.Rh4-h8-e8 Rh1-h1-h6 #
+  1.Rh5*f5 + Kf1*g1   2.Rf5-a8-e8 Kg1-e1-0-0 #
+  add_to_move_generation_stack:      169988
+                     play_move:       63740
+ is_white_king_square_attacked:        4299
+ is_black_king_square_attacked:       63442
 
 solution finished.
 
