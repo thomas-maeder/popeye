@@ -591,7 +591,7 @@ void *fxfAllocRaw(size_t size, size_t desired_alignment) {
       fprintf(stderr, "WARNING: fully aligned allocation of size %" SIZE_T_PRINTF_SPECIFIER " needs %" SIZE_T_PRINTF_SPECIFIER "-byte allocation, > the %" SIZE_T_PRINTF_SPECIFIER " byte(s) that FXF will guarantee\n",
                       (size_t_printf_type) size,
                       (size_t_printf_type) desired_alignment,
-                      (size_t_printf_type) NOT_MULTIPLE_ALIGNMENT);
+                      (size_t_printf_type) MAX_ALIGNMENT);
   }
 #endif /*!NDEBUG*/
 
