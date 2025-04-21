@@ -67,10 +67,12 @@ enum
 #    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #      include <stdint.h>
 #    endif
+#    include <signal.h>
 #    define MAX_ALIGNMENT ALIGNMENT_OF_TYPE(union {largest_integer_type unsigned_integer; \
                                                    const volatile void * object_pointer; \
                                                    void (*function_pointer)(void); \
-                                                   long double floating_point;})
+                                                   long double floating_point; \
+                                                   sig_atomic_t atomic_integer;})
 #  endif
 #endif /*!FXF_MAX_ALIGNMENT_TYPE*/
 
