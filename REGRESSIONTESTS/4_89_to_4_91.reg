@@ -1081,10 +1081,10 @@ Until 4.89, Popeye would print two solutions with null moves
             AntiMarsCirce
 
   1...Sh1-g8-f6   2.Rh5-h1-f1 Rh6-h8-g8   3.Rf1*f6 + Se8*f6 #
-  add_to_move_generation_stack:       37529
-                     play_move:        6111
- is_white_king_square_attacked:        5804
- is_black_king_square_attacked:        3983
+  add_to_move_generation_stack:       38716
+                     play_move:        6260
+ is_white_king_square_attacked:        6129
+ is_black_king_square_attacked:        4208
 
 solution finished.
 

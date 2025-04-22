@@ -86,9 +86,9 @@ solution finished.
   1...  ...  2.f2-f1=Q Ke1-e1*f1   3.g2-g1=Q Rh1-h1*g1 ==
 
   1...0-0 ==
-  add_to_move_generation_stack:         807
-                     play_move:         242
- is_white_king_square_attacked:         198
+  add_to_move_generation_stack:         796
+                     play_move:         243
+ is_white_king_square_attacked:         200
  is_black_king_square_attacked:           0
 Partial solution
 

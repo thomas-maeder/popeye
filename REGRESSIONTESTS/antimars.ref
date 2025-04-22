@@ -94,10 +94,10 @@ solution finished.
       1...Bh3-c8-d7
           2.Sb8*d7 #
 
-  add_to_move_generation_stack:        5324
-                     play_move:        1549
- is_white_king_square_attacked:          93
- is_black_king_square_attacked:        1538
+  add_to_move_generation_stack:        5372
+                     play_move:        1597
+ is_white_king_square_attacked:         275
+ is_black_king_square_attacked:        1586
 
 solution finished.
 
@@ -130,10 +130,16 @@ solution finished.
 
   1.Rh5*h4 Bf5*e6   2.Rh4-h8-e8 Rh1-h1-h6 #
   1.Rh5*f5 + Kf1*g1   2.Rf5-a8-e8 0-0 #
-  add_to_move_generation_stack:      169988
-                     play_move:       63740
- is_white_king_square_attacked:        4299
- is_black_king_square_attacked:       63442
+  1.0-0-0 Kf1*g1   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.0-0-0 Kf1-e1-d2   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.0-0-0 Kf1-e1-d1   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.0-0-0 Rh1*g1   2.Rd8-h8-e8 Rg1-a1-a8 #
+  1.0-0-0 Rh1*g1   2.Rd8-h8-e8 Rg1-a1-c1 #
+  1.0-0-0 Rh1-h1-h2   2.Rd8-h8-e8 Rh2-a1-a8 #
+  add_to_move_generation_stack:      181461
+                     play_move:       68356
+ is_white_king_square_attacked:        6867
+ is_black_king_square_attacked:       70303
 
 solution finished.
 

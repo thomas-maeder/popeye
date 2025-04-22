@@ -33,6 +33,7 @@ static slice_index const move_slice_rank_order[] =
     STUltraMummerMeasurerDeadend,
     STBackHomeMovesOnly,
     STMarsCirceMoveToRebirthSquare,
+    STAntiMarsCirceMoveCastlingPartnerToRebirthSquare,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,

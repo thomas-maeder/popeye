@@ -166,7 +166,7 @@ void marscirce_remember_rebirth(slice_index si)
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_remove_capturer_solve(slice_index si)
+void marscirce_remove_reborn_solve(slice_index si)
 {
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_departure = context->rebirth_from;
@@ -273,7 +273,6 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
   numecoup const id = move_gen_top->id;
-  square const sq_capture = move_gen_top->capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -498,6 +497,11 @@ void solving_initialise_marscirce(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  move_generator_instrument_for_alternative_paths(si,nr_sides);
+
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+  move_effect_journal_register_pre_capture_effect();
+
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
@@ -518,7 +522,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
                            STCirceDeterminedRebirth,
-                           alloc_pipe(STMarscirceRemoveCapturer));
+                           alloc_pipe(STMarscirceRemoveReborn));
 
   observation_variant.default_relevant_piece = circe_relevant_piece_observing_walk;
   /* cf. get_relevant_piece_determinator */
@@ -532,7 +536,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_instrument_solving(si,
                            STMarsCirceConsideringObserverRebirth,
                            STCirceDeterminedRebirth,
-                           alloc_pipe(STMarscirceRemoveCapturer));
+                           alloc_pipe(STMarscirceRemoveReborn));
 
   if (marscirce_variant.rebirth_reason==move_effect_reason_rebirth_choice)
   {
