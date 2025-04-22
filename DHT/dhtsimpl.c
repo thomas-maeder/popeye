@@ -92,7 +92,7 @@ static void DumpSimpleValue(dhtValue kv, FILE *f)
     (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
   fprintf(f, "%08jx", kv.unsigned_integer);
 #else
-  fprintf(f, "%08lx", kv.unsigned_integer);
+  fprintf(f, "%08lx", (unsigned long int)kv.unsigned_integer);
 #endif
 }
 
