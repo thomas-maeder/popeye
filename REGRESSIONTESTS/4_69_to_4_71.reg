@@ -83,7 +83,7 @@ solution finished.
              HaanerChess
               MarsCirce
 
-  1...  ...  2.f2-f1=Q Ke1-e1*f1   3.g2-g1=Q Rh1-h1*g1 ==
+  1...  ...  2.f2-f1=Q Ke1*f1   3.g2-g1=Q Rh1*g1 ==
 
   1...0-0 ==
   add_to_move_generation_stack:         796

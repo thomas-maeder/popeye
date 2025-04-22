@@ -1080,7 +1080,7 @@ Until 4.89, Popeye would print two solutions with null moves
   hs#2.5                      2 + 5
             AntiMarsCirce
 
-  1...Sh1-g8-f6   2.Rh5-h1-f1 Rh6-h8-g8   3.Rf1*f6 + Se8*f6 #
+  1...Sh1-f6   2.Rh5-f1 Rh6-g8   3.Rf1*f6 + Se8*f6 #
   add_to_move_generation_stack:       38716
                      play_move:        6260
  is_white_king_square_attacked:        6129
@@ -1115,35 +1115,35 @@ solution finished.
             AntiMarsCirce
 both sides need a king
 
-   1.0-0 !
+   1.[wKd1->e1]0-0 !
 
-   1.Kd1-e1-f2 !
+   1.Kd1-f2 !
 
-   1.Kd1-e1-d2 !
+   1.Kd1-d2 !
 
-   1.Kd1-e1-e2 !
+   1.Kd1-e2 !
 
-   1.Kd1-e1-f1 !
+   1.Kd1-f1 !
 
-   1.Rh1-h1-e1 !
+   1.Rh1-e1 !
 
-   1.Rh1-h1-f1 !
+   1.Rh1-f1 !
 
-   1.Rh1-h1-g1 !
+   1.Rh1-g1 !
 
-   1.Rh1-h1-h8 !
+   1.Rh1-h8 !
 
-   1.Rh1-h1-h7 !
+   1.Rh1-h7 !
 
-   1.Rh1-h1-h6 !
+   1.Rh1-h6 !
 
-   1.Rh1-h1-h5 !
+   1.Rh1-h5 !
 
-   1.Rh1-h1-h4 !
+   1.Rh1-h4 !
 
-   1.Rh1-h1-h3 !
+   1.Rh1-h3 !
 
-   1.Rh1-h1-h2 !
+   1.Rh1-h2 !
 
   add_to_move_generation_stack:          31
                      play_move:          15

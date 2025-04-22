@@ -212,7 +212,7 @@ Loesung beendet.
               MarsCirce
 
   1  (b6-b7 )
-  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8-a1*a7[+sBb8] #
+  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7[+sBb8] #
   2  (Kc8-b7 )
   3  (Kc8-d7 )
   4  (Kc8-c7 )
@@ -255,11 +255,11 @@ Loesung beendet.
               MarsCirce
                Duplex
 
-  1  (a7-a7*b6 )
+  1  (a7*b6 )
   2  (a7-a5 )
   3  (a7-a6 )
   4  (Ka8-b7 )
-  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6-b2*a3 ==
+  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6*a3 ==
   5  (Ka8-b8 )
   1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 ==
   add_to_move_generation_stack:       98153
@@ -270,13 +270,13 @@ Loesung beendet.
   6  (b6-b7 )
   1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 ==
   7  (Kc8-b7 )
-  1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7-a7*b6 ==
+  1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7*b6 ==
   8  (Kc8-d7 )
   9  (Kc8-c7 )
-  1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a6   5.Ka6-b7   6.Kb7-b8 a7-a7*b6 ==
+  1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a6   5.Ka6-b7   6.Kb7-b8 a7*b6 ==
  10  (Kc8-b8 )
-  1.Kc8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a6   6.Ka6-b7 a7-a7*b6 ==
-  1.Kc8-b8   2.Kb8-b7   3.Kb7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 a7-a7*b6 ==
+  1.Kc8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a6   6.Ka6-b7 a7*b6 ==
+  1.Kc8-b8   2.Kb8-b7   3.Kb7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 a7*b6 ==
  11  (Kc8-d8 )
   add_to_move_generation_stack:     1185867
                      play_move:      263831
@@ -312,11 +312,11 @@ Loesung beendet.
   ser-rx3                     2 + 2
               MarsCirce
 
-  1.Kc8-b7 a7-a7*b6 x
-  1.Kc8-c7 a7-a7*b6 x
-  1.Kc8-b8 a7-a7*b6 x
-  1.b6-b7   2.b7-b8=D   3.Db8-b6 a7-a7*b6 x
-  1.b6-b7   2.b7-b8=S   3.Sb8-d7 Ka8-e8*d7 x
+  1.Kc8-b7 a7*b6 x
+  1.Kc8-c7 a7*b6 x
+  1.Kc8-b8 a7*b6 x
+  1.b6-b7   2.b7-b8=D   3.Db8-b6 a7*b6 x
+  1.b6-b7   2.b7-b8=S   3.Sb8-d7 Ka8*d7 x
   add_to_move_generation_stack:        1008
                      play_move:          90
  is_white_king_square_attacked:          87

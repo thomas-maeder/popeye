@@ -60,14 +60,14 @@ Loesung beendet.
   #2                          3 + 1
             PhantomSchach
 
-   1.Tc1-a1-a4 ! Drohung:
-          2.a5-a2-a3 #
+   1.Tc1-a4 ! Drohung:
+          2.a5-a3 #
 
-   1.Tc1-a1-a3 ? Zugzwang.
+   1.Tc1-a3 ? Zugzwang.
     Aber
       1...Ka8-a7 !
 
-   1.Tc1-a1-a2 ? Zugzwang.
+   1.Tc1-a2 ? Zugzwang.
     Aber
       1...Ka8-a7 !
 
@@ -120,11 +120,11 @@ Loesung beendet.
     Aber
       1...Ka8-a7 !
 
-   1.a5-a2-a4 ? Zugzwang.
+   1.a5-a4 ? Zugzwang.
     Aber
       1...Ka8-a7 !
 
-   1.a5-a2-a3 ? Zugzwang.
+   1.a5-a3 ? Zugzwang.
     Aber
       1...Ka8-a7 !
 
@@ -175,11 +175,11 @@ Loesung beendet.
   #3                          2 + 2
             PhantomSchach
 
-   1.f5-f2-f4 ? Zugzwang.
+   1.f5-f4 ? Zugzwang.
     Aber
       1...f6-f5 !
 
-   1.f5-f2-f3 ? Zugzwang.
+   1.f5-f3 ? Zugzwang.
     Aber
       1...f6-f5 !
 
@@ -212,7 +212,7 @@ Loesung beendet.
 
    1.Tg8-g6 ? Zugzwang.
     Aber
-      1...f6-f7*g6 !
+      1...f6*g6 !
 
    1.Tg8-g7 + ?
     Aber
@@ -397,7 +397,7 @@ Loesung beendet.
   hep1                        1 + 1
             PhantomSchach
 
-  1.e3-e7-e5 d5*e6 ep.
+  1.e3-e5 d5*e6 ep.
   add_to_move_generation_stack:           7
                      play_move:           4
  is_white_king_square_attacked:           0
