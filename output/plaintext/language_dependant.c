@@ -981,7 +981,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "TransfertPouvoir",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "Antigardes"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1212,7 +1213,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "KraftTransfer",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiDeckungen"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1443,7 +1445,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "PowerTransfer",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiGuards"
   }
 };
 

@@ -277,6 +277,7 @@
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
     ENUMERATOR(STShieldedKingsRemoveIllegalCaptures),                   \
     ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \
+    ENUMERATOR(STAntiguardsRemoveIllegalCaptures),                      \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \

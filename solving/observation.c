@@ -16,6 +16,7 @@
 #include "conditions/provocateurs.h"
 #include "conditions/shielded_kings.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/woozles.h"
 #include "conditions/wormhole.h"
 #include "conditions/madrasi.h"
@@ -228,6 +229,10 @@ boolean validate_observation_recursive(slice_index si)
       result = superguards_validate_observation(si);
       break;
 
+    case STAntiguardsRemoveIllegalCaptures:
+      result = antiguards_validate_observation(si);
+      break;
+
     case STWoozlesRemoveIllegalCaptures:
       result = woozles_validate_observer(si);
       break;
@@ -407,6 +412,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STProvocateursRemoveUnobservedCaptures,
     STShieldedKingsRemoveIllegalCaptures,
     STSuperguardsRemoveIllegalCaptures,
+    STAntiguardsRemoveIllegalCaptures,
     STWormholeRemoveIllegalCaptures,
     STCASTValidateObservation,
     STCASTInverseValidateObservation,
