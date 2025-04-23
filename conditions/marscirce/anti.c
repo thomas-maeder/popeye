@@ -82,16 +82,18 @@ void anti_marscirce_move_castling_partner_to_rebirth_square_solve(slice_index si
   TraceSquare(sq_candidate);
   TraceEOL();
 
-  square const sq_rebirth = find_rook_rebirth_for_castling(sq_candidate);
+  {
+    square const sq_rebirth = find_rook_rebirth_for_castling(sq_candidate);
 
-  TraceSquare(sq_rebirth);
-  TraceEOL();
+    TraceSquare(sq_rebirth);
+    TraceEOL();
 
-  if (sq_rebirth==initsquare)
-    move_effect_journal_do_null_effect(move_effect_no_reason);
-  else
-    move_effect_journal_do_piece_movement(move_effect_reason_phantom_movement,
-                                          sq_candidate,sq_rebirth);
+    if (sq_rebirth==initsquare)
+      move_effect_journal_do_null_effect(move_effect_no_reason);
+    else
+      move_effect_journal_do_piece_movement(move_effect_reason_phantom_movement,
+                                            sq_candidate,sq_rebirth);
+  }
 
   pipe_solve_delegate(si);
 
@@ -111,10 +113,16 @@ void anti_mars_circe_second_rebirth_for_castling(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  /* generate regular moves, including castling without reborn rook */
+  /* generate regular moves, including castling without reborn rook: */
+
+  /* make sure that anti_mars_circe_only_castling_after_second_rebirth() will
+   * not be confused by a rebirth from an earlier move generation */
   anti_marscirce_rebirth_square[curr_id] = initsquare;
+
   pipe_move_generation_delegate(si);
 
+  /* make sure that we won't be confused by a possible rebirth from an earlier
+   * move generation */
   for (; curr_id<current_move_id[nbply]; ++curr_id)
     anti_marscirce_rebirth_square[curr_id] = initsquare;
 
@@ -169,6 +177,8 @@ void anti_mars_circe_second_rebirth_for_castling(slice_index si)
             occupy_square(sq_rebirth,walk_candidate,flags);
             SETCASTLINGFLAGMASK(trait[nbply],right);
 
+            /* make sure that anti_mars_circe_only_castling_after_second_rebirth() will
+             * recognize this rebirth of rook exclusively for castling */
             anti_marscirce_rebirth_square[id_castling_with_reborn_rook] = sq_candidate;
 
             pipe_move_generation_delegate(si);
