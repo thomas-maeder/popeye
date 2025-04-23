@@ -1153,3 +1153,59 @@ both sides need a king
 solution finished.
 
 
+
+         Narayan Shankar Ram
+Popeye 4.89 found the stalemates for both sides, but not the double-stalemate
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .  -S   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          2 + 2
+          Paralysing g6 e5
+
+a) 
+
+   1.g2-g4 = !
+
+  add_to_move_generation_stack:          44
+                     play_move:           9
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          10
+
+b) !=1  
+
+   1.g2-g4 != !
+
+  add_to_move_generation_stack:          22
+                     play_move:           3
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           2
+
+c) ==1  
+
+   1.g2-g4 == !
+
+  add_to_move_generation_stack:          45
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           2
+
+solution finished.
+
+

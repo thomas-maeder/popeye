@@ -240,6 +240,8 @@ static void prepend_stalemate_special_starter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children_pipe(si,st);
+
   pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
 
@@ -253,6 +255,8 @@ static void prepend_stalemate_special_other(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
 
   pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
