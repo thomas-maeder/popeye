@@ -63,5 +63,12 @@ stipulation h#4.5
 
 twin shift h8 h5
 
-end
+next
 
+title an example of Bul pieces and Masand which caused Popeye to crash
+pieces white bul gc3 black bul ga1d4 black ka8 pb7b8f6
+stip h#1
+condition masand
+option nowk
+
+end

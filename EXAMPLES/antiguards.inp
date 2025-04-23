@@ -1,0 +1,33 @@
+begin
+
+protocol antiguards.ref
+
+author S.K.Balasubramanian & Vlaicu Crisan
+origin JT Seetharaman 75 2024
+award Commendation
+pieces white kh4 sg5 pg6 black kg7 bf6 ph2
+stipulation h#2.5
+condition superguards
+twin condition antiguards
+
+next
+
+author S.K.Balasubramanian
+origin JT Seetharaman 75 2024
+award Commendation
+pieces white kb5 pf6 black ke8 qg6 bh5 pb7f5g7h7
+stip h#2.5
+condition superguards
+twin condition antiguards
+
+next
+
+author Mario Parrinello & Marco Guida & Antonio Garofalo & Francesco Simoni
+origin Problem Paradise 2024
+pieces white kf1 rd6f7 bb5g1 black kd5 qc2 ra5 be5g8 sd4 pa6d3d7f4g2g6
+stip h#2
+condition antiguards
+twin move g6 b4
+
+end
+

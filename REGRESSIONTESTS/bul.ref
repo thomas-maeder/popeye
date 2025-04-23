@@ -227,3 +227,39 @@ b) shift h8 ==> h5
 solution finished.
 
 
+
+an example of Bul pieces and Masand which caused Popeye to crash
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -P   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -G   .   .   .   .   4
+|                                   |
+3   .   .   G   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -G   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         1 + 6
+            Bul d4 c3 a1
+               Masand
+
+  1.bGd4-g7[bPf6->b2] bGc3-h8[bbGg7->a7][a1=w] #
+  1.bGd4-g7[bPf6->h8] bGc3*h8[bbGg7->a7] #
+  add_to_move_generation_stack:          85
+                     play_move:          71
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          82
+
+solution finished.
+
+
