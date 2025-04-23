@@ -447,12 +447,16 @@ void build_solvers1(slice_index si)
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     solving_insert_protean_chess(si);
 
-  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
+  if (CondFlag[phantom])
+    solving_initialise_phantom(si);
+  else if (CondFlag[plus])
+    solving_initialise_plus(si);
+  else
   {
-    move_generator_instrument_for_alternative_paths(si,nr_sides);
-
-    stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-    move_effect_journal_register_pre_capture_effect();
+    if (CondFlag[antimars])
+      solving_initialise_antimars(si);
+    if (CondFlag[mars])
+      solving_initialise_marscirce(si);
   }
 
   solving_initialise_castling(si);
@@ -502,18 +506,6 @@ void build_solvers1(slice_index si)
     solving_insert_degradierung(si);
 
   en_passant_initialise_solving(si);
-
-  if (CondFlag[phantom])
-    solving_initialise_phantom(si);
-  else if (CondFlag[plus])
-    solving_initialise_plus(si);
-  else
-  {
-    if (CondFlag[antimars])
-      solving_initialise_antimars(si);
-    if (CondFlag[mars])
-      solving_initialise_marscirce(si);
-  }
 
   if (CondFlag[cast])
   {

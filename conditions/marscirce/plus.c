@@ -227,6 +227,11 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  move_generator_instrument_for_alternative_paths(si,nr_sides);
+
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+  move_effect_journal_register_pre_capture_effect();
+
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);

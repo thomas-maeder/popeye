@@ -913,17 +913,29 @@ static void write_pre_capture_effects(output_plaintext_move_context_type *move_c
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:
-        if (move_effect_journal[curr].reason==move_effect_reason_phantom_movement)
+        if (move_effect_journal[curr].reason==move_effect_reason_phantom_movement
+            &&  move_effect_journal[curr].u.piece_movement.from!= move_effect_journal[curr].u.piece_movement.to)
         {
           move_effect_journal_index_type capture = base+move_effect_journal_index_offset_capture;
           move_effect_journal_index_type movement = capture+1;
 
           assert(move_effect_journal[movement].type==move_effect_piece_movement);
-          if (move_effect_journal[movement].reason!=move_effect_reason_castling_king_movement)
+          if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
+          {
+            output_plaintext_move_context_type piece_movement_context;
+            context_open(&piece_movement_context,move_context->engine,move_context->file,move_context->symbol_table,curr,"[","]");
+            write_complete_piece(&piece_movement_context,
+                                 move_effect_journal[curr].u.piece_movement.movingspec,
+                                 move_effect_journal[curr].u.piece_movement.moving,
+                                 move_effect_journal[curr].u.piece_movement.from);
+            (*piece_movement_context.engine->fprintf)(piece_movement_context.file,"->");
+            WriteSquare(piece_movement_context.engine,piece_movement_context.file,
+                        move_effect_journal[curr].u.piece_movement.to);
+            context_close(&piece_movement_context);
+          }
+          else
           {
             write_departing_piece(move_context,curr);
-            (move_context->engine->fputc)('-',move_context->file);
-            WriteSquare(move_context->engine,move_context->file,move_effect_journal[curr].u.piece_movement.to);
             move_context->previous_movement = curr;
           }
         }
