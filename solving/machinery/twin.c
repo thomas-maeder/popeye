@@ -1571,7 +1571,8 @@ void verify_position(slice_index si)
       || CondFlag[lesemajeste])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[superguards])
+  if (CondFlag[superguards]
+      || CondFlag[antiguards])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   pieces_pawns_init_promotees();

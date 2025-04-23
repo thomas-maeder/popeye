@@ -109,6 +109,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/central.h"
 #include "conditions/beamten.h"
 #include "conditions/eiffel.h"
@@ -629,6 +630,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[superguards])
     superguards_initialise_solving(si);
+
+  if (CondFlag[antiguards])
+    antiguards_initialise_solving(si);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     solving_insert_edgemover(si);

@@ -124,6 +124,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
@@ -2356,6 +2357,10 @@ void dispatch(slice_index si)
 
     case STSuperguardsRemoveIllegalCaptures:
       superguards_remove_illegal_captures_solve(si);
+      break;
+
+    case STAntiguardsRemoveIllegalCaptures:
+      antiguards_remove_illegal_captures_solve(si);
       break;
 
     case STGridRemoveIllegalMoves:
