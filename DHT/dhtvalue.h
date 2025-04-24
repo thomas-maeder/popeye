@@ -69,42 +69,58 @@ typedef enum {
 extern char const *dhtValueTypeToString[dhtValueTypeCnt];
 
 typedef union {
-#ifdef __cplusplus
-#    if __cplusplus >= 201103L
+#if 0
+// HACK: This is meant to be completely generic, but Popeye doesn't require such genericity.
+#    ifdef __cplusplus
+#        if __cplusplus >= 201103L
     ::std::uintmax_t unsigned_integer;
     ::std::intmax_t signed_integer;
-#    elif defined(LLONG_MAX)
-    unsigned long long int unsigned_integer;
-    long long int signed_integer;
-#    else
-    unsigned long int unsigned_integer;
-    long int signed_integer;
-#    endif
-    bool boolean;
-     ::std::sig_atomic_t atomic_integer;
-#else
-#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-    uintmax_t unsigned_integer;
-    intmax_t signed_integer;
-    _Bool boolean;
-#    else
-#        if defined(LLONG_MAX)
+#        elif defined(LLONG_MAX)
     unsigned long long int unsigned_integer;
     long long int signed_integer;
 #        else
     unsigned long int unsigned_integer;
     long int signed_integer;
 #        endif
+     ::std::sig_atomic_t atomic_integer;
+#    else
+#        if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+    uintmax_t unsigned_integer;
+    intmax_t signed_integer;
+#        else
+#            if defined(LLONG_MAX)
+    unsigned long long int unsigned_integer;
+    long long int signed_integer;
+#            else
+    unsigned long int unsigned_integer;
+    long int signed_integer;
+#            endif
+#        endif
+    sig_atomic_t atomic_integer;
+#    endif
+    void (*function_pointer)(void);
+#    ifdef DHTVALUE_NEEDS_FLOATING_POINT
+    long double floating_point;
+#    endif
+#else
+/* HACK: We'll use a simpler dhtValue for Popeye that only includes the types
+   Popeye needs (as well as other types that shouldn't affect sizeof(dhtValue)
+   or the required alignment).  This maybe reduces the total size, and it may
+   also make the allocator happier when it comes to alignment requirements. */
+    unsigned int unsigned_integer;
+    int signed_integer;
+#endif
+#ifdef __cplusplus
+    bool boolean;
+#else
+#    if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+    _Bool boolean;
+#    else
     int boolean; // What else?
 #    endif
-    sig_atomic_t atomic_integer;
 #endif
     const volatile void * object_pointer;
     char character;
-    void (*function_pointer)(void);
-#ifdef DHTVALUE_NEEDS_FLOATING_POINT
-    long double floating_point;
-#endif
     unsigned char buffer[1]; /* treat as having sizeof(dhtValue) elements */
 } dhtValue;
 

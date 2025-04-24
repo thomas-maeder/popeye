@@ -9,6 +9,7 @@
  */
 #include "debugging/assert.h"
 #include "dhtvalue.h"
+#include <stdint.h>
 
 #if defined(ARCH64)
 /* This code is derived from Bob Jenkins' work.
@@ -90,7 +91,7 @@ static void DumpSimpleValue(dhtValue kv, FILE *f)
   assert(!!f);
 #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || \
     (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-  fprintf(f, "%08jx", kv.unsigned_integer);
+  fprintf(f, "%08jx", (uintmax_t)kv.unsigned_integer);
 #else
   fprintf(f, "%08lx", (unsigned long int)kv.unsigned_integer);
 #endif
