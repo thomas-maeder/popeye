@@ -277,6 +277,7 @@
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
     ENUMERATOR(STShieldedKingsRemoveIllegalCaptures),                   \
     ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \
+    ENUMERATOR(STAntiguardsRemoveIllegalCaptures),                      \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \
@@ -488,7 +489,7 @@
     ENUMERATOR(STGenevaInitialiseRebornFromCapturer),                   \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
-    ENUMERATOR(STMarscirceRemoveCapturer),                              \
+    ENUMERATOR(STMarscirceRemoveReborn),                                \
     ENUMERATOR(STSeriesCapturePlyRewinder),                             \
     ENUMERATOR(STSeriesCaptureRecursionLanding),                        \
     ENUMERATOR(STBeforeSeriesCapture),                                  \
@@ -557,6 +558,7 @@
     ENUMERATOR(STBoleroGenerateMovesWalkByWalk),                        \
     ENUMERATOR(STBoleroInverseEnforceObserverWalk),                     \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
+    ENUMERATOR(STAntiMarsCirceMoveCastlingPartnerToRebirthSquare),      \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \
     ENUMERATOR(STPhantomKingSquareObservationTesterPlyInitialiser),     \
@@ -572,6 +574,8 @@
     ENUMERATOR(STMoveGeneratorRejectCaptures),                          \
     ENUMERATOR(STMoveGeneratorRejectNoncaptures),                       \
     ENUMERATOR(STAntiMarsCirceRejectNullMoves),                         \
+    ENUMERATOR(STAntiMarsCirceSecondRebirthForCastling),                \
+    ENUMERATOR(STAntiMarsCirceOnlyCastlingAfterSecondRebirth),          \
     ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
     ENUMERATOR(STHaanChessHoleInserter),                                \
     ENUMERATOR(STCastlingChessMovePlayer),                              \
@@ -581,7 +585,7 @@
     ENUMERATOR(STMultiCapturesMoveGenerationFilter),                    \
     ENUMERATOR(STMultiCapturesCheckCounter),                            \
     ENUMERATOR(STDuplicateMovesPerPieceRemover),                        \
-    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                        \
+    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

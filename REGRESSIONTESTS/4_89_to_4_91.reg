@@ -1080,11 +1080,11 @@ Until 4.89, Popeye would print two solutions with null moves
   hs#2.5                      2 + 5
             AntiMarsCirce
 
-  1...Sh1-g8-f6   2.Rh5-h1-f1 Rh6-h8-g8   3.Rf1*f6 + Se8*f6 #
-  add_to_move_generation_stack:       37529
-                     play_move:        6111
- is_white_king_square_attacked:        5804
- is_black_king_square_attacked:        3983
+  1...Sh1-f6   2.Rh5-f1 Rh6-g8   3.Rf1*f6 + Se8*f6 #
+  add_to_move_generation_stack:       38716
+                     play_move:        6260
+ is_white_king_square_attacked:        6129
+ is_black_king_square_attacked:        4208
 
 solution finished.
 
@@ -1115,40 +1115,96 @@ solution finished.
             AntiMarsCirce
 both sides need a king
 
-   1.0-0 !
+   1.[wKd1->e1]0-0 !
 
-   1.Kd1-e1-f2 !
+   1.Kd1-f2 !
 
-   1.Kd1-e1-d2 !
+   1.Kd1-d2 !
 
-   1.Kd1-e1-e2 !
+   1.Kd1-e2 !
 
-   1.Kd1-e1-f1 !
+   1.Kd1-f1 !
 
-   1.Rh1-h1-e1 !
+   1.Rh1-e1 !
 
-   1.Rh1-h1-f1 !
+   1.Rh1-f1 !
 
-   1.Rh1-h1-g1 !
+   1.Rh1-g1 !
 
-   1.Rh1-h1-h8 !
+   1.Rh1-h8 !
 
-   1.Rh1-h1-h7 !
+   1.Rh1-h7 !
 
-   1.Rh1-h1-h6 !
+   1.Rh1-h6 !
 
-   1.Rh1-h1-h5 !
+   1.Rh1-h5 !
 
-   1.Rh1-h1-h4 !
+   1.Rh1-h4 !
 
-   1.Rh1-h1-h3 !
+   1.Rh1-h3 !
 
-   1.Rh1-h1-h2 !
+   1.Rh1-h2 !
 
   add_to_move_generation_stack:          31
                      play_move:          15
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+         Narayan Shankar Ram
+Popeye 4.89 found the stalemates for both sides, but not the double-stalemate
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   K   .   6
+|                                   |
+5   .   .   .   .  -S   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          2 + 2
+          Paralysing g6 e5
+
+a) 
+
+   1.g2-g4 = !
+
+  add_to_move_generation_stack:          44
+                     play_move:           9
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          10
+
+b) !=1  
+
+   1.g2-g4 != !
+
+  add_to_move_generation_stack:          22
+                     play_move:           3
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           2
+
+c) ==1  
+
+   1.g2-g4 == !
+
+  add_to_move_generation_stack:          45
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           2
 
 solution finished.
 

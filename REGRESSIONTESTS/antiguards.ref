@@ -1,0 +1,137 @@
+
+ S.K.Balasubramanian & Vlaicu Crisan
+       JT Seetharaman 75 2024
+            Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -K   .   7
+|                                   |
+6   .   .   .   .   .  -B   P   .   6
+|                                   |
+5   .   .   .   .   .   .   S   .   5
+|                                   |
+4   .   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       3 + 3
+             SuperGuards
+
+a) 
+
+  1...Kh4-g4   2.Kg7-h6 Sg5-e6   3.Bf6-h4 Kg4-g5 #
+  add_to_move_generation_stack:      103829
+                     play_move:       94195
+ is_white_king_square_attacked:        4662
+ is_black_king_square_attacked:       93226
+
+b) AntiGuards  
+
+  1...Sg5-h7   2.Kg7-h8 g6-g7   3.Bf6-a1 g7-g8=R #
+  add_to_move_generation_stack:      168031
+                     play_move:      148324
+ is_white_king_square_attacked:        4879
+ is_black_king_square_attacked:      146699
+
+solution finished.
+
+
+
+         S.K.Balasubramanian
+       JT Seetharaman 75 2024
+            Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .  -P  -P   7
+|                                   |
+6   .   .   .   .   .   P  -Q   .   6
+|                                   |
+5   .   K   .   .   .  -P   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       2 + 7
+             SuperGuards
+
+a) 
+
+  1...Kb5-c5   2.Qg6-g5 Kc5-d6   3.g7-g6 Kd6-e7 #
+  add_to_move_generation_stack:       85957
+                     play_move:       71844
+ is_white_king_square_attacked:        4988
+ is_black_king_square_attacked:       70783
+
+b) AntiGuards  
+
+  1...f6-f7   2.Qg6-d6 Kb5-c6   3.Bh5-g6 f7-f8=Q #
+  add_to_move_generation_stack:      192222
+                     play_move:      163269
+ is_white_king_square_attacked:       10724
+ is_black_king_square_attacked:      161381
+
+solution finished.
+
+
+
+Mario Parrinello & Marco Guida & Antonio Garofalo & Francesco Simoni
+        Problem Paradise 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -B   .   8
+|                                   |
+7   .   .   .  -P   .   R   .   .   7
+|                                   |
+6  -P   .   .   R   .   .  -P   .   6
+|                                   |
+5  -R   B   .  -K  -B   .   .   .   5
+|                                   |
+4   .   .   .  -S   .  -P   .   .   4
+|                                   |
+3   .   .   .  -P   .   .   .   .   3
+|                                   |
+2   .   .  -Q   .   .   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   K   B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 12
+             AntiGuards
+
+a) 
+
+  1.Sd4-e2 Bb5*d3 +   2.Ra5-a4 Rf7-h7 #
+  add_to_move_generation_stack:      652189
+                     play_move:      369893
+ is_white_king_square_attacked:       51234
+ is_black_king_square_attacked:      369142
+
+b) bPg6-->b4  
+
+  1.Sd4-f3 Rf7*f4 +   2.Bg8-h7 Bb5-a4 #
+  add_to_move_generation_stack:      712063
+                     play_move:      425726
+ is_white_king_square_attacked:       53391
+ is_black_king_square_attacked:      424924
+
+solution finished.
+
+

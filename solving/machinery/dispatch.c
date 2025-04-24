@@ -124,6 +124,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
@@ -802,6 +803,10 @@ void dispatch(slice_index si)
 
     case STMarsCirceMoveToRebirthSquare:
       marscirce_move_to_rebirth_square_solve(si);
+      break;
+
+    case STAntiMarsCirceMoveCastlingPartnerToRebirthSquare:
+      anti_marscirce_move_castling_partner_to_rebirth_square_solve(si);
       break;
 
     case STKamikazeCapturingPieceRemover:
@@ -1518,8 +1523,8 @@ void dispatch(slice_index si)
       anticirce_remove_capturer_solve(si);
       break;
 
-    case STMarscirceRemoveCapturer:
-      marscirce_remove_capturer_solve(si);
+    case STMarscirceRemoveReborn:
+      marscirce_remove_reborn_solve(si);
       break;
 
     case STFootballChessSubsitutor:
@@ -2354,6 +2359,10 @@ void dispatch(slice_index si)
       superguards_remove_illegal_captures_solve(si);
       break;
 
+    case STAntiguardsRemoveIllegalCaptures:
+      antiguards_remove_illegal_captures_solve(si);
+      break;
+
     case STGridRemoveIllegalMoves:
       grid_remove_illegal_moves_solve(si);
       break;
@@ -2485,6 +2494,14 @@ void dispatch(slice_index si)
 
     case STAntiMarsCirceRejectNullMoves:
       anti_mars_circe_reject_null_moves(si);
+      break;
+
+    case STAntiMarsCirceSecondRebirthForCastling:
+      anti_mars_circe_second_rebirth_for_castling(si);
+      break;
+
+    case STAntiMarsCirceOnlyCastlingAfterSecondRebirth:
+      anti_mars_circe_only_castling_after_second_rebirth(si);
       break;
 
     case STVaultingKingsMovesForPieceGenerator:

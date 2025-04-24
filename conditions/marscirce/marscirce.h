@@ -63,7 +63,7 @@ void marscirce_remember_no_rebirth(slice_index si);
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_remove_capturer_solve(slice_index si);
+void marscirce_remove_reborn_solve(slice_index si);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.

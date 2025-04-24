@@ -213,5 +213,13 @@ stip ~1
 cond antimarscirce
 pieces white kd1 rh1
 
-end
+next
+
+author Narayan Shankar Ram
+title Popeye 4.89 found the stalemates for both sides, but not the double-stalemate
+Stipulation =1
+Pieces white Pg2 white Paralysing Kg6 black Paralysing se5 black Kh5
+twin stipulation !=1
+twin stipulation ==1
+EndProblem
 

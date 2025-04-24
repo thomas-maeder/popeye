@@ -82,6 +82,7 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
 #endif
 
   ++move_effect_journal_base[nbply+1];
+  TraceValue("%u",nbply);
   TraceValue("%u",move_effect_journal_base[nbply+1]);
   TraceEOL();
 

@@ -51,6 +51,13 @@ void nextply(Side side)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
 
+  /* this hack is necessary because of how we implement Bul pieces */
+  if (move_effect_journal_base[nbply+1]<move_effect_journal_base[nbply-1])
+  {
+    move_effect_journal_base[nbply]= move_effect_journal_base[nbply-1];
+    move_effect_journal_base[nbply+1]= move_effect_journal_base[nbply-1];
+  }
+
   TraceText("!!nextply");
   TraceValue("%u",parent);
   TraceValue("%u",ply_watermark);
