@@ -29,9 +29,9 @@
   1.d2-d1=D d7-d8=T   2.Dd1-c2 Td8-d1 #
   1.d2-d1=S d7-d8=L   2.Sd1-b2 Ld8-g5 #
   add_to_move_generation_stack:       10057
-                     play_move:        4093
+                     play_move:        3934
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4063
+ is_black_king_square_attacked:        3904
 
 Loesung beendet.
 

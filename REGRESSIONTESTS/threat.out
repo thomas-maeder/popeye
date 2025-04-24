@@ -207,8 +207,16 @@ nebenloesig - eigentlich #6
 
    1.ROd1-f6 ! Drohung:
           2.ROf6*b2[+sSf6] #
-      1...Sb2-d1
-          2.ROf6*d1[+sSf6] #
+      1...g5-g4
+          2.ROf6*c3[+sBf6] +
+              2...d4*c3[+wROd4]
+                  3.ROd4-g7 Drohung:
+                          4.ROg7*c3[+sBg7] #
+                      3...Se6*g7[+wROe6]
+                          4.ROe6*c5[+sBe6] #
+                      3...g4-g3
+                          4.ROg7*g3[+sBg7] Drohung:
+                                  5.ROg3*c3[+sBg3] #
       1...f3-f2
           2.ROf6*c3[+sBf6] +
               2...d4*c3[+wROd4]
@@ -216,21 +224,13 @@ nebenloesig - eigentlich #6
                           4.ROg7*c3[+sBg7] #
                       3...Se6*g7[+wROe6]
                           4.ROe6*c5[+sBe6] #
-      1...g5-g4
-          2.ROf6*c3[+sBf6] +
-              2...d4*c3[+wROd4]
-                  3.ROd4-g7 Drohung:
-                          4.ROg7*c3[+sBg7] #
-                      3...g4-g3
-                          4.ROg7*g3[+sBg7] Drohung:
-                                  5.ROg3*c3[+sBg3] #
-                      3...Se6*g7[+wROe6]
-                          4.ROe6*c5[+sBe6] #
+      1...Sb2-d1
+          2.ROf6*d1[+sSf6] #
 
-  add_to_move_generation_stack:      245628
-                     play_move:      177568
- is_white_king_square_attacked:       71968
- is_black_king_square_attacked:      112048
+  add_to_move_generation_stack:      213984
+                     play_move:      163884
+ is_white_king_square_attacked:       66603
+ is_black_king_square_attacked:      102470
 
 Loesung beendet.
 

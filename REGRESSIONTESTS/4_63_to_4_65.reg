@@ -281,10 +281,10 @@ solution finished.
   1.d2-d1=S   2.Sd1-e3   3.Se3-f1 Qf2-g1 #
   1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
   1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
-  add_to_move_generation_stack:        8042
-                     play_move:        7018
- is_white_king_square_attacked:        1203
- is_black_king_square_attacked:        7018
+  add_to_move_generation_stack:        8140
+                     play_move:        7100
+ is_white_king_square_attacked:        1217
+ is_black_king_square_attacked:        7100
 
 solution finished.
 
@@ -939,26 +939,26 @@ solution finished.
 
 a) 
 
-  1.MPb6*c5-d4 Oe5-e6
-  1.MPb6*c5-d4 Oe5*f6
-  1.MPb6-b5 Oe5-e6
-  1.MPb6-b5 Oe5*f6
+  1.d7-d6 Oe5*f6
+  1.d7-d6 Oe5-e6
+  1.d7-d6 Oe5*d6
+  1.d7-d6 Oc5*d6-e7
+  1.d7-d6 Oc5*b6-a7
+  1.d7-d6 Oc5*d6
+  1.d7-d6 Oc5-c6
+  1.d7-d6 Oc5*b6
+  1.d7-d5 Oe5*f6
+  1.d7-d5 Oe5-e6
+  1.d7-d5 Oc5*b6-a7
+  1.d7-d5 Oc5-c6
   1.f6-f5 Oc5*b6-a7
   1.f6-f5 Oc5-c6
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6
-  1.d7-d5 Oc5*b6-a7
-  1.d7-d5 Oc5-c6
-  1.d7-d5 Oe5-e6
-  1.d7-d5 Oe5*f6
-  1.d7-d6 Oc5*b6-a7
-  1.d7-d6 Oc5*d6-e7
-  1.d7-d6 Oc5-c6
-  1.d7-d6 Oc5*d6
-  1.d7-d6 Oc5*b6
-  1.d7-d6 Oe5-e6
-  1.d7-d6 Oe5*f6
-  1.d7-d6 Oe5*d6
+  1.MPb6-b5 Oe5*f6
+  1.MPb6-b5 Oe5-e6
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6*c5-d4 Oe5-e6
   add_to_move_generation_stack:          27
                      play_move:          26
  is_white_king_square_attacked:           0
@@ -966,18 +966,18 @@ a)
 
 b) brPd7  
 
-  1.MPb6*c5-d4 Oe5-e6 +
-  1.MPb6*c5-d4 Oe5*f6
-  1.MPb6-b5 Oe5-e6 +
-  1.MPb6-b5 Oe5*f6
+  1.rPd7-d5 Oe5*f6
+  1.rPd7-d5 Oe5-e6
+  1.rPd7-d5 Oc5*b6-a7
+  1.rPd7-d5 Oc5-c6
   1.f6-f5 Oc5*b6-a7
   1.f6-f5 Oc5-c6 +
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6 +
-  1.rPd7-d5 Oc5*b6-a7
-  1.rPd7-d5 Oc5-c6
-  1.rPd7-d5 Oe5-e6
-  1.rPd7-d5 Oe5*f6
+  1.MPb6-b5 Oe5*f6
+  1.MPb6-b5 Oe5-e6 +
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6*c5-d4 Oe5-e6 +
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:           0
@@ -1170,7 +1170,7 @@ solution finished.
            ChameleonChess
               MarsCirce
 
-  1...Kd8-e1*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8-c1*b2=R =
+  1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
   add_to_move_generation_stack:      204149
                      play_move:       52843
  is_white_king_square_attacked:       29119
@@ -1415,7 +1415,7 @@ solution finished.
 
 a) 
 
-   1.Sh3-b1*c3 x !
+   1.Sh3*c3 x !
 
   add_to_move_generation_stack:          20
                      play_move:           1
@@ -1424,7 +1424,7 @@ a)
 
 b) -wBa4  +wSa3  
 
-   1.Sh3-b1*c3 x !
+   1.Sh3*c3 x !
 
   add_to_move_generation_stack:          12
                      play_move:           1
@@ -1462,7 +1462,7 @@ solution finished.
 
 a) 
 
-   1.Sh3-b1*c3 x !
+   1.Sh3*c3 x !
 
   add_to_move_generation_stack:          20
                      play_move:           1
@@ -1471,7 +1471,7 @@ a)
 
 b) -wBa4  +wSa3  
 
-   1.Sh3-b1*c3 x !
+   1.Sh3*c3 x !
 
   add_to_move_generation_stack:          12
                      play_move:           1
@@ -1556,7 +1556,7 @@ solution finished.
 
 a) 
 
-   1.Sh6-g1*h3 x !
+   1.Sh6*h3 x !
 
   add_to_move_generation_stack:           7
                      play_move:           1
@@ -1565,7 +1565,7 @@ a)
 
 b) -bBa3  +bSa2  
 
-   1.Sh6-g1*h3 x !
+   1.Sh6*h3 x !
 
   add_to_move_generation_stack:           7
                      play_move:           1
@@ -1790,21 +1790,21 @@ king transmutes even if rebirth square is empty
            TransmutedKings
 both sides need a king
 
-   1.Ke4-c3 !
-
-   1.Ke4-d2 !
-
-   1.Ke4-f2 !
-
-   1.Ke4-g3 !
-
-   1.Ke4-g5 !
-
    1.Ke4*f6[+bSb8] !
 
    1.Ke4-d6 !
 
+   1.Ke4-g5 !
+
    1.Ke4-c5 !
+
+   1.Ke4-g3 !
+
+   1.Ke4-c3 !
+
+   1.Ke4-f2 !
+
+   1.Ke4-d2 !
 
   add_to_move_generation_stack:           8
                      play_move:           8
@@ -2030,11 +2030,11 @@ so far, f6 would be recolored as part of 1.mDGc1-d2
   zd21                        6 + 0
              Magic a4 c1
 
-   1.mDGc1-d2 z !
+   1.mDGa4-d2[f6=b] z !
 
    1.Be3-d2 z !
 
-   1.mDGa4-d2[f6=b] z !
+   1.mDGc1-d2 z !
 
   add_to_move_generation_stack:          16
                      play_move:           3
@@ -2718,7 +2718,7 @@ solution finished.
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b3   4.BWb3-b2   5.BWb2-b3 =
   1.BWd2-c2   2.BWb1-b2   3.BWb2-b1   4.BWb1-b2   5.BWb2-b3 =
   add_to_move_generation_stack:         256
-                     play_move:         203
+                     play_move:         177
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         136
 
@@ -3385,17 +3385,17 @@ Until 4.63, Popeye didn't respect Annan in Transmuting Kings
            TransmutedKings
              AnnanChess
 
-   1.Kd4-b3 !
-
-   1.Kd4-c2 !
-
-   1.Kd4-e2 !
-
-   1.Kd4-f3 !
+   1.Kd4*c6 !
 
    1.Kd4-f5 !
 
-   1.Kd4*c6 !
+   1.Kd4-f3 !
+
+   1.Kd4-b3 !
+
+   1.Kd4-e2 !
+
+   1.Kd4-c2 !
 
   add_to_move_generation_stack:           8
                      play_move:           8

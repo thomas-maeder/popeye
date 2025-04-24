@@ -18,21 +18,24 @@ static int parseCommandlineOptions(int argc, char *argv[])
 
   while (idx<argc)
   {
+#if defined(FXF)
     if (idx+1<argc && strcmp(argv[idx], "-maxpos")==0)
     {
       char *end;
       idx++;
-      hash_max_number_storable_positions = strtoul(argv[idx], &end, 10);
+      hash_max_kilo_storable_positions = strtoul(argv[idx], &end, 10);
       if (argv[idx]==end)
       {
         /* conversion failure
          * -> set to 0 now and to default value later */
-        hash_max_number_storable_positions = 0;
+        hash_max_kilo_storable_positions = 0;
       }
       idx++;
       continue;
     }
-    else if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
+    else
+#endif
+    if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
     {
       char *end;
       maxtime_type value;
@@ -46,12 +49,14 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
+#if defined(FXF)
     else if (idx+1<argc && strcmp(argv[idx],"-maxmem")==0)
     {
       input_plaintext_read_requested_memory(argv[idx+1]);
       idx += 2;
       continue;
     }
+#endif
     else if (strcmp(argv[idx], "-regression")==0)
     {
       protocol_overwrite();

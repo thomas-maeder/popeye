@@ -1,0 +1,27 @@
+begin
+
+protocol fuddled_men.tst
+
+title no check by rook that has just castled
+pieces white ke1 ra1 black kh1 pe3
+stipulation h#1
+condition FuddledMen
+
+next
+
+title no check by pawn that just been involved in a Messigny exchange
+pieces white ka3 pb2 black kd4 pc3
+stipulation +1
+condition FuddledMen Messigny
+option movenum
+
+next
+
+title no check by rook that just been involved in a ExchangeCastling exchange
+pieces white ka1 ra5 black kh1
+stip +1
+condition ExchangeCastling
+twin condition ExchangeCastling FuddledMen
+
+end
+

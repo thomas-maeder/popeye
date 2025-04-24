@@ -26,7 +26,8 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   {
     if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
       result = 3;
-    else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
+    else if ((circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
+              && circe_variant.relevant_capture==circe_relevant_capture_lastmove)
              || CondFlag[normalp]
              || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
              || get_walk_of_piece_on_square(sq_departure)==Orphan /* we are generating for a pawned Orphan! */

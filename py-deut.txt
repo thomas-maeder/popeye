@@ -270,6 +270,11 @@ Kommandos:
 	Pepo
 	CASTSchach
 	CASTInvers
+	MultiCaptures
+        FuddledMen
+        Bicaptures
+        TransmissionMenace
+	KraftTransfer
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -296,7 +301,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
+	Nach Madrasi und KraftTransfer kann wahlweise noch "RexInklusive"
+	angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden und anschliessend "RexInklusiv".
@@ -395,7 +401,8 @@ Kommandos:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
 	Massgebende(r) Zug/Gangart/Partei:	
-		LetzterZug 
+		LetzterZug
+		NaechsterSchlag
 		Clone		(bestimmt auch Gangart des Wiedergeborenen)
 		Couscous
 		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
@@ -414,6 +421,7 @@ Kommandos:
 		Super
 		Take&Make
 		Kaefig
+		Schlagfeld
 	Anpassung des Wiedergeburtsfelds:
 		Diametral
 		VertikalSpiegel
@@ -590,6 +598,8 @@ Kommandos:
 	ZielIstEnde	anwendbar bei Zielen, welche nicht zur Immobilitaet
 			fuehren (z.B. z, x): das Spiel ist beendet, sobald
 			die falsche Seite das Ziel erreicht.
+	MattsIn1	Matts in 1 im s# nicht unterdrücken, wenn das Spiel
+			mehr Züge zulassen würde
 
 
  - Forderung: Folgende Forderungen kennt Popeye:
@@ -1014,11 +1024,13 @@ aufwendiger ist das Kommando
 	36      3,6-Springer
 	37      3,7-Springer
 	ad      Adler                           0,1+1,1  90 Grad Huepfer
+	ae	Adler-Equihopper
 	ah	MAoHuepfer
 	al      Alfil                           2,2 Springer
 	am      Amazone                         0,1+1,1 Reiter + 1,2 Springer
 	an      Antilope                        3,4 Springer
 	ao      MaoReiter
+	aq	Adler-Nonstop-Equihopper
 	b       Bauer   
 	b1	Bouncer
 	b2	Turmbouncer
@@ -1176,8 +1188,8 @@ aufwendiger ist das Kommando
 	                                        horizontale Zuege
 	                                        nicht erlaubt
 
-	Die "Pseudo-Farbe" TotalUnsichbar gefolgt von einer positiven Zahl
-	kann verwendet werden, um die Anzahl TotalUnsichbarer Steine
+	Die "Pseudo-Farbe" TotalUnsichtbar gefolgt von einer positiven Zahl
+	kann verwendet werden, um die Anzahl TotalUnsichtbarer Steine
 	anzugeben.
 
  - Zwilling: Loesen/pruefen von Stellungen, die sich durch "einfache"
@@ -1206,7 +1218,7 @@ aufwendiger ist das Kommando
 	ergaenzt. Siehe auch das Kommando Steine.
 	Die "Pseudo-Farbe" TotalUnsichtbar gefolgt von einer positiven Zahl
 	kann verwendet werden fuer Zwillingsbildung durch Aenderung der
-	Anzahl TotalUnsichbarer Steine.
+	Anzahl TotalUnsichtbarer Steine.
     Drehung n: Drehung um n Grad nach links (n=90, 180, 270). Beispiel:
 	zwilling drehung 180.
     Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,

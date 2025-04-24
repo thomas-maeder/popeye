@@ -70,7 +70,7 @@ static void generate_pawn_capture_right(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && !was_taboo(s,side_victim) && !is_taboo(s,side_victim))
+  if (is_square_empty(s) && !was_taboo(s,side_victim,nbply) && !is_taboo(s,side_victim,nbply))
   {
     occupy_square(s,Dummy,BIT(side_victim)|BIT(Chameleon));
     pipe_move_generation_delegate(si);
@@ -92,7 +92,7 @@ static void generate_pawn_capture_left(slice_index si, int dir_vertical)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(s) && !was_taboo(s,side_victim) && !is_taboo(s,side_victim))
+  if (is_square_empty(s) && !was_taboo(s,side_victim,nbply) && !is_taboo(s,side_victim,nbply))
   {
     occupy_square(s,Dummy,BIT(side_victim)|BIT(Chameleon));
     generate_pawn_capture_right(si,dir_vertical);
@@ -147,6 +147,10 @@ static void prepare_king_side_castling_generation(slice_index si)
      * influences can_allocate_castling_partner()
      */
     being_solved.king_square[trait[nbply]] = initsquare;
+    /* this is a hack to maintain the invariant
+     * nr_total_invisbles_consumed()<=total_invisible_number
+     */
+    ++total_invisible_number;
 
     ++being_solved.number_of_pieces[side][Rook];
     occupy_square(square_h,Rook,BIT(side)|BIT(Chameleon));
@@ -157,6 +161,7 @@ static void prepare_king_side_castling_generation(slice_index si)
     --being_solved.number_of_pieces[side][Rook];
 
     being_solved.king_square[trait[nbply]] = save_king_square;
+    --total_invisible_number;
   }
   else
   {
@@ -164,8 +169,10 @@ static void prepare_king_side_castling_generation(slice_index si)
 
     /* cf. above */
     being_solved.king_square[trait[nbply]] = initsquare;
+    ++total_invisible_number;
     pipe_move_generation_delegate(si);
     being_solved.king_square[trait[nbply]] = save_king_square;
+    --total_invisible_number;
   }
 
   TraceFunctionExit(__func__);

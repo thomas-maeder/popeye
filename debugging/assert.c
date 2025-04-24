@@ -4,8 +4,12 @@
 #include "pieces/attributes/total_invisible.h"
 
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void assert_impl(char const *assertion, const char *file, int line)
+#if defined(__GNUC__)
+
+void assert_impl(char const *assertion, char const *file, int line, char const *func)
 {
   static boolean recursion_guard = false;
 
@@ -20,19 +24,8 @@ void assert_impl(char const *assertion, const char *file, int line)
     recursion_guard = false;
   }
 
-#ifndef EMSCRIPTEN
-
-#if !defined(NDEBUG)
-
-#if defined(_WIN32) || defined(_WIN64)
-  /* why can't these guys do anything in a standard conforming way??? */
-  _assert
-#else
-  __assert
-#endif
-  (assertion,file,line);
-
-#endif
-
-#endif
+  fprintf(stderr,"%s:%d: %s: Assertion `%s' failed.\n",file,line,func,assertion);
+  exit(1);
 }
+
+#endif

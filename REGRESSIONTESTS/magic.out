@@ -28,10 +28,10 @@
   1.f2-f1=S   2.Sf1-e3   3.Se3-d5=w Sd5-c3 =
   1.f2-f1=T   2.Tf1-f5   3.Tf5-d5=w Td5-d1 =
   1.f2-f1=L   2.Lf1-c4   3.Lc4-d5=w Ld5-a2 =
-  add_to_move_generation_stack:       42804
-                     play_move:       15412
- is_white_king_square_attacked:        6955
- is_black_king_square_attacked:       13709
+  add_to_move_generation_stack:       43718
+                     play_move:       15690
+ is_white_king_square_attacked:        7085
+ is_black_king_square_attacked:       13965
 
 Loesung beendet.
 

@@ -24,10 +24,10 @@
   ser-h#8                     3 + 4
 
   1.Kb6-a7   2.RKa8-a4   3.RKa4*d3   4.RKd3-a6   5.d4-d3   6.d3-d2   7.d2-d1=RK   8.RKd1-a8 RKc5-c7 #
-  add_to_move_generation_stack:     1072737
-                     play_move:      961646
- is_white_king_square_attacked:      228804
- is_black_king_square_attacked:      961646
+  add_to_move_generation_stack:     1072812
+                     play_move:      959280
+ is_white_king_square_attacked:      228813
+ is_black_king_square_attacked:      959280
 
 solution finished.
 
@@ -58,10 +58,10 @@ solution finished.
   ser-h#13                    4 + 4
 
   1.RKf7*c6   2.RKc6-g8   3.c7-c5   4.c5-c4   5.c4-c3   6.c3-c2   7.c2-c1=B   8.Bc1-e3   9.Be3*f2  10.Bf2-a7  11.f3-f2  12.f2-f1=RK  13.RKf1-h7 RKe7-h6 #
-  add_to_move_generation_stack:     7065926
-                     play_move:     6540588
- is_white_king_square_attacked:     1616349
- is_black_king_square_attacked:     6540588
+  add_to_move_generation_stack:     7066022
+                     play_move:     6503490
+ is_white_king_square_attacked:     1616365
+ is_black_king_square_attacked:     6503490
 
 solution finished.
 
@@ -91,8 +91,13 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 2
 
-   1.Bf1-g2 ! threat:
-          2.Rf7-f1 #
+   1.Rh2-g2 + ?
+    but
+      1...Kg1-h1 !
+
+   1.Rh2-h1 + ?
+    but
+      1...Kg1*h1 !
 
    1.Bf1-a6 ? threat:
           2.Rf7-f1 #
@@ -114,23 +119,18 @@ solution finished.
     but
       1...RKe6-g4 !
 
+   1.Bf1-g2 ! threat:
+          2.Rf7-f1 #
+
    1.Bf1-e2 ? threat:
           2.Rf7-f1 #
     but
       1...RKe6-d1 !
 
-   1.Rh2-h1 + ?
-    but
-      1...Kg1*h1 !
-
-   1.Rh2-g2 + ?
-    but
-      1...Kg1-h1 !
-
-  add_to_move_generation_stack:       11411
-                     play_move:        6015
- is_white_king_square_attacked:         416
- is_black_king_square_attacked:        5934
+  add_to_move_generation_stack:       11509
+                     play_move:        5945
+ is_white_king_square_attacked:         420
+ is_black_king_square_attacked:        5864
 
 solution finished.
 
@@ -164,9 +164,9 @@ solution finished.
 
   1.RKb4-e7 g2-g4   2.rRKf1-h7 g4-g5   3.rRKh7-f3 g5-g6   4.rRKf3-d7 g6-g7   5.rRKd7-g4 g7-g8=RK =
   add_to_move_generation_stack:         222
-                     play_move:         134
+                     play_move:         161
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         118
+ is_black_king_square_attacked:         145
 
 solution finished.
 
@@ -199,9 +199,9 @@ solution finished.
 
   1.h7-h5 c2-c4   2.h5-h4 c4-c5   3.h4-h3 c5-c6   4.h3-h2 c6-c7   5.h2-h1=RK c7-c8=RK =
   add_to_move_generation_stack:       44710
-                     play_move:       22386
+                     play_move:       22402
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       21299
+ is_black_king_square_attacked:       21315
 
 solution finished.
 

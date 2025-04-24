@@ -6,6 +6,7 @@
 #include "conditions/anticirce/clone.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
+#include "conditions/bicaptures.h"
 #include "conditions/blackchecks.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
@@ -39,11 +40,14 @@
 #include "conditions/circe/symmetry.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/parachute.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/circe/rebirth_square_occupied.h"
 #include "conditions/circe/relevant_piece.h"
+#include "conditions/circe/capture_square.h"
 #include "conditions/darkside.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/influencer.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
@@ -53,6 +57,8 @@
 #include "conditions/patrol.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
+#include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
@@ -118,6 +124,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
@@ -147,6 +154,7 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -378,9 +386,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);
@@ -761,12 +769,32 @@ void dispatch(slice_index si)
       make_and_take_move_castling_partner(si);
       break;
 
-    case STCASTMultiCapturesRemover:
-      cast_multi_captures_remover_solve(si);
+    case STFuddledMenMovesForPieceGenerator:
+      fuddled_men_generate_moves_for_piece(si);
       break;
 
-    case STCASTInverseSingleCapturesRemover:
-      cast_inverse_single_captures_remover_solve(si);
+    case STCASTMovesForPieceGenerator:
+      cast_generate_moves_for_piece(si);
+      break;
+
+    case STCASTInverseMovesForPieceGenerator:
+      cast_inverse_generate_moves_for_piece(si);
+      break;
+
+    case STTransmissionMenaceMovesForPieceGenerator:
+      transmissionmenace_generate_moves_for_piece(si);
+      break;
+
+    case STPowerTransferMovesForPieceGenerator:
+      powertransfer_generate_moves_for_piece(si);
+      break;
+
+    case STBicapturesRecolorPieces:
+      bicaptures_recolor_pieces(si);
+      break;
+
+    case STBicapturesUnrecolorPieces:
+      bicaptures_unrecolor_pieces(si);
       break;
 
     case STBoleroGenerateMovesWalkByWalk:
@@ -775,6 +803,10 @@ void dispatch(slice_index si)
 
     case STMarsCirceMoveToRebirthSquare:
       marscirce_move_to_rebirth_square_solve(si);
+      break;
+
+    case STAntiMarsCirceMoveCastlingPartnerToRebirthSquare:
+      anti_marscirce_move_castling_partner_to_rebirth_square_solve(si);
       break;
 
     case STKamikazeCapturingPieceRemover:
@@ -801,8 +833,20 @@ void dispatch(slice_index si)
       supertransmuting_kings_move_generation_filter_solve(si);
       break;
 
+    case STMultiCapturesMoveGenerationFilter:
+      multicaptures_filter_singlecaptures(si);
+      break;
+
+    case STDuplicateMovesPerPieceRemover:
+      duplicate_moves_per_piece_remover(si);
+      break;
+
     case STAMUAttackCounter:
       amu_attack_counter_solve(si);
+      break;
+
+    case STFuddledMenBookkeeper:
+      fuddled_men_bookkeeper_solve(si);
       break;
 
     case STMutualCastlingRightsAdjuster:
@@ -1122,6 +1166,10 @@ void dispatch(slice_index si)
       circe_make_last_move_relevant_solve(si);
       break;
 
+    case STCirceInitialiseFromLastCapture:
+      circe_make_last_capture_relevant_solve(si);
+      break;
+
     case STCirceInitialiseRebornFromCapturee:
       circe_initialise_reborn_from_capturee_solve(si);
       break;
@@ -1224,6 +1272,10 @@ void dispatch(slice_index si)
 
     case STDiagramCirceDetermineRebirthSquare:
       diagram_circe_determine_rebirth_square_solve(si);
+      break;
+
+    case STCirceDetermineRebirthSquareCaptureSquare:
+      circe_determine_rebirth_square_capture_square_solve(si);
       break;
 
     case STContactGridAvoidCirceRebirth:
@@ -1471,8 +1523,8 @@ void dispatch(slice_index si)
       anticirce_remove_capturer_solve(si);
       break;
 
-    case STMarscirceRemoveCapturer:
-      marscirce_remove_capturer_solve(si);
+    case STMarscirceRemoveReborn:
+      marscirce_remove_reborn_solve(si);
       break;
 
     case STFootballChessSubsitutor:
@@ -2307,6 +2359,10 @@ void dispatch(slice_index si)
       superguards_remove_illegal_captures_solve(si);
       break;
 
+    case STAntiguardsRemoveIllegalCaptures:
+      antiguards_remove_illegal_captures_solve(si);
+      break;
+
     case STGridRemoveIllegalMoves:
       grid_remove_illegal_moves_solve(si);
       break;
@@ -2436,6 +2492,18 @@ void dispatch(slice_index si)
       move_generation_reject_non_captures(si);
       break;
 
+    case STAntiMarsCirceRejectNullMoves:
+      anti_mars_circe_reject_null_moves(si);
+      break;
+
+    case STAntiMarsCirceSecondRebirthForCastling:
+      anti_mars_circe_second_rebirth_for_castling(si);
+      break;
+
+    case STAntiMarsCirceOnlyCastlingAfterSecondRebirth:
+      anti_mars_circe_only_castling_after_second_rebirth(si);
+      break;
+
     case STVaultingKingsMovesForPieceGenerator:
       vaulting_kings_generate_moves_for_piece(si);
       break;
@@ -2478,10 +2546,6 @@ void dispatch(slice_index si)
 
     case STNannaMovesForPieceGenerator:
       nanna_generate_moves_for_piece(si);
-      break;
-
-    case STPointReflectionMovesForPieceGenerator:
-      point_reflection_generate_moves_for_piece(si);
       break;
 
     case STFaceToFaceMovesForPieceGenerator:
@@ -2578,6 +2642,14 @@ void dispatch(slice_index si)
       pepo_is_square_observed(si);
       break;
 
+    case STPointReflectionTemporaryWalkChanger:
+      point_reflection_temporarily_change_walks(si);
+      break;
+
+    case STPointReflectionWalkRestorer:
+      point_reflection_restore_walks(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -2586,9 +2658,9 @@ void dispatch(slice_index si)
   if (total_invisible_number>0)
   {
     TraceConsumption();
-
-    assert(!current_consumption.is_king_unplaced[Black] || being_solved.king_square[Black]==initsquare);
-    assert(!current_consumption.is_king_unplaced[White] || being_solved.king_square[White]==initsquare);
+    TraceSquare(being_solved.king_square[Black]);
+    TraceSquare(being_solved.king_square[White]);
+    TraceEOL();
 
     assert(nbply<=ply_retro_move
            || nr_total_invisbles_consumed()<=total_invisible_number);

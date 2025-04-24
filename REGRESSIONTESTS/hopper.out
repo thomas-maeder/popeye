@@ -24,49 +24,49 @@
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 9
 
-  1  (Lg2-f1 )
-  2  (Lg2-h1 )
-  3  (Lg2-h3 )
-  4  (Lg2*a8 )
-  5  (Lg2-b7 )
-  6  (Lg2-c6 )
-  7  (Lg2-d5 + )
-  8  (Lg2-e4 )
-  9  (Lg2-f3 )
-  1.Lg2-f3 Ke6-e7   2.Kh4-h3 Ke7-d6   3.Sf6-d5 DGa8-c6 #
- 10  (h2-h1=D )
- 11  (h2-h1=S )
- 12  (h2-h1=T )
- 13  (h2-h1=L )
- 14  (h2-h1=DG )
- 15  (Lg3-e1 )
- 16  (Lg3-f2 )
- 17  (Lg3-f4 )
- 18  (c4-c3 )
-  1.c4-c3 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 #
-  1.c4-c3 DGa8-h3   2.DGc8-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 #
- 19  (Kh4-g5 )
- 20  (Kh4-h3 )
- 21  (Kh4-h5 )
- 22  (e5-e4 )
- 23  (Sf6-d5 )
- 24  (Sf6-e4 )
- 25  (Sf6-h5 )
- 26  (Sf6-h7 )
- 27  (Sf6-g8 )
-  1.Sf6-g8 Ke6-f5   2.DGc8-f6 DGa8-f8   3.Kh4-h3 Kf5-g5 #
- 28  (Sf6-e8 )
- 29  (Sf6-d7 )
- 30  (DGc8-c5 )
+  1  (DGc8-f7 )
+  2  (DGc8-d7 )
+  3  (DGc8-d5 )
+  4  (DGc8-c5 )
   1.DGc8-c5 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 #
- 31  (DGc8-f7 )
- 32  (DGc8-d5 )
- 33  (DGc8-d7 )
- 34  (DGc8-h3 )
+  5  (DGc8-h3 )
+  6  (Sf6-g8 )
+  1.Sf6-g8 Ke6-f5   2.DGc8-f6 DGa8-f8   3.Kh4-h3 Kf5-g5 #
+  7  (Sf6-e8 )
+  8  (Sf6-h7 )
+  9  (Sf6-d7 )
+ 10  (Sf6-h5 )
+ 11  (Sf6-d5 )
+ 12  (Sf6-e4 )
+ 13  (e5-e4 )
+ 14  (Kh4-h5 )
+ 15  (Kh4-g5 )
+ 16  (Kh4-h3 )
+ 17  (c4-c3 )
+  1.c4-c3 DGa8-h3   2.DGc8-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 #
+  1.c4-c3 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 #
+ 18  (Lg3-f4 )
+ 19  (Lg3-f2 )
+ 20  (Lg3-e1 )
+ 21  (h2-h1=D )
+ 22  (h2-h1=S )
+ 23  (h2-h1=T )
+ 24  (h2-h1=L )
+ 25  (h2-h1=DG )
+ 26  (Lg2*a8 )
+ 27  (Lg2-b7 )
+ 28  (Lg2-c6 )
+ 29  (Lg2-d5 + )
+ 30  (Lg2-e4 )
+ 31  (Lg2-h3 )
+ 32  (Lg2-f3 )
+  1.Lg2-f3 Ke6-e7   2.Kh4-h3 Ke7-d6   3.Sf6-d5 DGa8-c6 #
+ 33  (Lg2-h1 )
+ 34  (Lg2-f1 )
   add_to_move_generation_stack:     6304728
-                     play_move:     5857020
+                     play_move:     5831712
  is_white_king_square_attacked:      399004
- is_black_king_square_attacked:     5802763
+ is_black_king_square_attacked:     5777455
 
 Loesung beendet.
 
@@ -149,10 +149,10 @@ Loesung beendet.
   1.Th5-d5   2.Td5-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 #
   1.Th5-h6   2.Kc5-d4   3.Th6-d6   4.Kd4-e5   5.La7-d4 Lb8*d6 #
   1.Th5-h6   2.Th6-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 #
-  add_to_move_generation_stack:      853996
-                     play_move:      768567
- is_white_king_square_attacked:       56258
- is_black_king_square_attacked:      768567
+  add_to_move_generation_stack:      854119
+                     play_move:      768650
+ is_white_king_square_attacked:       56264
+ is_black_king_square_attacked:      768650
 
 Loesung beendet.
 
@@ -220,25 +220,25 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
 
    1.Sa3-c2 ! Drohung:
           2.Sc2-b4 #
-      1...Te3-c3
-          2.ROf2*f6 #
-      1...Te3-e5
-          2.Sg2*f4 #
-      1...ROa4-c3
-          2.Da2*b3 #
-      1...ROa4-b6
-          2.Da2*a5 #
-      1...EQh6-d8
-          2.EQd7-h7 #
       1...Lc7-b6
           2.c6-c7 #
       1...Lc7-e5
           2.Lf5-e6 #
+      1...EQh6-d8
+          2.EQd7-h7 #
+      1...ROa4-b6
+          2.Da2*a5 #
+      1...ROa4-c3
+          2.Da2*b3 #
+      1...Te3-e5
+          2.Sg2*f4 #
+      1...Te3-c3
+          2.ROf2*f6 #
 
-  add_to_move_generation_stack:       46507
-                     play_move:       27393
- is_white_king_square_attacked:        1007
- is_black_king_square_attacked:       27396
+  add_to_move_generation_stack:       37915
+                     play_move:       23300
+ is_white_king_square_attacked:        1020
+ is_black_king_square_attacked:       23303
 
 Loesung beendet.
 
@@ -384,9 +384,9 @@ Loesung beendet.
 
   1.Ke3-f3 Le7-g5   2.Kf3-g4 Ke5-f6   3.Kg4-h5 SPe2-h4 #
   add_to_move_generation_stack:      223190
-                     play_move:      191302
+                     play_move:      192431
  is_white_king_square_attacked:       18706
- is_black_king_square_attacked:      182818
+ is_black_king_square_attacked:      183947
 
 Loesung beendet.
 
@@ -954,56 +954,56 @@ Loesung beendet.
   r#2                       14 + 11
 Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
 
-   1.MMd2-f6 ! Drohung:
-          2.LLf5-c2
-              2...La7-b8 #
-      1...e5-e4
-          2.LLh8-d4
-              2...La7-b8 #
-      1...pTb6-b8
-          2.MLd3-f7
-              2...Te7-e6 #
-
-   1.MLd3-f7 ! Drohung:
-          2.LLh8-d4
-              2...La7-b8 #
-      1...e5-e4
-          2.LLf5-c2
-              2...La7-b8 #
-      1...pTb6-b8
+   1.LLh8-d4 ! Drohung:
           2.MMd2-f6
-              2...Te7-e6 #
+              2...La7-b8 #
+      1...La7-b8 +
+          2.MMe8-c7
+              2...Lb8*c7 #
+      1...pTb6-b8
+          2.LLf5-c2
+              2...Sc5-b7 #
+      1...e5-e4
+          2.MLd3-f7
+              2...La7-b8 #
 
    1.LLf5-c2 ! Drohung:
           2.MLd3-f7
               2...La7-b8 #
-      1...e5-e4
-          2.MMd2-f6
-              2...La7-b8 #
+      1...La7-b8 +
+          2.MMe8-c7
+              2...Lb8*c7 #
       1...pTb6-b8
           2.LLh8-d4
               2...Sc5-b7 #
-      1...La7-b8 +
-          2.MMe8-c7
-              2...Lb8*c7 #
-
-   1.LLh8-d4 ! Drohung:
+      1...e5-e4
           2.MMd2-f6
               2...La7-b8 #
-      1...e5-e4
-          2.MLd3-f7
+
+   1.MLd3-f7 ! Drohung:
+          2.LLh8-d4
               2...La7-b8 #
       1...pTb6-b8
+          2.MMd2-f6
+              2...Te7-e6 #
+      1...e5-e4
           2.LLf5-c2
-              2...Sc5-b7 #
-      1...La7-b8 +
-          2.MMe8-c7
-              2...Lb8*c7 #
+              2...La7-b8 #
 
-  add_to_move_generation_stack:       13868
-                     play_move:        9279
- is_white_king_square_attacked:        7890
- is_black_king_square_attacked:        1644
+   1.MMd2-f6 ! Drohung:
+          2.LLf5-c2
+              2...La7-b8 #
+      1...pTb6-b8
+          2.MLd3-f7
+              2...Te7-e6 #
+      1...e5-e4
+          2.LLh8-d4
+              2...La7-b8 #
+
+  add_to_move_generation_stack:       13012
+                     play_move:        8246
+ is_white_king_square_attacked:        6912
+ is_black_king_square_attacked:        1568
 
 Loesung beendet.
 

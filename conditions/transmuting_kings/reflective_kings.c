@@ -27,10 +27,8 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
 
   if (TSTFULLFLAGMASK(being_solved.spec[sq_departure],mask))
   {
-    numecoup const base = CURRMOVE_OF_PLY(nbply);
     pipe_move_generation_different_walk_delegate(si,King);
-    if (generate_moves_of_transmuting_king(si))
-      remove_duplicate_moves_of_single_piece(base);
+    generate_moves_of_transmuting_king(si);
   }
   else
     pipe_move_generation_delegate(si);
@@ -88,7 +86,7 @@ void reflective_kings_initialise_solving(slice_index si, Side side)
    TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
 
   stip_instrument_observation_validation(si,side,STReflectiveKingsEnforceObserverWalk);
   stip_instrument_check_validation(si,side,STReflectiveKingsEnforceObserverWalk);

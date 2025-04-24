@@ -232,13 +232,17 @@ static slice_type const proxy_slice_types[] =
 static slice_type const move_generator_slice_types[] =
 {
     STMoveGenerator,
+    STBicapturesRecolorPieces,
     STKingMoveGenerator,
+    STBicapturesUnrecolorPieces,
     STNonKingMoveGenerator,
     STOrthodoxMatingMoveGenerator,
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,
     STNullMoveGenerator,
-    STRoleExchangeMoveGenerator
+    STRoleExchangeMoveGenerator,
+    STPointReflectionTemporaryWalkChanger,
+    STPointReflectionWalkRestorer,
 };
 
 static slice_type const move_reordering_optimiser_slice_types[] =

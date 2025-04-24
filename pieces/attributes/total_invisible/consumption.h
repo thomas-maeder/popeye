@@ -7,7 +7,11 @@ typedef struct
 {
     unsigned int pawn_victims[nr_sides];
     boolean king[nr_sides];
-    boolean move_after_victim[nr_sides];
+    /* 1.TI~-~ [+wTIb5]a4*b5 only costs 1 black invisible, but
+     * 1.TI~-~ [+wTIb5]a4*b5 2.TI~-~ costs two because Black moves an
+     * invisible after white has captured an invisible with a pawn
+     */
+    boolean move_by_invisible_after_capture_of_invisible_by_pawn[nr_sides];
 } static_consumption_type;
 
 extern static_consumption_type static_consumption;
@@ -17,7 +21,6 @@ typedef struct
     unsigned int fleshed_out[nr_sides];
     unsigned int placed[nr_sides];
     boolean claimed[nr_sides];
-    boolean is_king_unplaced[nr_sides];
 } dynamic_consumption_type;
 
 void TraceConsumption(void);

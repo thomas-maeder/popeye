@@ -15,14 +15,12 @@ void TraceConsumption(void)
   TraceValue("%u\n",current_consumption.placed[Black]);
   TraceValue("%u\n",current_consumption.claimed[White]);
   TraceValue("%u\n",current_consumption.claimed[Black]);
-  TraceValue("%u\n",current_consumption.is_king_unplaced[White]);
-  TraceValue("%u\n",current_consumption.is_king_unplaced[Black]);
   TraceValue("%u\n",static_consumption.pawn_victims[White]);
   TraceValue("%u\n",static_consumption.pawn_victims[Black]);
   TraceValue("%u\n",static_consumption.king[White]);
   TraceValue("%u\n",static_consumption.king[Black]);
-  TraceValue("%u\n",static_consumption.move_after_victim[White]);
-  TraceValue("%u\n",static_consumption.move_after_victim[Black]);
+  TraceValue("%u\n",static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[White]);
+  TraceValue("%u\n",static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[Black]);
   TraceSquare(being_solved.king_square[White]);TraceEOL();
   TraceSquare(being_solved.king_square[Black]);TraceEOL();
   TraceValue("%u\n",nr_total_invisbles_consumed_for_side(White));
@@ -39,16 +37,16 @@ unsigned int nr_total_invisbles_consumed_for_side(Side side)
 
   if (!current_consumption.claimed[side]
       && current_consumption.placed[side]==0
-      && current_consumption.is_king_unplaced[side])
+      && being_solved.king_square[side]==initsquare)
     ++result;
 
   if ((static_consumption.pawn_victims[side]+static_consumption.king[side])
       >result)
     result = (static_consumption.pawn_victims[side]+static_consumption.king[side]);
 
-  if ((static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side])
+  if ((static_consumption.pawn_victims[side]+static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[side])
       >result)
-    result = (static_consumption.pawn_victims[side]+static_consumption.move_after_victim[side]);
+    result = (static_consumption.pawn_victims[side]+static_consumption.move_by_invisible_after_capture_of_invisible_by_pawn[side]);
 
   return result;
 }
@@ -120,10 +118,21 @@ unsigned int nr_placeable_invisibles_for_side(Side side)
  */
 boolean allocate_flesh_out_unplaced(Side side)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
   ++current_consumption.fleshed_out[side];
   current_consumption.claimed[side] = false;
 
-  return nr_total_invisbles_consumed()<=total_invisible_number;
+  result = nr_total_invisbles_consumed()<=total_invisible_number;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate placement of an invisible, which may have already been claimed by
@@ -134,10 +143,21 @@ boolean allocate_flesh_out_unplaced(Side side)
  */
 boolean allocate_placed(Side side)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
   ++current_consumption.placed[side];
   current_consumption.claimed[side] = false;
 
-  return nr_total_invisbles_consumed()<=total_invisible_number;
+  result = nr_total_invisbles_consumed()<=total_invisible_number;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate placement of an unclaimed invisible
@@ -147,15 +167,33 @@ boolean allocate_placed(Side side)
  */
 boolean allocate_flesh_out_unclaimed(Side side)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
   ++current_consumption.fleshed_out[side];
 
-  return nr_total_invisbles_consumed()<=total_invisible_number;
+  result = nr_total_invisbles_consumed()<=total_invisible_number;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Adapt bookkeeping to the fleshing out of an invisible of a side */
 void allocate_flesh_out_placed(Side side)
 {
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side);
+  TraceFunctionParamListEnd();
+
   assert(current_consumption.placed[side]>0);
   --current_consumption.placed[side];
   ++current_consumption.fleshed_out[side];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

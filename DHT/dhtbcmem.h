@@ -6,7 +6,7 @@
  *	Institut fuer Informatik, TU Muenchen, Germany  
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept
+ * comment with the above copyright notice is kept
  * intact and in place.
  */
 
@@ -16,8 +16,8 @@
  */
 
 typedef struct BCMemValue {
-	unsigned char	Leng;
-	unsigned char	Data[1];
+	unsigned short Leng;
+	unsigned char  Data[1];
 } BCMemValue;
 
 #endif /*DHTBCMEM_INCLUDED*/

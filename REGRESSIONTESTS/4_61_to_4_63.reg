@@ -740,13 +740,13 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   h#2                    2 + 8 + 3n
            Take&MakeChess
 
-  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
-  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
-  add_to_move_generation_stack:     1058816
-                     play_move:      671147
+  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
+  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
+  add_to_move_generation_stack:     1105086
+                     play_move:      634369
  is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      667121
+ is_black_king_square_attacked:      630328
 
 solution finished.
 
@@ -1263,10 +1263,10 @@ solution finished.
 both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
-  add_to_move_generation_stack:         316
-                     play_move:         316
+  add_to_move_generation_stack:         328
+                     play_move:         328
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         153
+ is_black_king_square_attacked:         155
 
 solution finished.
 
@@ -1308,10 +1308,10 @@ movenumbers and nested series branches; until 4.61, Popeye produced
   1.Kg3-g2 Kd2-e1   2.Kg2-h1 Rc8-c1   3.f3-f2 + Ke1*f2 #
  10  (Kg3-g4 )
  11  (Kg3-h3 )
-  add_to_move_generation_stack:      235771
-                     play_move:      250400
- is_white_king_square_attacked:      221287
- is_black_king_square_attacked:      216339
+  add_to_move_generation_stack:      235787
+                     play_move:      250422
+ is_white_king_square_attacked:      221309
+ is_black_king_square_attacked:      216361
 
 solution finished.
 
@@ -1340,31 +1340,31 @@ Popeye 4.51 to 4.61 would produce the move to c5 twice
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
 
-   1.MGd4-d5 !
-
-   1.MGd4-a7 !
+   1.MGd4-e7 !
 
    1.MGd4-d7 !
 
-   1.MGd4-e5 !
+   1.MGd4-c7 !
 
-   1.MGd4-c5 !
+   1.MGd4-b7 !
 
-   1.MGd4-b5 !
+   1.MGd4-a7 !
 
    1.MGd4-e6 !
 
    1.MGd4-c6 !
 
-   1.MGd4-a5 !
-
-   1.MGd4-c7 !
-
-   1.MGd4-e7 !
-
    1.MGd4-a6 !
 
-   1.MGd4-b7 !
+   1.MGd4-e5 !
+
+   1.MGd4-d5 !
+
+   1.MGd4-c5 !
+
+   1.MGd4-b5 !
+
+   1.MGd4-a5 !
 
   add_to_move_generation_stack:          16
                      play_move:          13

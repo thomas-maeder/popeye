@@ -814,10 +814,10 @@ Loesung beendet.
             Gitterschach
 
   1.Kg4-g5   2.Kg5-f6   3.Kf6-e7   4.Ke7-d7   5.Kd7-c6   6.Kc6-b5   7.Kb5-b4   8.Kb4-c3   9.Kc3-d2  10.Dd6-h6  11.Dh6-h1  12.Kd2-d3  13.Kd3-e4  14.Ke4-f5  15.Kf5-g4  16.Kg4-h5 Kf2-g1 #
-  add_to_move_generation_stack:      107345
-                     play_move:       72701
- is_white_king_square_attacked:       25750
- is_black_king_square_attacked:       72701
+  add_to_move_generation_stack:      107380
+                     play_move:       72717
+ is_white_king_square_attacked:       25754
+ is_black_king_square_attacked:       72717
 
 Loesung beendet.
 

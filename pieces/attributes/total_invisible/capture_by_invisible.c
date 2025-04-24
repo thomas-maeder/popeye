@@ -32,7 +32,7 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
 
   assert(is_on_board(sq_departure));
 
-  if (was_taboo(sq_departure,side_playing) || is_taboo(sq_departure,side_playing))
+  if (was_taboo(sq_departure,side_playing,nbply) || is_taboo(sq_departure,side_playing,nbply))
   {
     record_decision_outcome("%s","capturer can't be placed on taboo square");
     REPORT_DEADEND;
@@ -45,7 +45,7 @@ static unsigned int capture_by_invisible_inserted_on(piece_walk_type walk_captur
     TraceConsumption();TraceEOL();
     assert(nr_total_invisbles_consumed()<=total_invisible_number);
 
-    push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
+    push_decision_departure(nbply,id_inserted,sq_departure,decision_purpose_invisible_capturer_inserted);
 
     ++being_solved.number_of_pieces[side_playing][walk_capturing];
     occupy_square(sq_departure,walk_capturing,flags_inserted);
@@ -105,14 +105,6 @@ HERE
       backtrack_definitively();
       backtrack_no_further_than(decision_levels[id_inserted].from);
     }
-//    else if (walk_capturing==King
-//             && is_square_attacked_by_uninterceptable(side_playing,sq_departure))
-//    {
-//      record_decision_outcome("%s","capturer would expose itself to check by uninterceptable");
-// WRONG - such a check is legal if it has just been delivered!
-// TODO can we detect checks that have not just been delivered? should we?
-//      REPORT_DEADEND;
-//    }
     else
     {
       move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -121,11 +113,10 @@ HERE
 
       assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
 
-      /* adding the total invisible in the pre-capture effect sounds tempting, but
-       * we have to make sure that there was no illegal check from it before this
-       * move!
+      /* we have to make sure that there was no illegal check from the inserted
+       * piece before this move!
        * NB: this works with illegal checks both from the inserted piece and to
-       * the inserted king (afert we restart_from_scratch()).
+       * the inserted king (after we backward_previous_move()).
        */
       assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
       move_effect_journal[precapture].type = move_effect_none;
@@ -145,7 +136,7 @@ HERE
       move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
 
       remember_taboos_for_current_move();
-      restart_from_scratch();
+      backward_previous_move();
       forget_taboos_for_current_move();
 
       motivation[id_inserted] = save_motivation;
@@ -220,7 +211,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
     dynamic_consumption_type const save_consumption = current_consumption;
 
-    push_decision_walk(id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,side_playing);
+    push_decision_walk(nbply,id_existing,walk_capturing,decision_purpose_invisible_capturer_existing,side_playing);
     decision_levels[id_inserted].walk = decision_levels[id_existing].walk;
 
     replace_moving_piece_ids_in_past_moves(id_existing,id_inserted,nbply-1);
@@ -266,9 +257,9 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
 
       do
       {
-        push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+        push_decision_walk(nbply,id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
         move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
-        restart_from_scratch();
+        backward_previous_move();
         pieces_pawns_continue_promotee_sequence(&sequence);
         pop_decision();
       } while (sequence.promotee!=Empty && can_decision_level_be_continued());
@@ -276,7 +267,7 @@ static void flesh_out_dummy_for_capture_as(piece_walk_type walk_capturing,
       move_effect_journal[promotion].type = move_effect_none;
     }
     else
-      restart_from_scratch();
+      backward_previous_move();
 
     current_consumption = save_consumption;
 
@@ -356,7 +347,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],advers(trait[nbply])));
   move_effect_journal[movement].u.piece_movement.movingspec = being_solved.spec[sq_departure];
-  recurse_into_child_ply();
+  forward_recurse_into_child_ply();
 
   motivation[id_inserted] = motivation_inserted;
 
@@ -395,17 +386,17 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
 
     TraceSquare(sq_arrival);TraceEOL();
 
-    push_decision_walk(id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,walk_rider,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
       square sq_departure;
 
-      push_decision_move_vector(id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
+      push_decision_move_vector(nbply,id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
 
-      for (sq_departure = sq_arrival+vec[kcurr];
+      for (sq_departure = sq_arrival-vec[kcurr];
            is_square_empty(sq_departure) && can_decision_level_be_continued();
-           sq_departure += vec[kcurr])
+           sq_departure -= vec[kcurr])
         result += capture_by_invisible_inserted_on(walk_rider,sq_departure);
 
       pop_decision();
@@ -420,7 +411,7 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
   return result;
 }
 
-static unsigned int capture_by_inserted_invisible_king(void)
+static unsigned int capture_by_inserted_invisible_king_inserted(void)
 {
   unsigned int result = 0;
 
@@ -435,46 +426,43 @@ static unsigned int capture_by_inserted_invisible_king(void)
   move_effect_journal_index_type const king_square_movement = movement+1;
   vec_index_type kcurr;
 
+  Side const side_capturing = trait[nbply];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  push_decision_walk(id_inserted,King,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+  push_decision_walk(nbply,id_inserted,King,decision_purpose_invisible_capturer_inserted,side_capturing);
 
   assert(move_effect_journal[precapture].type==move_effect_piece_readdition);
   assert(!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal));
   assert(move_effect_journal[king_square_movement].type==move_effect_none);
 
+  move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
+  move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
+  move_effect_journal[king_square_movement].u.king_square_movement.side = side_capturing;
+
   for (kcurr = vec_queen_start;
        kcurr<=vec_queen_end && can_decision_level_be_continued();
        ++kcurr)
   {
-    square const sq_departure = sq_arrival+vec[kcurr];
+    being_solved.king_square[side_capturing] = sq_arrival-vec[kcurr];
 
-    if (is_square_empty(sq_departure))
+    if (is_square_empty(being_solved.king_square[side_capturing]))
     {
-      boolean const save_unplaced = current_consumption.is_king_unplaced[trait[nbply]];
-
-      being_solved.king_square[trait[nbply]] = sq_departure;
-      current_consumption.is_king_unplaced[trait[nbply]] = false;
-
-      move_effect_journal[king_square_movement].type = move_effect_king_square_movement;
-      move_effect_journal[king_square_movement].u.king_square_movement.from = sq_departure;
-      move_effect_journal[king_square_movement].u.king_square_movement.to = sq_arrival;
-      move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
+      move_effect_journal[king_square_movement].u.king_square_movement.from = being_solved.king_square[side_capturing];
 
       assert(!TSTFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal));
       SETFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
 
-      result += capture_by_invisible_inserted_on(King,sq_departure);
+      result += capture_by_invisible_inserted_on(King,being_solved.king_square[side_capturing]);
 
       CLRFLAG(move_effect_journal[precapture].u.piece_addition.added.flags,Royal);
-
-      current_consumption.is_king_unplaced[trait[nbply]] = save_unplaced;
-      being_solved.king_square[trait[nbply]] = initsquare;
-
-      move_effect_journal[king_square_movement].type = move_effect_none;
     }
   }
+
+  being_solved.king_square[side_capturing] = initsquare;
+
+  move_effect_journal[king_square_movement].type = move_effect_none;
 
   pop_decision();
 
@@ -506,11 +494,11 @@ static unsigned int capture_by_invisible_leaper_inserted(piece_walk_type walk_le
     move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
-    push_decision_walk(id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,walk_leaper,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
-      square const sq_departure = sq_arrival+vec[kcurr];
+      square const sq_departure = sq_arrival-vec[kcurr];
 
       if (is_square_empty(sq_departure))
         result += capture_by_invisible_inserted_on(walk_leaper,sq_departure);
@@ -579,7 +567,7 @@ static unsigned int capture_by_invisible_pawn_inserted(void)
     Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
     PieceIdType const id_inserted = GetPieceId(flags_inserted);
 
-    push_decision_walk(id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    push_decision_walk(nbply,id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
     result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
@@ -611,7 +599,7 @@ static unsigned int capture_by_inserted_invisible_all_walks(void)
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
   if (being_solved.king_square[trait[nbply]]==initsquare)
-    result += capture_by_inserted_invisible_king();
+    result += capture_by_inserted_invisible_king_inserted();
 
   result += capture_by_invisible_pawn_inserted();
   result += capture_by_invisible_leaper_inserted(Knight,vec_knight_start,vec_knight_end);
@@ -652,14 +640,12 @@ static void flesh_out_dummy_for_capture_king(square sq_departure,
   move_effect_journal[king_square_movement].u.king_square_movement.side = trait[nbply];
 
   being_solved.king_square[trait[nbply]] = sq_departure;
-  current_consumption.is_king_unplaced[trait[nbply]] = false;
 
   assert(!TSTFLAG(being_solved.spec[sq_departure],Royal));
   SETFLAG(being_solved.spec[sq_departure],Royal);
   flesh_out_dummy_for_capture_as(King,sq_departure);
   CLRFLAG(being_solved.spec[sq_departure],Royal);
 
-  current_consumption.is_king_unplaced[trait[nbply]] = true;
   being_solved.king_square[trait[nbply]] = initsquare;
 
   move_effect_journal[king_square_movement].type = move_effect_none;
@@ -858,7 +844,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   assert(motivation[id_existing].first.purpose!=purpose_none);
   assert(motivation[id_existing].last.purpose!=purpose_none);
 
-  push_decision_departure(id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
+  push_decision_departure(nbply,id_inserted,sq_departure,decision_purpose_invisible_capturer_existing);
 
   if (motivation[id_existing].last.acts_when<nbply
       || ((motivation[id_existing].last.purpose==purpose_interceptor
@@ -946,7 +932,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
 
               do
               {
-                push_decision_walk(id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
+                push_decision_walk(nbply,id_existing,sequence.promotee,decision_purpose_invisible_capturer_existing,side_playing);
                 move_effect_journal[promotion].u.piece_walk_change.to = sequence.promotee;
                 capture_by_invisible_with_defined_walk(Pawn,sq_departure);
                 pieces_pawns_continue_promotee_sequence(&sequence);
@@ -973,7 +959,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
         if (CheckDir(Queen)[move_square_diff]!=0
             || CheckDir(Knight)[move_square_diff]==move_square_diff)
         {
-          if (current_consumption.is_king_unplaced[trait[nbply]])
+          if (being_solved.king_square[trait[nbply]]==initsquare)
             flesh_out_dummy_for_capture_king_or_non_king(sq_departure,sq_arrival,id_existing);
           else
             flesh_out_dummy_for_capture_non_king(sq_departure,sq_arrival,id_existing);
@@ -1226,15 +1212,13 @@ static boolean insert_capturing_king(Side side)
   TraceEnumerator(Side,side);
   TraceFunctionParamListEnd();
 
-  assert(current_consumption.is_king_unplaced[side]);
+  assert(being_solved.king_square[side]==initsquare);
 
   /* this helps us over the allocation */
   being_solved.king_square[side] = square_a1;
-  current_consumption.is_king_unplaced[side] = false;
 
   result = allocate_flesh_out_unplaced(side);
 
-  current_consumption.is_king_unplaced[side] = true;
   being_solved.king_square[side] = initsquare;
 
   TraceFunctionExit(__func__);
@@ -1263,13 +1247,11 @@ static unsigned int capture_by_inserted_invisible(void)
   {
     /* no problem - we can simply insert a capturer */
 
-    push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+    push_decision_insertion(nbply,id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
     result = capture_by_inserted_invisible_all_walks();
 
     pop_decision();
-
-    current_consumption = save_consumption;
   }
   else
   {
@@ -1277,13 +1259,8 @@ static unsigned int capture_by_inserted_invisible(void)
 
     current_consumption = save_consumption;
 
-    TraceEnumerator(Side,trait[nbply]);
-    TraceSquare(being_solved.king_square[trait[nbply]]);
-    TraceEOL();
-    if (current_consumption.is_king_unplaced[trait[nbply]])
+    if (being_solved.king_square[trait[nbply]]==initsquare)
     {
-      assert(being_solved.king_square[trait[nbply]]==initsquare);
-
       if (insert_capturing_king(trait[nbply]))
       {
         move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -1293,9 +1270,9 @@ static unsigned int capture_by_inserted_invisible(void)
 
         assert(move_effect_journal[movement].type==move_effect_piece_movement);
 
-        push_decision_insertion(id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
+        push_decision_insertion(nbply,id_inserted,trait[nbply],decision_purpose_invisible_capturer_inserted);
 
-        capture_by_inserted_invisible_king();
+        capture_by_inserted_invisible_king_inserted();
 
         move_effect_journal[movement].u.piece_movement.from = save_from;
         move_effect_journal[movement].u.piece_movement.moving = save_moving;
@@ -1309,10 +1286,10 @@ static unsigned int capture_by_inserted_invisible(void)
       {
         TraceText("the king has already been placed implicitly (e.g. while intercepting a check)\n");
       }
-
-      current_consumption = save_consumption;
     }
   }
+
+  current_consumption = save_consumption;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1387,7 +1364,7 @@ square need_existing_invisible_as_victim_for_capture_by_pawn(ply ply_capture)
   return result;
 }
 
-void flesh_out_capture_by_invisible(void)
+void forward_flesh_out_capture_by_invisible(void)
 {
   ply const ply_capture_by_pawn = nbply+1;
 

@@ -473,7 +473,7 @@ void TraceCurrentHashBuffer(void)
     HashBuffer const *hb = &hashBuffers[nbply];
     unsigned int i;
 
-    printf(" #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
+    printf(" #%lu nbply:%u Leng:%hu ",level,nbply,hb->cmv.Leng);
     for (i = 0; i<hb->cmv.Leng; ++i)
       printf("%02x ",(unsigned int)hb->cmv.Data[i]);
     putchar('\n');
@@ -521,7 +521,7 @@ static void trace_link(char const *prefix, slice_index si, char const *suffix)
 static char const context_shortcuts[] = { 'I', 'A', 'D', 'H', 'M', 'T', 'N' };
 static char const level_shortcuts[]   = { 'T', 'S', 'N' };
 
-static void trace_common(slice_index si, stip_structure_traversal *st)
+static void trace_common(slice_index si, stip_structure_traversal const *st)
 {
   if (do_trace)
   {

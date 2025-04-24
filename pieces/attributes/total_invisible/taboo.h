@@ -34,7 +34,7 @@ void forget_taboo_on_square(square s, Side side, ply ply);
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean will_be_taboo(square s, Side side);
+boolean will_be_taboo(square s, Side side, ply startply);
 
 /* Would moving a piece of a particular side to a particular square have violated a taboo
  * in the past (i.e. since the last ply where a move or capture by an invisible could
@@ -43,7 +43,7 @@ boolean will_be_taboo(square s, Side side);
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean was_taboo(square s, Side side);
+boolean was_taboo(square s, Side side, ply startply);
 
 /* Would moving a piece of a particular side to a particular square have violated a taboo
  * in the past (i.e. since the start of play)?
@@ -59,7 +59,7 @@ boolean was_taboo_forever(square s, Side side);
  * @param side the side
  * @return true iff a taboo will be violated
  */
-boolean is_taboo(square s, Side side);
+boolean is_taboo(square s, Side side, ply startply);
 
 boolean is_taboo_violation_acceptable(square first_taboo_violation);
 

@@ -1,90 +1,149 @@
 position/side$(OBJ_SUFFIX): position/side.c position/side.h position/side.enum.h \
- position/side.enum position/side.enum utilities/enumeration.h
+  position/side.enum utilities/enumeration.h
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
-position/side.enum:
+
 utilities/enumeration.h:
 position/color$(OBJ_SUFFIX): position/color.c position/color.h position/color.enum.h \
- position/color.enum position/color.enum utilities/enumeration.h
+  position/color.enum utilities/enumeration.h
+
 position/color.h:
+
 position/color.enum.h:
+
 position/color.enum:
-position/color.enum:
+
 utilities/enumeration.h:
 position/position$(OBJ_SUFFIX): position/position.c position/position.h \
- position/board.h utilities/bitmask.h position/side.h \
- position/side.enum.h position/side.enum position/color.h \
- position/color.enum.h position/color.enum position/pieceid.h \
- pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- position/castling_rights.h pieces/attributes/neutral/neutral.h \
- debugging/trace.h debugging/assert.h
+  position/board.h utilities/bitmask.h position/side.h \
+  position/side.enum.h position/side.enum position/color.h \
+  position/color.enum.h position/color.enum position/pieceid.h \
+  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+  position/castling_rights.h pieces/attributes/neutral/neutral.h \
+  debugging/trace.h debugging/assert.h
+
 position/position.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 position/color.h:
+
 position/color.enum.h:
+
 position/color.enum:
+
 position/pieceid.h:
+
 pieces/pieces.h:
+
 utilities/boolean.h:
+
 pieces/walks/vectors.h:
+
 position/castling_rights.h:
+
 pieces/attributes/neutral/neutral.h:
+
 debugging/trace.h:
+
 debugging/assert.h:
 position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h \
- debugging/assert.h
+  debugging/assert.h
+
 position/board.h:
+
 utilities/bitmask.h:
+
 debugging/assert.h:
 position/pieceid$(OBJ_SUFFIX): position/pieceid.c position/pieceid.h pieces/pieces.h \
- utilities/boolean.h position/board.h utilities/bitmask.h
+  utilities/boolean.h position/board.h utilities/bitmask.h
+
 position/pieceid.h:
+
 pieces/pieces.h:
+
 utilities/boolean.h:
+
 position/board.h:
+
 utilities/bitmask.h:
 position/underworld$(OBJ_SUFFIX): position/underworld.c position/underworld.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/pipe.h debugging/assert.h
+  solving/move_effect_journal.h solving/machinery/solve.h \
+  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+  stipulation/slice_type.enum.h stipulation/slice_type.enum \
+  position/side.h position/side.enum.h position/side.enum \
+  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
+  solving/machinery/dispatch.h debugging/trace.h \
+  position/castling_rights.h solving/ply.h position/pieceid.h \
+  solving/pipe.h debugging/assert.h
+
 position/underworld.h:
+
 solving/move_effect_journal.h:
+
 solving/machinery/solve.h:
+
 stipulation/stipulation.h:
+
 stipulation/goals/goals.h:
+
 position/board.h:
+
 utilities/bitmask.h:
+
 utilities/boolean.h:
+
 stipulation/slice_type.h:
+
 stipulation/slice_type.enum.h:
+
 stipulation/slice_type.enum:
+
 position/side.h:
+
 position/side.enum.h:
+
 position/side.enum:
+
 pieces/pieces.h:
+
 output/mode.h:
+
 output/mode.enum.h:
+
 output/mode.enum:
+
 solving/machinery/dispatch.h:
+
 debugging/trace.h:
+
 position/castling_rights.h:
+
 solving/ply.h:
+
 position/pieceid.h:
+
 solving/pipe.h:
+
 debugging/assert.h:
 position/move_diff_code$(OBJ_SUFFIX): position/move_diff_code.c \
- position/move_diff_code.h position/board.h utilities/bitmask.h
+  position/move_diff_code.h position/board.h utilities/bitmask.h
+
 position/move_diff_code.h:
+
 position/board.h:
+
 utilities/bitmask.h:

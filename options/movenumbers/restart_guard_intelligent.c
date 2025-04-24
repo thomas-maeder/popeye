@@ -36,7 +36,7 @@ slice_index alloc_restart_guard_intelligent(void)
 
 static boolean is_length_ruled_out_by_option_restart(void)
 {
-  boolean result;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -46,10 +46,18 @@ static boolean is_length_ruled_out_by_option_restart(void)
     stip_length_type min_length = 2*get_restart_number(movenumbers_start);
     if ((solve_nr_remaining-slack_length)%2==1)
       --min_length;
-    result = solve_nr_remaining-slack_length<min_length;
+    if (solve_nr_remaining-slack_length<min_length)
+      result = true;
   }
-  else
-    result = false;
+
+  if (OptFlag[uptomovenumber])
+  {
+    stip_length_type max_length = 2*get_restart_number(movenumbers_end);
+    if ((solve_nr_remaining-slack_length)%2==1)
+      ++max_length;
+    if (solve_nr_remaining-slack_length>max_length)
+      result = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -63,6 +71,7 @@ static void print_nr_potential_target_positions(void)
   output_plaintext_message(PotentialMates,
           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
   output_plaintext_print_time("  (",")");
+  protocol_fflush(stdout);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

@@ -285,15 +285,15 @@ Since 4.63, Popeye has generated duplicate moves for rook- and bishop-eagles
   ~1                          2 + 4
 both sides need a king
 
-   1.REd3-e2 !
+   1.BEg8-e8 !
+
+   1.BEg8-g6 !
 
    1.REd3-e4 !
 
    1.REd3-c4 !
 
-   1.BEg8-e8 !
-
-   1.BEg8-g6 !
+   1.REd3-e2 !
 
   add_to_move_generation_stack:           7
                      play_move:           5

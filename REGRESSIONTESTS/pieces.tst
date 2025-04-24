@@ -89,17 +89,17 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.DSa1-f5 !
-
-   1.DSa1-c2 !
-
    1.DSa1-g7 !
 
    1.DSa1-e6 !
 
+   1.DSa1-f5 !
+
    1.DSa1-d4 !
 
    1.DSa1-b3 !
+
+   1.DSa1-c2 !
 
   add_to_move_generation_stack:          10
                      play_move:           6
@@ -132,59 +132,59 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S1d4-g1 !
-
-   1.S1d4-h3 !
-
-   1.S1d4-f5 !
-
-   1.S1d4-f2 !
-
-   1.S1d4-e3 !
-
-   1.S1d4-c2 !
-
    1.S1d4-e8 !
-
-   1.S1d4-c6 !
-
-   1.S1d4-g7 !
-
-   1.S1d4-h5 !
-
-   1.S1d4-f6 !
-
-   1.S1d4-g4 !
-
-   1.S1d4-e5 !
-
-   1.S1d4-f3 !
-
-   1.S1d4-b3 !
-
-   1.S1d4-a7 !
 
    1.S1d4-c8 !
 
-   1.S1d4-b6 !
+   1.S1d4-g7 !
 
    1.S1d4-d7 !
 
-   1.S1d4-c5 !
+   1.S1d4-a7 !
+
+   1.S1d4-f6 !
 
    1.S1d4-e6 !
 
-   1.S1d4-d1 !
+   1.S1d4-c6 !
 
-   1.S1d4-e2 !
+   1.S1d4-b6 !
 
-   1.S1d4-b2 !
+   1.S1d4-h5 !
+
+   1.S1d4-f5 !
+
+   1.S1d4-e5 !
+
+   1.S1d4-c5 !
+
+   1.S1d4-b5 !
+
+   1.S1d4-g4 !
 
    1.S1d4-a4 !
 
+   1.S1d4-h3 !
+
+   1.S1d4-f3 !
+
+   1.S1d4-e3 !
+
    1.S1d4-c3 !
 
-   1.S1d4-b5 !
+   1.S1d4-b3 !
+
+   1.S1d4-f2 !
+
+   1.S1d4-e2 !
+
+   1.S1d4-c2 !
+
+   1.S1d4-b2 !
+
+   1.S1d4-g1 !
+
+   1.S1d4-d1 !
 
   add_to_move_generation_stack:          40
                      play_move:          27
@@ -217,49 +217,49 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S2d4-a6 !
+   1.S2d4-d8 !
+
+   1.S2d4-f7 !
+
+   1.S2d4-b7 !
+
+   1.S2d4-g6 !
+
+   1.S2d4-e6 !
+
+   1.S2d4-d6 !
 
    1.S2d4-c6 !
 
-   1.S2d4-a2 !
+   1.S2d4-a6 !
+
+   1.S2d4-f5 !
+
+   1.S2d4-b5 !
+
+   1.S2d4-h4 !
+
+   1.S2d4-f4 !
 
    1.S2d4-b4 !
 
-   1.S2d4-c2 !
-
-   1.S2d4-b1 !
+   1.S2d4-f3 !
 
    1.S2d4-b3 !
-
-   1.S2d4-f1 !
-
-   1.S2d4-d2 !
-
-   1.S2d4-f3 !
 
    1.S2d4-g2 !
 
    1.S2d4-e2 !
 
-   1.S2d4-h4 !
+   1.S2d4-d2 !
 
-   1.S2d4-g6 !
+   1.S2d4-c2 !
 
-   1.S2d4-f4 !
+   1.S2d4-a2 !
 
-   1.S2d4-e6 !
+   1.S2d4-f1 !
 
-   1.S2d4-f7 !
-
-   1.S2d4-f5 !
-
-   1.S2d4-d8 !
-
-   1.S2d4-b7 !
-
-   1.S2d4-d6 !
-
-   1.S2d4-b5 !
+   1.S2d4-b1 !
 
   add_to_move_generation_stack:          28
                      play_move:          22
@@ -292,29 +292,29 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S3d4-b3 !
-
-   1.S3d4-a1 !
-
-   1.S3d4-c2 !
-
-   1.S3d4-e2 !
-
-   1.S3d4-g1 !
-
-   1.S3d4-f3 !
-
-   1.S3d4-f5 !
-
    1.S3d4-g7 !
+
+   1.S3d4-a7 !
 
    1.S3d4-e6 !
 
    1.S3d4-c6 !
 
-   1.S3d4-a7 !
+   1.S3d4-f5 !
 
    1.S3d4-b5 !
+
+   1.S3d4-f3 !
+
+   1.S3d4-b3 !
+
+   1.S3d4-e2 !
+
+   1.S3d4-c2 !
+
+   1.S3d4-g1 !
+
+   1.S3d4-a1 !
 
   add_to_move_generation_stack:          16
                      play_move:          12
@@ -347,25 +347,25 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S4d4-e2 !
+   1.S4d4-d8 !
 
-   1.S4d4-c2 !
+   1.S4d4-e6 !
+
+   1.S4d4-c6 !
 
    1.S4d4-f5 !
+
+   1.S4d4-b5 !
 
    1.S4d4-h4 !
 
    1.S4d4-f3 !
 
-   1.S4d4-c6 !
-
-   1.S4d4-d8 !
-
-   1.S4d4-e6 !
-
    1.S4d4-b3 !
 
-   1.S4d4-b5 !
+   1.S4d4-e2 !
+
+   1.S4d4-c2 !
 
   add_to_move_generation_stack:          12
                      play_move:          10
@@ -398,45 +398,45 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
+   1.QNd4-g8 !
+
+   1.QNd4-a8 !
+
+   1.QNd4-h7 !
+
+   1.QNd4-e7 !
+
+   1.QNd4-c7 !
+
+   1.QNd4-e6 !
+
+   1.QNd4-c6 !
+
+   1.QNd4-g5 !
+
+   1.QNd4-f5 !
+
+   1.QNd4-b5 !
+
    1.QNd4-a5 !
-
-   1.QNd4-a3 !
-
-   1.QNd4-b3 !
-
-   1.QNd4-c1 !
-
-   1.QNd4-c2 !
-
-   1.QNd4-e1 !
-
-   1.QNd4-h1 !
-
-   1.QNd4-e2 !
 
    1.QNd4-g3 !
 
    1.QNd4-f3 !
 
-   1.QNd4-h7 !
+   1.QNd4-b3 !
 
-   1.QNd4-g5 !
+   1.QNd4-a3 !
 
-   1.QNd4-g8 !
+   1.QNd4-e2 !
 
-   1.QNd4-f5 !
+   1.QNd4-c2 !
 
-   1.QNd4-e7 !
+   1.QNd4-h1 !
 
-   1.QNd4-c6 !
+   1.QNd4-e1 !
 
-   1.QNd4-e6 !
-
-   1.QNd4-a8 !
-
-   1.QNd4-c7 !
-
-   1.QNd4-b5 !
+   1.QNd4-c1 !
 
   add_to_move_generation_stack:          36
                      play_move:          20
@@ -471,9 +471,9 @@ solution finished.
 
    1.Md4-e6 !
 
-   1.Md4-b5 !
-
    1.Md4-c6 !
+
+   1.Md4-b5 !
 
   add_to_move_generation_stack:           4
                      play_move:           3
@@ -506,31 +506,31 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
 
-   1.MGd4-d5 !
-
-   1.MGd4-a7 !
+   1.MGd4-e7 !
 
    1.MGd4-d7 !
 
-   1.MGd4-e5 !
+   1.MGd4-c7 !
 
-   1.MGd4-c5 !
+   1.MGd4-b7 !
 
-   1.MGd4-b5 !
+   1.MGd4-a7 !
 
    1.MGd4-e6 !
 
    1.MGd4-c6 !
 
-   1.MGd4-a5 !
-
-   1.MGd4-c7 !
-
-   1.MGd4-e7 !
-
    1.MGd4-a6 !
 
-   1.MGd4-b7 !
+   1.MGd4-e5 !
+
+   1.MGd4-d5 !
+
+   1.MGd4-c5 !
+
+   1.MGd4-b5 !
+
+   1.MGd4-a5 !
 
   add_to_move_generation_stack:          16
                      play_move:          13
@@ -600,29 +600,29 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.ARd1-f7 !
-
-   1.ARd1-g6 !
-
-   1.ARd1-h5 !
-
-   1.ARd1-g4 !
-
-   1.ARd1-f3 !
-
-   1.ARd1-e2 !
-
    1.ARd1-e8 !
+
+   1.ARd1-f7 !
 
    1.ARd1-d7 !
 
+   1.ARd1-g6 !
+
    1.ARd1-c6 !
+
+   1.ARd1-h5 !
 
    1.ARd1-b5 !
 
+   1.ARd1-g4 !
+
    1.ARd1-a4 !
 
+   1.ARd1-f3 !
+
    1.ARd1-b3 !
+
+   1.ARd1-e2 !
 
    1.ARd1-c2 !
 
@@ -657,29 +657,29 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.RBd1-e2 !
-
-   1.RBd1-f3 !
-
-   1.RBd1-g4 !
-
-   1.RBd1-h5 !
-
-   1.RBd1-g6 !
+   1.RBd1-e8 !
 
    1.RBd1-f7 !
 
-   1.RBd1-e8 !
-
    1.RBd1-d7 !
+
+   1.RBd1-g6 !
 
    1.RBd1-c6 !
 
+   1.RBd1-h5 !
+
    1.RBd1-b5 !
+
+   1.RBd1-g4 !
 
    1.RBd1-a4 !
 
+   1.RBd1-f3 !
+
    1.RBd1-b3 !
+
+   1.RBd1-e2 !
 
    1.RBd1-c2 !
 
@@ -714,25 +714,25 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
 
-   1.BKd2*b1 !
-
    1.BKd2-g4 !
-
-   1.BKd2-h2 !
-
-   1.BKd2-g3 !
-
-   1.BKd2-e3 !
-
-   1.BKd2-f1 !
-
-   1.BKd2-f3 !
 
    1.BKd2-e4 !
 
    1.BKd2-c4 !
 
+   1.BKd2-g3 !
+
+   1.BKd2-f3 !
+
+   1.BKd2-e3 !
+
    1.BKd2-b3 !
+
+   1.BKd2-h2 !
+
+   1.BKd2-f1 !
+
+   1.BKd2*b1 !
 
   add_to_move_generation_stack:          12
                      play_move:          10
@@ -765,113 +765,113 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
 
-   1.BNd2-b2 !
+   1.BNd2-g8 !
 
-   1.BNd2-h2 !
-
-   1.BNd2-g7 !
+   1.BNd2-f8 !
 
    1.BNd2-e8 !
 
-   1.BNd2-a6 !
+   1.BNd2-d8 !
 
    1.BNd2-b8 !
 
-   1.BNd2-h5 !
+   1.BNd2-a8 !
 
-   1.BNd2-f1 !
+   1.BNd2-h7 !
+
+   1.BNd2-g7 !
+
+   1.BNd2-f7 !
+
+   1.BNd2-e7 !
 
    1.BNd2-d7 !
+
+   1.BNd2-c7 !
+
+   1.BNd2-b7 !
+
+   1.BNd2-h6 !
+
+   1.BNd2-g6 !
+
+   1.BNd2-f6 !
+
+   1.BNd2-e6 !
+
+   1.BNd2-d6 !
+
+   1.BNd2-c6 !
+
+   1.BNd2-b6 !
+
+   1.BNd2-a6 !
+
+   1.BNd2-h5 !
+
+   1.BNd2-g5 !
+
+   1.BNd2-f5 !
+
+   1.BNd2-e5 !
 
    1.BNd2-d5 !
 
    1.BNd2-c5 !
 
-   1.BNd2*b1 !
-
    1.BNd2-b5 !
-
-   1.BNd2-a3 !
-
-   1.BNd2-c2 !
-
-   1.BNd2-e1 !
-
-   1.BNd2-h7 !
-
-   1.BNd2-f8 !
-
-   1.BNd2-g6 !
-
-   1.BNd2-d6 !
-
-   1.BNd2-h4 !
-
-   1.BNd2-f3 !
-
-   1.BNd2-d4 !
-
-   1.BNd2-f5 !
-
-   1.BNd2-f2 !
-
-   1.BNd2-g4 !
-
-   1.BNd2-g3 !
-
-   1.BNd2-e2 !
-
-   1.BNd2-e5 !
-
-   1.BNd2-d3 !
-
-   1.BNd2-e3 !
-
-   1.BNd2-e7 !
-
-   1.BNd2-b7 !
 
    1.BNd2-a5 !
 
-   1.BNd2-c1 !
+   1.BNd2-h4 !
 
-   1.BNd2-c3 !
-
-   1.BNd2-a2 !
-
-   1.BNd2-b4 !
-
-   1.BNd2-c6 !
-
-   1.BNd2-g2 !
+   1.BNd2-g4 !
 
    1.BNd2-f4 !
 
-   1.BNd2-d8 !
-
-   1.BNd2-f7 !
-
-   1.BNd2-h6 !
-
-   1.BNd2-g8 !
-
-   1.BNd2-f6 !
-
    1.BNd2-e4 !
 
-   1.BNd2-g5 !
-
-   1.BNd2-e6 !
-
-   1.BNd2-c7 !
-
-   1.BNd2-a8 !
-
-   1.BNd2-b6 !
+   1.BNd2-d4 !
 
    1.BNd2-c4 !
 
+   1.BNd2-b4 !
+
+   1.BNd2-g3 !
+
+   1.BNd2-f3 !
+
+   1.BNd2-e3 !
+
+   1.BNd2-d3 !
+
+   1.BNd2-c3 !
+
    1.BNd2-b3 !
+
+   1.BNd2-a3 !
+
+   1.BNd2-h2 !
+
+   1.BNd2-g2 !
+
+   1.BNd2-f2 !
+
+   1.BNd2-e2 !
+
+   1.BNd2-c2 !
+
+   1.BNd2-b2 !
+
+   1.BNd2-a2 !
+
+   1.BNd2-f1 !
+
+   1.BNd2-e1 !
+
+   1.BNd2-c1 !
+
+   1.BNd2*b1 !
 
   add_to_move_generation_stack:         148
                      play_move:          54
@@ -904,41 +904,41 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.BTd2-a1 !
-
-   1.BTd2-c1 !
-
-   1.BTd2-g1 !
-
-   1.BTd2-e1 !
+   1.BTd2-d8 !
 
    1.BTd2-e7 !
-
-   1.BTd2-e5 !
-
-   1.BTd2-h2 !
-
-   1.BTd2-g3 !
-
-   1.BTd2-f2 !
-
-   1.BTd2-e3 !
-
-   1.BTd2-d8 !
 
    1.BTd2-c7 !
 
    1.BTd2-d6 !
 
+   1.BTd2-e5 !
+
    1.BTd2-c5 !
 
    1.BTd2-d4 !
 
+   1.BTd2-g3 !
+
+   1.BTd2-e3 !
+
+   1.BTd2-c3 !
+
    1.BTd2-a3 !
+
+   1.BTd2-h2 !
+
+   1.BTd2-f2 !
 
    1.BTd2-b2 !
 
-   1.BTd2-c3 !
+   1.BTd2-g1 !
+
+   1.BTd2-e1 !
+
+   1.BTd2-c1 !
+
+   1.BTd2-a1 !
 
   add_to_move_generation_stack:          28
                      play_move:          18
@@ -971,59 +971,59 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.GTd2-h5 !
-
-   1.GTd2-g4 !
-
-   1.GTd2-f3 !
-
-   1.GTd2-f1 !
-
-   1.GTd2-e2 !
-
    1.GTd2-h7 !
 
    1.GTd2-h6 !
 
    1.GTd2-g6 !
 
+   1.GTd2-a6 !
+
+   1.GTd2-h5 !
+
    1.GTd2-g5 !
 
    1.GTd2-f5 !
+
+   1.GTd2-b5 !
+
+   1.GTd2-a5 !
+
+   1.GTd2-g4 !
 
    1.GTd2-f4 !
 
    1.GTd2-e4 !
 
-   1.GTd2-e3 !
-
-   1.GTd2-a6 !
-
-   1.GTd2-b5 !
-
    1.GTd2-c4 !
-
-   1.GTd2-d3 !
-
-   1.GTd2-b1 !
-
-   1.GTd2-a5 !
-
-   1.GTd2-a4 !
 
    1.GTd2-b4 !
 
-   1.GTd2-b3 !
+   1.GTd2-a4 !
+
+   1.GTd2-f3 !
+
+   1.GTd2-e3 !
+
+   1.GTd2-d3 !
 
    1.GTd2-c3 !
 
+   1.GTd2-b3 !
+
+   1.GTd2-e2 !
+
    1.GTd2-c2 !
 
-   1.GTd2-c1 !
+   1.GTd2-f1 !
 
    1.GTd2-e1 !
 
    1.GTd2-d1 !
+
+   1.GTd2-c1 !
+
+   1.GTd2-b1 !
 
   add_to_move_generation_stack:          40
                      play_move:          27
@@ -1111,29 +1111,29 @@ solution finished.
 
 a) 
 
-   1.nROd1-h1 !
+   1.nROd1-d7 !
 
-   1.nROd1-e3 !
+   1.nROd1-f6 !
+
+   1.nROd1-b6 !
 
    1.nROd1-h5 !
 
    1.nROd1-d5 !
 
+   1.nROd1-g4 !
+
+   1.nROd1-a4 !
+
+   1.nROd1-e3 !
+
    1.nROd1-c3 !
 
    1.nROd1-f2 !
 
-   1.nROd1-g4 !
-
-   1.nROd1-f6 !
-
-   1.nROd1-d7 !
-
-   1.nROd1-b6 !
-
-   1.nROd1-a4 !
-
    1.nROd1-b2 !
+
+   1.nROd1-h1 !
 
   add_to_move_generation_stack:          28
                      play_move:          12
@@ -1142,25 +1142,25 @@ a)
 
 b) +bPf2  
 
-   1.nROd1-e3 !
+   1.nROd1-d7 !
+
+   1.nROd1-f6 !
+
+   1.nROd1-b6 !
 
    1.nROd1-h5 !
 
    1.nROd1-d5 !
 
+   1.nROd1-g4 !
+
+   1.nROd1-a4 !
+
+   1.nROd1-e3 !
+
    1.nROd1-c3 !
 
    1.nROd1*f2 !
-
-   1.nROd1-g4 !
-
-   1.nROd1-f6 !
-
-   1.nROd1-d7 !
-
-   1.nROd1-b6 !
-
-   1.nROd1-a4 !
 
    1.nROd1-b2 !
 
@@ -1217,9 +1217,9 @@ b) +bPf2
 
    1.nRPd1*g4 !
 
-   1.nRPd1-h1 !
-
    1.nRPd1*f2 !
+
+   1.nRPd1-h1 !
 
   add_to_move_generation_stack:           3
                      play_move:           3
@@ -1254,29 +1254,29 @@ solution finished.
 
 a) 
 
-   1.nRAd1-h1 !
+   1.nRAd1-d7 !
 
-   1.nRAd1-e3 !
+   1.nRAd1-f6 !
+
+   1.nRAd1-b6 !
 
    1.nRAd1-h5 !
 
    1.nRAd1-d5 !
 
+   1.nRAd1-g4 !
+
+   1.nRAd1-a4 !
+
+   1.nRAd1-e3 !
+
    1.nRAd1-c3 !
 
    1.nRAd1-f2 !
 
-   1.nRAd1-g4 !
-
-   1.nRAd1-f6 !
-
-   1.nRAd1-d7 !
-
-   1.nRAd1-b6 !
-
-   1.nRAd1-a4 !
-
    1.nRAd1-b2 !
+
+   1.nRAd1-h1 !
 
   add_to_move_generation_stack:          28
                      play_move:          12
@@ -1285,23 +1285,23 @@ a)
 
 b) +bPf2  
 
-   1.nRAd1-e3 !
+   1.nRAd1-d7 !
+
+   1.nRAd1-f6 !
+
+   1.nRAd1-b6 !
 
    1.nRAd1-h5 !
 
    1.nRAd1-d5 !
 
-   1.nRAd1-c3 !
-
    1.nRAd1-g4 !
 
-   1.nRAd1-f6 !
-
-   1.nRAd1-d7 !
-
-   1.nRAd1-b6 !
-
    1.nRAd1-a4 !
+
+   1.nRAd1-e3 !
+
+   1.nRAd1-c3 !
 
    1.nRAd1-b2 !
 
@@ -1312,25 +1312,25 @@ b) +bPf2
 
 +c) +bPg4  
 
-   1.nRAd1*g4 !
+   1.nRAd1-d7 !
 
-   1.nRAd1-e3 !
+   1.nRAd1-f6 !
+
+   1.nRAd1-b6 !
 
    1.nRAd1-h5 !
 
    1.nRAd1-d5 !
 
+   1.nRAd1*g4 !
+
+   1.nRAd1-a4 !
+
+   1.nRAd1-e3 !
+
    1.nRAd1-c3 !
 
    1.nRAd1*f2 !
-
-   1.nRAd1-f6 !
-
-   1.nRAd1-d7 !
-
-   1.nRAd1-b6 !
-
-   1.nRAd1-a4 !
 
    1.nRAd1-b2 !
 
@@ -1374,17 +1374,17 @@ a)
 
 b) +bPf2  
 
-   1.nRNd1-b2 !
-
-   1.nRNd1-a4 !
-
-   1.nRNd1-b6 !
-
    1.nRNd1-d7 !
 
    1.nRNd1-f6 !
 
+   1.nRNd1-b6 !
+
    1.nRNd1-g4 !
+
+   1.nRNd1-a4 !
+
+   1.nRNd1-b2 !
 
    1.nRNd1-h1 !
 
@@ -1397,13 +1397,13 @@ b) +bPf2
 
    1.nRNd1*f6 !
 
-   1.nRNd1-h1 !
-
    1.nRNd1-h5 !
+
+   1.nRNd1-g4 !
 
    1.nRNd1*f2 !
 
-   1.nRNd1-g4 !
+   1.nRNd1-h1 !
 
   add_to_move_generation_stack:           6
                      play_move:           5
@@ -1489,61 +1489,61 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.DSd4-b3 !
-
-   1.DSd4-a1 !
-
-   1.DSd4-c2 !
-
-   1.DSd4-d1 !
-
-   1.DSd4-e2 !
-
-   1.DSd4-h5 !
-
-   1.DSd4-f3 !
-
-   1.DSd4-g1 !
-
-   1.DSd4-h3 !
-
-   1.DSd4-f2 !
-
-   1.DSd4-g4 !
-
-   1.DSd4-e3 !
-
-   1.DSd4-f5 !
+   1.DSd4-e8 !
 
    1.DSd4-c8 !
 
-   1.DSd4-b6 !
-
-   1.DSd4-c5 !
-
-   1.DSd4-e6 !
-
    1.DSd4-g7 !
-
-   1.DSd4-e8 !
-
-   1.DSd4-f6 !
 
    1.DSd4-d7 !
 
-   1.DSd4-e5 !
+   1.DSd4-a7 !
+
+   1.DSd4-f6 !
+
+   1.DSd4-e6 !
 
    1.DSd4-c6 !
 
-   1.DSd4-b2 !
+   1.DSd4-b6 !
+
+   1.DSd4-h5 !
+
+   1.DSd4-f5 !
+
+   1.DSd4-e5 !
+
+   1.DSd4-c5 !
+
+   1.DSd4-b5 !
+
+   1.DSd4-g4 !
 
    1.DSd4-a4 !
 
+   1.DSd4-h3 !
+
+   1.DSd4-f3 !
+
+   1.DSd4-e3 !
+
    1.DSd4-c3 !
 
-   1.DSd4-a7 !
+   1.DSd4-b3 !
 
-   1.DSd4-b5 !
+   1.DSd4-f2 !
+
+   1.DSd4-e2 !
+
+   1.DSd4-c2 !
+
+   1.DSd4-b2 !
+
+   1.DSd4-g1 !
+
+   1.DSd4-d1 !
+
+   1.DSd4-a1 !
 
   add_to_move_generation_stack:          56
                      play_move:          28
@@ -1659,9 +1659,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 6
 
-   1.SAe5*f3 !
-
    1.SAe5-g6 + !
+
+   1.SAe5*f3 !
 
   add_to_move_generation_stack:          16
                      play_move:           2
@@ -1798,6 +1798,101 @@ b) wOHe5  bPe4-->f4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           5
+
+solution finished.
+
+
+
+          eagle equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .  EE   .   7
+|                                   |
+6   .   .   .  EE   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+
+   1.EEd6-h4 + !
+
+   1.EEd6-e7 !
+
+   1.EEd6-c7 + !
+
+   1.EEd6-f4 + !
+
+   1.EEd6-b4 + !
+
+   1.EEg7-e3 !
+
+   1.EEg7-a7 !
+
+   1.EEg7-g1 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           9
+
+solution finished.
+
+
+
+      eagle nonstop equihoppers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  EN   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .  EN   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 3
+both sides need a king
+
+   1.ENd1-d5 !
+
+   1.ENd1-g4 + !
+
+   1.ENd1-a4 !
+
+   1.ENd1-e2 !
+
+   1.ENd1-c2 !
+
+   1.ENg7-a7 !
+
+   1.ENg7-g1 + !
+
+  add_to_move_generation_stack:           7
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           8
 
 solution finished.
 

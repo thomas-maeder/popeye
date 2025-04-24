@@ -240,6 +240,8 @@ static void prepend_stalemate_special_starter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children_pipe(si,st);
+
   pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
 
@@ -253,6 +255,8 @@ static void prepend_stalemate_special_other(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
 
   pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
@@ -379,7 +383,7 @@ void paralysing_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
+  solving_instrument_moves_for_piece_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
   stip_instrument_observer_validation(si,nr_sides,STParalysingObserverValidator);
   stip_instrument_observation_geometry_validation(si,nr_sides,STParalysingObservationGeometryValidator);

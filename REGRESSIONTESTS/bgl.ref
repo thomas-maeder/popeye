@@ -125,10 +125,10 @@ solution finished.
               BGL -/29
 
   1.nPb2-b1=nR (-/28)   2.nRb1-h1 (-/22)   3.nRh1-a1 (-/15)   4.nRa1-a8 (-/8)   5.nRa8-h8 (-/1) nRh8*h6 #
-  add_to_move_generation_stack:     1275665
-                     play_move:     1161090
+  add_to_move_generation_stack:     1275863
+                     play_move:     1161288
  is_white_king_square_attacked:       94088
- is_black_king_square_attacked:     1161090
+ is_black_king_square_attacked:     1161288
 
 solution finished.
 

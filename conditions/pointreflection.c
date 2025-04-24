@@ -11,59 +11,114 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-/* Generate moves for a single piece
+static boolean reflected = false;
+
+static castling_rights_type save_castling_rights;
+
+typedef enum
+{
+  reflection_reflect,
+  reflection_restore
+} reflection_type;
+
+static void reflect(slice_index si, reflection_type type)
+{
+  Side const side_moving = SLICE_STARTER(si);
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side_moving);
+  TraceEOL();
+
+  if (type==reflection_reflect)
+  {
+    square const square_a = side_moving==White ? square_a1 : square_a8;
+    square const square_h = square_a+file_h;
+    square const square_a_reflected = transformSquare(square_a,rot180);
+    square const square_h_reflected = transformSquare(square_h,rot180);
+
+    save_castling_rights = being_solved.castling_rights;
+
+    if (!is_square_empty(square_a_reflected)
+        && game_array.board[square_a_reflected]!=being_solved.board[square_a_reflected])
+      CLRCASTLINGFLAGMASK(side_moving,q_castling);
+
+    if (!is_square_empty(square_h_reflected)
+        && game_array.board[square_h_reflected]!=being_solved.board[square_h_reflected])
+      CLRCASTLINGFLAGMASK(side_moving,k_castling);
+  }
+  else
+    being_solved.castling_rights = save_castling_rights;
+
+  for (bnp = boardnum; *bnp/onerow-square_a1/onerow<nr_rows_on_board/2; ++bnp)
+  {
+    Flags const spec = being_solved.spec[*bnp];
+    piece_walk_type const walk_original = get_walk_of_piece_on_square(*bnp);
+    square const reflected = transformSquare(*bnp,rot180);
+    piece_walk_type const walk_reflected = get_walk_of_piece_on_square(reflected);
+    Flags const spec_reflected = being_solved.spec[reflected];
+
+    if (walk_original!=Empty && walk_reflected!=Empty)
+    {
+      TraceSquare(*bnp);
+      TraceWalk(walk_original);
+      TraceWalk(walk_reflected);
+      TraceEOL();
+
+      occupy_square(*bnp,walk_reflected,spec);
+      occupy_square(reflected,walk_original,spec_reflected);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Temporarily change walks of oppenent's pieces before move generation
  * @param identifies generator slice
  */
-void point_reflection_generate_moves_for_piece(slice_index si)
+void point_reflection_temporarily_change_walks(slice_index si)
 {
-  square const reflected = transformSquare(curr_generation->departure,rot180);
-  piece_walk_type const walk_reflected = get_walk_of_piece_on_square(reflected);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceSquare(curr_generation->departure);
-  TraceSquare(reflected);
-  TraceWalk(walk_reflected);
-  TraceEOL();
+  assert(!reflected);
+  reflect(si,reflection_reflect);
+  reflected = true;
 
-  if (walk_reflected==Empty)
-  {
-    Side const side = trait[nbply];
+  pipe_solve_delegate(si);
 
-    if (is_king(move_generation_current_walk)
-        && TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
-    {
-      castling_rights_type const save_castling_rights = being_solved.castling_rights;
+  assert(reflected);
+  reflect(si,reflection_restore);
+  reflected = false;
 
-      square const square_a = side==White ? square_a1 : square_a8;
-      square const square_h = square_a+file_h;
-      square const square_a_reflected = transformSquare(square_a,rot180);
-      square const square_h_reflected = transformSquare(square_h,rot180);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-      if (!is_square_empty(square_a_reflected)
-          && game_array.board[square_a_reflected]!=being_solved.board[square_a_reflected])
-        CLRCASTLINGFLAGMASK(side,q_castling);
+/* Restore walks of oppenent's pieces
+ * @param identifies generator slice
+ */
+void point_reflection_restore_walks(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-      if (!is_square_empty(square_h_reflected)
-          && game_array.board[square_h_reflected]!=being_solved.board[square_h_reflected])
-        CLRCASTLINGFLAGMASK(side,k_castling);
+  assert(reflected);
+  reflect(si,reflection_restore);
+  reflected = false;
 
-      /* no need to inspect the king's square here:
-       * * reflection of the king belongs to the other branch (i.e. walk_reflected!=Empty)
-       * * the castling machinery tests again if the piece on the king's square walks like a king
-       */
+  pipe_solve_delegate(si);
 
-      pipe_move_generation_delegate(si);
-
-      being_solved.castling_rights = save_castling_rights;
-    }
-    else
-      pipe_move_generation_delegate(si);
-  }
-  else
-    pipe_move_generation_different_walk_delegate(si,walk_reflected);
+  assert(!reflected);
+  reflect(si,reflection_reflect);
+  reflected = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -123,7 +178,8 @@ void point_reflection_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STPointReflectionMovesForPieceGenerator);
+  solving_instrument_move_generation_simple(si,STPointReflectionTemporaryWalkChanger);
+  solving_instrument_move_generation_simple(si,STPointReflectionWalkRestorer);
 
   {
     stip_structure_traversal st;

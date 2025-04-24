@@ -1,0 +1,414 @@
+
+            Romeo Bedoni
+             Phenix 1993
+               cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   S   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         3 + 1
+            MultiCaptures
+
+  1.Kg4-h3 Sg3-e2   2.Kh3-h2 Kh1-g1   3.Kh2-h1 Kg1-h2 =
+  1.Kg4-h3 Kh1-g1   2.Kh3-h2 Sg3-e2   3.Kh2-h1 Kg1-h2 =
+  add_to_move_generation_stack:      121895
+                     play_move:       35426
+ is_white_king_square_attacked:       15503
+ is_black_king_square_attacked:       34168
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 1993
+               cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#7                         2 + 1
+            MultiCaptures
+
+  1.Kh7-g7 Kb3-a2   2.Kg7-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g7 Kb3-a2   2.Kg7-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g7 Kb3-a2   2.Kg7-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f6 b2-b4   3.Kf6-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e5 b4-b5   4.Ke5-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d4 b5-b6   5.Kd4-c3 b6-b7   6.Kc3-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c3 b6-b7   6.Kc3-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c3 b6-b7   6.Kc3-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b2 b7-b8=Q +   7.Kb2-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b2 b7-b8=R +   7.Kb2-a1 Rb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b1 b7-b8=Q +   7.Kb1-a1 Qb8-b2 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b1 b7-b8=Q +   7.Kb1-a1 Qb8-b1 #
+  1.Kh7-g6 Kb3-a2   2.Kg6-f5 b2-b4   3.Kf5-e4 b4-b5   4.Ke4-d3 b5-b6   5.Kd3-c2 b6-b7   6.Kc2-b1 b7-b8=R +   7.Kb1-a1 Rb8-b1 #
+  add_to_move_generation_stack:      540914
+                     play_move:      532229
+ is_white_king_square_attacked:      145410
+ is_black_king_square_attacked:      387649
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   K   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   R   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          2 + 1
+            MultiCaptures
+
+   1.Ra2-a7 !
+      1...Ka8-b8
+          2.Kc7-c8
+              2...Kb8-a8
+                  3.Kc8-b8 #
+
+  add_to_move_generation_stack:       12007
+                     play_move:        9099
+ is_white_king_square_attacked:        1792
+ is_black_king_square_attacked:        7579
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   R   .   .   .   .   7
+|                                   |
+6   K   P   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 1
+            MultiCaptures
+
+   1.Ka6-b7 ! threat:
+          2.Rd7-d8 #
+
+  add_to_move_generation_stack:         691
+                     play_move:         471
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:         474
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   B   .   K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   P   .   2
+|                                   |
+1   .   .   .   .   .   .   B  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =5                          6 + 1
+            MultiCaptures
+
+   1.Bg1-h2 !
+      1...Kh1-g1
+          2.Ba6-f1
+              2...Kg1-h1
+                  3.Sb8-d7
+                      3...Kh1-g1
+                          4.Sd7-e5
+                              4...Kg1-h1
+                                  5.Se5-f3 =
+
+  add_to_move_generation_stack:     7655717
+                     play_move:     2555364
+ is_white_king_square_attacked:     1623787
+ is_black_king_square_attacked:     1763208
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   S  -K   8
+|                                   |
+7   .   .   .   .   S   .   .  -Q   7
+|                                   |
+6   .   .   .   .   .   .   P   P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =2                          5 + 2
+            MultiCaptures
+
+   1.Ke8-f7 ! zugzwang.
+      1...Qh7-g7
+          2.Kf7*g7 =
+      1...Qh7*g8
+          2.Kf7*g8 =
+
+  add_to_move_generation_stack:        1070
+                     play_move:         462
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:         461
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+            MultiCaptures
+
+  1.a2-a1=B Kf6-f7   2.Ba1-g7 d7-d8=Q #
+  add_to_move_generation_stack:       14295
+                     play_move:       13308
+ is_white_king_square_attacked:         841
+ is_black_king_square_attacked:       13204
+
+solution finished.
+
+
+
+            Juraj Lörinc
+Springaren Summer Ty 2014, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -G   .   .   .   8
+|                                   |
+7   .  -G   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   G   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -G   . -DU   .   .   G   4
+|                                   |
+3   G   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   G   .   .   .   G   .   .   G   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          6 + 4
+              Royal e4
+            MultiCaptures
+
+   1.Ga1-f1 !
+      1...Ge8-e3
+          2.Ga3-f3 +
+              2...Ge3-e5
+                  3.Gf1-f4 #
+              2...Ge3-g3
+                  3.Gf1-f4 #
+      1...Gb7-f3
+          2.Gf1-f4 +
+              2...Gf3-f5
+                  3.Gh6-e3 #
+              2...Gf3-d5
+                  3.Gh6-e3 #
+      1...Gc4-f4
+          2.Gh6-e3 +
+              2...Gf4-d4
+                  3.Ga3-f3 #
+              2...Gf4-d2
+                  3.Ga3-f3 #
+
+  add_to_move_generation_stack:        1883
+                     play_move:        1460
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1136
+
+solution finished.
+
+
+
+Georgij A. Evseev & Igor A. Verescagin
+         Problem Online 2007
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   P  -Q   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   P   P   P   P   P   .   .   P   2
+|                                   |
+1   R   S   B   Q   K  -R   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia6                      15 + 16
+            MultiCaptures
+
+  1.f2-f4 a7-a5   2.f4-f5 Ra8-a6   3.f5-f6 Ra6*f6   4.g2-g4 e7-e6   5.Bf1-g2 Rf6-f1   6.Bg2-f3 Qd8-h4 + dia
+  add_to_move_generation_stack:      112630
+                     play_move:      108339
+ is_white_king_square_attacked:        6411
+ is_black_king_square_attacked:        3434
+
+solution finished.
+
+
+
+            Romeo Bedoni
+             Phenix 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   P -RB   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   S   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 3
+            MultiCaptures
+
+  1.Kb8-a8 b7-b8=RB   2.g5-g4 Sa5-b7   3.RBc7*g3 RBb8*g3 =
+  add_to_move_generation_stack:     3733109
+                     play_move:     1340294
+ is_white_king_square_attacked:      596123
+ is_black_king_square_attacked:     1324021
+
+solution finished.
+
+

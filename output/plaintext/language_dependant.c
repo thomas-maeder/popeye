@@ -280,7 +280,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','l'},   /* Saltador */
     /*158*/ {'a','s'},   /* MaoSauteur */
     /*159*/ {'o','s'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -442,7 +444,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','k'}    /* KontraHamster */
+    /*160*/ {'h','k'},   /* KontraHamster */
+    /*161*/ {'a','e'},   /* EagleEquihopper */
+    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -604,7 +608,9 @@ static PieTable PieNamString[LanguageCount] =
     /*157*/ {'s','a'},   /* Saltador */
     /*158*/ {'a','h'},   /* MaoHopper */
     /*159*/ {'o','h'},   /* MoaSauteur */
-    /*160*/ {'h','c'}    /* ContraHamster */
+    /*160*/ {'h','c'},   /* ContraHamster */
+    /*161*/ {'e','e'},   /* EagleEquihopper */
+    /*162*/ {'e','n'}    /* EagleNonstopEquihopper */
   }
 };
 
@@ -654,7 +660,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*34*/  "optionnonpubliee",
   /*35*/  "CoupsVides",
   /*36*/  "JusquAuCoup",
-  /*37*/  "TrivialEssaiSupprimer"
+  /*37*/  "TrivialEssaiSupprimer",
+  /*38*/  "MatsEn1"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -694,7 +701,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*34*/  "nichtpublizierteoption",
   /*35*/  "NullZuege",
   /*36*/  "BisZugnummer",
-  /*37*/  "TrivialeFehlversucheUnterdruecken"
+  /*37*/  "TrivialeFehlversucheUnterdruecken",
+  /*38*/  "MattsIn1"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -734,7 +742,8 @@ static char const * const OptString[LanguageCount][OptCount] =
   /*34*/  "unpublishedoption",
   /*35*/  "NullMoves",
   /*36*/  "UpToMoveNumber",
-  /*37*/  "TrivialTriesAvoid"
+  /*37*/  "TrivialTriesAvoid",
+  /*38*/  "MatesIn1"
   }
 };
 
@@ -967,7 +976,13 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTEchecs"
+    /*223*/ "CASTEchecs",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "TransfertPouvoir",
+    /*228*/ "MultiCaptures",
+    /*229*/ "Antigardes"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1193,8 +1208,14 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTSchach"
-  },{
+    /*223*/ "CASTSchach",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "KraftTransfer",
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiDeckungen"
+},{
     /* English Condition Names */
     /* 0*/  "Circe",
     /* 1*/  "MirrorCirce",
@@ -1419,7 +1440,13 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*220*/ "DarkSide",
     /*221*/ "Leffie",
     /*222*/ "Pepo",
-    /*223*/ "CASTChess"
+    /*223*/ "CASTChess",
+    /*224*/ "Bicaptures",
+    /*225*/ "FuddledMen",
+    /*226*/ "TransmissionMenace",
+    /*227*/ "PowerTransfer",
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiGuards"
   }
 };
 
@@ -1759,7 +1786,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Volcanique",
     "Parachute",
     "Einstein",
-    "ReversEinstein"
+    "ReversEinstein",
+    "PriseProchaine",
+    "CaseDePrise"
   },{
     /* German */
     "RexInklusive",
@@ -1796,7 +1825,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Vulkan",
     "Fallschirm",
     "Einstein",
-    "ReversesEinstein"
+    "ReversesEinstein",
+    "NaechsterSchlag",
+    "Schlagfeld"
   },{
     /* English */
     "RexInclusive",
@@ -1833,7 +1864,9 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Volcanic",
     "Parachute",
     "Einstein",
-    "ReversalEinstein"
+    "ReversalEinstein",
+    "WaitCapture",
+    "CaptureSquare"
   }
 };
 

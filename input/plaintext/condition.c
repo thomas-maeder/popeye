@@ -49,6 +49,8 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
+#include "conditions/powertransfer.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -409,6 +411,11 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
             output_plaintext_input_error_message(NonsenseCombination);
           break;
 
+        case CirceVariantCaptureSquare:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_capture_square))
+            output_plaintext_input_error_message(NonsenseCombination);
+          break;
+
         case CirceVariantVerticalSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_vertical_symmetry))
             variant->is_promotion_possible = true;
@@ -506,6 +513,10 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
           break;
 
+        case CirceVariantWaitCapture:
+          variant->relevant_capture = circe_relevant_capture_lastcapture;
+          break;
+
         default:
           assert(0);
           break;
@@ -516,25 +527,35 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
   return tok;
 }
 
-static void HandleImitatorPosition(square pos, void *param)
+static boolean HandleImitatorPosition(square pos, void *param)
 {
   unsigned int * const number_of_imitators = param;
 
-  being_solved.isquare[(*number_of_imitators)++] = pos;
+  if (*number_of_imitators<maxinum)
+  {
+    being_solved.isquare[*number_of_imitators] = pos;
+    ++*number_of_imitators;
+    return true;
+  }
+  else
+    return false;
 }
 
-static void HandleGridCell(square cell, void *param)
+static boolean HandleGridCell(square cell, void *param)
 {
   unsigned int * const currentgridnum = param;
 
   ClearGridNum(cell);
   sq_spec(cell) += *currentgridnum << Grid;
+
+  return true;
 }
 
-static void HandleSquaresWithFlag(square sq, void *param)
+static boolean HandleSquaresWithFlag(square sq, void *param)
 {
   SquareFlags * const flag = param;
   SETFLAG(sq_spec(sq),*flag);
+  return true;
 }
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
@@ -559,19 +580,24 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
   return tok;
 }
 
-static void HandleHole(square sq, void *dummy)
+static boolean HandleHole(square sq, void *dummy)
 {
   block_square(sq);
+  return true;
 }
 
-static void HandleDisterReferenceSquare(square sq, void *v)
+static boolean HandleDisterReferenceSquare(square sq, void *v)
 {
   unsigned int *nr_reference_squares_read = (unsigned int *)v;
 
   if (*nr_reference_squares_read<2)
+  {
     dister_reference_square[*nr_reference_squares_read] = sq;
-
-  ++*nr_reference_squares_read;
+    ++*nr_reference_squares_read;
+    return true;
+  }
+  else
+    return false;
 }
 
 static char *ParseRoyalSquare(char *tok, Side side)
@@ -596,23 +622,17 @@ static char *ParseRoyalSquare(char *tok, Side side)
   return tok;
 }
 
-static char *ParseKobulSides(char *tok, boolean (*variant)[nr_sides])
+static char *ParseKobulSides(char *tok, Side *who)
 {
-  do
+  KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
+
+  if (type<KobulVariantCount)
   {
-    KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
-
-    if (type>KobulVariantCount)
-      output_plaintext_input_error_message(CondNotUniq);
-    else if (type==KobulWhiteOnly)
-      (*variant)[Black] = false;
-    else if (type==KobulBlackOnly)
-      (*variant)[White] = false;
-    else
-      break;
-
+    *who = type==KobulWhiteOnly ? White : Black;
     tok = ReadNextTokStr();
-  } while (tok);
+  }
+  else
+    *who = nr_sides;
 
   return tok;
 }
@@ -1264,6 +1284,8 @@ char *ParseCond(char *tok)
                                 &being_solved.number_of_imitators);
           if (tok==squares_tok)
             output_plaintext_input_error_message(MissngSquareList);
+          else if (tok==0)
+            output_plaintext_input_error_message(ManyImitators);
           else if (*tok!=0)
             output_plaintext_error_message(WrongSquareList);
 
@@ -1309,12 +1331,20 @@ char *ParseCond(char *tok)
 
           unsigned int nr_reference_squares_read = 0;
           tok = ParseSquareList(squares_tok,&HandleDisterReferenceSquare,&nr_reference_squares_read);
-          if (tok==squares_tok || nr_reference_squares_read<2)
+          assert(nr_reference_squares_read<=2);
+          if (tok==squares_tok)
           {
             output_plaintext_input_error_message(MissngSquareList);
             CondFlag[cond] = false;
           }
-          else if (*tok!=0 || nr_reference_squares_read>2 || dister_reference_square[0]==dister_reference_square[1])
+          else if (tok==0
+                   || nr_reference_squares_read<2
+                   || dister_reference_square[0]==dister_reference_square[1])
+          {
+            output_plaintext_error_message(TwoDisterReferenceSquaresRequired);
+            CondFlag[cond] = false;
+          }
+          else if (*tok!=0)
           {
             output_plaintext_error_message(WrongSquareList);
             CondFlag[cond] = false;
@@ -1817,9 +1847,11 @@ char *ParseCond(char *tok)
           break;
 
         case kobulkings:
-          kobul_who[White] = true;
-          kobul_who[Black] = true;
           tok = ParseKobulSides(tok,&kobul_who);
+          break;
+
+        case multicaptures:
+          tok = ParseKobulSides(tok,&multicaptures_who);
           break;
 
         case sentinelles:
@@ -1978,6 +2010,10 @@ char *ParseCond(char *tok)
           tok = ParseCASTVariants(tok);
           break;
         }
+        case powertransfer:
+          powertransfer_is_rex_inclusive = false;
+          tok = ParseRexIncl(tok,&powertransfer_is_rex_inclusive, CirceVariantRexInclusive);
+          break;
 
         default:
           break;
@@ -2084,9 +2120,6 @@ void InitCond(void)
   calc_reflective_king[Black] = false;
 
   reset_king_vaulters();
-
-  kobul_who[White] = false;
-  kobul_who[Black] = false;
 } /* InitCond */
 
 void conditions_resetter_solve(slice_index si)

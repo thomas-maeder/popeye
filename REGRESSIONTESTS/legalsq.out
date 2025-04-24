@@ -481,10 +481,10 @@ Loesung beendet.
                 KoeKo
 
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 #
-  add_to_move_generation_stack:      241616
-                     play_move:      255761
+  add_to_move_generation_stack:      241648
+                     play_move:      255793
  is_white_king_square_attacked:        9729
- is_black_king_square_attacked:       80764
+ is_black_king_square_attacked:       80766
 
 Loesung beendet.
 

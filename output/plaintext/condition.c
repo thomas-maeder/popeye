@@ -41,6 +41,8 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "conditions/role_exchange.h"
+#include "conditions/multicaptures.h"
+#include "conditions/powertransfer.h"
 #include "pieces/walks/hunters.h"
 #include "debugging/assert.h"
 
@@ -218,6 +220,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_square)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCaptureSquare]);
   if (variant->is_restricted_to_walks)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
@@ -241,6 +245,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     else
       written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
   }
+  if (variant->relevant_capture==circe_relevant_capture_lastcapture)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantWaitCapture]);
   if (variant->relevant_side_overrider==circe_relevant_side_overrider_mirror)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
@@ -570,13 +576,20 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         }
 
         case kobulkings:
-        {
-          if (!kobul_who[White])
-            written += append_to_CondLine(&CondLine,written," %s","Black");
-          if (!kobul_who[Black])
-            written += append_to_CondLine(&CondLine,written," %s","White");
+          if (kobul_who!=nr_sides)
+            written += append_to_CondLine(&CondLine,
+                                          written,
+                                          " %s",
+                                          kobul_who==White ? "White" : "Black");
           break;
-        }
+
+        case multicaptures:
+          if (multicaptures_who!=nr_sides)
+            written += append_to_CondLine(&CondLine,
+                                          written,
+                                          " %s",
+                                          multicaptures_who==White ? "White" : "Black");
+          break;
 
         case whvault_king:
         case vault_king:
@@ -893,6 +906,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             written += append_to_CondLine(&CondLine,written," %u",limit);
           break;
         }
+
+        case powertransfer:
+          if (powertransfer_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
+          break;
 
         default:
           break;

@@ -1,0 +1,11 @@
+begin
+
+protocol powertransfer.tst
+
+piece white pd4 black sd2
+stip ~1
+condition powertransfer
+option nowk nobk
+
+end
+

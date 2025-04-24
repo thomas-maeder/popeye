@@ -4,7 +4,7 @@
 #include "pieces/attributes/total_invisible.h"
 #include "solving/ply.h"
 
-extern ply ply_replayed;
+extern ply total_invisible_ply_replayed;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

@@ -884,9 +884,9 @@ Loesung beendet.
   ~1                         2 + 11
              Imitator f4
 
-   1.ELb3-c1[Ig2] !
-
    1.ELb3-d4[Ih5] !
+
+   1.ELb3-c1[Ig2] !
 
   add_to_move_generation_stack:           8
                      play_move:           2

@@ -13,12 +13,14 @@
 #include "solving/observation.h"
 #include "output/plaintext/message.h"
 #include "conditions/annan.h"
+#include "conditions/bicaptures.h"
 #include "conditions/bgl.h"
 #include "conditions/bolero.h"
 #include "conditions/breton.h"
 #include "conditions/dister.h"
 #include "conditions/role_exchange.h"
 #include "conditions/facetoface.h"
+#include "conditions/fuddled_men.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
@@ -107,6 +109,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/central.h"
 #include "conditions/beamten.h"
 #include "conditions/eiffel.h"
@@ -128,6 +131,9 @@
 #include "conditions/series_capture.h"
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
+#include "conditions/multicaptures.h"
+#include "conditions/transmissionmenace.h"
+#include "conditions/powertransfer.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -410,7 +416,7 @@ void build_solvers1(slice_index si)
   if (CondFlag[ghostchess])
     solving_insert_ghost_chess(si);
 
-  if (kobul_who[White] || kobul_who[Black])
+  if (CondFlag[kobulkings])
     solving_insert_kobul_king_substitutors(si);
 
   if (CondFlag[snekchess])
@@ -441,6 +447,18 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     solving_insert_protean_chess(si);
+
+  if (CondFlag[phantom])
+    solving_initialise_phantom(si);
+  else if (CondFlag[plus])
+    solving_initialise_plus(si);
+  else
+  {
+    if (CondFlag[antimars])
+      solving_initialise_antimars(si);
+    if (CondFlag[mars])
+      solving_initialise_marscirce(si);
+  }
 
   solving_initialise_castling(si);
 
@@ -490,26 +508,6 @@ void build_solvers1(slice_index si)
 
   en_passant_initialise_solving(si);
 
-  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
-  {
-    move_generator_instrument_for_alternative_paths(si,nr_sides);
-
-    stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-    move_effect_journal_register_pre_capture_effect();
-  }
-
-  if (CondFlag[phantom])
-    solving_initialise_phantom(si);
-  else if (CondFlag[plus])
-    solving_initialise_plus(si);
-  else
-  {
-    if (CondFlag[antimars])
-      solving_initialise_antimars(si);
-    if (CondFlag[mars])
-      solving_initialise_marscirce(si);
-  }
-
   if (CondFlag[cast])
   {
     if (cast_mode==cast_regular)
@@ -517,6 +515,12 @@ void build_solvers1(slice_index si)
     else
       cast_inverse_initialise_solving(si);
   }
+
+  if (CondFlag[transmissionmenace])
+    transmissionmenace_initialise_solving(si);
+
+  if (CondFlag[powertransfer])
+    powertransfer_initialise_solving(si);
 
   if (CondFlag[maketake])
     solving_insert_make_and_take(si);
@@ -627,6 +631,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[superguards])
     superguards_initialise_solving(si);
 
+  if (CondFlag[antiguards])
+    antiguards_initialise_solving(si);
+
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     solving_insert_edgemover(si);
 
@@ -692,7 +699,8 @@ void build_solvers1(slice_index si)
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     solving_insert_try_solvers(si);
 
-  solving_insert_trivial_variation_filters(si);
+  if (!OptFlag[matesin1])
+    solving_insert_trivial_variation_filters(si);
 
   solving_insert_min_length(si);
 
@@ -704,6 +712,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[lostpieces])
     solving_insert_lostpieces(si);
+
+  if (CondFlag[bicaptures])
+    solving_insert_bicaptures(si);
 
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(si);
@@ -790,6 +801,9 @@ void build_solvers2(slice_index si)
   if (CondFlag[blrefl_king])
     reflective_kings_initialise_solving(si,Black);
 
+  if (CondFlag[multicaptures])
+    multicaptures_initialise_solving(si);
+
   if (CondFlag[annan])
     annan_initialise_solving(si);
   if (CondFlag[nanna])
@@ -826,6 +840,9 @@ void build_solvers2(slice_index si)
     backtoback_initialise_solving(si);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(si);
+
+  if (CondFlag[fuddled_men])
+    fuddled_men_initialise_solving(si);
 
   goal_kiss_init_piece_id(si);
 

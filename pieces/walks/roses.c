@@ -93,8 +93,6 @@ static void rose_generate_circle(vec_index_type idx_curr_dir,
  */
 void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
@@ -103,8 +101,6 @@ void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_rang
     rose_generate_circle(vec_index_start + vec_range_end-vec_range_start+1,
                          rose_rotation_counterclockwise);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Detect observation on a rose line
@@ -188,8 +184,6 @@ static void rao_generate_circle(vec_index_type idx_curr_dir,
  */
 void rao_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
@@ -198,8 +192,6 @@ void rao_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range
     rao_generate_circle(vec_index_start + vec_range_end-vec_range_start + 1,
                         rose_rotation_counterclockwise);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 static void roselion_generate_circle(vec_index_type idx_curr_dir,
@@ -248,8 +240,6 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
 void roselion_generate_moves(vec_index_type vec_range_start,
                              vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type vec_index_start;
   for (vec_index_start= vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
@@ -258,8 +248,6 @@ void roselion_generate_moves(vec_index_type vec_range_start,
     roselion_generate_circle(vec_index_start + vec_range_end-vec_range_start + 1,
                              rose_rotation_counterclockwise);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Detect observation on a rose lion line
@@ -354,8 +342,6 @@ static void rosehopper_genrerate_circle(vec_index_type rotation,
 void rosehopper_generate_moves(vec_index_type vec_range_start,
                                vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
-
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; vec_index_start++)
   {
@@ -364,8 +350,6 @@ void rosehopper_generate_moves(vec_index_type vec_range_start,
     rosehopper_genrerate_circle(vec_index_start + vec_range_end-vec_range_start + 1,
                                 rose_rotation_counterclockwise);
   }
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Detect observation on a rose hopper line

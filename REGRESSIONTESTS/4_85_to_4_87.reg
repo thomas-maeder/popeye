@@ -48,7 +48,7 @@ https://github.com/thomas-maeder/popeye/issues/290
                      play_move:         943
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         348
-                  TI decisions:        1568
+                  TI decisions:        1619
 
 solution finished.
 
@@ -122,10 +122,10 @@ Popeye 4.85 printed dummies as total invisibles in the solution
 47 potential positions in 5+5
   1.c2-c1=DU Bg7-h6   2.d4-d3 Kg1-f1   3.d3-d2 Kf1-e2   4.d2-d1=B + Ke2-d2   5.Bd1-b3 Kd2*c1   6.Bb3-a2 Bh6-g7 #
 289 potential positions in 6+6
-  add_to_move_generation_stack:     4715090
-                     play_move:     4790971
- is_white_king_square_attacked:      443150
- is_black_king_square_attacked:      595213
+  add_to_move_generation_stack:     4697629
+                     play_move:     4772918
+ is_white_king_square_attacked:      441359
+ is_black_king_square_attacked:      593759
 
 solution finished.
 
@@ -328,10 +328,10 @@ solution finished.
   1.Sb5-d4   1.Sd3-c1   2.Sc1-a2 Sd4*b3 #
   1.Sb5-d4   1.Rb3-a3   2.Sd3-b2   3.Ra3-a2 Sd4-b3 #
   1.Sb5-d4   1.Sd3-b2   2.Rb3-a3   3.Ra3-a2 Sd4-b3 #
-  add_to_move_generation_stack:       37466
-                     play_move:       34937
- is_white_king_square_attacked:        4372
- is_black_king_square_attacked:       34927
+  add_to_move_generation_stack:       37545
+                     play_move:       34995
+ is_white_king_square_attacked:        4393
+ is_black_king_square_attacked:       34985
 
 solution finished.
 
@@ -449,10 +449,10 @@ PDB (P0574726): Gerson Berlinger, 32'er 11-12 1989
                Duplex
 
   1.a4*b3 ep. Ka3-a4   2.Kc4-d3 Ka4-b5   3.Kd3-c2 Kb5-c4   4.Kc2-b1 Kc4-d3   5.Bc3-a1 Kd3*e2   6.b3-b2 Ke2*d1 =
-  add_to_move_generation_stack:    12177338
-                     play_move:    12857728
- is_white_king_square_attacked:      510274
- is_black_king_square_attacked:     3327092
+  add_to_move_generation_stack:    12172593
+                     play_move:    12852671
+ is_white_king_square_attacked:      510238
+ is_black_king_square_attacked:     3326960
 
   1.Ka3*a4 Bc3*b4 =
   add_to_move_generation_stack:          69

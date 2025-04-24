@@ -49,7 +49,6 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
   move_effect_swap_volcanic,
-  move_effect_revelation_of_castling_partner,
   move_effect_revelation_of_placed_invisible,
   move_effect_revelation_of_new_invisible,
 

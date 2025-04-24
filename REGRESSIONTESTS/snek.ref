@@ -730,10 +730,10 @@ solution finished.
 
   1.d2-d1=S   2.b2-b1=Q   3.Qb1-a2   4.Sd1-e3   5.Se3-g2   6.Qa2-a8 Kh1*g2[a8=S] =
   1.d2-d1=B   2.b2-b1=R   3.Rb1-b2   4.Rb2-g2   5.Bd1-f3   6.Bf3-c6 Kh1*g2[c6=R] =
-  add_to_move_generation_stack:     2506765
-                     play_move:     1525277
- is_white_king_square_attacked:      403310
- is_black_king_square_attacked:     1420578
+  add_to_move_generation_stack:     2508006
+                     play_move:     1525796
+ is_white_king_square_attacked:      403418
+ is_black_king_square_attacked:     1421095
 
 solution finished.
 

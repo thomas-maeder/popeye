@@ -30,17 +30,17 @@ Rex Multiplex 42-43 (Phénix 22-23), IX 1993, S. 2204-2206
       1...b7-b5
           2.De4-a8 #
       1...b7-b6
-          2.De4-d4*b6 #
+          2.De4*b6 #
       1...Lc8-h3
-          2.Le5-d5*b7 #
+          2.Le5*b7 #
       1...Lc8-g4
-          2.Le5-d5*b7 #
+          2.Le5*b7 #
       1...Lc8-f5
-          2.Le5-d5*b7 #
+          2.Le5*b7 #
       1...Lc8-e6
-          2.Le5-d5*b7 #
+          2.Le5*b7 #
       1...Lc8-d7
-          2.Le5-d5*b7 #
+          2.Le5*b7 #
 
   add_to_move_generation_stack:        8354
                      play_move:        3345

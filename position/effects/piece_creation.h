@@ -12,12 +12,13 @@
  * @param created nature of created piece
  * @param createdspec specs of created piece
  * @param for which side is the (potentially neutral) piece created
+ * @return true iff we have successfully created the piece
  */
-void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
-                                           square on,
-                                           piece_walk_type created,
-                                           Flags createdspec,
-                                           Side for_side);
+boolean move_effect_journal_do_piece_creation(move_effect_reason_type reason,
+                                              square on,
+                                              piece_walk_type created,
+                                              Flags createdspec,
+                                              Side for_side);
 
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param followed_id id of the piece to be followed
