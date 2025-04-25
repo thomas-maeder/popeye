@@ -520,6 +520,7 @@
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \
     ENUMERATOR(STNorskArrivingAdjuster),                                \
     ENUMERATOR(STProteanWalkAdjuster),                                  \
+    ENUMERATOR(STFrankfurtWalkAdjuster),                                \
     ENUMERATOR(STEinsteinArrivingAdjuster),                             \
     ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
     ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \

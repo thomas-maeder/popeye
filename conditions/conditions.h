@@ -248,8 +248,9 @@ typedef enum
   powertransfer,          /* 227 */
   multicaptures,          /* 228 */
   antiguards,             /* 229 */
+  frankfurt,              /* 230 */
 
-  CondCount               /* 230 */
+  CondCount               /* 231 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

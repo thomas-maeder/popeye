@@ -58,15 +58,16 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/darkside.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h \
- conditions/marscirce/phantom.h conditions/marscirce/marscirce.h \
- solving/move_generator.h conditions/marscirce/anti.h \
- conditions/marscirce/plus.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
+ conditions/frankfurt.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/marscirce/phantom.h \
+ conditions/marscirce/marscirce.h solving/move_generator.h \
+ conditions/marscirce/anti.h conditions/marscirce/plus.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/amu/attack_counter.h conditions/imitator.h \
  conditions/football.h conditions/woozles.h conditions/immune.h \
@@ -255,6 +256,7 @@ conditions/darkside.h:
 conditions/chameleon_pursuit.h:
 conditions/norsk.h:
 conditions/protean.h:
+conditions/frankfurt.h:
 conditions/einstein/einstein.h:
 conditions/einstein/reverse.h:
 conditions/einstein/anti.h:
@@ -729,20 +731,20 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/bicolores.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h \
- conditions/marscirce/marscirce.h conditions/marscirce/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
- conditions/imitator.h conditions/football.h conditions/woozles.h \
- conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
- conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
- conditions/make_and_take.h conditions/superguards.h \
- conditions/antiguards.h conditions/wormhole.h conditions/backhome.h \
- conditions/shielded_kings.h conditions/annan.h \
+ conditions/frankfurt.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/marscirce/marscirce.h \
+ conditions/marscirce/phantom.h conditions/marscirce/anti.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h conditions/imitator.h \
+ conditions/football.h conditions/woozles.h conditions/nocapture.h \
+ conditions/nopromotion.h conditions/geneva.h conditions/edgemover.h \
+ conditions/grid.h conditions/take_and_make.h conditions/make_and_take.h \
+ conditions/superguards.h conditions/antiguards.h conditions/wormhole.h \
+ conditions/backhome.h conditions/shielded_kings.h conditions/annan.h \
  conditions/pointreflection.h conditions/beamten.h conditions/central.h \
  conditions/disparate.h conditions/eiffel.h conditions/facetoface.h \
  conditions/madrasi.h conditions/partial_paralysis.h \
@@ -1027,6 +1029,7 @@ conditions/bicolores.h:
 conditions/chameleon_pursuit.h:
 conditions/norsk.h:
 conditions/protean.h:
+conditions/frankfurt.h:
 conditions/einstein/einstein.h:
 conditions/einstein/reverse.h:
 conditions/einstein/anti.h:

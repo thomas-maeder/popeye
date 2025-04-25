@@ -70,6 +70,7 @@
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
@@ -447,6 +448,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     solving_insert_protean_chess(si);
+
+  if (CondFlag[frankfurt])
+    solving_insert_frankfurt_chess(si);
 
   if (CondFlag[phantom])
     solving_initialise_phantom(si);

@@ -94,6 +94,7 @@
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
@@ -1408,6 +1409,10 @@ void dispatch(slice_index si)
 
     case STProteanWalkAdjuster:
       protean_walk_adjuster_solve(si);
+      break;
+
+    case STFrankfurtWalkAdjuster:
+      frankfurt_walk_adjuster_solve(si);
       break;
 
     case STEinsteinArrivingAdjuster:

@@ -34,6 +34,7 @@
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"
 #include "conditions/sentinelles.h"
@@ -783,6 +784,11 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case protean:
           if (!protean_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexExclusive]);
+          break;
+
+        case frankfurt:
+          if (!frankfurt_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexExclusive]);
           break;
 
