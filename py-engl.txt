@@ -474,6 +474,8 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	After Breton, Adverse or PY can be indicated.
 
+	After Take&Make, Absolute can be indicated.
+
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
 

@@ -492,7 +492,9 @@ Kommandos:
 		AntipodenImmunSchach	ImmunSchach Antipoden
 		EquipollentsImmunSchach	Immunschach Equipollents
 
-	Nach Breton kann optional Advers oder PY angegben werden.
+	Nach Breton kann optional Advers oder PY angegeben werden.
+
+	Nach Take&Make kann optional Absolut angegeben werden.
 
  - Option: Alles, was zur Wirkung kommen soll, ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:

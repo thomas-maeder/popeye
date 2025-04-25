@@ -1,0 +1,167 @@
+position after White's 1st move
+
+   Ladislav Packa & Juraj Lörinc
+Variantim 90 (from https://www.variantim.org/variantim-issues/)
+ Israel Ring Tourney 2021, 3rd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R  -R   .   .   8
+|                                   |
+7   .   .   K   .   Q   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4  -K   P   .  -B   .   .   .   .   4
+|                                   |
+3  -S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   S   .   .   .   .   .   2
+|                                   |
+1   .  -S   .  -B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2.5                       4 + 8
+           Take&MakeChess
+
+a) 
+
+  1  (Sc2-a1 )
+  2  (Sc2-e1 )
+  3  (Sc2-e3 )
+  4  (Sc2*d4-a1 )
+  5  (Sc2*d4-b2 + )
+  6  (Sc2*d4-c3 + )
+  7  (Sc2*d4-g1 )
+  8  (Sc2*d4-f2 )
+  9  (Sc2*d4-e3 )
+ 10  (Sc2*d4-h8 )
+ 11  (Sc2*d4-g7 )
+ 12  (Sc2*d4-f6 )
+ 13  (Sc2*d4-e5 )
+ 14  (Sc2*d4-a7 )
+ 15  (Sc2*d4-b6 + )
+ 16  (Sc2*d4-c5 + )
+ 17  (Sc2*a3-c2 )
+ 18  (Sc2*a3-c4 )
+ 19  (Kc7-b6 )
+ 20  (Kc7-d6 )
+ 21  (Kc7-d8 )
+ 22  (Kc7-b8 )
+ 23  (Kc7-c6 )
+ 24  (Kc7-b7 )
+ 25  (Kc7-c8 )
+ 26  (Kc7-d7 )
+ 27  (Qe7-c5 )
+ 28  (Qe7-d6 )
+ 29  (Qe7-h4 )
+ 30  (Qe7-g5 )
+ 31  (Qe7-f6 )
+ 32  (Qe7*f8-f1 )
+ 33  (Qe7*f8-f2 )
+ 34  (Qe7*f8-f3 )
+ 35  (Qe7*f8-f4 )
+ 36  (Qe7*f8-f5 )
+ 37  (Qe7*f8-f6 )
+ 38  (Qe7*f8-f7 )
+ 39  (Qe7*f8-h8 )
+ 40  (Qe7*f8-g8 )
+ 41  (Qe7-d8 )
+ 42  (Qe7-e1 )
+ 43  (Qe7-e2 )
+ 44  (Qe7-e3 )
+ 45  (Qe7-e4 )
+ 46  (Qe7-e5 )
+ 47  (Qe7-e6 )
+ 48  (Qe7-d7 )
+ 49  (Qe7*e8-e1 )
+ 50  (Qe7*e8-e2 )
+ 51  (Qe7*e8-e3 )
+ 52  (Qe7*e8-e4 )
+ 53  (Qe7*e8-e5 )
+ 54  (Qe7*e8-e6 )
+ 55  (Qe7*e8-e7 )
+ 56  (Qe7*e8-a8 + )
+  1...Qe7*e8-a8 +   2.Rf8*a8-a5 Sc2*d4-c3 +   3.Bd1-b3 Sc3*b1-c3 =
+ 57  (Qe7*e8-b8 )
+ 58  (Qe7*e8-c8 )
+ 59  (Qe7*e8-d8 )
+ 60  (Qe7-h7 )
+ 61  (Qe7-g7 )
+ 62  (Qe7-f7 )
+  add_to_move_generation_stack:   319399292
+                     play_move:   109220193
+ is_white_king_square_attacked:    38879927
+ is_black_king_square_attacked:    76176343
+
+b) bKa4-->a1  wSc2-->c3  
+
+ 63  (Sc3-a2 )
+ 64  (Sc3*b1-d2 )
+ 65  (Sc3*b1-c3 )
+ 66  (Sc3*d1-h5 )
+ 67  (Sc3*d1-g4 )
+ 68  (Sc3*d1-f3 )
+ 69  (Sc3*d1-e2 )
+ 70  (Sc3*d1-a4 )
+ 71  (Sc3*d1-b3 + )
+ 72  (Sc3*d1-c2 + )
+ 73  (Sc3-e2 )
+ 74  (Sc3-e4 )
+ 75  (Sc3-d5 )
+ 76  (Sc3-a4 )
+ 77  (Kc7-b6 )
+ 78  (Kc7-d6 )
+ 79  (Kc7-d8 )
+ 80  (Kc7-b8 )
+ 81  (Kc7-c6 )
+ 82  (Kc7-b7 )
+ 83  (Kc7-c8 )
+ 84  (Kc7-d7 )
+ 85  (Qe7-c5 )
+ 86  (Qe7-d6 )
+ 87  (Qe7-h4 )
+ 88  (Qe7-g5 )
+ 89  (Qe7-f6 )
+ 90  (Qe7*f8-f1 )
+ 91  (Qe7*f8-f2 )
+ 92  (Qe7*f8-f3 )
+ 93  (Qe7*f8-f4 )
+ 94  (Qe7*f8-f5 )
+ 95  (Qe7*f8-f6 )
+ 96  (Qe7*f8-f7 )
+ 97  (Qe7*f8-h8 )
+ 98  (Qe7*f8-g8 )
+  1...Qe7*f8-g8   2.Re8*g8-a2 Sc3*d1-c2 +   3.Bd4-b2 Sc2*a3-c2 =
+ 99  (Qe7-d8 )
+100  (Qe7-e1 )
+101  (Qe7-e2 )
+102  (Qe7-e3 )
+103  (Qe7-e4 )
+104  (Qe7-e5 )
+105  (Qe7-e6 )
+106  (Qe7-d7 )
+107  (Qe7*e8-e1 )
+108  (Qe7*e8-e2 )
+109  (Qe7*e8-e3 )
+110  (Qe7*e8-e4 )
+111  (Qe7*e8-e5 )
+112  (Qe7*e8-e6 )
+113  (Qe7*e8-e7 )
+114  (Qe7*e8-a8 )
+115  (Qe7*e8-b8 )
+116  (Qe7*e8-c8 )
+117  (Qe7*e8-d8 )
+118  (Qe7-h7 )
+119  (Qe7-g7 )
+120  (Qe7-f7 )
+  add_to_move_generation_stack:   269736411
+                     play_move:   107272425
+ is_white_king_square_attacked:    44396643
+ is_black_king_square_attacked:    76781019
+
+solution finished.
+
+
