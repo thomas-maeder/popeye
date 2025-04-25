@@ -2027,6 +2027,22 @@ static char const * const CASTVariantTypeString[LanguageCount][CASTVariantCount]
   }
 };
 
+char const * const *TakeMakeVariantTypeTab;
+
+static char const * const TakeMakeVariantTypeString[LanguageCount][TakeMakeVariantCount] =
+{
+  {
+    /* French */
+    "Absolu"
+  },{
+    /* German */
+    "Absolut"
+  },{
+    /* English */
+    "Absolute"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -2049,6 +2065,7 @@ void output_plaintext_select_language(Language lang)
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
   BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
   CASTVariantTypeTab = &CASTVariantTypeString[lang][0];
+  TakeMakeVariantTypeTab = &TakeMakeVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];

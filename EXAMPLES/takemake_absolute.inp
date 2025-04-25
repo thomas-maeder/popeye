@@ -1,0 +1,17 @@
+begin
+
+prot takemake_absolute.ref
+
+author Ladislav Packa & Juraj Lörinc
+origin Variantim 90 (from https://www.variantim.org/variantim-issues/)
+origin Israel Ring Tourney 2021, 3rd prize
+remark position after White's 1st move
+pieces white kc7 qe7 sc2 pb4 black ka4 re8f8 bd1d4 sa3b1 pb5
+condition Take&Make absolute
+stipulation h=2.5
+option movenum
+
+twin move a4 a1 move c2 c3
+
+end
+

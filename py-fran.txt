@@ -480,6 +480,8 @@ simples:
 
 	Apres Breton, Adverse or PY peuvent etre indiques.
 
+	Apres Take&Make, Absolu peut etre indique.
+
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
 
