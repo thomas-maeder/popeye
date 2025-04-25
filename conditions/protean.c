@@ -26,7 +26,7 @@ boolean protean_is_rex_inclusive;
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void protean_pawn_adjuster_solve(slice_index si)
+void protean_walk_adjuster_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -47,8 +47,8 @@ void protean_pawn_adjuster_solve(slice_index si)
       substitute = Pawn;
 
     move_effect_journal_do_walk_change(move_effect_reason_protean_adjustment,
-                                        sq_arrival,
-                                        substitute);
+                                       sq_arrival,
+                                       substitute);
   }
 
   pipe_solve_delegate(si);
@@ -64,7 +64,7 @@ void solving_insert_protean_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STProteanPawnAdjuster);
+  stip_instrument_moves(si,STProteanWalkAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1406,8 +1406,8 @@ void dispatch(slice_index si)
       norsk_arriving_adjuster_solve(si);
       break;
 
-    case STProteanPawnAdjuster:
-      protean_pawn_adjuster_solve(si);
+    case STProteanWalkAdjuster:
+      protean_walk_adjuster_solve(si);
       break;
 
     case STEinsteinArrivingAdjuster:
