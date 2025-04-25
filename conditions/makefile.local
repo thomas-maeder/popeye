@@ -42,6 +42,6 @@ INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            pointreflection.h bolero.h influencer.h role_exchange.h dister.h \
            series_capture.h darkside.h leffie.h pepo.h cast.h multicaptures.h \
            bicaptures.h fuddled_men.h transmissionmenace.h powertransfer.h \
-           antiguards.c protean.c
+           antiguards.h frankfurt.h
 
 include makefile.rules $(CURRPWD)depend
