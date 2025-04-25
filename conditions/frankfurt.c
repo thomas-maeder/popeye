@@ -1,4 +1,4 @@
-#include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "stipulation/pipe.h"
@@ -7,11 +7,11 @@
 #include "stipulation/move.h"
 #include "position/effects/walk_change.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
-boolean protean_is_rex_inclusive;
+boolean frankfurt_is_rex_inclusive;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -26,7 +26,7 @@ boolean protean_is_rex_inclusive;
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void protean_walk_adjuster_solve(slice_index si)
+void frankfurt_walk_adjuster_solve(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -38,18 +38,10 @@ void protean_walk_adjuster_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && (protean_is_rex_inclusive || !TSTFLAG(being_solved.spec[sq_arrival],Royal)))
-  {
-    piece_walk_type substitute = move_effect_journal[capture].u.piece_removal.walk;
-    if (substitute==Pawn)
-      substitute = ReversePawn;
-    else if (substitute==ReversePawn)
-      substitute = Pawn;
-
+      && (frankfurt_is_rex_inclusive || !TSTFLAG(being_solved.spec[sq_arrival],Royal)))
     move_effect_journal_do_walk_change(move_effect_reason_protean_adjustment,
                                        sq_arrival,
-                                       substitute);
-  }
+                                       move_effect_journal[capture].u.piece_removal.walk);
 
   pipe_solve_delegate(si);
 
@@ -59,12 +51,12 @@ void protean_walk_adjuster_solve(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void solving_insert_protean_chess(slice_index si)
+void solving_insert_frankfurt_chess(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STProteanWalkAdjuster);
+  stip_instrument_moves(si,STFrankfurtWalkAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

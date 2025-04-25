@@ -519,7 +519,8 @@
     ENUMERATOR(STLostPiecesRemover),                                    \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \
     ENUMERATOR(STNorskArrivingAdjuster),                                \
-    ENUMERATOR(STProteanPawnAdjuster),                                  \
+    ENUMERATOR(STProteanWalkAdjuster),                                  \
+    ENUMERATOR(STFrankfurtWalkAdjuster),                                \
     ENUMERATOR(STEinsteinArrivingAdjuster),                             \
     ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
     ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \

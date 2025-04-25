@@ -1295,6 +1295,9 @@ void verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
+  if (CondFlag[frankfurt])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if ((circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super
        || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))

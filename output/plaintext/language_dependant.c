@@ -982,7 +982,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*226*/ "TransmissionMenace",
     /*227*/ "TransfertPouvoir",
     /*228*/ "MultiCaptures",
-    /*229*/ "Antigardes"
+    /*229*/ "Antigardes",
+    /*230*/ "Francfort"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1214,7 +1215,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*226*/ "TransmissionMenace",
     /*227*/ "KraftTransfer",
     /*228*/ "MultiCaptures",
-    /*229*/ "AntiDeckungen"
+    /*229*/ "AntiDeckungen",
+    /*230*/ "FrankfurtSchach"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1446,7 +1448,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*226*/ "TransmissionMenace",
     /*227*/ "PowerTransfer",
     /*228*/ "MultiCaptures",
-    /*229*/ "AntiGuards"
+    /*229*/ "AntiGuards",
+    /*230*/ "FrankfurtChess"
   }
 };
 

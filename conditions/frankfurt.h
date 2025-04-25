@@ -1,12 +1,12 @@
-#if !defined(CONDITIONS_PROTEAN_H)
-#define CONDITIONS_PROTEAN_H
+#if !defined(CONDITIONS_FRANKFURT_H)
+#define CONDITIONS_FRANKFURT_H
 
 #include "solving/machinery/solve.h"
 #include "utilities/boolean.h"
 
-/* This module implements the condition Protean Chess */
+/* This module implements the condition Frankfurt Chess */
 
-extern boolean protean_is_rex_inclusive;
+extern boolean frankfurt_is_rex_inclusive;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -21,10 +21,10 @@ extern boolean protean_is_rex_inclusive;
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void protean_walk_adjuster_solve(slice_index si);
+void frankfurt_walk_adjuster_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void solving_insert_protean_chess(slice_index si);
+void solving_insert_frankfurt_chess(slice_index si);
 
 #endif

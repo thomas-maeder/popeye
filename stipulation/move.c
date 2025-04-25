@@ -53,7 +53,8 @@ static slice_index const move_slice_rank_order[] =
     STKamikazeCapturingPieceRemover, /* avoid promotions of a vanishing pawn */
     STChameleonArrivingAdjuster,
     STChameleonChessArrivingAdjuster,
-    STProteanPawnAdjuster,
+    STProteanWalkAdjuster,
+    STFrankfurtWalkAdjuster,
     STBretonApplier,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,

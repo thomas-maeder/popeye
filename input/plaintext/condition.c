@@ -42,6 +42,7 @@
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"
 #include "conditions/sentinelles.h"
@@ -55,9 +56,10 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1859,6 +1861,10 @@ char *ParseCond(char *tok)
           tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
           break;
 
+        case frankfurt:
+          tok = ParseRexIncl(tok,&frankfurt_is_rex_inclusive, CirceVariantRexExclusive);
+          break;
+
         case phantom:
           tok = ParseCirceVariants(tok,&phantom_variant);
           break;
@@ -2096,6 +2102,7 @@ void InitCond(void)
   messigny_rex_inclusive = true;
   woozles_rex_inclusive = true;
   protean_is_rex_inclusive = true;
+  frankfurt_is_rex_inclusive = true;
   bolero_is_rex_inclusive = false;
 
   sentinelles_max_nr_pawns[Black] = 8;
