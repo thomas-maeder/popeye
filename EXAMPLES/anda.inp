@@ -1,0 +1,12 @@
+begin
+
+protocol anda.ref
+
+author Petko A. Petkov
+origin StrateGems 2020
+pieces white kd3 sd5 pd7 white anda pc6e6 black kd8 pb6f6
+stipulation #4
+option try vari
+
+end
+

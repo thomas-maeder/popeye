@@ -1520,7 +1520,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrouille",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda"
   },
   {
     /* German */
@@ -1539,7 +1540,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrouille",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda"
   },
   {
     /* English */
@@ -1558,7 +1560,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrol",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda"
   }
 };
 

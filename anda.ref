@@ -1,0 +1,154 @@
+Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.90 (1024 MB)
+input-error:offending item: anda
+offending item: anda
+input-error:offending item: pc6e6
+offending item: pc6e6
+input-error:offending item: black
+offending item: black
+input-error:offending item: kd8
+offending item: kd8
+input-error:offending item: pb6f6
+offending item: pb6f6
+
+           Petko A. Petkov
+           StrateGems 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          3 + 0
+both sides need a king
+
+  add_to_move_generation_stack:          17
+                     play_move:          20
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:           0
+
+solution finished. Time = 0.041 s
+
+
+Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.90 (1024 MB)
+
+           Petko A. Petkov
+           StrateGems 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .  -P   P   .   P  -P   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          5 + 3
+             Anda c6 e6
+
+   1.Kd3-c2 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.Kd3-e2 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.Kd3-e4 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+      1...f6-f5 +
+          2.Ke4-d3 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Ke4-f3 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Ke4*f5 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Ke4-d4 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Ke4-e5 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Ke4-f4 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+
+   1.Kd3-c4 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+      1...b6-b5 +
+          2.Kc4-b3 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Kc4-d3 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Kc4*b5 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Kc4-b4 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Kc4-c5 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+          2.Kc4-d4 threat:
+                  3.aPe6-e7 #
+                  3.aPc6-c7 #
+
+   1.Kd3-d2 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.Kd3-c3 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.Kd3-d4 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.Kd3-e3 ! threat:
+          2.aPe6-e7 #
+          2.aPc6-c7 #
+
+   1.aPc6-c7 # !
+
+   1.aPe6-e7 # !
+
+  add_to_move_generation_stack:      109034
+                     play_move:       61123
+ is_white_king_square_attacked:       37385
+ is_black_king_square_attacked:       30122
+
+solution finished. Time = 0.035 s
+
+
