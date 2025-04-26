@@ -2069,6 +2069,16 @@ void verify_position(slice_index si)
     }
   }
 
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (TSTFLAG(being_solved.spec[*bnp],Anda) && TSTFLAG(being_solved.spec[*bnp],AndaInverse))
+      {
+        output_plaintext_message(NonsenseCombination);
+        return;
+      }
+  }
+
   pipe_solve_delegate(si);
 }
 
