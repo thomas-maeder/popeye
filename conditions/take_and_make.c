@@ -229,16 +229,17 @@ void solving_insert_take_and_make(slice_index si)
                                              STDoneGeneratingMoves,
                                              &insert_make_generator_avoid_pawn_to_baseline);
 
+  if (!take_and_make_absolute)
+    stip_structure_traversal_override_single(&st,
+                                             STExecutingKingCapture,
+                                             &stip_structure_visitor_noop);
+
   stip_traverse_structure(si,&st);
 
   if (take_and_make_absolute)
     stip_instrument_check_validation(si,
                                      nr_sides,
                                      STValidateCheckMoveByPlayingCapture);
-  else
-    stip_structure_traversal_override_single(&st,
-                                             STExecutingKingCapture,
-                                             &stip_structure_visitor_noop);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
