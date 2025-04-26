@@ -108,6 +108,7 @@ static slice_index const move_slice_rank_order[] =
     STActuatedRevolvingCentre,
     STStrictSATUpdater,
     STAndaRecolorer,
+    STAndaInverseRecolorer,
     STMasandRecolorer,
     STMasandGeneralisedRecolorer,
     STInfluencerWalkChanger,

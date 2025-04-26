@@ -201,6 +201,7 @@ typedef enum
   Bul,
   Dob,
   Anda,
+  AndaInverse,
 
   nr_piece_flags
 } piece_flag_type;

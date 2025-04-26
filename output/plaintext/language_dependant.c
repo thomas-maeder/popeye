@@ -984,7 +984,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*228*/ "MultiCaptures",
     /*229*/ "Antigardes",
     /*230*/ "Francfort",
-    /*231*/ "Anda"
+    /*231*/ "Anda",
+    /*232*/ "AndaInverse"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1218,7 +1219,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*228*/ "MultiCaptures",
     /*229*/ "AntiDeckungen",
     /*230*/ "FrankfurtSchach",
-    /*231*/ "Anda"
+    /*231*/ "Anda",
+    /*232*/ "AndaInvers"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1452,7 +1454,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*228*/ "MultiCaptures",
     /*229*/ "AntiGuards",
     /*230*/ "FrankfurtChess",
-    /*231*/ "Anda"
+    /*231*/ "Anda",
+    /*232*/ "AndaInverse"
   }
 };
 
@@ -1524,7 +1527,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Frischauf",
     "Bul",
     "Dob",
-    "Anda"
+    "Anda",
+    "AndaInverse"
   },
   {
     /* German */
@@ -1544,7 +1548,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Frischauf",
     "Bul",
     "Dob",
-    "Anda"
+    "Anda",
+    "AndaInvers"
   },
   {
     /* English */
@@ -1564,7 +1569,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Frischauf",
     "Bul",
     "Dob",
-    "Anda"
+    "Anda",
+    "AndaInverse"
   }
 };
 

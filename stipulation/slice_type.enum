@@ -414,6 +414,7 @@
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STAndaRecolorer),                                        \
+    ENUMERATOR(STAndaInverseRecolorer),                                 \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMasandGeneralisedRecolorer),                           \

@@ -25,7 +25,7 @@
              Anda c6 e6
 
    1.Kd3-e4 ? zugzwang.
-      1...f6-f5[=n] +
+      1...f6-f5 +
           2.Ke4-e5 threat:
                   3.aPe6-e7[=na] +
                       3...naPe7-e6
@@ -34,7 +34,7 @@
       1...b6-b5 !
 
    1.Kd3-c4 ? zugzwang.
-      1...b6-b5[=n] +
+      1...b6-b5 +
           2.Kc4-c5 threat:
                   3.aPc6-c7[=na] +
                       3...naPc7-c6
@@ -66,10 +66,10 @@
     but
       1...naPe7-e5 !
 
-  add_to_move_generation_stack:      131261
-                     play_move:       76113
- is_white_king_square_attacked:       74994
- is_black_king_square_attacked:       84543
+  add_to_move_generation_stack:      103074
+                     play_move:       37037
+ is_white_king_square_attacked:       16494
+ is_black_king_square_attacked:       35275
 
 solution finished.
 
@@ -175,8 +175,8 @@ solution finished.
 
   add_to_move_generation_stack:       15180
                      play_move:       10751
- is_white_king_square_attacked:        7089
- is_black_king_square_attacked:       15182
+ is_white_king_square_attacked:        3150
+ is_black_king_square_attacked:       14242
 
 solution finished.
 
@@ -292,10 +292,10 @@ solution finished.
     but
       1...Kd8*c8[+wSb1] !
 
-  add_to_move_generation_stack:        2100
-                     play_move:        1471
- is_white_king_square_attacked:        1504
- is_black_king_square_attacked:        1691
+  add_to_move_generation_stack:        3832
+                     play_move:        3011
+ is_white_king_square_attacked:         369
+ is_black_king_square_attacked:        4632
 
 solution finished.
 
@@ -393,10 +393,10 @@ solution finished.
     but
       1...nBe5-g7[=b] + !
 
-  add_to_move_generation_stack:      186558
-                     play_move:      112969
- is_white_king_square_attacked:      113004
- is_black_king_square_attacked:      122216
+  add_to_move_generation_stack:      172972
+                     play_move:       94016
+ is_white_king_square_attacked:       46504
+ is_black_king_square_attacked:      102374
 
 solution finished.
 
@@ -431,18 +431,18 @@ KoBulChess 2019, dedicated to Christian Poisson
 a) 
 
   1.caSf3-g1=caB ncaRf6-e6=ncaQ[=bca] +   2.Kd7-e8 h7*g6   3.caBg1-h2=caR[=nca] + ncaRh2-h8=ncaQ[=bca] #
-  add_to_move_generation_stack:     8928291
-                     play_move:     5215504
- is_white_king_square_attacked:     7994362
- is_black_king_square_attacked:     5251791
+  add_to_move_generation_stack:     8016562
+                     play_move:     5194101
+ is_white_king_square_attacked:     5591219
+ is_black_king_square_attacked:     4062064
 
 b) wKd7-->b5  
 
   1.caSf3-h2=caB ncaRf6-c6=ncaQ[=bca] +   2.Kb5-a5 c3-c2   3.caBh2-g1=caR[=nca] + ncaRg1-e1=ncaQ[=bca] #
-  add_to_move_generation_stack:     9773881
-                     play_move:     5535901
- is_white_king_square_attacked:     8512438
- is_black_king_square_attacked:     5593843
+  add_to_move_generation_stack:     8988203
+                     play_move:     5666057
+ is_white_king_square_attacked:     6079625
+ is_black_king_square_attacked:     4462166
 
 solution finished.
 
@@ -645,10 +645,10 @@ Problem Paradise 2019, in memoriam Virgil Nestorescu
     but
       1...nRd8-g8[=b] + !
 
-  add_to_move_generation_stack:      442011
-                     play_move:      266383
- is_white_king_square_attacked:      253668
- is_black_king_square_attacked:      299958
+  add_to_move_generation_stack:      380232
+                     play_move:      209821
+ is_white_king_square_attacked:      132609
+ is_black_king_square_attacked:      243143
 
 solution finished.
 
@@ -794,10 +794,183 @@ solution finished.
     but
       1...Bf8-e7 !
 
-  add_to_move_generation_stack:      153985
-                     play_move:       73217
- is_white_king_square_attacked:       73267
- is_black_king_square_attacked:       85332
+  add_to_move_generation_stack:      157238
+                     play_move:       74115
+ is_white_king_square_attacked:       30591
+ is_black_king_square_attacked:       86009
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           KoBulChess 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .  -P   .   .   .   P   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   B   .  -K   .   K   .   .   .   5
+|                                   |
+4   P   .  -P   .   .   P   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   S   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          8 + 4
+             AndaInverse
+
+      1...c4-c3[=n]
+          2.Sb2-d3 +
+              2...Kc5-c4
+                  3.Bb7-a6 #
+
+   1.Sb2-d3 + ?
+    but
+      1...c4*d3[=n] !
+
+   1.f4-f5[=n] ?
+      1...c4-c3[=n]
+          2.Sb2-d3 +
+              2...Kc5-c4
+                  3.Bb7-a6 #
+    but
+      1...nPf5-f4[=b] !
+
+   1.h7-h8=S[=n] !
+      1...c4-c3[=n]
+          2.Sb2-d3 +
+              2...Kc5-c4
+                  3.Bb7-a6 #
+      1...nSh8-f7 +
+          2.nSf7-g5[=w]
+              2...c4-c3[=n]
+                  3.Sg5-e4 #
+      1...nSh8-g6 +
+          2.nSg6-f8[=w]
+              2...c4-c3[=n]
+                  3.Sf8*d7 #
+
+  add_to_move_generation_stack:       33187
+                     play_move:       10617
+ is_white_king_square_attacked:        5063
+ is_black_king_square_attacked:       12422
+
+solution finished.
+
+
+
+             Eric Huber
+           StrateGems 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .  -R   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 4
+             AndaInverse
+
+  1.Bd6-e7[=n] nBe7-d8[=w]   2.Rb7-b8[=n] Bd8-f6 #
+  1.Rb7-f7[=n] nRf7-f6[=w]   2.Bd6-e5[=n] Rf6-f8 #
+  add_to_move_generation_stack:       15869
+                     play_move:       11732
+ is_white_king_square_attacked:        6562
+ is_black_king_square_attacked:       14796
+
+solution finished.
+
+
+
+           Kostas Prentos
+           StrateGems 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  =S   .  =R   .   .   .   8
+|                                   |
+7   .   .   .   .   .  =K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  =B   .   .   5
+|                                   |
+4   .   .  =P  =P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  0 + 0 + 6n
+             AndaInverse
+
+  1...nBf5-h3[=w]   2.nRe8-g8[=b] nKf7-e6 +   3.Rg8-g4[=n] nRg4-f4[=w] #
+  1...nRe8-h8[=w]   2.nBf5-h7[=b] nKf7-e8 +   3.Bh7-g8[=n] nBg8-e6[=w] #
+  add_to_move_generation_stack:      806699
+                     play_move:      460099
+ is_white_king_square_attacked:      288635
+ is_black_king_square_attacked:      601328
+
+solution finished.
+
+
+shortened to first 3+2 half-moves
+
+          Christian Poisson
+562 Parties Justificatives Homebase 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P   .  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .  =S   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  =B   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   P   P   P   P   P   P   2
+|                                   |
+1   R   .   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2.5               13 + 14 + 2n
+             AndaInverse
+
+  1.Sb1-a3[=n] c7-c6[=n]   2.b2*a3[=n] Sb8*c6[=n]   3.Bc1*a3[=n] dia
+  add_to_move_generation_stack:     4916879
+                     play_move:     4951118
+ is_white_king_square_attacked:      252778
+ is_black_king_square_attacked:     4835165
 
 solution finished.
 

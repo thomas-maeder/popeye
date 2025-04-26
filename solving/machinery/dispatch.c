@@ -1119,6 +1119,10 @@ void dispatch(slice_index si)
       anda_recolorer_solve(si);
       break;
 
+    case STAndaInverseRecolorer:
+      anda_inverse_recolorer_solve(si);
+      break;
+
     case STMasandRecolorer:
       masand_recolorer_solve(si);
       break;

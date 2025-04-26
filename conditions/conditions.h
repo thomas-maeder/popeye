@@ -250,8 +250,9 @@ typedef enum
   antiguards,             /* 229 */
   frankfurt,              /* 230 */
   anda,                   /* 231 */
+  andainverse,            /* 232 */
 
-  CondCount               /* 232 */
+  CondCount               /* 233 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

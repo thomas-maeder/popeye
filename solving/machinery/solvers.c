@@ -369,6 +369,8 @@ void build_solvers1(slice_index si)
 
   if (TSTFLAG(some_pieces_flags,Anda))
     solving_insert_anda(si);
+  if (TSTFLAG(some_pieces_flags,AndaInverse))
+    solving_insert_anda_inverse(si);
 
   if (CondFlag[influencer])
     solving_insert_influencer(si);

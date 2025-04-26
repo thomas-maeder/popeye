@@ -61,5 +61,41 @@ stipulation #3
 condition Anda
 option try vari
 
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019
+pieces white ke5 ba5b7 sb2 pa4d6f4h7 black kc5 pb3c4d7
+stip #3
+condition andainverse
+option set try vari nothreat
+
+next
+
+author Eric Huber
+origin StrateGems 2020
+pieces white ka5 black kh8 rb7 bd6 ph7
+stipulation h#2
+condition andainverse
+
+next
+
+author Kostas Prentos
+origin StrateGems 2019
+pieces neutral kf7 re8 bf5 sc8 pc4d4
+stipulation h#2.5
+condition andainverse
+
+next
+
+author Christian Poisson
+origin 562 Parties Justificatives Homebase 2019
+remark shortened to first 3+2 half-moves
+pieces white ke1 qd1 ra1h1 bf1 sg1 pa2c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sg8 pa7b7d7e7f7g7h7
+       neutral ba3 sc6
+stipulation dia2.5
+condition andainverse
+
 end
 
