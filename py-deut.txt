@@ -275,6 +275,8 @@ Kommandos:
         Bicaptures
         TransmissionMenace
 	KraftTransfer
+	Anda
+	AndaInvers
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -1000,6 +1002,8 @@ aufwendiger ist das Kommando
 	Magisch
 	Unschlagbar
 	FrischAuf
+	Anda
+	AndaInvers
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 

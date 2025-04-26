@@ -272,6 +272,8 @@ simples:
         Bicaptures
         TransmissionMenace
 	TransfertPouvoir
+	Anda
+	AndaInverse
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -979,6 +981,8 @@ suivante est un peu plus compliquee:
 	Magique
 	Imprenable
 	FrischAuf
+	Anda
+	AndaInverse
 
 	Suit la liste des pieces comme d'habitude: allure de la piece suivi par
 	une liste de cases ou une telle piece est placee. On peut toujours
