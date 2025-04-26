@@ -413,6 +413,7 @@
     ENUMERATOR(STAttackTarget),                                         \
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
+    ENUMERATOR(STAndaRecolorer),                                        \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMasandGeneralisedRecolorer),                           \

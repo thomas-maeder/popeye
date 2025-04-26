@@ -104,7 +104,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
- pieces/attributes/bul.h pieces/walks/hunters.h \
+ pieces/attributes/bul.h pieces/attributes/anda.h pieces/walks/hunters.h \
  conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
@@ -359,6 +359,7 @@ pieces/attributes/chameleon.h:
 pieces/attributes/jigger.h:
 pieces/attributes/uncapturable.h:
 pieces/attributes/bul.h:
+pieces/attributes/anda.h:
 pieces/walks/hunters.h:
 conditions/amu/mate_filter.h:
 conditions/circe/goal_filters.h:
@@ -604,11 +605,10 @@ solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/machinery/intro.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum stipulation/branch.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -629,7 +629,6 @@ utilities/bitmask.h:
 utilities/boolean.h:
 stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
-stipulation/slice_type.enum:
 position/side.h:
 position/side.enum.h:
 position/side.enum:
@@ -842,12 +841,13 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/has_solution_type.enum \
  pieces/attributes/total_invisible/replay_fleshed_out.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
- pieces/attributes/bul.h pieces/walks/generate_moves.h \
- pieces/walks/pawns/en_passant.h pieces/walks/pawns/promotion.h \
- pieces/walks/hoppers.h position/effects/king_square.h retro/retro.h \
- stipulation/proxy.h stipulation/whitetoplay.h \
- stipulation/battle_play/branch.h solving/machinery/slack_length.h \
- solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
+ pieces/attributes/bul.h pieces/attributes/anda.h \
+ pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
+ pieces/walks/pawns/promotion.h pieces/walks/hoppers.h \
+ position/effects/king_square.h retro/retro.h stipulation/proxy.h \
+ stipulation/whitetoplay.h stipulation/battle_play/branch.h \
+ solving/machinery/slack_length.h solving/avoid_unsolvable.h \
+ solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -1207,6 +1207,7 @@ pieces/attributes/total_invisible/replay_fleshed_out.h:
 pieces/attributes/uncapturable.h:
 pieces/attributes/kamikaze/kamikaze.h:
 pieces/attributes/bul.h:
+pieces/attributes/anda.h:
 pieces/walks/generate_moves.h:
 pieces/walks/pawns/en_passant.h:
 pieces/walks/pawns/promotion.h:

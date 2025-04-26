@@ -1,0 +1,76 @@
+
+           Petko A. Petkov
+           StrateGems 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .  -P   P   .   P  -P   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          5 + 3
+             Anda c6 e6
+
+   1.Kd3-e4 ? zugzwang.
+      1...f6-f5[=n] +
+          2.Ke4-e5 threat:
+                  3.aPe6-e7[=na] +
+                      3...naPe7-e6
+                          4.naPe6-e7[=wa] #
+    but
+      1...b6-b5 !
+
+   1.Kd3-c4 ? zugzwang.
+      1...b6-b5[=n] +
+          2.Kc4-c5 threat:
+                  3.aPc6-c7[=na] +
+                      3...naPc7-c6
+                          4.naPc6-c7[=wa] #
+    but
+      1...f6-f5 !
+
+   1.Kd3-d4 ! zugzwang.
+      1...b6-b5
+          2.Kd4-c5 threat:
+                  3.aPc6-c7[=na] +
+                      3...naPc7-c6
+                          4.naPc6-c7[=wa] #
+      1...f6-f5
+          2.Kd4-e5 threat:
+                  3.aPe6-e7[=na] +
+                      3...naPe7-e6
+                          4.naPe6-e7[=wa] #
+
+   1.aPc6-c7[=na] + ?
+      1...naPc7-c6
+          2.naPc6-c7[=wa] #
+    but
+      1...naPc7-c5 !
+
+   1.aPe6-e7[=na] + ?
+      1...naPe7-e6
+          2.naPe6-e7[=wa] #
+    but
+      1...naPe7-e5 !
+
+  add_to_move_generation_stack:      131261
+                     play_move:       76113
+ is_white_king_square_attacked:       74994
+ is_black_king_square_attacked:       84543
+
+solution finished.
+
+
