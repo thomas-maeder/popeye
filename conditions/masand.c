@@ -37,7 +37,12 @@ boolean masand_enforce_observer(slice_index si)
   return result;
 }
 
-static boolean observed(square on_this, square by_that)
+/* Deterine if the piece on a square is observed by the piece of another square
+ * @param on_this position of the potential observee
+ * @param by_that position of the potential observer
+ * @return true iff the piece on by_that observes the piece on on_this
+ */
+boolean masand_observed(square on_this, square by_that)
 {
   boolean result;
 
@@ -69,7 +74,7 @@ static boolean is_recoloring_candidate(square observer_pos, square observee)
             && !TSTFLAG(being_solved.spec[observee],Royal)
             && observee!=observer_pos
             && !is_piece_neutral(being_solved.spec[observee])
-            && observed(observee,observer_pos));
+            && masand_observed(observee,observer_pos));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -121,7 +126,7 @@ void masand_recolorer_solve(slice_index si)
                                                                               moving_id,
                                                                               sq_arrival);
     Side const opponent = advers(SLICE_STARTER(si));
-    if (is_in_check(opponent) && observed(being_solved.king_square[opponent],pos))
+    if (is_in_check(opponent) && masand_observed(being_solved.king_square[opponent],pos))
       change_observed(pos);
   }
 
@@ -217,7 +222,7 @@ void masand_generalised_recolorer_solve(slice_index si)
     square const *pos;
     for (pos = boardnum; *pos; ++pos)
       if (TSTFLAG(being_solved.spec[*pos],side_delivering_check)
-          && observed(being_solved.king_square[side_in_check],*pos))
+          && masand_observed(being_solved.king_square[side_in_check],*pos))
         change_observed_once(*pos);
   }
 

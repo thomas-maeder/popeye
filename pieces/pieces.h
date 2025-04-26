@@ -200,6 +200,8 @@ typedef enum
   FrischAuf,
   Bul,
   Dob,
+  Anda,
+  AndaInverse,
 
   nr_piece_flags
 } piece_flag_type;

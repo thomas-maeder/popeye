@@ -270,6 +270,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	Bicaptures
 	TransmissionMenace
 	PowerTransfer
+	Anda
+	AndaInverse
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -960,6 +962,8 @@ sstipulation). A little bit more elaborate are the commands
 	Magic
 	Uncapturable
 	FrischAuf
+	Anda
+	AndaInverse
 
 	may be given. All the pieces given after this will have these
 	attributes. After this specification follows the list of

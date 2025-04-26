@@ -179,6 +179,7 @@
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/bul.h"
+#include "pieces/attributes/anda.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
@@ -365,6 +366,11 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[masand])
     solving_insert_masand(si);
+
+  if (TSTFLAG(some_pieces_flags,Anda))
+    solving_insert_anda(si);
+  if (TSTFLAG(some_pieces_flags,AndaInverse))
+    solving_insert_anda_inverse(si);
 
   if (CondFlag[influencer])
     solving_insert_influencer(si);

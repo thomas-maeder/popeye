@@ -1,0 +1,497 @@
+
+ Theodoros Giakatis & Kostas Prento
+WCCC Jurmala 2024, Sake Tourney, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -B   .   8
+|                                   |
+7   .  -P   .   .   .  -P   .   .   7
+|                                   |
+6   .   .   .   .   B   .   .   .   6
+|                                   |
+5   .   R   .   P   .   .   .   .   5
+|                                   |
+4   K   .  -K  -R   .   .  -P   .   4
+|                                   |
+3   .  -P   .  -R   .   .   .   .   3
+|                                   |
+2   .   .  -R   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 9
+           FrankfurtChess
+
+a) 
+
+  1.Rd4*d5=P Be6*f7=P   2.d5-d4 f7*g8=B #
+  add_to_move_generation_stack:      120043
+                     play_move:       89157
+ is_white_king_square_attacked:       17419
+ is_black_king_square_attacked:       88815
+
+b) ProteanChess  
+
+  1.Rd3*d2=PP Rb5*b3=PP   2.PPd2-d3 PPb3*c2=R #
+  add_to_move_generation_stack:      113632
+                     play_move:       87540
+ is_white_king_square_attacked:       14102
+ is_black_king_square_attacked:       87198
+
+solution finished.
+
+
+
+           Michal Dragoun
+origin WCCC Jurmala 2024, Sake Tourney, 2nd Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   R   .   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   .  -K  -P   .   .   5
+|                                   |
+4   .  -B   B   .   .   .   .   .   4
+|                                   |
+3   .   .   P  -R   .  -S   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 8
+           FrankfurtChess
+
+  1.Sf3-d4 c3*d4=S   2.Ke5*d4=rS Bc4*d3=R #
+  1.d7-d5 Bc4*d5=P   2.Ke5*d5=rP Rb6*f6=S #
+  1.d7-d6 Rb6*d6=P   2.Ke5*d6=rP c3*b4=B #
+  add_to_move_generation_stack:      564746
+                     play_move:      471750
+ is_white_king_square_attacked:       28271
+ is_black_king_square_attacked:      470851
+
+solution finished.
+
+
+
+          Mario Parrinello
+origin WCCC Jurmala 2024, Sake Tourney, 3rd Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   S   .   .   .   8
+|                                   |
+7   B   P   .   .   .  -P   .   .   7
+|                                   |
+6   .   .  -S  -B   .  -R   S   .   6
+|                                   |
+5   .   .   .  -S  -P  -Q   .   .   5
+|                                   |
+4   .  -P   .   .  -K   .   .   .   4
+|                                   |
+3  -R   .   .  -P   P  -P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        6 + 12
+           FrankfurtChess
+
+a) 
+
+  1.Rf6*g6=S b7-b8=S   2.Bd6*b8=S Se8-d6 #
+  add_to_move_generation_stack:      312896
+                     play_move:      313604
+ is_white_king_square_attacked:        9774
+ is_black_king_square_attacked:      312875
+
+b) wBe8  
+
+  1.Sd5*e3=P b7-b8=B   2.Sc6*b8=B Be8-c6 #
+  add_to_move_generation_stack:      243628
+                     play_move:      254667
+ is_white_king_square_attacked:        6407
+ is_black_king_square_attacked:      253966
+
+solution finished.
+
+
+
+           Hans Uitenbroek
+origin WCCC Jurmala 2024, Sake Tourney, 7th Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .  -B   .   .   B   .   8
+|                                   |
+7   .   .   .   .  -R   .   .   .   7
+|                                   |
+6   .   .  -P  -P   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   R  -P   P   .   .  -P   .   2
+|                                   |
+1   .  -S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 9
+           FrankfurtChess
+
+  1.c2-c1=Q Rb2-b4   2.Qc1-c4 Bg8*c4=Q #
+  1.c2-c1=S Rb2-b7   2.Sc1-b3 a2*b3=S #
+  1.c2-c1=R d2-d3   2.Rc1-c4 d3*c4=R #
+  1.g2-g1=B Bg8-e6   2.Bg1-e3 + d2*e3=B #
+  add_to_move_generation_stack:      374246
+                     play_move:      317243
+ is_white_king_square_attacked:       24187
+ is_black_king_square_attacked:      316430
+
+solution finished.
+
+
+
+           Michal Dragoun
+WCCC Jurmala 2024, Sake Tourney, 1st honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   K   .   .   .   .   8
+|                                   |
+7   B  -Q   .   .   R   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .  -P  -P  -P   .   .   .   5
+|                                   |
+4   .   S  -P  -K  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 9
+           FrankfurtChess
+
+  1.Qb7*b4=S Re7*e5=P   2.Kd4*e5=rP Ba7-b8 #
+  1.Qb7*a7=B Sb4*d5=P   2.Kd4*d5=rP Re7-d7 #
+  1.Qb7*e7=R Ba7*c5=P   2.Kd4*c5=rP Sb4-a6 #
+  add_to_move_generation_stack:       64141
+                     play_move:       58146
+ is_white_king_square_attacked:        3153
+ is_black_king_square_attacked:       57817
+
+solution finished.
+
+
+
+           Michal Dragoun
+WCCC Jurmala 2024, Sake Tourney, 2nd honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   .   .   .   .   .   .   8
+|                                   |
+7   K   S   .  -K   .  -P   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   B   .   .   .   .  -P   .   .   5
+|                                   |
+4   .  -P  -P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -R   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 7
+           FrankfurtChess
+
+  1.Re2-e8 Rb8-c8   2.Kd7*c8=rR Sb7-d6 #
+  1.Re2-e5 Ba5-c7   2.Kd7*c7=rB Rb8-c8 #
+  1.Re2-e4 Sb7-d6   2.Kd7*d6=rS Ba5-c7 #
+  add_to_move_generation_stack:      107384
+                     play_move:       77887
+ is_white_king_square_attacked:        6988
+ is_black_king_square_attacked:       77533
+
+solution finished.
+
+
+
+           Michal Dragoun
+WCCC Jurmala 2024, Sake Tourney, 3rd honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -R   .   .   6
+|                                   |
+5   .   .  -B  -S  -P   .  -P   .   5
+|                                   |
+4   .  -P   .   .  -K   .   .   .   4
+|                                   |
+3   .  -P   .  -S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   R   B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 9
+           FrankfurtChess
+
+a) 
+
+  1.Bc5-d4 Bg1-e3   2.Ke4*e3=rB Kd1-e2 #
+  add_to_move_generation_stack:      220206
+                     play_move:      188642
+ is_white_king_square_attacked:       14528
+ is_black_king_square_attacked:      188087
+
+b) wKd1-->h1  
+
+  1.Rf6-f4 Rf1-f3   2.Ke4*f3=rR Kh1-g2 #
+  add_to_move_generation_stack:      275025
+                     play_move:      224057
+ is_white_king_square_attacked:       16453
+ is_black_king_square_attacked:      223475
+
+c) wKd1-->a8  
+
+  1.Bc5-a7 Ka8*a7=rB   2.Sd3-c5 rBa7*c5=rS #
+  add_to_move_generation_stack:      275450
+                     play_move:      228762
+ is_white_king_square_attacked:       15340
+ is_black_king_square_attacked:      228145
+
+d) wKd1-->g8  
+
+  1.Rf6-f7 Kg8*f7=rR   2.Sd5-f6 rRf7*f6=rS #
+  add_to_move_generation_stack:      322014
+                     play_move:      269541
+ is_white_king_square_attacked:       16997
+ is_black_king_square_attacked:      268852
+
+solution finished.
+
+
+
+ Kostas Prentos & Theodoros Giakatis
+WCCC Jurmala 2024, Sake Tourney, 4th honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 4
+             Royal a8 f7
+           FrankfurtChess
+
+a) 
+
+  1.rRa8-a2 rPf7-f8=rB   2.rRa2*f2=rP rBf8-c5 #
+  add_to_move_generation_stack:       12386
+                     play_move:       10272
+ is_white_king_square_attacked:        1583
+ is_black_king_square_attacked:       10139
+
+b) wPf2-->g3  
+
+  1.rRa8-a3 rPf7-f8=rQ +   2.rRa3*g3=rP rQf8-f3 #
+  add_to_move_generation_stack:       11427
+                     play_move:        8810
+ is_white_king_square_attacked:        1359
+ is_black_king_square_attacked:        8700
+
+c) wPf2-->h4  
+
+  1.rRa8-a4 rPf7-f8=rS   2.rRa4*h4=rP rSf8-g6 #
+  add_to_move_generation_stack:        9683
+                     play_move:        6865
+ is_white_king_square_attacked:        1149
+ is_black_king_square_attacked:        6774
+
+d) wPf2-->c5  
+
+  1.rRa8-a5 rPf7-f8=rR   2.rRa5*c5=rP rRf8-c8 #
+  add_to_move_generation_stack:        9958
+                     play_move:        7854
+ is_white_king_square_attacked:        1147
+ is_black_king_square_attacked:        7744
+
+solution finished.
+
+
+
+   Marco Guida & Mario Parrinello
+WCCC Jurmala 2024, Sake Tourney, 5th honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .  -B   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4   .   .   .   .   .  -S   P  -R   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   .  -B   .   P   2
+|                                   |
+1   .   .   .   .  -R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 8
+              Royal f6
+           FrankfurtChess
+
+a) 
+
+  1.Bf2-g3 h2*g3=B   2.Rh4*h5=P Bg3-h4 #
+  add_to_move_generation_stack:       56422
+                     play_move:       52994
+ is_white_king_square_attacked:        4337
+ is_black_king_square_attacked:       52682
+
+b) wPh2-->d3  
+
+  1.Re1-e4 d3*e4=R   2.Sf4*h5=P Re4-f4 #
+  add_to_move_generation_stack:       59601
+                     play_move:       55870
+ is_white_king_square_attacked:        4563
+ is_black_king_square_attacked:       55551
+
+c) wPh2-->b6  
+
+  1.Sa8-c7 b6*c7=S   2.Be8*h5=P Sc7-e8 #
+  add_to_move_generation_stack:       58506
+                     play_move:       57364
+ is_white_king_square_attacked:        4400
+ is_black_king_square_attacked:       57053
+
+solution finished.
+
+
+
+              Andy Ooms
+WCCC Jurmala 2024, Sake Tourney, 6th honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   P   2
+|                                   |
+1   .   .   .   K  -B   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+           FrankfurtChess
+
+a) 
+
+  1.Kh1*h2=rP Kd1*e1=rB   2.rPh2-h1=rS e2*f3=B #
+  add_to_move_generation_stack:       12949
+                     play_move:       12497
+ is_white_king_square_attacked:         396
+ is_black_king_square_attacked:       12340
+
+b) ProteanChess  
+
+  1.Kh1*h2=rPP e2*f3=B   2.rPPh2-h4 Kd1*e1=rB #
+  add_to_move_generation_stack:       13004
+                     play_move:       12580
+ is_white_king_square_attacked:         387
+ is_black_king_square_attacked:       12423
+
+solution finished.
+
+
+
+          Manfred Rittirsch
+WCCC Jurmala 2024, Sake Tourney, 7th honorable mention
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .  -P   .   .   6
+|                                   |
+5   S   .   .   S  -B   .   .   .   5
+|                                   |
+4   .   B   .  -R   .   .   .  -P   4
+|                                   |
+3   .   .   .  -S   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   P  -Q   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        5 + 10
+           FrankfurtChess
+
+  1.Ba2-c4 g2-g4   2.Rd4*g4=P Sa5*c4=B #
+  1.Sa8-c7 g2-g3   2.Be5*g3=P Kc8*c7=rS #
+  add_to_move_generation_stack:      488087
+                     play_move:      456729
+ is_white_king_square_attacked:       32664
+ is_black_king_square_attacked:      455911
+
+solution finished.
+
+

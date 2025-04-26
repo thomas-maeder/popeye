@@ -273,6 +273,7 @@
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/attributes/bul.h"
+#include "pieces/attributes/anda.h"
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
@@ -1112,6 +1113,14 @@ void dispatch(slice_index si)
 
     case STBGLAdjuster:
       bgl_adjuster_solve(si);
+      break;
+
+    case STAndaRecolorer:
+      anda_recolorer_solve(si);
+      break;
+
+    case STAndaInverseRecolorer:
+      anda_inverse_recolorer_solve(si);
       break;
 
     case STMasandRecolorer:

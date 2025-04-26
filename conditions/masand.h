@@ -3,6 +3,13 @@
 
 #include "solving/machinery/solve.h"
 
+/* Deterine if the piece on a square is observed by the piece of another square
+ * @param on_this position of the potential observee
+ * @param by_that position of the potential observer
+ * @return true iff the piece on by_that observes the piece on on_this
+ */
+boolean masand_observed(square on_this, square by_that);
+
 /* Validate an observation or observer by making sure it's the checking piece
  * @param si identifies the validator slice
  */

@@ -316,6 +316,15 @@ static void write_flags_change(output_plaintext_move_context_type *context,
       }
       break;
 
+    case move_effect_reason_anda:
+      next_context(context,curr,"[","]");
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,
+                move_effect_journal[curr].u.flags_change.to,
+                get_walk_of_piece_on_square(move_effect_journal[curr].u.flags_change.on),
+                true);
+      break;
+
     default:
       break;
   }

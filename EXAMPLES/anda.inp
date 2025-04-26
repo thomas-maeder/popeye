@@ -1,0 +1,101 @@
+begin
+
+protocol anda.ref
+
+author Petko A. Petkov
+origin StrateGems 2020
+pieces white kd3 sd5 pd7 white anda pc6e6 black kd8 pb6f6
+stipulation #4
+option try vari
+
+next
+
+author Petko A. Petkov
+origin Anda Fairy Planet 2021
+pieces white kd4 rg6 bh8 sd8 pd6e7f6g3h4h6 na1 black kf5 bd7 neutral bf7
+stipulation #2
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin Anda Fairy Planet 2021
+pieces white ke1 rb7e4 ba4 se7 pc5e2f6g4 black kd8 pg5
+stipulation #2
+condition Anda Circe
+option try vari
+
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019
+pieces white kf8 re3 bb8 sd1e7 pb3b4c2d3e2f3 black kd4 qa6 bb2b7 pc6f5g6
+stipulation #3
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019, dedicated to Christian Poisson
+pieces white kd7 rg2 pf2g6 white anda cham sf3 black kh1 pa3c3e7f4h7 neutral anda cham rf6
+stipulation hs#3
+twin move d7 b5
+
+next
+
+author Petko A. Petkov
+origin Problem Paradise 2019, in memoriam Virgil Nestorescu
+pieces white kg1 rc4 bc3h1 sd5 pb7c6d7e6f5 black kd6 ra2 bf1 sc2h8 pa6d3f6
+stipulation #3
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin feenschach 2019
+pieces white ka7 re7h7 bd8h3 se2 pg2h5 black kg5 bf8 pg6
+stipulation #3
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019
+pieces white ke5 ba5b7 sb2 pa4d6f4h7 black kc5 pb3c4d7
+stip #3
+condition andainverse
+option set try vari nothreat
+
+next
+
+author Eric Huber
+origin StrateGems 2020
+pieces white ka5 black kh8 rb7 bd6 ph7
+stipulation h#2
+condition andainverse
+
+next
+
+author Kostas Prentos
+origin StrateGems 2019
+pieces neutral kf7 re8 bf5 sc8 pc4d4
+stipulation h#2.5
+condition andainverse
+
+next
+
+author Christian Poisson
+origin 562 Parties Justificatives Homebase 2019
+remark shortened to first 3+2 half-moves
+pieces white ke1 qd1 ra1h1 bf1 sg1 pa2c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sg8 pa7b7d7e7f7g7h7
+       neutral ba3 sc6
+stipulation dia2.5
+condition andainverse
+
+end
+

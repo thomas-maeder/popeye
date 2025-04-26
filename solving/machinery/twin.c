@@ -320,6 +320,19 @@ static void initialise_piece_flags(void)
     SETFLAG(all_royals_flags,Beamtet);
   }
 
+  if (CondFlag[anda])
+  {
+    SETFLAG(some_pieces_flags,Anda);
+    SETFLAG(all_pieces_flags,Anda);
+  }
+  if (CondFlag[andainverse])
+  {
+    SETFLAG(some_pieces_flags,AndaInverse);
+    SETFLAG(all_pieces_flags,AndaInverse);
+  }
+  if (TSTFLAG(some_pieces_flags,Anda) || TSTFLAG(some_pieces_flags,AndaInverse))
+    some_pieces_flags |= NeutralMask;
+
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
     SETFLAG(some_pieces_flags,Uncapturable);
 
@@ -1502,6 +1515,8 @@ void verify_position(slice_index si)
   change_moving_piece=
       TSTFLAG(some_pieces_flags, Kamikaze)
       || TSTFLAG(some_pieces_flags, Protean)
+      || TSTFLAG(some_pieces_flags,Anda)
+      || TSTFLAG(some_pieces_flags,AndaInverse)
       || CondFlag[tibet]
       || CondFlag[andernach]
       || CondFlag[antiandernach]
