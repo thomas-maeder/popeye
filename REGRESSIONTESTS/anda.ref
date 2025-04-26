@@ -1,4 +1,3 @@
-Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.90 (1024 MB)
 
            Petko A. Petkov
            StrateGems 2020
@@ -72,7 +71,7 @@ Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.90 (1024 MB)
  is_white_king_square_attacked:       74994
  is_black_king_square_attacked:       84543
 
-solution finished. Time = 0.094 s
+solution finished.
 
 
 
@@ -179,6 +178,627 @@ solution finished. Time = 0.094 s
  is_white_king_square_attacked:        7089
  is_black_king_square_attacked:       15182
 
-solution finished. Time = 0.021 s
+solution finished.
+
+
+
+           Petko A. Petkov
+         The Problemist 2021
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   R   .   .   S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   .   .   6
+|                                   |
+5   .   .   P   .   .   .  -P   .   5
+|                                   |
+4   B   .   .   .   R   .   P   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 2
+                Circe
+                Anda
+
+   1.Ba4-d1 ? zugzwang.
+    but
+      1...Kd8-e8 !
+
+   1.Ba4-c2 ? zugzwang.
+    but
+      1...Kd8-e8 !
+
+   1.Ba4-b3 ? zugzwang.
+    but
+      1...Kd8-e8 !
+
+   1.Ba4-e8 ? zugzwang.
+    but
+      1...Kd8*e8[+wBf1] !
+
+   1.Re4-d4[=n] + ?
+      1...nRd4*a4[+wBf1]
+          2.nRa4-a8[=w] #
+      1...nRd4-b4
+          2.nRb4-d4[=w] #
+      1...nRd4-c4
+          2.nRc4-d4[=w] #
+      1...nRd4*g4[+wPg2]
+          2.nRg4-d4[=w] #
+      1...nRd4-f4
+          2.nRf4-d4[=w] #
+      1...nRd4-e4
+          2.nRe4-d4[=w] #
+    but
+      1...nRd4-d1[=b] + !
+
+   1.Re4-f4 ! zugzwang.
+      1...g5*f4[+wRa1]
+          2.0-0-0 #
+
+   1.c5-c6 ? zugzwang.
+    but
+      1...Kd8-e8 !
+
+   1.Rb7-b1 ? zugzwang.
+    but
+      1...Kd8-c7 !
+
+   1.Rb7-b2 ? zugzwang.
+    but
+      1...Kd8-c7 !
+
+   1.Rb7-b3 ? zugzwang.
+    but
+      1...Kd8-c7 !
+
+   1.Rb7-b4 ? zugzwang.
+    but
+      1...Kd8-c7 !
+
+   1.Rb7-b6 ? zugzwang.
+    but
+      1...Kd8-c7 !
+
+   1.Rb7-c7 ? zugzwang.
+    but
+      1...Kd8*c7[+wRa1] !
+
+   1.Se7-d5 ? zugzwang.
+    but
+      1...Kd8-c8 !
+
+   1.Se7-f5 ? zugzwang.
+    but
+      1...Kd8-c8 !
+
+   1.Se7-g6 ? zugzwang.
+    but
+      1...Kd8-c8 !
+
+   1.Se7-g8 ? zugzwang.
+    but
+      1...Kd8-c8 !
+
+   1.Se7-c8 ? zugzwang.
+    but
+      1...Kd8*c8[+wSb1] !
+
+  add_to_move_generation_stack:        2100
+                     play_move:        1471
+ is_white_king_square_attacked:        1504
+ is_black_king_square_attacked:        1691
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           KoBulChess 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .   K   .   .   8
+|                                   |
+7   .  -B   .   .   S   .   .   .   7
+|                                   |
+6  -Q   .  -P   .   .   .  -P   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   P   .  -K   .   .   .   .   4
+|                                   |
+3   .   P   .   P   R   P   .   .   3
+|                                   |
+2   .  -B   P   .   P   .   .   .   2
+|                                   |
+1   .   .   .   S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                         11 + 7
+                Anda
+
+   1.Re3-e6 ! threat:
+          2.e2-e3[=n] +
+              2...nPe3-e2
+                  3.nPe2-e3[=w] #
+      1...Bb2-c1
+          2.c2-c3[=n] +
+              2...nPc3-c2
+                  3.nPc2-c3[=w] #
+      1...f5-f4
+          2.Re6-e4[=n] +
+              2...nRe4*e2
+                  3.nRe2-e4[=w] #
+              2...nRe4-e3
+                  3.nRe3-e4[=w] #
+              2...nRe4*e7
+                  3.nRe7-d7[=w] #
+              2...nRe4-e6
+                  3.nRe6-e4[=w] #
+              2...nRe4-e5
+                  3.nRe5-e4[=w] #
+      1...Qa6*d3
+          2.Bb8-a7[=n] +
+              2...c6-c5
+                  3.nBa7*c5[=w] #
+              2...nBa7-b8
+                  3.nBb8-e5[=w] #
+
+   1.Re3-e5 ? threat:
+          2.e2-e3[=n] +
+              2...nPe3-e2
+                  3.nPe2-e3[=w] #
+      1...Bb2-c1
+          2.c2-c3[=n] +
+              2...nPc3-c2
+                  3.nPc2-c3[=w] #
+      1...f5-f4
+          2.Re5-e4[=n] +
+              2...nRe4*e2
+                  3.nRe2-e4[=w] #
+              2...nRe4-e3
+                  3.nRe3-e4[=w] #
+              2...nRe4*e7
+                  3.nRe7-d7[=w] #
+              2...nRe4-e6
+                  3.nRe6-e4[=w] #
+              2...nRe4-e5
+                  3.nRe5-e4[=w] #
+    but
+      1...Qa6*d3 !
+
+   1.Bb8-e5[=n] + ?
+      1...nBe5-h2
+          2.nBh2-e5[=w] #
+      1...nBe5-g3
+          2.nBg3-e5[=w] #
+      1...nBe5-f4
+          2.nBf4-e5[=w] #
+      1...nBe5-b8
+          2.nBb8-e5[=w] #
+      1...nBe5-c7
+          2.nBc7-e5[=w] #
+      1...nBe5-d6
+          2.nBd6-c5[=w] #
+          2.nBd6-e5[=w] #
+    but
+      1...nBe5-g7[=b] + !
+
+  add_to_move_generation_stack:      186558
+                     play_move:      112969
+ is_white_king_square_attacked:      113004
+ is_black_king_square_attacked:      122216
+
+solution finished.
+
+
+
+           Petko A. Petkov
+KoBulChess 2019, dedicated to Christian Poisson
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K  -P   .   .  -P   7
+|                                   |
+6   .   .   .   .   .  =R   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3  -P   .  -P   .   .   S   .   .   3
+|                                   |
+2   .   .   .   .   .   P   R   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                   5 + 6 + 1n
+           Chameleon f6 f3
+             Anda f6 f3
+
+a) 
+
+  1.caSf3-g1=caB ncaRf6-e6=ncaQ[=bca] +   2.Kd7-e8 h7*g6   3.caBg1-h2=caR[=nca] + ncaRh2-h8=ncaQ[=bca] #
+  add_to_move_generation_stack:     8928291
+                     play_move:     5215504
+ is_white_king_square_attacked:     7994362
+ is_black_king_square_attacked:     5251791
+
+b) wKd7-->b5  
+
+  1.caSf3-h2=caB ncaRf6-c6=ncaQ[=bca] +   2.Kb5-a5 c3-c2   3.caBh2-g1=caR[=nca] + ncaRg1-e1=ncaQ[=bca] #
+  add_to_move_generation_stack:     9773881
+                     play_move:     5535901
+ is_white_king_square_attacked:     8512438
+ is_black_king_square_attacked:     5593843
+
+solution finished.
+
+
+
+           Petko A. Petkov
+Problem Paradise 2019, in memoriam Virgil Nestorescu
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   P   .   P   .   .   .   .   7
+|                                   |
+6  -P   .   P  -K   P  -P   .   .   6
+|                                   |
+5   .   .   .   S   .   P   .   .   5
+|                                   |
+4   .   .   R   .   .   .   .   .   4
+|                                   |
+3   .   .   B  -P   .   .   .   .   3
+|                                   |
+2  -R   .  -S   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -B   K   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                         10 + 8
+                Anda
+
+   1.Bh1-g2 ? threat:
+          2.d7-d8=R[=n] +
+              2...nRd8-a8
+                  3.nRa8-d8[=w] #
+              2...nRd8-b8
+                  3.nRb8-d8[=w] #
+              2...nRd8-c8
+                  3.nRc8-d8[=w] #
+              2...nRd8-g8
+                  3.nRg8-d8[=w] #
+              2...nRd8-f8
+                  3.nRf8-d8[=w] #
+              2...nRd8-e8
+                  3.nRe8-d8[=w] #
+      1...Sc2-d4
+          2.b7-b8=Q[=n] +
+              2...nQb8-a7
+                  3.nQa7-b8[=w] #
+                  3.nQa7-c7[=w] #
+              2...nQb8-b1
+                  3.nQb1-b8[=w] #
+              2...nQb8-b2
+                  3.nQb2-b8[=w] #
+              2...nQb8-b3
+                  3.nQb3-b8[=w] #
+              2...nQb8-b5
+                  3.nQb5-b8[=w] #
+              2...nQb8-b6
+                  3.nQb6-c7[=w] #
+                  3.nQb6-b8[=w] #
+              2...nQb8-b7
+                  3.nQb7-b8[=w] #
+                  3.nQb7-c7[=w] #
+              2...nQb8-a8
+                  3.nQa8-b8[=w] #
+              2...nQb8-g8
+                  3.nQg8-g3[=w] #
+                  3.nQg8-b8[=w] #
+              2...nQb8-e8
+                  3.nQe8-b8[=w] #
+              2...nQb8-d8
+                  3.nQd8-c7[=w] #
+                  3.nQd8-b8[=w] #
+              2...nQb8-c8
+                  3.nQc8-c7[=w] #
+                  3.nQc8-b8[=w] #
+          2.b7-b8=B[=n] +
+              2...nBb8-a7
+                  3.nBa7-b8[=w] #
+    but
+      1...Sh8-f7 !
+
+   1.Bc3-d4 ? threat:
+          2.b7-b8=B[=n] +
+              2...nBb8-a7
+                  3.nBa7-b8[=w] #
+      1...Bf1-g2
+          2.d7-d8=Q[=n] +
+              2...nQd8-a5
+                  3.nQa5-d8[=w] #
+                  3.nQa5-c5[=w] #
+              2...nQd8-b6
+                  3.nQb6-c5[=w] #
+                  3.nQb6-d8[=w] #
+              2...nQd8-a8
+                  3.nQa8-d8[=w] #
+              2...nQd8-c8
+                  3.nQc8-d7[=w] #
+                  3.nQc8-d8[=w] #
+              2...nQd8-g8
+                  3.nQg8-d8[=w] #
+              2...nQd8-e8
+                  3.nQe8-d7[=w] #
+                  3.nQe8-d8[=w] #
+          2.d7-d8=R[=n] +
+              2...nRd8-a8
+                  3.nRa8-d8[=w] #
+              2...nRd8-b8
+                  3.nRb8-d8[=w] #
+              2...nRd8-c8
+                  3.nRc8-d8[=w] #
+              2...nRd8-g8
+                  3.nRg8-d8[=w] #
+              2...nRd8-f8
+                  3.nRf8-d8[=w] #
+              2...nRd8-e8
+                  3.nRe8-d8[=w] #
+    but
+      1...Ra2-b2 !
+
+   1.c6-c7 ? threat:
+          2.c7-c8=S[=n] +
+              2...nSc8-a7
+                  3.nSa7-c8[=w] #
+              2...nSc8-b6
+                  3.nSb6-c8[=w] #
+              2...nSc8-e7
+                  3.nSe7-c8[=w] #
+      1...Bf1-g2
+          2.d7-d8=Q[=n] +
+              2...nQd8-a8
+                  3.nQa8-d8[=w] #
+              2...nQd8-b8
+                  3.nQb8-d8[=w] #
+              2...nQd8-c8
+                  3.nQc8-d7[=w] #
+                  3.nQc8-d8[=w] #
+              2...nQd8-g8
+                  3.nQg8-d8[=w] #
+              2...nQd8-e8
+                  3.nQe8-c6[=w] #
+                  3.nQe8-d7[=w] #
+                  3.nQe8-d8[=w] #
+          2.d7-d8=R[=n] +
+              2...nRd8-a8
+                  3.nRa8-d8[=w] #
+              2...nRd8-b8
+                  3.nRb8-d8[=w] #
+              2...nRd8-c8
+                  3.nRc8-d8[=w] #
+              2...nRd8-g8
+                  3.nRg8-d8[=w] #
+              2...nRd8-f8
+                  3.nRf8-d8[=w] #
+              2...nRd8-e8
+                  3.nRe8-d8[=w] #
+    but
+      1...Sc2-d4 !
+
+   1.e6-e7 ! threat:
+          2.e7-e8=S[=n] +
+              2...nSe8-c7
+                  3.nSc7-e8[=w] #
+              2...nSe8-g7
+                  3.nSg7-e8[=w] #
+      1...Bf1-g2
+          2.d7-d8=R[=n] +
+              2...nRd8-a8
+                  3.nRa8-d8[=w] #
+              2...nRd8-b8
+                  3.nRb8-d8[=w] #
+              2...nRd8-c8
+                  3.nRc8-d8[=w] #
+              2...nRd8-g8
+                  3.nRg8-d8[=w] #
+              2...nRd8-f8
+                  3.nRf8-d8[=w] #
+              2...nRd8-e8
+                  3.nRe8-d8[=w] #
+      1...Sc2-d4
+          2.b7-b8=B[=n] +
+              2...nBb8-a7
+                  3.nBa7-b8[=w] #
+
+   1.b7-b8=B[=n] + ?
+    but
+      1...nBb8-a7[=b] + !
+
+   1.d7-d8=R[=n] + ?
+      1...nRd8-a8
+          2.nRa8-d8[=w] #
+      1...nRd8-b8
+          2.nRb8-d8[=w] #
+      1...nRd8-c8
+          2.nRc8-d8[=w] #
+      1...nRd8-f8
+          2.nRf8-d8[=w] #
+      1...nRd8-e8
+          2.nRe8-d8[=w] #
+    but
+      1...nRd8-g8[=b] + !
+
+  add_to_move_generation_stack:      442011
+                     play_move:      266383
+ is_white_king_square_attacked:      253668
+ is_black_king_square_attacked:      299958
+
+solution finished.
+
+
+
+           Petko A. Petkov
+           feenschach 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   B   .  -B   .   .   8
+|                                   |
+7   K   .   .   .   R   .   .   R   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .   .   .   .  -K   P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   .   S   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                          8 + 3
+                Anda
+
+   1.Ka7-b8 ? threat:
+          2.Re7-e5[=n] +
+              2...nRe5-e7
+                  3.nRe7-e5[=w] #
+      1...Kg5-h4
+          2.Re7-e4[=n] +
+              2...nRe4-e7
+                  3.nRe7-e4[=w] #
+      1...Kg5-f6
+          2.Re7-e6[=n] +
+              2...nRe6-e7
+                  3.nRe7-e6[=w] #
+      1...g6*h5
+          2.Re7-g7[=n] +
+              2...nRg7-e7
+                  3.nRe7-g7[=w] #
+    but
+      1...Bf8*e7 !
+
+   1.Ka7-a6 ? threat:
+          2.Re7-e5[=n] +
+              2...nRe5-e7
+                  3.nRe7-e5[=w] #
+      1...Kg5-h4
+          2.Re7-e4[=n] +
+              2...nRe4-e7
+                  3.nRe7-e4[=w] #
+      1...g6*h5
+          2.Re7-g7[=n] +
+              2...nRg7-e7
+                  3.nRe7-g7[=w] #
+      1...Bf8*e7
+          2.Bd8*e7[=n] +
+              2...nBe7-a3
+                  3.nBa3-e7[=w] #
+              2...nBe7-b4
+                  3.nBb4-e7[=w] #
+              2...nBe7-c5
+                  3.nBc5-e7[=w] #
+              2...nBe7-d6
+                  3.nBd6-e7[=w] #
+              2...nBe7-f8
+                  3.nBf8-e7[=w] #
+    but
+      1...Kg5-f6 !
+
+   1.Ka7-a8 ! threat:
+          2.Re7-e5[=n] +
+              2...nRe5-e7
+                  3.nRe7-e5[=w] #
+      1...Kg5-h4
+          2.Re7-e4[=n] +
+              2...nRe4-e7
+                  3.nRe7-e4[=w] #
+      1...Kg5-f6
+          2.Re7-e6[=n] +
+              2...nRe6-e7
+                  3.nRe7-e6[=w] #
+      1...g6*h5
+          2.Re7-g7[=n] +
+              2...nRg7-e7
+                  3.nRe7-g7[=w] #
+      1...Bf8*e7
+          2.Bd8*e7[=n] +
+              2...nBe7-a3
+                  3.nBa3-e7[=w] #
+              2...nBe7-b4
+                  3.nBb4-e7[=w] #
+              2...nBe7-c5
+                  3.nBc5-e7[=w] #
+              2...nBe7-d6
+                  3.nBd6-e7[=w] #
+              2...nBe7-f8
+                  3.nBf8-e7[=w] #
+
+   1.Re7-e3 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-e4 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-e5[=n] + ?
+    but
+      1...nRe5-e7[=b] + !
+
+   1.Re7-e6 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-b7 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-c7 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-d7 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-e8 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-g7 + ?
+    but
+      1...Bf8-e7 !
+
+   1.Re7-f7 + ?
+    but
+      1...Bf8-e7 !
+
+  add_to_move_generation_stack:      153985
+                     play_move:       73217
+ is_white_king_square_attacked:       73267
+ is_black_king_square_attacked:       85332
+
+solution finished.
 
 

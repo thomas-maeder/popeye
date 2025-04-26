@@ -17,5 +17,49 @@ stipulation #2
 condition Anda
 option try vari
 
+next
+
+author Petko A. Petkov
+origin The Problemist 2021
+pieces white ke1 rb7e4 ba4 se7 pc5e2f6g4 black kd8 pg5
+stipulation #2
+condition Anda Circe
+option try vari
+
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019
+pieces white kf8 re3 bb8 sd1e7 pb3b4c2d3e2f3 black kd4 qa6 bb2b7 pc6f5g6
+stipulation #3
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin KoBulChess 2019, dedicated to Christian Poisson
+pieces white kd7 rg2 pf2g6 white anda cham sf3 black kh1 pa3c3e7f4h7 neutral anda cham rf6
+stipulation hs#3
+twin move d7 b5
+
+next
+
+author Petko A. Petkov
+origin Problem Paradise 2019, in memoriam Virgil Nestorescu
+pieces white kg1 rc4 bc3h1 sd5 pb7c6d7e6f5 black kd6 ra2 bf1 sc2h8 pa6d3f6
+stipulation #3
+condition Anda
+option try vari
+
+next
+
+author Petko A. Petkov
+origin feenschach 2019
+pieces white ka7 re7h7 bd8h3 se2 pg2h5 black kg5 bf8 pg6
+stipulation #3
+condition Anda
+option try vari
+
 end
 
