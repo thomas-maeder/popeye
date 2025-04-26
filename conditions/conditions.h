@@ -249,8 +249,9 @@ typedef enum
   multicaptures,          /* 228 */
   antiguards,             /* 229 */
   frankfurt,              /* 230 */
+  anda,                   /* 231 */
 
-  CondCount               /* 231 */
+  CondCount               /* 232 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

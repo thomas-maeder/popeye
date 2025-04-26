@@ -320,6 +320,12 @@ static void initialise_piece_flags(void)
     SETFLAG(all_royals_flags,Beamtet);
   }
 
+  if (CondFlag[anda])
+  {
+    SETFLAG(some_pieces_flags,Anda);
+    SETFLAG(all_pieces_flags,Anda);
+  }
+
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
     SETFLAG(some_pieces_flags,Uncapturable);
 

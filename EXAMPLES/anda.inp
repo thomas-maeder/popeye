@@ -8,5 +8,14 @@ pieces white kd3 sd5 pd7 white anda pc6e6 black kd8 pb6f6
 stipulation #4
 option try vari
 
+next
+
+author Petko A. Petkov
+origin The Problemist 2021
+pieces white kd4 rg6 bh8 sd8 pd6e7f6g3h4h6 na1 black kf5 bd7 neutral bf7
+stipulation #2
+condition Anda
+option try vari
+
 end
 
