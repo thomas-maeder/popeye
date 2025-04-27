@@ -127,6 +127,12 @@ void generate_moves_different_walk(slice_index si, piece_walk_type walk);
  */
 void generate_moves_for_piece(square sq_departure);
 
+/* Generate all moves for side trait[nbply]
+ * trait[nbply] is not only used to determine which pieces to generate
+ * moves for, but also for the direction in which pawns, hunters etc. move
+ */
+void generate_all_moves_for_moving_side(void);
+
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
  */

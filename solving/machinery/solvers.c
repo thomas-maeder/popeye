@@ -135,6 +135,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/transmissionmenace.h"
 #include "conditions/powertransfer.h"
+#include "conditions/all_in_chess.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -402,6 +403,9 @@ void build_solvers1(slice_index si)
     if (TSTFLAG(some_pieces_flags,Kamikaze))
       circe_kamikaze_initialise_solving(si);
   }
+
+  if (CondFlag[halfinchess])
+    solving_instrument_half_in_chess(si);
 
   if (CondFlag[sentinelles])
     solving_insert_sentinelles_inserters(si);

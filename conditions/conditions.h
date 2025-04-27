@@ -251,8 +251,9 @@ typedef enum
   frankfurt,              /* 230 */
   anda,                   /* 231 */
   andainverse,            /* 232 */
+  halfinchess,            /* 233 */
 
-  CondCount               /* 233 */
+  CondCount               /* 234 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

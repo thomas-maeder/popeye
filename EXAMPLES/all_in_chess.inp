@@ -1,0 +1,38 @@
+begin
+
+protocol all_in_chess.ref
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white ke3 pe2 black kc4 bd1e1 pg3
+stipulation h#2.5
+condition halfinchess
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white ka7 qf8 be8 sf6 pf3h4 black kh1 qg3 pe7f7
+stipulation h#2
+condition halfinchess
+twin add white re8
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white kh1 sa4 pb2d3 black ke5
+stipulation #2
+condition halfinchess
+option vari
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white ke8 rd6 pb6e6 black kc5
+stipulation #5
+condition halfinchess
+option vari
+
+end

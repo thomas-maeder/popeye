@@ -1546,6 +1546,12 @@ void verify_position(slice_index si)
   if (CondFlag[bicaptures])
     king_capture_avoiders_avoid_own();
 
+  if (CondFlag[halfinchess])
+  {
+    king_capture_avoiders_avoid_own();
+    disable_orthodox_mating_move_optimisation(nr_sides);
+  }
+
   if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
