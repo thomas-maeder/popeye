@@ -73,4 +73,20 @@ boolean is_line_empty(square start, square end, int dir);
  */
 boolean init_intelligent_mode(slice_index si);
 
+typedef enum {
+  NO_EP,
+  EP_ON_FIRST_MOVE,
+  EP_CONSEQUENT
+} EnPassantLegality;
+
+typedef enum {
+  NO_CASTLING = 0,
+  CASTLING_KINGSIDE = 1,
+  CASTLING_QUEENSIDE = 2,
+  CASTLING_EITHER = (CASTLING_KINGSIDE | CASTLING_QUEENSIDE),
+  CASTLING_CONSEQUENT = (4 | CASTLING_EITHER)
+} CastlingLegality;
+
+unsigned int target_position_is_ser_h_feasible(CastlingLegality cl, EnPassantLegality ep);
+
 #endif

@@ -130,6 +130,12 @@ static boolean stalemate_isGoalReachable(void)
     result = (MovesRequired[White][nbply]<=MovesLeft[White]
               && MovesRequired[Black][nbply]<=MovesLeft[Black]
               && stalemate_are_there_sufficient_moves_left_for_required_captures());
+    if (result && (MovesLeft[Black] > 0))
+    {
+      unsigned int const min_num_moves = target_position_is_ser_h_feasible(CASTLING_EITHER, EP_ON_FIRST_MOVE);
+      if (min_num_moves > MovesLeft[Black])
+        result = false;
+    }
   }
 
   TraceFunctionExit(__func__);
