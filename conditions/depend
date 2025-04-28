@@ -6891,11 +6891,13 @@ conditions/all_in_chess$(OBJ_SUFFIX): conditions/all_in_chess.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/branch.h stipulation/fork.h solving/temporary_hacks.h \
- solving/check.h debugging/measure.h output/plaintext/protocol.h \
- solving/post_move_iteration.h solving/observation.h solving/ply.h \
- solving/fork.h solving/move_generator.h solving/conditional_pipe.h \
- solving/pipe.h solving/machinery/slack_length.h debugging/assert.h
+ stipulation/branch.h stipulation/move.h stipulation/fork.h \
+ solving/temporary_hacks.h solving/check.h debugging/measure.h \
+ output/plaintext/protocol.h solving/post_move_iteration.h \
+ solving/observation.h solving/ply.h solving/fork.h \
+ solving/move_generator.h solving/conditional_pipe.h solving/pipe.h \
+ solving/machinery/slack_length.h solving/move_effect_journal.h \
+ debugging/assert.h
 conditions/all_in_chess.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -6939,6 +6941,7 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 stipulation/branch.h:
+stipulation/move.h:
 stipulation/fork.h:
 solving/temporary_hacks.h:
 solving/check.h:
@@ -6952,4 +6955,5 @@ solving/move_generator.h:
 solving/conditional_pipe.h:
 solving/pipe.h:
 solving/machinery/slack_length.h:
+solving/move_effect_journal.h:
 debugging/assert.h:

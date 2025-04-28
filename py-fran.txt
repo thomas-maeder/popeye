@@ -274,6 +274,7 @@ simples:
 	TransfertPouvoir
 	Anda
 	AndaInverse
+	AllInChess
 	HalfInChess
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,

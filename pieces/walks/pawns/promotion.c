@@ -243,6 +243,8 @@ void find_potential_promotion_square(square *candidate,
             || move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_series_capture)
         {
           *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+          /* this is needed for protean pawns, but the TSTFLAG(...,WhPromSq) would be suitable
+           * for All-In-Chess...*/
           *as_side = trait[nbply];
         }
         else if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_bul)

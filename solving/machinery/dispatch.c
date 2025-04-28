@@ -2430,6 +2430,22 @@ void dispatch(slice_index si)
       half_in_chess_non_king_move_generator_solve(si);
       break;
 
+    case STAllInChessMoveGenerator:
+      all_in_chess_move_generator_solve(si);
+      break;
+
+    case STAllInChessKingMoveGenerator:
+      all_in_chess_king_move_generator_solve(si);
+      break;
+
+    case STAllInChessNonKingMoveGenerator:
+      all_in_chess_non_king_move_generator_solve(si);
+      break;
+
+    case STAllInChessUndoMoveAvoider:
+      all_in_chess_undo_move_avoider_solve(si);
+      break;
+
     case STTrue:
       solve_result = previous_move_has_solved;
       break;
