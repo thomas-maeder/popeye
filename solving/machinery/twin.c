@@ -1546,6 +1546,12 @@ void verify_position(slice_index si)
   if (CondFlag[bicaptures])
     king_capture_avoiders_avoid_own();
 
+  if (CondFlag[halfinchess] || CondFlag[allinchess])
+  {
+    king_capture_avoiders_avoid_own();
+    disable_orthodox_mating_move_optimisation(nr_sides);
+  }
+
   if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
@@ -2077,6 +2083,12 @@ void verify_position(slice_index si)
         output_plaintext_message(NonsenseCombination);
         return;
       }
+  }
+
+  if (CondFlag[halfinchess] && CondFlag[allinchess])
+  {
+    output_plaintext_message(NonsenseCombination);
+    return;
   }
 
   pipe_solve_delegate(si);

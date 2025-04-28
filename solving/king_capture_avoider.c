@@ -144,13 +144,11 @@ static boolean is_king_captured(Side side)
  */
 void own_king_capture_avoider_solve(slice_index si)
 {
-  Side const starter = SLICE_STARTER(si);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_this_move_illegal_if(si,is_king_captured(starter));
+  pipe_this_move_illegal_if(si,is_king_captured(SLICE_STARTER(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

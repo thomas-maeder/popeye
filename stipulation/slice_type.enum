@@ -193,6 +193,14 @@
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
+    ENUMERATOR(STHalfInChessMoveGenerator),                              \
+    ENUMERATOR(STHalfInChessKingMoveGenerator),                          \
+    ENUMERATOR(STHalfInChessNonKingMoveGenerator),                       \
+    ENUMERATOR(STHalfInChessMoveMarker),                                 \
+    ENUMERATOR(STAllInChessMoveGenerator),                               \
+    ENUMERATOR(STAllInChessKingMoveGenerator),                           \
+    ENUMERATOR(STAllInChessNonKingMoveGenerator),                        \
+    ENUMERATOR(STAllInChessUndoMoveAvoider),                             \
     ENUMERATOR(STSkipMoveGeneration), /* prevent generation of move generators */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STCastlingRightsAdjuster),                                \

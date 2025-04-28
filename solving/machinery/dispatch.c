@@ -156,6 +156,7 @@
 #include "conditions/pepo.h"
 #include "conditions/cast.h"
 #include "conditions/multicaptures.h"
+#include "conditions/all_in_chess.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2415,6 +2416,38 @@ void dispatch(slice_index si)
 
     case STRoleExchangeMoveGenerator:
       role_exchange_generator_solve(si);
+      break;
+
+    case STHalfInChessMoveGenerator:
+      half_in_chess_move_generator_solve(si);
+      break;
+
+    case STHalfInChessKingMoveGenerator:
+      half_in_chess_king_move_generator_solve(si);
+      break;
+
+    case STHalfInChessNonKingMoveGenerator:
+      half_in_chess_non_king_move_generator_solve(si);
+      break;
+
+    case STHalfInChessMoveMarker:
+      half_in_chess_move_marker_solve(si);
+      break;
+
+    case STAllInChessMoveGenerator:
+      all_in_chess_move_generator_solve(si);
+      break;
+
+    case STAllInChessKingMoveGenerator:
+      all_in_chess_king_move_generator_solve(si);
+      break;
+
+    case STAllInChessNonKingMoveGenerator:
+      all_in_chess_non_king_move_generator_solve(si);
+      break;
+
+    case STAllInChessUndoMoveAvoider:
+      all_in_chess_undo_move_avoider_solve(si);
       break;
 
     case STTrue:

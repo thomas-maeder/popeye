@@ -412,7 +412,11 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static void genmove(void)
+/* Generate all moves for side trait[nbply]
+ * trait[nbply] is not only used to determine which pieces to generate
+ * moves for, but also for the direction in which pawns, hunters etc. move
+ */
+void generate_all_moves_for_moving_side(void)
 {
   unsigned int i;
   square square_h = square_h8;
@@ -452,7 +456,7 @@ boolean observing_move_generator_is_in_check(slice_index si,
 
   siblingply(trait[nbply]);
 
-  genmove();
+  generate_all_moves_for_moving_side();
 
   result = pipe_is_in_check_recursive_delegate(si,side_observed);
 
@@ -486,7 +490,7 @@ void move_generator_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
-  genmove();
+  generate_all_moves_for_moving_side();
   pipe_solve_delegate(si);
   finply();
 

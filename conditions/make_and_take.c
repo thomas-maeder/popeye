@@ -408,7 +408,8 @@ static void flesh_out_castling_as_make(int offset_partner_departure,
   square const sq_partner_departure = sq_king_departure+offset_partner_departure;
   square const sq_partner_arrival = sq_king_departure+offset_partner_arrival;
 
-  assert(move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement);
+  assert(move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement
+         || move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement_all_in_chess);
   assert(is_king(game_array.board[sq_king_departure]));
   assert(TSTFLAG(game_array.spec[sq_king_departure],advers(trait[nbply])));
 

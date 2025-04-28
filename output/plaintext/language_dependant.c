@@ -985,7 +985,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*229*/ "Antigardes",
     /*230*/ "Francfort",
     /*231*/ "Anda",
-    /*232*/ "AndaInverse"
+    /*232*/ "AndaInverse",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1220,7 +1222,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*229*/ "AntiDeckungen",
     /*230*/ "FrankfurtSchach",
     /*231*/ "Anda",
-    /*232*/ "AndaInvers"
+    /*232*/ "AndaInvers",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1455,7 +1459,9 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*229*/ "AntiGuards",
     /*230*/ "FrankfurtChess",
     /*231*/ "Anda",
-    /*232*/ "AndaInverse"
+    /*232*/ "AndaInverse",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess"
   }
 };
 

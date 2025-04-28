@@ -1,0 +1,306 @@
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .  -P   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .  -B  -B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       2 + 4
+             HalfInChess
+
+  1...Bd1-c2   2.Ke3-f4 Bc2-e4   3.e2-e3 Kc4-d4 #
+  1...Be1-c3   2.Ke3-d2 + Bc3-e5   3.e2-e4 Kc4-d5 #
+  add_to_move_generation_stack:       76337
+                     play_move:       75849
+ is_white_king_square_attacked:        4715
+ is_black_king_square_attacked:       73490
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   B   Q   .   .   8
+|                                   |
+7   K   .   .   .  -P  -P   .   .   7
+|                                   |
+6   .   .   .   .   .   S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   P  -Q   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 4
+             HalfInChess
+
+a) 
+
+  1.Be8-c6 Qg3*f3   2.Qf8-a8 Qf3*f6 #
+  add_to_move_generation_stack:      259255
+                     play_move:      234737
+ is_white_king_square_attacked:        4655
+ is_black_king_square_attacked:      233748
+
+b) wRe8  
+
+  1.Qf8-h6 Qg3*h4   2.Re8-h8 Qh4*f6 #
+  add_to_move_generation_stack:      257738
+                     play_move:      234452
+ is_white_king_square_attacked:        4457
+ is_black_king_square_attacked:      233535
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   S   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   P   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 1
+             HalfInChess
+
+   1.Ke5-d4 ! threat:
+          2.Kd4-c3 #
+      1...b2-b4
+          2.Kd4-c5 #
+      1...b2-b3
+          2.Kd4-c4 #
+      1...Sa4-c3
+          2.Kd4-e4 #
+      1...Sa4-c5
+          2.Kd4-e4 #
+      1...Sa4-b6
+          2.Kd4-c4 #
+
+  add_to_move_generation_stack:         904
+                     play_move:         670
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         639
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   R   P   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          4 + 1
+             HalfInChess
+
+   1.Kc5-d5 + !
+      1...Rd6-c6
+          2.Kd5-d6 +
+              2...Rc6-c1
+                  3.Kd6-c7 #
+              2...Rc6-c2
+                  3.Kd6-c7 #
+              2...Rc6-c3
+                  3.Kd6-c7 #
+              2...Rc6-c4
+                  3.Kd6-c7 #
+              2...Rc6-c5
+                  3.Kd6-c7 #
+              2...Rc6-c8
+                  3.Kd6-c7 #
+              2...Rc6-c7
+                  3.Kd6-c6 +
+                      3...Rc7-a7
+                          4.Kc6-b7 +
+                              4...Ra7-a1
+                                  5.Kb7-a7 #
+                              4...Ra7-a2
+                                  5.Kb7-a7 #
+                              4...Ra7-a3
+                                  5.Kb7-a7 #
+                              4...Ra7-a4
+                                  5.Kb7-a7 #
+                              4...Ra7-a5
+                                  5.Kb7-a7 #
+                              4...Ra7-a6
+                                  5.Kb7-a8 #
+                                  5.Kb7-a7 #
+                              4...Ra7-a8
+                                  5.Kb7-a7 #
+                      3...Rc7-b7
+                          4.Kc6-c7 #
+                      3...Rc7-h7
+                          4.Kc6-c7 #
+                      3...Rc7-g7
+                          4.Kc6-c7 #
+                      3...Rc7-f7
+                          4.Kc6-c7 #
+                      3...Rc7-e7
+                          4.Kc6-c7 #
+                      3...Rc7-d7
+                          4.Kc6-c7 #
+
+  add_to_move_generation_stack:       49510
+                     play_move:       16211
+ is_white_king_square_attacked:        3038
+ is_black_king_square_attacked:       13627
+
+solution finished.
+
+
+
+          S.N. Ravi Shankar
+    The Problemist March 1989 (v)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -B   .   .   .   .   R   .   8
+|                                   |
+7   .  -R   .  -B   .   .   .   P   7
+|                                   |
+6   .   .   .  -R   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #5                          3 + 5
+             AllInChess
+
+   1.h7-h8=R + !
+      1...Rd6-h6
+          2.Rh6-e6 +
+              2...Bb8-h2
+                  3.Bh2-c7 +
+                      3...Re6-h6
+                          4.Rh6-d6 +
+                              4...Bd7-h3
+                                  5.Bh3-e6 #
+      1...Bd7-h3
+          2.Bh3-e6 +
+              2...Rb7-h7
+                  3.Rh7-c7 +
+                      3...Be6-h3
+                          4.Bh3-d7 +
+                              4...Rd6-h6
+                                  5.Rh6-e6 #
+
+  add_to_move_generation_stack:   178849680
+                     play_move:    53885808
+ is_white_king_square_attacked:     4862636
+ is_black_king_square_attacked:    50729116
+
+solution finished.
+
+
+
+           K. Seetharaman
+        Julia's Fairies 2021
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   P   .   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   R   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         4 + 1
+             AllInChess
+
+a) 
+
+  1.g7-g8=Q f7-f8=R #
+  add_to_move_generation_stack:        2751
+                     play_move:        1261
+ is_white_king_square_attacked:         239
+ is_black_king_square_attacked:        1239
+
+b) wPg7-->h7  
+
+  1.f7-f8=S h7-h8=B #
+  add_to_move_generation_stack:        2770
+                     play_move:        1268
+ is_white_king_square_attacked:         241
+ is_black_king_square_attacked:        1245
+
+solution finished.
+
+

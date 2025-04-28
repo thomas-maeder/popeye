@@ -55,6 +55,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_moving_piece_movement:
+        case move_effect_reason_moving_piece_movement_all_in_chess:
         case move_effect_reason_castling_king_movement:
         case move_effect_reason_series_capture:
           result = true;

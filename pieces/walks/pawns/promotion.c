@@ -239,16 +239,26 @@ void find_potential_promotion_square(square *candidate,
     switch (move_effect_journal[promotion_horizon[nbply]].type)
     {
       case move_effect_piece_movement:
-        if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_moving_piece_movement
-            || move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_series_capture)
+        switch (move_effect_journal[promotion_horizon[nbply]].reason)
         {
-          *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
-          *as_side = trait[nbply];
-        }
-        else if (move_effect_journal[promotion_horizon[nbply]].reason==move_effect_reason_bul)
-        {
-          *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
-          *as_side = TSTFLAG(sq_spec(*candidate),WhPromSq) ? White : Black;
+          case move_effect_reason_moving_piece_movement:
+          case move_effect_reason_series_capture:
+            *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+            *as_side = trait[nbply];
+            break;
+
+          case move_effect_reason_moving_piece_movement_all_in_chess:
+            *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+            *as_side = advers(trait[nbply]);
+            break;
+
+          case move_effect_reason_bul:
+            *candidate = move_effect_journal[promotion_horizon[nbply]].u.piece_movement.to;
+            *as_side = TSTFLAG(sq_spec(*candidate),WhPromSq) ? White : Black;
+            break;
+
+          default:
+            break;
         }
         break;
 

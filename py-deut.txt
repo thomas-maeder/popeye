@@ -277,6 +277,8 @@ Kommandos:
 	KraftTransfer
 	Anda
 	AndaInvers
+	AllInChess
+	HalfInChess
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
