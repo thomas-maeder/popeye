@@ -1110,6 +1110,7 @@ static int imitator_diff(void)
       switch (move_effect_journal[curr].reason)
       {
         case move_effect_reason_moving_piece_movement:
+        case move_effect_reason_moving_piece_movement_all_in_chess:
         case move_effect_reason_castling_king_movement:
         case move_effect_reason_castling_partner:
           result += move_effect_journal[curr].u.piece_movement.to-move_effect_journal[curr].u.piece_movement.from;

@@ -149,13 +149,14 @@ static void write_capture(output_plaintext_move_context_type *context,
   move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
 
   assert(movement_reason==move_effect_reason_moving_piece_movement
+         || movement_reason==move_effect_reason_moving_piece_movement_all_in_chess
          || movement_reason==move_effect_reason_castling_king_movement);
 
-  if (movement_reason==move_effect_reason_moving_piece_movement)
-    write_departure(context,movement);
-  else
+  if (movement_reason==move_effect_reason_castling_king_movement)
     /* e.g. Make&Take */
     write_castling(context,movement);
+  else
+    write_departure(context,movement);
 
   (*context->engine->fputc)('*',context->file);
 
@@ -224,12 +225,13 @@ static void write_regular_move(output_plaintext_move_context_type *context)
       move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
 
       assert(movement_reason==move_effect_reason_moving_piece_movement
+             || movement_reason==move_effect_reason_moving_piece_movement_all_in_chess
              || movement_reason==move_effect_reason_castling_king_movement);
 
-      if (movement_reason==move_effect_reason_moving_piece_movement)
-        write_no_capture(context,movement);
-      else
+      if (movement_reason==move_effect_reason_castling_king_movement)
         write_castling(context,movement);
+      else
+        write_no_capture(context,movement);
     }
     else if (movement_type==move_effect_piece_exchange)
     {
@@ -519,6 +521,7 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
   switch (move_effect_journal[curr].reason)
   {
     case move_effect_reason_moving_piece_movement:
+    case move_effect_reason_moving_piece_movement_all_in_chess:
       /* write_capture() and write_no_capture() have dealt with this */
       assert(0);
       break;

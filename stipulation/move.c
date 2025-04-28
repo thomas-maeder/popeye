@@ -39,6 +39,7 @@ static slice_index const move_slice_rank_order[] =
     STCastlingChessMovePlayer,
     STExchangeCastlingMovePlayer,
     STMovePlayer,
+    STHalfInChessMoveMarker,
     STLandingAfterMovingPieceMovement,
     STMakeTakeMoveCastlingPartner,
     STGenevaConsideringRebirth,

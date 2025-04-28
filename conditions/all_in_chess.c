@@ -156,6 +156,42 @@ void half_in_chess_move_generator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void half_in_chess_move_marker_solve(slice_index si)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,trait[nbply]))
+    pipe_solve_delegate(si);
+  else
+  {
+    assert(move_effect_journal[movement].reason==move_effect_reason_moving_piece_movement);
+    move_effect_journal[movement].reason = move_effect_reason_moving_piece_movement_all_in_chess;
+    pipe_solve_delegate(si);
+    move_effect_journal[movement].reason = move_effect_reason_moving_piece_movement;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void half_in_chess_do_substitute(slice_index si,
                                         stip_structure_traversal *st)
 {
@@ -226,6 +262,7 @@ void solving_instrument_half_in_chess(slice_index si)
   TraceFunctionParamListEnd();
 
   half_in_chess_replace_move_generators(si);
+  stip_instrument_moves(si,STHalfInChessMoveMarker);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -499,6 +536,7 @@ void solving_instrument_all_in_chess(slice_index si)
 
   all_in_chess_replace_move_generators(si);
   stip_instrument_moves(si,STAllInChessUndoMoveAvoider);
+  stip_instrument_moves(si,STHalfInChessMoveMarker);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
