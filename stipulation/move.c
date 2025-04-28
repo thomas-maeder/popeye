@@ -131,6 +131,7 @@ static slice_index const move_slice_rank_order[] =
     STNewKoekoLegalityTester,
     STJiggerLegalityTester,
     STAllInChessUndoMoveAvoider,
+    STMainlyInChessSameMoverAvoider,
     STOwnKingCaptureAvoider,
     STOpponentKingCaptureAvoider,
     STCastlingRightsAdjuster,

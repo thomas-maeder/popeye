@@ -253,8 +253,9 @@ typedef enum
   andainverse,            /* 232 */
   halfinchess,            /* 233 */
   allinchess,             /* 234 */
+  mainlyinchess,          /* 235 */
 
-  CondCount               /* 235 */
+  CondCount               /* 236 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

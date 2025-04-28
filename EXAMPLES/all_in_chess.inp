@@ -53,5 +53,48 @@ stipulation h#1
 condition allinchess
 twin move g7 h7
 
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white kb1 bd7 black kh5 pb7
+stipulation h#2
+condition mainlyinchess
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white kd8 pc3d2 black kf3 re4
+stipulation h#2
+condition mainlyinchess
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white kh7 bc8h8 sd3 pe3e4f3g3h3 black kg5 rf5h4 bf4 sg2g4 pf6g6h5
+stipulation #2
+condition mainlyinchess
+option try vari
+
+next
+
+author Chris Tylor & S.N. Ravi Shankar
+origin The Problemist 2024
+pieces white kh4 bh1h8 sc3 pf3h3 black kf4 rd4 bd3 sf2 pe4e5f5
+stipulation #2
+condition mainlyinchess
+option vari
+
+next
+
+author Chris Tylor
+origin The Problemist 2024
+pieces white kf5 ra8 ph4 black kg2 pa7g3h6
+stipulation h#2
+condition mainlyinchess
+twin move f5 g6
+
 end
 

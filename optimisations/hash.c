@@ -1363,6 +1363,16 @@ static byte *CommonEncode(byte *bp,
     bp += sizeof fuddled;
   }
 
+  if (CondFlag[mainlyinchess])
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    PieceIdType id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+    memcpy(bp, &id, sizeof id);
+    bp += sizeof id;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
   return bp;

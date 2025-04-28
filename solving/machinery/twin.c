@@ -1546,7 +1546,7 @@ void verify_position(slice_index si)
   if (CondFlag[bicaptures])
     king_capture_avoiders_avoid_own();
 
-  if (CondFlag[halfinchess] || CondFlag[allinchess])
+  if (CondFlag[halfinchess] || CondFlag[allinchess] || CondFlag[mainlyinchess])
   {
     king_capture_avoiders_avoid_own();
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -2085,7 +2085,7 @@ void verify_position(slice_index si)
       }
   }
 
-  if (CondFlag[halfinchess] && CondFlag[allinchess])
+  if (CondFlag[halfinchess]+CondFlag[allinchess]+CondFlag[mainlyinchess]>1)
   {
     output_plaintext_message(NonsenseCombination);
     return;

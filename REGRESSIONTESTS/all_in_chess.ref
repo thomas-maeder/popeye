@@ -304,3 +304,285 @@ b) wPg7-->h7
 solution finished.
 
 
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   B   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 2
+            MainlyInChess
+
+  1.Bd7-c6 Kh5-g4   2.Bc6-h1 Kg4-f3 #
+  1.Bd7-f5 Kb1-a2   2.Bf5-b1 Kh5-g6 #
+  1.Bd7-e6 Kh5-g6   2.Be6-a2 Kg6-f7 #
+  add_to_move_generation_stack:       80273
+                     play_move:       64014
+ is_white_king_square_attacked:        2285
+ is_black_king_square_attacked:       42242
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -R   .   .   .   4
+|                                   |
+3   .   .   P   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 2
+            MainlyInChess
+
+  1.Re4-e3 Kf3-e4   2.d2*e3 Ke4-d4 #
+  1.Re4-d4 + c3*d4   2.d2-d3 Kf3-e4 #
+  add_to_move_generation_stack:      179059
+                     play_move:      172560
+ is_white_king_square_attacked:        2716
+ is_black_king_square_attacked:      121777
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   .   .   .   .   B   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .  -P  -P   .   6
+|                                   |
+5   .   .   .   .   .  -R  -K  -P   5
+|                                   |
+4   .   .   .   .   P  -B  -S  -R   4
+|                                   |
+3   .   .   .   S   P   P   P   P   3
+|                                   |
+2   .   .   .   .   .   .  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 9
+            MainlyInChess
+
+   1.Sd3*f4 ? threat:
+          2.Sf4-e6 #
+          2.Kg5*f4 #
+      1...Sg2*e3
+          2.Sf4-e6 #
+      1...Sg4*e3
+          2.Sf4-e6 #
+          2.Kg5-g4 #
+      1...Rf5*f4
+          2.Kg5-f5 #
+      1...Rf5-e5
+          2.Kg5*f4 #
+          2.Kg5-f5 #
+      1...e4*f5
+          2.Kg5*f4 #
+      1...Kh7-g8
+          2.Kg5*f4 #
+      1...Bc8-e6
+          2.Kg5*f4 #
+    but
+      1...Sg2*f4 !
+
+   1.Sd3-e5 ! threat:
+          2.Se5-f7 #
+      1...Bf4*e5
+          2.Kg5-f4 #
+      1...Sg4-h6
+          2.Kg5-g4 #
+      1...Sg4*e5
+          2.Kg5-g4 #
+      1...Rf5*e5
+          2.Kg5-f5 #
+      1...f6*e5
+          2.Kg5-f6 #
+
+   1.e3*f4 + ?
+      1...Rf5*f4
+          2.Kg5-f5 #
+    but
+      1...Sg2*f4 !
+
+   1.g3*f4 + ?
+      1...Rf5*f4
+          2.Kg5-f5 #
+    but
+      1...Sg2*f4 !
+
+   1.Bf4-b8 ? threat:
+          2.Kg5-f4 #
+      1...Rf5-f4
+          2.Kg5-f5 #
+    but
+      1...Sg2-f4 !
+
+   1.Bf4-c7 ? threat:
+          2.Kg5-f4 #
+      1...Rf5-f4
+          2.Kg5-f5 #
+    but
+      1...Sg2-f4 !
+
+   1.Bf4-d6 ? threat:
+          2.Kg5-f4 #
+      1...Rf5-f4
+          2.Kg5-f5 #
+    but
+      1...Sg2-f4 !
+
+   1.Bf4-e5 ? threat:
+          2.Kg5-f4 #
+      1...Rf5-f4
+          2.Kg5-f5 #
+    but
+      1...Sg2-f4 !
+
+   1.Sg4*e3 ? threat:
+          2.Kg5-g4 #
+    but
+      1...Rh4-g4 !
+
+   1.Sg4-f2 ? threat:
+          2.Kg5-g4 #
+    but
+      1...Rh4-g4 !
+
+  add_to_move_generation_stack:      110205
+                     play_move:       92198
+ is_white_king_square_attacked:        5270
+ is_black_king_square_attacked:       81424
+
+solution finished.
+
+
+
+   Chris Tylor & S.N. Ravi Shankar
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   B   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P  -P   .   .   5
+|                                   |
+4   .   .   .  -R  -P  -K   .   K   4
+|                                   |
+3   .   .   S  -B   .   P   .   P   3
+|                                   |
+2   .   .   .   .   .  -S   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 7
+            MainlyInChess
+
+   1.e4-e3 ! threat:
+          2.Kf4-e4 #
+      1...Sf2-e4
+          2.Kf4*f3 #
+      1...Bd3-e4
+          2.Sc3-e2 #
+      1...Rd4-e4
+          2.Sc3-d5 #
+      1...e5-e4
+          2.Kf4-e5 #
+
+  add_to_move_generation_stack:       16922
+                     play_move:       12813
+ is_white_king_square_attacked:        1138
+ is_black_king_square_attacked:       11490
+
+solution finished.
+
+
+
+             Chris Tylor
+         The Problemist 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .  -P   .   3
+|                                   |
+2   .   .   .   .   .   .  -K   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 4
+            MainlyInChess
+
+a) 
+
+  1.Kg2-h3 Ra8-h8   2.Kh3*h4 Rh8*h6 #
+  add_to_move_generation_stack:      211683
+                     play_move:      180385
+ is_white_king_square_attacked:        7271
+ is_black_king_square_attacked:      131229
+
+b) wKf5-->g6  
+
+  1.Ra8-h8 Kg2-h3   2.Rh8*h6 Kh3*h4 #
+  add_to_move_generation_stack:      217422
+                     play_move:      183766
+ is_white_king_square_attacked:        4534
+ is_black_king_square_attacked:      133140
+
+solution finished.
+
+

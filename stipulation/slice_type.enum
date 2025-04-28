@@ -201,6 +201,7 @@
     ENUMERATOR(STAllInChessKingMoveGenerator),                           \
     ENUMERATOR(STAllInChessNonKingMoveGenerator),                        \
     ENUMERATOR(STAllInChessUndoMoveAvoider),                             \
+    ENUMERATOR(STMainlyInChessSameMoverAvoider),                         \
     ENUMERATOR(STSkipMoveGeneration), /* prevent generation of move generators */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STCastlingRightsAdjuster),                                \
