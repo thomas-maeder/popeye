@@ -279,6 +279,7 @@ Kommandos:
 	AndaInvers
 	AllInChess
 	HalfInChess
+	MainlyInChess
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

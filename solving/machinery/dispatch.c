@@ -2450,6 +2450,10 @@ void dispatch(slice_index si)
       all_in_chess_undo_move_avoider_solve(si);
       break;
 
+    case STMainlyInChessSameMoverAvoider:
+      mainly_in_chess_same_mover_avoider_solve(si);
+      break;
+
     case STTrue:
       solve_result = previous_move_has_solved;
       break;

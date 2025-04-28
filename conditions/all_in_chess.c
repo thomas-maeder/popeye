@@ -541,3 +541,63 @@ void solving_instrument_all_in_chess(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void mainly_in_chess_same_mover_avoider_solve(slice_index si)
+{
+  ply const parent = parent_ply[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (parent==ply_retro_move)
+    pipe_solve_delegate(si);
+  else
+  {
+    move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
+    move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
+    PieceIdType parent_id = GetPieceId(move_effect_journal[parent_movement].u.piece_movement.movingspec);
+
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    PieceIdType id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+    if (parent_id==id)
+      solve_result = this_move_is_illegal;
+    else
+      pipe_solve_delegate(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with Mainly In Chess
+ * @param si identifies entry slice into solving machinery
+ */
+void solving_instrument_mainly_in_chess(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  all_in_chess_replace_move_generators(si);
+  stip_instrument_moves(si,STMainlyInChessSameMoverAvoider);
+  stip_instrument_moves(si,STHalfInChessMoveMarker);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

@@ -408,6 +408,8 @@ void build_solvers1(slice_index si)
     solving_instrument_half_in_chess(si);
   if (CondFlag[allinchess])
     solving_instrument_all_in_chess(si);
+  if (CondFlag[mainlyinchess])
+    solving_instrument_mainly_in_chess(si);
 
   if (CondFlag[sentinelles])
     solving_insert_sentinelles_inserters(si);
