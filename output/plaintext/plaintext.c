@@ -117,7 +117,8 @@ static void write_departure(output_plaintext_move_context_type *context,
       && move_effect_journal[context->previous_movement].type==move_effect_piece_movement
       && move_effect_journal[context->previous_movement].u.piece_movement.to==move_effect_journal[movement].u.piece_movement.from)
   {
-    /* nothing */
+    (*context->engine->fputc)('-',context->file);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
   }
   else
     write_departing_piece(context,movement);

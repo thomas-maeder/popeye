@@ -357,7 +357,7 @@ solution finished.
 
 a) 
 
-  1.Ra7*a5   2.Ra5-a1 z
+  1.Ra7-a1*a5   2.Ra5-a1 z
   add_to_move_generation_stack:         281
                      play_move:          14
  is_white_king_square_attacked:          14
@@ -399,7 +399,7 @@ solution finished.
               MarsCirce
          BlackSynchronMover
 
-   1.a5*b3 !
+   1.a5-a2*b3 !
       1...Sb8-c6 +
 
   add_to_move_generation_stack:          84
@@ -436,7 +436,7 @@ solution finished.
                Volage
               MarsCirce
 
-   1.a5*b3=b x !
+   1.a5-a2*b3=b x !
 
   add_to_move_generation_stack:           4
                      play_move:           1

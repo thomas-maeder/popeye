@@ -1170,7 +1170,7 @@ solution finished.
            ChameleonChess
               MarsCirce
 
-  1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
+  1...Kd8-e1*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8-c1*b2=R =
   add_to_move_generation_stack:      204149
                      play_move:       52843
  is_white_king_square_attacked:       29119
@@ -1415,7 +1415,7 @@ solution finished.
 
 a) 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
   add_to_move_generation_stack:          20
                      play_move:           1
@@ -1424,7 +1424,7 @@ a)
 
 b) -wBa4  +wSa3  
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
   add_to_move_generation_stack:          12
                      play_move:           1
@@ -1462,7 +1462,7 @@ solution finished.
 
 a) 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
   add_to_move_generation_stack:          20
                      play_move:           1
@@ -1471,7 +1471,7 @@ a)
 
 b) -wBa4  +wSa3  
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
   add_to_move_generation_stack:          12
                      play_move:           1
@@ -1556,7 +1556,7 @@ solution finished.
 
 a) 
 
-   1.Sh6*h3 x !
+   1.Sh6-g1*h3 x !
 
   add_to_move_generation_stack:           7
                      play_move:           1
@@ -1565,7 +1565,7 @@ a)
 
 b) -bBa3  +bSa2  
 
-   1.Sh6*h3 x !
+   1.Sh6-g1*h3 x !
 
   add_to_move_generation_stack:           7
                      play_move:           1

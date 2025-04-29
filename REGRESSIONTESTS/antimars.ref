@@ -23,8 +23,8 @@
   h#1                         3 + 2
             AntiMarsCirce
 
-  1.b3-b5 c5*b6 ep. #
-  1.b3-b6 c5*b6 #
+  1.b3-b7-b5 c5*b6 ep. #
+  1.b3-b7-b6 c5*b6 #
   add_to_move_generation_stack:          58
                      play_move:          27
  is_white_king_square_attacked:           5
@@ -61,37 +61,37 @@ solution finished.
 
       1...Bh3*f5
           2.Rf7*f5 #
-      1...Bh3-a6
+      1...Bh3-c8-a6
           2.Sb8*a6 #
-      1...Bh3-b7
+      1...Bh3-c8-b7
           2.Sd8*b7 #
-      1...Bh3-e6
+      1...Bh3-c8-e6
           2.Sd8*e6 #
-      1...Bh3-d7
+      1...Bh3-c8-d7
           2.Sb8*d7 #
 
-   1.Ka1-d2 ? threat:
-          2.Re3-a5 #
-          2.Re3-c1 #
+   1.Ka1-e1-d2 ? threat:
+          2.Re3-a1-a5 #
+          2.Re3-a1-c1 #
     but
       1...Sd1*e3 !
 
    1.Re3*f3 ! zugzwang.
-      1...Sd1-e7
-          2.Rf3-c1 #
-      1...Sd1-f6
-          2.Rf3-c1 #
-      1...Sd1-h6
-          2.Rf3-c1 #
+      1...Sd1-g8-e7
+          2.Rf3-h1-c1 #
+      1...Sd1-g8-f6
+          2.Rf3-h1-c1 #
+      1...Sd1-g8-h6
+          2.Rf3-h1-c1 #
       1...Bh3*f5
           2.Rf3*f5 #
-      1...Bh3-a6
+      1...Bh3-c8-a6
           2.Sb8*a6 #
-      1...Bh3-b7
+      1...Bh3-c8-b7
           2.Sd8*b7 #
-      1...Bh3-e6
+      1...Bh3-c8-e6
           2.Sd8*e6 #
-      1...Bh3-d7
+      1...Bh3-c8-d7
           2.Sb8*d7 #
 
   add_to_move_generation_stack:        5372
@@ -128,14 +128,14 @@ solution finished.
   h#2                         4 + 5
             AntiMarsCirce
 
-  1.Rh5*h4 Bf5*e6   2.Rh4-e8 Rh1-h6 #
-  1.Rh5*f5 + Kf1*g1   2.Rf5-e8 [wKg1->e1]0-0 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1*g1   2.Rd8-e8 Bf5-a6 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1-d2   2.Rd8-e8 Bf5-a6 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1-d1   2.Rd8-e8 Bf5-a6 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1*g1   2.Rd8-e8 Rg1-a8 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1*g1   2.Rd8-e8 Rg1-c1 #
-  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1-h2   2.Rd8-e8 Rh2-a8 #
+  1.Rh5*h4 Bf5*e6   2.Rh4-h8-e8 Rh1-h6 #
+  1.Rh5*f5 + Kf1*g1   2.Rf5-a8-e8 [wKg1->e1]0-0 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1*g1   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1-e1-d2   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Kf1-e1-d1   2.Rd8-h8-e8 Bf5-f1-a6 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1*g1   2.Rd8-h8-e8 Rg1-a1-a8 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1*g1   2.Rd8-h8-e8 Rg1-a1-c1 #
+  1.[bKf6->e8][bRh5->a8]0-0-0 Rh1-h2   2.Rd8-h8-e8 Rh2-a1-a8 #
   add_to_move_generation_stack:      181461
                      play_move:       68356
  is_white_king_square_attacked:        6867
