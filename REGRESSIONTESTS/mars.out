@@ -105,17 +105,17 @@ b) MarsCirce
           2.Sc1-d3 #
           2.Sc1-a2 #
       1...e3-e2
-          2.Sc1*e2 #
+          2.Sc1-g1*e2 #
           2.Sc1-d3 #
           2.Sc1-a2 #
-      1...La4*g4
+      1...La4-c8*g4
           2.Sc1-e2 #
-      1...d4*c6
+      1...d4-d7*c6
           2.Sc1-d3 #
       1...d4-d3
           2.Sc1-e2 #
           2.Sc1-a2 #
-      1...c5*b6
+      1...c5-c7*b6
           2.Sc1-a2 #
 
   add_to_move_generation_stack:       12897
@@ -153,10 +153,10 @@ Loesung beendet.
   h=2                         8 + 4
               MarsCirce
 
-  1.b2-b1=D e7-e8=D   2.Db1*d5 De8*d5 =
-  1.b2-b1=S e7-e8=S   2.Sb1-a3 Se8*a3 =
-  1.b2-b1=T e7-e8=T   2.Tb1*a6 Lg4*a6 =
-  1.b2-b1=L e7-e8=L   2.Lb1*g4 Dd5*g4 =
+  1.b2-b1=D e7-e8=D   2.Db1-d8*d5 De8-d1*d5 =
+  1.b2-b1=S e7-e8=S   2.Sb1-a3 Se8-b1*a3 =
+  1.b2-b1=T e7-e8=T   2.Tb1-a8*a6 Lg4-f1*a6 =
+  1.b2-b1=L e7-e8=L   2.Lb1-c8*g4 Dd5-d1*g4 =
   add_to_move_generation_stack:     1687564
                      play_move:      324503
  is_white_king_square_attacked:      112692
@@ -191,8 +191,8 @@ Loesung beendet.
   h#2                         4 + 3
               MarsCirce
 
-  1.c2-c1=S b7-b8=S   2.Sc1-e2 Sb8*e2 #
-  1.c2-c1=L b7-b8=L   2.Lc1*b4 Lb8*b2 #
+  1.c2-c1=S b7-b8=S   2.Sc1-e2 Sb8-g1*e2 #
+  1.c2-c1=L b7-b8=L   2.Lc1-f8*b4 Lb8-c1*b2 #
   add_to_move_generation_stack:       76795
                      play_move:       27809
  is_white_king_square_attacked:        2917
@@ -227,8 +227,8 @@ Loesung beendet.
   h#2                         3 + 4
               MarsCirce
 
-  1.c2-c1=S a7-a8=D +   2.Sc1-b3 Da8*b3 #
-  1.c2-c1=L b7-b8=T +   2.Lc1-a3 Tb8*a3 #
+  1.c2-c1=S a7-a8=D +   2.Sc1-b3 Da8-d1*b3 #
+  1.c2-c1=L b7-b8=T +   2.Lc1-a3 Tb8-a1*a3 #
   add_to_move_generation_stack:       50567
                      play_move:       21729
  is_white_king_square_attacked:        2323
@@ -493,10 +493,10 @@ Loesung beendet.
   h=2                         8 + 4
               MarsCirce
 
-  1.b2-b1=D e7-e8=D   2.Db1*d5 De8*d5 =
-  1.b2-b1=S e7-e8=S   2.Sb1-a3 Se8*a3 =
-  1.b2-b1=T e7-e8=T   2.Tb1*a6 Lg4*a6 =
-  1.b2-b1=L e7-e8=L   2.Lb1*g4 Dd5*g4 =
+  1.b2-b1=D e7-e8=D   2.Db1-d8*d5 De8-d1*d5 =
+  1.b2-b1=S e7-e8=S   2.Sb1-a3 Se8-b1*a3 =
+  1.b2-b1=T e7-e8=T   2.Tb1-a8*a6 Lg4-f1*a6 =
+  1.b2-b1=L e7-e8=L   2.Lb1-c8*g4 Dd5-d1*g4 =
   add_to_move_generation_stack:     1687564
                      play_move:      324503
  is_white_king_square_attacked:      112692
@@ -568,7 +568,7 @@ Loesung beendet.
              Circe Super
               MarsCirce
 
-  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7[+sBb8] #
+  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8-a1*a7[+sBb8] #
   add_to_move_generation_stack:        6643
                      play_move:        2732
  is_white_king_square_attacked:         849
@@ -606,7 +606,7 @@ Loesung beendet.
               MarsCirce
                Duplex
 
-  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6*a3 ==
+  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6-b2*a3 ==
   1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 ==
   add_to_move_generation_stack:       98153
                      play_move:       20790
@@ -933,7 +933,7 @@ Loesung beendet.
   ser-zg56                    1 + 1
          MarsCirce Diagramm
 
-  1.h3-h4   2.h4-h5   3.h5-h6   4.h6-h7   5.h7-h8=S   6.Sh8*g5 z
+  1.h3-h4   2.h4-h5   3.h5-h6   4.h6-h7   5.h7-h8=S   6.Sh8-h3*g5 z
   add_to_move_generation_stack:         135
                      play_move:          19
  is_white_king_square_attacked:           0
@@ -969,9 +969,9 @@ Beispiel f\"ur MarsCirce RexExklusive
 
 a) 
 
-   1.Sg6*d2 x !
+   1.Sg6-b1*d2 x !
 
-   1.Kh8*d2 x !
+   1.Kh8-e1*d2 x !
 
   add_to_move_generation_stack:          16
                      play_move:           2
@@ -980,7 +980,7 @@ a)
 
 b) MarsCirce RexExklusive  
 
-   1.Sg6*d2 x !
+   1.Sg6-b1*d2 x !
 
   add_to_move_generation_stack:          16
                      play_move:           1
@@ -1017,17 +1017,17 @@ Loesung beendet.
 
 a) 
 
-   1.Sh8*b6 z !
+   1.Sh8-c8*b6 z !
 
-   1.Sh8*b6 z !
+   1.Sh8-a8*b6 z !
 
-   1.Sh8*b6 z !
+   1.Sh8-d7*b6 z !
 
-   1.Sh8*b6 z !
+   1.Sh8-d5*b6 z !
 
-   1.Sh8*b6 z !
+   1.Sh8-c4*b6 z !
 
-   1.Sh8*b6 z !
+   1.Sh8-a4*b6 z !
 
   add_to_move_generation_stack:         332
                      play_move:           6
@@ -1043,15 +1043,15 @@ Die am Zug befindliche Partei kann den Koenig schlagen  add_to_move_generation_s
 
 +c) +sBc7  
 
-   1.Sh8*b6 + z !
+   1.Sh8-c8*b6 + z !
 
-   1.Sh8*b6 + z !
+   1.Sh8-d7*b6 + z !
 
-   1.Sh8*b6 + z !
+   1.Sh8-d5*b6 + z !
 
-   1.Sh8*b6 + z !
+   1.Sh8-c4*b6 + z !
 
-   1.Sh8*b6 + z !
+   1.Sh8-a4*b6 + z !
 
   add_to_move_generation_stack:         324
                      play_move:           5
@@ -1087,13 +1087,13 @@ Kombination von MarsCirce und AntiMarsCirce
               MarsCirce
         AntiMarsCirce Spiegel
 
-   1.Sg6*a3 !
+   1.Sg6-b1*a3 !
 
-   1.Sg6-e7 !
+   1.Sg6-g8-e7 !
 
-   1.Sg6-f6 !
+   1.Sg6-g8-f6 !
 
-   1.Sg6-h6 !
+   1.Sg6-g8-h6 !
 
   add_to_move_generation_stack:           9
                      play_move:           4
