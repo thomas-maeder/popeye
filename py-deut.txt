@@ -1327,4 +1327,4 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   abgebrochen werden.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green, Mu-Tsun Tsai

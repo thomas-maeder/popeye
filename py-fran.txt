@@ -1285,5 +1285,5 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   avec la cle CTRL-C.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green, Mu-Tsun Tsai
 
