@@ -789,7 +789,7 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
  pieces/attributes/neutral/neutral.h conditions/annan.h \
  conditions/anticirce/cheylan.h conditions/bgl.h conditions/bolero.h \
- conditions/breton.h conditions/cast.h conditions/circe/april.h \
+ conditions/breton.h conditions/circe/april.h \
  conditions/circe/rex_inclusive.h conditions/circe/chameleon.h \
  conditions/circe/assassin.h conditions/circe/parrain.h \
  conditions/dister.h conditions/football.h conditions/geneva.h \
@@ -801,13 +801,11 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  debugging/measure.h output/plaintext/protocol.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
  conditions/messigny.h conditions/oscillating_kings.h \
- conditions/protean.h conditions/frankfurt.h conditions/republican.h \
- conditions/sat.h conditions/singlebox/type1.h \
+ conditions/protean.h conditions/republican.h conditions/sat.h \
+ conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- conditions/role_exchange.h conditions/multicaptures.h \
- conditions/powertransfer.h conditions/take_and_make.h \
- pieces/walks/pawns/en_passant.h solving/castling.h solving/pipe.h \
- debugging/assert.h
+ conditions/role_exchange.h pieces/walks/pawns/en_passant.h \
+ solving/castling.h solving/pipe.h debugging/assert.h
 input/plaintext/condition.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -879,7 +877,6 @@ conditions/anticirce/cheylan.h:
 conditions/bgl.h:
 conditions/bolero.h:
 conditions/breton.h:
-conditions/cast.h:
 conditions/circe/april.h:
 conditions/circe/rex_inclusive.h:
 conditions/circe/chameleon.h:
@@ -909,16 +906,12 @@ conditions/marscirce/phantom.h:
 conditions/messigny.h:
 conditions/oscillating_kings.h:
 conditions/protean.h:
-conditions/frankfurt.h:
 conditions/republican.h:
 conditions/sat.h:
 conditions/singlebox/type1.h:
 conditions/transmuting_kings/vaulting_kings.h:
 conditions/woozles.h:
 conditions/role_exchange.h:
-conditions/multicaptures.h:
-conditions/powertransfer.h:
-conditions/take_and_make.h:
 pieces/walks/pawns/en_passant.h:
 solving/castling.h:
 solving/pipe.h:
