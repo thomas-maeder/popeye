@@ -29,10 +29,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/proxy.h stipulation/pipe.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h conditions/annan.h \
- conditions/bicaptures.h conditions/bgl.h conditions/bolero.h \
- conditions/breton.h conditions/dister.h conditions/mummer.h \
- conditions/role_exchange.h conditions/facetoface.h \
- conditions/fuddled_men.h conditions/koeko/contact_grid.h \
+ conditions/bgl.h conditions/bolero.h conditions/breton.h \
+ conditions/dister.h conditions/mummer.h conditions/role_exchange.h \
+ conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
  conditions/blackchecks.h conditions/influencer.h conditions/extinction.h \
@@ -41,10 +40,10 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/ohneschach.h conditions/pointreflection.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
- conditions/patience.h conditions/isardam.h conditions/leffie.h \
- conditions/masand.h conditions/disparate.h conditions/dynasty.h \
- conditions/eiffel.h conditions/ultraschachzwang/legality_tester.h \
- conditions/sat.h conditions/oscillating_kings.h conditions/messigny.h \
+ conditions/patience.h conditions/isardam.h conditions/masand.h \
+ conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
+ conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/circe.h \
  conditions/circe/rebirth_square_occupied.h \
@@ -58,16 +57,15 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/darkside.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/frankfurt.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/einstein/en_passant.h conditions/traitor.h \
- conditions/volage.h conditions/magic_square.h conditions/tibet.h \
- conditions/degradierung.h conditions/marscirce/phantom.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- conditions/marscirce/anti.h conditions/marscirce/plus.h \
- conditions/line_chameleon.h conditions/haan.h \
- conditions/castling_chess.h conditions/exchange_castling.h \
- conditions/transmuting_kings/super.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/einstein/en_passant.h \
+ conditions/traitor.h conditions/volage.h conditions/magic_square.h \
+ conditions/tibet.h conditions/degradierung.h \
+ conditions/marscirce/phantom.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h conditions/marscirce/anti.h \
+ conditions/marscirce/plus.h conditions/line_chameleon.h \
+ conditions/haan.h conditions/castling_chess.h \
+ conditions/exchange_castling.h conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/amu/attack_counter.h conditions/imitator.h \
  conditions/football.h conditions/woozles.h conditions/immune.h \
@@ -75,17 +73,15 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
  conditions/monochrome.h conditions/bichrome.h conditions/edgemover.h \
  conditions/grid.h conditions/take_and_make.h conditions/make_and_take.h \
- conditions/superguards.h conditions/antiguards.h conditions/central.h \
- conditions/beamten.h conditions/brunner.h conditions/wormhole.h \
+ conditions/superguards.h conditions/central.h conditions/beamten.h \
+ conditions/brunner.h conditions/wormhole.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
  conditions/follow_my_leader.h conditions/alphabetic.h \
  conditions/forced_squares.h conditions/synchronous.h \
  conditions/must_capture.h conditions/lostpieces.h \
- conditions/series_capture.h conditions/pepo.h conditions/cast.h \
- conditions/multicaptures.h conditions/transmissionmenace.h \
- conditions/powertransfer.h conditions/all_in_chess.h platform/maxtime.h \
+ conditions/series_capture.h platform/maxtime.h \
  conditions/shielded_kings.h solving/end_of_branch_tester.h \
  solving/dead_end.h stipulation/constraint.h solving/moves_traversal.h \
  stipulation/goals/immobile/reached_tester.h \
@@ -104,8 +100,8 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
- pieces/attributes/bul.h pieces/attributes/anda.h pieces/walks/hunters.h \
- conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
+ pieces/walks/hunters.h conditions/amu/mate_filter.h \
+ conditions/circe/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
@@ -189,7 +185,6 @@ output/plaintext/message.h:
 output/message.h:
 input/plaintext/language.h:
 conditions/annan.h:
-conditions/bicaptures.h:
 conditions/bgl.h:
 conditions/bolero.h:
 conditions/breton.h:
@@ -197,7 +192,6 @@ conditions/dister.h:
 conditions/mummer.h:
 conditions/role_exchange.h:
 conditions/facetoface.h:
-conditions/fuddled_men.h:
 conditions/koeko/contact_grid.h:
 conditions/koeko/koeko.h:
 conditions/koeko/anti.h:
@@ -220,7 +214,6 @@ pieces/walks/pawns/promotee_sequence.h:
 conditions/singlebox/type3.h:
 conditions/patience.h:
 conditions/isardam.h:
-conditions/leffie.h:
 conditions/masand.h:
 conditions/disparate.h:
 conditions/dynasty.h:
@@ -256,7 +249,6 @@ conditions/darkside.h:
 conditions/chameleon_pursuit.h:
 conditions/norsk.h:
 conditions/protean.h:
-conditions/frankfurt.h:
 conditions/einstein/einstein.h:
 conditions/einstein/reverse.h:
 conditions/einstein/anti.h:
@@ -295,7 +287,6 @@ conditions/grid.h:
 conditions/take_and_make.h:
 conditions/make_and_take.h:
 conditions/superguards.h:
-conditions/antiguards.h:
 conditions/central.h:
 conditions/beamten.h:
 conditions/brunner.h:
@@ -313,12 +304,6 @@ conditions/synchronous.h:
 conditions/must_capture.h:
 conditions/lostpieces.h:
 conditions/series_capture.h:
-conditions/pepo.h:
-conditions/cast.h:
-conditions/multicaptures.h:
-conditions/transmissionmenace.h:
-conditions/powertransfer.h:
-conditions/all_in_chess.h:
 platform/maxtime.h:
 conditions/shielded_kings.h:
 solving/end_of_branch_tester.h:
@@ -359,8 +344,6 @@ pieces/attributes/hurdle_colour_changing.h:
 pieces/attributes/chameleon.h:
 pieces/attributes/jigger.h:
 pieces/attributes/uncapturable.h:
-pieces/attributes/bul.h:
-pieces/attributes/anda.h:
 pieces/walks/hunters.h:
 conditions/amu/mate_filter.h:
 conditions/circe/goal_filters.h:
@@ -463,10 +446,10 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/blackchecks.h \
- conditions/cast.h conditions/dister.h conditions/duellists.h \
- conditions/exclusive.h utilities/table.h conditions/follow_my_leader.h \
- conditions/football.h conditions/forced_squares.h conditions/geneva.h \
- conditions/imitator.h conditions/immune.h conditions/isardam.h \
+ conditions/dister.h conditions/duellists.h conditions/exclusive.h \
+ utilities/table.h conditions/follow_my_leader.h conditions/football.h \
+ conditions/forced_squares.h conditions/geneva.h conditions/imitator.h \
+ conditions/immune.h conditions/isardam.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
  debugging/measure.h output/plaintext/protocol.h \
  conditions/marscirce/anti.h conditions/marscirce/phantom.h \
@@ -474,8 +457,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  conditions/sentinelles.h conditions/singlebox/type1.h \
  conditions/synchronous.h conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/transmuting_kings/vaulting_kings.h conditions/multicaptures.h \
- options/options.h optimisations/count_nr_opponent_moves/move_generator.h \
+ conditions/transmuting_kings/vaulting_kings.h options/options.h \
+ optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/killer_move/killer_move.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
@@ -554,7 +537,6 @@ conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 conditions/blackchecks.h:
-conditions/cast.h:
 conditions/dister.h:
 conditions/duellists.h:
 conditions/exclusive.h:
@@ -580,7 +562,6 @@ conditions/synchronous.h:
 conditions/transmuting_kings/super.h:
 conditions/transmuting_kings/transmuting_kings.h:
 conditions/transmuting_kings/vaulting_kings.h:
-conditions/multicaptures.h:
 options/options.h:
 optimisations/count_nr_opponent_moves/move_generator.h:
 optimisations/killer_move/killer_move.h:
@@ -673,9 +654,9 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/anticirce/cheylan.h conditions/anticirce/magic_square.h \
  conditions/anticirce/clone.h conditions/anticirce/couscous.h \
  conditions/bgl.h solving/move_effect_journal.h \
- position/castling_rights.h position/pieceid.h conditions/bicaptures.h \
- conditions/blackchecks.h conditions/mummer.h conditions/bolero.h \
- conditions/breton.h conditions/role_exchange.h conditions/koeko/koeko.h \
+ position/castling_rights.h position/pieceid.h conditions/blackchecks.h \
+ conditions/mummer.h conditions/bolero.h conditions/breton.h \
+ conditions/role_exchange.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
  conditions/circe/chameleon.h conditions/circe/circe.h \
@@ -705,25 +686,22 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/circe/takemake.h conditions/circe/mirror.h \
  conditions/circe/pwc.h conditions/circe/rank.h \
  conditions/circe/symmetry.h conditions/circe/rex_inclusive.h \
- conditions/circe/parachute.h conditions/circe/capture_square.h \
- conditions/darkside.h conditions/exclusive.h utilities/table.h \
- position/position.h position/color.h position/color.enum.h \
- position/color.enum pieces/walks/vectors.h conditions/extinction.h \
- conditions/fuddled_men.h conditions/influencer.h conditions/ohneschach.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h conditions/bichrome.h \
- conditions/transmissionmenace.h conditions/powertransfer.h \
- conditions/ultraschachzwang/legality_tester.h \
+ conditions/circe/parachute.h conditions/darkside.h \
+ conditions/exclusive.h utilities/table.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ pieces/walks/vectors.h conditions/extinction.h conditions/influencer.h \
+ conditions/ohneschach.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h conditions/provocateurs.h \
+ conditions/lortap.h conditions/patrol.h conditions/monochrome.h \
+ solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
+ conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h conditions/snek.h \
- conditions/patience.h conditions/isardam.h conditions/leffie.h \
- conditions/sat.h conditions/dynasty.h conditions/masand.h \
- conditions/messigny.h conditions/oscillating_kings.h \
- conditions/actuated_revolving_centre.h \
+ conditions/patience.h conditions/isardam.h conditions/sat.h \
+ conditions/dynasty.h conditions/masand.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/cage.h \
  conditions/circe/double_agents.h conditions/circe/kamikaze.h \
@@ -733,31 +711,28 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/bicolores.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/frankfurt.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/einstein/en_passant.h conditions/traitor.h \
- conditions/volage.h conditions/magic_square.h conditions/tibet.h \
- conditions/degradierung.h conditions/marscirce/marscirce.h \
- conditions/marscirce/phantom.h conditions/marscirce/anti.h \
- conditions/line_chameleon.h conditions/haan.h \
- conditions/castling_chess.h conditions/exchange_castling.h \
- conditions/transmuting_kings/super.h conditions/imitator.h \
- conditions/football.h conditions/woozles.h conditions/nocapture.h \
- conditions/nopromotion.h conditions/geneva.h conditions/edgemover.h \
- conditions/grid.h conditions/take_and_make.h conditions/make_and_take.h \
- conditions/superguards.h conditions/antiguards.h conditions/wormhole.h \
- conditions/backhome.h conditions/shielded_kings.h conditions/annan.h \
- conditions/pointreflection.h conditions/beamten.h conditions/central.h \
- conditions/disparate.h conditions/eiffel.h conditions/facetoface.h \
- conditions/madrasi.h conditions/partial_paralysis.h \
- conditions/marscirce/plus.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/einstein/en_passant.h \
+ conditions/traitor.h conditions/volage.h conditions/magic_square.h \
+ conditions/tibet.h conditions/degradierung.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/phantom.h \
+ conditions/marscirce/anti.h conditions/line_chameleon.h \
+ conditions/haan.h conditions/castling_chess.h \
+ conditions/exchange_castling.h conditions/transmuting_kings/super.h \
+ conditions/imitator.h conditions/football.h conditions/woozles.h \
+ conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
+ conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
+ conditions/make_and_take.h conditions/superguards.h \
+ conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
+ conditions/annan.h conditions/pointreflection.h conditions/beamten.h \
+ conditions/central.h conditions/disparate.h conditions/eiffel.h \
+ conditions/facetoface.h conditions/madrasi.h \
+ conditions/partial_paralysis.h conditions/marscirce/plus.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/lostpieces.h \
- conditions/series_capture.h conditions/pepo.h conditions/cast.h \
- conditions/multicaptures.h conditions/all_in_chess.h \
- optimisations/orthodox_check_directions.h optimisations/hash.h \
- DHT/dhtbcmem.h optimisations/keepmating.h \
+ conditions/series_capture.h optimisations/orthodox_check_directions.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -845,13 +820,11 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/has_solution_type.enum \
  pieces/attributes/total_invisible/replay_fleshed_out.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
- pieces/attributes/bul.h pieces/attributes/anda.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
- pieces/walks/pawns/promotion.h pieces/walks/hoppers.h \
- position/effects/king_square.h retro/retro.h stipulation/proxy.h \
- stipulation/whitetoplay.h stipulation/battle_play/branch.h \
- solving/machinery/slack_length.h solving/avoid_unsolvable.h \
- solving/battle_play/attack_adapter.h \
+ pieces/walks/pawns/promotion.h position/effects/king_square.h \
+ retro/retro.h stipulation/proxy.h stipulation/whitetoplay.h \
+ stipulation/battle_play/branch.h solving/machinery/slack_length.h \
+ solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -913,7 +886,6 @@ conditions/bgl.h:
 solving/move_effect_journal.h:
 position/castling_rights.h:
 position/pieceid.h:
-conditions/bicaptures.h:
 conditions/blackchecks.h:
 conditions/mummer.h:
 conditions/bolero.h:
@@ -968,7 +940,6 @@ conditions/circe/rank.h:
 conditions/circe/symmetry.h:
 conditions/circe/rex_inclusive.h:
 conditions/circe/parachute.h:
-conditions/circe/capture_square.h:
 conditions/darkside.h:
 conditions/exclusive.h:
 utilities/table.h:
@@ -978,7 +949,6 @@ position/color.enum.h:
 position/color.enum:
 pieces/walks/vectors.h:
 conditions/extinction.h:
-conditions/fuddled_men.h:
 conditions/influencer.h:
 conditions/ohneschach.h:
 conditions/maff/immobility_tester.h:
@@ -991,8 +961,6 @@ solving/move_generator.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
 conditions/bichrome.h:
-conditions/transmissionmenace.h:
-conditions/powertransfer.h:
 conditions/ultraschachzwang/legality_tester.h:
 conditions/singlebox/type1.h:
 conditions/conditions.h:
@@ -1005,7 +973,6 @@ solving/fork.h:
 conditions/snek.h:
 conditions/patience.h:
 conditions/isardam.h:
-conditions/leffie.h:
 conditions/sat.h:
 conditions/dynasty.h:
 conditions/masand.h:
@@ -1033,7 +1000,6 @@ conditions/bicolores.h:
 conditions/chameleon_pursuit.h:
 conditions/norsk.h:
 conditions/protean.h:
-conditions/frankfurt.h:
 conditions/einstein/einstein.h:
 conditions/einstein/reverse.h:
 conditions/einstein/anti.h:
@@ -1062,7 +1028,6 @@ conditions/grid.h:
 conditions/take_and_make.h:
 conditions/make_and_take.h:
 conditions/superguards.h:
-conditions/antiguards.h:
 conditions/wormhole.h:
 conditions/backhome.h:
 conditions/shielded_kings.h:
@@ -1081,10 +1046,6 @@ conditions/transmuting_kings/reflective_kings.h:
 conditions/transmuting_kings/vaulting_kings.h:
 conditions/lostpieces.h:
 conditions/series_capture.h:
-conditions/pepo.h:
-conditions/cast.h:
-conditions/multicaptures.h:
-conditions/all_in_chess.h:
 optimisations/orthodox_check_directions.h:
 optimisations/hash.h:
 DHT/dhtbcmem.h:
@@ -1211,12 +1172,9 @@ solving/has_solution_type.enum:
 pieces/attributes/total_invisible/replay_fleshed_out.h:
 pieces/attributes/uncapturable.h:
 pieces/attributes/kamikaze/kamikaze.h:
-pieces/attributes/bul.h:
-pieces/attributes/anda.h:
 pieces/walks/generate_moves.h:
 pieces/walks/pawns/en_passant.h:
 pieces/walks/pawns/promotion.h:
-pieces/walks/hoppers.h:
 position/effects/king_square.h:
 retro/retro.h:
 stipulation/proxy.h:
