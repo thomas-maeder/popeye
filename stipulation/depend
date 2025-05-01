@@ -858,9 +858,9 @@ stipulation/slice_insertion$(OBJ_SUFFIX): stipulation/slice_insertion.c \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  stipulation/move.h stipulation/pipe.h solving/move_generator.h \
- solving/ply.h debugging/measure.h output/plaintext/protocol.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/fork.h debugging/assert.h
+ solving/ply.h debugging/measure.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/fork.h \
+ debugging/assert.h
 stipulation/slice_insertion.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
@@ -900,7 +900,6 @@ stipulation/pipe.h:
 solving/move_generator.h:
 solving/ply.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 solving/observation.h:
 pieces/walks/vectors.h:
 solving/temporary_hacks.h:

@@ -18,9 +18,9 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- debugging/measure.h output/plaintext/protocol.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h position/castling_rights.h conditions/circe/circe.h \
+ debugging/measure.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ position/castling_rights.h conditions/circe/circe.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -70,7 +70,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 position/position.h:
 position/color.h:
 position/color.enum.h:
@@ -124,13 +123,13 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  conditions/circe/relevant_side.h conditions/marscirce/marscirce.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  solving/fork.h solving/move_generator.h debugging/measure.h \
- output/plaintext/protocol.h position/position.h position/color.h \
- position/color.enum.h position/color.enum pieces/walks/classification.h \
- pieces/walks/walks.h position/effects/null_move.h \
- position/effects/piece_movement.h solving/castling.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum solving/pipe.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move.h debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum pieces/walks/classification.h pieces/walks/walks.h \
+ position/effects/null_move.h position/effects/piece_movement.h \
+ solving/castling.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/move.h debugging/assert.h
 conditions/marscirce/anti.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -182,7 +181,6 @@ solving/temporary_hacks.h:
 solving/fork.h:
 solving/move_generator.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 position/position.h:
 position/color.h:
 position/color.enum.h:
@@ -220,9 +218,9 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- debugging/measure.h output/plaintext/protocol.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h position/castling_rights.h conditions/circe/circe.h \
+ debugging/measure.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ position/castling_rights.h conditions/circe/circe.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -270,7 +268,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 position/position.h:
 position/color.h:
 position/color.enum.h:
@@ -321,8 +318,8 @@ conditions/marscirce/phantom$(OBJ_SUFFIX): conditions/marscirce/phantom.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/anticirce/anticirce.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
+ debugging/measure.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/pipe.h solving/check.h \
@@ -380,7 +377,6 @@ conditions/anticirce/anticirce.h:
 conditions/marscirce/marscirce.h:
 solving/move_generator.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 position/position.h:
 position/color.h:
 position/color.enum.h:
