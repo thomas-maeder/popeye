@@ -277,6 +277,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	MainlyInChess
 	FrankfurtChess
 	AntiGuards
+	Leffie
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -969,6 +970,8 @@ sstipulation). A little bit more elaborate are the commands
 	FrischAuf
 	Anda
 	AndaInverse
+	Bul
+	Dob
 
 	may be given. All the pieces given after this will have these
 	attributes. After this specification follows the list of
