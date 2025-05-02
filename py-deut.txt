@@ -280,6 +280,8 @@ Kommandos:
 	AllInChess
 	HalfInChess
 	MainlyInChess
+	AntiDeckungen
+	FrankfurtSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

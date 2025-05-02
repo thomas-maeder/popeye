@@ -277,6 +277,8 @@ simples:
 	AllInChess
 	HalfInChess
 	MainlyInChess
+	Antigardes
+	Francfort
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
