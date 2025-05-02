@@ -9,7 +9,7 @@
 /* This module provides implements en passant captures
  */
 
-extern square en_passant_multistep_over[maxply+1];
+extern square en_passant_multistep_over[maxply];
 
 extern unsigned int en_passant_top[maxply+1];
 

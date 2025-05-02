@@ -47,7 +47,7 @@ static void transformBoard(SquareTransformation transformation)
     being_solved.isquare[i]= transformSquare(t_isquare[i], transformation);
 
   for (i = en_passant_top[nbply-1]; i<en_passant_top[nbply]; ++i)
-    en_passant_multistep_over[i+1] = transformSquare(en_passant_multistep_over[i+1], transformation);
+    en_passant_multistep_over[i] = transformSquare(en_passant_multistep_over[i], transformation);
 }
 
 /* Add transforming the board to the current move of the current ply

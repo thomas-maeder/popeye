@@ -80,7 +80,7 @@ static boolean en_passant_test_check_ortho(Side side_checking,
 
     for (i = en_passant_top[ply_parent-1]; i<en_passant_top[ply_parent]; ++i)
     {
-      square const sq_crossed = en_passant_multistep_over[i+1];
+      square const sq_crossed = en_passant_multistep_over[i];
       if (sq_crossed!=initsquare
           && pawn_test_check_ortho(side_checking,sq_crossed-dir_capture))
       {
