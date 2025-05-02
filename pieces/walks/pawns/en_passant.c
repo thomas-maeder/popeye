@@ -293,9 +293,9 @@ boolean en_passant_test_check(numvec dir_capture,
   {
     unsigned int i;
 
-    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
+    for (i = en_passant_top[ply_parent-1]; i<en_passant_top[ply_parent]; ++i)
     {
-      square const sq_crossed = en_passant_multistep_over[i];
+      square const sq_crossed = en_passant_multistep_over[i+1];
       if (sq_crossed!=initsquare
           && en_passant_test_check_one_square_crossed(sq_crossed,
                                                       dir_capture,
@@ -340,8 +340,8 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
     TraceValue("%u",en_passant_top[ply_parent-1]);
     TraceValue("%u",en_passant_top[ply_parent]);
     TraceEOL();
-    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
-      if (en_passant_multistep_over[i]==s)
+    for (i = en_passant_top[ply_parent-1]; i<en_passant_top[ply_parent]; ++i)
+      if (en_passant_multistep_over[i+1]==s)
       {
         result = true;
         break;
