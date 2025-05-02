@@ -83,7 +83,7 @@ typedef unsigned char byte;
                      + 1 + 1 + 3 + 1
                      + bytes_per_spec
                      + 1 + 2
-                     + en_passant_top[nbply] - en_passant_top[nbply-1]
+                     + en_passant_end[nbply] - en_passant_end[nbply-1]
                      + 1
                      + sizeof BGL_values[White] + sizeof BGL_values[Black]
                      + 2
@@ -105,9 +105,9 @@ typedef unsigned char byte;
    - nr_ghosts <= underworld_capacity
    - bytes_per_spec <= 4
    - being_solved.number_of_imitators <= maxinum
-   en_passant_top[nbply] - en_passant_top[nbply-1] requires a bit more thought.  It should be an upper
+   en_passant_end[nbply] - en_passant_end[nbply-1] requires a bit more thought.  It should be an upper
    bound on the number of en passant squares stored per ply.  For now we'll assume that
-   - en_passant_top[nbply] - en_passant_top[nbply-1] <= nr_rows_on_board - 2
+   - en_passant_end[nbply] - en_passant_end[nbply-1] <= nr_rows_on_board - 2
    as (nr_rows_on_board - 2) is the number of squares that a pawn jumping from the first rank to the
    last rank would skip over.
    With all of the above, we can determine the maximum bytes that an encoding should take up.  We'll
@@ -118,13 +118,13 @@ enum {
   MAX_NR_GHOSTS = underworld_capacity,
   MAX_BYTES_PER_SPEC = 4,
   MAX_NUMBER_OF_IMITATORS = maxinum,
-  MAX_EN_PASSANT_TOP_DIFFERENCE = nr_rows_on_board - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
+  MAX_EN_PASSANT_END_DIFFERENCE = nr_rows_on_board - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
   COMMONENCODE_MAX =   2 + 2 + 1 + 1 + 1
                      + MAX_NUMBER_OF_IMITATORS
                      + 1 + 1 + 3 + 1
                      + MAX_BYTES_PER_SPEC
                      + 1 + 2
-                     + MAX_EN_PASSANT_TOP_DIFFERENCE
+                     + MAX_EN_PASSANT_END_DIFFERENCE
                      + 1
                      + sizeof BGL_values[White] + sizeof BGL_values[Black]
                      + 2

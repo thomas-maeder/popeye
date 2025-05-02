@@ -11,7 +11,7 @@
 
 extern square en_passant_multistep_over[maxply];
 
-extern unsigned int en_passant_top[maxply+1];
+extern unsigned int en_passant_end[maxply+1];
 
 enum
 {

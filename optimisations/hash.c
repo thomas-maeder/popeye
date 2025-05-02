@@ -1335,8 +1335,8 @@ static byte *CommonEncode(byte *bp,
   {
     unsigned int i;
 
-    assert((en_passant_top[nbply]-en_passant_top[nbply-1])<=MAX_EN_PASSANT_TOP_DIFFERENCE);
-    for (i = en_passant_top[nbply-1]; i<en_passant_top[nbply]; ++i)
+    assert((en_passant_end[nbply]-en_passant_end[nbply-1])<=MAX_EN_PASSANT_END_DIFFERENCE);
+    for (i = en_passant_end[nbply-1]; i<en_passant_end[nbply]; ++i)
       *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
   }
 
