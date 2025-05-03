@@ -157,6 +157,7 @@ namespace eval language {
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element non supporté"
 	    variable unexpectedEOF "Fin d'output inattendue d'un sous-processus Popeye"
 	}
     }
@@ -220,6 +221,7 @@ namespace eval language {
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element nicht unterstützt"
 	    variable unexpectedEOF "Unerwartetes Ende der Ausgabe von einem Popeye-Unterprozess"
 	}
     }
@@ -283,6 +285,7 @@ namespace eval language {
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element not supported"
 	    variable unexpectedEOF "Unexpected end of output from a Popeye sub-process"
 	}
     }
@@ -1108,11 +1111,16 @@ proc readFirstTwin {chan} {
 	}
     }
 
+    if {$endElmt!="EndProblem"} {
+	puts stderr "[::msgcat::mc orchestrator::elementNotSupported]: [::msgcat::mc input::$endElmt]"
+	exit 1
+    }
+
     if {[info exists protocol]} {
 	::output::openProtocol $protocol
     }
 
-    set result [list $firstTwin $endElmt]
+    set result $firstTwin
 
     debug.problem "readFirstTwin <- [debuggable $result]"
     return $result
@@ -1121,17 +1129,10 @@ proc readFirstTwin {chan} {
 proc handleFirstTwin {chan} {
     debug.problem "handleFirstTwin"
 
-    lassign [readFirstTwin $chan] firstTwin endElmt
+    set firstTwin [readFirstTwin $chan]
 
     if {[string match -nocase "*[::msgcat::mc input::MoveNumbers]*" $firstTwin]} {
 	::output::enableMovenumbers true
-    }
-
-    set twinnings {}
-
-    if {$endElmt=="ZeroPosition"} {
-	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
-	lappend twinnings [list "ZeroPosition" $zeroTwinning]
     }
 
     set nrFirstMoves [handleTwin $firstTwin]
