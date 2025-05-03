@@ -853,7 +853,7 @@ namespace eval tester::async {
 proc ::tester::async::readable {pipe} {
     variable buffers
     
-    debug.tester "belowBoard pipe:$pipe"
+    debug.tester "readable pipe:$pipe"
 
     debug.tester "eof:[eof $pipe]"
     if {[eof $pipe]} {
@@ -869,6 +869,35 @@ proc ::tester::async::readable {pipe} {
 	}
     } else {
         lappend buffers($pipe) [read $pipe]
+    }
+}
+
+proc ::tester::async::moveNumber {pipe} {
+    variable buffers
+
+    debug.tester "moveNumber pipe:$pipe"
+
+    debug.tester "eof:[eof $pipe]"
+    if {[eof $pipe]} {
+	# we are beyond the set of starting moves
+	::sync::Notify $pipe "solution"
+    } else {
+        lappend buffers($pipe) [read $pipe]
+
+	set parenOpenRE {[\(]}
+	set parenCloseRE {[\)]}
+	set movenumberRE { *[[:digit:]]+}
+	set moveRE {[^\n]+}
+	set timeLabelRE [::msgcat::mc output::Time]
+	set timeRE {[[:digit:]:.]+}
+	set timeUnitRE {(?:(?:h:)?m:)?s}
+	set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+
+	if {[regexp -- "($movenumberLineRE)(.*)" [join $buffers($pipe)] - movenumberLine remainder]} {
+	    ::output::movenumberLine $movenumberLine
+	    set buffers($pipe) [list $remainder]
+	    ::popeye::output::doAsync $pipe readable
+	}
     }
 }
 
@@ -963,7 +992,7 @@ proc ::tester::moveRanges {firstTwin moveRanges} {
     # start all Popeye processes at the same time to get the written times right
     foreach moveRange $moveRanges {
 	set pipe [moveRange $firstTwin $moveRange]
-	::popeye::output::doAsync $pipe async::readable
+	::popeye::output::doAsync $pipe async::moveNumber
 	lappend pipes $pipe
     }
     debug.tester "pipes:$pipes" 2
