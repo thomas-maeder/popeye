@@ -118,13 +118,13 @@ enum {
   MAX_NR_GHOSTS = underworld_capacity,
   MAX_BYTES_PER_SPEC = 4,
   MAX_NUMBER_OF_IMITATORS = maxinum,
-  MAX_EN_PASSANT_END_DIFFERENCE = nr_rows_on_board - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
+  MAX_NUM_EP_POSSIBILITIES = nr_rows_on_board - 2, /* TODO: Is this a safe maximum?  Can we get away with a smaller value? */
   COMMONENCODE_MAX =   2 + 2 + 1 + 1 + 1
                      + MAX_NUMBER_OF_IMITATORS
                      + 1 + 1 + 3 + 1
                      + MAX_BYTES_PER_SPEC
                      + 1 + 2
-                     + MAX_EN_PASSANT_END_DIFFERENCE
+                     + MAX_NUM_EP_POSSIBILITIES
                      + 1
                      + sizeof BGL_values[White] + sizeof BGL_values[Black]
                      + 2
