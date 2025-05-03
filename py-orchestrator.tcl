@@ -114,7 +114,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "Enonce"
 	    variable Option "Option"
-	    variable MoveNumber "Trace"
+	    variable MoveNumbers "Trace"
 	    variable StartMoveNumber "Enroute"
 	    variable UpToMoveNumber "JusquAuCoup"
 	    variable NoBoard "SansEchiquier"
@@ -172,7 +172,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "Forderung"
 	    variable Option "Option"
-	    variable MoveNumber "ZugNummer"
+	    variable MoveNumbers "ZugNummer"
 	    variable StartMoveNumber "StartZugnummer"
 	    variable UpToMoveNumber "BisZugnummer"
 	    variable NoBoard "OhneBrett"
@@ -230,7 +230,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "stipulation"
 	    variable Option "option"
-	    variable MoveNumber "MoveNumber"
+	    variable MoveNumbers "MoveNumbers"
 	    variable StartMoveNumber "StartMoveNumber"
 	    variable UpToMoveNumber "UpToMoveNumber"
 	    variable NoBoard "NoBoard"
@@ -905,7 +905,7 @@ proc ::tester::setplayRange {firstTwin} {
     debug.tester "setplayRange firstTwin:|[debuggable $firstTwin]|"
 
     lappend options [::msgcat::mc input::NoBoard]
-    lappend options [::msgcat::mc input::MoveNumber]
+    lappend options [::msgcat::mc input::MoveNumbers]
     lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
 
     lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
@@ -936,7 +936,7 @@ proc ::tester::moveRange {firstTwin moveRange} {
     lassign $moveRange start upto
 
     lappend options [::msgcat::mc input::NoBoard]
-    lappend options [::msgcat::mc input::MoveNumber]
+    lappend options [::msgcat::mc input::MoveNumbers]
     lappend options "[::msgcat::mc input::StartMoveNumber] $start"
     lappend options "[::msgcat::mc input::UpToMoveNumber] $upto"
 
@@ -1108,14 +1108,15 @@ proc handleFirstTwin {chan} {
 
     lassign [readFirstTwin $chan] firstTwin endElmt
 
+    if {[string match -nocase "*[::msgcat::mc input::MoveNumbers]*" $firstTwin]} {
+	::output::enableMovenumbers true
+    }
+
     set twinnings {}
 
     if {$endElmt=="ZeroPosition"} {
 	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
 	lappend twinnings [list "ZeroPosition" $zeroTwinning]
-	::output::enableMovenumbers true
-    } else {
-	::output::enableMovenumbers true
     }
 
     set nrFirstMoves [handleTwin $firstTwin]
