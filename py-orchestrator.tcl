@@ -99,6 +99,11 @@ proc defaultPopeyeExecutable {} {
 
 namespace eval language {
     namespace eval fr {
+	namespace eval popeye {
+	    variable versionNotDetected "Avertissement: Version de Popeye indétectable"
+	    variable versionNotSupported "Version de Popeye non supportée; >=4.91 nécessaire"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "DebugProblem"
 	    variable NextProblem "Asuivre"
@@ -157,6 +162,11 @@ namespace eval language {
     }
 
     namespace eval de {
+	namespace eval popeye {
+	    variable versionNotDetected "Warnung: Popeye-Version kann nicht ermittelt werden"
+	    variable versionNotSupported "Popeye-Version nicht unterstützt; >=4.91 erforderlich"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "AnfangProblem"
 	    variable NextProblem "WeiteresProblem"
@@ -215,6 +225,11 @@ namespace eval language {
     }
 
     namespace eval en {
+	namespace eval popeye {
+	    variable versionNotDetected "Warning: Popeye version not detected"
+	    variable versionNotSupported "Popeye version not supported; >=4.91 required"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "beginproblem"
 	    variable NextProblem "nextproblem"
@@ -1146,15 +1161,29 @@ proc handleInput {chan} {
 }
 
 proc handleGreetingLine {} {
+    set supportedVersions { "4.91" }
+
     lassign [::popeye::spawn "" {}] pipe greetingLine
-    ::output::greetingLine "$greetingLine\n"
     ::popeye::terminate $pipe
+
+    set greetingLineRE {^Popeye [^ ]* v([0-9.]+) [(][^\n]+[)]}
+    if {[regexp -- $greetingLineRE $greetingLine - versionString]} {
+	if {[lsearch -exact $supportedVersions $versionString]==-1} {
+	    puts stderr [::msgcat::mc popeye::versionNotSupported]
+	    exit 1
+	}
+    } else {
+	puts stderr [::msgcat::mc popeye::versionNotDetected]
+    }
+
+    ::output::greetingLine "$greetingLine\n"
 }
 
 proc main {} {
     ::language::init
     parseCommandLine
     handleGreetingLine
+
     if {[info exists ::params(inputfile)]} {
 	set chan [open $::params(inputfile) "r"]
 	handleInput $chan
@@ -1164,7 +1193,6 @@ proc main {} {
     }
 
     ::output::solution [::popeye::getLatestFinish]
-
     ::output::closeProtocol
 }
 
