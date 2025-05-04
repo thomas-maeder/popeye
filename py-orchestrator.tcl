@@ -327,7 +327,9 @@ proc ::language::init {} {
 	    foreach var [info vars ${category}::*] {
 		set category [lindex [split [namespace qualifiers $var] :] end]
 		set symbol [namespace tail $var]
-		namespace eval :: [list ::msgcat::mcset $shortcut ${category}::${symbol} [set $var] ]
+		# Windows uses some cpnnn encoding, but this source file is UTF-8
+		set value [encoding convertfrom utf-8 [set $var]]
+		namespace eval :: [list ::msgcat::mcset $shortcut ${category}::${symbol} $value]
 	    }
 	}
     }
@@ -593,7 +595,7 @@ proc ::popeye::spawn {firstTwin options} {
     variable maxmemOption
 
     debug.popeye "spawn firstTwin:|[debuggable $firstTwin]| options:|$options|"
-
+    
     debug.popeye "executablePath:$executablePath" 2
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
 
@@ -601,7 +603,8 @@ proc ::popeye::spawn {firstTwin options} {
     debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
     debug.popeye "caller:[debuggable [info level -1]]" 2
 
-    fconfigure $pipe -encoding binary -buffering line
+    # seems not to work on Windows
+    #fconfigure $pipe -encoding binary -buffering line
 
     gets $pipe greetingLine
 
@@ -610,6 +613,9 @@ proc ::popeye::spawn {firstTwin options} {
     puts $pipe [::msgcat::mc input::BeginProblem]
     puts $pipe $firstTwin
     puts $pipe "[::msgcat::mc input::Option] [join $options]"
+
+    # Windows seems not to allow configuring line buffering
+    flush $pipe
 
     debug.popeye "spawn <- $result"
     return $result
@@ -677,6 +683,9 @@ proc ::popeye::input::EndProblem {pipe} {
     debug.popeye "input::EndProblem pipe:$pipe"
 
     puts $pipe "[::msgcat::mc input::EndProblem]"
+
+    # Windows seems not to allow configuring line buffering
+    flush $pipe
 }
 
 namespace eval ::popeye::output {
@@ -781,7 +790,7 @@ proc parseCommandLine {} {
 	set ::params(inputfile) [lindex $::argv 0]
     }
 
-    if {$::params(assert)} {
+    if {[info exists ::params(assert)] && $::params(assert)} {
 	control::control assert enabled 1
     }
 
