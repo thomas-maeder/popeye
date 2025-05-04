@@ -637,6 +637,18 @@ proc ::popeye::getLatestFinish {} {
 namespace eval ::popeye::input {
 }
 
+proc ::popeye::input::Problem {pipe problem} {
+    debug.popeye "input::Problem pipe:$pipe problem:|$problem|"
+
+    puts $pipe $problem
+}
+
+proc ::popeye::input::Options {pipe options} {
+    debug.popeye "input::Options pipe:$pipe options:|$options|"
+
+    puts $pipe "[::msgcat::mc input::Option] [join $options]"
+}
+
 proc ::popeye::input::ZeroPosition {pipe twinning} {
     debug.popeye "input::ZeroPosition pipe:$pipe twinning:|$twinning|"
 
@@ -952,8 +964,8 @@ proc ::tester::setplayRange {pipe firstTwin} {
     lappend options [::msgcat::mc input::MoveNumbers]
     lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
 
-    puts $pipe $firstTwin
-    puts $pipe "[::msgcat::mc input::Option] [join $options]"
+    ::popeye::input::Problem $pipe $firstTwin
+    ::popeye::input::Options $pipe $options
     ::popeye::input::EndProblem $pipe
 
     set lines ""
@@ -980,8 +992,8 @@ proc ::tester::testMove {pipe firstTwin move} {
     lappend options "[::msgcat::mc input::StartMoveNumber] $move"
     lappend options "[::msgcat::mc input::UpToMoveNumber] $move"
 
-    puts $pipe $firstTwin
-    puts $pipe "[::msgcat::mc input::Option] [join $options]"
+    ::popeye::input::Problem $pipe $firstTwin
+    ::popeye::input::Options $pipe $options
     ::popeye::input::NextProblem $pipe
 
     ::popeye::output::doAsync $pipe async::moveNumber
