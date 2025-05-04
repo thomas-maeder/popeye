@@ -78,7 +78,7 @@ static boolean en_passant_test_check_ortho(Side side_checking,
     ply const ply_parent = parent_ply[nbply];
     unsigned int i;
 
-    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
+    for (i = en_passant_end[ply_parent-1]; i<en_passant_end[ply_parent]; ++i)
     {
       square const sq_crossed = en_passant_multistep_over[i];
       if (sq_crossed!=initsquare
