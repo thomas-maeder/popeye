@@ -484,6 +484,8 @@ namespace eval output {
 
     variable isGreetingLineSuppressed false
     variable areMovenumbersSuppressed true
+
+    variable startTime [clock milliseconds]
 }
 
 proc ::output::openProtocol {path} {
@@ -541,13 +543,40 @@ proc ::output::solution {string} {
     _puts $string
 }
 
-proc ::output::movenumberLine {line} {
-    variable areMovenumbersSuppressed
+proc ::output::_formattedTime {} {
+    variable startTime
 
+    set timeNow [clock milliseconds]
+
+    set solvingTimeMS [expr {$timeNow-$startTime}]
+    set solvingTimeS [expr {$solvingTimeMS/1000}]
+    set solvingTimeM [expr {$solvingTimeS/60}]
+    set solvingTimeH [expr {$solvingTimeM/60}]
+
+    if {$solvingTimeH} {
+	incr solvingTimeM [expr {-$solvingTimeH*60}]
+	incr solvingTimeS [expr {-$solvingTimeM*60}]
+	set timeFormatted [format "%lu:%02lu:%02lu h:m:s" $solvingTimeH $solvingTimeM $solvingTimeS]
+    } elseif {$solvingTimeM>0} {
+	incr solvingTimeS [expr {-$solvingTimeM*60}]
+	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
+	set timeFormatted [format "%lu:%02lu.%02lu m:s" $solvingTimeM $solvingTimeS $solvingTimeMS]
+    } else {
+	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
+	set timeFormatted [format "%lu.%03lu s" $solvingTimeS $solvingTimeMS]
+    }
+
+    return $timeFormatted
+}
+
+proc ::output::movenumberLine {movenumberMove time} {
+    variable areMovenumbersSuppressed
+    
     if {!$areMovenumbersSuppressed} {
-	_puts $line
+	_puts "\n$movenumberMove[::msgcat::mc output::Time] = [_formattedTime])"
     }
 }
+
 
 namespace eval popeye {
     variable executablePath
@@ -909,13 +938,13 @@ proc ::tester::async::_moveNumberRead {pipe} {
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
     set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+    set movenumberLineRE "\n($movenumberRE +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
 
-    if {[regexp -- "($movenumberLineRE)(.*)" $buffers($pipe) - movenumberLine remainder]} {
+    if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - movenumberMove time remainder]} {
 	set buffers($pipe) $remainder
-	set result $movenumberLine
+	set result [list $movenumberMove $time]
     } else {
-	set result ""
+	set result [list "" ""]
     }
 }
 
@@ -942,9 +971,9 @@ proc ::tester::async::moveNumber {pipe} {
     debug.tester "moveNumber pipe:$pipe"
 
     if {[_consume $pipe]} {
-	set moveNumberLine [_moveNumberRead $pipe]
-	if {$moveNumberLine!=""} {
-	    ::output::movenumberLine $moveNumberLine
+	lassign [_moveNumberRead $pipe] movenumberMove time
+	if {$movenumberMove!=""} {
+	    ::output::movenumberLine $movenumberMove $time
 	    ::popeye::output::doAsync $pipe readable
 	} else {
 	    lassign [_endOfSolutionReached $pipe] solution finished
