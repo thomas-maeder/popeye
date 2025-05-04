@@ -98,6 +98,16 @@ proc defaultPopeyeExecutable {} {
     return $result
 }
 
+proc defaultFreePhysicalMemory {} {
+    if {$::tcl_platform(platform)=="windows"} {
+	set result [::msgcat::mc cmdline::freePhysicalDividedByNrProcs]
+    } else {
+	set result [::msgcat::mc cmdline::popeyeDefault]
+    }
+
+    return $result
+}
+
 namespace eval language {
     namespace eval fr {
 	namespace eval popeye {
@@ -148,6 +158,7 @@ namespace eval language {
 	    variable numberProcesses "Nombre de processus Popeye à démarrer"
 	    variable processMemory "Mémoire maximale par processus"
 	    variable popeyeDefault "valeur standard de Popeye"
+	    variable freePhysicalDividedByNrProcs "Mémoire physique disponible / nrprocs"
 	    variable maxnrmoves "Nombre maximum de coups de départ par jumeau"
 	    variable version "Version de ce programme"
 	}
@@ -207,6 +218,7 @@ namespace eval language {
 	    variable numberProcesses "Anzahl Popeye-Prozesse, die parallel gestartet werden sollen"
 	    variable processMemory "Maximaler Arbeitsspeicher pro Prozess"
 	    variable popeyeDefault "Popeye-Vorgabe"
+	    variable freePhysicalDividedByNrProcs "Freier physischer Speicher / nrprocs"
 	    variable maxnrmoves "Maximale Anzahl Startzüge pro Zwilling"
 	    variable version "Version dieses Programms"
 	}
@@ -266,6 +278,7 @@ namespace eval language {
 	    variable numberProcesses "number of Popeye processes to spawn"
 	    variable processMemory "maximum memory for each process"
 	    variable popeyeDefault "Popeye default"
+	    variable freePhysicalDividedByNrProcs "Free physical memory / nrprocs"
 	    variable maxnrmoves "maximum number of starting moves per twin"
 	    variable version "Version of this program"
 	}
@@ -789,9 +802,9 @@ proc getAllNames {ns} {
 
 proc parseCommandLine {} {
     set options [subst {
-	{ executable.arg "[defaultPopeyeExecutable]"               "[::msgcat::mc cmdline::popeyePath]" }
-	{ nrprocs.arg    "[defaultNumberOfProcesses]"              "[::msgcat::mc cmdline::numberProcesses]" }
-	{ maxmem.arg     "[::msgcat::mc cmdline::popeyeDefault]"   "[::msgcat::mc cmdline::processMemory]" }
+	{ executable.arg "[defaultPopeyeExecutable]"   "[::msgcat::mc cmdline::popeyePath]" }
+	{ nrprocs.arg    "[defaultNumberOfProcesses]"  "[::msgcat::mc cmdline::numberProcesses]" }
+	{ maxmem.arg     "[defaultFreePhysicalMemory]" "[::msgcat::mc cmdline::processMemory]" }
 	{ version        "[::msgcat::mc cmdline::version]" }
     }]
     if {[string match "*.tcl" $::argv0]} {
@@ -821,7 +834,11 @@ proc parseCommandLine {} {
     } else {
 	::popeye::setExecutable $::params(executable)
     }
-    if {$::params(maxmem)!=[::msgcat::mc cmdline::popeyeDefault]} {
+    if {$::params(maxmem)==[::msgcat::mc cmdline::freePhysicalDividedByNrProcs]} {
+	set freeTotal [lindex [split [string trim [exec wmic OS get FreePhysicalMemory]]] end]
+	::popeye::setMaxmem "[expr {$freeTotal/$::params(nrprocs)}]k"
+    } elseif {$::params(maxmem)==[::msgcat::mc cmdline::popeyeDefault]} {
+    } else {
 	::popeye::setMaxmem $::params(maxmem)
     }
 
