@@ -29,10 +29,14 @@
 
 #if defined(FXF)
 #include "fxf.h"
+#define DHTVALUE_ALLOC(size, type)	fxfAlloc(size, type)
+#define DHTVALUE_ALLOC_RAW(size, alignment)	fxfAllocRaw(size, alignment)
+#define DHTVALUE_FREE(ptr, size)	fxfFree(ptr, size)
 #else
 #include <stdlib.h>
-#define	fxfAlloc(x,type)	((type *) malloc(x)) /* TODO: Should we track allocations to ensure that we never allocate more than some chosen number (e.g., hashtable_kilos*1024) of total byte(s)? */
-#define fxfFree(x,n)		free(x)
+#define	DHTVALUE_ALLOC(size, type)	((type *) malloc(size))
+#define DHTVALUE_ALLOC_RAW(size, alignment)	malloc(size)
+#define DHTVALUE_FREE(ptr, size)	free(ptr)
 #endif /*FXF*/
 
 #if !defined(LOCAL)

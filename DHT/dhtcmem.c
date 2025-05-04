@@ -96,7 +96,7 @@ static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
     size += (length - num_bytes_in_Data);
   }
 
-  result = fxfAlloc(size, CompactMemVal);
+  result = DHTVALUE_ALLOC(size, CompactMemVal);
   if (result)
   {
     result->Leng = length;
@@ -121,7 +121,7 @@ static void FreeCompactMemoryValue(dhtValue kv)
       assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
       size += (length - num_bytes_in_Data);
     }
-    fxfFree(v,size);
+    DHTVALUE_FREE(v,size);
   }
 }
 

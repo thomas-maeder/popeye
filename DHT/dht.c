@@ -50,11 +50,11 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #endif /*DEBUG_DHT*/
 
 #if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
-#  define New(type)    fxfAlloc(sizeof(type), type)
+#  define New(type)    DHTVALUE_ALLOC(sizeof(type), type)
 #  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
 static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desired_alignment) {
-  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : fxfAllocRaw(nmemb*size, desired_alignment));
+  return ((size && (nmemb > (((size_t)-1)/size))) ? Nil(void) : DHTVALUE_ALLOC_RAW(nmemb*size, desired_alignment));
 }
 #endif /*New*/
 
@@ -109,11 +109,11 @@ typedef struct InternHsElement {
 
 #define NilInternHsElement  Nil(InternHsElement)
 #define NewInternHsElement  New(InternHsElement)
-#define FreeInternHsElement(h)  fxfFree(h, sizeof(InternHsElement))
+#define FreeInternHsElement(h)  DHTVALUE_FREE(h, sizeof(InternHsElement))
 
 static InternHsElement EndOfTable;
 
-#define freeDir(t)  fxfFree(t, sizeof(ht_dir))
+#define freeDir(t)  DHTVALUE_FREE(t, sizeof(ht_dir))
 
 typedef unsigned long uLong;
 typedef unsigned char   uChar;
@@ -423,8 +423,8 @@ typedef struct dht {
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
-#define NewHashTable        fxfAlloc(sizeof(dht), HashTable)
-#define FreeHashTable(h)    fxfFree(h, sizeof(dht))
+#define NewHashTable        DHTVALUE_ALLOC(sizeof(dht), HashTable)
+#define FreeHashTable(h)    DHTVALUE_FREE(h, sizeof(dht))
 #define OVERFLOW_SAVE 1
 #if defined(OVERFLOW_SAVE)
 #define ActualLoadFactor(h)                     \
