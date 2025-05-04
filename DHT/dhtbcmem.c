@@ -101,7 +101,7 @@ static int DupBCMemValue(dhtValue kv, dhtValue *output)
     size += (length - num_bytes_in_Data);
   }
 
-  result = fxfAlloc(size, BCMemValue);
+  result = DHTVALUE_ALLOC(size, BCMemValue);
   if (result)
   {
     result->Leng = length;
@@ -126,7 +126,7 @@ static void FreeBCMemValue(dhtValue kv)
       assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
       size += (length - num_bytes_in_Data);
     }
-    fxfFree(freed,size);
+    DHTVALUE_FREE(freed,size);
   }
 }
 

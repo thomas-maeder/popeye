@@ -96,7 +96,7 @@ static int DupMemoryValue(dhtValue kv, dhtValue *output)
   if (mv) {
     mv->Leng= length;
     if (length) {
-      uChar *newBuffer= fxfAlloc(length, uChar);
+      uChar *newBuffer= DHTVALUE_ALLOC(length, uChar);
       if (newBuffer) {
         memcpy(newBuffer, data, length);
         mv->Data = newBuffer;
@@ -118,8 +118,8 @@ static void FreeMemoryValue(dhtValue kv)
 {
   MemVal *v= (MemVal *)kv.object_pointer;
   if (v) {
-    fxfFree(v->Data, v->Leng);
-    fxfFree(v, sizeof *v);
+    DHTVALUE_FREE(v->Data, v->Leng);
+    DHTVALUE_FREE(v, sizeof *v);
   }
 }
 static void DumpMemoryValue(dhtValue kv, FILE *f) {
