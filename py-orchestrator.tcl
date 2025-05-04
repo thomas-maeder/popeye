@@ -555,12 +555,12 @@ proc ::output::_formattedTime {} {
     set solvingTimeH [expr {$solvingTimeM/60}]
 
     if {$solvingTimeH} {
-	incr solvingTimeM [expr {-$solvingTimeH*60}]
 	incr solvingTimeS [expr {-$solvingTimeM*60}]
+	incr solvingTimeM [expr {-$solvingTimeH*60}]
 	set timeFormatted [format "%lu:%02lu:%02lu h:m:s" $solvingTimeH $solvingTimeM $solvingTimeS]
     } elseif {$solvingTimeM>0} {
-	incr solvingTimeS [expr {-$solvingTimeM*60}]
 	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
+	incr solvingTimeS [expr {-$solvingTimeM*60}]
 	set timeFormatted [format "%lu:%02lu.%02lu m:s" $solvingTimeM $solvingTimeS $solvingTimeMS]
     } else {
 	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
@@ -979,14 +979,18 @@ proc ::tester::async::moveNumber {pipe} {
 
     if {[_consume $pipe]} {
 	lassign [_moveNumberRead $pipe] movenumberMove time
+	lassign [_endOfSolutionReached $pipe] solution finished time suffix
 	if {$movenumberMove!=""} {
 	    ::output::movenumberLine $movenumberMove $time
-	    ::popeye::output::doAsync $pipe readable
-	} else {
-	    lassign [_endOfSolutionReached $pipe] solution finished time suffix
-	    if {$finished!=""} {
-		::sync::Notify $pipe "prematureEndOfSolution"
+	    if {$finished==""} {
+		::popeye::output::doAsync $pipe readable
+	    } else {
+		::output::solution $solution
+		::sync::Notify $pipe "solution"
+		::output::rememberFinish $finished $time $suffix
 	    }
+	} elseif {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution"
 	}
     }
 
@@ -1048,6 +1052,7 @@ proc ::tester::testProgress {pipe notification firstTwin nrRunningProcesses curr
 	    incr currMove
 	}
 	prematureEndOfSolution {
+	    ::popeye::terminate $pipe
 	    incr nrRunningProcesses -1
 	}
 	eof {
@@ -1175,6 +1180,8 @@ proc handleInput {chan} {
 }
 
 proc handleGreetingLine {} {
+    debug.problem handleGreetingLine
+
     set supportedVersions { "4.91" }
 
     lassign [::popeye::spawn] pipe greetingLine
@@ -1191,6 +1198,8 @@ proc handleGreetingLine {} {
     }
 
     ::output::greetingLine "$greetingLine\n"
+
+    debug.problem "handleGreetingLine <-"
 }
 
 proc main {} {
