@@ -590,11 +590,11 @@ proc ::popeye::setMaxmem {setting} {
     set maxmemOption "-maxmem $setting"
 }
 
-proc ::popeye::spawn {firstTwin options} {
+proc ::popeye::spawn {} {
     variable executablePath
     variable maxmemOption
 
-    debug.popeye "spawn firstTwin:|[debuggable $firstTwin]| options:|$options|"
+    debug.popeye "spawn"
     
     debug.popeye "executablePath:$executablePath" 2
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
@@ -611,11 +611,6 @@ proc ::popeye::spawn {firstTwin options} {
     set result [list $pipe $greetingLine]
 
     puts $pipe [::msgcat::mc input::BeginProblem]
-    puts $pipe $firstTwin
-    puts $pipe "[::msgcat::mc input::Option] [join $options]"
-
-    # Windows seems not to allow configuring line buffering
-    flush $pipe
 
     debug.popeye "spawn <- $result"
     return $result
@@ -677,6 +672,15 @@ proc ::popeye::input::Pieces {pipe pieces} {
     debug.popeye "input::Pieces pieces:|$pieces|"
 
     puts $pipe "[::msgcat::mc input::Pieces] $pieces"
+}
+
+proc ::popeye::input::NextProblem {pipe} {
+    debug.popeye "input::NextProblem pipe:$pipe"
+
+    puts $pipe "[::msgcat::mc input::NextProblem]"
+
+    # Windows seems not to allow configuring line buffering
+    flush $pipe
 }
 
 proc ::popeye::input::EndProblem {pipe} {
@@ -884,19 +888,23 @@ proc ::tester::async::readable {pipe} {
 
     debug.tester "eof:[eof $pipe]"
     if {[eof $pipe]} {
-	set chunk [join $buffers($pipe)]
+	::sync::Notify $pipe "eof"
+    } else {
+	set chunk [read $pipe]
+	debug.tester "chunk:$chunk" 2
+        lappend buffers($pipe) $chunk
+
+	set output [join $buffers($pipe)]
 	set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
-	if {[regexp -- $entireSolutionRE $chunk - solution finished]} {
+	if {[regexp -- $entireSolutionRE $output - solution finished]} {
 	    ::output::solution $solution
 	    unset buffers($pipe)
 	    ::sync::Notify $pipe "solution"
 	    ::popeye::rememberFinish $finished
-	} else {
-	    # what now?
 	}
-    } else {
-        lappend buffers($pipe) [read $pipe]
     }
+
+    debug.tester "readable <-"
 }
 
 proc ::tester::async::moveNumber {pipe} {
@@ -906,10 +914,13 @@ proc ::tester::async::moveNumber {pipe} {
 
     debug.tester "eof:[eof $pipe]"
     if {[eof $pipe]} {
-	# we are beyond the set of starting moves
-	::sync::Notify $pipe "solution"
+	::sync::Notify $pipe "eof"
     } else {
-        lappend buffers($pipe) [read $pipe]
+	set chunk [read $pipe]
+	debug.tester "chunk:|$chunk|" 2
+        lappend buffers($pipe) $chunk
+
+	set output [join $buffers($pipe)]
 
 	set parenOpenRE {[\(]}
 	set parenCloseRE {[\)]}
@@ -920,24 +931,31 @@ proc ::tester::async::moveNumber {pipe} {
 	set timeUnitRE {(?:(?:h:)?m:)?s}
 	set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
 
-	if {[regexp -- "($movenumberLineRE)(.*)" [join $buffers($pipe)] - movenumberLine remainder]} {
+	set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
+
+	if {[regexp -- "($movenumberLineRE)(.*)" $output - movenumberLine remainder]} {
 	    ::output::movenumberLine $movenumberLine
 	    set buffers($pipe) [list $remainder]
 	    ::popeye::output::doAsync $pipe readable
+	} elseif {[regexp -- $entireSolutionRE $output - solution finished]} {
+	    # we are beyond the set of starting moves
+	    unset buffers($pipe)
+	    ::sync::Notify $pipe "solution"
 	}
     }
+
+    debug.tester "moveNumber <-"
 }
 
-proc ::tester::setplayRange {firstTwin} {
-    debug.tester "setplayRange firstTwin:|[debuggable $firstTwin]|"
+proc ::tester::setplayRange {pipe firstTwin} {
+    debug.tester "setplayRange pipe:$pipe firstTwin:|[debuggable $firstTwin]|"
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
     lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
 
-    lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-    debug.tester "pipe:$pipe" 2
-
+    puts $pipe $firstTwin
+    puts $pipe "[::msgcat::mc input::Option] [join $options]"
     ::popeye::input::EndProblem $pipe
 
     set lines ""
@@ -948,7 +966,6 @@ proc ::tester::setplayRange {firstTwin} {
     set entireSolutionRE "(.*)(\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
     if {[regexp -- $entireSolutionRE $lines - solution finished]} {
 	::output::solution $solution
-	::popeye::terminate $pipe
 	::popeye::rememberFinish $finished
     } else {
 	# what now?
@@ -957,8 +974,8 @@ proc ::tester::setplayRange {firstTwin} {
     debug.tester "setplayRange <-"
 }
 
-proc ::tester::moveRange {firstTwin moveRange} {
-    debug.tester "moveRange firstTwin:|[debuggable $firstTwin]| moveRange:$moveRange"
+proc ::tester::moveRange {pipe firstTwin moveRange} {
+    debug.tester "moveRange pipe:$pipe firstTwin:|[debuggable $firstTwin]| moveRange:$moveRange"
 
     lassign $moveRange start upto
 
@@ -967,26 +984,27 @@ proc ::tester::moveRange {firstTwin moveRange} {
     lappend options "[::msgcat::mc input::StartMoveNumber] $start"
     lappend options "[::msgcat::mc input::UpToMoveNumber] $upto"
 
-    lassign [::popeye::spawn $firstTwin $options] result greetingLine
-    debug.tester "result:$result" 2
+    puts $pipe $firstTwin
+    puts $pipe "[::msgcat::mc input::Option] [join $options]"
+    ::popeye::input::NextProblem $pipe
 
-    debug.tester "moveRange <- $result"
-    return $result
+    ::popeye::output::doAsync $pipe async::moveNumber
+
+    debug.tester "moveRange <-"
 }
 
-proc ::tester::moveRangesProgress {pipe notification nrRunningProcesses pipes} {
-    debug.tester "moveRangesProgress pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses pipes:$pipes"
+proc ::tester::moveRangesProgress {pipe notification firstTwin nrRunningProcesses moveRanges} {
+    debug.tester "moveRangesProgress pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses moveRanges:$moveRanges"
 
     switch -exact $notification {
 	solution  {
-	    ::popeye::terminate $pipe
-	    if {[llength $pipes]==0} {
+	    if {[llength $moveRanges]==0} {
+		::popeye::terminate $pipe
 		incr nrRunningProcesses -1
 	    } else {
-		debug.tester "moveRangesProgress - [llength $pipes] left - spawning next process" 2
-		set pipe [lindex $pipes 0]
-		set pipes [lrange $pipes 1 end]
-		::popeye::input::EndProblem $pipe
+		set moveRange [lindex $moveRanges 0]
+		moveRange $pipe $firstTwin $moveRange
+		set moveRanges [lrange $moveRanges 1 end]
 	    }
 	}
 	eof {
@@ -1003,7 +1021,7 @@ proc ::tester::moveRangesProgress {pipe notification nrRunningProcesses pipes} {
 	debug.tester "moveRangesProgress <- break"
 	return -code break
     } else {
-	set result [list $nrRunningProcesses $pipes]
+	set result [list $firstTwin $nrRunningProcesses $moveRanges]
 	debug.tester "moveRangesProgress <- [debuggable $result]"
 	return $result
     }
@@ -1012,34 +1030,28 @@ proc ::tester::moveRangesProgress {pipe notification nrRunningProcesses pipes} {
 proc ::tester::moveRanges {firstTwin moveRanges} {
     debug.tester "moveRanges firstTwin:|[debuggable $firstTwin]| moveRanges:$moveRanges"
 
+    # synchronously deal with everything happening before move 1, e.g. set play
+    lassign [::popeye::spawn] setplayPipe greetingLine
+    debug.tester "setplayPipe:$setplayPipe" 2
+    setplayRange $setplayPipe $firstTwin
+    ::popeye::terminate $setplayPipe
+
     ::sync::Init
 
-    set pipes {}
-
-    # start all Popeye processes at the same time to get the written times right
-    foreach moveRange $moveRanges {
-	set pipe [moveRange $firstTwin $moveRange]
-	::popeye::output::doAsync $pipe async::moveNumber
-	lappend pipes $pipe
-    }
-    debug.tester "pipes:$pipes" 2
-
-    # cause $::params(nrprocs) processes to start solving right away
-    # the remaining processes will start solving once these are done
-    set nrRunningProcesses 0
-    foreach pipe [lrange $pipes 0 [expr {$::params(nrprocs)-1}]] {
-	incr nrRunningProcesses
-	::popeye::input::EndProblem $pipe
+    for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
+	set moveRange [lindex $moveRanges 0]
+	lassign [::popeye::spawn] pipe greetingLine
+	moveRange $pipe $firstTwin $moveRange
+	set moveRanges [lrange $moveRanges 1 end]
+	if {[llength $moveRanges]==0} {
+	    break
+	}
     }
 
     debug.tester "nrRunningProcesses:$nrRunningProcesses" 2
-    set pipes [lrange $pipes $nrRunningProcesses end]
-
-    # synchronously deal with everything happening before move 1, e.g. set play
-    setplayRange $firstTwin
 
     # asynchronously deal with the processes created for the real moves
-    lassign [::sync::Wait moveRangesProgress $nrRunningProcesses $pipes] nrProcesses
+    lassign [::sync::Wait moveRangesProgress $firstTwin $nrRunningProcesses $moveRanges] nrProcesses
 
     ::sync::Fini
 
@@ -1173,7 +1185,7 @@ proc handleInput {chan} {
 proc handleGreetingLine {} {
     set supportedVersions { "4.91" }
 
-    lassign [::popeye::spawn "" {}] pipe greetingLine
+    lassign [::popeye::spawn] pipe greetingLine
     ::popeye::terminate $pipe
 
     set greetingLineRE {^Popeye [^ ]* v([0-9.]+) [(][^\n]+[)]}
