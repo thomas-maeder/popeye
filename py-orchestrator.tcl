@@ -1,5 +1,7 @@
 #! /usr/bin/env tclsh
 
+set version "v4.90"
+
 package require cmdline
 package require control
 package require debug
@@ -147,6 +149,7 @@ namespace eval language {
 	    variable processMemory "Mémoire maximale par processus"
 	    variable popeyeDefault "valeur standard de Popeye"
 	    variable maxnrmoves "Nombre maximum de coups de départ par jumeau"
+	    variable version "Version de ce programme"
 	}
 
 	namespace eval orchestrator {
@@ -205,6 +208,7 @@ namespace eval language {
 	    variable processMemory "Maximaler Arbeitsspeicher pro Prozess"
 	    variable popeyeDefault "Popeye-Vorgabe"
 	    variable maxnrmoves "Maximale Anzahl Startzüge pro Zwilling"
+	    variable version "Version dieses Programms"
 	}
 
 	namespace eval orchestrator {
@@ -263,6 +267,7 @@ namespace eval language {
 	    variable processMemory "maximum memory for each process"
 	    variable popeyeDefault "Popeye default"
 	    variable maxnrmoves "maximum number of starting moves per twin"
+	    variable version "Version of this program"
 	}
 
 	namespace eval orchestrator {
@@ -787,6 +792,7 @@ proc parseCommandLine {} {
 	{ executable.arg "[defaultPopeyeExecutable]"               "[::msgcat::mc cmdline::popeyePath]" }
 	{ nrprocs.arg    "[defaultNumberOfProcesses]"              "[::msgcat::mc cmdline::numberProcesses]" }
 	{ maxmem.arg     "[::msgcat::mc cmdline::popeyeDefault]"   "[::msgcat::mc cmdline::processMemory]" }
+	{ version        "[::msgcat::mc cmdline::version]" }
     }]
     if {[string match "*.tcl" $::argv0]} {
 	lappend options { assert.arg false "enable asserts" }
@@ -802,6 +808,11 @@ proc parseCommandLine {} {
     } trap {CMDLINE USAGE} {msg o} {
 	puts stderr $msg
 	exit 1
+    }
+
+    if {$::params(version)} {
+	puts "[::cmdline::getArgv0] $::version"
+	exit
     }
 
     if {$::params(executable)==""} {
