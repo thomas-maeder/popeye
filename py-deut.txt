@@ -280,6 +280,9 @@ Kommandos:
 	AllInChess
 	HalfInChess
 	MainlyInChess
+	AntiDeckungen
+	FrankfurtSchach
+	Leffie
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -1007,6 +1010,8 @@ aufwendiger ist das Kommando
 	FrischAuf
 	Anda
 	AndaInvers
+	Bul
+	Dob
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
