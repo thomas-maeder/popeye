@@ -486,6 +486,7 @@ namespace eval output {
     variable areMovenumbersSuppressed true
 
     variable startTime [clock milliseconds]
+    variable latestFinish
 }
 
 proc ::output::openProtocol {path} {
@@ -577,10 +578,24 @@ proc ::output::movenumberLine {movenumberMove time} {
     }
 }
 
+proc ::output::rememberFinish {finish time suffix} {
+    variable latestFinish
+
+    set latestFinish [list $finish $time $suffix]
+}
+
+proc ::output::writeLatestFinish {} {
+    variable latestFinish
+
+    if {[info exists latestFinish]} {
+	lassign $latestFinish finish time suffix
+	_puts "$finish[_formattedTime]$suffix"
+    }
+}
+
 
 namespace eval popeye {
     variable executablePath
-    variable latestFinish
 }
 
 proc ::popeye::setExecutable {path} {
@@ -651,16 +666,6 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 	}
     }
     debug.popeye "terminate <-"
-}
-
-proc ::popeye::rememberFinish {finish} {
-    variable latestFinish $finish
-}
-
-proc ::popeye::getLatestFinish {} {
-    variable latestFinish
-
-    return $latestFinish
 }
 
 namespace eval ::popeye::input {
@@ -919,12 +924,14 @@ proc ::tester::async::_consume {pipe} {
 proc ::tester::async::_endOfSolutionReached {pipe} {
     variable buffers
 
-    set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
-    if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished]} {
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
 	unset buffers($pipe)
-	set result [list $solution $finished]
+	set result [list $solution $finished $time $suffix]
     } else {
-	set result [list "" ""]
+	set result [list "" "" "" ""]
     }
 }
 
@@ -954,11 +961,11 @@ proc ::tester::async::readable {pipe} {
     debug.tester "readable pipe:$pipe"
 
     if {[_consume $pipe]} {
-	lassign [_endOfSolutionReached $pipe] solution finished
+	lassign [_endOfSolutionReached $pipe] solution finished time suffix
 	if {$finished!=""} {
 	    ::output::solution $solution
 	    ::sync::Notify $pipe "solution"
-	    ::popeye::rememberFinish $finished
+	    ::output::rememberFinish $finished $time $suffix
 	}
     }
 
@@ -976,7 +983,7 @@ proc ::tester::async::moveNumber {pipe} {
 	    ::output::movenumberLine $movenumberMove $time
 	    ::popeye::output::doAsync $pipe readable
 	} else {
-	    lassign [_endOfSolutionReached $pipe] solution finished
+	    lassign [_endOfSolutionReached $pipe] solution finished time suffix
 	    if {$finished!=""} {
 		::sync::Notify $pipe "prematureEndOfSolution"
 	    }
@@ -1002,10 +1009,12 @@ proc ::tester::setplayRange {pipe firstTwin} {
 	append lines "$line\n"
     }
 
-    set entireSolutionRE "(.*)(\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
-    if {[regexp -- $entireSolutionRE $lines - solution finished]} {
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set entireSolutionRE "(.*)(\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    if {[regexp -- $entireSolutionRE $lines - solution finished time suffix]} {
 	::output::solution $solution
-	::popeye::rememberFinish $finished
+	::output::rememberFinish $finished $time $suffix
     } else {
 	# what now?
     }
@@ -1197,7 +1206,7 @@ proc main {} {
 	handleInput stdin
     }
 
-    ::output::solution [::popeye::getLatestFinish]
+    ::output::writeLatestFinish
     ::output::closeProtocol
 }
 
