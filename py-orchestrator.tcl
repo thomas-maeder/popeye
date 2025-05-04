@@ -25,7 +25,6 @@ debug off problem
 debug off sync
 debug off tester
 debug off twin
-debug off grouping
 
 # shamelessly copied from
 # https://stackoverflow.com/questions/29482303/how-to-find-the-number-of-cpus-in-tcl
@@ -137,12 +136,6 @@ namespace eval language {
 	    variable BothSidesNeedAKingRE "il faut un roi de chaque couleur"
 	}
 
-	namespace eval grouping {
-	    variable auto "Choisir une des méthodes suivantes de grouper les coups en fonction du problème à résoudre."
-	    variable byweight "Essayer de grouper les premier coups selon une estimation la durée de solution."
-	    variable movebymove "Chaque premier coup forme son propre groupe."
-	}
-
 	namespace eval cmdline {
 	    variable options "options"
 	    variable inputfile "Fichier input"
@@ -201,12 +194,6 @@ namespace eval language {
 	    variable BothSidesNeedAKingRE "Es fehlt ein weisser oder schwarzer Koenig\n"
 	}
 
-	namespace eval grouping {
-	    variable auto "Ein der folgenden Methoden in Abhängigkeit des zu lösenden Problems wählen."
-	    variable byweight "Versuche die Erstzüge gemäss der geschätzten Lösungszeit zu gruppieren."
-	    variable movebymove "Jeder Erstzug bildet eine eigene Gruppe."
-	}
-
 	namespace eval cmdline {
 	    variable options "Optionen"
 	    variable inputfile "Eingabedatei"
@@ -263,12 +250,6 @@ namespace eval language {
 	    variable PartialSolution "Partial solution"
 	    variable SquareIsEmptyRE "square is empty - cannot .re.move any piece."
 	    variable BothSidesNeedAKingRE "both sides need a king"
-	}
-
-	namespace eval grouping {
-	    variable auto "Select one of the following methods depending on the problem being solved."
-	    variable byweight "Try to group the first moves based on an estimat of the solving time."
-	    variable movebymove "Each first move is its own group."
 	}
 
 	namespace eval cmdline {
@@ -760,8 +741,6 @@ proc parseCommandLine {} {
 	{ executable.arg "[defaultPopeyeExecutable]"               "[::msgcat::mc cmdline::popeyePath]" }
 	{ nrprocs.arg    "[defaultNumberOfProcesses]"              "[::msgcat::mc cmdline::numberProcesses]" }
 	{ maxmem.arg     "[::msgcat::mc cmdline::popeyeDefault]"   "[::msgcat::mc cmdline::processMemory]" }
-	{ grouping.arg   "auto"                                    "([join [getAllNames ::grouping] ,])" }
-	{ maxnrmoves.arg "[::grouping::movebymove::getMaxNrMoves]" "[::msgcat::mc cmdline::maxnrmoves]" }
     }]
     if {[string match "*.tcl" $::argv0]} {
 	lappend options { assert.arg false "enable asserts" }
@@ -788,7 +767,6 @@ proc parseCommandLine {} {
     if {$::params(maxmem)!=[::msgcat::mc cmdline::popeyeDefault]} {
 	::popeye::setMaxmem $::params(maxmem)
     }
-    ::grouping::movebymove::setMaxNrMoves $::params(maxnrmoves)
 
     if {[llength $::argv]>0} {
 	set ::params(inputfile) [lindex $::argv 0]
@@ -886,6 +864,7 @@ proc ::tester::async::_consume {pipe} {
 
     debug.tester "eof:[eof $pipe]"
     if {[eof $pipe]} {
+	::popeye::terminate $pipe
 	::sync::Notify $pipe "eof"
 	return false
     } else {
@@ -958,8 +937,7 @@ proc ::tester::async::moveNumber {pipe} {
 	} else {
 	    lassign [_endOfSolutionReached $pipe] solution finished
 	    if {$finished!=""} {
-		# we are beyond the set of starting moves
-		::sync::Notify $pipe "solution"
+		::sync::Notify $pipe "prematureEndOfSolution"
 	    }
 	}
     }
@@ -994,15 +972,13 @@ proc ::tester::setplayRange {pipe firstTwin} {
     debug.tester "setplayRange <-"
 }
 
-proc ::tester::moveRange {pipe firstTwin moveRange} {
-    debug.tester "moveRange pipe:$pipe firstTwin:|[debuggable $firstTwin]| moveRange:$moveRange"
-
-    lassign $moveRange start upto
+proc ::tester::testMove {pipe firstTwin move} {
+    debug.tester "testMove pipe:$pipe firstTwin:|[debuggable $firstTwin]| move:$move"
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
-    lappend options "[::msgcat::mc input::StartMoveNumber] $start"
-    lappend options "[::msgcat::mc input::UpToMoveNumber] $upto"
+    lappend options "[::msgcat::mc input::StartMoveNumber] $move"
+    lappend options "[::msgcat::mc input::UpToMoveNumber] $move"
 
     puts $pipe $firstTwin
     puts $pipe "[::msgcat::mc input::Option] [join $options]"
@@ -1010,45 +986,42 @@ proc ::tester::moveRange {pipe firstTwin moveRange} {
 
     ::popeye::output::doAsync $pipe async::moveNumber
 
-    debug.tester "moveRange <-"
+    debug.tester "testMove <-"
 }
 
-proc ::tester::moveRangesProgress {pipe notification firstTwin nrRunningProcesses moveRanges} {
-    debug.tester "moveRangesProgress pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses moveRanges:$moveRanges"
+proc ::tester::testProgress {pipe notification firstTwin nrRunningProcesses currMove} {
+    debug.tester "testProgress pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses currMove:$currMove"
 
     switch -exact $notification {
 	solution  {
-	    if {[llength $moveRanges]==0} {
-		::popeye::terminate $pipe
-		incr nrRunningProcesses -1
-	    } else {
-		set moveRange [lindex $moveRanges 0]
-		moveRange $pipe $firstTwin $moveRange
-		set moveRanges [lrange $moveRanges 1 end]
-	    }
+	    testMove $pipe $firstTwin $currMove
+	    incr currMove
+	}
+	prematureEndOfSolution {
+	    incr nrRunningProcesses -1
 	}
 	eof {
 	    puts stderr "[::msgcat::mc orchestrator::unexpectedEOF]"
 	    exit 1
 	}
 	default {
-	    control::assert false "::tester::moveRangesProgress: unexpected notification $notification"
+	    control::assert false "::tester::testProgress: unexpected notification $notification"
 	    exit 1
 	}
     }
 
     if {$nrRunningProcesses==0} {
-	debug.tester "moveRangesProgress <- break"
+	debug.tester "testProgress <- break"
 	return -code break
     } else {
-	set result [list $firstTwin $nrRunningProcesses $moveRanges]
-	debug.tester "moveRangesProgress <- [debuggable $result]"
+	set result [list $firstTwin $nrRunningProcesses $currMove]
+	debug.tester "testProgress <- [debuggable $result]"
 	return $result
     }
 }
 
-proc ::tester::moveRanges {firstTwin moveRanges} {
-    debug.tester "moveRanges firstTwin:|[debuggable $firstTwin]| moveRanges:$moveRanges"
+proc ::tester::test {firstTwin} {
+    debug.tester "test firstTwin:|[debuggable $firstTwin]|"
 
     # synchronously deal with everything happening before move 1, e.g. set play
     lassign [::popeye::spawn] setplayPipe greetingLine
@@ -1058,78 +1031,27 @@ proc ::tester::moveRanges {firstTwin moveRanges} {
 
     ::sync::Init
 
+    set currMove 1
     for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
-	set moveRange [lindex $moveRanges 0]
 	lassign [::popeye::spawn] pipe greetingLine
-	moveRange $pipe $firstTwin $moveRange
-	set moveRanges [lrange $moveRanges 1 end]
-	if {[llength $moveRanges]==0} {
-	    break
-	}
+	testMove $pipe $firstTwin $currMove
+	incr currMove
     }
 
     debug.tester "nrRunningProcesses:$nrRunningProcesses" 2
 
     # asynchronously deal with the processes created for the real moves
-    lassign [::sync::Wait moveRangesProgress $firstTwin $nrRunningProcesses $moveRanges] nrProcesses
+    lassign [::sync::Wait testProgress $firstTwin $nrRunningProcesses $currMove] nrProcesses
 
     ::sync::Fini
 
-    debug.tester "moveRanges <-"
-}
-
-namespace eval grouping {
-}
-
-namespace eval ::grouping::movebymove {
-    variable maxnrmoves 100
-}
-
-proc ::grouping::movebymove::setMaxNrMoves {m} {
-    variable maxnrmoves $m
-}
-
-proc ::grouping::movebymove::getMaxNrMoves {} {
-    variable maxnrmoves
-    
-    return $maxnrmoves
-}
-
-proc ::grouping::movebymove::makeRanges {firstTwin} {
-    variable maxnrmoves
-
-    debug.grouping "movebymove::makeRanges firstTwin:|$firstTwin|"
-
-    set result {}
-
-    debug.grouping "maxnrmoves:$maxnrmoves" 2
-    for {set i 1} {$i<=$maxnrmoves} {incr i} {
-	lappend result [list $i $i]
-    }
-
-    debug.grouping "movebymove::makeRanges <- $result"
-    return $result
-}
-
-namespace eval ::grouping::auto {
-}
-
-proc ::grouping::auto::makeRanges {firstTwin} {
-    debug.grouping "auto::makeRanges firstTwin:|$firstTwin||"
-
-    set result [::grouping::movebymove::makeRanges $firstTwin]
-
-    debug.grouping "auto::makeRanges <- $result"
-    return $result
+    debug.tester "test <-"
 }
 
 proc handleTwin {firstTwin} {
     debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]|"
 
-    set ranges [::grouping::auto::makeRanges $firstTwin]
-    debug.twin "ranges:$ranges" 2
-
-    set result [::tester::moveRanges $firstTwin $ranges]
+    set result [::tester::test $firstTwin]
 	
     debug.twin "handleTwin <- $result"
     return $result
