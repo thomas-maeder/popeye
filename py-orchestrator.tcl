@@ -881,24 +881,62 @@ namespace eval tester {
 namespace eval tester::async {
 }
 
-proc ::tester::async::readable {pipe} {
+proc ::tester::async::_consume {pipe} {
     variable buffers
-    
-    debug.tester "readable pipe:$pipe"
 
     debug.tester "eof:[eof $pipe]"
     if {[eof $pipe]} {
 	::sync::Notify $pipe "eof"
+	return false
     } else {
 	set chunk [read $pipe]
 	debug.tester "chunk:$chunk" 2
-        lappend buffers($pipe) $chunk
+	append buffers($pipe) $chunk
+	return true
+    }
+}
 
-	set output [join $buffers($pipe)]
-	set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
-	if {[regexp -- $entireSolutionRE $output - solution finished]} {
+proc ::tester::async::_endOfSolutionReached {pipe} {
+    variable buffers
+
+    set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
+    if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished]} {
+	unset buffers($pipe)
+	set result [list $solution $finished]
+    } else {
+	set result [list "" ""]
+    }
+}
+
+proc ::tester::async::_moveNumberRead {pipe} {
+    variable buffers
+
+    set parenOpenRE {[\(]}
+    set parenCloseRE {[\)]}
+    set movenumberRE { *[[:digit:]]+}
+    set moveRE {[^\n]+}
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set timeUnitRE {(?:(?:h:)?m:)?s}
+    set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+
+    if {[regexp -- "($movenumberLineRE)(.*)" $buffers($pipe) - movenumberLine remainder]} {
+	set buffers($pipe) $remainder
+	set result $movenumberLine
+    } else {
+	set result ""
+    }
+}
+
+proc ::tester::async::readable {pipe} {
+    variable buffers
+
+    debug.tester "readable pipe:$pipe"
+
+    if {[_consume $pipe]} {
+	lassign [_endOfSolutionReached $pipe] solution finished
+	if {$finished!=""} {
 	    ::output::solution $solution
-	    unset buffers($pipe)
 	    ::sync::Notify $pipe "solution"
 	    ::popeye::rememberFinish $finished
 	}
@@ -912,35 +950,17 @@ proc ::tester::async::moveNumber {pipe} {
 
     debug.tester "moveNumber pipe:$pipe"
 
-    debug.tester "eof:[eof $pipe]"
-    if {[eof $pipe]} {
-	::sync::Notify $pipe "eof"
-    } else {
-	set chunk [read $pipe]
-	debug.tester "chunk:|$chunk|" 2
-        lappend buffers($pipe) $chunk
-
-	set output [join $buffers($pipe)]
-
-	set parenOpenRE {[\(]}
-	set parenCloseRE {[\)]}
-	set movenumberRE { *[[:digit:]]+}
-	set moveRE {[^\n]+}
-	set timeLabelRE [::msgcat::mc output::Time]
-	set timeRE {[[:digit:]:.]+}
-	set timeUnitRE {(?:(?:h:)?m:)?s}
-	set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
-
-	set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[^\n]+\n+)"
-
-	if {[regexp -- "($movenumberLineRE)(.*)" $output - movenumberLine remainder]} {
-	    ::output::movenumberLine $movenumberLine
-	    set buffers($pipe) [list $remainder]
+    if {[_consume $pipe]} {
+	set moveNumberLine [_moveNumberRead $pipe]
+	if {$moveNumberLine!=""} {
+	    ::output::movenumberLine $moveNumberLine
 	    ::popeye::output::doAsync $pipe readable
-	} elseif {[regexp -- $entireSolutionRE $output - solution finished]} {
-	    # we are beyond the set of starting moves
-	    unset buffers($pipe)
-	    ::sync::Notify $pipe "solution"
+	} else {
+	    lassign [_endOfSolutionReached $pipe] solution finished
+	    if {$finished!=""} {
+		# we are beyond the set of starting moves
+		::sync::Notify $pipe "solution"
+	    }
 	}
     }
 
