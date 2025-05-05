@@ -504,6 +504,7 @@ namespace eval output {
     variable areMovenumbersSuppressed true
 
     variable startTime [clock milliseconds]
+    variable latestCarry ""
     variable latestFinish
 }
 
@@ -559,6 +560,11 @@ proc ::output::enableMovenumbers {enable} {
 }
 
 proc ::output::solution {string} {
+    variable latestCarry
+
+    _puts $latestCarry
+    set latestCarry ""
+
     _puts $string
 }
 
@@ -572,7 +578,7 @@ proc ::output::_formattedTime {} {
     set solvingTimeM [expr {$solvingTimeS/60}]
     set solvingTimeH [expr {$solvingTimeM/60}]
 
-    if {$solvingTimeH} {
+    if {$solvingTimeH>0} {
 	incr solvingTimeS [expr {-$solvingTimeM*60}]
 	incr solvingTimeM [expr {-$solvingTimeH*60}]
 	set timeFormatted [format "%lu:%02lu:%02lu h:m:s" $solvingTimeH $solvingTimeM $solvingTimeS]
@@ -590,15 +596,21 @@ proc ::output::_formattedTime {} {
 
 proc ::output::movenumberLine {movenumberMove time} {
     variable areMovenumbersSuppressed
-    
+    variable latestCarry
+
+    _puts $latestCarry
+    set latestCarry ""
+
     if {!$areMovenumbersSuppressed} {
 	_puts "\n$movenumberMove[::msgcat::mc output::Time] = [_formattedTime])"
     }
 }
 
-proc ::output::rememberFinish {finish time suffix} {
+proc ::output::rememberFinish {carry finish time suffix} {
+    variable latestCarry
     variable latestFinish
 
+    set latestCarry $carry
     set latestFinish [list $finish $time $suffix]
 }
 
@@ -956,10 +968,14 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
     set timeRE {[[:digit:]:.]+}
     set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
+	debug.tester "solution:>$solution<" 2
+	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
+	    set carry ""
+	}
 	unset buffers($pipe)
-	set result [list $solution $finished $time $suffix]
+	set result [list $solution $carry $finished $time $suffix]
     } else {
-	set result [list "" "" "" ""]
+	set result [list "" "" "" "" ""]
     }
 }
 
@@ -989,11 +1005,11 @@ proc ::tester::async::readable {pipe} {
     debug.tester "readable pipe:$pipe"
 
     if {[_consume $pipe]} {
-	lassign [_endOfSolutionReached $pipe] solution finished time suffix
+	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
 	if {$finished!=""} {
 	    ::output::solution $solution
 	    ::sync::Notify $pipe "solution"
-	    ::output::rememberFinish $finished $time $suffix
+	    ::output::rememberFinish $carry $finished $time $suffix
 	}
     }
 
@@ -1007,7 +1023,7 @@ proc ::tester::async::moveNumber {pipe} {
 
     if {[_consume $pipe]} {
 	lassign [_moveNumberRead $pipe] movenumberMove time
-	lassign [_endOfSolutionReached $pipe] solution finished time suffix
+	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
 	if {$movenumberMove!=""} {
 	    ::output::movenumberLine $movenumberMove $time
 	    if {$finished==""} {
@@ -1015,7 +1031,7 @@ proc ::tester::async::moveNumber {pipe} {
 	    } else {
 		::output::solution $solution
 		::sync::Notify $pipe "solution"
-		::output::rememberFinish $finished $time $suffix
+		::output::rememberFinish $carry $finished $time $suffix
 	    }
 	} elseif {$finished!=""} {
 	    ::sync::Notify $pipe "prematureEndOfSolution"
@@ -1041,12 +1057,15 @@ proc ::tester::setplayRange {pipe firstTwin} {
 	append lines "$line\n"
     }
 
+    debug.tester "lines:>$lines<" 2
+
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
-    set entireSolutionRE "(.*)(\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
-    if {[regexp -- $entireSolutionRE $lines - solution finished time suffix]} {
+    set entireSolutionRE "(.*)(\n)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    if {[regexp -- $entireSolutionRE $lines - solution carry finished time suffix]} {
+	debug.tester "solution:>$solution<" 2
 	::output::solution $solution
-	::output::rememberFinish $finished $time $suffix
+	::output::rememberFinish $carry $finished $time $suffix
     } else {
 	# what now?
     }
