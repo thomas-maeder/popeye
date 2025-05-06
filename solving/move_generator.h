@@ -184,19 +184,17 @@ void solving_instrument_move_generation(slice_index si,
  */
 void solving_insert_move_generators(slice_index si);
 
-/* Instrument the move generation machinery so that captures and non captures
- * are generated (and can be adapted) separately per piece.
- * @param si root slice of solving machinery
+/* Initialize a structure traversal which will instrument move generation on 2 alternative paths
+ * that can be adapted separately.
+ * @param st address of traversal object
  * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STGeneratingNoncapturesForPiece and
  *       STGeneratingCapturesForPiece that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_alternative_paths(slice_index si,
+void move_generator_initialize_instrumentation_for_alternative_paths(stip_structure_traversal *st,
                                                      Side side);
-void move_generator_instrument_for_alternative_paths2(stip_structure_traversal *st,
-                                                      Side side)
-;
+
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 
 /* Only keep generated moves that fulfill some criterion

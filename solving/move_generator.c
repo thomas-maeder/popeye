@@ -293,30 +293,16 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the move generation machinery so that there are two paths which
- * can be adapted separately.
- * @param si root slice of solving machinery
+/* Initialize a structure traversal which will instrument move generation on 2 alternative paths
+ * that can be adapted separately.
+ * @param st address of traversal object
  * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STMoveForPieceGeneratorStandardPath and
  *       STMoveForPieceGeneratorAlternativePath that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
-{
-  stip_structure_traversal st;
-
-  solving_instrument_moves_for_piece_generation(si,
-                                                side,
-                                                STMoveForPieceGeneratorPathsJoint);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMoveForPieceGeneratorPathsJoint,
-                                           &insert_separator);
-  stip_traverse_structure(si,&st);
-}
-void move_generator_instrument_for_alternative_paths2(stip_structure_traversal *st,
-                                                      Side side)
+void move_generator_initialize_instrumentation_for_alternative_paths(stip_structure_traversal *st,
+                                                                     Side side)
 {
   stip_structure_traversal_init(st,0);
   stip_structure_traversal_override_single(st,
