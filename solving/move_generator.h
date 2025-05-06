@@ -193,8 +193,10 @@ void solving_insert_move_generators(slice_index si);
  *       generation
  */
 void move_generator_instrument_for_alternative_paths(slice_index si,
-                                                                    Side side);
-
+                                                     Side side);
+void move_generator_instrument_for_alternative_paths2(stip_structure_traversal *st,
+                                                      Side side)
+;
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 
 /* Only keep generated moves that fulfill some criterion

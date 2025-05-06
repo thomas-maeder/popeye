@@ -315,6 +315,14 @@ void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
                                            &insert_separator);
   stip_traverse_structure(si,&st);
 }
+void move_generator_instrument_for_alternative_paths2(stip_structure_traversal *st,
+                                                      Side side)
+{
+  stip_structure_traversal_init(st,0);
+  stip_structure_traversal_override_single(st,
+                                           STMoveForPieceGeneratorPathsJoint,
+                                           &insert_separator);
+}
 
 static boolean always_reject(numecoup n)
 {
