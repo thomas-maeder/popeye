@@ -167,7 +167,18 @@ void solving_initialise_bolero(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_generator_instrument_for_alternative_paths(si,nr_sides);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_structure_traversal_override_single(&st,
+                                             STBulMovementGeneratorFork,
+                                             &stip_traverse_structure_children_pipe);
+    stip_traverse_structure(si,&st);
+  }
 
   {
     stip_structure_traversal st;
@@ -250,11 +261,25 @@ void solving_initialise_bolero_inverse(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_generator_instrument_for_alternative_paths(si,nr_sides);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_structure_traversal_override_single(&st,
+                                             STBulMovementGeneratorFork,
+                                             &stip_traverse_structure_children_pipe);
+    stip_traverse_structure(si,&st);
+  }
 
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STBulMovementGeneratorFork,
+                                             &stip_traverse_structure_children_pipe);
     stip_structure_traversal_override_single(&st,
                                              STMoveForPieceGeneratorStandardPath,
                                              &inverse_instrument_no_capture);
