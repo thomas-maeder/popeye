@@ -1229,7 +1229,7 @@ proc handleInput {chan} {
 proc handleGreetingLine {} {
     debug.problem handleGreetingLine
 
-    set supportedVersions { "4.91" }
+    set supportedVersions { "4.91" "4.91.1" }
 
     lassign [::popeye::spawn] pipe greetingLine
     ::popeye::terminate $pipe
