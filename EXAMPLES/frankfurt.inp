@@ -1,0 +1,102 @@
+begin
+
+protocol frankfurt.ref
+
+author Theodoros Giakatis & Kostas Prento
+origin WCCC Jurmala 2024, Sake Tourney, 1st prize
+pieces white ka4 rb5 be6 pd2d5 black kc4 rc2d3d4 bg8 pb3b7f7g4
+stipulation h#2
+condition FrankfurtChess
+twin condition ProteanChess
+
+next
+
+author Michal Dragoun
+origin origin WCCC Jurmala 2024, Sake Tourney, 2nd Prize
+pieces white kb1 rb6 bc4 pc3 black ke5 rd3 bb4 sf3f6 pd7e2f5
+stipulation h#2
+condition FrankfurtChess
+
+next
+
+author Mario Parrinello
+origin origin WCCC Jurmala 2024, Sake Tourney, 3rd Prize
+pieces white ka8 ba7 se8g6 pe3b7 black ke4 qf5 ra3f6 bd6 sc6d5 pb4d3e5f3f7
+stipulation h#2
+condition FrankfurtChess
+twin add white be8
+
+next
+
+author Hans Uitenbroek
+origin origin WCCC Jurmala 2024, Sake Tourney, 7th Prize
+pieces white kg5 rb2 bg8 pa2d2 black kc5 re7 bd8 sb1b8 pc2c6d6g2
+stipulation h#2
+condition FrankfurtChess
+
+next
+
+author Michal Dragoun
+origin WCCC Jurmala 2024, Sake Tourney, 1st honorable mention
+pieces white kd8 re7 ba7 sb4 black kd4 qb7 ba8 pc4c5d5e4e5f6
+stipulation h#2
+condition FrankfurtChess
+
+next
+
+author Michal Dragoun
+origin WCCC Jurmala 2024, Sake Tourney, 2nd honorable mention
+pieces white ka7 rb8 ba5 sb7 black kd7 re2 pb4c4c6f5f7
+stipulation h#2
+condition FrankfurtChess
+
+next
+
+author Michal Dragoun
+origin WCCC Jurmala 2024, Sake Tourney, 3rd honorable mention
+pieces white kd1 rf1 bg1 black ke4 rf6 bc5 sd3d5 pb3b4e5g5
+stipulation h#2
+condition FrankfurtChess
+twin move d1 h1
+twin move d1 a8
+twin move d1 g8
+
+next
+
+author Kostas Prentos & Theodoros Giakatis
+origin WCCC Jurmala 2024, Sake Tourney, 4th honorable mention
+pieces white pf2 white royal pf7 black bf1 sh5 ph3 black royal ra8
+stipulation h#2
+condition FrankfurtChess
+twin move f2 g3
+twin move f2 h4
+twin move f2 c5
+
+next
+
+author Marco Guida & Mario Parrinello
+origin WCCC Jurmala 2024, Sake Tourney, 5th honorable mention
+pieces white ka2 pg4h2h5 black re1h4 be8f2 sa8f4 pe6 black royal pf6
+stipulation h#2
+condition FrankfurtChess
+twin move h2 d3
+twin move h2 b6
+
+next
+
+author Andy Ooms
+origin WCCC Jurmala 2024, Sake Tourney, 6th honorable mention
+pieces white kd1 pe2h2 black kh1 be1f3 pf4
+stipulation h#2
+condition FrankfurtChess
+twin condition ProteanChess
+
+next
+
+author Manfred Rittirsch
+origin WCCC Jurmala 2024, Sake Tourney, 7th honorable mention
+pieces white kc8 bb4 sa5d5 pg2 black ka6 qh2 rd4 ba2e5 sa8d3 pa7f6h4
+stipulation h#2
+condition FrankfurtChess
+
+end

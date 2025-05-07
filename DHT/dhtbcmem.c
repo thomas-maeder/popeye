@@ -4,33 +4,41 @@
  *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 
-#include "debugging/assert.h"
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
 
 #if defined(__BORLANDC__)
 #include <mem.h>
 #endif /*__BORLANDC__*/
 
+#include "debugging/assert.h"
 #include "dhtvalue.h"
 #include "dhtbcmem.h"
 #include "dht.h"
 
-static dhtHashValue ConvertBCMemValue(dhtConstValue m)
+enum {
+  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof ((BCMemValue const *)NULL)->Data[0])
+};
+
+static dhtHashValue ConvertBCMemValue(dhtKey m)
 {
-  BCMemValue const * const toBeConverted = (BCMemValue const *)m;
-  unsigned int leng = toBeConverted->Leng;
-  unsigned char const *s = toBeConverted->Data;
+  BCMemValue const * const toBeConverted = (BCMemValue const *)m.value.object_pointer;
+  unsigned short leng;
+  unsigned char const *s;
+  assert(!!toBeConverted);
+  leng = toBeConverted->Leng;
+  s = toBeConverted->Data;
   dhtHashValue hash = 0;
 
-  unsigned int i;
-  for (i=0; i<leng; i++)
+  unsigned short i;
+  for (i=0; i<leng; ++i)
   {
     hash += s[i];
     hash += hash << 10;
@@ -44,45 +52,96 @@ static dhtHashValue ConvertBCMemValue(dhtConstValue m)
   return hash;
 }
 
-static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
+static int EqualBCMemValue(dhtKey v1, dhtKey v2)
 {
-  BCMemValue const * const value1 = (BCMemValue const *)v1;
-  BCMemValue const * const value2 = (BCMemValue const *)v2;
-  size_t const size = sizeof *value1 - sizeof value1->Data + value1->Leng;
+  BCMemValue const * const value1 = (BCMemValue const *)v1.value.object_pointer;
+  BCMemValue const * const value2 = (BCMemValue const *)v2.value.object_pointer;
+  unsigned short length;
+  unsigned char const *data1;
+  unsigned char const *data2;
+  assert(value1 && value2);
+  length = value1->Leng;
 
-  return memcmp(value1,value2,size)==0;
+  if (length != value2->Leng)
+    return 0;
+
+  data1 = value1->Data;
+  data2 = value2->Data;
+  while (length > ((size_t)-1))
+  {
+    if (memcmp(data1, data2, ((size_t)-1)))
+      return 0;
+    data1 += ((size_t)-1);
+    data2 += ((size_t)-1);
+    length -= ((size_t)-1);
+  }
+  return !memcmp(data1, data2, length);
 }
 
-static dhtConstValue DupBCMemValue(dhtConstValue v)
+static int DupBCMemValue(dhtValue kv, dhtValue *output)
 {
-  BCMemValue const * const original = (BCMemValue const *)v;
-  size_t const size = (sizeof *original
-                       - sizeof original->Data
-                       + original->Leng);
+  BCMemValue const *original = (BCMemValue const *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *original) - offsetof(BCMemValue, Data));
+  BCMemValue *result;
+  unsigned short length;
+  size_t size = sizeof *original;
 
-  BCMemValue * const result = fxfAlloc(size);
-  if (result!=0)
-    memcpy(result,original,size);
+  assert(!!output);
+  if (!original)
+  {
+    output->object_pointer = NULL;
+    return 0;
+  }
 
-  return (dhtConstValue)result;
+  length = original->Leng;
+  if (length > num_bytes_in_Data)
+  {
+    if (length > (((size_t)-1) - size + num_bytes_in_Data))
+      return 1;
+    size += (length - num_bytes_in_Data);
+  }
+
+  result = DHTVALUE_ALLOC(size, BCMemValue);
+  if (result)
+  {
+    result->Leng = length;
+    memcpy(result->Data,original->Data,length);
+    output->object_pointer = result;
+    return 0;
+  }
+
+  return 1;
 }
 
-static void FreeBCMemVal(dhtValue v)
+static void FreeBCMemValue(dhtValue kv)
 {
-  BCMemValue * const freed = (BCMemValue *)v;
-  size_t const size = sizeof *freed - sizeof freed->Data + freed->Leng;
-  fxfFree(freed,size);
+  BCMemValue *freed = (BCMemValue *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *freed) - offsetof(BCMemValue, Data));
+  if (freed)
+  {
+    size_t size = sizeof *freed;
+    unsigned short length = freed->Leng;
+    if (length > num_bytes_in_Data)
+    {
+      assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
+      size += (length - num_bytes_in_Data);
+    }
+    DHTVALUE_FREE(freed,size);
+  }
 }
 
-static void DumpBCMemValue(dhtConstValue v, FILE *f)
+static void DumpBCMemValue(dhtValue kv, FILE *f)
 {
-  BCMemValue const * const toBeDumped = (BCMemValue const *)v;
-  unsigned int const length = toBeDumped->Leng;
-  unsigned int i;
+  BCMemValue const *toBeDumped = (BCMemValue const *)kv.object_pointer;
+  unsigned short length;
+  unsigned short i;
 
-  fprintf(f, "(%d)", toBeDumped->Leng);
+  assert(toBeDumped && f);
+
+  length = toBeDumped->Leng;
+  fprintf(f, "(%u)", length);
   for (i=0; i<length; i++)
-    fprintf(f, "%02x", toBeDumped->Data[i] & 0xff);
+    fprintf(f, "%02x", (toBeDumped->Data[i] & 0xffU));
 }
 
 dhtValueProcedures dhtBCMemoryProcs =
@@ -90,6 +149,6 @@ dhtValueProcedures dhtBCMemoryProcs =
   ConvertBCMemValue,
   EqualBCMemValue,
   DupBCMemValue,
-  FreeBCMemVal,
+  FreeBCMemValue,
   DumpBCMemValue
 };

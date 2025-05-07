@@ -1,506 +1,304 @@
 optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
-  optimisations/intelligent/mate/finish.c \
-  optimisations/intelligent/mate/finish.h stipulation/stipulation.h \
-  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
-  utilities/boolean.h stipulation/slice_type.h \
-  stipulation/slice_type.enum.h stipulation/slice_type.enum \
-  position/side.h position/side.enum.h position/side.enum \
-  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
-  stipulation/slice_structural_type.enum.h \
-  stipulation/slice_structural_type.enum \
-  stipulation/slice_functional_type.h \
-  stipulation/slice_functional_type.enum.h \
-  stipulation/slice_functional_type.enum \
-  stipulation/slice_contextual_type.h \
-  stipulation/slice_contextual_type.enum.h \
-  stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
-  stipulation/conditional_pipe.h solving/has_solution_type.h \
-  solving/has_solution_type.enum.h solving/has_solution_type.enum \
-  solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h solving/castling.h solving/move_effect_journal.h \
-  position/castling_rights.h solving/ply.h position/pieceid.h \
-  position/position.h position/color.h position/color.enum.h \
-  position/color.enum pieces/walks/vectors.h solving/conditional_pipe.h \
-  optimisations/intelligent/intelligent.h \
-  optimisations/intelligent/piece_usage.h \
-  optimisations/intelligent/piece_usage.enum.h \
-  optimisations/intelligent/piece_usage.enum \
-  optimisations/intelligent/count_nr_of_moves.h \
-  optimisations/intelligent/place_black_piece.h \
-  optimisations/intelligent/place_white_king.h \
-  optimisations/orthodox_square_observation.h \
-  pieces/walks/pawns/en_passant.h solving/observation.h \
-  solving/temporary_hacks.h solving/fork.h debugging/assert.h
-
+ optimisations/intelligent/mate/finish.c \
+ optimisations/intelligent/mate/finish.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/conditional_pipe.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/castling.h solving/move_effect_journal.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum pieces/walks/vectors.h solving/conditional_pipe.h \
+ optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/piece_usage.enum.h \
+ optimisations/intelligent/piece_usage.enum \
+ optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/place_black_piece.h \
+ optimisations/intelligent/place_white_king.h \
+ optimisations/orthodox_square_observation.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h debugging/assert.h
 optimisations/intelligent/mate/finish.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 utilities/boolean.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
-
 stipulation/structure_traversal.h:
-
 stipulation/slice.h:
-
 stipulation/slice_structural_type.h:
-
 stipulation/slice_structural_type.enum.h:
-
 stipulation/slice_structural_type.enum:
-
 stipulation/slice_functional_type.h:
-
 stipulation/slice_functional_type.enum.h:
-
 stipulation/slice_functional_type.enum:
-
 stipulation/slice_contextual_type.h:
-
 stipulation/slice_contextual_type.enum.h:
-
 stipulation/slice_contextual_type.enum:
-
 stipulation/traversal.h:
-
 stipulation/proxy.h:
-
 stipulation/pipe.h:
-
 stipulation/branch.h:
-
 stipulation/conditional_pipe.h:
-
 solving/has_solution_type.h:
-
 solving/has_solution_type.enum.h:
-
 solving/has_solution_type.enum:
-
 solving/machinery/solve.h:
-
 solving/machinery/dispatch.h:
-
 debugging/trace.h:
-
 solving/castling.h:
-
 solving/move_effect_journal.h:
-
 position/castling_rights.h:
-
 solving/ply.h:
-
 position/pieceid.h:
-
 position/position.h:
-
 position/color.h:
-
 position/color.enum.h:
-
 position/color.enum:
-
 pieces/walks/vectors.h:
-
 solving/conditional_pipe.h:
-
 optimisations/intelligent/intelligent.h:
-
 optimisations/intelligent/piece_usage.h:
-
 optimisations/intelligent/piece_usage.enum.h:
-
 optimisations/intelligent/piece_usage.enum:
-
 optimisations/intelligent/count_nr_of_moves.h:
-
 optimisations/intelligent/place_black_piece.h:
-
 optimisations/intelligent/place_white_king.h:
-
 optimisations/orthodox_square_observation.h:
-
 pieces/walks/pawns/en_passant.h:
-
 solving/observation.h:
-
 solving/temporary_hacks.h:
-
 solving/fork.h:
-
 debugging/assert.h:
 optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
-  optimisations/intelligent/mate/generate_checking_moves.c \
-  optimisations/intelligent/mate/generate_checking_moves.h \
-  position/position.h position/board.h utilities/bitmask.h \
-  position/side.h position/side.enum.h position/side.enum \
-  position/color.h position/color.enum.h position/color.enum \
-  position/pieceid.h pieces/pieces.h utilities/boolean.h \
-  pieces/walks/vectors.h position/castling_rights.h \
-  stipulation/stipulation.h stipulation/goals/goals.h \
-  stipulation/slice_type.h stipulation/slice_type.enum.h \
-  stipulation/slice_type.enum output/mode.h output/mode.enum.h \
-  output/mode.enum optimisations/intelligent/intelligent.h \
-  solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h solving/ply.h \
-  optimisations/intelligent/piece_usage.h \
-  optimisations/intelligent/piece_usage.enum.h \
-  optimisations/intelligent/piece_usage.enum \
-  optimisations/intelligent/count_nr_of_moves.h \
-  optimisations/intelligent/guard_flights.h \
-  optimisations/orthodox_check_directions.h \
-  pieces/walks/pawns/promotee_sequence.h solving/pipe.h \
-  debugging/assert.h
-
+ optimisations/intelligent/mate/generate_checking_moves.c \
+ optimisations/intelligent/mate/generate_checking_moves.h \
+ position/position.h position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/side.enum position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
+ position/castling_rights.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
+ output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/piece_usage.enum.h \
+ optimisations/intelligent/piece_usage.enum \
+ optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/guard_flights.h \
+ optimisations/orthodox_check_directions.h \
+ pieces/walks/pawns/promotee_sequence.h solving/pipe.h debugging/assert.h
 optimisations/intelligent/mate/generate_checking_moves.h:
-
 position/position.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 position/color.h:
-
 position/color.enum.h:
-
 position/color.enum:
-
 position/pieceid.h:
-
 pieces/pieces.h:
-
 utilities/boolean.h:
-
 pieces/walks/vectors.h:
-
 position/castling_rights.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
-
 optimisations/intelligent/intelligent.h:
-
 solving/machinery/solve.h:
-
 solving/machinery/dispatch.h:
-
 debugging/trace.h:
-
 solving/ply.h:
-
 optimisations/intelligent/piece_usage.h:
-
 optimisations/intelligent/piece_usage.enum.h:
-
 optimisations/intelligent/piece_usage.enum:
-
 optimisations/intelligent/count_nr_of_moves.h:
-
 optimisations/intelligent/guard_flights.h:
-
 optimisations/orthodox_check_directions.h:
-
 pieces/walks/pawns/promotee_sequence.h:
-
 solving/pipe.h:
-
 debugging/assert.h:
 optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
-  optimisations/intelligent/mate/generate_doublechecking_moves.c \
-  optimisations/intelligent/mate/generate_doublechecking_moves.h \
-  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
-  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
-  stipulation/slice_type.enum.h stipulation/slice_type.enum \
-  position/side.h position/side.enum.h position/side.enum \
-  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  optimisations/intelligent/intelligent.h position/position.h \
-  position/color.h position/color.enum.h position/color.enum \
-  position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
-  solving/machinery/solve.h solving/machinery/dispatch.h \
-  debugging/trace.h solving/ply.h \
-  optimisations/intelligent/piece_usage.h \
-  optimisations/intelligent/piece_usage.enum.h \
-  optimisations/intelligent/piece_usage.enum \
-  optimisations/intelligent/count_nr_of_moves.h \
-  optimisations/intelligent/guard_flights.h \
-  optimisations/intelligent/mate/generate_checking_moves.h \
-  optimisations/orthodox_check_directions.h \
-  pieces/walks/pawns/promotee_sequence.h solving/pipe.h \
-  debugging/assert.h
-
+ optimisations/intelligent/mate/generate_doublechecking_moves.c \
+ optimisations/intelligent/mate/generate_doublechecking_moves.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ optimisations/intelligent/intelligent.h position/position.h \
+ position/color.h position/color.enum.h position/color.enum \
+ position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/piece_usage.enum.h \
+ optimisations/intelligent/piece_usage.enum \
+ optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/guard_flights.h \
+ optimisations/intelligent/mate/generate_checking_moves.h \
+ optimisations/orthodox_check_directions.h \
+ pieces/walks/pawns/promotee_sequence.h solving/pipe.h debugging/assert.h
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 utilities/boolean.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
-
 optimisations/intelligent/intelligent.h:
-
 position/position.h:
-
 position/color.h:
-
 position/color.enum.h:
-
 position/color.enum:
-
 position/pieceid.h:
-
 pieces/walks/vectors.h:
-
 position/castling_rights.h:
-
 solving/machinery/solve.h:
-
 solving/machinery/dispatch.h:
-
 debugging/trace.h:
-
 solving/ply.h:
-
 optimisations/intelligent/piece_usage.h:
-
 optimisations/intelligent/piece_usage.enum.h:
-
 optimisations/intelligent/piece_usage.enum:
-
 optimisations/intelligent/count_nr_of_moves.h:
-
 optimisations/intelligent/guard_flights.h:
-
 optimisations/intelligent/mate/generate_checking_moves.h:
-
 optimisations/orthodox_check_directions.h:
-
 pieces/walks/pawns/promotee_sequence.h:
-
 solving/pipe.h:
-
 debugging/assert.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
-  optimisations/intelligent/mate/goalreachable_guard.c \
-  optimisations/intelligent/mate/goalreachable_guard.h \
-  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
-  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
-  stipulation/slice_type.enum.h stipulation/slice_type.enum \
-  position/side.h position/side.enum.h position/side.enum \
-  pieces/pieces.h output/mode.h output/mode.enum.h output/mode.enum \
-  pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
-  solving/machinery/dispatch.h debugging/trace.h \
-  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
-  position/pieceid.h solving/observation.h pieces/walks/vectors.h \
-  solving/temporary_hacks.h solving/fork.h solving/castling.h \
-  position/position.h position/color.h position/color.enum.h \
-  position/color.enum solving/has_solution_type.h \
-  solving/has_solution_type.enum.h solving/has_solution_type.enum \
-  solving/pipe.h solving/move_generator.h \
-  stipulation/structure_traversal.h stipulation/slice.h \
-  stipulation/slice_structural_type.h \
-  stipulation/slice_structural_type.enum.h \
-  stipulation/slice_structural_type.enum \
-  stipulation/slice_functional_type.h \
-  stipulation/slice_functional_type.enum.h \
-  stipulation/slice_functional_type.enum \
-  stipulation/slice_contextual_type.h \
-  stipulation/slice_contextual_type.enum.h \
-  stipulation/slice_contextual_type.enum stipulation/traversal.h \
-  debugging/measure.h output/plaintext/protocol.h \
-  optimisations/intelligent/intelligent.h \
-  optimisations/intelligent/piece_usage.h \
-  optimisations/intelligent/piece_usage.enum.h \
-  optimisations/intelligent/piece_usage.enum \
-  optimisations/intelligent/moves_left.h \
-  optimisations/intelligent/count_nr_of_moves.h debugging/assert.h
-
+ optimisations/intelligent/mate/goalreachable_guard.c \
+ optimisations/intelligent/mate/goalreachable_guard.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum \
+ pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h solving/fork.h solving/castling.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/has_solution_type.enum \
+ solving/pipe.h solving/move_generator.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_structural_type.enum \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_functional_type.enum \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum stipulation/traversal.h \
+ debugging/measure.h optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/piece_usage.h \
+ optimisations/intelligent/piece_usage.enum.h \
+ optimisations/intelligent/piece_usage.enum \
+ optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/count_nr_of_moves.h debugging/assert.h
 optimisations/intelligent/mate/goalreachable_guard.h:
-
 stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
-
 position/board.h:
-
 utilities/bitmask.h:
-
 utilities/boolean.h:
-
 stipulation/slice_type.h:
-
 stipulation/slice_type.enum.h:
-
 stipulation/slice_type.enum:
-
 position/side.h:
-
 position/side.enum.h:
-
 position/side.enum:
-
 pieces/pieces.h:
-
 output/mode.h:
-
 output/mode.enum.h:
-
 output/mode.enum:
-
 pieces/walks/pawns/en_passant.h:
-
 solving/machinery/solve.h:
-
 solving/machinery/dispatch.h:
-
 debugging/trace.h:
-
 solving/move_effect_journal.h:
-
 position/castling_rights.h:
-
 solving/ply.h:
-
 position/pieceid.h:
-
 solving/observation.h:
-
 pieces/walks/vectors.h:
-
 solving/temporary_hacks.h:
-
 solving/fork.h:
-
 solving/castling.h:
-
 position/position.h:
-
 position/color.h:
-
 position/color.enum.h:
-
 position/color.enum:
-
 solving/has_solution_type.h:
-
 solving/has_solution_type.enum.h:
-
 solving/has_solution_type.enum:
-
 solving/pipe.h:
-
 solving/move_generator.h:
-
 stipulation/structure_traversal.h:
-
 stipulation/slice.h:
-
 stipulation/slice_structural_type.h:
-
 stipulation/slice_structural_type.enum.h:
-
 stipulation/slice_structural_type.enum:
-
 stipulation/slice_functional_type.h:
-
 stipulation/slice_functional_type.enum.h:
-
 stipulation/slice_functional_type.enum:
-
 stipulation/slice_contextual_type.h:
-
 stipulation/slice_contextual_type.enum.h:
-
 stipulation/slice_contextual_type.enum:
-
 stipulation/traversal.h:
-
 debugging/measure.h:
-
-output/plaintext/protocol.h:
-
 optimisations/intelligent/intelligent.h:
-
 optimisations/intelligent/piece_usage.h:
-
 optimisations/intelligent/piece_usage.enum.h:
-
 optimisations/intelligent/piece_usage.enum:
-
 optimisations/intelligent/moves_left.h:
-
 optimisations/intelligent/count_nr_of_moves.h:
-
 debugging/assert.h:

@@ -42,11 +42,11 @@
  ** for more details. Two procedures are used:
  **   dhtLookupElement: This procedure delivers
  ** a nil pointer, when the given position is not in the hashtable,
- ** or a pointer to a hashelement.
+ ** or a pointer to a hashElement.
  **   dhtEnterElement:  This procedure enters an encoded position
  ** with its values into the hashtable.
  **
- ** When there is no more memory, or more than hash_max_number_storable_positions positions
+ ** When there is no more memory, or more than hash_max_kilo_storable_positions*1000 positions
  ** are stored in the hash-table, then some positions are removed
  ** from the table. This is done in the compress procedure.
  ** This procedure uses a little improved scheme introduced by Torsten.
@@ -56,7 +56,7 @@
  ** in 5 moves", since the former can be recomputed faster. For the other
  ** type of information ("solvable") the comparison is the other way round.
  ** The compression of the table is an expensive operation, in a lot
- ** of exeperiments it has shown to be quite effective in keeping the
+ ** of experiments it has shown to be quite effective in keeping the
  ** most valuable information, and speeds up the computation time
  ** considerably. But to be of any use, there must be enough memory to
  ** to store more than 800 positions.
@@ -64,7 +64,7 @@
  ** There seems to be no real penalty in using hashing, even if the
  ** hit ratio is very small and only about 5%, it speeds up the
  ** computation time by 30%.
- ** I changed the output of hashstat, since its really informative
+ ** I changed the output of hashstat, since it's really informative
  ** to see the hit rate.
  **
  ** inithash()
@@ -121,6 +121,10 @@
 #include "platform/timer.h"
 #endif
 
+enum {
+  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX)
+};
+
 #if defined(FXF)
 unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
 #endif
@@ -151,6 +155,11 @@ static hash_value_type minimalElementValueAfterCompression;
 static unsigned int nr_hash_slices;
 static slice_index hash_slices[max_nr_slices];
 
+enum
+{
+  NUM_ELEMENTS_IN_HASHBUFFER = ((sizeof(HashBuffer) - offsetof(BCMemValue, Data))/sizeof(byte)),
+  ENSURE_HASHBUFFER_DATA_HAS_AT_LEAST_NR_ROWS_ON_BOARD_ENTRIES = 1/(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board)
+};
 
 HashBuffer hashBuffers[maxply+1];
 
@@ -248,26 +257,6 @@ static void (*encode)(stip_length_type min_length,
                       stip_length_type validity_value);
 
 typedef unsigned int data_type;
-
-/* hash table element type defining the data member as we use it in
- * this module
- */
-typedef struct
-{
-    dhtValue Key;
-    data_type data;
-} element_t;
-
-/* Grand union of "element" type and the generic one used by the hash
- * table implementation.
- * Using this union type rather than casting frm dhtElement * to
- * element_t * avoids aliasing issues.
- */
-typedef union
-{
-    dhtElement d;
-    element_t e;
-} hashElement_union_t;
 
 /* Hashing properties of stipulation slices
  */
@@ -375,7 +364,7 @@ static void slice_property_offset_shifter(slice_index si,
  * @param delta indicates how much to shift the value offsets
  */
 static void shift_offsets(slice_index si,
-                          stip_structure_traversal *st,
+                          stip_structure_traversal const *st,
                           unsigned int delta)
 {
   unsigned int i;
@@ -654,17 +643,17 @@ static void init_slice_properties(slice_index si)
 /* Pseudo hash table element - template for fast initialization of
  * newly created actual table elements
  */
-static hashElement_union_t template_element;
+static dhtElement template_element;
 
 
-static void set_value_attack_nosuccess(hashElement_union_t *hue,
+static void set_value_attack_nosuccess(dhtElement *e,
                                        slice_index si,
                                        hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",val);
@@ -672,27 +661,29 @@ static void set_value_attack_nosuccess(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("pre:%08x ",e->data);
+  TraceValue("%p",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x",e->data);
+  tmp = (data_type)e->Data.unsigned_integer;
+  tmp &= ~mask;
+  tmp |= bits;
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void set_value_attack_success(hashElement_union_t *hue,
+static void set_value_attack_success(dhtElement *e,
                                      slice_index si,
                                      hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const bits = ((offset < (CHAR_BIT * (sizeof val))) ? (val << offset) : 0);
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -702,28 +693,30 @@ static void set_value_attack_success(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("pre:%08x ",e->data);
+  TraceValue("%p",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x",e->data);
+  tmp = (data_type)e->Data.unsigned_integer;
+  tmp &= ~mask;
+  tmp |= bits;
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void set_value_help(hashElement_union_t *hue,
+static void set_value_help(dhtElement *e,
                            slice_index si,
                            hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const bits = val << offset;
   unsigned int const mask = slice_properties[si].u.h.maskNoSucc;
-  element_t * const e = &hue->e;
+  data_type tmp;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",val);
@@ -731,31 +724,32 @@ static void set_value_help(hashElement_union_t *hue,
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void *)&e->data);
-  TraceValue("pre:0x%08x ",e->data);
+  TraceValue("%p ",(void *)&e->Data.unsigned_integer);
+  TraceValue("pre:0x%08x ",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceValue("0x%08x",bits);
   TraceEOL();
   assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:0x%08x",e->data);
+  tmp = (data_type)e->Data.unsigned_integer;
+  tmp &= ~mask;
+  tmp |= bits;
+  e->Data.unsigned_integer = tmp;
+  TraceValue("post:0x%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_success(dhtElement const *e,
                                                 slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("%08x",e->data);
+  TraceValue("%p",(void const *)&e->Data.unsigned_integer);
+  TraceValue("%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -764,18 +758,17 @@ static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
   return result;
 }
 
-static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_nosuccess(dhtElement const *e,
                                                   slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%08x ",mask);
-  TraceValue("%p",(void *)&e->data);
-  TraceValue("%08x",e->data);
+  TraceValue("%p",(void const *)&e->Data.unsigned_integer);
+  TraceValue("%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -784,19 +777,18 @@ static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue
   return result;
 }
 
-static hash_value_type get_value_help(hashElement_union_t const *hue,
+static hash_value_type get_value_help(dhtElement const *e,
                                       slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.h.offsetNoSucc;
   unsigned int const  mask = slice_properties[si].u.h.maskNoSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
+  data_type const result = (((data_type)e->Data.unsigned_integer) & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceValue("%u",offset);
   TraceValue("0x%08x ",mask);
-  TraceValue("%p ",(void *)&e->data);
-  TraceValue("0x%08x",e->data);
+  TraceValue("%p ",(void const *)&e->Data.unsigned_integer);
+  TraceValue("0x%08x",(unsigned int)(data_type)e->Data.unsigned_integer);
   TraceEOL();
 
   TraceFunctionExit(__func__);
@@ -811,7 +803,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
  * @param si slice index of slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_solve(dhtElement const *hue,
                                                 slice_index si)
 {
   stip_length_type const length = SLICE_U(si).branch.length;
@@ -821,7 +813,7 @@ static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
   hash_value_type success_neg;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",hue);
+  TraceFunctionParam("%p",(void const *)hue);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -845,14 +837,14 @@ static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
  * @param si slice index of help slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_help(dhtElement const *hue,
                                               slice_index si)
 {
   unsigned int const parity = slice_properties[si].u.h.parity;
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",hue);
+  TraceFunctionParam("%p",(void const *)hue);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -872,14 +864,14 @@ static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
  * @param si slice index
  * @return value of contribuation of the slice to *he's value
  */
-static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
+static hash_value_type value_of_data_from_slice(dhtElement const *hue,
                                                 slice_index si)
 {
   hash_value_type result;
   unsigned int const offset = slice_properties[si].valueOffset;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",hue);
+  TraceFunctionParam("%p",(void const *)hue);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -915,13 +907,13 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
  * @param he address of hash table element to determine value of
  * @return value of *he
  */
-static hash_value_type value_of_data(hashElement_union_t const *hue)
+static hash_value_type value_of_data(dhtElement const *hue)
 {
   hash_value_type result = 0;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",hue);
+  TraceFunctionParam("%p",(void const *)hue);
   TraceFunctionParamListEnd();
 
   for (i = 0; i<nr_hash_slices; ++i)
@@ -982,27 +974,21 @@ static void compresshash (void)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-    {
-      hashElement_union_t hue;
-      hue.d = *he;
-      printf("%u\n",value_of_data(&hue));
-    }
+      printf("%u\n",value_of_data(he));
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
     {
-      hashElement_union_t hue;
-      hue.d = *he;
-      if (value_of_data(&hue)<minimalElementValueAfterCompression)
+      if (value_of_data(he)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
         ++nrElementsRemovedInCompression;
         ++nrElementsRemovedInAllCompressions;
 #endif  /* TESTHASH */
 
-        dhtRemoveElement(pyhash, hue.d.Key);
+        dhtRemoveElement(pyhash, he->Key);
 
 #if defined(TESTHASH)
         if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
@@ -1340,7 +1326,8 @@ static byte *CommonEncode(byte *bp,
 
   if (min_length>slack_length+1)
   {
-    assert(validity_value<=(1<<2*CHAR_BIT));
+    assert((((validity_value>>(CHAR_BIT-1))>>(CHAR_BIT-1))>>2)<2); /* Equivalent to assert(validity_value<=(1<<2*CHAR_BIT) but we don't have to worry about the shift overflowing.
+                                                                      TODO: Is this the right assertion?  validity_value == 0x10000 would pass. */
     *bp++ = (byte)(validity_value);
     *bp++ = (byte)(validity_value>>CHAR_BIT);
   }
@@ -1348,6 +1335,7 @@ static byte *CommonEncode(byte *bp,
   {
     unsigned int i;
 
+    assert((en_passant_top[nbply]-en_passant_top[nbply-1])<=MAX_EN_PASSANT_TOP_DIFFERENCE);
     for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
       *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
   }
@@ -1373,6 +1361,16 @@ static byte *CommonEncode(byte *bp,
   {
     memcpy(bp, &fuddled, sizeof fuddled);
     bp += sizeof fuddled;
+  }
+
+  if (CondFlag[mainlyinchess])
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    PieceIdType id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+
+    memcpy(bp, &id, sizeof id);
+    bp += sizeof id;
   }
 
   TraceFunctionExit(__func__);
@@ -1416,7 +1414,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   byte *bp = position+nr_rows_on_board;
 
   /* clear the bits for storing the position of pieces */
-  memset(position, 0, nr_rows_on_board);
+  memset(position, 0, nr_rows_on_board * sizeof *position);
 
   {
     boolean even = false;
@@ -1463,8 +1461,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
+  hb->cmv.Leng = (bp - hb->cmv.Data);
 }
 
 static unsigned int TellCommonEncodePosLeng(unsigned int len,
@@ -1625,7 +1623,7 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionParamListEnd();
 
   /* clear the bits for storing the position of pieces */
-  memset(position,0,nr_rows_on_board);
+  memset(position,0,nr_rows_on_board * sizeof *position);
 
   for (row=0; row<nr_rows_on_board; row++, a_square+= onerow)
   {
@@ -1660,8 +1658,8 @@ static void LargeEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
+  hb->cmv.Leng = (bp - hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1706,8 +1704,8 @@ static void SmallEncode(stip_length_type min_length,
   /* Now the rest of the party */
   bp = CommonEncode(bp,min_length,validity_value);
 
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
+  assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
+  hb->cmv.Leng = (bp - hb->cmv.Data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1717,7 +1715,7 @@ static void SmallEncode(stip_length_type min_length,
  * element's data field with null values
  * @param he address of hash table element
  */
-static void init_elements(hashElement_union_t *hue)
+static void init_elements(dhtElement *hue)
 {
   unsigned int i;
 
@@ -1762,9 +1760,9 @@ static unsigned long allocCounter = 0;
  * @param hb has value (basis for calculation of key)
  * @return address of element
  */
-static dhtElement *allocDHTelement(dhtConstValue hb)
+static dhtElement *allocDHTelement(dhtKey hb)
 {
-  dhtElement *result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+  dhtElement *result = dhtEnterElement(pyhash,hb,template_element.Data);
   while (result==dhtNilElement)
   {
     unsigned long const nrKeysBeforeCompression = dhtKeyCount(pyhash);
@@ -1781,11 +1779,11 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
         fprintf(stderr, "\nOUT OF SPACE: Unable to create hash table in %s in %s -- aborting.\n", __func__, __FILE__);
         exit(2); /* TODO: Do we have to exit here? */
       }
-      result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
       break;
     }
     else
-      result = dhtEnterElement(pyhash,hb,template_element.d.Data);
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
   }
 
 #if defined(FXF)
@@ -1888,7 +1886,8 @@ static boolean is_proofgame(slice_index si)
 boolean is_hashtable_allocated(void)
 {
 #if defined(FXF)
-  return fxfInitialised();
+  return !!fxfInitialised(); /* !! just in case fxfInitialised returns a nonzero value other than 1
+                                and boolean is some type that won't automatically convert it to 1. */
 #else
   return hashtable_kilos>0;
 #endif
@@ -1915,7 +1914,7 @@ static void inithash(slice_index si)
 
   init_slice_properties(si);
 
-  template_element.d.Data = 0;
+  template_element.Data.unsigned_integer = 0;
   init_elements(&template_element);
 
   is_table_uncompressed = true;     /* V3.60  TLi */
@@ -1990,7 +1989,7 @@ static void inithash(slice_index si)
       if (hashtable_kilos>0 && hash_max_kilo_storable_positions==ULONG_MAX)
         hash_max_kilo_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
 #endif
-      }
+    }
   }
 
 #if defined(FXF)
@@ -2316,7 +2315,7 @@ static void addtohash_battle_nosuccess(slice_index si,
                                        stip_length_type n,
                                        stip_length_type min_length_adjusted)
 {
-  HashBuffer const * const hb = &hashBuffers[nbply];
+  dhtKey hb;
   hash_value_type const val = (n+1-min_length_adjusted)/2;
   dhtElement *he;
 
@@ -2325,18 +2324,16 @@ static void addtohash_battle_nosuccess(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  hb.value.object_pointer = &hashBuffers[nbply].cmv;
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
-    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_attack_nosuccess(hue,si,val);
+    he = allocDHTelement(hb);
+    set_value_attack_nosuccess(he,si,val);
   }
   else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_attack_nosuccess(hue,si)<val)
-      set_value_attack_nosuccess(hue,si,val);
-  }
+    if (get_value_attack_nosuccess(he,si)<val)
+      set_value_attack_nosuccess(he,si,val);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2356,7 +2353,7 @@ static void addtohash_battle_success(slice_index si,
                                      stip_length_type n,
                                      stip_length_type min_length_adjusted)
 {
-  HashBuffer const * const hb = &hashBuffers[nbply];
+  dhtKey hb;
   hash_value_type const val = (n+1-min_length_adjusted)/2 - 1;
   dhtElement *he;
 
@@ -2365,19 +2362,16 @@ static void addtohash_battle_success(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  hb.value.object_pointer = &hashBuffers[nbply].cmv;
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
-    hashElement_union_t * const
-        hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_attack_success(hue,si,val);
+    he = allocDHTelement(hb);
+    set_value_attack_success(he,si,val);
   }
   else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_attack_success(hue,si)>val)
-      set_value_attack_success(hue,si,val);
-  }
+    if (get_value_attack_success(he,si)>val)
+      set_value_attack_success(he,si,val);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2431,6 +2425,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
 void attack_hashed_tester_solve(slice_index si)
 {
   dhtElement const *he;
+  dhtKey k;
   slice_index const base = SLICE_U(si).derived_pipe.base;
   stip_length_type const min_length = SLICE_U(base).branch.min_length;
   stip_length_type const played = SLICE_U(base).branch.length-solve_nr_remaining;
@@ -2448,23 +2443,23 @@ void attack_hashed_tester_solve(slice_index si)
 
   (*encode)(min_length,validity_value);
 
-  he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
+  k.value.object_pointer = &hashBuffers[nbply].cmv;
+  he = dhtLookupElement(pyhash,k);
   if (he==dhtNilElement)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else
   {
-    hashElement_union_t const * const hue = (hashElement_union_t const *)he;
     stip_length_type const parity = (solve_nr_remaining-min_length_adjusted)%2;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
-    hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,base);
+    hash_value_type const val_nosuccess = get_value_attack_nosuccess(he,base);
     stip_length_type const n_nosuccess = 2*val_nosuccess + min_length_adjusted-parity;
     if (n_nosuccess>=MOVE_HAS_SOLVED_LENGTH())
       solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
     else
     {
-      hash_value_type const val_success = get_value_attack_success(hue,base);
+      hash_value_type const val_success = get_value_attack_success(he,base);
       stip_length_type const n_success = 2*val_success + min_length_adjusted+2-parity;
       if (n_success<=MOVE_HAS_SOLVED_LENGTH())
         solve_result = n_success;
@@ -2489,20 +2484,21 @@ void attack_hashed_tester_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static hashElement_union_t *find_or_add_help_elmt(HashBuffer const *hb)
+static dhtElement *find_or_add_help_elmt(HashBuffer const *hb)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hb);
   TraceFunctionParamListEnd();
 
   {
-    dhtElement * const he = dhtLookupElement(pyhash,hb);
-    hashElement_union_t * const result = (hashElement_union_t *)(he==dhtNilElement
-                                                                 ? allocDHTelement(hb)
-                                                                 : he);
-
+    dhtKey k;
+    dhtElement *result;
+    k.value.object_pointer = &hb->cmv;
+    result = dhtLookupElement(pyhash,k);
+    if (result==dhtNilElement)
+      result = allocDHTelement(k);
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",result);
+    TraceFunctionResult("%p",(void const *)result);
     TraceFunctionResultEnd();
     return result;
   }
@@ -2579,7 +2575,7 @@ static void addtohash_help_solved(slice_index si)
 #endif /*HASHRATE*/
 }
 
-static hashElement_union_t const *find_help_elmt_solved(HashBuffer *hb)
+static dhtElement const *find_help_elmt_solved(HashBuffer *hb)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hb);
@@ -2590,10 +2586,10 @@ static hashElement_union_t const *find_help_elmt_solved(HashBuffer *hb)
   hb->cmv.Data[hb->cmv.Leng-1] += (byte)2;
 
   {
-    dhtElement const * const he = dhtLookupElement(pyhash,hb);
-    hashElement_union_t const * const result = (he==dhtNilElement
-                                                ? 0
-                                                : (hashElement_union_t const *)he);
+    dhtKey k;
+    dhtElement const *result;
+    k.value.object_pointer = &hb->cmv;
+    result = dhtLookupElement(pyhash,k);
 
     hb->cmv.Data[hb->cmv.Leng-1] -= (byte)2;
 
@@ -2607,7 +2603,7 @@ static hashElement_union_t const *find_help_elmt_solved(HashBuffer *hb)
 static boolean is_position_known_to_be_solved(HashBuffer *hb, slice_index si)
 {
   boolean result;
-  hashElement_union_t const *hue_solved;
+  dhtElement const *hue_solved;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hb);
@@ -2660,20 +2656,19 @@ static void addtohash_help_not_solved(slice_index si)
 #endif /*HASHRATE*/
 }
 
-static hashElement_union_t const *find_help_elmt_not_solved(HashBuffer *hb)
+static dhtElement const *find_help_elmt_not_solved(HashBuffer *hb)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hb);
   TraceFunctionParamListEnd();
 
   {
-    dhtElement const *he = dhtLookupElement(pyhash,hb);
-    hashElement_union_t const * const result = (he==dhtNilElement
-                                                ? 0
-                                                : (hashElement_union_t const *)he);
-
+    dhtKey k;
+    dhtElement const *result;
+    k.value.object_pointer = &hb->cmv;
+    result = dhtLookupElement(pyhash,k);
     TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",result);
+    TraceFunctionResult("%p",(void const *)result);
     TraceFunctionResultEnd();
     return result;
   }
@@ -2682,7 +2677,7 @@ static hashElement_union_t const *find_help_elmt_not_solved(HashBuffer *hb)
 static boolean is_position_known_not_to_be_solved(HashBuffer *hb, slice_index si)
 {
   boolean result;
-  hashElement_union_t const *hue_not_solved;
+  dhtElement const *hue_not_solved;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hb);
@@ -2715,7 +2710,7 @@ static boolean is_position_known_not_to_be_solved(HashBuffer *hb, slice_index si
 static boolean inhash_help(slice_index si)
 {
   boolean result;
-  HashBuffer * const hb = &hashBuffers[nbply];
+  HashBuffer *hb;
   stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
   stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
@@ -2729,9 +2724,9 @@ static boolean inhash_help(slice_index si)
 
   /* Create a difference between odd and even numbers of moves.
    * A solution for h#n isn't necessarily a solution for h#n.5 */
-  assert(hb->cmv.Leng<UCHAR_MAX);
-  hb->cmv.Data[hashBuffers[nbply].cmv.Leng] = (byte)(min_length%2);
-  ++hb->cmv.Leng;
+  hb = &hashBuffers[nbply];
+  assert(hb->cmv.Leng<MAX_LENGTH_OF_ENCODING);
+  hb->cmv.Data[hb->cmv.Leng++] = (byte)(min_length%2);
 
   ifHASHRATE(use_all++);
 
@@ -2882,6 +2877,8 @@ void hash_opener_solve(slice_index si)
 /* Check assumptions made in the hashing module. Abort if one of them
  * isn't met.
  * This is called from checkGlobalAssumptions() once at program start.
+ * NOTE: Currently these are all compile-time checks, but we reserve
+ *       the right to add run-time checks in the future.
  */
 void check_hash_assumptions(void)
 {

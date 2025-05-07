@@ -21,7 +21,7 @@ extern boolean protean_is_rex_inclusive;
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void protean_pawn_adjuster_solve(slice_index si);
+void protean_walk_adjuster_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */

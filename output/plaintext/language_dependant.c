@@ -981,7 +981,14 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "TransfertPouvoir",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "Antigardes",
+    /*230*/ "Francfort",
+    /*231*/ "Anda",
+    /*232*/ "AndaInverse",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess",
+    /*235*/ "MainlyInChess"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1212,7 +1219,14 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "KraftTransfer",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiDeckungen",
+    /*230*/ "FrankfurtSchach",
+    /*231*/ "Anda",
+    /*232*/ "AndaInvers",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess",
+    /*235*/ "MainlyInChess"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1443,7 +1457,14 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*225*/ "FuddledMen",
     /*226*/ "TransmissionMenace",
     /*227*/ "PowerTransfer",
-    /*228*/ "MultiCaptures"
+    /*228*/ "MultiCaptures",
+    /*229*/ "AntiGuards",
+    /*230*/ "FrankfurtChess",
+    /*231*/ "Anda",
+    /*232*/ "AndaInverse",
+    /*233*/ "HalfInChess",
+    /*234*/ "AllInChess",
+    /*235*/ "MainlyInChess"
   }
 };
 
@@ -1514,7 +1535,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrouille",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda",
+    "AndaInverse"
   },
   {
     /* German */
@@ -1533,7 +1556,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrouille",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda",
+    "AndaInvers"
   },
   {
     /* English */
@@ -1552,7 +1577,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Patrol",
     "Frischauf",
     "Bul",
-    "Dob"
+    "Dob",
+    "Anda",
+    "AndaInverse"
   }
 };
 
@@ -2024,6 +2051,22 @@ static char const * const CASTVariantTypeString[LanguageCount][CASTVariantCount]
   }
 };
 
+char const * const *TakeMakeVariantTypeTab;
+
+static char const * const TakeMakeVariantTypeString[LanguageCount][TakeMakeVariantCount] =
+{
+  {
+    /* French */
+    "Absolu"
+  },{
+    /* German */
+    "Absolut"
+  },{
+    /* English */
+    "Absolute"
+  }
+};
+
 void output_plaintext_select_language(Language lang)
 {
   ProblemTokenTab = &ProblemTokenString[lang][0];
@@ -2046,6 +2089,7 @@ void output_plaintext_select_language(Language lang)
   mummer_strictness_tab = &mummer_strictness_string[lang][0];
   BretonVariantTypeTab = &BretonVariantTypeString[lang][0];
   CASTVariantTypeTab = &CASTVariantTypeString[lang][0];
+  TakeMakeVariantTypeTab = &TakeMakeVariantTypeString[lang][0];
   PieceTab= PieNamString[lang];
   PieSpTab= PieSpString[lang];
   ColourTab= ColourString[lang];

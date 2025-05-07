@@ -197,6 +197,15 @@ typedef enum
 
 extern char const * const *CASTVariantTypeTab;
 
+typedef enum
+{
+  TakeMakeAbsolute,
+
+  TakeMakeVariantCount
+} TakeMakeVariantType;
+
+extern char const * const *TakeMakeVariantTypeTab;
+
 void output_plaintext_select_language(Language lang);
 
 /* Make sure that we don't define ambiguous piece name shortcuts */

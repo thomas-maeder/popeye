@@ -130,6 +130,7 @@ static void adjust(void)
     for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
       if (move_effect_journal[curr].type==move_effect_piece_movement
           && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
+              || move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement_all_in_chess
               || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement
               || move_effect_journal[curr].reason==move_effect_reason_castling_partner
               || move_effect_journal[curr].reason==move_effect_reason_series_capture))

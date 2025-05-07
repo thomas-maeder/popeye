@@ -90,7 +90,7 @@ static slice_index const circe_slice_rank_order[] =
     STGenevaStopCaptureFromRebirthSquare,
     STAnticirceCheylanFilter,
     STAnticirceRemoveCapturer,
-    STMarscirceRemoveCapturer,
+    STMarscirceRemoveReborn,
     STCirceTestRebirthSquareEmpty,
     STCirceRebirthOnNonEmptySquare,
     STSupercircePreventRebirthOnNonEmptySquare,

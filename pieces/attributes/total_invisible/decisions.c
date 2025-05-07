@@ -1,5 +1,6 @@
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/consumption.h"
+#include "pieces/attributes/total_invisible/revelations.h"
 #include "solving/ply.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
@@ -94,7 +95,7 @@ static char const *basename(char const *path)
 
 static void report_endline(char const *file, unsigned int line)
 {
-  printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u)"
+  printf(" (K:%u+%u x:%u+%u !:%u+%u ?:%u+%u F:%u+%u TOT:%u+%u %u)"
          , (unsigned int) static_consumption.king[White]
          , (unsigned int) static_consumption.king[Black]
          , static_consumption.pawn_victims[White]
@@ -105,6 +106,9 @@ static void report_endline(char const *file, unsigned int line)
          , current_consumption.placed[Black]
          , current_consumption.fleshed_out[White]
          , current_consumption.fleshed_out[Black]
+         , nr_total_invisbles_consumed_for_side(White)
+         , nr_total_invisbles_consumed_for_side(Black)
+         , total_invisible_number
          );
   printf(" - %u: r:%u t:%u m:%u n:%u p:%u i:%lu",
          decision_top-1,
@@ -138,7 +142,7 @@ void initialise_decision_context_impl(char const *file, unsigned int line, char 
   printf(" - D:%lu",record_decision_counter);
   printf(" - %lu",record_decision_counter-prev_record_decision_counter);
   ++record_decision_counter;
-  move_numbers_write_history(top_ply_of_regular_play+1);
+  move_numbers_write_history();
   fflush(stdout);
   prev_record_decision_counter = record_decision_counter;
 #endif
@@ -174,12 +178,12 @@ static void TraceBacktracking(void)
   TraceEOL();
 }
 
-static decision_level_type push_decision_common(char const *file, unsigned int line)
+static decision_level_type push_decision_common(char const *file, unsigned int line, ply ply)
 {
   assert(decision_top<decision_level_dir_capacity);
   ++decision_top;
 
-  decision_level_properties[decision_top].ply = nbply;
+  decision_level_properties[decision_top].ply = ply;
   decision_level_properties[decision_top].relevance = relevance_unknown;
 
   backtracking[decision_top].max_level = decision_level_latest;
@@ -201,21 +205,21 @@ static decision_level_type push_decision_common(char const *file, unsigned int l
   return decision_top;
 }
 
-void push_decision_random_move_impl(char const *file, unsigned int line, decision_purpose_type purpose)
+void push_decision_random_move_impl(char const *file, unsigned int line, ply ply, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
   printf("%c %u TI~-~",purpose_symbol[purpose],nbply);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_random_move;
   decision_level_properties[decision_top].purpose = purpose;
-  decision_level_properties[decision_top].side = trait[nbply];
+  decision_level_properties[decision_top].side = trait[ply];
 }
 
-void push_decision_departure_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_departure_impl(char const *file, unsigned int line, ply ply, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -226,7 +230,7 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
   printf(" %lu",id);
 #endif
 
-  decision_levels[id].from = push_decision_common(file,line);
+  decision_levels[id].from = push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_departure;
   decision_level_properties[decision_top].purpose = purpose;
@@ -241,10 +245,10 @@ void push_decision_departure_impl(char const *file, unsigned int line, PieceIdTy
     decision_level_properties[decision_top].side = decision_level_properties[decision_top-1].side;
   }
   else
-    decision_level_properties[decision_top].side = trait[nbply];
+    decision_level_properties[decision_top].side = trait[ply];
 }
 
-void push_decision_move_vector_impl(char const *file, unsigned int line, PieceIdType id, int direction, decision_purpose_type purpose)
+void push_decision_move_vector_impl(char const *file, unsigned int line, ply ply, PieceIdType id, int direction, decision_purpose_type purpose)
 {
   #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -253,7 +257,7 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_move_vector;
   decision_level_properties[decision_top].purpose = purpose;
@@ -268,10 +272,10 @@ void push_decision_move_vector_impl(char const *file, unsigned int line, PieceId
     decision_level_properties[decision_top].side = decision_level_properties[decision_top-1].side;
   }
   else
-    decision_level_properties[decision_top].side = trait[nbply];
+    decision_level_properties[decision_top].side = trait[ply];
 }
 
-void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_arrival_impl(char const *file, unsigned int line, ply ply, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -282,7 +286,7 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   assert(purpose==decision_purpose_random_mover_forward
          || purpose==decision_purpose_random_mover_backward);
@@ -290,12 +294,12 @@ void push_decision_arrival_impl(char const *file, unsigned int line, PieceIdType
   decision_level_properties[decision_top].object = decision_object_arrival;
   decision_level_properties[decision_top].purpose = purpose;
   decision_level_properties[decision_top].id = id;
-  decision_level_properties[decision_top].side = trait[nbply];
+  decision_level_properties[decision_top].side = trait[ply];
 
   decision_levels[id].to = decision_top;
 }
 
-void push_decision_placement_impl(char const *file, unsigned int line, PieceIdType id, square pos, decision_purpose_type purpose)
+void push_decision_placement_impl(char const *file, unsigned int line, ply ply, PieceIdType id, square pos, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -306,7 +310,7 @@ void push_decision_placement_impl(char const *file, unsigned int line, PieceIdTy
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   assert(purpose==decision_purpose_illegal_check_interceptor);
 
@@ -318,7 +322,7 @@ void push_decision_placement_impl(char const *file, unsigned int line, PieceIdTy
   decision_levels[id].to = decision_top;
 }
 
-void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+void push_decision_side_impl(char const *file, unsigned int line, ply ply, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -326,12 +330,12 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   WriteSpec(&output_plaintext_engine,
             stdout,
             BIT(side),
-            initsquare,
+            Empty,
             true);
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_side;
   decision_level_properties[decision_top].purpose = purpose;
@@ -341,7 +345,7 @@ void push_decision_side_impl(char const *file, unsigned int line, PieceIdType id
   decision_levels[id].side = decision_top;
 }
 
-void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdType id, Side side, decision_purpose_type purpose)
+void push_decision_insertion_impl(char const *file, unsigned int line, ply ply, PieceIdType id, Side side, decision_purpose_type purpose)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -350,7 +354,7 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_insertion;
   decision_level_properties[decision_top].purpose = purpose;
@@ -361,6 +365,7 @@ void push_decision_insertion_impl(char const *file, unsigned int line, PieceIdTy
 }
 
 void push_decision_walk_impl(char const *file, unsigned int line,
+                             ply ply,
                              PieceIdType id,
                              piece_walk_type walk,
                              decision_purpose_type purpose,
@@ -375,7 +380,7 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_walk;
   decision_level_properties[decision_top].purpose = purpose;
@@ -385,7 +390,9 @@ void push_decision_walk_impl(char const *file, unsigned int line,
   decision_levels[id].walk = decision_top;
 }
 
-void push_decision_king_nomination_impl(char const *file, unsigned int line, PieceIdType id, square pos)
+void push_decision_king_nomination_impl(char const *file, unsigned int line,
+                                        ply ply,
+                                        PieceIdType id, square pos)
 {
 #if defined(REPORT_DECISIONS)
   printf("!%*s%u ",decision_top+1,">",decision_top+1);
@@ -403,7 +410,7 @@ void push_decision_king_nomination_impl(char const *file, unsigned int line, Pie
   printf(" %lu",id);
 #endif
 
-  push_decision_common(file,line);
+  push_decision_common(file,line,ply);
 
   decision_level_properties[decision_top].object = decision_object_king_nomination;
   decision_level_properties[decision_top].purpose = decision_purpose_king_nomination;
@@ -956,73 +963,63 @@ static boolean failure_to_intercept_illegal_checks_continue_level(decision_level
           if (decision_level_properties[curr_level].side
               ==backtracking[curr_level-1].side_failure)
           {
-            // TODO rather than calculating nbply-2, we should backtrack to the last random move of the side
-            if (decision_level_properties[curr_level].ply
-                <backtracking[curr_level-1].ply_failure-2)
-            {
-              TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
-              /* e.g.
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
+            /* e.g.
 
-  begin
-  author Michel Caillaud
-  origin Sake tourney 2018, 1st prize, corrected
-  pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
-  stipulation h#2
-  option movenum start 4:4:4:21
-  end
+begin
+author Michel Caillaud
+origin Sake tourney 2018, 1st prize, corrected
+pieces TotalInvisible 2 white kd1 qb2 black kf4 rh1 be1 pe4f5h3
+stipulation h#2
+option movenum start 4:4:4:21
+end
 
-             Michel Caillaud
-  Sake tourney 2018, 1st prize, corrected
+           Michel Caillaud
+Sake tourney 2018, 1st prize, corrected
 
-  +---a---b---c---d---e---f---g---h---+
-  |                                   |
-  8   .   .   .   .   .   .   .   .   8
-  |                                   |
-  7   .   .   .   .   .   .   .   .   7
-  |                                   |
-  6   .   .   .   .   .   .   .   .   6
-  |                                   |
-  5   .   .   .   .   .  -P   .   .   5
-  |                                   |
-  4   .   .   .   .  -P  -K   .   .   4
-  |                                   |
-  3   .   .   .   .   .   .   .  -P   3
-  |                                   |
-  2   .   Q   .   .   .   .   .   .   2
-  |                                   |
-  1   .   .   .   K  -B   .   .  -R   1
-  |                                   |
-  +---a---b---c---d---e---f---g---h---+
-    h#2                  2 + 6 + 2 TI
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   Q   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 6 + 2 TI
 
-  !validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
-  use option start 4:4:4:21 to replay
-  !  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
-  !   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
-  ...
-  !   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
-  !    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
-  !     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
-  !    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
-  !     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
-  !     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
-  !     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
-  !      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
-  !       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
+!validate_mate 6:Be1-g3 7:TI~-g3 8:Rh1-g1 9:Qb2-b8 - total_invisible.c:#521 - D:165 - 122
+use option start 4:4:4:21 to replay
+!  2 X 7 I (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#1154 - D:166
+!   3 X 7 P (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#517 - D:168
+...
+!   3 X 7 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#456 - D:184
+!    4 X 7 h5 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:186
+!     5 7 capturer would deliver uninterceptable check - capture_by_invisible.c:#56
+!    4 X 7 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - capture_by_invisible.c:#49 - D:188
+!     5 + 8 e1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:190
+!     5 + 8 f1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:192
+!     5 + 8 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+0) - intercept_illegal_checks.c:#171 - D:194
+!      6 + 8 w (K:0+0 x:0+0 !:0+0 ?:1+0 F:1+0) - intercept_illegal_checks.c:#107 - D:196
+!       7 10 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#644
 
-  Here! BTW: ply_skip-3 would be too strong
+Here! BTW: ply_skip-3 would be too strong
 
-  !   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
-  ...
-  !   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
-  ...
-               */
-            }
-            else
-            {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
-            }
+!   3 X 7 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:198
+...
+!   3 X 7 R (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - capture_by_invisible.c:#354 - D:218
+...
+             */
           }
           else
           {
@@ -1285,70 +1282,8 @@ WE HAVE TO TRY OTHER WALKS - E.G. BISHOP TO ALLOW BG6-F5 IN PLY 7
             }
             else
             {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
-              /* e.g.
-begin
-origin 1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
-pieces TotalInvisible 2 white ka5 rh1 bh8 black ka1 pa2
-stipulation h#1.5
-option movenum start 1:2
-end
-
-1...Rh1-c1   2..~-~ Bh8-c3 # is not a solution because a bTI can have done d4-b2
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   B   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   K   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2  -P   .   .   .   .   .   .   .   2
-|                                   |
-1  -K   .   .   .   .   .   .   R   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#1.5                3 + 2 + 2 TI
-
-!make_revelations 6:TI~-~ 7:TI~-h8 - revelations.c:#1430 - D:35 - 34
-use option start 1:2 to replay
-! >2 + 6 b2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#487 - D:37
-!  >3 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+0) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#450 - D:39
-!   >4 + 6 Q (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:7 - intercept_illegal_checks.c:#253 - D:41
-!    >5 + 6 b1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#487 - D:43
-...
-!    >5 + 6 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#487 - D:309
-!     >6 + 6 b (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#450 - D:311
-...
-!     >6 + 6 w (K:0+0 x:0+0 !:0+0 ?:0+0 F:0+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#450 - D:313
-!       7 6 pawn is placed on impossible square - intercept_illegal_checks.c:#292
-!      >7 + 6 S (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#253 - D:315
-...
-!      >7 + 6 B (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - intercept_illegal_checks.c:#253 - D:331
-!       >8 > 6 g1 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#544 - D:333
-!        >9 > 6 f2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#25 - D:335
-...
-!        >9 > 6 h2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:8 - random_move_by_invisible.c:#25 - D:359
-!         >10 x 7 b2 (K:0+0 x:0+0 !:0+0 ?:0+0 F:1+1) - r:1 t:0 m:4294967295 i:6 - capture_by_invisible.c:#800 - D:361
-!           11 8 not enough available invisibles for intercepting all illegal checks - intercept_illegal_checks.c:#619
-!         <10 - r:1 t:3 m:10
-!        <9 - r:1 t:3 m:10
-!       <8 - r:1 t:3 m:10
-!      <7 - r:1 t:3 m:10
-!     <6 - r:1 t:3 m:10
-!    <5 - r:1 t:3 m:10
-!   <4 - r:1 t:3 m:10
-
-HERE - no need to try other walks on b2
-             */
+              TraceText("try harder - an interceptor with a different walk may help us out\n");
+              /* e.g. 1...TI~-~   2.Qh1-h3 Ke1-f1   3.Qh3-f5 Sa1-c2   4.Qf5-f4[f3=bK][g2=bR] TI~*g2[g2=wQ] # */
             }
           }
           break;
@@ -1370,7 +1305,12 @@ HERE - no need to try other walks on b2
                 >backtracking[curr_level-1].ply_failure)
             {
               TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
+              /* skip = true;
+               * pieces white ke1 bd5 black qd2 total 3
+               * stip h#3.5
+               * option movenum start 5:17:14:24:1:2:2 upto 5:17:14:24:1:2:2
+               *
+               */
             }
             else
             {
@@ -1508,8 +1448,14 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           }
           else
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            TraceText("try harder - a future decision may select an arrival square from where the check can be intercepted\n");
+            /* pieces white ke1 qd5 black be3 totalinvisible 3
+               stipulation h#3
+               would produce the fake solution
+               1.Be3-d4 [+wRh1]0-0[f1=wR]   2.TI~-~ TI~-~   3.Bd4-e5 TI~*e5[e5=wR][e3=bK] #
+               because 2.-Qf2-e3 3.-Qe5: with bK anywhere wouldn't be found
+               (iteration would stop after 2.-Qf2-g2)
+             */
           }
           break;
 
@@ -1531,8 +1477,17 @@ HERE! bS delivers check from f3, but B and (more importantly) R don't
           }
           else
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            TraceText("try harder - a future decision may select a walk that allows us to eventually intercept the check\n");
+            /*
+              begin
+              pieces white ke1 ba7 black qa8 total 3
+              stip h#2.5
+              option movenum start 16:6:1:6:3 upto 16:6:1:6:3
+              end
+              The solution:
+              1...Ba7-b8   2.Qa8-e4 TI~-~   3.Qe4-h1 0-0-0[e2=wR][g1=bK] #
+              wouldn't be found if we stopped the iteration here.
+             */
           }
           break;
 
@@ -1592,7 +1547,7 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
 
   backtracking[decision_top].type = backtrack_failure_to_intercept_illegal_checks;
   backtracking[decision_top].nr_check_vectors = nr_check_vectors;
-  backtracking[decision_top].ply_failure = nbply;
+  backtracking[decision_top].ply_failure = nbply+1;
   backtracking[decision_top].side_failure = side_in_check;
   backtracking[decision_top].max_level = decision_level_latest;
 
@@ -1604,27 +1559,36 @@ void backtrack_from_failure_to_intercept_illegal_check(Side side_in_check,
       && decision_level_properties[decision_top].object==decision_object_arrival)
   {
     if (nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
-      /* the situation is hopeless */
+    {
+      TraceValue("the situation is hopeless:%u\n",__LINE__);
       decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    }
 
     if (backtracking[decision_top-1].type==backtrack_failure_to_intercept_illegal_checks
         && (nr_check_vectors>backtracking[decision_top-1].nr_check_vectors)
-        && decision_level_properties[decision_top+1].ply+1==nbply)
-      /* moving the currently moving pieces makes the situation worse */
+        && decision_level_properties[decision_top+1].ply==nbply)
+    {
+      TraceValue("moving the currently moving pieces makes the situation worse:%u\n",__LINE__);
       decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    }
   }
 
   if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
       && decision_level_properties[decision_top].object==decision_object_departure
       && nr_check_vectors>nr_placeable_invisibles_for_both_sides()+1)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+  {
+    //TraceValue("??:%u\n",__LINE__);
+    //decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    //  1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ TI~*g5   4.TI~*h3[g5=wQ][h3=bK] Rf1-f3 #
+    //Warum denn g5=wQ - das kann auch ein Bauer oder Springer sein
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_check,
-                                                               unsigned int nr_check_vectors)
+void deadend_by_failure_to_capture_uninterceptable_checker(Side side_in_check,
+                                                           unsigned int nr_check_vectors)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check);
@@ -1642,13 +1606,20 @@ void backtrack_from_failure_to_capture_uninterceptable_checker(Side side_in_chec
   try_to_avoid_insertion[White] = false;
 
   if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_forward
-      /* restrict this to fleshed out random moves */
       && decision_level_properties[decision_top].object==decision_object_arrival)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+  {
+    //TraceValue("restrict this to fleshed out random moves:%u\n",__LINE__);
+    //decision_level_properties[decision_top].relevance = relevance_irrelevant;
+    //  1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK]   3.Ba5-e1 Rd1-d2   4.Kf2-g1 TI~*e1 #
+    // Mit sKf3/g2 und wSb4 geht 2.K*f2 Sb4-c2 4.-Sc2*e1 und kein Matt
+  }
 
-  if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
-      && decision_level_properties[decision_top].object==decision_object_departure)
-    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+//  if (decision_level_properties[decision_top].purpose==decision_purpose_random_mover_backward
+//      && decision_level_properties[decision_top].object==decision_object_departure)
+//    decision_level_properties[decision_top].relevance = relevance_irrelevant;
+// otherwise we find
+//  1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*a4   4.TI~*f1[a4=wQ][f1=bK] Qa4-d1 #
+// in white ke1 rf1 black pb5 totalinv 3 h#3.5
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1707,7 +1678,8 @@ static boolean failure_to_capture_by_invisible_continue_level(decision_level_typ
 
         default:
           TraceValue("skip on line:%u\n",__LINE__);
-          skip = true;
+//          skip = true;
+          /* e.g. 1...[+wRa1]0-0-0[d1=wR]   2.Sg3-h1 Sc2-e1   3.TI~-~ Rd1-d2   4.TI~*e1 TI~*h1[e1=bK] # */
           break;
       }
       break;
@@ -2177,8 +2149,8 @@ HERE
   return skip;
 }
 
-/* Optimise backtracking considering that we have
- * reached a position where we won't able to execute the planned capture by an invisble
+/* Optimize backtracking considering that we have
+ * reached a position where we won't able to execute the planned capture by an invisible
  * in the subsequent move because
  * - no existing invisible of the relevant side can reach the capture square
  * - no invisible of the relevant side can be inserted
@@ -2229,7 +2201,6 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
   switch (decision_level_properties[curr_level].purpose)
   {
     case decision_purpose_random_mover_backward:
-    case decision_purpose_invisible_capturer_inserted:
     case decision_purpose_invisible_capturer_existing:
       assert(decision_level_properties[curr_level].side!=no_side);
       switch (decision_level_properties[curr_level].object)
@@ -2258,6 +2229,50 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              * - by moving away to allow a pawn to sacrifice itself
              */
           }
+          break;
+
+        default:
+          skip = true;
+          break;
+      }
+      break;
+
+    case decision_purpose_invisible_capturer_inserted:
+      assert(decision_level_properties[curr_level].side!=no_side);
+      switch (decision_level_properties[curr_level].object)
+      {
+        case decision_object_walk:
+          if (decision_level_properties[curr_level].ply
+              <backtracking[curr_level-1].ply_failure)
+          {
+            /* depending on the walk, this piece may eventually sacrifice itself
+             * to allow the capture by pawn
+             */
+          }
+          else
+            skip = true;
+          break;
+
+        case decision_object_move_vector:
+          /* begin
+             pieces total 4 white ke1 black kg4 pf4h3 neutral qh1 pg2
+             stipulation h#2.5
+             option movenum start 3:26:17:1 upto 3:26:17:40
+             end'
+             without this, we'd erroneously reveal a wSh3 after
+             1...TI~*h3 2.Kg4-h5 [+bTIf3]nPg2*f3
+             because we'd fail to try 1...Rh2*h3
+           * */
+          skip = false;
+          /* TODO
+           * can we restrict this depending on
+           * decision_level_properties[curr_level].ply and
+           * backtracking[curr_level-1].ply_failure?
+           */
+          break;
+
+        case decision_object_departure:
+          skip = false;
           break;
 
         default:
@@ -2416,25 +2431,43 @@ boolean can_decision_level_be_continued(void)
   TraceValue("%u",decision_top);
   TraceValue("%u",backtracking[decision_top].type);
   TraceValue("%u",backtracking[decision_top].max_level);
+  TraceValue("%u",backtracking[decision_top].result);
   TraceValue("%u",decision_level_properties[decision_top+1].relevance);
   TraceEOL();
 
-  if (backtracking[decision_top].result==previous_move_has_not_solved)
+  if (play_phase==play_detecting_revelations && nr_potential_revelations==0)
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
     result = false;
+  }
+  else if (backtracking[decision_top].result==previous_move_has_not_solved)
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
+    result = false;
+  }
   else if (decision_level_properties[decision_top+1].relevance==relevance_relevant)
+  {
+    TraceValue("continue on line:%u\n",__LINE__);
     result = true;
+  }
   else if (decision_level_properties[decision_top+1].relevance==relevance_irrelevant)
-    result = false;
+  {
+    TraceValue("skip on line:%u\n",__LINE__);
+    result = true;
+    /* e.g. 1...[+wRa1]0-0-0[d1=wR]   2.TI~*g1 TI~-~[g1=bK]   3.Kg1-g2 TI~-~   4.Kg2-h1[f1=wS???] Sf1-e3 # */
+  }
   else
     switch (backtracking[decision_top].type)
     {
       case backtrack_none:
         assert(backtracking[decision_top].max_level==decision_level_latest);
+        TraceValue("continue on line:%u\n",__LINE__);
         result = true;
         break;
 
       case backtrack_until_level:
         assert(backtracking[decision_top].max_level<decision_level_latest);
+        TraceValue("decide on line:%u\n",__LINE__);
         result = decision_top<backtracking[decision_top].max_level;
         break;
 
@@ -2442,7 +2475,12 @@ boolean can_decision_level_be_continued(void)
         assert(backtracking[decision_top].max_level<decision_level_latest);
         result = decision_top<backtracking[decision_top].max_level;
         if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
+        {
+          TraceValue("skip on line:%u\n",__LINE__);
           result = false;
+        }
+        else
+          result = true;
         break;
 
       case backtrack_failure_to_intercept_illegal_checks:

@@ -70,6 +70,7 @@
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
@@ -109,6 +110,7 @@
 #include "conditions/take_and_make.h"
 #include "conditions/make_and_take.h"
 #include "conditions/superguards.h"
+#include "conditions/antiguards.h"
 #include "conditions/central.h"
 #include "conditions/beamten.h"
 #include "conditions/eiffel.h"
@@ -133,6 +135,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/transmissionmenace.h"
 #include "conditions/powertransfer.h"
+#include "conditions/all_in_chess.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -177,6 +180,7 @@
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/bul.h"
+#include "pieces/attributes/anda.h"
 #include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
@@ -364,6 +368,11 @@ void build_solvers1(slice_index si)
   if (CondFlag[masand])
     solving_insert_masand(si);
 
+  if (TSTFLAG(some_pieces_flags,Anda))
+    solving_insert_anda(si);
+  if (TSTFLAG(some_pieces_flags,AndaInverse))
+    solving_insert_anda_inverse(si);
+
   if (CondFlag[influencer])
     solving_insert_influencer(si);
 
@@ -394,6 +403,13 @@ void build_solvers1(slice_index si)
     if (TSTFLAG(some_pieces_flags,Kamikaze))
       circe_kamikaze_initialise_solving(si);
   }
+
+  if (CondFlag[halfinchess])
+    solving_instrument_half_in_chess(si);
+  if (CondFlag[allinchess])
+    solving_instrument_all_in_chess(si);
+  if (CondFlag[mainlyinchess])
+    solving_instrument_mainly_in_chess(si);
 
   if (CondFlag[sentinelles])
     solving_insert_sentinelles_inserters(si);
@@ -447,6 +463,21 @@ void build_solvers1(slice_index si)
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     solving_insert_protean_chess(si);
 
+  if (CondFlag[frankfurt])
+    solving_insert_frankfurt_chess(si);
+
+  if (CondFlag[phantom])
+    solving_initialise_phantom(si);
+  else if (CondFlag[plus])
+    solving_initialise_plus(si);
+  else
+  {
+    if (CondFlag[antimars])
+      solving_initialise_antimars(si);
+    if (CondFlag[mars])
+      solving_initialise_marscirce(si);
+  }
+
   solving_initialise_castling(si);
 
   if (CondFlag[extinction])
@@ -494,26 +525,6 @@ void build_solvers1(slice_index si)
     solving_insert_degradierung(si);
 
   en_passant_initialise_solving(si);
-
-  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
-  {
-    move_generator_instrument_for_alternative_paths(si,nr_sides);
-
-    stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-    move_effect_journal_register_pre_capture_effect();
-  }
-
-  if (CondFlag[phantom])
-    solving_initialise_phantom(si);
-  else if (CondFlag[plus])
-    solving_initialise_plus(si);
-  else
-  {
-    if (CondFlag[antimars])
-      solving_initialise_antimars(si);
-    if (CondFlag[mars])
-      solving_initialise_marscirce(si);
-  }
 
   if (CondFlag[cast])
   {
@@ -637,6 +648,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[superguards])
     superguards_initialise_solving(si);
+
+  if (CondFlag[antiguards])
+    antiguards_initialise_solving(si);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     solving_insert_edgemover(si);

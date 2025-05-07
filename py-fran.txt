@@ -272,6 +272,14 @@ simples:
         Bicaptures
         TransmissionMenace
 	TransfertPouvoir
+	Anda
+	AndaInverse
+	AllInChess
+	HalfInChess
+	MainlyInChess
+	Antigardes
+	Francfort
+	Leffie
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -479,6 +487,8 @@ simples:
 		ImmunEquipollents	Immun Equipollents
 
 	Apres Breton, Adverse or PY peuvent etre indiques.
+
+	Apres Take&Make, Absolu peut etre indique.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
@@ -977,6 +987,10 @@ suivante est un peu plus compliquee:
 	Magique
 	Imprenable
 	FrischAuf
+	Anda
+	AndaInverse
+	Bul
+	Dob
 
 	Suit la liste des pieces comme d'habitude: allure de la piece suivi par
 	une liste de cases ou une telle piece est placee. On peut toujours
@@ -1276,5 +1290,5 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   avec la cle CTRL-C.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green, Mu-Tsun Tsai
 

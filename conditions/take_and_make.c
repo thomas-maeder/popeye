@@ -13,6 +13,8 @@
 
 #include <string.h>
 
+boolean take_and_make_absolute;
+
 static boolean is_not_pawn_make_to_base_line(numecoup n)
 {
   square const sq_departure = move_generation_stack[n].departure;
@@ -216,9 +218,6 @@ void solving_insert_take_and_make(slice_index si)
 
   stip_structure_traversal_init(&st,&collecting_rebirth_squares);
 
-  stip_structure_traversal_override_single(&st,
-                                           STExecutingKingCapture,
-                                           &stip_structure_visitor_noop);
 
   if (CondFlag[normalp])
     stip_structure_traversal_override_single(&st,
@@ -230,7 +229,17 @@ void solving_insert_take_and_make(slice_index si)
                                              STDoneGeneratingMoves,
                                              &insert_make_generator_avoid_pawn_to_baseline);
 
+  if (!take_and_make_absolute)
+    stip_structure_traversal_override_single(&st,
+                                             STExecutingKingCapture,
+                                             &stip_structure_visitor_noop);
+
   stip_traverse_structure(si,&st);
+
+  if (take_and_make_absolute)
+    stip_instrument_check_validation(si,
+                                     nr_sides,
+                                     STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

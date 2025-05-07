@@ -1,0 +1,2017 @@
+Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.91 (1024 MB)
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   K   .  -K   6
+|                                   |
+5   .   .   .   Q   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                  2 + 2 + 1 TI
+
+
+  1.Kh6-h5 Qd5-g5 #
+
+  1.[+wTIg6]h7*g6 Qd5-h1 #
+
+solution finished. Time = 0.031 s
+
+
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   Q   .   .   .   .   .   .   .   3
+|                                   |
+2   P  -P   K   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                  3 + 2 + 1 TI
+
+  1.TI~-~ [+bTIb3]a2*b3 #
+
+
+
+
+
+  1.b2-b1=R [+bTIb3]a2*b3 #
+  1.[+wTIc1]b2*c1=S Qa3-b2 #
+
+solution finished. Time = 0.034 s
+
+
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K  -S   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 1 TI
+
+  1.Se7-f5 Qh1-a8   2.Sf5-d4 TI~*d4[d4=wB] #
+  1.Se7-c8 Qh1-h8   2.Sc8-a7 TI~*a7[a7=wR] #
+
+solution finished. Time = 1.106 s
+
+
+
+            Shinichi Soma
+Sake tourney 2018, announcement (solution that relies on retro not shown)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P  -S   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1  -B   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 4 + 1 TI
+
+
+  1.Kg3-h4 Ke1-f1   2.Kh4-g3 Rh1-h3 #
+
+solution finished. Time = 0.127 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st prize, b) cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   Q   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 6 + 3 TI
+
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8[g3=wR] #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8[g3=wR] #
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
+
+solution finished. Time = 3.730 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st prize, corrected in Phenix 299, Sept 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   Q  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 5 + 2 TI
+
+a) 
+
+  1.Be1-g3 TI~*g3   2.Rh1-g1 Qd4-d6[g3=wR] #
+
+b) 
+
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qd4-f6 #
+
+solution finished. Time = 3.477 s
+
+
+
+             Ofer Comay
+    Sake tourney 2018, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -R   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K  -P   .  -P  -P   5
+|                                   |
+4   .   .   .   .  -P   .  -Q  -P   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .  -P   .   .  -K   2
+|                                   |
+1   .   .   .  -S  -S  -R  -B  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                 1 + 15 + 3 TI
+
+a) 
+
+  1.Rf1-f5 TI~*g4   2.Rf8-d8[g4=wR] TI~*g1 #
+
+b) -bPg5  
+
+  1.Rf8-f2 TI~*f1   2.Qg4-g8[f1=wB] TI~*h3 #
+
+solution finished. Time = 9.373 s
+
+
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   K   .   3
+|                                   |
+2   .   .   P   P   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  8 + 3 + 2 TI
+
+a) 
+
+  1.TI~*g6 h5-h6   2.TI~*h6 TI~*d7[d7=wB] #
+  1.TI~*h5 Kg3-f3   2.TI~*g6 TI~*d7[d7=wB][g6=bQ] #
+
+b) wPg6-->d4  
+
+
+solution finished. Time = 1.349 s
+
+
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, correction
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   .   .   3
+|                                   |
+2   .   .   P   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 3 + 2 TI
+
+a) 
+
+  1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7[d7=wB][g6=bQ] #
+
+b) wPg6-->d4  
+
+
+solution finished. Time = 0.545 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .  -R  -B   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   P  -K   .   .   R   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .  -P  -Q   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  5 + 7 + 3 TI
+
+
+  1.Qe2-f3 Kg4-g5   2.Qf3-c6 TI~*c6[c6=wR] #
+  1.Qe2-b5 Kg4-g5   2.Bh8-f6 TI~*f6 #
+
+solution finished. Time = 43.683 s
+
+
+
+           Michel Caillaud
+  Sake tourney 2018, 2nd HM, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   S   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   P   P   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   R   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 2 + 2 TI
+
+  1.Qh1-a8 TI~*a8   2.TI~*g5[a8=wS] Sa8-b6 #
+  1.Qh1-a8 TI~*a8   2.TI~*f5[a8=wS] Sa8-b6 #
+  1.Qh1-a8 TI~*a8   2.Ka4-a5[a8=wS] Rd3-a3 #
+  1.Qh1-a8 [+bTIg3]f2*g3   2.Qa8-e4 TI~*e4 #
+  1.Qh1-e4 Kf6-e6   2.TI~*g5 TI~*e4 #
+  1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
+  1.Qh1-a1 [+bTIg3]f2*g3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe3]f2*e3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIg6]f5*g6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
+
+
+solution finished. Time = 4.712 s
+
+
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+  1.Ba1-c3 Qh8-f6   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.TI~-~ TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-c4 TI~*c4[c4=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-d3 TI~*d3[e3=bK][d3=wR] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-a1 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-b2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b1 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b3 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-a4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4*b7 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b6 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-d4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*c4[c4=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-f8   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-b2 Qh8-h5   2.Bb2-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e3 Qh8-c8   2.TI~*b7[b7=bB] TI~-~[e4=wS][c3=bK] #
+  1.TI~-~ Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e2 Qh8-f6   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e2 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e2 Qh8-f8   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Bf1-d3 TI~*a1   2.Re1-e2 TI~*d3[e3=bK][d3=wR] #
+  1.Bf1-c4 Qh8-h5   2.Ba1-c3 TI~*c4[c4=wS][e3=bK] #
+  1.Bf1-d3 Qh8-h5   2.Ba1-c3 TI~*d3[e3=bK][d3=wR] #
+  1.Rb4-b2 TI~*a1   2.Bf1-c4[c3=bK] TI~*b2[b2=wQ] #
+  1.Rb4-b1 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b2 Qh8-h5   2.TI~*h4 TI~*f1[h4=bR][e3=bK][f1=wS] #
+  1.Rb4*b7 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-d3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-a4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-b6 Ke5-e6   2.Bf1-b5[c6=bK] Qh8-c8 #
+
+
+
+
+
+
+
+
+
+
+
+  1.Rb4-b6 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-d4 Qh8-h5   2.TI~*b7 TI~*f1[b7=bR][e3=bK][f1=wS] #
+  1.Rb4-d4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[c4=wS][e3=bK] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[e3=bK][f1=wS] #
+
+solution finished. Time = 1:06.848 m:s
+
+
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, corrected
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -S   S  -B   7
+|                                   |
+6   .   .   .   .   .  -Q   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   P   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   P   2
+|                                   |
+1   .   .   .   Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 4 + 3 TI
+
+  1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] TI~-~[e7=bK][f5=wS] #
+  1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] TI~-~[g6=bK][e5=wS] #
+
+solution finished. Time = 54.039 s
+
+
+
+            Kjell Widlert
+      Sake tourney 2018, 4th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   B  -K   .   .   S   .   5
+|                                   |
+4   .   .   .   .   .   P   .   .   4
+|                                   |
+3   .   .   .   .   .  -Q   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 3 TI
+
+  1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
+  1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
+
+
+
+solution finished. Time = 4.523 s
+
+
+
+            Kjell Widlert
+      Sake tourney 2018, 5th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .  -K   .   B   .   Q   5
+|                                   |
+4   .   .   .   .  -Q   .   .   .   4
+|                                   |
+3   .   P   .   S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 4 TI
+
+a) 
+
+  1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
+
+b) wSb5-->d7  
+
+  1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
+
+solution finished. Time = 3.822 s
+
+
+
+Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+      Sake tourney 2018, 6th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   R   6
+|                                   |
+5   .   .   .   .  -P   .   B   .   5
+|                                   |
+4   .   .   .   .   .   P  -K   .   4
+|                                   |
+3   .  -B   .   .  -P   .   S   .   3
+|                                   |
+2   .   .   .   .   P   P   .   .   2
+|                                   |
+1   .   .   .  -R  -R   .  -B   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  8 + 7 + 5 TI
+
+a) 
+
+  1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
+
+b) bPe5-->h3  
+
+  1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
+
+solution finished. Time = 8.085 s
+
+
+
+      Vlaicu Crisan, Eric Huber
+Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   Q   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   K   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 1 + 2 TI
+
+a) 
+
+  1.Kg1-h2 TI~-~   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-g2 TI~-~   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.TI~-~ Qd3-h3   2.Kg1-h1 0-0-0 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1 0-0-0 #
+  1.TI~-~ Qd3-g3   2.TI~-~ 0-0-0 #
+  1.Kg1-h1 Qd3-h3   2.TI~-~ 0-0-0 #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1 0-0-0 #
+  1.TI~*f2 Qd3-g3   2.TI~-~ 0-0-0[g2=bR] #
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1 0-0-0 #
+
+b) bKg1-->g2  
+
+  1.TI~-~ TI~-~   2.Kg2-h3 Qd3-g3 #
+  1.TI~-~ 0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.Kg2-h1 Qd3-h3   2.TI~-~ 0-0-0 #
+  1.TI~-~ Qd3-h3   2.Kg2-h1 0-0-0 #
+
+solution finished. Time = 0.191 s
+
+
+
+  Ricardo Vieira / Menachem Witztum
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .  -B   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5  -P   P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  4 + 5 + 2 TI
+
+  1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4[a4=wS] #
+  1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4[a4=wS] #
+  1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3[e3=wB] #
+
+solution finished. Time = 1.236 s
+
+
+
+            Kjell Widlert
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   Q   3
+|                                   |
+2   .   .   K   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  4 + 3 + 2 TI
+
+a) 
+
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 Bb5-c6 #
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.[+wTIf2]e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
+  1.Ke4-f3 Qh3-e6   2.Kf3-e4 Bb5-c6 #
+  1.Ke4-f3 Qh3-g3   2.Kf3*e2 TI~*e3 #
+  1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.TI~-~ Bb5-c6   2.TI~*h3 TI~*h5[h5=wR] #
+  1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+
+b) wKc2-->g6  
+
+
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.Ke4-f3 Kg6-f5   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=B TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.Ke4-d3 TI~*h5   2.Kd3-e4 Qh3-f5 #
+  1.Ke4-d3 Bb5-c6   2.Kd3-e4 Qh3-f5 #
+
+solution finished. Time = 1.785 s
+
+
+
+    Kjell Widlert / Thomas Maeder
+       Sake tourney 2018, Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   R   .  -K   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 2 + 2 TI
+
+  1.TI~-~ TI~-~   2.TI~-~ TI~-~ #
+
+
+solution finished. Time = 1.587 s
+
+
+
+Michel Caillaud & Igor Vere\vs\vcagin
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7  -R  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   Q   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 2 TI
+
+  1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6[c6=wS] #
+  1.0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
+  1.0-0-0 Qh3-h7   2.Rd8-g8 TI~*g8[g8=wR] #
+
+solution finished. Time = 1.124 s
+
+
+
+Michael Caillaud (after Ken Kousaka)
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   Q   .   .   .   .   .   8
+|                                   |
+7   .  -Q   .   .   .   .  -P  -P   7
+|                                   |
+6   .   .   .  -R   .   .   .  -K   6
+|                                   |
+5  -P   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 8 + 3 TI
+
+  1.Be3-g5 Qc8-g8   2.Rd6-g6 TI~*h7 #
+  1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7 #
+  1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6[d6=wR] #
+  1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3[e3=wB] #
+
+solution finished. Time = 8.685 s
+
+
+
+             Eric Huber
+Julia's Fairies 2019 - 15.12.2019 - No. 1463
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .  =P   .   2
+|                                   |
+1   .   .   .   .   K   .   .  =Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                1 + 3 + 4 TI
+
+  1...0-0-0   2.nQh1-g1 nQg1-c5   3.[+wTIg3]f4*g3 Rd1-d4 #
+  1...0-0-0   2.[+wTIf1]nPg2*f1=nQ nQf1*f4   3.nQf4-e5 Rd1-d4 #
+  1...0-0-0   2.[+wTIg3]f4*g3 nQh1-g1   3.nQg1-c5 Rd1-d4 #
+  1...TI~*h3   2.[+wTIf1]nPg2*f1=nR nRf1-f3   3.[+wTIg3]f4*g3 TI~*g3[g3=wR] #
+  1...nQh1-g1   2.nQg1-c5 0-0-0   3.[+wTIg3]f4*g3 Rd1-d4 #
+  1...nQh1-g1   2.[+wTIg3]f4*g3 0-0-0   3.nQg1-c5 Rd1-d4 #
+
+solution finished. Time = 1:07.923 m:s
+
+
+
+            Thomas Maeder
+          Probleemblad 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   R   .   .   .   .   Q   7
+|                                   |
+6   .   .   .   .   .   .   R   .   6
+|                                   |
+5   .   .   B   .   P   .   .  -P   5
+|                                   |
+4   K   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .  -P   .   P   3
+|                                   |
+2   .   .   .   P   R   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                 10 + 3 + 3 TI
+
+a) 
+
+  1.TI~*c7 Rg6-g4   2.TI~*g4 Qh7-b1 #
+
+a) 
+
+
+b) wKa4-->h6  
+
+  1.TI~*c7 Rg6-g4   2.TI~*g4 Qh7-b1 #
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+b) wKa4-->h6  
+
+
+solution finished. Time = 36.404 s
+
+
+
+            Thomas Maeder
+-> Probleemblad 2020 (cooked earlier version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   Q   .   .   .   4
+|                                   |
+3   R   .  -K   .   .   .   .   R   3
+|                                   |
+2   .   S   .  -S   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 2 + 4 TI
+
+a) 
+
+  1.TI~*b2 Kh2-g3   2.TI~*b6[b6=bB] TI~*b6[b6=wR] #
+  1.TI~*g7 TI~-~   2.TI~*b2[b2=bS] Sb6-d5 #
+  1.TI~*b6 Bg7-e5   2.TI~*e5 Sb2-d1 #
+
+b) wKh2-->f8  
+
+  1.TI~*h3 TI~-~   2.TI~*b6 Sb2-d1 #
+  1.TI~*h3 TI~-~   2.TI~*b6 Sb2-a4 #
+  1.TI~*h3 TI~*d2   2.TI~*g7 Qe4-d4[d2=wR] #
+  1.TI~-~ TI~*d2   2.TI~*g7 Qe4-d4[d2=wR] #
+  1.TI~*g7 TI~-~   2.TI~*b2[b2=bS] Sb6-d5 #
+
+solution finished. Time = 2:56.694 m:s
+
+
+Popeye Linux-6.11.0-24-generic-x86_64-64Bit v4.91 (1024 MB)
+
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   K   .  -K   6
+|                                   |
+5   .   .   .   Q   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                  2 + 2 + 1 TI
+
+  1.Kh6-h5 Qd5-g5 #
+  1.[+wTIg6]h7*g6 Qd5-h1 #
+
+solution finished. Time = 0.021 s
+
+
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   Q   .   .   .   .   .   .   .   3
+|                                   |
+2   P  -P   K   .   .   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                  3 + 2 + 1 TI
+
+  1.TI~-~ [+bTIb3]a2*b3 #
+  1.b2-b1=R [+bTIb3]a2*b3 #
+  1.[+wTIc1]b2*c1=S Qa3-b2 #
+
+solution finished. Time = 0.020 s
+
+
+
+             Ken Kousaka
+   Sake tourney 2018, announcement
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  -K  -S   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 1 TI
+
+  1.Se7-f5 Qh1-a8   2.Sf5-d4 TI~*d4[d4=wB] #
+  1.Se7-c8 Qh1-h8   2.Sc8-a7 TI~*a7[a7=wR] #
+
+solution finished. Time = 0.476 s
+
+
+
+            Shinichi Soma
+Sake tourney 2018, announcement (solution that relies on retro not shown)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P  -S   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1  -B   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 4 + 1 TI
+
+  1.Kg3-h4 Ke1-f1   2.Kh4-g3 Rh1-h3 #
+
+solution finished. Time = 1.675 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st prize, b) cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   Q   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 6 + 3 TI
+
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=Q Qb2-b8[g3=wR] #
+  1.Be1-g3 TI~*g3   2.[+wTIg1]h2*g1=R Qb2-b8[g3=wR] #
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qb2-f6 #
+
+solution finished. Time = 9.036 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st prize, corrected in Phenix 299, Sept 2019
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   Q  -P  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K  -B   .   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 5 + 2 TI
+
+a) 
+
+  1.Be1-g3 TI~*g3   2.Rh1-g1 Qd4-d6[g3=wR] #
+
+b) 
+
+  1.Be1-f2 TI~*f2   2.[+wTIg4]f5*g4[f2=wB] Qd4-f6 #
+
+solution finished. Time = 11.001 s
+
+
+
+             Ofer Comay
+    Sake tourney 2018, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -R   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K  -P   .  -P  -P   5
+|                                   |
+4   .   .   .   .  -P   .  -Q  -P   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .  -P   .   .  -K   2
+|                                   |
+1   .   .   .  -S  -S  -R  -B  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                 1 + 15 + 3 TI
+
+a) 
+
+  1.Rf1-f5 TI~*g4   2.Rf8-d8[g4=wR] TI~*g1 #
+
+b) -bPg5  
+
+  1.Rf8-f2 TI~*f1   2.Qg4-g8[f1=wB] TI~*h3 #
+
+solution finished. Time = 41.273 s
+
+
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   K   .   3
+|                                   |
+2   .   .   P   P   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  8 + 3 + 2 TI
+
+a) 
+
+  1.TI~*g6 h5-h6   2.TI~*h6 TI~*d7[d7=wB] #
+  1.TI~*h5 Kg3-f3   2.TI~*g6 TI~*d7[d7=wB][g6=bQ] #
+
+b) wPg6-->d4  
+
+  1.TI~*d4 Kg3-h4   2.TI~*d2 TI~*d7[d7=wB] #
+  1.TI~*d4 Kg3-f4   2.TI~*d2 TI~*c3[c3=wS][d2=bR] #
+
+solution finished. Time = 8.981 s
+
+
+
+          Manfred Rittirsch
+Sake tourney 2018, 3rd prize, correction
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   B   .   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   S  -P   .   .   .   .   .   3
+|                                   |
+2   .   .   P   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 3 + 2 TI
+
+a) 
+
+  1.TI~*h5 Kf1-e2   2.TI~*g6 TI~*d7[d7=wB][g6=bQ] #
+
+b) wPg6-->d4  
+
+  1.TI~*d2 Kf1-f2   2.TI~*d4 TI~*c3[d4=bR][c3=wS] #
+
+solution finished. Time = 6.170 s
+
+
+
+           Michel Caillaud
+Sake tourney 2018, 1st HM, cooked (author's solution relies on retro and is not shown)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .  -R  -B   8
+|                                   |
+7   .   .   .  -B   .   .   .   .   7
+|                                   |
+6   .   .   .   P  -K   .   .   R   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .  -P  -Q   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  5 + 7 + 3 TI
+
+  1.Qe2-f3 Kg4-g5   2.Qf3-c6 TI~*c6[c6=wR] #
+  1.Qe2-b5 Kg4-g5   2.Bh8-f6 TI~*f6 #
+  1.Ke6-f6 TI~-~   2.Rg8-g6 TI~*g6[g6=wR][f5=wB] #
+  1.Ke6-f6 Ba2-d5   2.TI~-~ TI~-~[g7=bS][f5=wB] #
+  1.Ke6-f6 Ba2-c4   2.TI~-~ TI~-~[g7=bS][f5=wB] #
+  1.Ke6-f6 Ba2-b3   2.TI~-~ TI~-~[g7=bS][f5=wB] #
+  1.Rg8-g6 TI~*g6   2.Ke6-f7[g6=wR] TI~-~[f5=wR] #
+  1.Rg8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
+  1.Rg8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
+  1.Bh8-g7 Ba2-c4   2.Ke6-f7 TI~-~[f5=wR] #
+  1.Bh8-g7 Ba2-b3   2.Ke6-f7 TI~-~[f5=wR] #
+
+solution finished. Time = 1:55.924 m:s
+
+
+
+           Michel Caillaud
+  Sake tourney 2018, 2nd HM, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   S   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   P   P   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   R   .   .   .   .   3
+|                                   |
+2   .   .   .   B   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 2 + 2 TI
+
+  1.Qh1-a8 TI~*a8   2.TI~*g5[a8=wS] Sa8-b6 #
+  1.Qh1-a8 TI~*a8   2.TI~*f5[a8=wS] Sa8-b6 #
+  1.Qh1-a8 TI~*a8   2.Ka4-a5[a8=wS] Rd3-a3 #
+  1.Qh1-a8 [+bTIg3]f2*g3   2.Qa8-e4 TI~*e4 #
+  1.Qh1-e4 Kf6-e6   2.TI~*g5 TI~*e4 #
+  1.Qh1-a1 [+bTIg3]f2*g3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe3]f2*e3   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIg6]f5*g6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIe6]f5*e6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-a1 [+bTIh6]g5*h6   2.Qa1-a2 TI~*a2 #
+  1.Qh1-b1 [+bTIe3]f2*e3   2.Qb1-d1 TI~*d1 #
+
+solution finished. Time = 12.247 s
+
+
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, cooked (and 1 author's solution doesn't deliver mate)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .  -R   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   .  -S   .   .   2
+|                                   |
+1  -B   .   B   .  -R  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 5 + 3 TI
+
+  1.TI~-~ Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-f6   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.TI~-~ TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-c4 TI~*c4[c4=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Bf1-d3 TI~*d3[e3=bK][d3=wR] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-a1 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Bc3-b2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b1 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b3 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-a4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4*b7 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-b6 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-d4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*c4[c4=wS][e3=bK] #
+  1.Ba1-c3 Qh8-h5   2.Rb4-c4 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-c3 Qh8-f8   2.Re1-e2 TI~*f1[e3=bK][f1=wS] #
+  1.Ba1-b2 Qh8-h5   2.Bb2-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e3 Qh8-c8   2.TI~*b7[b7=bB] TI~-~[e4=wS][c3=bK] #
+  1.Re1-e2 Qh8-f6   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e2 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Re1-e2 Qh8-f8   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Bf1-c4 Qh8-h5   2.Ba1-c3 TI~*c4[c4=wS][e3=bK] #
+  1.Bf1-d3 TI~*a1   2.Re1-e2 TI~*d3[e3=bK][d3=wR] #
+  1.Bf1-d3 Qh8-h5   2.Ba1-c3 TI~*d3[e3=bK][d3=wR] #
+  1.Rb4-b1 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b2 TI~*a1   2.Bf1-c4[c3=bK] TI~*b2[b2=wQ] #
+  1.Rb4-b2 Qh8-h5   2.TI~*h4 TI~*f1[h4=bR][e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-d3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b3 Qh8-h5   2.Rb3-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-a4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4*b7 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-b6 Ke5-e6   2.Bf1-b5[c6=bK] Qh8-c8 #
+  1.Rb4-b6 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Re1-e2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=Q[c3=bK] #
+  1.Rb4-e4 TI~*e4   2.Bf1-g2 [+bTIc8]b7*c8=R[c3=bK] #
+  1.Rb4-d4 Qh8-h5   2.TI~*b7 TI~*f1[b7=bR][e3=bK][f1=wS] #
+  1.Rb4-d4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*c4[c4=wS][e3=bK] #
+  1.Rb4-c4 Qh8-h5   2.Ba1-c3 TI~*f1[e3=bK][f1=wS] #
+  1.Rb4-c4 Qh8-h5   2.Rc4-c3 TI~*f1[e3=bK][f1=wS] #
+
+solution finished. Time = 3:21.259 m:s
+
+
+
+             Ofer Comay
+Sake tourney 2018, 3rd HM, corrected
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -S   S  -B   7
+|                                   |
+6   .   .   .   .   .  -Q   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   P   .   .   3
+|                                   |
+2   .   .   .   B   .   .   .   P   2
+|                                   |
+1   .   .   .   Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 4 + 3 TI
+
+  1.Bh7-g6 Bd2-b4   2.TI~*a5[a5=bR] TI~-~[e7=bK][f5=wS] #
+  1.Re8-e6 Qd1-g1   2.TI~*h2[h2=bB] TI~-~[g6=bK][e5=wS] #
+
+solution finished. Time = 2:58.626 m:s
+
+
+
+            Kjell Widlert
+      Sake tourney 2018, 4th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   B  -K   .   .   S   .   5
+|                                   |
+4   .   .   .   .   .   P   .   .   4
+|                                   |
+3   .   .   .   .   .  -Q   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 3 TI
+
+  1.Qf3-h5 Rc8-d8   2.Qh5-f7 Rd8-d6 #
+  1.Qf3-h3 Rc1-d1   2.Qh3-f5 Rd1-d4 #
+
+solution finished. Time = 8.072 s
+
+
+
+            Kjell Widlert
+      Sake tourney 2018, 5th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .  -K   .   B   .   Q   5
+|                                   |
+4   .   .   .   .  -Q   .   .   .   4
+|                                   |
+3   .   P   .   S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  6 + 2 + 4 TI
+
+a) 
+
+  1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
+
+b) wSb5-->d7  
+
+  1.Qe4-b4 Qh5-d1   2.Qb4-e1 Sd3-b4 #
+
+solution finished. Time = 14.458 s
+
+
+
+Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
+      Sake tourney 2018, 6th HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   R   6
+|                                   |
+5   .   .   .   .  -P   .   B   .   5
+|                                   |
+4   .   .   .   .   .   P  -K   .   4
+|                                   |
+3   .  -B   .   .  -P   .   S   .   3
+|                                   |
+2   .   .   .   .   P   P   .   .   2
+|                                   |
+1   .   .   .  -R  -R   .  -B   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  8 + 7 + 5 TI
+
+a) 
+
+  1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
+
+b) bPe5-->h3  
+
+  1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
+
+solution finished. Time = 33.246 s
+
+
+
+      Vlaicu Crisan, Eric Huber
+Sake tourney 2018, 7th HM, cooked. Missing solutions because of missing Popeye feature
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   Q   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   P   .   .   2
+|                                   |
+1   .   .   .   .   K   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 1 + 2 TI
+
+a) 
+
+  1.TI~-~ Qd3-h3   2.Kg1-h1 0-0-0 #
+  1.TI~-~ Qd3-g3   2.TI~-~ 0-0-0 #
+  1.TI~*f2 Qd3-g3   2.TI~-~ 0-0-0[g2=bR] #
+  1.Kg1-h2 TI~-~   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+  1.Kg1-h2 Qd3-g3   2.Kh2-g1 0-0-0 #
+  1.Kg1-g2 TI~-~   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.Kg1-g2 Qd3-h3   2.Kg2-h1 0-0-0 #
+  1.Kg1-h1 Qd3-h3   2.TI~-~ 0-0-0 #
+  1.Kg1-h1 Qd3-g3   2.Kh1-g1 0-0-0 #
+
+b) bKg1-->g2  
+
+  1.TI~-~ TI~-~   2.Kg2-h3 Qd3-g3 #
+  1.TI~-~ 0-0-0   2.Kg2-h3 Qd3-g3 #
+  1.TI~-~ Qd3-h3   2.Kg2-h1 0-0-0 #
+  1.Kg2-h1 Qd3-h3   2.TI~-~ 0-0-0 #
+  1.Kg2-h3 TI~-~   2.TI~-~ Qd3-g3 #
+  1.Kg2-h3 0-0-0   2.TI~-~ Qd3-g3 #
+  1.Kg2-h3 0-0-0   2.Kh3-g2 Qd3-g3 #
+  1.Kg2-h3 0-0-0   2.Kh3-h2 Qd3-g3 #
+  1.Kg2-g1 Qd3-h3   2.Kg1-h1 0-0-0 #
+  1.Kg2-h2 TI~-~   2.Kh2-h3 Qd3-g3 #
+  1.Kg2-h2 0-0-0   2.Kh2-h3 Qd3-g3 #
+
+solution finished. Time = 0.588 s
+
+
+
+  Ricardo Vieira / Menachem Witztum
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   K   .   .   .  -B   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -K   .   .   .   .   .   .   6
+|                                   |
+5  -P   P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  4 + 5 + 2 TI
+
+  1.Bf8-c5 TI~*c5   2.TI~*d2 TI~*a4[a4=wS] #
+  1.Bf8-c5 TI~*c5   2.[+wTIf2]e3*f2 TI~*a4[a4=wS] #
+  1.Bf8-h6 TI~*h6   2.[+wTIb3]a4*b3 TI~*e3[e3=wB] #
+
+solution finished. Time = 1.258 s
+
+
+
+            Kjell Widlert
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   Q   3
+|                                   |
+2   .   .   K   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  4 + 3 + 2 TI
+
+a) 
+
+  1.TI~-~ Bb5-c6   2.TI~*h3 TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Kc2-d2   2.Ke4-f3 Bb5-c6 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Kc2-d3   2.[+wTIf2]e3*f2 Bb5-c6 #
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Qh3-e6   2.Kf3-e4 Bb5-c6 #
+  1.Ke4-f3 Qh3-g3   2.Kf3*e2 TI~*e3 #
+  1.Ke4-f3 Qh3-g3   2.Kf3*e2 Bb5-d3 #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5[h5=wR] #
+
+b) wKc2-->g6  
+
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-c3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIg1]f2*g1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=Q Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=S Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=R Bb5-c6 #
+  1.[+wTIf2]e3*f2 Qh3-g3   2.[+wTIe1]f2*e1=B Bb5-c6 #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=Q TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=S TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=R TI~*h5[h5=wR] #
+  1.[+wTIf2]e3*f2 Bb5-c6   2.f2-f1=B TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-c3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=Q Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=R Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIe1]d2*e1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=S Bb5-c6 #
+  1.[+wTId2]e3*d2 Qh3-g3   2.[+wTIc1]d2*c1=B Bb5-c6 #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=S TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.d2-d1=B TI~*h5[h5=wR] #
+  1.[+wTId2]e3*d2 Bb5-c6   2.Ke4-e3 Qh3-f3 #
+  1.Ke4-d3 TI~*h5   2.Kd3-e4 Qh3-f5 #
+  1.Ke4-d3 Bb5-c6   2.Kd3-e4 Qh3-f5 #
+  1.Ke4-f3 Se2-c3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+  1.Ke4-f3 Kg6-f5   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
+
+solution finished. Time = 3.421 s
+
+
+
+    Kjell Widlert / Thomas Maeder
+       Sake tourney 2018, Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   R   .  -K   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  3 + 2 + 2 TI
+
+  1.TI~-~ TI~-~   2.TI~-~ TI~-~ #
+
+solution finished. Time = 0.635 s
+
+
+
+Michel Caillaud & Igor Vere\vs\vcagin
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7  -R  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   Q   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 3 + 2 TI
+
+  1.[+wTIc6]b7*c6 Qh3-c8   2.Ra7-f7 TI~*c6[c6=wS] #
+  1.0-0-0 Qh3-d7   2.Kc8-b8 Qd7*d8 #
+  1.0-0-0 Qh3-h7   2.Rd8-g8 TI~*g8[g8=wR] #
+
+solution finished. Time = 2.482 s
+
+
+
+Michael Caillaud (after Ken Kousaka)
+   Sake tourney 2018, Comm, cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   Q   .   .   .   .   .   8
+|                                   |
+7   .  -Q   .   .   .   .  -P  -P   7
+|                                   |
+6   .   .   .  -R   .   .   .  -K   6
+|                                   |
+5  -P   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  2 + 8 + 3 TI
+
+  1.Be3-g5 Qc8-g8   2.Rd6-g6 TI~*h7 #
+  1.Rd6-g6 Qc8-g8   2.Be3-g5 TI~*h7 #
+  1.Qb7-f3 Qc8-c1   2.Be3-c5 TI~*d6[d6=wR] #
+  1.Qb7-e7 Qc8-a6   2.Rd6-d3 TI~*e3[e3=wB] #
+
+solution finished. Time = 14.055 s
+
+
+
+             Eric Huber
+Julia's Fairies 2019 - 15.12.2019 - No. 1463
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P  -K   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .  =P   .   2
+|                                   |
+1   .   .   .   .   K   .   .  =Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                1 + 3 + 4 TI
+
+  1...TI~*h3   2.[+wTIf1]nPg2*f1=nR nRf1-f3   3.[+wTIg3]f4*g3 TI~*g3[g3=wR] #
+  1...0-0-0   2.nQh1-g1 nQg1-c5   3.[+wTIg3]f4*g3 Rd1-d4 #
+  1...0-0-0   2.[+wTIf1]nPg2*f1=nQ nQf1*f4   3.nQf4-e5 Rd1-d4 #
+  1...0-0-0   2.[+wTIg3]f4*g3 nQh1-g1   3.nQg1-c5 Rd1-d4 #
+  1...nQh1-g1   2.nQg1-c5 0-0-0   3.[+wTIg3]f4*g3 Rd1-d4 #
+  1...nQh1-g1   2.[+wTIg3]f4*g3 0-0-0   3.nQg1-c5 Rd1-d4 #
+
+solution finished. Time = 1:46.381 m:s
+
+
+
+            Thomas Maeder
+          Probleemblad 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   R   .   .   .   .   Q   7
+|                                   |
+6   .   .   .   .   .   .   R   .   6
+|                                   |
+5   .   .   B   .   P   .   .  -P   5
+|                                   |
+4   K   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .  -P   .   P   3
+|                                   |
+2   .   .   .   P   R   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                 10 + 3 + 3 TI
+
+a) 
+
+  1.TI~*c7 Rg6-g4   2.TI~*g4 Qh7-b1 #
+
+b) wKa4-->h6  
+
+  1.TI~*h7 Bc5-e3   2.TI~*e3 Rc7-c1 #
+
+solution finished. Time = 2:39.922 m:s
+
+
+
+            Thomas Maeder
+-> Probleemblad 2020 (cooked earlier version)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   B   .   7
+|                                   |
+6   .   S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   Q   .   .   .   4
+|                                   |
+3   R   .  -K   .   .   .   .   R   3
+|                                   |
+2   .   S   .  -S   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                  7 + 2 + 4 TI
+
+a) 
+
+  1.TI~*g7 TI~-~   2.TI~*b2[b2=bS] Sb6-d5 #
+  1.TI~*b6 Bg7-e5   2.TI~*e5 Sb2-d1 #
+  1.TI~*b2 Kh2-g3   2.TI~*b6[b6=bB] TI~*b6[b6=wR] #
+
+b) wKh2-->f8  
+
+  1.TI~-~ TI~*d2   2.TI~*g7 Qe4-d4[d2=wR] #
+  1.TI~*g7 TI~-~   2.TI~*b2[b2=bS] Sb6-d5 #
+  1.TI~*h3 TI~-~   2.TI~*b6 Sb2-d1 #
+  1.TI~*h3 TI~-~   2.TI~*b6 Sb2-a4 #
+  1.TI~*h3 TI~*d2   2.TI~*g7 Qe4-d4[d2=wR] #
+  1.TI~*b2 Rh3-f3   2.TI~*f3 Sb6-d5 #
+
+solution finished. Time = 5:00.300 m:s
+
+

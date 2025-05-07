@@ -4,13 +4,15 @@
  *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
- * comment with the above copyright notice is keept intact
+ * comment with the above copyright notice is kept intact
  * and in place.
  */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
 
+#include "debugging/assert.h"
 #include "dhtvalue.h"
 #include "dhtcmem.h"
 #include "dht.h"
@@ -22,13 +24,21 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
+enum {
+  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof NilCompactMemVal->Data[0])
+};
+
+static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
-  uLong leng= ((CompactMemVal const *)m)->Leng;
-  uChar const *s= ((CompactMemVal const *)m)->Data;
+  CompactMemVal const * const toBeConverted = (CompactMemVal const *)m.value.object_pointer;
+  uLong leng;
+  uChar const *s;
+  assert(!!toBeConverted);
+  leng= toBeConverted->Leng;
+  s= toBeConverted->Data;
   dhtHashValue hash= 0;
   uLong i;
-  for (i=0; i<leng; i++) {
+  for (i=0; i<leng; ++i) {
     hash+= s[i];
     hash+= hash << 10;
     hash^= hash >> 6;
@@ -39,39 +49,90 @@ static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
   return hash;
 }
 
-static int EqualCompactMemoryValue(dhtConstValue v1, dhtConstValue v2)
+static int EqualCompactMemoryValue(dhtKey v1, dhtKey v2)
 {
-  if (((CompactMemVal const *)v1)->Leng != ((CompactMemVal const *)v2)->Leng)
+  CompactMemVal const * const value1 = (CompactMemVal const *)v1.value.object_pointer;
+  CompactMemVal const * const value2 = (CompactMemVal const *)v2.value.object_pointer;
+  uLong length;
+  unsigned char const *data1;
+  unsigned char const *data2;
+  assert(value1 && value2);
+  length = value1->Leng;
+  if (length != value2->Leng)
     return 0;
-  if (memcmp(((CompactMemVal const *)v1)->Data,
-             ((CompactMemVal const *)v2)->Data, ((CompactMemVal const *)v1)->Leng))
-    return 0;
-  else
-    return 1;
-}
-
-static dhtConstValue DupCompactMemoryValue(dhtConstValue v)
-{
-  CompactMemVal *cm= NewCompactMemVal(((CompactMemVal const *)v)->Leng);
-  if (cm) {
-    cm->Leng= ((CompactMemVal const *)v)->Leng;
-    memcpy(cm->Data, ((CompactMemVal const *)v)->Data, cm->Leng);
-    return (dhtValue)cm;
+  data1 = value1->Data;
+  data2 = value2->Data;
+  while (length > ((size_t)-1))
+  {
+    if (memcmp(data1, data2, ((size_t)-1)))
+      return 0;
+    data1 += ((size_t)-1);
+    data2 += ((size_t)-1);
+    length -= ((size_t)-1);
   }
-  return (dhtValue)cm;
+  return !memcmp(data1, data2, length);
 }
 
-static void FreeCompactMemoryValue(dhtValue v)
+static int DupCompactMemoryValue(dhtValue kv, dhtValue *output)
 {
-  FreeCompactMemVal(v);
+  CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
+  size_t size = sizeof *v;
+  CompactMemVal *result;
+  uLong length;
+
+  assert(!!output);
+  if (!v)
+  {
+    output->object_pointer = NilCompactMemVal;
+    return 0;
+  }
+
+  length = v->Leng;
+  if (length > num_bytes_in_Data)
+  {
+    if (length > (((size_t)-1) - size + num_bytes_in_Data))
+      return 1;
+    size += (length - num_bytes_in_Data);
+  }
+
+  result = DHTVALUE_ALLOC(size, CompactMemVal);
+  if (result)
+  {
+    result->Leng = length;
+    memcpy(result->Data,v->Data,length);
+    output->object_pointer = result;
+    return 0;
+  }
+
+  return 1;
 }
 
-static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
+static void FreeCompactMemoryValue(dhtValue kv)
 {
+  CompactMemVal *v = (CompactMemVal *)kv.object_pointer;
+  size_t const num_bytes_in_Data = ((sizeof *v) - offsetof(CompactMemVal, Data));
+  if (v)
+  {
+    size_t size = sizeof *v;
+    uLong length = v->Leng;
+    if (length > num_bytes_in_Data)
+    {
+      assert(length <= (((size_t)-1) - size + num_bytes_in_Data));
+      size += (length - num_bytes_in_Data);
+    }
+    DHTVALUE_FREE(v,size);
+  }
+}
+
+static void DumpCompactMemoryValue(dhtValue kv, FILE *f)
+{
+  CompactMemVal const *v = (CompactMemVal const *)kv.object_pointer;
   uLong i;
-  fprintf(f, "(%lu)", ((CompactMemVal const *)v)->Leng);
-  for (i=0; i<((CompactMemVal const *)v)->Leng; i++)
-    fprintf(f, "%02x", ((CompactMemVal const *)v)->Data[i] & 0xff);
+  assert(v && f);
+  fprintf(f, "(%lu)", v->Leng);
+  for (i=0; i<v->Leng; i++)
+    fprintf(f, "%02x", (v->Data[i] & 0xffU));
 }
 
 dhtValueProcedures dhtCompactMemoryProcs = {

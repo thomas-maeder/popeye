@@ -39,7 +39,9 @@ enum
 
   /* how many steps can a straight rider maximally make and still
    * remain on the board? */
-  max_nr_straight_rider_steps = 7
+  max_nr_straight_rider_steps = (((nr_files_on_board > nr_rows_on_board) ?
+                                  nr_files_on_board :
+                                  nr_rows_on_board) - 1)
 };
 
 /* Symbols for geometric calculations */

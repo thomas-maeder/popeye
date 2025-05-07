@@ -69,6 +69,7 @@ void fuddled_men_bookkeeper_solve(slice_index si)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_moving_piece_movement:
+          case move_effect_reason_moving_piece_movement_all_in_chess:
           case move_effect_reason_castling_king_movement:
           case move_effect_reason_castling_partner:
           {

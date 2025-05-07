@@ -320,6 +320,19 @@ static void initialise_piece_flags(void)
     SETFLAG(all_royals_flags,Beamtet);
   }
 
+  if (CondFlag[anda])
+  {
+    SETFLAG(some_pieces_flags,Anda);
+    SETFLAG(all_pieces_flags,Anda);
+  }
+  if (CondFlag[andainverse])
+  {
+    SETFLAG(some_pieces_flags,AndaInverse);
+    SETFLAG(all_pieces_flags,AndaInverse);
+  }
+  if (TSTFLAG(some_pieces_flags,Anda) || TSTFLAG(some_pieces_flags,AndaInverse))
+    some_pieces_flags |= NeutralMask;
+
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
     SETFLAG(some_pieces_flags,Uncapturable);
 
@@ -1295,6 +1308,9 @@ void verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
+  if (CondFlag[frankfurt])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if ((circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super
        || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
@@ -1499,6 +1515,8 @@ void verify_position(slice_index si)
   change_moving_piece=
       TSTFLAG(some_pieces_flags, Kamikaze)
       || TSTFLAG(some_pieces_flags, Protean)
+      || TSTFLAG(some_pieces_flags,Anda)
+      || TSTFLAG(some_pieces_flags,AndaInverse)
       || CondFlag[tibet]
       || CondFlag[andernach]
       || CondFlag[antiandernach]
@@ -1527,6 +1545,12 @@ void verify_position(slice_index si)
 
   if (CondFlag[bicaptures])
     king_capture_avoiders_avoid_own();
+
+  if (CondFlag[halfinchess] || CondFlag[allinchess] || CondFlag[mainlyinchess])
+  {
+    king_capture_avoiders_avoid_own();
+    disable_orthodox_mating_move_optimisation(nr_sides);
+  }
 
   if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
@@ -1571,7 +1595,8 @@ void verify_position(slice_index si)
       || CondFlag[lesemajeste])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[superguards])
+  if (CondFlag[superguards]
+      || CondFlag[antiguards])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   pieces_pawns_init_promotees();
@@ -2048,6 +2073,22 @@ void verify_position(slice_index si)
         return;
       }
     }
+  }
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (TSTFLAG(being_solved.spec[*bnp],Anda) && TSTFLAG(being_solved.spec[*bnp],AndaInverse))
+      {
+        output_plaintext_message(NonsenseCombination);
+        return;
+      }
+  }
+
+  if (CondFlag[halfinchess]+CondFlag[allinchess]+CondFlag[mainlyinchess]>1)
+  {
+    output_plaintext_message(NonsenseCombination);
+    return;
   }
 
   pipe_solve_delegate(si);

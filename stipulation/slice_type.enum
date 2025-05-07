@@ -193,6 +193,15 @@
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
+    ENUMERATOR(STHalfInChessMoveGenerator),                              \
+    ENUMERATOR(STHalfInChessKingMoveGenerator),                          \
+    ENUMERATOR(STHalfInChessNonKingMoveGenerator),                       \
+    ENUMERATOR(STHalfInChessMoveMarker),                                 \
+    ENUMERATOR(STAllInChessMoveGenerator),                               \
+    ENUMERATOR(STAllInChessKingMoveGenerator),                           \
+    ENUMERATOR(STAllInChessNonKingMoveGenerator),                        \
+    ENUMERATOR(STAllInChessUndoMoveAvoider),                             \
+    ENUMERATOR(STMainlyInChessSameMoverAvoider),                         \
     ENUMERATOR(STSkipMoveGeneration), /* prevent generation of move generators */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STCastlingRightsAdjuster),                                \
@@ -277,6 +286,7 @@
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
     ENUMERATOR(STShieldedKingsRemoveIllegalCaptures),                   \
     ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \
+    ENUMERATOR(STAntiguardsRemoveIllegalCaptures),                      \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \
@@ -363,6 +373,7 @@
     ENUMERATOR(STBul), \
     ENUMERATOR(STBulPlyCatchup), \
     ENUMERATOR(STBulPlyRewinder), \
+    ENUMERATOR(STBulMovementGeneratorFork),                           \
     ENUMERATOR(STOscillatingKingsTypeA), \
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \
@@ -412,6 +423,8 @@
     ENUMERATOR(STAttackTarget),                                         \
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
+    ENUMERATOR(STAndaRecolorer),                                        \
+    ENUMERATOR(STAndaInverseRecolorer),                                 \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMasandGeneralisedRecolorer),                           \
@@ -488,7 +501,7 @@
     ENUMERATOR(STGenevaInitialiseRebornFromCapturer),                   \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
-    ENUMERATOR(STMarscirceRemoveCapturer),                              \
+    ENUMERATOR(STMarscirceRemoveReborn),                                \
     ENUMERATOR(STSeriesCapturePlyRewinder),                             \
     ENUMERATOR(STSeriesCaptureRecursionLanding),                        \
     ENUMERATOR(STBeforeSeriesCapture),                                  \
@@ -518,7 +531,8 @@
     ENUMERATOR(STLostPiecesRemover),                                    \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \
     ENUMERATOR(STNorskArrivingAdjuster),                                \
-    ENUMERATOR(STProteanPawnAdjuster),                                  \
+    ENUMERATOR(STProteanWalkAdjuster),                                  \
+    ENUMERATOR(STFrankfurtWalkAdjuster),                                \
     ENUMERATOR(STEinsteinArrivingAdjuster),                             \
     ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
     ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \
@@ -557,6 +571,7 @@
     ENUMERATOR(STBoleroGenerateMovesWalkByWalk),                        \
     ENUMERATOR(STBoleroInverseEnforceObserverWalk),                     \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare),                         \
+    ENUMERATOR(STAntiMarsCirceMoveCastlingPartnerToRebirthSquare),      \
     ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive),            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves),                           \
     ENUMERATOR(STPhantomKingSquareObservationTesterPlyInitialiser),     \
@@ -571,6 +586,9 @@
     ENUMERATOR(STMarsCirceGenerateFromRebirthSquare),                   \
     ENUMERATOR(STMoveGeneratorRejectCaptures),                          \
     ENUMERATOR(STMoveGeneratorRejectNoncaptures),                       \
+    ENUMERATOR(STAntiMarsCirceRejectNullMoves),                         \
+    ENUMERATOR(STAntiMarsCirceSecondRebirthForCastling),                \
+    ENUMERATOR(STAntiMarsCirceOnlyCastlingAfterSecondRebirth),          \
     ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
     ENUMERATOR(STHaanChessHoleInserter),                                \
     ENUMERATOR(STCastlingChessMovePlayer),                              \
@@ -580,7 +598,7 @@
     ENUMERATOR(STMultiCapturesMoveGenerationFilter),                    \
     ENUMERATOR(STMultiCapturesCheckCounter),                            \
     ENUMERATOR(STDuplicateMovesPerPieceRemover),                        \
-    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                        \
+    ENUMERATOR(STMultiCapturesInitializeCheckDetection),                \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

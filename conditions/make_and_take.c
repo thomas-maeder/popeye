@@ -408,7 +408,8 @@ static void flesh_out_castling_as_make(int offset_partner_departure,
   square const sq_partner_departure = sq_king_departure+offset_partner_departure;
   square const sq_partner_arrival = sq_king_departure+offset_partner_arrival;
 
-  assert(move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement);
+  assert(move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement
+         || move_effect_journal[idx_prev].reason==move_effect_reason_moving_piece_movement_all_in_chess);
   assert(is_king(game_array.board[sq_king_departure]));
   assert(TSTFLAG(game_array.spec[sq_king_departure],advers(trait[nbply])));
 
@@ -564,7 +565,15 @@ void solving_insert_make_and_take(slice_index si)
 
   TraceStipulation(si);
 
-  move_generator_instrument_for_alternative_paths(si,nr_sides);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_traverse_structure(si,&st);
+  }
 
   solving_instrument_move_generation(si,&insert_resetter,0);
 

@@ -313,7 +313,8 @@ static structure_traversers_visitor restart_guard_inserters[] =
   { STIntelligentFilter, &insert_guard_intelligent              },
   { STIntelligentProof,  &insert_guard_regular                  },
   { STMove,              &insert_guard_regular                  },
-  { STEndOfBranchForced, &stip_traverse_structure_children_pipe }
+  { STEndOfBranchForced, &stip_traverse_structure_children_pipe },
+  { STConstraintSolver,  &stip_traverse_structure_children_pipe }
 };
 
 enum

@@ -781,7 +781,9 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
       if (SpecCount[sp-nr_sides]>0
           && !(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
-          && !(sp==Beamtet && CondFlag[beamten]))
+          && !(sp==Beamtet && CondFlag[beamten])
+          && !(sp==Anda && CondFlag[anda])
+          && !(sp==AndaInverse && CondFlag[andainverse]))
       {
         result = true;
         break;

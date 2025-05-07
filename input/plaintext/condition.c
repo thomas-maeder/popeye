@@ -42,6 +42,7 @@
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/protean.h"
+#include "conditions/frankfurt.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"
 #include "conditions/sentinelles.h"
@@ -51,12 +52,14 @@
 #include "conditions/role_exchange.h"
 #include "conditions/multicaptures.h"
 #include "conditions/powertransfer.h"
+#include "conditions/take_and_make.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -774,6 +777,35 @@ static char *ParseCASTVariants(char *tok)
     else if (type==CASTinverse)
     {
       cast_mode = cast_inverse;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseTakeMakeVariants(char *tok)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  take_and_make_absolute = false;
+
+  do
+  {
+    TakeMakeVariantType const type = GetUniqIndex(TakeMakeVariantCount,TakeMakeVariantTypeTab,tok);
+
+    if (type>TakeMakeVariantCount)
+      output_plaintext_input_error_message(CondNotUniq);
+    else if (type==TakeMakeAbsolute)
+    {
+      take_and_make_absolute = true;
       tok = ReadNextTokStr();
     }
     else
@@ -1829,6 +1861,10 @@ char *ParseCond(char *tok)
           tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
           break;
 
+        case frankfurt:
+          tok = ParseRexIncl(tok,&frankfurt_is_rex_inclusive, CirceVariantRexExclusive);
+          break;
+
         case phantom:
           tok = ParseCirceVariants(tok,&phantom_variant);
           break;
@@ -2015,6 +2051,12 @@ char *ParseCond(char *tok)
           tok = ParseRexIncl(tok,&powertransfer_is_rex_inclusive, CirceVariantRexInclusive);
           break;
 
+        case takemake:
+        {
+          tok = ParseTakeMakeVariants(tok);
+          break;
+        }
+
         default:
           break;
       }
@@ -2060,6 +2102,7 @@ void InitCond(void)
   messigny_rex_inclusive = true;
   woozles_rex_inclusive = true;
   protean_is_rex_inclusive = true;
+  frankfurt_is_rex_inclusive = true;
   bolero_is_rex_inclusive = false;
 
   sentinelles_max_nr_pawns[Black] = 8;

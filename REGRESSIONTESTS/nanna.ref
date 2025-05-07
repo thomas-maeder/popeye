@@ -50,10 +50,10 @@ last 11 half moves of a proof game
              NannaChess
 
   1.e4-d6 e7*d6   2.Se5-f7 Bf8-e7   3.Sf7-g5 Ke8-h5   4.g4-f2 Be7-f8   5.Sg5-h3 g7-g5   6.Sh3-g1 a=>b
-  add_to_move_generation_stack:   699530479
-                     play_move:   703240780
- is_white_king_square_attacked:    52542018
- is_black_king_square_attacked:    26318548
+  add_to_move_generation_stack:   643313526
+                     play_move:   646760622
+ is_white_king_square_attacked:    49142619
+ is_black_king_square_attacked:    24445381
 
 solution finished.
 

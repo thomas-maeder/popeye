@@ -45,6 +45,7 @@ slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
+slice_index temporary_hack_bul_movement_generator[nr_sides];
 slice_index temporary_hack_is_square_observed[nr_sides];
 slice_index temporary_hack_is_square_observed_specific[nr_sides];
 slice_index temporary_hack_is_square_observed_by_non_king[nr_sides];
@@ -309,10 +310,10 @@ static slice_index make_suffocation_by_paralysis_detector(Side side)
   return result;
 }
 
-static slice_index make_move_generator(Side side)
+static slice_index make_move_generator(Side side, slice_type fork_type)
 {
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STMoveGeneratorFork,proxy);
+  slice_index const result = alloc_conditional_pipe(fork_type,proxy);
   slice_index const generating = alloc_pipe(STGeneratingMovesForPiece);
   slice_index const ortho = alloc_pipe(STMovesForPieceBasedOnWalkGenerator);
   slice_index const generated = create_slice(STGeneratedMovesForPiece);
@@ -496,8 +497,11 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_suffocation_by_paralysis_finder[Black] = make_suffocation_by_paralysis_detector(Black);
     temporary_hack_suffocation_by_paralysis_finder[White] = make_suffocation_by_paralysis_detector(White);
 
-    temporary_hack_move_generator[Black] = make_move_generator(Black);
-    temporary_hack_move_generator[White] = make_move_generator(White);
+    temporary_hack_move_generator[Black] = make_move_generator(Black,STMoveGeneratorFork);
+    temporary_hack_move_generator[White] = make_move_generator(White,STMoveGeneratorFork);
+
+    temporary_hack_bul_movement_generator[Black] = make_move_generator(Black,STBulMovementGeneratorFork);
+    temporary_hack_bul_movement_generator[White] = make_move_generator(White,STBulMovementGeneratorFork);
 
     make_is_square_observed(Black);
     make_is_square_observed(White);
@@ -546,6 +550,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[White],
                 temporary_hack_move_generator[White]);
     pipe_append(temporary_hack_move_generator[White],
+                temporary_hack_bul_movement_generator[White]);
+    pipe_append(temporary_hack_bul_movement_generator[White],
                 temporary_hack_is_square_observed_specific[White]);
     pipe_append(temporary_hack_is_square_observed_specific[White],
                 temporary_hack_is_square_observed[White]);
@@ -588,6 +594,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[Black],
                 temporary_hack_move_generator[Black]);
     pipe_append(temporary_hack_move_generator[Black],
+                temporary_hack_bul_movement_generator[Black]);
+    pipe_append(temporary_hack_bul_movement_generator[Black],
                 temporary_hack_is_square_observed_specific[Black]);
     pipe_append(temporary_hack_is_square_observed_specific[Black],
                 temporary_hack_is_square_observed[Black]);

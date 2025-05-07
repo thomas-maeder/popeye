@@ -49,7 +49,6 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
   move_effect_swap_volcanic,
-  move_effect_revelation_of_castling_partner,
   move_effect_revelation_of_placed_invisible,
   move_effect_revelation_of_new_invisible,
 
@@ -74,6 +73,7 @@ typedef enum
 {
   move_effect_no_reason,
   move_effect_reason_moving_piece_movement,
+  move_effect_reason_moving_piece_movement_all_in_chess,
   move_effect_reason_regular_capture,
   move_effect_reason_ep_capture,
   move_effect_reason_castling_king_movement,
@@ -102,6 +102,7 @@ typedef enum
   move_effect_reason_magic_piece,
   move_effect_reason_magic_square,
   move_effect_reason_masand,
+  move_effect_reason_anda,
   move_effect_reason_influencer,
   move_effect_reason_einstein_chess,
   move_effect_reason_kobul_king,

@@ -67,7 +67,6 @@ static slice_index const slice_rank_order[] =
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
     STTotalInvisibleSpecialMoveGenerator,
-    STCastlingGenerator,
     STAnnanMovesForPieceGenerator,
     STNannaMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
@@ -78,7 +77,6 @@ static slice_index const slice_rank_order[] =
     STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
     STRokagogoMovesForPieceGeneratorFilter,
-    STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
     STMoveForPieceGeneratorTwoPaths,
@@ -87,6 +85,7 @@ static slice_index const slice_rank_order[] =
     STMarsCirceMoveGeneratorEnforceRexInclusive,
     STMakeTakeGenerateCapturesWalkByWalk,
     STBoleroGenerateMovesWalkByWalk,
+    STAntiMarsCirceRejectNullMoves,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,
@@ -96,6 +95,10 @@ static slice_index const slice_rank_order[] =
     STPlusAdditionalCapturesForPieceGenerator,
     STMarsCirceRememberRebirth,
     STMarsCirceRememberNoRebirth,
+    STAntiMarsCirceSecondRebirthForCastling,
+    STCastlingGenerator,
+    STAntiMarsCirceOnlyCastlingAfterSecondRebirth,
+    STCastlingChessMovesForPieceGenerator,
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
     STMoveForPieceGeneratorPathsJoint,
@@ -290,27 +293,21 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the move generation machinery so that there are two paths which
- * can be adapted separately.
- * @param si root slice of solving machinery
+/* Initialize a structure traversal which will instrument move generation on 2 alternative paths
+ * that can be adapted separately.
+ * @param st address of traversal object
  * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STMoveForPieceGeneratorStandardPath and
  *       STMoveForPieceGeneratorAlternativePath that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
+void move_generator_initialize_instrumentation_for_alternative_paths(stip_structure_traversal *st,
+                                                                     Side side)
 {
-  stip_structure_traversal st;
-
-  solving_instrument_moves_for_piece_generation(si,
-                                     side,
-                                     STMoveForPieceGeneratorPathsJoint);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
+  stip_structure_traversal_init(st,0);
+  stip_structure_traversal_override_single(st,
                                            STMoveForPieceGeneratorPathsJoint,
                                            &insert_separator);
-  stip_traverse_structure(si,&st);
 }
 
 static boolean always_reject(numecoup n)
@@ -409,7 +406,11 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static void genmove(void)
+/* Generate all moves for side trait[nbply]
+ * trait[nbply] is not only used to determine which pieces to generate
+ * moves for, but also for the direction in which pawns, hunters etc. move
+ */
+void generate_all_moves_for_moving_side(void)
 {
   unsigned int i;
   square square_h = square_h8;
@@ -449,7 +450,7 @@ boolean observing_move_generator_is_in_check(slice_index si,
 
   siblingply(trait[nbply]);
 
-  genmove();
+  generate_all_moves_for_moving_side();
 
   result = pipe_is_in_check_recursive_delegate(si,side_observed);
 
@@ -483,7 +484,7 @@ void move_generator_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
-  genmove();
+  generate_all_moves_for_moving_side();
   pipe_solve_delegate(si);
   finply();
 

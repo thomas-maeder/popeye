@@ -1,7 +1,7 @@
 #if !defined(PIECES_ATTRIBUTES_BUL_H)
 #define PIECES_ATTRIBUTES_BUL_H
 
-/* This module implements the piece attribute "Bul" */
+/* This module implements the piece attribute Bul and Dob */
 
 #include "solving/machinery/solve.h"
 
@@ -50,7 +50,7 @@ void bul_ply_catchup_solve(slice_index si);
  */
 void bul_ply_rewinder_solve(slice_index si);
 
-/* Instrument a stipulation for "hurdle colour changing" hoppers
+/* Instrument a stipulation for Bul and/or Dob hoppers
  * @param si identifies root slice of stipulation
  */
 void solving_insert_bul(slice_index si);

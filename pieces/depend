@@ -1,8 +1,5 @@
 pieces/pieces$(OBJ_SUFFIX): pieces/pieces.c pieces/pieces.h utilities/boolean.h \
-  utilities/bitmask.h
-
+ utilities/bitmask.h
 pieces/pieces.h:
-
 utilities/boolean.h:
-
 utilities/bitmask.h:

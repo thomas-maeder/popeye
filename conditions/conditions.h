@@ -247,8 +247,15 @@ typedef enum
   transmissionmenace,     /* 226 */
   powertransfer,          /* 227 */
   multicaptures,          /* 228 */
+  antiguards,             /* 229 */
+  frankfurt,              /* 230 */
+  anda,                   /* 231 */
+  andainverse,            /* 232 */
+  halfinchess,            /* 233 */
+  allinchess,             /* 234 */
+  mainlyinchess,          /* 235 */
 
-  CondCount               /* 229 */
+  CondCount               /* 236 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

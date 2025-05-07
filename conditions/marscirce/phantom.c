@@ -208,6 +208,19 @@ void solving_initialise_phantom(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_traverse_structure(si,&st);
+  }
+
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+  move_effect_journal_register_pre_capture_effect();
+
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
@@ -228,7 +241,7 @@ void solving_initialise_phantom(slice_index si)
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
                            STCirceDeterminedRebirth,
-                           alloc_pipe(STMarscirceRemoveCapturer));
+                           alloc_pipe(STMarscirceRemoveReborn));
 
   is_square_observed_instrument_for_alternative_paths(si,nr_sides);
 
@@ -253,7 +266,7 @@ void solving_initialise_phantom(slice_index si)
   circe_instrument_solving(si,
                            STMarsCirceConsideringObserverRebirth,
                            STCirceDeterminedRebirth,
-                           alloc_pipe(STMarscirceRemoveCapturer));
+                           alloc_pipe(STMarscirceRemoveReborn));
 
   if (phantom_variant.rebirth_reason==move_effect_reason_rebirth_choice)
   {

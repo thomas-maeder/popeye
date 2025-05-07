@@ -127,6 +127,12 @@ void generate_moves_different_walk(slice_index si, piece_walk_type walk);
  */
 void generate_moves_for_piece(square sq_departure);
 
+/* Generate all moves for side trait[nbply]
+ * trait[nbply] is not only used to determine which pieces to generate
+ * moves for, but also for the direction in which pawns, hunters etc. move
+ */
+void generate_all_moves_for_moving_side(void);
+
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
  */
@@ -178,16 +184,16 @@ void solving_instrument_move_generation(slice_index si,
  */
 void solving_insert_move_generators(slice_index si);
 
-/* Instrument the move generation machinery so that captures and non captures
- * are generated (and can be adapted) separately per piece.
- * @param si root slice of solving machinery
+/* Initialize a structure traversal which will instrument move generation on 2 alternative paths
+ * that can be adapted separately.
+ * @param st address of traversal object
  * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STGeneratingNoncapturesForPiece and
  *       STGeneratingCapturesForPiece that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_alternative_paths(slice_index si,
-                                                                    Side side);
+void move_generator_initialize_instrumentation_for_alternative_paths(stip_structure_traversal *st,
+                                                     Side side);
 
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 
