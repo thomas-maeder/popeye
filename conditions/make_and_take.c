@@ -565,7 +565,15 @@ void solving_insert_make_and_take(slice_index si)
 
   TraceStipulation(si);
 
-  move_generator_instrument_for_alternative_paths(si,nr_sides);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_traverse_structure(si,&st);
+  }
 
   solving_instrument_move_generation(si,&insert_resetter,0);
 

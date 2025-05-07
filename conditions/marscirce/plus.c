@@ -227,7 +227,15 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  move_generator_instrument_for_alternative_paths(si,nr_sides);
+  solving_instrument_moves_for_piece_generation(si,
+                                                nr_sides,
+                                                STMoveForPieceGeneratorPathsJoint);
+
+  {
+    stip_structure_traversal st;
+    move_generator_initialize_instrumentation_for_alternative_paths(&st,nr_sides);
+    stip_traverse_structure(si,&st);
+  }
 
   stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
   move_effect_journal_register_pre_capture_effect();

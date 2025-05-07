@@ -62,7 +62,7 @@ static int	DupString(dhtValue v, dhtValue *output)
 	len= strlen(original);
 	if ((len < ((size_t)-1)) && !original[len]) {
 		++len;
-		nv= fxfAlloc(len, char);
+		nv= DHTVALUE_ALLOC(len, char);
 		if (nv) {
 			memcpy(nv, original, len);
 			output->object_pointer= nv;
@@ -78,7 +78,7 @@ static void	FreeString(dhtValue v)
 	{
 		size_t const len= strlen(s);
 		assert((len < ((size_t)-1)) && !s[len]);
-		fxfFree(s, len+1);
+		DHTVALUE_FREE(s, len+1);
 	}
 }
 static void	DumpString(dhtValue v, FILE *f)

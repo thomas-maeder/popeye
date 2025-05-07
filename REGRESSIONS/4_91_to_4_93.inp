@@ -1,0 +1,12 @@
+begin
+
+protocol 4_91_to_4_93.reg
+
+title Popeye 4.91 would generate Bul hurdle movements according to Bolero
+author Geoff Foster
+pieces white royal bul md7 white rf7
+condition Bolero
+stipulation ~1
+
+end
+
