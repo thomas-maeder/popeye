@@ -832,6 +832,10 @@ proc parseCommandLine {} {
 	array set ::params [::cmdline::getoptions ::argv $options $usage]
     } trap {CMDLINE USAGE} {msg o} {
 	puts stderr $msg
+	if {[info exists ::env(SHELL)] && [file tail $::env(SHELL)]=="bash"} {
+	    puts stderr "Use the following command to activate simple bash completion:"
+	    puts stderr "complete -F _longopt [file tail $::argv0]"
+	}
 	exit 1
     }
 
