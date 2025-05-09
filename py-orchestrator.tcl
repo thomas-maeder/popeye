@@ -1,5 +1,7 @@
 #! /usr/bin/env tclsh
 
+set version "v4.93"
+
 package require cmdline
 package require control
 package require debug
@@ -20,14 +22,11 @@ debug off cmdline
 debug off input
 debug off output
 debug off language
-debug off movenumbers
 debug off popeye
 debug off problem
 debug off sync
 debug off tester
 debug off twin
-debug off grouping
-debug off whomoves
 
 # shamelessly copied from
 # https://stackoverflow.com/questions/29482303/how-to-find-the-number-of-cpus-in-tcl
@@ -99,8 +98,23 @@ proc defaultPopeyeExecutable {} {
     return $result
 }
 
+proc defaultFreePhysicalMemory {} {
+    if {$::tcl_platform(platform)=="windows"} {
+	set result [::msgcat::mc cmdline::freePhysicalDividedByNrProcs]
+    } else {
+	set result [::msgcat::mc cmdline::popeyeDefault]
+    }
+
+    return $result
+}
+
 namespace eval language {
     namespace eval fr {
+	namespace eval popeye {
+	    variable versionNotDetected "Avertissement: Version de Popeye indétectable"
+	    variable versionNotSupported "Version de Popeye non supportée; >=4.91 nécessaire"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "DebugProblem"
 	    variable NextProblem "Asuivre"
@@ -116,7 +130,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "Enonce"
 	    variable Option "Option"
-	    variable MoveNumber "Trace"
+	    variable MoveNumbers "Trace"
 	    variable StartMoveNumber "Enroute"
 	    variable UpToMoveNumber "JusquAuCoup"
 	    variable NoBoard "SansEchiquier"
@@ -134,12 +148,6 @@ namespace eval language {
 	    variable BothSidesNeedAKingRE "il faut un roi de chaque couleur"
 	}
 
-	namespace eval grouping {
-	    variable auto "Choisir une des méthodes suivantes de grouper les coups en fonction du problème à résoudre."
-	    variable byweight "Essayer de grouper les premier coups selon une estimation la durée de solution."
-	    variable movebymove "Chaque premier coup forme son propre groupe."
-	}
-
 	namespace eval cmdline {
 	    variable options "options"
 	    variable inputfile "Fichier input"
@@ -150,14 +158,23 @@ namespace eval language {
 	    variable numberProcesses "Nombre de processus Popeye à démarrer"
 	    variable processMemory "Mémoire maximale par processus"
 	    variable popeyeDefault "valeur standard de Popeye"
+	    variable freePhysicalDividedByNrProcs "Mémoire physique disponible / nrprocs"
+	    variable maxnrmoves "Nombre maximum de coups de départ par jumeau"
+	    variable version "Version de ce programme"
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element non supporté"
 	    variable unexpectedEOF "Fin d'output inattendue d'un sous-processus Popeye"
 	}
     }
 
     namespace eval de {
+	namespace eval popeye {
+	    variable versionNotDetected "Warnung: Popeye-Version kann nicht ermittelt werden"
+	    variable versionNotSupported "Popeye-Version nicht unterstützt; >=4.91 erforderlich"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "AnfangProblem"
 	    variable NextProblem "WeiteresProblem"
@@ -173,7 +190,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "Forderung"
 	    variable Option "Option"
-	    variable MoveNumber "ZugNummer"
+	    variable MoveNumbers "ZugNummer"
 	    variable StartMoveNumber "StartZugnummer"
 	    variable UpToMoveNumber "BisZugnummer"
 	    variable NoBoard "OhneBrett"
@@ -191,12 +208,6 @@ namespace eval language {
 	    variable BothSidesNeedAKingRE "Es fehlt ein weisser oder schwarzer Koenig\n"
 	}
 
-	namespace eval grouping {
-	    variable auto "Ein der folgenden Methoden in Abhängigkeit des zu lösenden Problems wählen."
-	    variable byweight "Versuche die Erstzüge gemäss der geschätzten Lösungszeit zu gruppieren."
-	    variable movebymove "Jeder Erstzug bildet eine eigene Gruppe."
-	}
-
 	namespace eval cmdline {
 	    variable options "Optionen"
 	    variable inputfile "Eingabedatei"
@@ -207,14 +218,23 @@ namespace eval language {
 	    variable numberProcesses "Anzahl Popeye-Prozesse, die parallel gestartet werden sollen"
 	    variable processMemory "Maximaler Arbeitsspeicher pro Prozess"
 	    variable popeyeDefault "Popeye-Vorgabe"
+	    variable freePhysicalDividedByNrProcs "Freier physischer Speicher / nrprocs"
+	    variable maxnrmoves "Maximale Anzahl Startzüge pro Zwilling"
+	    variable version "Version dieses Programms"
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element nicht unterstützt"
 	    variable unexpectedEOF "Unerwartetes Ende der Ausgabe von einem Popeye-Unterprozess"
 	}
     }
 
     namespace eval en {
+	namespace eval popeye {
+	    variable versionNotDetected "Warning: Popeye version not detected"
+	    variable versionNotSupported "Popeye version not supported; >=4.91 required"
+	}
+
 	namespace eval input {
 	    variable BeginProblem "beginproblem"
 	    variable NextProblem "nextproblem"
@@ -230,7 +250,7 @@ namespace eval language {
 	    variable LaTeX "LaTeX"
 	    variable Stipulation "stipulation"
 	    variable Option "option"
-	    variable MoveNumber "MoveNumber"
+	    variable MoveNumbers "MoveNumbers"
 	    variable StartMoveNumber "StartMoveNumber"
 	    variable UpToMoveNumber "UpToMoveNumber"
 	    variable NoBoard "NoBoard"
@@ -248,12 +268,6 @@ namespace eval language {
 	    variable BothSidesNeedAKingRE "both sides need a king"
 	}
 
-	namespace eval grouping {
-	    variable auto "Select one of the following methods depending on the problem being solved."
-	    variable byweight "Try to group the first moves based on an estimat of the solving time."
-	    variable movebymove "Each first move is its own group."
-	}
-
 	namespace eval cmdline {
 	    variable options "options"
 	    variable inputfile "input file"
@@ -264,9 +278,13 @@ namespace eval language {
 	    variable numberProcesses "number of Popeye processes to spawn"
 	    variable processMemory "maximum memory for each process"
 	    variable popeyeDefault "Popeye default"
+	    variable freePhysicalDividedByNrProcs "Free physical memory / nrprocs"
+	    variable maxnrmoves "maximum number of starting moves per twin"
+	    variable version "Version of this program"
 	}
 
 	namespace eval orchestrator {
+	    variable elementNotSupported "Element not supported"
 	    variable unexpectedEOF "Unexpected end of output from a Popeye sub-process"
 	}
     }
@@ -308,7 +326,9 @@ proc ::language::init {} {
 	    foreach var [info vars ${category}::*] {
 		set category [lindex [split [namespace qualifiers $var] :] end]
 		set symbol [namespace tail $var]
-		namespace eval :: [list ::msgcat::mcset $shortcut ${category}::${symbol} [set $var] ]
+		# Windows uses some cpnnn encoding, but this source file is UTF-8
+		set value [encoding convertfrom utf-8 [set $var]]
+		namespace eval :: [list ::msgcat::mcset $shortcut ${category}::${symbol} $value]
 	    }
 	}
     }
@@ -481,10 +501,11 @@ namespace eval output {
     variable protocol
 
     variable isGreetingLineSuppressed false
-    variable isBoardSuppressed
-    variable isBoardTerminatorSuppressed
     variable areMovenumbersSuppressed true
-    variable isSolutionTerminatorSuppressed true
+
+    variable startTime [clock milliseconds]
+    variable latestCarry ""
+    variable latestFinish
 }
 
 proc ::output::openProtocol {path} {
@@ -530,19 +551,6 @@ proc ::output::greetingLine {greetingLine} {
     }
 }
 
-proc ::output::board {board terminator} {
-    variable isBoardSuppressed
-    variable isBoardTerminatorSuppressed
-
-    if {!$isBoardSuppressed} {
-	_puts "$board"
-    }
-
-    if {!$isBoardTerminatorSuppressed} {
-	_puts "$terminator"
-    }
-}
-
 proc ::output::enableMovenumbers {enable} {
     variable areMovenumbersSuppressed
 
@@ -552,28 +560,69 @@ proc ::output::enableMovenumbers {enable} {
 }
 
 proc ::output::solution {string} {
+    variable latestCarry
+
+    _puts $latestCarry
+    set latestCarry ""
+
     _puts $string
 }
 
-proc ::output::movenumberLine {line} {
+proc ::output::_formattedTime {} {
+    variable startTime
+
+    set timeNow [clock milliseconds]
+
+    set solvingTimeMS [expr {$timeNow-$startTime}]
+    set solvingTimeS [expr {$solvingTimeMS/1000}]
+    set solvingTimeM [expr {$solvingTimeS/60}]
+    set solvingTimeH [expr {$solvingTimeM/60}]
+
+    if {$solvingTimeH>0} {
+	incr solvingTimeS [expr {-$solvingTimeM*60}]
+	incr solvingTimeM [expr {-$solvingTimeH*60}]
+	set timeFormatted [format "%lu:%02lu:%02lu h:m:s" $solvingTimeH $solvingTimeM $solvingTimeS]
+    } elseif {$solvingTimeM>0} {
+	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
+	incr solvingTimeS [expr {-$solvingTimeM*60}]
+	set timeFormatted [format "%lu:%02lu.%02lu m:s" $solvingTimeM $solvingTimeS $solvingTimeMS]
+    } else {
+	incr solvingTimeMS [expr {-$solvingTimeS*1000}]
+	set timeFormatted [format "%lu.%03lu s" $solvingTimeS $solvingTimeMS]
+    }
+
+    return $timeFormatted
+}
+
+proc ::output::movenumberLine {movenumberMove time} {
     variable areMovenumbersSuppressed
+    variable latestCarry
+
+    _puts $latestCarry
+    set latestCarry ""
 
     if {!$areMovenumbersSuppressed} {
-	_puts $line
+	_puts "\n$movenumberMove[::msgcat::mc output::Time] = [_formattedTime])"
     }
 }
 
-proc ::output::solutionTerminator {terminator} {
-    variable isSolutionTerminatorSuppressed
+proc ::output::rememberFinish {carry finish time suffix} {
+    variable latestCarry
+    variable latestFinish
 
-    debug.output "solutionTerminator terminator:$terminator"
+    set latestCarry $carry
+    set latestFinish [list $finish $time $suffix]
+}
 
-    debug.output "isSolutionTerminatorSuppressed:$isSolutionTerminatorSuppressed" 2
+proc ::output::writeLatestFinish {} {
+    variable latestFinish
 
-    if {!$isSolutionTerminatorSuppressed} {
-	_puts $terminator
+    if {[info exists latestFinish]} {
+	lassign $latestFinish finish time suffix
+	_puts "$finish[_formattedTime]$suffix"
     }
 }
+
 
 namespace eval popeye {
     variable executablePath
@@ -596,28 +645,27 @@ proc ::popeye::setMaxmem {setting} {
     set maxmemOption "-maxmem $setting"
 }
 
-proc ::popeye::spawn {firstTwin options} {
+proc ::popeye::spawn {} {
     variable executablePath
     variable maxmemOption
 
-    debug.popeye "spawn firstTwin:|[debuggable $firstTwin]| options:|$options|"
-
+    debug.popeye "spawn"
+    
     debug.popeye "executablePath:$executablePath" 2
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
 
-    set pipe [open "| $executablePath $maxmemOption" "r+"]
+    set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption" "r+"]
     debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
     debug.popeye "caller:[debuggable [info level -1]]" 2
 
-    fconfigure $pipe -encoding binary -buffering line
+    # seems not to work on Windows
+    #fconfigure $pipe -encoding binary -buffering line
 
     gets $pipe greetingLine
 
     set result [list $pipe $greetingLine]
 
     puts $pipe [::msgcat::mc input::BeginProblem]
-    puts $pipe $firstTwin
-    puts $pipe "[::msgcat::mc input::Option] $options"
 
     debug.popeye "spawn <- $result"
     return $result
@@ -653,6 +701,18 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 namespace eval ::popeye::input {
 }
 
+proc ::popeye::input::Problem {pipe problem} {
+    debug.popeye "input::Problem pipe:$pipe problem:|$problem|"
+
+    puts $pipe $problem
+}
+
+proc ::popeye::input::Options {pipe options} {
+    debug.popeye "input::Options pipe:$pipe options:|$options|"
+
+    puts $pipe "[::msgcat::mc input::Option] [join $options]"
+}
+
 proc ::popeye::input::ZeroPosition {pipe twinning} {
     debug.popeye "input::ZeroPosition pipe:$pipe twinning:|$twinning|"
 
@@ -671,10 +731,22 @@ proc ::popeye::input::Pieces {pipe pieces} {
     puts $pipe "[::msgcat::mc input::Pieces] $pieces"
 }
 
+proc ::popeye::input::NextProblem {pipe} {
+    debug.popeye "input::NextProblem pipe:$pipe"
+
+    puts $pipe "[::msgcat::mc input::NextProblem]"
+
+    # Windows seems not to allow configuring line buffering
+    flush $pipe
+}
+
 proc ::popeye::input::EndProblem {pipe} {
     debug.popeye "input::EndProblem pipe:$pipe"
 
     puts $pipe "[::msgcat::mc input::EndProblem]"
+
+    # Windows seems not to allow configuring line buffering
+    flush $pipe
 }
 
 namespace eval ::popeye::output {
@@ -686,12 +758,12 @@ proc ::popeye::output::getLine {pipe varname} {
     return [gets $pipe line]
 }
 
-proc ::popeye::output::doAsync {pipe listener arguments} {
-    debug.popeye "output::doAsync pipe:$pipe listener:$listener arguments:[debuggable $arguments]"
+proc ::popeye::output::doAsync {pipe listener args} {
+    debug.popeye "output::doAsync pipe:$pipe listener:$listener arguments:[debuggable $args]"
 
     fconfigure $pipe -blocking false
 
-    set callback [linsert $arguments 0 [uplevel namespace which -command $listener] $pipe]
+    set callback [linsert $args 0 [uplevel namespace which -command $listener] $pipe]
     fileevent $pipe readable $callback
 }
 
@@ -742,11 +814,10 @@ proc getAllNames {ns} {
 
 proc parseCommandLine {} {
     set options [subst {
-	{ executable.arg "[defaultPopeyeExecutable]"             "[::msgcat::mc cmdline::popeyePath]" }
-	{ nrprocs.arg    "[defaultNumberOfProcesses]"            "[::msgcat::mc cmdline::numberProcesses]" }
-	{ maxmem.arg     "[::msgcat::mc cmdline::popeyeDefault]" "[::msgcat::mc cmdline::processMemory]" }
-	{ grouping.arg   "auto"                                  "([join [getAllNames ::grouping] ,])" }
-	{ help-grouping }
+	{ executable.arg "[defaultPopeyeExecutable]"   "[::msgcat::mc cmdline::popeyePath]" }
+	{ nrprocs.arg    "[defaultNumberOfProcesses]"  "[::msgcat::mc cmdline::numberProcesses]" }
+	{ maxmem.arg     "[defaultFreePhysicalMemory]" "[::msgcat::mc cmdline::processMemory]" }
+	{ version        "[::msgcat::mc cmdline::version]" }
     }]
     if {[string match "*.tcl" $::argv0]} {
 	lappend options { assert.arg false "enable asserts" }
@@ -761,24 +832,16 @@ proc parseCommandLine {} {
 	array set ::params [::cmdline::getoptions ::argv $options $usage]
     } trap {CMDLINE USAGE} {msg o} {
 	puts stderr $msg
+	if {[info exists ::env(SHELL)] && [file tail $::env(SHELL)]=="bash"} {
+	    puts stderr "Use the following command to activate simple bash completion:"
+	    puts stderr "complete -F _longopt [file tail $::argv0]"
+	}
 	exit 1
     }
 
-    if {$::params(help-grouping)} {
-	puts stderr grouping:
-	set maxLengthName 0
-	foreach grouping [namespace children ::grouping] {
-	    set lengthName [string length [namespace tail $grouping]]
-	    if {$lengthName>$maxLengthName} {
-		set maxLengthName $lengthName
-	    }
-	}
-	incr maxLengthName
-	foreach grouping [namespace children ::grouping] {
-	    set name [namespace tail $grouping]
-	    puts stderr "- [format %-*s $maxLengthName $name:] [::msgcat::mc grouping::$name]"
-	}
-	exit 1
+    if {$::params(version)} {
+	puts "[::cmdline::getArgv0] $::version"
+	exit
     }
 
     if {$::params(executable)==""} {
@@ -787,7 +850,11 @@ proc parseCommandLine {} {
     } else {
 	::popeye::setExecutable $::params(executable)
     }
-    if {$::params(maxmem)!=[::msgcat::mc cmdline::popeyeDefault]} {
+    if {$::params(maxmem)==[::msgcat::mc cmdline::freePhysicalDividedByNrProcs]} {
+	set freeTotal [lindex [split [string trim [exec wmic OS get FreePhysicalMemory]]] end]
+	::popeye::setMaxmem "[expr {$freeTotal/$::params(nrprocs)}]k"
+    } elseif {$::params(maxmem)==[::msgcat::mc cmdline::popeyeDefault]} {
+    } else {
 	::popeye::setMaxmem $::params(maxmem)
     }
 
@@ -795,7 +862,7 @@ proc parseCommandLine {} {
 	set ::params(inputfile) [lindex $::argv 0]
     }
 
-    if {$::params(assert)} {
+    if {[info exists ::params(assert)] && $::params(assert)} {
 	control::control assert enabled 1
     }
 
@@ -882,8 +949,42 @@ namespace eval tester {
 namespace eval tester::async {
 }
 
-proc ::tester::async::flushSolution {pipe solution} {
-    debug.tester "flushSolution pipe:$pipe solution:[debuggable $solution]"
+proc ::tester::async::_consume {pipe} {
+    variable buffers
+
+    debug.tester "eof:[eof $pipe]"
+    if {[eof $pipe]} {
+	::popeye::terminate $pipe
+	::sync::Notify $pipe "eof"
+	return false
+    } else {
+	set chunk [read $pipe]
+	debug.tester "chunk:$chunk" 2
+	append buffers($pipe) $chunk
+	return true
+    }
+}
+
+proc ::tester::async::_endOfSolutionReached {pipe} {
+    variable buffers
+
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
+	debug.tester "solution:>$solution<" 2
+	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
+	    set carry ""
+	}
+	unset buffers($pipe)
+	set result [list $solution $carry $finished $time $suffix]
+    } else {
+	set result [list "" "" "" "" ""]
+    }
+}
+
+proc ::tester::async::_moveNumberRead {pipe} {
+    variable buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -892,589 +993,173 @@ proc ::tester::async::flushSolution {pipe solution} {
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
     set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "\n$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
+    set movenumberLineRE "\n($movenumberRE +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
 
-    set moveNumberLineRanges [regexp -all -inline -indices -- $movenumberLineRE $solution]
-
-    set prevEnd 0
-    foreach moveNumberLineRange $moveNumberLineRanges {
-	debug.tester "moveNumberLineRange:$moveNumberLineRange" 2
-        ::sync::Notify $pipe "move"
-	lassign $moveNumberLineRange start end
-	::output::solution [string range $solution $prevEnd [expr {$start-1}]]
-	::output::movenumberLine [string range $solution $start $end]
-	set prevEnd [expr {$end+1}]
-    }
-
-    ::output::solution [string range $solution $prevEnd "end"]
-
-    debug.tester "flushSolution <-"
-}
-
-proc ::tester::async::flushBelowBoard {pipe chunk solutionTerminatorRE} {
-    debug.tester "flushBelowBoard pipe:$pipe chunk:|[debuggable $chunk]| solutionTerminatorRE:[::debuggable $solutionTerminatorRE]"
-
-    if {[regexp -- "^(.*)($solutionTerminatorRE)(.*)$" $chunk - solution terminator remainder]} {
-	debug.tester "solution:|[debuggable $solution]|"
-	debug.tester "terminator:|[debuggable $terminator]|"
-
-	flushSolution $pipe $solution
-        ::sync::Notify $pipe "solution"
-	::output::solutionTerminator $terminator
-
-	set result true
+    if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - movenumberMove time remainder]} {
+	set buffers($pipe) $remainder
+	set result [list $movenumberMove $time]
     } else {
-	debug.tester "terminator not found" 2
-
-	flushSolution $pipe $chunk
-	set result false
-    }
-
-    flush stdout
-
-    debug.tester "flushBelowBoard <- $result"
-    return $result
-}
-
-proc ::tester::async::belowBoard {pipe solutionTerminatorRE} {
-    debug.tester "belowBoard pipe:$pipe"
-
-    debug.tester "eof:[eof $pipe]"
-    if {[eof $pipe]} {
-	::sync::Notify $pipe "eof"
-    } else {
-        flushBelowBoard $pipe [read $pipe] $solutionTerminatorRE
+	set result [list "" ""]
     }
 }
 
-proc ::tester::async::board {pipe boardTerminatorRE solutionTerminatorRE {chunk ""}} {
-    debug.tester "board pipe:$pipe chunk:|[debuggable $chunk]| boardTerminatorRE:[debuggable $boardTerminatorRE]"
+proc ::tester::async::readable {pipe} {
+    variable buffers
 
-    if {[eof $pipe]} {
-	::sync::Notify $pipe "eof"
-    } else {
-	append chunk [read $pipe]
-	debug.tester "chunk:|[debuggable $chunk]|"
+    debug.tester "readable pipe:$pipe"
 
-	if {[regexp -- "^(.*)($boardTerminatorRE)(.*)$" $chunk - board terminator remainder]} {
-	    debug.tester "terminator:|[debuggable $terminator]|"
-	    debug.tester "remainder:|[debuggable $remainder]|"
-	    ::output::board $board $terminator
-	    ::sync::Notify $pipe "board"
-	    if {![flushBelowBoard $pipe $remainder $solutionTerminatorRE]} {
-		# While writing the solution, Popeye writes EOLs before the next line
-		::popeye::output::doAsync $pipe belowBoard [list "\\n$solutionTerminatorRE"]
-	    }
-	} else {
-	    debug.tester "terminator not found"
-	    ::popeye::output::doAsync $pipe board [list $boardTerminatorRE $solutionTerminatorRE $chunk]
+    if {[_consume $pipe]} {
+	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$finished!=""} {
+	    ::output::solution $solution
+	    ::sync::Notify $pipe "solution"
+	    ::output::rememberFinish $carry $finished $time $suffix
 	}
     }
+
+    debug.tester "readable <-"
 }
 
-proc ::tester::moveRange {firstTwin endElmt twinnings moveRange} {
-    debug.tester "moveRange firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings moveRange:$moveRange"
+proc ::tester::async::moveNumber {pipe} {
+    variable buffers
 
-    lassign $moveRange start upto
+    debug.tester "moveNumber pipe:$pipe"
 
-    set options "[::msgcat::mc input::MoveNumber] [::msgcat::mc input::UpToMoveNumber] $upto"
-    if {$start>1} {
-	append options " [::msgcat::mc input::StartMoveNumber] $start"
+    if {[_consume $pipe]} {
+	lassign [_moveNumberRead $pipe] movenumberMove time
+	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$movenumberMove!=""} {
+	    ::output::movenumberLine $movenumberMove $time
+	    if {$finished==""} {
+		::popeye::output::doAsync $pipe readable
+	    } else {
+		::output::solution $solution
+		::sync::Notify $pipe "solution"
+		::output::rememberFinish $carry $finished $time $suffix
+	    }
+	} elseif {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution"
+	}
     }
 
-    lassign [::popeye::spawn $firstTwin $options] result greetingLine
-    debug.tester "result:$result" 2
-
-    ::output::greetingLine $greetingLine
-
-    debug.tester "inserting accumulated twinnings" 2
-    foreach t $twinnings {
-	lassign $t key twinning
-	::popeye::input::$key $result $twinning
-    }
-
-    debug.tester "moveRange <- $result"
-    return $result
+    debug.tester "moveNumber <-"
 }
 
-proc ::tester::moveRangesProgress {pipe notification endElmt nrRunningProcesses nrBoardsRead nrMovesPlayed pipes} {
-    debug.tester "moveRangesProgress pipe:$pipe notification:$notification endElmt:$endElmt nrRunningProcesses:$nrRunningProcesses nrBoardsRead:$nrBoardsRead nrMovesPlayed:$nrMovesPlayed pipes:$pipes"
+proc ::tester::setplayRange {pipe firstTwin} {
+    debug.tester "setplayRange pipe:$pipe firstTwin:|[debuggable $firstTwin]|"
+
+    lappend options [::msgcat::mc input::NoBoard]
+    lappend options [::msgcat::mc input::MoveNumbers]
+    lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
+
+    ::popeye::input::Problem $pipe $firstTwin
+    ::popeye::input::Options $pipe $options
+    ::popeye::input::EndProblem $pipe
+
+    set lines ""
+    while {[::popeye::output::getLine $pipe line]>=0} {
+	append lines "$line\n"
+    }
+
+    debug.tester "lines:>$lines<" 2
+
+    set timeLabelRE [::msgcat::mc output::Time]
+    set timeRE {[[:digit:]:.]+}
+    set entireSolutionRE "(.*)(\n)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    if {[regexp -- $entireSolutionRE $lines - solution carry finished time suffix]} {
+	debug.tester "solution:>$solution<" 2
+	::output::solution $solution
+	::output::rememberFinish $carry $finished $time $suffix
+    } else {
+	# what now?
+    }
+
+    debug.tester "setplayRange <-"
+}
+
+proc ::tester::testMove {pipe firstTwin move} {
+    debug.tester "testMove pipe:$pipe firstTwin:|[debuggable $firstTwin]| move:$move"
+
+    lappend options [::msgcat::mc input::NoBoard]
+    lappend options [::msgcat::mc input::MoveNumbers]
+    lappend options "[::msgcat::mc input::StartMoveNumber] $move"
+    lappend options "[::msgcat::mc input::UpToMoveNumber] $move"
+
+    ::popeye::input::Problem $pipe $firstTwin
+    ::popeye::input::Options $pipe $options
+    ::popeye::input::NextProblem $pipe
+
+    ::popeye::output::doAsync $pipe async::moveNumber
+
+    debug.tester "testMove <-"
+}
+
+proc ::tester::testProgress {pipe notification firstTwin nrRunningProcesses currMove} {
+    debug.tester "testProgress pipe:$pipe notification:$notification nrRunningProcesses:$nrRunningProcesses currMove:$currMove"
 
     switch -exact $notification {
-	board {
-	    incr nrBoardsRead
-	}
-	move {
-	    incr nrMovesPlayed
-	    if {$nrMovesPlayed==1} {
-		# the first tester has started with the first regular move,
-		# after possibly having dealt with set play
-		# we can now let the first bunch of other processes off the hook
-		foreach pipe $pipes {
-		    ::popeye::input::EndProblem $pipe
-		    set pipes [lrange $pipes 1 end]
-		    incr nrRunningProcesses
-		    if {$nrRunningProcesses==$::params(nrprocs)} {
-			break
-		    }
-		}
-	    }
-	}
 	solution  {
+	    testMove $pipe $firstTwin $currMove
+	    incr currMove
+	}
+	prematureEndOfSolution {
 	    ::popeye::terminate $pipe
-	    if {[llength $pipes]==0} {
-		incr nrRunningProcesses -1
-	    } else {
-		debug.tester "moveRangesProgress - [llength $pipes] left - spawning next process" 2
-		set pipe [lindex $pipes 0]
-		set pipes [lrange $pipes 1 end]
-		::popeye::input::EndProblem $pipe
-	    }
+	    incr nrRunningProcesses -1
 	}
 	eof {
 	    puts stderr "[::msgcat::mc orchestrator::unexpectedEOF]"
 	    exit 1
 	}
 	default {
-	    control::assert false "::tester::moveRangesProgress: unexpected notification $notification"
+	    control::assert false "::tester::testProgress: unexpected notification $notification"
 	    exit 1
 	}
     }
 
-    # we print board and board terminator only once (if at all)
-    if {$nrBoardsRead==1} {
-	set ::output::isBoardSuppressed true
-	set ::output::isBoardTerminatorSuppressed true
-    }
-
-    # the next iteration deals with the last bit of solution of the problem - activate output of solution terminator
-    if {$endElmt!="Twin" && $nrRunningProcesses==1 && [llength $pipes]==0} {
-	set ::output::isSolutionTerminatorSuppressed false
-    }
-
     if {$nrRunningProcesses==0} {
-	debug.tester "moveRangesProgress <- break"
+	debug.tester "testProgress <- break"
 	return -code break
     } else {
-	set result [list $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes]
-	debug.tester "moveRangesProgress <- [debuggable $result]"
+	set result [list $firstTwin $nrRunningProcesses $currMove]
+	debug.tester "testProgress <- [debuggable $result]"
 	return $result
     }
 }
 
-proc ::tester::moveRanges {firstTwin twinnings endElmt moveRanges} {
-    debug.tester "moveRanges firstTwin:|[debuggable $firstTwin]| twinnings:$twinnings endElmt:$endElmt moveRanges:$moveRanges"
+proc ::tester::test {firstTwin} {
+    debug.tester "test firstTwin:|[debuggable $firstTwin]|"
+
+    # synchronously deal with everything happening before move 1, e.g. set play
+    lassign [::popeye::spawn] setplayPipe greetingLine
+    debug.tester "setplayPipe:$setplayPipe" 2
+    setplayRange $setplayPipe $firstTwin
+    ::popeye::terminate $setplayPipe
 
     ::sync::Init
 
-    set ::output::isSolutionTerminatorSuppressed true
-
-    set twinningRE {\n\n..?[\)] [^\n]*\n}
-
-    if {$endElmt=="Twin"} {
-	debug.tester "inserting fake twinning as solution terminator" 2
-	set fakeTwinning "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
-	lappend twinnings [list Twin $fakeTwinning]
-	set solutionTerminatorRE "\\n..?\[\)] $fakeTwinning *\\n"
-    } else {
-	set solutionFinishedRE "(?:\\n[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution])\[^\\n]+\\n+"
-	set solutionTerminatorRE $solutionFinishedRE
+    set currMove 1
+    for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
+	lassign [::popeye::spawn] pipe greetingLine
+	testMove $pipe $firstTwin $currMove
+	incr currMove
     }
 
-    if {[llength $twinnings]==0 && $endElmt!="Twin"} {
-	debug.tester "no twin and no zeroposition - inserting fake zero position as board terminator" 2
-	set twinnings [linsert $twinnings 0 [list "ZeroPosition" "[::msgcat::mc input::Rotate] 90 [::msgcat::mc input::Rotate] 270"]]
-	set fakeZeroPositionRE "\\n[::msgcat::mc input::ZeroPosition].*?270 *\\n"
-	set boardTerminatorRE $fakeZeroPositionRE
-	set ::output::isBoardTerminatorSuppressed true
-    } else {
-	if {[info exists fakeTwinning]} {
-	    set boardTerminatorRE "\\n\\n..?\[\)] (?!$fakeTwinning)\[^\\n]*\\n"
-	} else {
-	    set boardTerminatorRE "\\n\\n..?\[\)] \[^\\n]*\\n"
-	}
-    }
+    debug.tester "nrRunningProcesses:$nrRunningProcesses" 2
 
-    set pipes {}
-    foreach moveRange $moveRanges {
-	set pipe [moveRange $firstTwin $endElmt $twinnings $moveRange]
-	::popeye::output::doAsync $pipe async::board [list $boardTerminatorRE $solutionTerminatorRE]
-	lappend pipes $pipe
-    }
-    debug.tester "pipes:$pipes" 2
-
-    set nrRunningProcesses 0
-    foreach pipe $pipes {
-	::popeye::input::EndProblem $pipe
-	incr nrRunningProcesses
-	set pipes [lrange $pipes $nrRunningProcesses end]
-	break
-    }
-
-    set nrBoardsRead 0
-    set nrMovesPlayed 0
-    lassign [::sync::Wait moveRangesProgress $endElmt $nrRunningProcesses $nrBoardsRead $nrMovesPlayed $pipes] endElmt nrProcesses nrBoardsRead nrMovesPlayed
+    # asynchronously deal with the processes created for the real moves
+    lassign [::sync::Wait testProgress $firstTwin $nrRunningProcesses $currMove] nrProcesses
 
     ::sync::Fini
 
-    debug.tester "moveRanges <- $nrMovesPlayed"
-    return $nrMovesPlayed
+    debug.tester "test <-"
 }
 
-namespace eval grouping {
-}
+proc handleTwin {firstTwin} {
+    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]|"
 
-namespace eval grouping::byweight {
-}
-
-proc grouping::byweight::makeGroups {weights skipMoves} {
-    debug.grouping "byweight::makeGroups weights:$weights skipMoves:$skipMoves"
-
-    set weightTotal 0
-    foreach weight $weights {
-	incr weightTotal $weight
-    }
-    debug.grouping "weightTotal:$weightTotal" 2
-
-    set nrGroups $::params(nrprocs)
-    if {[llength $weights]<$nrGroups} {
-	set nrGroups [llength $weights]
-    }
-    debug.grouping "nrGroups:$nrGroups" 2
-
-    set avgWeightPerProcess [expr {($weightTotal+$::params(nrprocs)-1)/$nrGroups}]
-    debug.grouping "weightTotal:$weightTotal avgWeightPerProcess:$avgWeightPerProcess" 2
-
-    set start [expr {$skipMoves+1}]
-    set curr $skipMoves
-    set weightTarget $avgWeightPerProcess
-    set weightAccumulated 0
-
-    set result {}
-
-    foreach weight $weights {
-	incr curr
-	incr weightAccumulated $weight
-	debug.grouping "start:$start curr:$curr weight:$weight weightTarget:$weightTarget weightAccumulated:$weightAccumulated" 2
-	if {$weightAccumulated>$weightTarget} {
-	    set weightExcess [expr {$weightAccumulated-$weightTarget}]
-	    debug.tester "weightExcess:$weightExcess"
-	    if {$weightExcess>$weight/2 && $start>$curr} {
-		lappend result [list $start [expr {$curr-1}]]
-		set start $curr
-	    } else {
-		lappend result [list $start $curr]
-		set start [expr {$curr+1}]
-	    }
-	    incr weightTarget $avgWeightPerProcess
-	}
-    }
-    set end [expr {$skipMoves+[llength $weights]}]
-    if {$start<=$end} {
-	lappend result [list $start $end]
-    }
-
-    debug.grouping "byweight::makeGroups <- $result"
-    return $result
-}
-
-proc grouping::byweight::findWeights {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "byweight::findWeights firstTwin:|[debuggable $firstTwin]| twinnings:[debuggable $twinnings] whomoves:$whomoves skipMoves:$skipMoves"
-
-    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] [expr {$skipMoves+1}]"
-    if {$whomoves=="black"} {
-	append options " [::msgcat::mc input::HalfDuplex]"
-    }
-    debug.grouping "options:$options"
-
-    lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-
-    if {[llength $twinnings]==0} {
-	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
-    } else {
-	lassign [lindex $twinnings 0] key change
-	if {$key=="ZeroPosition"} {
-	    lappend change " [::msgcat::mc input::Stipulation] ~1"
-	    set twinnings [lreplace $twinnings 0 0 [list "ZeroPosition" $change]]
-	} else {
-	    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] ~1"
-	}
-	foreach t $twinnings {
-	    lassign $t key twinning
-	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] ~1"
-	}
-    }
-    ::popeye::input::EndProblem $pipe
-
-    set result {}
-    while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.grouping "line:|[debuggable $line]|" 2
-	append output "$line\n"
-	switch -glob $line {
-	    "*[::msgcat::mc output::Time] = *" {
-		debug.grouping "next move" 2
-		# this matches both
-		#  21  (Ke6-e7    Time = 0.016 s)
-		# solution finished. Time = 0.016 s
-		# so all moves are taken care of
-		if {[info exists move]} {
-		    lappend result $weight
-		    debug.grouping "[llength $result] move:[debuggable $move] weight:$weight" 2
-		}
-		set weight 0
-		regexp -- {[(]([^ ]+).*[)]} $line - move
-	    }
-	    {*+ !} {
-		debug.grouping "checking move" 2
-		set weight 2
-	    }
-	    {*!} {
-		debug.grouping "non-checking move" 2
-		set weight 20
-	    }
-	    {*TI~-~*} {
-		debug.grouping "random move by TI" 2
-		set weight 100
-	    }
-	    default {
-		debug.grouping "other line" 2
-	    }
-	}
-    }
-
-    ::popeye::terminate $pipe
-
-    debug.grouping "byweight::findWeights <- $result"
-    return $result
-}
-
-proc ::grouping::byweight::makeRanges {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "byweight::makeRanges firstTwin:|[debuggable $firstTwin]| twinnings:[debuggable $twinnings] whomoves:$whomoves skipMoves:$skipMoves"
-
-    set weights [::grouping::byweight::findWeights $firstTwin $twinnings $whomoves $skipMoves]
-    debug.grouping "weights:$weights" 2
-
-    if {[llength $weights]==0} {
-	set result {}
-    } else {
-	set result [::grouping::byweight::makeGroups $weights $skipMoves]
-    }
-
-    debug.grouping "byweight::makeRanges <- $result"
-    return $result
-}
-
-namespace eval ::grouping::movebymove {
-}
-
-proc ::grouping::movebymove::makeRanges {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "movebymove::makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
-
-    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] [expr {$skipMoves+1}]"
-    if {$whomoves=="black"} {
-	append options " [::msgcat::mc input::HalfDuplex]"
-    }
-    debug.grouping "options:$options"
-
-    lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-
-    if {[llength $twinnings]==0} {
-	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
-    } else {
-	lassign [lindex $twinnings 0] key change
-	if {$key=="ZeroPosition"} {
-	    lappend change " [::msgcat::mc input::Stipulation] h#0.5"
-	    set twinnings [lreplace $twinnings 0 0 [list "ZeroPosition" $change]]
-	} else {
-	    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
-	}
-	foreach t $twinnings {
-	    lassign $t key twinning
-	    ::popeye::input::$key $pipe "$twinning [::msgcat::mc input::Stipulation] h#0.5"
-	}
-    }
-    ::popeye::input::EndProblem $pipe
-
-    set parenOpenRE {[\(]}
-    set parenCloseRE {[\)]}
-    set movenumberRE { *[[:digit:]]+}
-    set moveRE {[^\n]+}
-    set timeLabelRE [::msgcat::mc output::Time]
-    set timeRE {[[:digit:]:.]+}
-    set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "$movenumberRE +$parenOpenRE$moveRE +$timeLabelRE = $timeRE $timeUnitRE$parenCloseRE"
-
-    set result {}
-    set nrMoves 0
-    while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.grouping "line:[debuggable $line]" 2
-	if {[regexp -- $movenumberLineRE $line]} {
-	    incr nrMoves
-	    lappend result [list $nrMoves $nrMoves]
-	}
-    }
-
-    ::popeye::terminate $pipe
-
-    debug.grouping "nrMoves:$nrMoves" 2
-
-    debug.grouping "movebymove::makeRanges <- $result"
-    return $result
-}
-
-namespace eval ::grouping::auto {
-}
-
-proc ::grouping::auto::makeRanges {firstTwin twinnings whomoves skipMoves} {
-    debug.grouping "auto::makeRanges firstTwin:|$firstTwin| twinnings:$twinnings whomoves:$whomoves skipMoves:$skipMoves"
-
-    set byweight [::grouping::byweight::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
-    set movebymove [::grouping::movebymove::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
-
-    # we currently prefer byweight in general, but this method may miss some moves...
-    if {[llength $byweight]==0} {
-	set result $movebymove
-    } else {
-	lassign [lindex $byweight end] first last
-	if {$last>=[llength $movebymove]} {
-	    set result $byweight
-	} else {
-	    set result $movebymove
-	}
-    }
-
-    debug.grouping "auto::makeRanges <- $result"
-    return $result
-}
-
-proc whoMoves {twin twinnings} {
-    debug.whomoves "whoMoves twin:|[debuggable $twin]| twinnings:$twinnings"
-
-    set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] =}
-
-    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MoveNumber] [::msgcat::mc input::StartMoveNumber] 1"
-
-    lassign [::popeye::spawn $twin $options] pipe greetingLine
-    ::popeye::input::Pieces $pipe "total 0"
-    ::popeye::input::EndProblem $pipe
-
-    fconfigure $pipe -blocking false
-    set output ""
-    variable whomovesReadable false
-    fileevent $pipe readable { set whomovesReadable true }
-    while {![eof $pipe]} {
-	vwait whomovesReadable
-	set readable false
-	append output [read $pipe]
-	debug.whomoves "output:|[debuggable $output]|" 2
-	if {[regexp -- "\n($movenumbersRE)" $output - firstLine]} {
-	    debug.whomoves "firstLine:[debuggable $firstLine]"
-	    break
-	}
-    }
-    ::popeye::terminate $pipe
-
-    lassign [::popeye::spawn $twin $options] pipe greetingLine
-    ::popeye::input::Pieces $pipe "total 0"
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#1"
-    ::popeye::input::EndProblem $pipe
-
-    fconfigure $pipe -blocking false
-    set output ""
-    variable whomovesReadable false
-    fileevent $pipe readable { set whomovesReadable true }
-    while {![eof $pipe]} {
-	vwait whomovesReadable
-	set readable false
-	append output [read $pipe]
-	debug.whomoves "output:|[debuggable $output]|" 2
-	if {[regexp -- "\n($movenumbersRE)" $output - firstLineBlack]} {
-	    debug.whomoves "firstLineBlack:[debuggable $firstLineBlack]"
-	    break
-	}
-    }
-    ::popeye::terminate $pipe
-
-    if {![info exists firstLineBlack]} {
-	set result "white"
-    } elseif {![info exists firstLine]} {
-	set result "black"
-    } elseif {$firstLine==$firstLineBlack} {
-	set result "black"
-    } else {
-	set result "white"
-    }
-
-    debug.whomoves "whoMoves <- $result"
-    return $result
-}
-
-proc handleTwin {firstTwin endElmt twinnings skipMoves} {
-    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt twinnings:$twinnings skipMoves:$skipMoves"
-
-    set ::output::isBoardTerminatorSuppressed false
-
-    set whomoves [whoMoves $firstTwin $twinnings]
-    debug.twin "whomoves:$whomoves" 2
-
-    set ranges [::grouping::auto::makeRanges $firstTwin $twinnings $whomoves $skipMoves]
-    debug.twin "ranges:$ranges" 2
-
-    if {[llength $ranges]==0} {
-	lappend ranges [list [expr {$skipMoves+1}] [expr {$skipMoves+1}]]
-    }
-    set result [::tester::moveRanges $firstTwin $twinnings $endElmt $ranges]
+    set result [::tester::test $firstTwin]
 	
     debug.twin "handleTwin <- $result"
-    return $result
-}
-
-proc areMoveNumbersActivated {firstTwin zeroTwinning} {
-    debug.movenumbers "areMoveNumbersActivated firstTwin:|[debuggable $firstTwin]| zeroTwinning:$zeroTwinning"
-
-    set result false
-
-    set options "[::msgcat::mc input::NoBoard] [::msgcat::mc input::MaxSolutions] 1"
-    debug.movenumbers "options:$options" 2
-
-    lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-
-    debug.movenumbers "zeroTwinning:|$zeroTwinning|" 2
-    ::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
-    ::popeye::input::EndProblem $pipe
-
-    while {[::popeye::output::getLine $pipe line]>=0} {
-	debug.movenumbers "line:[debuggable $line]" 2
-	set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] = [^\)]+[\)]}
-	if {[regexp -- "^$movenumbersRE\$" $line]} {
-	    set result true
-	    break
-	}
-    }
-
-    ::popeye::terminate $pipe
-
-    if {!$result} {
-	append options "[::msgcat::mc input::HalfDuplex]"
-	lassign [::popeye::spawn $firstTwin $options] pipe greetingLine
-
-	debug.movenumbers "zeroTwinning:|$zeroTwinning|" 2
-	::popeye::input::ZeroPosition $pipe "[::msgcat::mc input::Stipulation] h#0.5"
-	::popeye::input::EndProblem $pipe
-
-	while {[::popeye::output::getLine $pipe line]>=0} {
-	    debug.movenumbers "line:[debuggable $line]" 2
-	    set movenumbersRE { *[[:digit:]]+ +[\(][^\n]+[::msgcat::mc output::Time] = [^\)]+[\)]}
-	    if {[regexp -- "^$movenumbersRE\$" $line]} {
-		set result true
-		break
-	    }
-	}
-
-	::popeye::terminate $pipe
-    }
-
-    debug.movenumbers "areMoveNumbersActivated <- $result"
     return $result
 }
 
@@ -1495,11 +1180,16 @@ proc readFirstTwin {chan} {
 	}
     }
 
+    if {$endElmt!="EndProblem"} {
+	puts stderr "[::msgcat::mc orchestrator::elementNotSupported]: [::msgcat::mc input::$endElmt]"
+	exit 1
+    }
+
     if {[info exists protocol]} {
 	::output::openProtocol $protocol
     }
 
-    set result [list $firstTwin $endElmt]
+    set result $firstTwin
 
     debug.problem "readFirstTwin <- [debuggable $result]"
     return $result
@@ -1508,20 +1198,14 @@ proc readFirstTwin {chan} {
 proc handleFirstTwin {chan} {
     debug.problem "handleFirstTwin"
 
-    lassign [readFirstTwin $chan] firstTwin endElmt
+    set firstTwin [readFirstTwin $chan]
 
-    set twinnings {}
-
-    if {$endElmt=="ZeroPosition"} {
-	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] zeroTwinning endElmt
-	lappend twinnings [list "ZeroPosition" $zeroTwinning]
-	::output::enableMovenumbers [areMoveNumbersActivated $firstTwin $zeroTwinning]
-    } else {
-	::output::enableMovenumbers [areMoveNumbersActivated $firstTwin ""]
+    if {[string match -nocase "*[::msgcat::mc input::MoveNumbers]*" $firstTwin]} {
+	::output::enableMovenumbers true
     }
 
-    set nrFirstMoves [handleTwin $firstTwin $endElmt $twinnings 0]
-    set result [list $firstTwin $twinnings $endElmt $nrFirstMoves]
+    set nrFirstMoves [handleTwin $firstTwin]
+    set result [list $firstTwin $nrFirstMoves]
 
     debug.problem "handleFirstTwin <- $result"
     return $result
@@ -1530,18 +1214,7 @@ proc handleFirstTwin {chan} {
 proc handleProblem {chan} {
     debug.problem "handleProblem"
 
-    set ::output::isBoardSuppressed false
-
     lassign [handleFirstTwin $chan] firstTwin twinnings endElmt nrFirstMoves
-
-    while {$endElmt=="Twin"} {
-	lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
-
-	lappend twinnings [list "Twin" $twinning]
-	debug.problem "twinnings:$twinnings" 2
-
-	incr nrFirstMoves [handleTwin $firstTwin $endElmt $twinnings $nrFirstMoves]
-    }
 
     set result $endElmt
     debug.problem "handleProblem <- $result"
@@ -1557,9 +1230,32 @@ proc handleInput {chan} {
     }
 }
 
+proc handleGreetingLine {} {
+    debug.problem handleGreetingLine
+
+    lassign [::popeye::spawn] pipe greetingLine
+    ::popeye::terminate $pipe
+
+    set greetingLineRE {^Popeye [^ ]* v([0-9]+)[.]([0-9]+) [(][^\n]+[)]}
+    if {[regexp -- $greetingLineRE $greetingLine - major minor]} {
+	if {$major<4 || ($major==4 && $minor<91)} {
+	    puts stderr [::msgcat::mc popeye::versionNotSupported]
+	    exit 1
+	}
+    } else {
+	puts stderr [::msgcat::mc popeye::versionNotDetected]
+    }
+
+    ::output::greetingLine "$greetingLine\n"
+
+    debug.problem "handleGreetingLine <-"
+}
+
 proc main {} {
     ::language::init
     parseCommandLine
+    handleGreetingLine
+
     if {[info exists ::params(inputfile)]} {
 	set chan [open $::params(inputfile) "r"]
 	handleInput $chan
@@ -1568,6 +1264,7 @@ proc main {} {
 	handleInput stdin
     }
 
+    ::output::writeLatestFinish
     ::output::closeProtocol
 }
 
