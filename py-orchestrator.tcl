@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 
-set version "v4.90"
+set version "v4.93"
 
 package require cmdline
 package require control
@@ -1229,14 +1229,12 @@ proc handleInput {chan} {
 proc handleGreetingLine {} {
     debug.problem handleGreetingLine
 
-    set supportedVersions { "4.91" "4.93" }
-
     lassign [::popeye::spawn] pipe greetingLine
     ::popeye::terminate $pipe
 
-    set greetingLineRE {^Popeye [^ ]* v([0-9.]+) [(][^\n]+[)]}
-    if {[regexp -- $greetingLineRE $greetingLine - versionString]} {
-	if {[lsearch -exact $supportedVersions $versionString]==-1} {
+    set greetingLineRE {^Popeye [^ ]* v([0-9]+)[.]([0-9]+) [(][^\n]+[)]}
+    if {[regexp -- $greetingLineRE $greetingLine - major minor]} {
+	if {$major<4 || ($major==4 && $minor<91)} {
 	    puts stderr [::msgcat::mc popeye::versionNotSupported]
 	    exit 1
 	}
