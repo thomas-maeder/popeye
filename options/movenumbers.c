@@ -229,33 +229,79 @@ typedef enum
   insert_guard_mode_intelligent
 } insert_guard_mode;
 
-typedef struct
+static void insert_guard_help_move(slice_index si, stip_structure_traversal *st)
 {
-    insert_guard_mode mode;
-} insertion_state_type;
-
-static void insert_guard_help(slice_index si, stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
+  unsigned int * const counter = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->mode = insert_guard_mode_regular;
+  ++*counter;
+  stip_traverse_structure_children_pipe(si,st);
+  --*counter;
+
+  TraceValue("%u",*counter);TraceEOL();
+
+  if (*counter==0)
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STRestartGuard)
+    };
+    slice_insertion_insert_contextually(si,st->context,prototypes,1);
+  }
+  else if (restart_deep && st->level==structure_traversal_level_nested)
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STRestartGuardNested)
+    };
+    slice_insertion_insert_contextually(si,st->context,prototypes,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guard_help(slice_index si, stip_structure_traversal *st)
+{
+  insert_guard_mode const * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
 
-  assert(state->mode!=insert_guard_mode_unknown);
-
-  if (state->mode==insert_guard_mode_intelligent)
+  if (st->level==structure_traversal_level_top)
   {
-    slice_index const prototypes[] = {
-        alloc_restart_guard_intelligent(),
-        alloc_intelligent_target_counter()
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
+    assert(*mode!=insert_guard_mode_unknown);
+
+    if (*mode==insert_guard_mode_regular)
+    {
+      stip_structure_traversal st_nested;
+      unsigned int counter = 0;
+      stip_structure_traversal_init(&st_nested,&counter);
+      stip_structure_traversal_override_single(&st_nested,
+                                               STMove,
+                                               &insert_guard_help_move);
+      stip_structure_traversal_override_single(&st_nested,
+                                               STGoalReachedTester,
+                                               &stip_traverse_structure_children_pipe);
+      stip_structure_traversal_override_single(&st_nested,
+                                               STConstraintSolver,
+                                               &stip_traverse_structure_children_pipe);
+      stip_traverse_structure(si,&st_nested);
+      assert(counter==0);
+    }
+    else
+    {
+      slice_index const prototypes[] = {
+          alloc_restart_guard_intelligent(),
+          alloc_intelligent_target_counter()
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(si,prototypes,nr_prototypes);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -265,13 +311,13 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 static void insert_guard_intelligent(slice_index si,
                                      stip_structure_traversal *st)
 {
-  insertion_state_type * const state = st->param;
+  insert_guard_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->mode = insert_guard_mode_intelligent;
+  *mode = insert_guard_mode_intelligent;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -280,33 +326,13 @@ static void insert_guard_intelligent(slice_index si,
 static void insert_guard_regular(slice_index si,
                                      stip_structure_traversal *st)
 {
-  insertion_state_type * const state = st->param;
+  insert_guard_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (state->mode==insert_guard_mode_regular)
-  {
-    if (st->level==structure_traversal_level_nested)
-    {
-      if (restart_deep)
-      {
-        slice_index const prototypes[] = {
-            alloc_pipe(STRestartGuardNested)
-        };
-        slice_insertion_insert_contextually(si,st->context,prototypes,1);
-      }
-    }
-    else
-    {
-      slice_index const prototype = alloc_pipe(STRestartGuard);
-      slice_insertion_insert(si,&prototype,1);
-    }
-  }
-
+  *mode = insert_guard_mode_regular;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -335,16 +361,14 @@ enum
  */
 void solving_insert_restart_guards(slice_index si)
 {
-  insertion_state_type state = { insert_guard_mode_unknown };
+  insert_guard_mode mode = insert_guard_mode_unknown;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
