@@ -373,6 +373,7 @@
     ENUMERATOR(STBul), \
     ENUMERATOR(STBulPlyCatchup), \
     ENUMERATOR(STBulPlyRewinder), \
+    ENUMERATOR(STBulMovementGeneratorFork),                           \
     ENUMERATOR(STOscillatingKingsTypeA), \
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \

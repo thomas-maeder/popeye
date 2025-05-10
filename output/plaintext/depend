@@ -592,22 +592,21 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  input/plaintext/condition.h pieces/walks/pawns/promotee_sequence.h \
  pieces/attributes/chameleon.h conditions/annan.h conditions/bgl.h \
- conditions/bolero.h conditions/breton.h conditions/cast.h \
- conditions/circe/april.h conditions/circe/rex_inclusive.h \
- conditions/circe/chameleon.h conditions/dister.h conditions/football.h \
- conditions/geneva.h conditions/grid.h conditions/imitator.h \
- conditions/immune.h conditions/isardam.h conditions/kobul.h \
- conditions/koeko/anti.h conditions/koeko/koeko.h conditions/madrasi.h \
- conditions/magic_square.h conditions/marscirce/marscirce.h \
- solving/observation.h solving/temporary_hacks.h solving/fork.h \
- solving/move_generator.h debugging/measure.h conditions/marscirce/anti.h \
- conditions/marscirce/phantom.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/protean.h \
- conditions/frankfurt.h conditions/republican.h conditions/sat.h \
+ conditions/bolero.h conditions/breton.h conditions/circe/april.h \
+ conditions/circe/rex_inclusive.h conditions/circe/chameleon.h \
+ conditions/dister.h conditions/football.h conditions/geneva.h \
+ conditions/grid.h conditions/imitator.h conditions/immune.h \
+ conditions/isardam.h conditions/kobul.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/madrasi.h conditions/magic_square.h \
+ conditions/marscirce/marscirce.h solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
+ debugging/measure.h output/plaintext/protocol.h \
+ conditions/marscirce/anti.h conditions/marscirce/phantom.h \
+ conditions/messigny.h conditions/oscillating_kings.h \
+ conditions/protean.h conditions/republican.h conditions/sat.h \
  conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- conditions/role_exchange.h conditions/multicaptures.h \
- conditions/powertransfer.h pieces/walks/hunters.h debugging/assert.h
+ conditions/role_exchange.h pieces/walks/hunters.h debugging/assert.h
 output/plaintext/condition.h:
 utilities/boolean.h:
 output/output.h:
@@ -677,7 +676,6 @@ conditions/annan.h:
 conditions/bgl.h:
 conditions/bolero.h:
 conditions/breton.h:
-conditions/cast.h:
 conditions/circe/april.h:
 conditions/circe/rex_inclusive.h:
 conditions/circe/chameleon.h:
@@ -704,15 +702,12 @@ conditions/marscirce/phantom.h:
 conditions/messigny.h:
 conditions/oscillating_kings.h:
 conditions/protean.h:
-conditions/frankfurt.h:
 conditions/republican.h:
 conditions/sat.h:
 conditions/singlebox/type1.h:
 conditions/transmuting_kings/vaulting_kings.h:
 conditions/woozles.h:
 conditions/role_exchange.h:
-conditions/multicaptures.h:
-conditions/powertransfer.h:
 pieces/walks/hunters.h:
 debugging/assert.h:
 output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \

@@ -47,6 +47,9 @@ extern slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 /* fork slice into branch that generates moves */
 extern slice_index temporary_hack_move_generator[nr_sides];
 
+/* fork slice into branch that generates Bul movements */
+extern slice_index temporary_hack_bul_movement_generator[nr_sides];
+
 /* fork slice into branch that tests square observation */
 extern slice_index temporary_hack_is_square_observed[nr_sides];
 extern slice_index temporary_hack_is_square_observed_specific[nr_sides];

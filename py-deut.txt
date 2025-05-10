@@ -280,6 +280,9 @@ Kommandos:
 	AllInChess
 	HalfInChess
 	MainlyInChess
+	AntiDeckungen
+	FrankfurtSchach
+	Leffie
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -1007,6 +1010,8 @@ aufwendiger ist das Kommando
 	FrischAuf
 	Anda
 	AndaInvers
+	Bul
+	Dob
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
@@ -1327,4 +1332,4 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   abgebrochen werden.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green, Mu-Tsun Tsai

@@ -277,6 +277,9 @@ simples:
 	AllInChess
 	HalfInChess
 	MainlyInChess
+	Antigardes
+	Francfort
+	Leffie
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -986,6 +989,8 @@ suivante est un peu plus compliquee:
 	FrischAuf
 	Anda
 	AndaInverse
+	Bul
+	Dob
 
 	Suit la liste des pieces comme d'habitude: allure de la piece suivi par
 	une liste de cases ou une telle piece est placee. On peut toujours
@@ -1285,5 +1290,5 @@ MS-DOS (32 Bit), DR-DOS (32 Bit):
 	   avec la cle CTRL-C.
 
 
-Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
+Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel, Joshua Green, Mu-Tsun Tsai
 
