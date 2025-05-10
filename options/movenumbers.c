@@ -272,7 +272,8 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->level==structure_traversal_level_top)
+  if (st->level==structure_traversal_level_top
+      || st->level==structure_traversal_level_setplay)
   {
     assert(*mode!=insert_guard_mode_unknown);
 
