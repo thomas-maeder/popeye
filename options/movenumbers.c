@@ -264,17 +264,19 @@ static void insert_guard_help_move(slice_index si, stip_structure_traversal *st)
 
 static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 {
-  insert_guard_mode const * const mode = st->param;
+  insert_guard_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
   if (st->level==structure_traversal_level_top
       || st->level==structure_traversal_level_setplay)
   {
+    assert(*mode==insert_guard_mode_unknown);
+
+    stip_traverse_structure_children_pipe(si,st);
+
     assert(*mode!=insert_guard_mode_unknown);
 
     if (*mode==insert_guard_mode_regular)
@@ -303,7 +305,11 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_prototypes);
     }
+
+    *mode = insert_guard_mode_unknown;
   }
+  else
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -317,6 +323,9 @@ static void insert_guard_intelligent(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(*mode==insert_guard_mode_unknown
+         || *mode==insert_guard_mode_intelligent);
 
   *mode = insert_guard_mode_intelligent;
 
@@ -332,6 +341,9 @@ static void insert_guard_regular(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(*mode==insert_guard_mode_unknown
+         || *mode==insert_guard_mode_regular);
 
   *mode = insert_guard_mode_regular;
 
