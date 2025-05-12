@@ -39,7 +39,7 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
      This implementation is based on the May 2016 version at
          https://www.pixelbeat.org/programming/gcc/static_assert.html
      and we settle for the simple, universal version which cannot be used multiple
-     times on the same line (or on the first line of switch block).
+     times on the same line (or on the first line of a switch block).
   */       
   #define STATIC_ASSERT_CAT_IMPL_IMPL(a, b) a##b
   #define STATIC_ASSERT_CAT_IMPL(a, b) STATIC_ASSERT_CAT_IMPL_IMPL(a, b)
