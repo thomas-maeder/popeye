@@ -34,8 +34,9 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
   /* Use
          STATIC_ASSERT(cond, msg)
      to test cond at compile-time (which must be possible).  If cond is false
-     then compilationn will fail.  This allows us to test our expected invariants.
-     A string literal indicating the test and/or failure is recommended for msg.
+     then compilation will fail.  This allows us to verify that our expected
+     invariants still hold.  A string literal indicating the test and/or failure
+     is recommended for msg, to aid in correcting any errors identified.
      This implementation is based on the May 2016 version at
          https://www.pixelbeat.org/programming/gcc/static_assert.html
      and we settle for the simple, universal version which cannot be used multiple
