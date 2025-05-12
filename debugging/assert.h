@@ -32,7 +32,7 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
 
 #if !defined(STATIC_ASSERT)
   /* Use
-         STATIC_ASSERT(cond, msg)
+         STATIC_ASSERT(cond, msg);
      to test cond at compile-time (which must be possible).  If cond is false
      then compilation will fail.  This allows us to verify that our expected
      invariants still hold.  A string literal indicating the test and/or failure
