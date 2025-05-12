@@ -1,8 +1,4 @@
-#if !defined(NDEBUG)
-
-#if defined(__GNUC__) || defined(__clang__)
-
-#if !defined(AUXILIARY)
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(AUXILIARY)
 
 #include "debugging/assert.h"
 #include "options/movenumbers.h"
@@ -12,6 +8,10 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#if !defined(ASSERT_IMPL_DECLARED)
+void assert_impl(char const *assertion, char const *file, int line, char const *func);
+#endif
 
 void assert_impl(char const *assertion, char const *file, int line, char const *func)
 {
@@ -32,10 +32,8 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
   exit(1);
 }
 
-#endif
-
-#endif
-
-#endif
+#else
 
 extern unsigned char ASSERT_C_NONEMPTY_TRANSLATION_UNIT;
+
+#endif
