@@ -4,6 +4,8 @@
 *.lib
 *.exe
 *.zip
+*.js
+*.wasm
 .project
 .cproject
 makefile
