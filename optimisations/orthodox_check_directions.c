@@ -22,15 +22,12 @@ static void InitCheckDir(void)
   unsigned int j;
 
   {
-    enum
-    {
-      ensure_Queen_lt_Rook = 1/(Queen<Rook),
-      ensure_Rook_minus_Queen_lt_4 = 1/((Rook-Queen)<4),
-      ensure_Queen_lt_Bishop = 1/(Queen<Bishop),
-      ensure_Bishop_minus_Queen_lt_4 = 1/((Bishop-Queen)<4),
-      ensure_Queen_lt_Knight = 1/(Queen<Knight),
-      ensure_Knight_minus_Queen_lt_4 = 1/((Knight-Queen)<4)
-    };
+    STATIC_ASSERT(Queen<Rook, "Queen must be < Rook.");
+    STATIC_ASSERT((Rook-Queen)<4, "Rook - Queen must be < 4.");
+    STATIC_ASSERT(Queen<Bishop, "Queen must be < Bishop.");
+    STATIC_ASSERT((Bishop-Queen)<4, "Bishop - Queen must be < 4.");
+    STATIC_ASSERT(Queen<Knight, "Queen must be < Knight.");
+    STATIC_ASSERT((Knight-Queen)<4, "Knight - Queen must < 4.");
   }
 
   for (i = 0; i<=2*(square_h8-square_a1); i++)

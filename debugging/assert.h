@@ -21,9 +21,29 @@
 
 #else
 
+#if !defined(ASSERT_IMPL_DECLARED)
 void assert_impl(char const *assertion, char const *file, int line, char const *func);
+#  define ASSERT_IMPL_DECLARED
+#endif
 
 #define assert(expr) ((expr) ? (void)0 : assert_impl(#expr,__FILE__,__LINE__,__func__))
 
 #endif
 
+#if !defined(STATIC_ASSERT)
+  /* Use
+         STATIC_ASSERT(cond, msg)
+     to test cond at compile-time (which must be possible).  If cond is false
+     then compilationn will fail.  This allows us to test our expected invariants.
+     A string literal indicating the test and/or failure is recommended for msg.
+     This implementation is based on the May 2016 version at
+         https://www.pixelbeat.org/programming/gcc/static_assert.html
+     and we settle for the simple, universal version which cannot be used multiple
+     times on the same line (or on the first line of switch block).
+  */       
+  #define STATIC_ASSERT_CAT_IMPL_IMPL(a, b) a##b
+  #define STATIC_ASSERT_CAT_IMPL(a, b) STATIC_ASSERT_CAT_IMPL_IMPL(a, b)
+  #define STATIC_ASSERT(cond, msg) enum { \
+                                     STATIC_ASSERT_CAT_IMPL(static_assert_on_line_, __LINE__) = 1/(int)!!(cond) \
+                                   }
+#endif

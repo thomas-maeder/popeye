@@ -2193,10 +2193,7 @@ static twin_label_type const TWIN_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
 twin_label_type getTwinLabel(unsigned int const index) /* index should be in [0, numTwinLabels()-1] */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_twin_labels = 1/(nr_twin_labels <= ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS)))
-    };
+    STATIC_ASSERT(nr_twin_labels <= ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS)), "We must have enough twin labels.");
   }
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index);

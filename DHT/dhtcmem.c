@@ -24,9 +24,7 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-enum {
-  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof NilCompactMemVal->Data[0])
-};
+STATIC_ASSERT(1 == sizeof NilCompactMemVal->Data[0], "CompactMemVal data element must have size 1.");
 
 static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
