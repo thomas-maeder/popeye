@@ -41,6 +41,9 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
          https://www.pixelbeat.org/programming/gcc/static_assert.html
      and we settle for the simple, universal version which cannot be used multiple
      times on the same line (or on the first line of a switch block).
+     This implementation declares a useless enum.  Placing these inside a block
+     will prevent those enums from leaking into the surrounding context.  Alas,
+     that doesn't work at global scope.
   */       
   #define STATIC_ASSERT_CAT_IMPL_IMPL(a, b) a##b
   #define STATIC_ASSERT_CAT_IMPL(a, b) STATIC_ASSERT_CAT_IMPL_IMPL(a, b)
