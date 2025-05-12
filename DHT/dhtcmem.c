@@ -24,7 +24,7 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-STATIC_ASSERT(1 == sizeof NilCompactMemVal->Data[0], "CompactMemVal data element must have size 1.");
+STATIC_ASSERT(1 == sizeof NilCompactMemVal->Data[0], "sizeof CompactMemVal element must be 1.");
 
 static dhtHashValue ConvertCompactMemoryValue(dhtKey m)
 {
