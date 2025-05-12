@@ -48,6 +48,6 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
   #define STATIC_ASSERT_CAT_IMPL_IMPL(a, b) a##b
   #define STATIC_ASSERT_CAT_IMPL(a, b) STATIC_ASSERT_CAT_IMPL_IMPL(a, b)
   #define STATIC_ASSERT(cond, msg) enum { \
-                                     STATIC_ASSERT_CAT_IMPL(static_assert_on_line_, __LINE__) = 1/(int)!!(cond) \
+                                     STATIC_ASSERT_CAT_IMPL(static_assert_failure_on_line_, __LINE__) = 1/(int)!!(cond) \
                                    }
 #endif
