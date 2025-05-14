@@ -30,14 +30,14 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
 
 #endif
 
+/* Use
+       STATIC_ASSERT(cond, msg);
+   to test cond at compile-time (which must be possible).  If cond is false
+   then compilation will fail.  This allows us to verify that our expected
+   invariants still hold.  msg should be a string literal indicating the test
+   and/or failure, to aid in correcting any errors identified.
+*/
 #if !defined(STATIC_ASSERT)
-  /* Use
-         STATIC_ASSERT(cond, msg);
-     to test cond at compile-time (which must be possible).  If cond is false
-     then compilation will fail.  This allows us to verify that our expected
-     invariants still hold.  msg should be a string literal indicating the test
-     and/or failure, to aid in correcting any errors identified.
-   */
 #  if (defined(__cplusplus) && (__cplusplus >= 201103L)) || \
       (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 202311L))
   #define STATIC_ASSERT(cond, msg) static_assert(cond, msg)
