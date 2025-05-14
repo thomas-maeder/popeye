@@ -35,9 +35,16 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
          STATIC_ASSERT(cond, msg);
      to test cond at compile-time (which must be possible).  If cond is false
      then compilation will fail.  This allows us to verify that our expected
-     invariants still hold.  A string literal indicating the test and/or failure
-     is recommended for msg, to aid in correcting any errors identified.
-     This implementation is based on the May 2016 version at
+     invariants still hold.  msg should be a string literal indicating the test
+     and/or failure, to aid in correcting any errors identified.
+   */
+#  if (defined(__cplusplus) && (__cplusplus >= 201103L)) || \
+      (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 202311L))
+  #define STATIC_ASSERT(cond, msg) static_assert(cond, msg)
+#  elif (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+  #define STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
+#  else
+  /* This implementation is based on the May 2016 version at
          https://www.pixelbeat.org/programming/gcc/static_assert.html
      and we settle for the simple, universal version which cannot be used multiple
      times on the same line (or on the first line of a switch block).
@@ -50,4 +57,5 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
   #define STATIC_ASSERT(cond, msg) enum { \
                                      STATIC_ASSERT_CAT_IMPL(static_assert_failure_on_line_, __LINE__) = 1/(int)!!(cond) \
                                    }
+#  endif
 #endif
