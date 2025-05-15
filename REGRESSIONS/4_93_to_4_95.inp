@@ -1,0 +1,12 @@
+begin
+
+protocol 4_93_to_4_95.reg
+
+title printed move numbers were "interesting" in series movers with introductory sequence
+stipulation 3->ser-h#2
+pieces white ka4
+black pf7 kf8 bh6 sh7
+option movenumber start 1:1 upto 2:40
+
+end
+

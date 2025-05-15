@@ -551,11 +551,8 @@ options/nullmoves$(OBJ_SUFFIX): options/nullmoves.c options/nullmoves.h \
  solving/machinery/dispatch.h debugging/trace.h \
  position/effects/null_move.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/move_generator.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -564,9 +561,11 @@ options/nullmoves$(OBJ_SUFFIX): options/nullmoves.c options/nullmoves.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
- debugging/assert.h
+ debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/fork.h stipulation/branch.h stipulation/slice_insertion.h \
+ stipulation/move.h debugging/assert.h
 options/nullmoves.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -592,13 +591,6 @@ position/castling_rights.h:
 solving/ply.h:
 position/pieceid.h:
 solving/move_generator.h:
-debugging/measure.h:
-output/plaintext/protocol.h:
-solving/pipe.h:
-solving/fork.h:
-solving/observation.h:
-pieces/walks/vectors.h:
-solving/temporary_hacks.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
 stipulation/slice_structural_type.h:
@@ -611,6 +603,13 @@ stipulation/slice_contextual_type.h:
 stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
+debugging/measure.h:
+output/plaintext/protocol.h:
+solving/pipe.h:
+solving/fork.h:
+solving/observation.h:
+pieces/walks/vectors.h:
+solving/temporary_hacks.h:
 stipulation/proxy.h:
 stipulation/pipe.h:
 stipulation/fork.h:
