@@ -15,7 +15,7 @@
 
 #include "debugging/assert.h"
 
-square en_passant_multistep_over[maxply];
+square en_passant_multistep_over[maxply]; // TODO: Is maxplay enough elements for this array?
 
 unsigned int en_passant_end[maxply+1];
 
