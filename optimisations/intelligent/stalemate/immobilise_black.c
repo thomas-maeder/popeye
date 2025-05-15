@@ -127,7 +127,7 @@ boolean intelligent_stalemate_immobilise_black(slice_index si)
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
   castling_rights_type const save_castling_flag = being_solved.castling_rights;
-  unsigned int const save_en_passant_top = en_passant_top[nbply];
+  unsigned int const save_en_passant_end = en_passant_end[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -142,13 +142,13 @@ boolean intelligent_stalemate_immobilise_black(slice_index si)
   current_state = &immobilisation_state;
 
   /* we temporarily disable en passant captures for similar reasons */
-  en_passant_top[nbply] = en_passant_top[nbply-1];
+  en_passant_end[nbply] = en_passant_end[nbply-1];
 
   conditional_pipe_solve_delegate(si);
 
   next_trouble_maker();
 
-  en_passant_top[nbply] = save_en_passant_top;
+  en_passant_end[nbply] = save_en_passant_end;
   current_state = 0;
   being_solved.castling_rights = save_castling_flag;
 
