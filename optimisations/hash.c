@@ -2883,14 +2883,11 @@ void hash_opener_solve(slice_index si)
 void check_hash_assumptions(void)
 {
   {
-    enum
-    {
-      /* SmallEncode uses 1 byte for both row and file of a square */
-      ensure_nr_rows_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_rows_on_board<(1<<(CHAR_BIT/2))),
-      ensure_nr_files_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_files_on_board<(1<<(CHAR_BIT/2))),
+    /* SmallEncode uses 1 byte for both row and file of a square */
+    STATIC_ASSERT(nr_rows_on_board<(1<<(CHAR_BIT/2)), "nr_rows_on_board must fit in half a char.");
+    STATIC_ASSERT(nr_files_on_board<(1<<(CHAR_BIT/2)), "nr_files_on_board must fit in half a char.");
 
-      /* LargeEncode() uses 1 bit per square */
-      ensure_nr_files_on_board_le_CHAR_BIT = 1/(nr_files_on_board<=CHAR_BIT)
-    };
+    /* LargeEncode() uses 1 bit per square */
+    STATIC_ASSERT(nr_files_on_board<=CHAR_BIT, "char must have at least one bit for each file.");
   }
 }

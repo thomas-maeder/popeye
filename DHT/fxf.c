@@ -173,19 +173,19 @@ enum
 #endif
 };
 
-enum {
-  ENSURE_FXFMINSIZE_GT_0 = 1/(fxfMINSIZE > 0),
-  ENSURE_FXFMAXSIZE_GE_FXFMINSIZE = 1/(fxfMAXSIZE >= fxfMINSIZE),
+STATIC_ASSERT(fxfMINSIZE > 0, "fxfMINSIZE must be > 0.");
+STATIC_ASSERT(fxfMAXSIZE >= fxfMINSIZE, "fxfMAXSIZE must be >= fxfMINSIZE.");
 #if defined(SEGMENT)
-  ENSURE_SEGMENTS_ALIGNED = 1/!((ARENA_SEG_SIZE & (((ARENA_SEG_SIZE < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT) - 1U)) &&
-                                (ARENA_SEG_SIZE & (ARENA_SEG_SIZE - 1U))),
+STATIC_ASSERT(!((ARENA_SEG_SIZE & (((ARENA_SEG_SIZE < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT :
+                                                                       MAX_ALIGNMENT)
+                                   - 1U)) &&
+                (ARENA_SEG_SIZE & (ARENA_SEG_SIZE - 1U))), "Segments must be aligned.");
 #endif
-  ENSURE_FXFMAXSIZE_ALIGNED = 1/((!CLEAR_BOTTOM_BIT(fxfMAXSIZE)) ||
+STATIC_ASSERT((!CLEAR_BOTTOM_BIT(fxfMAXSIZE)) ||
                                  ((fxfMAXSIZE < MAX_ALIGNMENT) && !(fxfMAXSIZE & (NOT_MULTIPLE_ALIGNMENT - 1U))) ||
-                                 !(fxfMAXSIZE & (MAX_ALIGNMENT - 1U))),
-  ENSURE_ALIGNMENT_ORDERED = 1/((NOT_MULTIPLE_ALIGNMENT > 0) && (NOT_MULTIPLE_ALIGNMENT <= MAX_ALIGNMENT)),
-  ENSURE_ALIGNMENTS_POWERS_OF_2 = 1/!(CLEAR_BOTTOM_BIT(NOT_MULTIPLE_ALIGNMENT) || CLEAR_BOTTOM_BIT(MAX_ALIGNMENT))
-};
+                                 !(fxfMAXSIZE & (MAX_ALIGNMENT - 1U)), "fxfMAXSIZE must be aligned.");
+STATIC_ASSERT((NOT_MULTIPLE_ALIGNMENT > 0) && (NOT_MULTIPLE_ALIGNMENT <= MAX_ALIGNMENT), "Alignments must be properly ordered.");
+STATIC_ASSERT(!(CLEAR_BOTTOM_BIT(NOT_MULTIPLE_ALIGNMENT) || CLEAR_BOTTOM_BIT(MAX_ALIGNMENT)), "Alignments must be powers of 2.");
 
 #define MIN_ALIGNMENT_UNDERESTIMATE (((NOT_MULTIPLE_ALIGNMENT>>1) < fxfMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
                                                                                   (CLEAR_BOTTOM_BIT(fxfMINSIZE) ? (BOTTOM_BIT(fxfMINSIZE)<<2) : \

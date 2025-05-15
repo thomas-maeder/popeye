@@ -18,10 +18,7 @@ static board_label_type const BOARD_ROW_LABELS[] = {'1', '2', '3', '4', '5', '6'
 board_label_type getBoardFileLabel(unsigned int const index) /* index should be in [0, nr_files_on_board-1] */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_board_file_labels = 1/(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)))
-    };
+    STATIC_ASSERT(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)), "We must have enough board file labels.");
   }
   assert(index < nr_files_on_board);
   return BOARD_FILE_LABELS[index];
@@ -30,10 +27,7 @@ board_label_type getBoardFileLabel(unsigned int const index) /* index should be 
 board_label_type getBoardRowLabel(unsigned int const index) /* index should be in [0, nr_rows_on_board-1] */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_board_row_labels = 1/(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)))
-    };
+    STATIC_ASSERT(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)), "We must have enough board row labels.");
   }
   assert(index < nr_rows_on_board);
   return BOARD_ROW_LABELS[index];
@@ -42,10 +36,7 @@ board_label_type getBoardRowLabel(unsigned int const index) /* index should be i
 unsigned int getBoardFileIndex(board_label_type const label) /* returns nr_files_on_board if label is invalid */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_board_file_labels = 1/(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)))
-    };
+    STATIC_ASSERT(nr_files_on_board <= ((sizeof BOARD_FILE_LABELS)/(sizeof *BOARD_FILE_LABELS)), "We must have enough board file labels.");
   }
   unsigned int index;
   for (index = 0; ((index < nr_files_on_board) && (BOARD_FILE_LABELS[index] != label)); ++index)
@@ -56,10 +47,7 @@ unsigned int getBoardFileIndex(board_label_type const label) /* returns nr_files
 unsigned int getBoardRowIndex(board_label_type const label) /* returns nr_rows_on_board if label is invalid */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_board_row_labels = 1/(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)))
-    };
+    STATIC_ASSERT(nr_rows_on_board <= ((sizeof BOARD_ROW_LABELS)/(sizeof *BOARD_ROW_LABELS)), "We must have enough board row labels.");
   }
   unsigned int index;
   for (index = 0; ((index < nr_rows_on_board) && (BOARD_ROW_LABELS[index] != label)); ++index)
