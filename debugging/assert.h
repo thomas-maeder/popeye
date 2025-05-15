@@ -36,6 +36,8 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
    then compilation will fail.  This allows us to verify that our expected
    invariants still hold.  msg should be a string literal indicating the test
    and/or failure, to aid in correcting any errors identified.
+   NOTE: The fallback option below has some limitations that, for portability,
+   we should respect.
 */
 #if !defined(STATIC_ASSERT)
 #  if (defined(__cplusplus) && (__cplusplus >= 201103L)) || \
