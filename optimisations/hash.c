@@ -138,10 +138,6 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
-/* TODO we should remove help hash slices instead of testing this flag over and
- * over */
-static boolean is_table_uncompressed;
-
 /* Minimal value of a hash table element.
  * compresshash() will remove all elements with a value less than
  * minimalElementValueAfterCompression, and increase
@@ -941,8 +937,6 @@ static void compresshash (void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  is_table_uncompressed = false;
 
   targetKeyCount = dhtKeyCount(pyhash);
   targetKeyCount -= targetKeyCount/16;
@@ -1917,8 +1911,6 @@ static void inithash(slice_index si)
   template_element.Data.unsigned_integer = 0;
   init_elements(&template_element);
 
-  is_table_uncompressed = true;     /* V3.60  TLi */
-
   dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
 
@@ -2802,13 +2794,7 @@ void help_hashed_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",solve_nr_remaining);
-  TraceEOL();
-
-  if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
-    help_hashed_solve_impl(si,si);
-  else
-    pipe_solve_delegate(si);
+  help_hashed_solve_impl(si,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
