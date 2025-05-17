@@ -217,10 +217,12 @@ STATIC_ASSERT(!(CLEAR_BOTTOM_BIT(NOT_MULTIPLE_ALIGNMENT) || CLEAR_BOTTOM_BIT(MAX
 /*
    We'll be rounding allocation sizes to the next multiple of whatever the minimum
    alignment we will ever need is.  We need to know that minimum alignment to
-   create space for the free store.  Unfortunately, it's hard to compute that at
-   compile-time.  If fxfMINSIZE is small enough to require a smaller alignment
-   then we'll use the largest power of 2 that divides it; this might be an
-   underestimate, but that's OK.  
+   create space for the free store.  Unfortunately, it's hard to compute what we
+   want under all circumstances at compile-time.  (In particular, if fxfMINSIZE is
+   small enough to require a smaller alignment than NOT_MULTIPLE_ALIGNMENT then we
+   want the largest power of two that's <= fxfMINSIZE, but I don't see how to determine
+   that at compile-time for an arbitrary fxfMINSIZE.)  What we compute here should be
+   <= that value, and an underestimate here is OK.
 */
 #define MIN_ALIGNMENT_UNDERESTIMATE (((NOT_MULTIPLE_ALIGNMENT>>1) < fxfMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
                                                                                   (CLEAR_BOTTOM_BIT(fxfMINSIZE) ? (BOTTOM_BIT(fxfMINSIZE)<<2) : \
