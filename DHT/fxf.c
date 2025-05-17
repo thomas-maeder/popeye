@@ -777,12 +777,15 @@ NEXT_SEGMENT:
            the whole segment is fully aligned, so if what's left requires full alignment then
            the pointer must be fully aligned when we get here.
         */
-        cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr); /* Now stores the remaining space. */
-        assert((cur_alignment & (MAX_ALIGNMENT-1U)) || !(curBottomIndex & (MAX_ALIGNMENT-1U)));
-        if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
-          pushOntoFreeStore(BotFreePtr, cur_alignment);
-        else if (cur_alignment)
-          TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)cur_alignment, CurrentSeg, CurrentSeg+1));
+        if ((cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr))) /* Now stores the remaining space. */
+        {
+          assert(!((cur_alignment | curBottomIndex) & (NOT_MULTIPLE_ALIGNMENT-1U))); /* Must be divisible by and aligned for NOT_MULTIPLE_ALIGNMENT. */
+          assert((cur_alignment & PTRMASK) || !(curBottomIndex & PTRMASK)); /* If we're divisible by MAX_ALIGNMENT then we must be properly aligned for that. */
+          if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+            pushOntoFreeStore(BotFreePtr, cur_alignment);
+          else
+            TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)cur_alignment, CurrentSeg, CurrentSeg+1));
+        }
         TMDBG(fputs(" next seg", stdout));
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
