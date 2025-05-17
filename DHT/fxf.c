@@ -58,13 +58,13 @@ enum
 
 /*
    We want to ensure that every block we hand out is properly aligned for the
-   object it will be storing.  Trying to honor all required alignments would
-   complicate things dramatically, so we make some assumptions.  We assume
-   there is a MAX_ALIGNMENT and a NOT_MULTIPLE_ALIGNMENT.  Any allocation with a
-   size that's a multiple of MAX_ALIGNMENT will be assumed to require no more
-   than that alignment.  Other sizes will be assumed to require no more than
-   NOT_MULTIPLE_ALIGNMENT, though we'll consider that they may require less
-   (if they're smaller than NOT_MULTIPLE_ALIGNMENT).
+   object it will be storing.  Trying to honor all required alignments without
+   wasting too much memory would complicate things dramatically, so we make some
+   assumptions.  We assume there is a MAX_ALIGNMENT and a NOT_MULTIPLE_ALIGNMENT.
+   Any allocation with size that's a multiple of MAX_ALIGNMENT will be assumed
+   to require no more than that alignment.  Other sizes will be assumed to require
+   no more than NOT_MULTIPLE_ALIGNMENT, though we'll consider that they may require
+   less (if they're smaller than NOT_MULTIPLE_ALIGNMENT).
 */
 
 /*
@@ -722,10 +722,10 @@ START_LOOKING_FOR_CHUNK:
           do {
             size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
             assert(cur_alignment >= min_alignment);
-            if (cur_alignment >= fxfMINSIZE)
+            if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
               pushOntoFreeStore(BotFreePtr, cur_alignment);
             else
-              TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of adding them to free store\n", (size_t_printf_type)cur_alignment));
+              TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of adding them to the free store\n", (size_t_printf_type)cur_alignment));
             BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
           } while (curBottomIndex & needed_alignment_mask);
@@ -751,22 +751,35 @@ START_LOOKING_FOR_CHUNK:
 NEXT_SEGMENT:
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
+        /*
+           We're about to move to the next segment, but let's put whatever we can into the free store.
+        */
         size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
+        /*
+           Add small powers of two until we reach NOT_MULTIPLE_ALIGNMENT.
+        */
+        size_t cur_alignment;
         while (curBottomIndex & (NOT_MULTIPLE_ALIGNMENT-1U))
         {
-          size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
-          pushOntoFreeStore(BotFreePtr, cur_alignment);
+          cur_alignment= BOTTOM_BIT(curBottomIndex);
+          if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+            pushOntoFreeStore(BotFreePtr, cur_alignment);
+          else
+            TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of adding them to the free store\n", (size_t_printf_type)cur_alignment));
           BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
           curBottomIndex+= cur_alignment;
         }
-        curBottomIndex= (size_t)pointerDifference(TopFreePtr,BotFreePtr);
-        if (curBottomIndex >= fxfMINSIZE)
-        {
-          assert(!(curBottomIndex & (NOT_MULTIPLE_ALIGNMENT - 1U)));
-          pushOntoFreeStore(BotFreePtr, curBottomIndex);
-        }
-        else if (curBottomIndex)
-          TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)curBottomIndex, CurrentSeg, CurrentSeg+1));
+        /*
+           If there's anything left, we can add it all.  Here we take advantage of the fact that
+           the whole segment is fully aligned, so if what's left requires full alignment then
+           the pointer must be fully aligned when we get here.
+        */
+        cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr); /* Now stores the remaining space. */
+        assert((cur_alignment & (MAX_ALIGNMENT - 1U)) || !(curBottomIndex & (MAX_ALIGNMENT - 1U)));
+        if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+          pushOntoFreeStore(BotFreePtr, cur_alignment);
+        else if (cur_alignment)
+          TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)cur_alignment, CurrentSeg, CurrentSeg+1));
         TMDBG(fputs(" next seg", stdout));
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
