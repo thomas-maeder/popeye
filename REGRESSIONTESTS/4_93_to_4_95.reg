@@ -48,3 +48,51 @@ printed move numbers were "interesting" in series movers with introductory seque
 solution finished.
 
 
+
+           J\"org Varnholt
+Intelligent mode didn't find the solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   Q -DU  -K   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -S   7
+|                                   |
+6   .   .   .   .   .  DU   .  -B   6
+|                                   |
+5   .   .   .   .   .   . -DU   .   5
+|                                   |
+4   K   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   . -DU   .   .   .   3
+|                                   |
+2   .   .   . -DU   .  -P   .   .   2
+|                                   |
+1   B   . -DU   .  DU   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=14                   5 + 10
+
+0 potential positions in 1+1
+0 potential positions in 1+2
+0 potential positions in 1+3
+0 potential positions in 1+4
+0 potential positions in 1+5
+0 potential positions in 1+6
+0 potential positions in 1+7
+3 potential positions in 1+8
+13 potential positions in 1+9
+22 potential positions in 1+10
+35 potential positions in 1+11
+77 potential positions in 1+12
+113 potential positions in 1+13
+  1.f2*e1=B   2.Be1-g3   3.Bg3-e5   4.Be5*f6   5.Bf6-h8   6.f7-f5   7.f5-f4   8.f4-f3   9.f3-f2  10.f2-f1=R  11.Rf1-f7  12.Sh7-f6  13.Rf7-h7  14.Kf8-g7 Qd8*e8 =
+299 potential positions in 1+14
+  add_to_move_generation_stack:   138825883
+                     play_move:   137725199
+ is_white_king_square_attacked:    39412502
+ is_black_king_square_attacked:    53239138
+
+solution finished.
+
+
