@@ -762,6 +762,7 @@ NEXT_SEGMENT:
         while (curBottomIndex & (NOT_MULTIPLE_ALIGNMENT-1U))
         {
           cur_alignment= BOTTOM_BIT(curBottomIndex);
+          assert(cur_alignment >= min_alignment);
           if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
             pushOntoFreeStore(BotFreePtr, cur_alignment);
           else
@@ -775,7 +776,7 @@ NEXT_SEGMENT:
            the pointer must be fully aligned when we get here.
         */
         cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr); /* Now stores the remaining space. */
-        assert((cur_alignment & (MAX_ALIGNMENT - 1U)) || !(curBottomIndex & (MAX_ALIGNMENT - 1U)));
+        assert((cur_alignment & (MAX_ALIGNMENT-1U)) || !(curBottomIndex & (MAX_ALIGNMENT-1U)));
         if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
           pushOntoFreeStore(BotFreePtr, cur_alignment);
         else if (cur_alignment)
