@@ -569,7 +569,7 @@ static goal_type determine_goal_to_be_reached(slice_index si)
                                            &stip_traverse_structure_binary_operand1);
   stip_traverse_structure(si,&st);
 
-  TraceValue("%u",goal_to_be_reached);
+  TraceValue("%u",goal_to_be_reached);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
