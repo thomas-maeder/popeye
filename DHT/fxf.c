@@ -56,6 +56,22 @@ enum
 
 #define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))
 
+/*
+   We want to ensure that every block we hand out is properly aligned for the
+   object it will be storing.  Trying to honor all required alignments without
+   wasting too much memory would complicate things dramatically, so we make some
+   assumptions.  We assume there is a MAX_ALIGNMENT and a NOT_MULTIPLE_ALIGNMENT.
+   Any allocation with size that's a multiple of MAX_ALIGNMENT will be assumed
+   to require no more than that alignment.  Other sizes will be assumed to require
+   no more than NOT_MULTIPLE_ALIGNMENT, though we'll consider that they may require
+   less (if they're smaller than NOT_MULTIPLE_ALIGNMENT).
+*/
+
+/*
+   Determine MAX_ALIGNMENT and NOT_MULTIPLE_ALIGNMENT.  If types
+   were provided then use their alignments; otherwise try to infer the maximum
+   values on the system.
+*/
 #if defined(FXF_MAX_ALIGNMENT_TYPE)
 #  define MAX_ALIGNMENT ALIGNMENT_OF_TYPE(FXF_MAX_ALIGNMENT_TYPE)
 #else /*FXF_MAX_ALIGNMENT_TYPE*/
@@ -161,8 +177,19 @@ typedef struct {
 /* TODO: Is the above a good default, sufficiently large for all of our needs without being excessive? */
 #endif
 
+/*
+   Determine the maximum amount we'll allow one to allocate.  We need to ensure that it's
+   a multiple of its required alignment, and we're OK with it being overaligned, so we
+   round it up to the next alignment multiple.
+*/
 #define DESIRED_MAX_ALLOC_ALIGNMENT ((FXF_DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
 #define ROUNDED_DESIRED_MAXIMUM_ALLOC ROUND_UP_TO_ALIGNMENT(FXF_DESIRED_MAX_ALLOC, DESIRED_MAX_ALLOC_ALIGNMENT)
+
+/*
+    Now determine the actual minimum and maximum allocations.  The minimum is new.
+    We determined the maximum above, but of course we can't allocate more than
+    a full segment.  (Segment sizes should already be maximally aligned.)
+*/
 enum
 {
   fxfMINSIZE = sizeof(void *), /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
@@ -187,12 +214,42 @@ STATIC_ASSERT((!CLEAR_BOTTOM_BIT(fxfMAXSIZE)) ||
 STATIC_ASSERT((NOT_MULTIPLE_ALIGNMENT > 0) && (NOT_MULTIPLE_ALIGNMENT <= MAX_ALIGNMENT), "Alignments must be properly ordered.");
 STATIC_ASSERT(!(CLEAR_BOTTOM_BIT(NOT_MULTIPLE_ALIGNMENT) || CLEAR_BOTTOM_BIT(MAX_ALIGNMENT)), "Alignments must be powers of 2.");
 
+/*
+   We'll be rounding allocation sizes to the next multiple of whatever the minimum
+   alignment we will ever need is.  We need to know that minimum alignment to
+   create space for the free store.  Unfortunately, it's hard to compute what we
+   want under all circumstances at compile-time.  (In particular, if fxfMINSIZE is
+   small enough to require a smaller alignment than NOT_MULTIPLE_ALIGNMENT then we
+   want the largest power of two that's <= fxfMINSIZE, but I don't see how to determine
+   that at compile-time for an arbitrary fxfMINSIZE.)  What we compute here should be
+   <= that value, and an underestimate here is OK.
+*/
 #define MIN_ALIGNMENT_UNDERESTIMATE (((NOT_MULTIPLE_ALIGNMENT>>1) < fxfMINSIZE) ? NOT_MULTIPLE_ALIGNMENT : \
                                                                                   (CLEAR_BOTTOM_BIT(fxfMINSIZE) ? (BOTTOM_BIT(fxfMINSIZE)<<2) : \
                                                                                                                   fxfMINSIZE))
+/*
+   This will store the actual minimum alignment.  We'll compute it at run-time.
+*/
 static size_t min_alignment= NOT_MULTIPLE_ALIGNMENT; /* for now */
 
+
+/*
+   This rounds fxfMINSIZE up to a multiple of MIN_ALIGNMENT_UNDERESTIMATE.  This should be <= whatever
+   fxfMINSIZE gets rounded to at run-time, since MIN_ALIGNMENT_UNDERESTIMATE will be <= the computed
+   min_alignment.
+*/
 #define ROUNDED_MIN_SIZE_UNDERESTIMATE ROUND_UP_TO_ALIGNMENT(fxfMINSIZE, MIN_ALIGNMENT_UNDERESTIMATE)
+
+/*
+   We can now create the array for the free store heads.  We need to have a head for sizes between
+   [whatever fxfMINSIZE gets rounded to, fxfMAXSIZE]
+   that are multiples of min_alignment.  Additional entries aren't a problem, so we'll create entries
+   for every multiple of (the possible
+   underestimate) MIN_ALIGNMENT_UNDERESTIMATE in the
+   [ROUNDED_MIN_SIZE_UNDERESTIMATE, fxfMAXSIZE].
+   SIZEDATA_SIZE_TO_INDEX maps these values into {0, 1, 2, ..., N}, and we use N to determine how many
+   heads we need.
+*/
 #define SIZEDATA_SIZE_TO_INDEX(s) (((s) - ROUNDED_MIN_SIZE_UNDERESTIMATE)/MIN_ALIGNMENT_UNDERESTIMATE)
 #define SIZEDATA_INDEX_TO_SIZE(x) ((size_t)(((x) * MIN_ALIGNMENT_UNDERESTIMATE) + ROUNDED_MIN_SIZE_UNDERESTIMATE))
 static SizeHead SizeData[1 + SIZEDATA_SIZE_TO_INDEX(fxfMAXSIZE)];
@@ -383,7 +440,7 @@ size_t fxfInit(size_t Size) {
   }
   else
   {
-    Size = ((Size+31)>>5); 
+    Size = ((Size+31)>>5);
   }
 
   FreeMap= (FreeMapType *)nNewCallocUntyped(Size, FreeMapType);
@@ -645,16 +702,32 @@ START_LOOKING_FOR_CHUNK:
 #else
           (size_t)pointerDifference(BotFreePtr,Arena);
 #endif
+        /*
+           Determine what alignment this allocation actually requires.
+        */
         size_t needed_alignment_mask= (NOT_MULTIPLE_ALIGNMENT-1U);
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
+
+        /*
+           We only care about our offset modulo the required alignment.
+        */
         curBottomIndex&= needed_alignment_mask;
         if (curBottomIndex) {
+          /*
+             We aren't aligned as strongly as we need to be for this allocation.  Let's step until
+             we are, and we'll add what we skip over to the free store.  If we won't have a enough
+             space left then move on to the next segment.
+          */
           if ((needed_alignment_mask - curBottomIndex) >= (sizeCurrentSeg - size))
             goto NEXT_SEGMENT;
           do {
             size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
-            pushOntoFreeStore(BotFreePtr, cur_alignment);
+            assert(cur_alignment >= min_alignment);
+            if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+              pushOntoFreeStore(BotFreePtr, cur_alignment);
+            else
+              TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of adding them to the free store\n", (size_t_printf_type)cur_alignment));
             BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
             curBottomIndex+= cur_alignment;
           } while (curBottomIndex & needed_alignment_mask);
@@ -680,22 +753,40 @@ START_LOOKING_FOR_CHUNK:
 NEXT_SEGMENT:
 #if defined(SEGMENTED)
       if ((CurrentSeg+1) < ArenaSegCnt) {
+        /*
+           We're about to move to the next segment, but let's put whatever we can into the free store.
+        */
         size_t curBottomIndex= (size_t)pointerDifference(BotFreePtr,Arena[CurrentSeg]);
+        /*
+           Add small powers of two until we reach NOT_MULTIPLE_ALIGNMENT.
+        */
+        size_t cur_alignment;
         while (curBottomIndex & (NOT_MULTIPLE_ALIGNMENT-1U))
         {
-          size_t const cur_alignment= BOTTOM_BIT(curBottomIndex);
-          pushOntoFreeStore(BotFreePtr, cur_alignment);
+          cur_alignment= BOTTOM_BIT(curBottomIndex);
+          assert(cur_alignment >= min_alignment);
+          if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+            pushOntoFreeStore(BotFreePtr, cur_alignment);
+          else
+            TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) instead of adding them to the free store\n", (size_t_printf_type)cur_alignment));
           BotFreePtr= stepPointer(BotFreePtr, (ptrdiff_t)cur_alignment);
           curBottomIndex+= cur_alignment;
         }
-        curBottomIndex= (size_t)pointerDifference(TopFreePtr,BotFreePtr);
-        if (curBottomIndex >= fxfMINSIZE)
+        /*
+           If there's anything left, we can add it all.  Here we take advantage of the fact that
+           the whole segment is fully aligned, so if what's left requires full alignment then
+           the pointer must be fully aligned when we get here.
+        */
+        cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr); /* Now stores the remaining space. */
+        if (cur_alignment)
         {
-          assert(!(curBottomIndex & (NOT_MULTIPLE_ALIGNMENT - 1U)));
-          pushOntoFreeStore(BotFreePtr, curBottomIndex);
+          assert(!((cur_alignment | curBottomIndex) & (NOT_MULTIPLE_ALIGNMENT-1U))); /* Must be divisible by and aligned for NOT_MULTIPLE_ALIGNMENT. */
+          assert((cur_alignment & PTRMASK) || !(curBottomIndex & PTRMASK)); /* If we're divisible by MAX_ALIGNMENT then we must be properly aligned for that. */
+          if (cur_alignment >= ALIGN_TO_MINIMUM(fxfMINSIZE))
+            pushOntoFreeStore(BotFreePtr, cur_alignment);
+          else
+            TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)cur_alignment, CurrentSeg, CurrentSeg+1));
         }
-        else if (curBottomIndex)
-          TMDBG(printf(" leaking %" SIZE_T_PRINTF_SPECIFIER " byte(s) moving from segment %d to segment %d\n", (size_t_printf_type)curBottomIndex, CurrentSeg, CurrentSeg+1));
         TMDBG(fputs(" next seg", stdout));
         ++CurrentSeg;
         BotFreePtr= Arena[CurrentSeg];
@@ -842,7 +933,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
     ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena);
     assert(GlobalSize > (size_t)ptrIndex);
 #  endif
-    assert(ptrIndex >= 0); 
+    assert(ptrIndex >= 0);
     if (ptrIndex > 0)
     {
       size_t allocatedSize= OldSize;
@@ -869,7 +960,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
         needed_alignment= MAX_ALIGNMENT;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
     }
-  }                  
+  }
 #endif
   assert(desired_alignment && !CLEAR_BOTTOM_BIT(desired_alignment));
   assert(desired_alignment <= OldSize);
@@ -889,7 +980,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
     if (needed_allocation < fxfMINSIZE)
       needed_allocation= fxfMINSIZE;
     needed_allocation= ALIGN_TO_MINIMUM(needed_allocation);
-    if (needed_allocation == original_allocation)  
+    if (needed_allocation == original_allocation)
       return ptr;
     /* TODO: Should we try to break apart this chunk? */
   }
