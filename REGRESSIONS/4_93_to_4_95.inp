@@ -8,5 +8,15 @@ pieces white ka4
 black pf7 kf8 bh6 sh7
 option movenumber start 1:1 upto 2:40
 
-end
+next
+
+title Intelligent mode didn't find the solution
+author J\"org Varnholt
+Stipulation ser-h=14
+Pieces
+    White Ka4 Qd8 Ba1 Due1f6
+    Black Kf8 Pf7 Bh6 Sh7 Pf2 Duc1d2e3e8g5
+Option intelligent movenum
+
+EndProblem
 
