@@ -181,7 +181,7 @@ typedef struct {
    Determine the maximum amount we'll allow one to allocate.  We need to ensure that it's
    a multiple of its required alignment, and we're OK with it being overaligned, so we
    round it up to the next alignment multiple.
-*/ 
+*/
 #define DESIRED_MAX_ALLOC_ALIGNMENT ((FXF_DESIRED_MAX_ALLOC < MAX_ALIGNMENT) ? NOT_MULTIPLE_ALIGNMENT : MAX_ALIGNMENT)
 #define ROUNDED_DESIRED_MAXIMUM_ALLOC ROUND_UP_TO_ALIGNMENT(FXF_DESIRED_MAX_ALLOC, DESIRED_MAX_ALLOC_ALIGNMENT)
 
@@ -440,7 +440,7 @@ size_t fxfInit(size_t Size) {
   }
   else
   {
-    Size = ((Size+31)>>5); 
+    Size = ((Size+31)>>5);
   }
 
   FreeMap= (FreeMapType *)nNewCallocUntyped(Size, FreeMapType);
@@ -708,7 +708,7 @@ START_LOOKING_FOR_CHUNK:
         size_t needed_alignment_mask= (NOT_MULTIPLE_ALIGNMENT-1U);
         while (needed_alignment_mask >= size)
           needed_alignment_mask>>= 1;
-          
+
         /*
            We only care about our offset modulo the required alignment.
         */
@@ -777,7 +777,8 @@ NEXT_SEGMENT:
            the whole segment is fully aligned, so if what's left requires full alignment then
            the pointer must be fully aligned when we get here.
         */
-        if ((cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr))) /* Now stores the remaining space. */
+        cur_alignment= (size_t)pointerDifference(TopFreePtr,BotFreePtr); /* Now stores the remaining space. */
+        if (cur_alignment)
         {
           assert(!((cur_alignment | curBottomIndex) & (NOT_MULTIPLE_ALIGNMENT-1U))); /* Must be divisible by and aligned for NOT_MULTIPLE_ALIGNMENT. */
           assert((cur_alignment & PTRMASK) || !(curBottomIndex & PTRMASK)); /* If we're divisible by MAX_ALIGNMENT then we must be properly aligned for that. */
@@ -932,7 +933,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
     ptrdiff_t const ptrIndex= pointerDifference(ptr,Arena);
     assert(GlobalSize > (size_t)ptrIndex);
 #  endif
-    assert(ptrIndex >= 0); 
+    assert(ptrIndex >= 0);
     if (ptrIndex > 0)
     {
       size_t allocatedSize= OldSize;
@@ -959,7 +960,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
         needed_alignment= MAX_ALIGNMENT;
       assert(!(((size_t)ptrIndex) & (needed_alignment - 1U)));
     }
-  }                  
+  }
 #endif
   assert(desired_alignment && !CLEAR_BOTTOM_BIT(desired_alignment));
   assert(desired_alignment <= OldSize);
@@ -979,7 +980,7 @@ void *fxfReAllocRaw(void *ptr, size_t OldSize, size_t NewSize, size_t desired_al
     if (needed_allocation < fxfMINSIZE)
       needed_allocation= fxfMINSIZE;
     needed_allocation= ALIGN_TO_MINIMUM(needed_allocation);
-    if (needed_allocation == original_allocation)  
+    if (needed_allocation == original_allocation)
       return ptr;
     /* TODO: Should we try to break apart this chunk? */
   }
