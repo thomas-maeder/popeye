@@ -925,9 +925,36 @@ static boolean get_target_before_white_move(stored_position_type const * const s
               goto LEGAL_CHECK;
         }
         else if (all_line_checks[1].checking_square == moved_white_piece_new_square[0])
+        {
           for (int i = 0; i < all_line_checks[0].num_blocking_squares; ++i)
             if (all_line_checks[0].blocking_square[i] == moved_white_piece_orig_square[0])
               goto LEGAL_CHECK;
+        }
+        else if ((moved_white_piece_type[0] == Pawn) &&
+                 (moved_white_piece_orig_square[0] >= a5) &&
+                 (moved_white_piece_orig_square[0] <= h5) &&
+                 ((moved_white_piece_new_square[0] - moved_white_piece_orig_square[0]) % nr_files_on_board))
+        {
+          // Handle the possibility of an en passant capture that discovers check from two other pieces.
+          int ep_block_index = -1;
+          for (int i = 0; i < all_line_checks[0].num_blocking_squares; ++i)
+            if (all_line_checks[0].blocking_square[i] == moved_white_piece_orig_square[0])
+            {
+              ep_block_index = 1;
+              break;
+            }
+          if (ep_block_index < 0)
+            for (int i = 0; i < all_line_checks[1].num_blocking_squares; ++i)
+              if (all_line_checks[1].blocking_square[i] == moved_white_piece_orig_square[0])
+              {
+                ep_block_index = 0;
+                break;
+              }
+          if (ep_block_index >= 0)
+            for (int i = 0; i < all_line_checks[ep_block_index].num_blocking_squares; ++i)
+              if (all_line_checks[ep_block_index].blocking_square[i] == (moved_white_piece_new_square[0] - nr_files_on_board))
+                goto LEGAL_CHECK;
+        }
       }
     }
     else
@@ -945,10 +972,20 @@ static boolean get_target_before_white_move(stored_position_type const * const s
           goto LEGAL_CHECK;
         }
         else
+        {
           // The moved piece must have discovered check.
           for (int i = 0; i < all_line_checks[0].num_blocking_squares; ++i)
             if (all_line_checks[0].blocking_square[i] == moved_white_piece_orig_square[0])
               goto LEGAL_CHECK;
+          if ((moved_white_piece_type[0] == Pawn) &&
+              (moved_white_piece_orig_square[0] >= a5) &&
+              (moved_white_piece_orig_square[0] <= h5) &&
+              ((moved_white_piece_new_square[0] - moved_white_piece_orig_square[0]) % nr_files_on_board))
+            // Maybe it discovered check by capturing a block pawn en passant.
+            for (int i = 0; i < all_line_checks[0].num_blocking_squares; ++i)
+              if (all_line_checks[0].blocking_square[i] == (moved_white_piece_new_square[0] - nr_files_on_board))
+                goto LEGAL_CHECK;
+        }
       }
       else
       {
