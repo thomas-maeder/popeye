@@ -506,6 +506,8 @@ namespace eval output {
     variable startTime [clock milliseconds]
     variable latestCarry ""
     variable latestFinish
+
+    variable nextMoveNumber 1
 }
 
 proc ::output::openProtocol {path} {
@@ -594,15 +596,17 @@ proc ::output::_formattedTime {} {
     return $timeFormatted
 }
 
-proc ::output::movenumberLine {movenumberMove time} {
+proc ::output::movenumberLine {numberedMove time} {
     variable areMovenumbersSuppressed
     variable latestCarry
+    variable nextMoveNumber
 
     _puts $latestCarry
     set latestCarry ""
 
     if {!$areMovenumbersSuppressed} {
-	_puts "\n$movenumberMove[::msgcat::mc output::Time] = [_formattedTime])"
+	_puts "\n[format %3d $nextMoveNumber]$numberedMove[::msgcat::mc output::Time] = [_formattedTime])"
+	incr nextMoveNumber
     }
 }
 
@@ -995,11 +999,11 @@ proc ::tester::async::_moveNumberRead {pipe} {
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
     set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "\n($movenumberRE +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
+    set movenumberLineRE "\n${movenumberRE}( +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
 
-    if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - movenumberMove time remainder]} {
+    if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - numberedMove time remainder]} {
 	set buffers($pipe) $remainder
-	set result [list $movenumberMove $time]
+	set result [list $numberedMove $time]
     } else {
 	set result [list "" ""]
     }
@@ -1028,10 +1032,10 @@ proc ::tester::async::moveNumber {pipe} {
     debug.tester "moveNumber pipe:$pipe"
 
     if {[_consume $pipe]} {
-	lassign [_moveNumberRead $pipe] movenumberMove time
+	lassign [_moveNumberRead $pipe] numberedMove time
 	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$movenumberMove!=""} {
-	    ::output::movenumberLine $movenumberMove $time
+	if {$numberedMove!=""} {
+	    ::output::movenumberLine $numberedMove $time
 	    if {$finished==""} {
 		::popeye::output::doAsync $pipe readable
 	    } else {
