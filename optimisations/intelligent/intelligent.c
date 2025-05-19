@@ -639,6 +639,70 @@ typedef struct {
   int num_blocking_squares;
 } LineCheck;
 
+#ifdef JUST_OUTPUT_TARGET_POSITIONS
+static void output_target_position(void) {
+  char cur_fen[nr_squares_on_board + (nr_rows_on_board - 1) + 1];
+  int cur_fen_index = 0;
+  int num_spaces = 0;
+  for (int row = (nr_rows_on_board - 1); row >= 0; --row)
+  {
+    for (int col = 0; col < nr_files_on_board; ++col)
+    {
+      int cur_index = ((row * nr_files_on_board) + col);
+      int cur_piece = target_before_white_move[cur_index].piece;
+      if (cur_piece == Empty)
+        ++num_spaces;
+      else
+      {
+        if (num_spaces)
+        {
+          cur_fen[cur_fen_index++] = (char) (num_spaces + '0');
+          num_spaces = 0;
+        }
+        switch (cur_piece)
+        {
+          case Pawn:
+            cur_piece = 'p';
+            break;
+          case Knight:
+            cur_piece = 's';
+            break;
+          case Bishop:
+            cur_piece = 'b';
+            break;
+          case Rook:
+            cur_piece = 'r';
+            break;
+          case Queen:
+            cur_piece = 'q';
+            break;
+          case King:
+            cur_piece = 'k';
+            break;
+          case nr_piece_walks:
+            cur_piece = '*';
+            break;
+          default:
+            cur_piece = '?';
+        }
+        if (target_before_white_move[cur_index].color == White)
+          cur_piece = toupper(cur_piece);
+        cur_fen[cur_fen_index++] = (char) cur_piece;
+      }
+    }
+    if (num_spaces)
+    {
+      cur_fen[cur_fen_index++] = (char) (num_spaces + '0');
+      num_spaces = 0;
+    }
+    if (row)
+      cur_fen[cur_fen_index++] = '/';
+  }
+  cur_fen[cur_fen_index] = '\0';
+  printf("\ntarget position FEN: %s\n", cur_fen);
+}
+#endif
+
 static boolean get_target_before_white_move(stored_position_type const * const store)
 {
   enum {
@@ -1125,7 +1189,8 @@ FOUND_POSSIBLE_MOVE:;
   int index_of_captured_piece;
   for (int index = a1; index <= h8; ++index)
   {
-    if (initial[index].color == Black)
+    if ((initial[index].color == Black) &&
+        (initial[index].piece < nr_piece_walks))
     {
       square const orig_square = initial[index].orig_square;
       if (!(seen_black_pieces & (1ULL << orig_square)))
@@ -1524,70 +1589,6 @@ static unsigned int get_length_of_shortest_path(move_generator const * const mg,
   return (maxply + 1);
 }
 
-#ifdef JUST_OUTPUT_TARGET_POSITIONS
-static void output_target_position(void) {
-  char cur_fen[nr_squares_on_board + (nr_rows_on_board - 1) + 1];
-  int cur_fen_index = 0;
-  int num_spaces = 0;
-  for (int row = (nr_rows_on_board - 1); row >= 0; --row)
-  {
-    for (int col = 0; col < nr_files_on_board; ++col)
-    {
-      int cur_index = ((row * nr_files_on_board) + col);
-      int cur_piece = target_before_white_move[cur_index].piece;
-      if (cur_piece == Empty)
-        ++num_spaces;
-      else
-      {
-        if (num_spaces)
-        {
-          cur_fen[cur_fen_index++] = (char) (num_spaces + '0');
-          num_spaces = 0;
-        }
-        switch (cur_piece)
-        {
-          case Pawn:
-            cur_piece = 'p';
-            break;
-          case Knight:
-            cur_piece = 's';
-            break;
-          case Bishop:
-            cur_piece = 'b';
-            break;
-          case Rook:
-            cur_piece = 'r';
-            break;
-          case Queen:
-            cur_piece = 'q';
-            break;
-          case King:
-            cur_piece = 'k';
-            break;
-          case nr_piece_walks:
-            cur_piece = '*';
-            break;
-          default:
-            cur_piece = '?';
-        }
-        if (target_before_white_move[cur_index].color == White)
-          cur_piece = toupper(cur_piece);
-        cur_fen[cur_fen_index++] = (char) cur_piece;
-      }
-    }
-    if (num_spaces)
-    {
-      cur_fen[cur_fen_index++] = (char) (num_spaces + '0');
-      num_spaces = 0;
-    }
-    if (row)
-      cur_fen[cur_fen_index++] = '/';
-  }
-  cur_fen[cur_fen_index] = '\0';
-  printf("\ntarget position FEN: %s\n", cur_fen);
-}
-#endif
-
 unsigned int target_position_is_ser_h_feasible(CastlingLegality const cl, EnPassantLegality const ep)
 {
   enum {
@@ -1976,8 +1977,9 @@ unsigned int target_position_is_ser_h_feasible(CastlingLegality const cl, EnPass
           case Dummy:
             break;
           default:
-            assert(0);
+            if (initial[index].piece < nr_piece_walks)
             {
+              assert(0); // We have a piece we don't recognize, so we should figure it out.
               unsigned char tmp_dest[nr_squares_on_board];
               unknown_generator.possible_froms = vacatable_squares;
               unknown_generator.possible_tos = vacatable_squares;
@@ -2050,7 +2052,8 @@ unsigned int target_position_is_ser_h_feasible(CastlingLegality const cl, EnPass
   unsigned int min_extra_rook_moves_to_castle_queenside = (maxply + 1);
   unsigned int min_extra_to_reach_capture_square = (maxply + 1);
   for (int from_square = a1; from_square <= h8; ++from_square)
-    if (initial[from_square].color == Black)
+    if ((initial[from_square].color == Black) &&
+        (initial[from_square].piece < nr_piece_walks))
     {
       int const orig_piece = initial[from_square].piece;
       if (orig_piece == Pawn)
