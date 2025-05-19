@@ -1589,7 +1589,7 @@ static unsigned int get_length_of_shortest_path(move_generator const * const mg,
   return (maxply + 1);
 }
 
-unsigned int target_position_is_ser_h_feasible(CastlingLegality const cl, EnPassantLegality const ep)
+unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLegality const ep)
 {
   enum {
     a1, b1, c1, d1, e1, f1, g1, h1,
@@ -2373,7 +2373,7 @@ void solve_target_position(slice_index si)
   ResetPosition(&initial_position);
   if (get_target_before_white_move(&initial_position))
   {
-    unsigned int const min_num_moves = target_position_is_ser_h_feasible(CASTLING_EITHER, EP_ON_FIRST_MOVE);
+    unsigned int const min_num_moves = series_h_distance_to_target(CASTLING_EITHER, EP_ON_FIRST_MOVE);
     if (min_num_moves <= MovesLeft[Black])
     {
 

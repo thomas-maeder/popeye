@@ -171,7 +171,7 @@ static boolean mate_isGoalReachable(void)
               && OpeningsRequired[nbply]<=MovesLeft[White]+MovesLeft[Black]+(en_passant_was_multistep_played(nbply)));
     if (result && (MovesLeft[Black] > 0))
     {
-      unsigned int const min_num_moves = target_position_is_ser_h_feasible(CASTLING_EITHER, EP_ON_FIRST_MOVE);
+      unsigned int const min_num_moves = series_h_distance_to_target(CASTLING_EITHER, EP_ON_FIRST_MOVE);
       if (min_num_moves > MovesLeft[Black])
         result = false;
     }

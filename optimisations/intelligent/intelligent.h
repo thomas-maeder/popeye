@@ -87,6 +87,6 @@ typedef enum {
   CASTLING_CONSEQUENT = (4 | CASTLING_EITHER)
 } CastlingLegality;
 
-unsigned int target_position_is_ser_h_feasible(CastlingLegality cl, EnPassantLegality ep);
+unsigned int series_h_distance_to_target(CastlingLegality cl, EnPassantLegality ep);
 
 #endif
