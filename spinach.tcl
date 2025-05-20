@@ -163,9 +163,10 @@ namespace eval language {
 	    variable version "Version de ce programme"
 	}
 
-	namespace eval orchestrator {
+	namespace eval spinach {
 	    variable elementNotSupported "Element non supporté"
 	    variable unexpectedEOF "Fin d'output inattendue d'un sous-processus Popeye"
+	    variable unexpectedPopeyeOutput "Output Popeye inattendu"
 	}
     }
 
@@ -223,9 +224,10 @@ namespace eval language {
 	    variable version "Version dieses Programms"
 	}
 
-	namespace eval orchestrator {
+	namespace eval spinach {
 	    variable elementNotSupported "Element nicht unterstützt"
 	    variable unexpectedEOF "Unerwartetes Ende der Ausgabe von einem Popeye-Unterprozess"
+	    variable unexpectedPopeyeOutput "Unerwartete Ausgabe von Popeye"
 	}
     }
 
@@ -283,9 +285,10 @@ namespace eval language {
 	    variable version "Version of this program"
 	}
 
-	namespace eval orchestrator {
+	namespace eval spinach {
 	    variable elementNotSupported "Element not supported"
 	    variable unexpectedEOF "Unexpected end of output from a Popeye sub-process"
+	    variable unexpectedPopeyeOutput "Unexpected output from Popeye"
 	}
     }
 
@@ -559,6 +562,10 @@ proc ::output::enableMovenumbers {enable} {
     debug.output "enableMovenumbers enable:$enable"
 
     set areMovenumbersSuppressed [expr {!$enable}]
+}
+
+proc ::output::twinning {twinning} {
+    _puts "\n\nb) $twinning"
 }
 
 proc ::output::solution {string} {
@@ -1070,7 +1077,19 @@ proc ::tester::setplayRange {pipe firstTwin twinning} {
 	append lines "$line\n"
     }
 
-    debug.tester "lines:>$lines<" 2
+    debug.tester "lines:>[debuggable $lines]<" 2
+
+    if {$twinning!=""} {
+	set twinningLetterRE {a\)}
+	set twinningRE {[^\n]+\n(?:[^\n]+\n)*}
+	if {[regexp -- "^\n[::msgcat::mc input::ZeroPosition]\n\n\n$twinningLetterRE ($twinningRE)(\n.*)" $lines - twinning lines]} {
+	    debug.tester "setplayRange - twinning:|[debuggable $twinning]| lines:>[debuggable $lines]<" 2
+	    ::output::twinning $twinning
+	} else {
+	    puts stderr "[::msgcat::mc spinach::unexpectedPopeyeOutput]:\n$lines"
+	    exit 1
+	}
+    }
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
@@ -1080,7 +1099,8 @@ proc ::tester::setplayRange {pipe firstTwin twinning} {
 	::output::solution $solution
 	::output::rememberFinish $carry $finished $time $suffix
     } else {
-	# what now?
+	puts stderr "[::msgcat::mc spinach::unexpectedPopeyeOutput]:\n$lines"
+	exit 1
     }
 
     debug.tester "setplayRange <-"
@@ -1119,7 +1139,7 @@ proc ::tester::testProgress {pipe notification firstTwin twinning nrRunningProce
 	    incr nrRunningProcesses -1
 	}
 	eof {
-	    puts stderr "[::msgcat::mc orchestrator::unexpectedEOF]"
+	    puts stderr "[::msgcat::mc spinach::unexpectedEOF]"
 	    exit 1
 	}
 	default {
@@ -1194,7 +1214,7 @@ proc readFirstTwin {chan} {
     }
 
     if {$endElmt!="EndProblem" && $endElmt!="Twin"} {
-	puts stderr "[::msgcat::mc orchestrator::elementNotSupported]: [::msgcat::mc input::$endElmt]"
+	puts stderr "[::msgcat::mc spinach::elementNotSupported]: [::msgcat::mc input::$endElmt]"
 	exit 1
     }
 
