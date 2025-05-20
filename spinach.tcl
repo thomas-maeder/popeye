@@ -1114,8 +1114,7 @@ proc ::tester::setplayRange {pipe firstTwin twinning} {
 	::output::solution $solution
 	::output::rememberFinish $carry $finished $time $suffix
     } else {
-	puts stderr "[::msgcat::mc spinach::unexpectedPopeyeOutput]:\n$lines"
-	exit 1
+	# no set play etc.
     }
 
     debug.tester "setplayRange <-"
