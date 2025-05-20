@@ -511,6 +511,7 @@ namespace eval output {
     variable latestFinish
 
     variable nextMoveNumber 1
+    variable nextTwinningMark "a"
 }
 
 proc ::output::openProtocol {path} {
@@ -565,7 +566,21 @@ proc ::output::enableMovenumbers {enable} {
 }
 
 proc ::output::twinning {twinning} {
-    _puts "\n\nb) $twinning"
+    variable nextTwinningMark
+
+    if {$nextTwinningMark=="z"} {
+	set nextTwinningMark "z1"
+    } elseif {[regexp -- {^z([1-9][0-9]*)$} $nextTwinningMark - number]} {
+	incr number
+	set nextTwinningMark "z$number"
+    } else {
+	set nrConversions [scan $nextTwinningMark "%c" characterCode]
+	::control::assert {$nrConversions==1} "::output::twinning: failed to advance twinning mark"
+	incr characterCode
+	set nextTwinningMark [format "%c" $characterCode]
+    }
+
+    _puts "\n\n$nextTwinningMark) $twinning"
 }
 
 proc ::output::solution {string} {
@@ -1244,15 +1259,16 @@ proc handleFirstTwin {chan} {
     return $result
 }
 
-proc handleSecondTwin {chan firstTwin} {
-    debug.problem "handleSecondTwin - firstTwin:[debuggable $firstTwin]"
+proc handleNextTwin {chan firstTwin} {
+    debug.problem "handleNextTwin - firstTwin:[debuggable $firstTwin]"
 
     lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
     debug.problem "twinning:|[debuggable $twinning]| endElmt:$endElmt" 2
 
     set nrFirstMoves [handleTwin $firstTwin $twinning]
 
-    debug.problem "handleSecondTwin <-"
+    debug.problem "handleNextTwin <- $endElmt"
+    return $endElmt
 }
 
 proc handleProblem {chan} {
@@ -1260,13 +1276,12 @@ proc handleProblem {chan} {
 
     lassign [handleFirstTwin $chan] firstTwin endElmt
 
-    if {$endElmt=="Twin"} {
-	handleSecondTwin $chan $firstTwin
+    while {$endElmt=="Twin"} {
+	set endElmt [handleNextTwin $chan $firstTwin]
     }
 
-    set result $endElmt
-    debug.problem "handleProblem <- $result"
-    return $result
+    debug.problem "handleProblem <- $endElmt"
+    return $endElmt
 }
 
 proc handleInput {chan} {
