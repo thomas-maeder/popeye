@@ -584,7 +584,7 @@ proc ::output::advanceTwinningMark {} {
 proc ::output::twinning {twinning} {
     variable nextTwinningMark
 
-    _puts "\n\n$nextTwinningMark) $twinning"
+    _puts "\n$nextTwinningMark) $twinning"
 }
 
 proc ::output::solution {string} {
@@ -596,12 +596,16 @@ proc ::output::solution {string} {
     _puts $string
 }
 
+proc ::output::endOfPhase {} {
+    solution "\n"
+}
+
 proc ::output::_formattedTime {} {
     variable startTime
 
     set timeNow [clock milliseconds]
 
-    set solvingTimeMS [expr {$timeNow-$startTime}]
+   set solvingTimeMS [expr {$timeNow-$startTime}]
     set solvingTimeS [expr {$solvingTimeMS/1000}]
     set solvingTimeM [expr {$solvingTimeS/60}]
     set solvingTimeH [expr {$solvingTimeM/60}]
@@ -1002,7 +1006,7 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
-    set entireSolutionRE "(.*)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    set entireSolutionRE "(.*)\n(\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
 	debug.tester "solution:>$solution<" 2
 	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
@@ -1173,6 +1177,7 @@ proc ::tester::testProgress {pipe notification firstTwin twinning nrRunningProce
     }
 
     if {$nrRunningProcesses==0} {
+	::output::endOfPhase
 	debug.tester "testProgress <- break"
 	return -code break
     } else {
