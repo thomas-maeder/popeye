@@ -247,8 +247,7 @@ void build_solvers1(slice_index si)
 
   /* must come before stip_insert_selfcheck_guards() because the set play
    * branch needs a selfcheck guard */
-  if (OptFlag[solapparent] && !OptFlag[startmovenumber]
-      && !solving_apply_setplay(si))
+  if (OptFlag[solapparent] && !solving_apply_setplay(si))
     output_plaintext_message(SetPlayNotApplicable);
 
   retro_instrument_solving_default(si);
