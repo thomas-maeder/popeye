@@ -121,6 +121,7 @@ namespace eval language {
 	    variable EndProblem "FinProblem"
 	    variable ZeroPosition "zeroposition"
 	    variable Twin "Jumeau"
+	    variable Continued "enplus"
 	    variable Title "Titre"
 	    variable Author "Auteur"
 	    variable Origin "Source"
@@ -182,6 +183,7 @@ namespace eval language {
 	    variable EndProblem "EndeProblem"
 	    variable ZeroPosition "NullStellung"
 	    variable Twin "Zwilling"
+	    variable Continued "ferner"
 	    variable Title "Titel"
 	    variable Author "Autor"
 	    variable Origin "Quelle"
@@ -243,6 +245,7 @@ namespace eval language {
 	    variable EndProblem "endproblem"
 	    variable ZeroPosition "zeroposition"
 	    variable Twin "twin"
+	    variable Continued "continued"
 	    variable Title "title"
 	    variable Author "author"
 	    variable Origin "origin"
@@ -585,10 +588,14 @@ proc ::output::ZeroPosition {} {
     _puts "\n[::msgcat::mc input::ZeroPosition]\n\n"
 }
 
-proc ::output::twinning {twinning} {
+proc ::output::twinning {twinning continued} {
     variable nextTwinningMark
 
-    _puts "\n$nextTwinningMark) $twinning"
+    _puts "\n"
+    if {$continued} {
+	_puts "+"
+    }
+    _puts "$nextTwinningMark) $twinning"
 }
 
 proc ::output::solution {string} {
@@ -751,10 +758,10 @@ proc ::popeye::input::Options {pipe options} {
     puts $pipe "[::msgcat::mc input::Option] [join $options]"
 }
 
-proc ::popeye::input::ZeroPosition {pipe twinning} {
-    debug.popeye "input::ZeroPosition pipe:$pipe twinning:|$twinning|"
+proc ::popeye::input::ZeroPosition {pipe twinnings} {
+    debug.popeye "input::ZeroPosition pipe:$pipe twinnings:|$twinnings|"
 
-    puts $pipe "[::msgcat::mc input::ZeroPosition] $twinning"
+    puts $pipe "[::msgcat::mc input::ZeroPosition] [join $twinnings]"
 }
 
 proc ::popeye::input::Twin {pipe twinning} {
@@ -1085,8 +1092,8 @@ proc ::tester::async::moveNumber {pipe} {
     debug.tester "moveNumber <-"
 }
 
-proc ::tester::setplayRange {pipe firstTwin writeTwinning twinning} {
-    debug.tester "setplayRange pipe:$pipe firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning twinning:|[debuggable $twinning]|"
+proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
+    debug.tester "setplayRange pipe:$pipe firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
@@ -1094,8 +1101,10 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning twinning} {
 
     ::popeye::input::Problem $pipe $firstTwin
     ::popeye::input::Options $pipe $options
-    if {$twinning!=""} {
-	::popeye::input::ZeroPosition $pipe $twinning
+    if {[llength $twinnings]>0} {
+	set endOfPrevTwinningMark "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
+	set markedTwinnings [linsert $twinnings end-1 $endOfPrevTwinningMark]
+	::popeye::input::ZeroPosition $pipe $markedTwinnings
     }
     ::popeye::input::EndProblem $pipe
 
@@ -1106,17 +1115,17 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning twinning} {
 
     debug.tester "lines:>[debuggable $lines]<" 2
 
-    if {$twinning==""} {
+    if {[llength $twinnings]==0} {
 	if {$writeTwinning} {
-	    ::output::twinning "\n"
+	    ::output::twinning "\n" $continued
 	}
     } else {
 	set twinningLetterRE {a\)}
 	set twinningRE {[^\n]*\n(?:[^\n]+\n)*}
-	if {[regexp -- "^\n[::msgcat::mc input::ZeroPosition]\n\n\n$twinningLetterRE ($twinningRE)(\n.*)" $lines - twinning lines]} {
+	if {[regexp -- "^\n[::msgcat::mc input::ZeroPosition]\n\n\n$twinningLetterRE .*$endOfPrevTwinningMark +($twinningRE)(\n.*)" $lines - twinning lines]} {
 	    debug.tester "setplayRange - twinning:|[debuggable $twinning]| lines:>[debuggable $lines]<" 2
 	    if {$writeTwinning} {
-		::output::twinning $twinning
+		::output::twinning $twinning $continued
 	    }
 	} else {
 	    puts stderr "[::msgcat::mc spinach::unexpectedPopeyeOutput]:\n$lines"
@@ -1138,8 +1147,8 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning twinning} {
     debug.tester "setplayRange <-"
 }
 
-proc ::tester::testMove {pipe firstTwin twinning move} {
-    debug.tester "testMove pipe:$pipe firstTwin:|[debuggable $firstTwin]| twinning:|[debuggable $twinning]| move:$move"
+proc ::tester::testMove {pipe firstTwin twinnings move} {
+    debug.tester "testMove pipe:$pipe firstTwin:|[debuggable $firstTwin]| twinnings:|[debuggable $twinnings]| move:$move"
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
@@ -1148,8 +1157,8 @@ proc ::tester::testMove {pipe firstTwin twinning move} {
 
     ::popeye::input::Problem $pipe $firstTwin
     ::popeye::input::Options $pipe $options
-    if {$twinning!=""} {
-	::popeye::input::ZeroPosition $pipe $twinning
+    if {[llength $twinnings]>0} {
+	::popeye::input::ZeroPosition $pipe $twinnings
     }
     ::popeye::input::NextProblem $pipe
 
@@ -1158,12 +1167,12 @@ proc ::tester::testMove {pipe firstTwin twinning move} {
     debug.tester "testMove <-"
 }
 
-proc ::tester::testProgress {pipe notification firstTwin twinning nrRunningProcesses currMove} {
-    debug.tester "testProgress pipe:$pipe notification:$notification twinning:|[debuggable $twinning]| nrRunningProcesses:$nrRunningProcesses currMove:$currMove"
+proc ::tester::testProgress {pipe notification firstTwin twinnings nrRunningProcesses currMove} {
+    debug.tester "testProgress pipe:$pipe notification:$notification twinnings:|[debuggable $twinnings]| nrRunningProcesses:$nrRunningProcesses currMove:$currMove"
 
     switch -exact $notification {
 	solution  {
-	    testMove $pipe $firstTwin $twinning $currMove
+	    testMove $pipe $firstTwin $twinnings $currMove
 	    incr currMove
 	}
 	prematureEndOfSolution {
@@ -1185,19 +1194,19 @@ proc ::tester::testProgress {pipe notification firstTwin twinning nrRunningProce
 	debug.tester "testProgress <- break"
 	return -code break
     } else {
-	set result [list $firstTwin $twinning $nrRunningProcesses $currMove]
+	set result [list $firstTwin $twinnings $nrRunningProcesses $currMove]
 	debug.tester "testProgress <- [debuggable $result]"
 	return $result
     }
 }
 
-proc ::tester::test {firstTwin writeTwinning twinning} {
-    debug.tester "test firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning twinning:|[debuggable $twinning]|"
+proc ::tester::test {firstTwin writeTwinning continued twinnings} {
+    debug.tester "test firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
 
     # synchronously deal with everything happening before move 1, e.g. set play
     lassign [::popeye::spawn] setplayPipe greetingLine
     debug.tester "setplayPipe:$setplayPipe" 2
-    setplayRange $setplayPipe $firstTwin $writeTwinning $twinning
+    setplayRange $setplayPipe $firstTwin $writeTwinning $continued $twinnings
     ::popeye::terminate $setplayPipe
 
     ::sync::Init
@@ -1205,14 +1214,14 @@ proc ::tester::test {firstTwin writeTwinning twinning} {
     set currMove 1
     for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
 	lassign [::popeye::spawn] pipe greetingLine
-	testMove $pipe $firstTwin $twinning $currMove
+	testMove $pipe $firstTwin $twinnings $currMove
 	incr currMove
     }
 
     debug.tester "nrRunningProcesses:$nrRunningProcesses" 2
 
     # asynchronously deal with the processes created for the real moves
-    lassign [::sync::Wait testProgress $firstTwin $twinning $nrRunningProcesses $currMove] firstTwin nrProcesses nrMovesPlayed
+    lassign [::sync::Wait testProgress $firstTwin $twinnings $nrRunningProcesses $currMove] firstTwin nrProcesses nrMovesPlayed
 
     debug.tester "test - firstTwin:|[debuggable $firstTwin]| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed"
 
@@ -1221,10 +1230,10 @@ proc ::tester::test {firstTwin writeTwinning twinning} {
     debug.tester "test <-"
 }
 
-proc handleTwin {firstTwin writeTwinning {twinning ""}} {
-    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning twinning:|[debuggable $twinning]|"
+proc handleTwin {firstTwin writeTwinning continued {twinnings {}}} {
+    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
 
-    ::tester::test $firstTwin $writeTwinning $twinning
+    ::tester::test $firstTwin $writeTwinning $continued $twinnings
 	
     debug.twin "handleTwin <-"
 }
@@ -1274,7 +1283,8 @@ proc handleFirstTwin {chan} {
 	::output::ZeroPosition
     } else {
 	set writeTwinning [expr {$endElmt=="Twin"}]
-	handleTwin $firstTwin $writeTwinning
+	set continued false
+	handleTwin $firstTwin $writeTwinning $continued
 	::output::advanceTwinningMark
     }
 
@@ -1284,27 +1294,38 @@ proc handleFirstTwin {chan} {
     return $result
 }
 
-proc handleNextTwin {chan firstTwin} {
-    debug.problem "handleNextTwin - firstTwin:[debuggable $firstTwin]"
+proc handleNextTwin {chan firstTwin twinnings} {
+    debug.problem "handleNextTwin firstTwin:[debuggable $firstTwin] twinnings:[debuggable $twinnings]"
 
-    lassign [::input::readUpTo $chan {Twin NextProblem EndProblem}] twinning endElmt
-    debug.problem "twinning:|[debuggable $twinning]| endElmt:$endElmt" 2
+    lassign [::input::readUpTo $chan {Continued Twin NextProblem EndProblem}] newTwinning endElmt
+    if {$endElmt=="Continued"} {
+	set continued true
+	lassign [::input::readUpTo $chan {Continued Twin NextProblem EndProblem}] newTwinning endElmt
+	lappend twinnings $newTwinning
+    } else {
+	set continued false
+	set twinnings [list $newTwinning]
+    }
+    debug.problem "continued:$continued twinnings:|[debuggable $twinnings]| endElmt:$endElmt" 2
 
     set writeTwinning true
-    set nrFirstMoves [handleTwin $firstTwin $writeTwinning $twinning]
+    set nrFirstMoves [handleTwin $firstTwin $writeTwinning $continued $twinnings]
     ::output::advanceTwinningMark
 
-    debug.problem "handleNextTwin <- $endElmt"
-    return $endElmt
+    set result [list $endElmt $twinnings]
+
+    debug.problem "handleNextTwin <- $result"
+    return $result
 }
 
 proc handleProblem {chan} {
     debug.problem "handleProblem"
 
     lassign [handleFirstTwin $chan] firstTwin endElmt
+    set twinnings {}
 
     while {$endElmt=="Twin" || $endElmt=="ZeroPosition"} {
-	set endElmt [handleNextTwin $chan $firstTwin]
+	lassign [handleNextTwin $chan $firstTwin $twinnings] endElmt twinnings
     }
 
     debug.problem "handleProblem <- $endElmt"
