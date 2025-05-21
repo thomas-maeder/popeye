@@ -581,6 +581,10 @@ proc ::output::advanceTwinningMark {} {
     }
 }
 
+proc ::output::ZeroPosition {} {
+    _puts "\n[::msgcat::mc input::ZeroPosition]\n\n"
+}
+
 proc ::output::twinning {twinning} {
     variable nextTwinningMark
 
@@ -1266,7 +1270,9 @@ proc handleFirstTwin {chan} {
 	::output::enableMovenumbers true
     }
 
-    if {$endElmt!="ZeroPosition"} {
+    if {$endElmt=="ZeroPosition"} {
+	::output::ZeroPosition
+    } else {
 	set writeTwinning [expr {$endElmt=="Twin"}]
 	handleTwin $firstTwin $writeTwinning
 	::output::advanceTwinningMark
