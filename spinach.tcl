@@ -1010,7 +1010,7 @@ proc ::tester::async::_consume {pipe} {
 	return false
     } else {
 	set chunk [read $pipe]
-	debug.tester "chunk:$chunk" 2
+	debug.tester "chunk:|$chunk|" 2
 	append buffers($pipe) $chunk
 	return true
     }
@@ -1023,7 +1023,12 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
     set timeRE {[[:digit:]:.]+}
     set entireSolutionRE "(.*)\n(\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
-	debug.tester "solution:>$solution<" 2
+	debug.tester "solution:|$solution|" 2
+	if {$solution=="\n"} {
+	    # this only happens in duplex stipulations when there is no solution
+	    # prevent 1 empty line per playable move from being printed
+	    set solution ""
+	}
 	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
 	    set carry ""
 	}
