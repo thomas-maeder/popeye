@@ -659,12 +659,16 @@ proc ::output::rememberFinish {carry finish time suffix} {
     set latestFinish [list $finish $time $suffix]
 }
 
-proc ::output::writeLatestFinish {} {
+proc ::output::writeEndOfProblem {} {
     variable latestFinish
+    variable startTime
+    variable nextTwinningMark
 
     if {[info exists latestFinish]} {
 	lassign $latestFinish finish time suffix
 	_puts "$finish[_formattedTime]$suffix"
+	set startTime [clock milliseconds]
+	set nextTwinningMark "a"
     }
 }
 
@@ -1243,21 +1247,12 @@ proc readFirstTwin {chan} {
 
     lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwin endElmt
     debug.problem "firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt" 2
-    while {true} {
-	if {$endElmt=="Protocol"} {
-	    set protocol [string trim [::input::getLine]]
-	    debug.problem "protocol:[debuggable $protocol]" 2
-	    lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwinPart2 endElmt
-	    debug.problem "firstTwinPart2:|[debuggable $firstTwinPart2]| endElmt:$endElmt" 2
-	    append firstTwin $firstTwinPart2
-	} else {
-	    break
-	}
-    }
-
-    if {$endElmt!="EndProblem" && $endElmt!="Twin" && $endElmt!="ZeroPosition"} {
-	puts stderr "[::msgcat::mc spinach::elementNotSupported]: [::msgcat::mc input::$endElmt]"
-	exit 1
+    while {$endElmt=="Protocol"} {
+	set protocol [string trim [::input::getLine]]
+	debug.problem "protocol:[debuggable $protocol]" 2
+	lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwinPart2 endElmt
+	debug.problem "firstTwinPart2:|[debuggable $firstTwinPart2]| endElmt:$endElmt" 2
+	append firstTwin $firstTwinPart2
     }
 
     if {[info exists protocol]} {
@@ -1328,6 +1323,8 @@ proc handleProblem {chan} {
 	lassign [handleNextTwin $chan $firstTwin $twinnings] endElmt twinnings
     }
 
+    ::output::writeEndOfProblem
+
     debug.problem "handleProblem <- $endElmt"
     return $endElmt
 }
@@ -1375,7 +1372,6 @@ proc main {} {
 	handleInput stdin
     }
 
-    ::output::writeLatestFinish
     ::output::closeProtocol
 }
 
