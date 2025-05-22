@@ -143,7 +143,7 @@ namespace eval language {
 
 	namespace eval output {
 	    variable Time "Temps"
-	    variable SolutionFinished "solution terminee"
+	    variable SolutionFinished "\nsolution terminee."
 	    variable PartialSolution "solution partielle"
 	    variable SquareIsEmptyRE "la case est vide - on ne peut pas oter ou deplacer une piece."
 	    variable BothSidesNeedAKingRE "il faut un roi de chaque couleur"
@@ -205,7 +205,7 @@ namespace eval language {
 
 	namespace eval output {
 	    variable Time "Zeit"
-	    variable SolutionFinished "Loesung beendet"
+	    variable SolutionFinished "\nLoesung beendet."
 	    variable PartialSolution "Partielle Loesung"
 	    variable SquareIsEmptyRE "Feld leer - kann keine Figur entfernen/versetzen."
 	    variable BothSidesNeedAKingRE "Es fehlt ein weisser oder schwarzer Koenig\n"
@@ -267,7 +267,7 @@ namespace eval language {
 
 	namespace eval output {
 	    variable Time "Time"
-	    variable SolutionFinished "solution finished"
+	    variable SolutionFinished "\nsolution finished."
 	    variable PartialSolution "Partial solution"
 	    variable SquareIsEmptyRE "square is empty - cannot .re.move any piece."
 	    variable BothSidesNeedAKingRE "both sides need a king"
@@ -515,6 +515,7 @@ namespace eval output {
 
     variable nextMoveNumber 1
     variable nextTwinningMark "a"
+    variable isSolutionPartial false
 }
 
 proc ::output::openProtocol {path} {
@@ -659,16 +660,37 @@ proc ::output::rememberFinish {carry finish time suffix} {
     set latestFinish [list $finish $time $suffix]
 }
 
+proc ::output::rememberPartialSolution {} {
+    variable isSolutionPartial
+
+    set isSolutionPartial true
+}
+
 proc ::output::writeEndOfProblem {} {
     variable latestFinish
     variable startTime
     variable nextTwinningMark
+    variable isSolutionPartial
 
     if {[info exists latestFinish]} {
 	lassign $latestFinish finish time suffix
+
+	if {$isSolutionPartial} {
+	    # latest finish may be non-partial, but if there was a partial solution
+	    # for some move, we should make sure to inform the user about it
+	    set startOfEnd [string first [::msgcat::mc output::SolutionFinished] $finish]
+	    if {$startOfEnd!=-1} {
+		set lengthOfEnd [string length [::msgcat::mc output::SolutionFinished]]
+		set endOfEnd [expr {$startOfEnd+$lengthOfEnd-1}]
+		set finish [string replace $finish $startOfEnd $endOfEnd]
+	    }
+	}
+
 	_puts "$finish[_formattedTime]$suffix"
+
 	set startTime [clock milliseconds]
 	set nextTwinningMark "a"
+	set isSolutionPartial false
     }
 }
 
@@ -1021,13 +1043,16 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
-    set entireSolutionRE "(.*)\n(\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    set entireSolutionRE "(.*)\n((?:[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution]) $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
 	debug.tester "solution:|$solution|" 2
 	if {$solution=="\n"} {
 	    # this only happens in duplex stipulations when there is no solution
 	    # prevent 1 empty line per playable move from being printed
 	    set solution ""
+	}
+	if {[string first [::msgcat::mc output::PartialSolution] $finished]!=-1} {
+	    ::output::rememberPartialSolution
 	}
 	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
 	    set carry ""
@@ -1144,7 +1169,7 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
-    set entireSolutionRE "(.*)(\n)(\n\n[::msgcat::mc output::SolutionFinished]\[.] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    set entireSolutionRE "(.*)(\n)(\n[::msgcat::mc output::SolutionFinished] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $lines - solution carry finished time suffix]} {
 	debug.tester "solution:>$solution<" 2
 	::output::solution $solution
