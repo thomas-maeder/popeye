@@ -1043,7 +1043,7 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
-    set entireSolutionRE "(.*)\n((?:[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution]) $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
+    set entireSolutionRE "(.*?)\n?((?:[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution]) $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
 	debug.tester "solution:|$solution|" 2
 	if {$solution=="\n"} {
