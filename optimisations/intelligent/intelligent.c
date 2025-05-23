@@ -716,7 +716,7 @@ static boolean get_target_before_white_move(stored_position_type const * const s
     a8, b8, c8, d8, e8, f8, g8, h8
   };
 
-  if ((MovesLeft[White] != 1) || (MovesLeft[Black] <= 0))
+  if ((MovesLeft[White] != 1) || (MovesLeft[Black] < 1)) // TODO: replace with a more precise test
   {
     maybe_series_mover = false;
     return true;
