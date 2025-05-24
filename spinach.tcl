@@ -697,6 +697,9 @@ proc ::output::writeEndOfProblem {} {
 
 namespace eval popeye {
     variable executablePath
+
+    lassign [chan pipe] errorout errorin
+    fconfigure $errorout -blocking false
 }
 
 proc ::popeye::setExecutable {path} {
@@ -719,13 +722,16 @@ proc ::popeye::setMaxmem {setting} {
 proc ::popeye::spawn {} {
     variable executablePath
     variable maxmemOption
+    variable errorin
 
     debug.popeye "spawn"
     
     debug.popeye "executablePath:$executablePath" 2
     debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
 
-    set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption" "r+"]
+    # this mess seems to be the only way that works on both Linux and Windows
+    # with paths that may contain spaces
+    set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption 2>@$errorin" "r+"]
     debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
     debug.popeye "caller:[debuggable [info level -1]]" 2
 
@@ -767,6 +773,26 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 	}
     }
     debug.popeye "terminate <-"
+}
+
+proc ::popeye::flushStderr {} {
+    variable errorout
+
+    set written {}
+
+    set lines [split [read $errorout] "\n"]
+
+    foreach line $lines {
+	if {$line==""} {
+	    # nothing
+	} elseif {[lsearch -exact $written $line]==-1} {
+	    puts stderr $line
+	    lappend written $line
+	} else {
+	    # same error line seems to have been produced by an earlier
+	    # sub-process - no need to repeat it
+	}
+    }
 }
 
 namespace eval ::popeye::input {
@@ -1260,6 +1286,8 @@ proc ::tester::test {firstTwin writeTwinning continued twinnings} {
     debug.tester "test - firstTwin:|[debuggable $firstTwin]| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed"
 
     ::sync::Fini
+
+    ::popeye::flushStderr
 
     debug.tester "test <-"
 }
