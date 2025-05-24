@@ -716,7 +716,7 @@ static boolean get_target_before_white_move(stored_position_type const * const s
     a8, b8, c8, d8, e8, f8, g8, h8
   };
 
-  if ((MovesLeft[White] != 1) || (MovesLeft[Black] < 1)) // TODO: replace with a more precise test
+  if (MovesLeft[White] != 1) // TODO: replace with a more precise test
   {
     maybe_series_mover = false;
     return true;
@@ -1920,6 +1920,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[4];
               pawn_generator.rg.mg.possible_froms = ((pawn_locations | vacatable_squares) & 0x00FFFFFFFFFFFF00U & ~pawn_checks_white_king);
               pawn_generator.rg.mg.possible_tos = (vacatable_squares & 0x0000FFFFFFFFFFFFU & ~pawn_checks_white_king);
+              // TODO: remove any holes from pawn_generator.rg.mg.possible_tos
               pawn_generator.rg.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
               pawn_generator.orig_square = index;
               if (get_legal_black_pawn_moves(&pawn_generator.rg.mg, tmp_dest, index))
@@ -1931,6 +1932,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[8];
               knight_generator.possible_froms = ((knight_locations | vacatable_squares) & ~knight_checks_white_king);
               knight_generator.possible_tos = (vacatable_squares & ~knight_checks_white_king);
+              // TODO: remove any holes from knight_generator.possible_tos
               if (get_legal_knight_moves(&knight_generator, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
             }
@@ -1940,6 +1942,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[2 * (((nr_files_on_board < nr_rows_on_board) ? nr_files_on_board : nr_rows_on_board) - 1)];
               bishop_generator.mg.possible_froms = ((bishop_locations | vacatable_squares) & ~bishop_checks_white_king);
               bishop_generator.mg.possible_tos = (vacatable_squares & ~bishop_checks_white_king);
+              // TODO: remove any holes from bishop_generator.mg.possible_tos
               bishop_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
               if (get_legal_bishop_moves(&bishop_generator.mg, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
@@ -1950,6 +1953,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[(nr_files_on_board - 1) + (nr_rows_on_board - 1)];
               rook_generator.mg.possible_froms = ((rook_locations | vacatable_squares) & ~rook_checks_white_king);
               rook_generator.mg.possible_tos = (vacatable_squares & ~rook_checks_white_king);
+              // TODO: remove any holes from rook_generator.mg.possible_tos
               rook_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
               if (get_legal_rook_moves(&rook_generator.mg, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
@@ -1960,6 +1964,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[(2 * (((nr_files_on_board < nr_rows_on_board) ? nr_files_on_board : nr_rows_on_board) - 1)) + ((nr_files_on_board - 1) + (nr_rows_on_board - 1))];
               queen_generator.mg.possible_froms = ((queen_locations | vacatable_squares) & ~queen_checks_white_king);
               queen_generator.mg.possible_tos = (vacatable_squares & ~queen_checks_white_king);
+              // TODO: remove any holes from queen_generator.mg.possible_tos
               queen_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
               if (get_legal_queen_moves(&queen_generator.mg, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
@@ -1970,6 +1975,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[8];
               king_generator.possible_froms = ((1ULL << bKPosition) | vacatable_squares);
               king_generator.possible_tos = (vacatable_squares & ~guarded_by_white);
+              // TODO: remove any holes from king_generator.possible_tos
               if (get_legal_king_moves(&king_generator, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
             }
@@ -1983,6 +1989,7 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
               unsigned char tmp_dest[nr_squares_on_board];
               unknown_generator.possible_froms = vacatable_squares;
               unknown_generator.possible_tos = vacatable_squares;
+              // TODO: remove any holes from unknown_generator.mg.possible_tos
               if (get_legal_unknown_moves(&unknown_generator, tmp_dest, index))
                 vacatable_squares |= (1ULL << index);
             }
@@ -1991,25 +1998,32 @@ unsigned int series_h_distance_to_target(CastlingLegality const cl, EnPassantLeg
 
   pawn_generator.rg.mg.possible_froms = ((pawn_locations | vacatable_squares) & 0x00FFFFFFFFFFFF00U & ~pawn_checks_white_king);
   pawn_generator.rg.mg.possible_tos = (vacatable_squares & 0x0000FFFFFFFFFFFFU);
+  // TODO: remove any holes from pawn_generator.rg.mg.possible_tos
   pawn_generator.rg.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
   knight_generator.possible_froms = ((knight_locations | vacatable_squares) & ~knight_checks_white_king);
   knight_generator.possible_tos = vacatable_squares;
+  // TODO: remove any holes from knight_generator.possible_tos
   bishop_generator.mg.possible_froms = ((bishop_locations | vacatable_squares) & ~bishop_checks_white_king);
   bishop_generator.mg.possible_tos = vacatable_squares;
+  // TODO: remove any holes from bishop_generator.mg.possible_tos
   bishop_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
   rook_generator.mg.possible_froms = ((rook_locations | vacatable_squares) & ~rook_checks_white_king);
   rook_generator.mg.possible_tos = vacatable_squares;
+  // TODO: remove any holes from rook_generator.mg.possible_tos
   rook_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
   queen_generator.mg.possible_froms = ((queen_locations | vacatable_squares) & ~queen_checks_white_king);
   queen_generator.mg.possible_tos = vacatable_squares;
+  // TODO: remove any holes from queen_generator.mg.possible_tos
   queen_generator.obstructions = (vacatable_squares ^ 0xFFFFFFFFFFFFFFFFU);
   if (bKPosition < nr_squares_on_board)
     king_generator.possible_froms = ((1ULL << bKPosition) | vacatable_squares);
   else
     king_generator.possible_froms = vacatable_squares;
   king_generator.possible_tos = (vacatable_squares & ~guarded_by_white);
+  // TODO: remove any holes from king_generator.possible_tos
   dummy_generator.possible_froms = vacatable_squares;
   dummy_generator.possible_tos = vacatable_squares;
+  // TODO: remove any holes from unknown_generator.mg.possible_tos
   unknown_generator.possible_froms = vacatable_squares;
   unknown_generator.possible_tos = vacatable_squares;
 
