@@ -207,8 +207,23 @@ void restart_guard_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+typedef enum
+{
+  insert_guard_mode_unknown,
+  insert_guard_mode_regular,
+  insert_guard_mode_intelligent
+} insert_guard_mode_help_play;
+
+typedef struct
+{
+    insert_guard_mode_help_play mode;
+    boolean instrumented;
+} insertion_status_type;
+
 static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
 {
+  insertion_status_type * const status = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -216,18 +231,12 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototype = alloc_pipe(STRestartGuard);
     slice_insertion_insert(si,&prototype,1);
+    status->instrumented = !restart_deep;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-typedef enum
-{
-  insert_guard_mode_unknown,
-  insert_guard_mode_regular,
-  insert_guard_mode_intelligent
-} insert_guard_mode;
 
 static void insert_guard_help_move(slice_index si, stip_structure_traversal *st)
 {
@@ -264,7 +273,7 @@ static void insert_guard_help_move(slice_index si, stip_structure_traversal *st)
 
 static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 {
-  insert_guard_mode * const mode = st->param;
+  insertion_status_type * const status = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -273,13 +282,13 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
   if (st->level==structure_traversal_level_top
       || st->level==structure_traversal_level_setplay)
   {
-    assert(*mode==insert_guard_mode_unknown);
+    assert(status->mode==insert_guard_mode_unknown);
 
     stip_traverse_structure_children_pipe(si,st);
 
-    assert(*mode!=insert_guard_mode_unknown);
+    assert(status->mode!=insert_guard_mode_unknown);
 
-    if (*mode==insert_guard_mode_regular)
+    if (status->mode==insert_guard_mode_regular)
     {
       stip_structure_traversal st_nested;
       unsigned int counter = 0;
@@ -306,7 +315,8 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
       slice_insertion_insert(si,prototypes,nr_prototypes);
     }
 
-    *mode = insert_guard_mode_unknown;
+    status->mode = insert_guard_mode_unknown;
+    status->instrumented = true;
   }
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -318,16 +328,16 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 static void insert_guard_intelligent(slice_index si,
                                      stip_structure_traversal *st)
 {
-  insert_guard_mode * const mode = st->param;
+  insertion_status_type * const status = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(*mode==insert_guard_mode_unknown
-         || *mode==insert_guard_mode_intelligent);
+  assert(status->mode==insert_guard_mode_unknown
+         || status->mode==insert_guard_mode_intelligent);
 
-  *mode = insert_guard_mode_intelligent;
+  status->mode = insert_guard_mode_intelligent;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -336,16 +346,16 @@ static void insert_guard_intelligent(slice_index si,
 static void insert_guard_regular(slice_index si,
                                      stip_structure_traversal *st)
 {
-  insert_guard_mode * const mode = st->param;
+  insertion_status_type * const status = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(*mode==insert_guard_mode_unknown
-         || *mode==insert_guard_mode_regular);
+  assert(status->mode==insert_guard_mode_unknown
+         || status->mode==insert_guard_mode_regular);
 
-  *mode = insert_guard_mode_regular;
+  status->mode = insert_guard_mode_regular;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -371,17 +381,18 @@ enum
 
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
- */
-void solving_insert_restart_guards(slice_index si)
+ * @return true iff instrumentation according to requested restart numbers was successful
+ **/
+boolean solving_insert_restart_guards(slice_index si)
 {
-  insert_guard_mode mode = insert_guard_mode_unknown;
+  insertion_status_type status = { insert_guard_mode_unknown, false };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_init(&st,&status);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_conditional_pipe,
                                                   &stip_traverse_structure_children_pipe);
@@ -390,6 +401,14 @@ void solving_insert_restart_guards(slice_index si)
                                     nr_restart_guard_inserters);
   stip_traverse_structure(si,&st);
 
+  if (!status.instrumented)
+  {
+    RestartNbr[movenumbers_start][0] = 0;
+    RestartNbr[movenumbers_end][0] = 0;
+  }
+
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",status.instrumented);
   TraceFunctionResultEnd();
+  return status.instrumented;
 }

@@ -671,8 +671,8 @@ void build_solvers1(slice_index si)
 
   solving_remove_irrelevant_constraints(si);
 
-  if (OptFlag[movenbr])
-    solving_insert_restart_guards(si);
+  if (OptFlag[movenbr] && !solving_insert_restart_guards(si))
+    output_plaintext_message(MoveNumbersIncompatibleWithStipulation);
 
   solving_insert_continuation_solvers(si);
 

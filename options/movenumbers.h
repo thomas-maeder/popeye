@@ -40,8 +40,9 @@ boolean read_restart_number(movenumbers_boundary_type mb,
 
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
- */
-void solving_insert_restart_guards(slice_index si);
+ * @return true iff instrumentation according to requested restart numbers was successful
+ **/
+boolean solving_insert_restart_guards(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
