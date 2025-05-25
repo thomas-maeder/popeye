@@ -7,13 +7,6 @@ package require control
 package require debug
 package require msgcat
 
-# debug.something has the nasty habit of subst-in its argument
-# to protect it from subst, do something like
-# debug.something "argument:[debuggable $argument]"
-proc debuggable {string} {
-    return [regsub -all {\[} $string {[return "\["]}]
-}
-
 control::control assert enabled [string match "*.tcl" $::argv0]
 
 # define the debugging tags in deactivated state
@@ -26,7 +19,6 @@ debug off popeye
 debug off problem
 debug off sync
 debug off tester
-debug off twin
 
 # shamelessly copied from
 # https://stackoverflow.com/questions/29482303/how-to-find-the-number-of-cpus-in-tcl
@@ -301,30 +293,30 @@ namespace eval language {
 proc ::language::tokenIsElement {token elementId} {
     variable minElementLength
 
-    debug.language "tokenIsElement token:$token elementId:$elementId"
+    debug.language {tokenIsElement token:$token elementId:$elementId}
 
     set tokenLength [string length $token]
 
     if {$tokenLength>=$minElementLength} {
-	debug.language "language:[::msgcat::mclocale]" 2
+	debug.language {language:[::msgcat::mclocale]} 2
 
 	set elementString [msgcat::mc $elementId]
-	debug.language "elementString:$elementString" 2
+	debug.language {elementString:$elementString} 2
 
 	set elementStringFragment [string range $elementString 0 [expr {$tokenLength-1}]]
-	debug.language "elementStringFragment:$elementStringFragment" 2
+	debug.language {elementStringFragment:$elementStringFragment} 2
 
 	set result [expr {[string compare -nocase $elementStringFragment $token]==0}]
     } else {
 	set result false
     }
 
-    debug.language "tokenIsElement <- $result"
+    debug.language {tokenIsElement <- $result}
     return $result
 }
 
 proc ::language::init {} {
-    debug.language "init"
+    debug.language {init}
 
     foreach language [namespace children ::language] {
 	set shortcut [namespace tail $language]
@@ -342,20 +334,20 @@ proc ::language::init {} {
     set languages [::getAllNames ::language]
 
     set prefs [::msgcat::mcpreferences]
-    debug.language "prefs:$prefs"
+    debug.language {prefs:$prefs}
 
-    debug.language "setting default fr"
+    debug.language {setting default fr}
     ::msgcat::mclocale "fr"
 
     foreach pref $prefs {
 	if {[lsearch -exact $languages $pref]!=-1} {
-	    debug.language "overriding default with $pref"
+	    debug.language {overriding default with $pref}
 	    ::msgcat::mclocale $pref
 	    break
 	}
     }
 
-    debug.language "init <-"
+    debug.language {init <-}
 }
 
 namespace eval input {
@@ -381,10 +373,10 @@ proc ::input::nextToken {chan} {
     variable whiteSpaceRE
     variable tokenRE
 
-    debug.input "nextToken"
+    debug.input {nextToken}
 
     while {true} {
-	debug.input "lineBuffer:|[debuggable $lineBuffer]|" 2
+	debug.input {lineBuffer:|$lineBuffer|} 2
 	if {[regexp -- "$whiteSpaceRE*($tokenRE+)(.*)" $lineBuffer - result lineBuffer]} {
 	    break
 	} elseif {[gets $chan lineBuffer]<0} {
@@ -393,12 +385,12 @@ proc ::input::nextToken {chan} {
 	}
     }
 
-    debug.input "nextToken <- $result"
+    debug.input {nextToken <- $result}
     return $result
 }
 
 proc ::input::reportNoLanguageDetected {token} {
-    debug.input "::input::reportNoLanguageDetected token:$token"
+    debug.input {::input::reportNoLanguageDetected token:$token}
 
     puts stderr "erreur d'entree:pas debut probleme"
     puts stderr "element d'offenser: $token"
@@ -408,7 +400,7 @@ proc ::input::reportNoLanguageDetected {token} {
 proc ::input::isLineElement {token} {
     variable lineElements
 
-    debug.input "isLineElement token:$token"
+    debug.input {isLineElement token:$token}
 
     set result false
 
@@ -419,21 +411,21 @@ proc ::input::isLineElement {token} {
 	}
     }
 
-    debug.input "isLineElement <- $result"
+    debug.input {isLineElement <- $result}
     return $result
 }
 
 proc ::input::detectLanguage {chan} {
     variable minTokenLength
 
-    debug.input "detectLanguage"
+    debug.input {detectLanguage}
 
     set languages [::getAllNames ::language]
-    debug.input "languages:$languages" 2
+    debug.input {languages:$languages} 2
 
     set token [nextToken $chan]
     set tokenLength [string length $token]
-    debug.input "tokenLength:$tokenLength" 2
+    debug.input {tokenLength:$tokenLength} 2
 
     if {$tokenLength<$minTokenLength} {
 	reportNoLanguageDetected $token
@@ -441,7 +433,7 @@ proc ::input::detectLanguage {chan} {
 	set detected false
 	set saveLocale [::msgcat::mclocale]
 	foreach language $languages {
-	    debug.input "trying $language" 2
+	    debug.input {trying $language} 2
 	    ::msgcat::mclocale $language
 	    if {[::language::tokenIsElement $token input::BeginProblem]} {
 		set detected true
@@ -455,22 +447,22 @@ proc ::input::detectLanguage {chan} {
 	}
     }
 
-    debug.input "detectLanguage <-"
+    debug.input {detectLanguage <-}
 }
 
 proc ::input::readUpTo {chan elementIds} {
     variable lineBuffer
 
-    debug.input "readUpTo elementIds:$elementIds"
+    debug.input {readUpTo elementIds:$elementIds}
 
     set skipped ""
     while {true} {
 	set token [nextToken $chan]
-	debug.input "token:$token" 2
+	debug.input {token:$token} 2
 
 	foreach id $elementIds {
 	    if {[::language::tokenIsElement $token input::$id]} {
-		debug.input "identified element $id" 2
+		debug.input {identified element $id} 2
 		set result [list $skipped $id]
 		break
 	    }
@@ -484,22 +476,22 @@ proc ::input::readUpTo {chan elementIds} {
 	} else {
 	    append skipped "$token "
 	}
-	debug.input "skipped:|$skipped|"
+	debug.input {skipped:|$skipped|}
     }
 
-    debug.input "readUpTo <- $result"
+    debug.input {readUpTo <- $result}
     return $result
 }
 
 proc ::input::getLine {} {
     variable lineBuffer
 
-    debug.input "getLine"
+    debug.input {getLine}
 
     set result $lineBuffer
     set lineBuffer ""
 
-    debug.input "getLine <- $result"
+    debug.input {getLine <- $result}
     return $result
 }
 
@@ -521,25 +513,25 @@ namespace eval output {
 proc ::output::openProtocol {path} {
     variable protocol
 
-    debug.output "openProtocol $path"
+    debug.output {openProtocol $path}
 
     closeProtocol
     set protocol [::open $path "w+"]
 
-    debug.output "openProtocol <-"
+    debug.output {openProtocol <-}
 }
 
 proc ::output::closeProtocol {} {
     variable protocol
 
-    debug.output "closeProtocol"
+    debug.output {closeProtocol}
 
     if {[info exists protocol]} {
 	::close $protocol
 	unset protocol
     }
 
-    debug.output "closeProtocol <-"
+    debug.output {closeProtocol <-}
 }
 
 proc ::output::_puts {string} {
@@ -564,7 +556,7 @@ proc ::output::greetingLine {greetingLine} {
 proc ::output::enableMovenumbers {enable} {
     variable areMovenumbersSuppressed
 
-    debug.output "enableMovenumbers enable:$enable"
+    debug.output {enableMovenumbers enable:$enable}
 
     set areMovenumbersSuppressed [expr {!$enable}]
 }
@@ -706,7 +698,7 @@ proc ::popeye::setExecutable {path} {
     variable executablePath
     variable maxmemOption ""
 
-    debug.popeye "setExecutable path:$path"
+    debug.popeye {setExecutable path:$path}
 
     set executablePath $path
 }
@@ -714,7 +706,7 @@ proc ::popeye::setExecutable {path} {
 proc ::popeye::setMaxmem {setting} {
     variable maxmemOption
 
-    debug.popeye "setMaxmem [debuggable $setting]"
+    debug.popeye {setMaxmem $setting}
 
     set maxmemOption "-maxmem $setting"
 }
@@ -724,16 +716,16 @@ proc ::popeye::spawn {} {
     variable maxmemOption
     variable errorin
 
-    debug.popeye "spawn"
+    debug.popeye {spawn}
     
-    debug.popeye "executablePath:$executablePath" 2
-    debug.popeye "maxmemOption:[debuggable $maxmemOption]" 2
+    debug.popeye {executablePath:$executablePath} 2
+    debug.popeye {maxmemOption:$maxmemOption} 2
 
     # this mess seems to be the only way that works on both Linux and Windows
     # with paths that may contain spaces
     set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption 2>@$errorin" "r+"]
-    debug.popeye "pipe:$pipe pid:[pid $pipe]" 2
-    debug.popeye "caller:[debuggable [info level -1]]" 2
+    debug.popeye {pipe:$pipe pid:[pid $pipe]} 2
+    debug.popeye {caller:[info level -1]} 2
 
     # seems not to work on Windows
     #fconfigure $pipe -encoding binary -buffering line
@@ -744,12 +736,12 @@ proc ::popeye::spawn {} {
 
     puts $pipe [::msgcat::mc input::BeginProblem]
 
-    debug.popeye "spawn <- $result"
+    debug.popeye {spawn <- $result}
     return $result
 }
 
 proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
-    debug.popeye "terminate pipe:$pipe expectedErrorMessageREs:$expectedErrorMessageREs"
+    debug.popeye {terminate pipe:$pipe expectedErrorMessageREs:$expectedErrorMessageREs}
     if {[catch {
 	# empty the buffer first to avoid "child killed: write on pipe with no readers"
 	# cf. https://stackoverflow.com/questions/38020500/tcl-script-breaks-with-child-killed-write-on-pipe-with-no-readers
@@ -757,14 +749,14 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 	set pending [read $pipe]
 	close $pipe
 	if {$pending!=""} {
-	    debug.popeye "pending:|[debuggable $pending]|" 2
+	    debug.popeye {pending:|$pending|} 2
 	}
     } error]} {
-	debug.popeye "caught error |[debuggable $error]|" 2
+	debug.popeye {caught error |$error|} 2
 	foreach expectedErrorMesssageRE $expectedErrorMessageREs {
 	    if {[regsub -all "$expectedErrorMesssageRE" $error "" error]>0} {
-		debug.popeye "suppressed [debuggable $expectedErrorMesssageRE]" 2
-		debug.popeye "error:[debuggable $error]" 2
+		debug.popeye {suppressed $expectedErrorMesssageRE} 2
+		debug.popeye {error:$error} 2
 	    }
 	}
 	if {$error!=""} {
@@ -772,7 +764,7 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 	    exit 1
 	}
     }
-    debug.popeye "terminate <-"
+    debug.popeye {terminate <-}
 }
 
 proc ::popeye::flushStderr {} {
@@ -799,37 +791,37 @@ namespace eval ::popeye::input {
 }
 
 proc ::popeye::input::Problem {pipe problem} {
-    debug.popeye "input::Problem pipe:$pipe problem:|$problem|"
+    debug.popeye {input::Problem pipe:$pipe problem:|$problem|}
 
     puts $pipe $problem
 }
 
 proc ::popeye::input::Options {pipe options} {
-    debug.popeye "input::Options pipe:$pipe options:|$options|"
+    debug.popeye {input::Options pipe:$pipe options:|$options|}
 
     puts $pipe "[::msgcat::mc input::Option] [join $options]"
 }
 
 proc ::popeye::input::ZeroPosition {pipe twinnings} {
-    debug.popeye "input::ZeroPosition pipe:$pipe twinnings:|$twinnings|"
+    debug.popeye {input::ZeroPosition pipe:$pipe twinnings:|$twinnings|}
 
     puts $pipe "[::msgcat::mc input::ZeroPosition] [join $twinnings]"
 }
 
 proc ::popeye::input::Twin {pipe twinning} {
-    debug.popeye "input::Twin pipe:$pipe twinning:|$twinning|"
+    debug.popeye {input::Twin pipe:$pipe twinning:|$twinning|}
 
     puts $pipe "[::msgcat::mc input::Twin] $twinning"
 }
 
 proc ::popeye::input::Pieces {pipe pieces} {
-    debug.popeye "input::Pieces pieces:|$pieces|"
+    debug.popeye {input::Pieces pieces:|$pieces|}
 
     puts $pipe "[::msgcat::mc input::Pieces] $pieces"
 }
 
 proc ::popeye::input::NextProblem {pipe} {
-    debug.popeye "input::NextProblem pipe:$pipe"
+    debug.popeye {input::NextProblem pipe:$pipe}
 
     puts $pipe "[::msgcat::mc input::NextProblem]"
 
@@ -838,7 +830,7 @@ proc ::popeye::input::NextProblem {pipe} {
 }
 
 proc ::popeye::input::EndProblem {pipe} {
-    debug.popeye "input::EndProblem pipe:$pipe"
+    debug.popeye {input::EndProblem pipe:$pipe}
 
     puts $pipe "[::msgcat::mc input::EndProblem]"
 
@@ -856,7 +848,7 @@ proc ::popeye::output::getLine {pipe varname} {
 }
 
 proc ::popeye::output::doAsync {pipe listener args} {
-    debug.popeye "output::doAsync pipe:$pipe listener:$listener arguments:[debuggable $args]"
+    debug.popeye {output::doAsync pipe:$pipe listener:$listener arguments:$args}
 
     fconfigure $pipe -blocking false
 
@@ -970,8 +962,8 @@ proc parseCommandLine {} {
 	}
     }
 
-    debug.cmdline "argv0:$::argv0 argv:$::argv"
-    debug.cmdline "options:$options"
+    debug.cmdline {argv0:$::argv0 argv:$::argv}
+    debug.cmdline {options:$options}
     debug.cmdline params:[debug parray ::params]
 }
 
@@ -994,17 +986,17 @@ proc ::sync::Fini {} {
 proc ::sync::Wait {callback args} {
     variable latestNotification
 
-    debug.sync "Wait callback:$callback args:[debuggable $args]"
+    debug.sync {Wait callback:$callback args:$args}
 
     set callback [uplevel namespace which -command $callback]
 
     while {true} {
-	debug.sync "vwait latestNotification:$latestNotification" 2
+	debug.sync {vwait latestNotification:$latestNotification} 2
 	vwait [namespace which -variable latestNotification]
 	foreach l $latestNotification {
 	    set result [catch {
 		set args [$callback {*}$l {*}$args]
-		debug.sync "args:$args" 2
+		debug.sync {args:$args} 2
 	    } error options]
 	}
 
@@ -1027,10 +1019,10 @@ proc ::sync::Wait {callback args} {
     }
 
     if {$result==1} {
-	debug.sync "Wait <-! $options $result"
+	debug.sync {Wait <-! $options $result}
 	return -options $options $result
     } else {
-	debug.sync "Wait <- $args"
+	debug.sync {Wait <- $args}
 	return $args
     }
 }
@@ -1038,7 +1030,7 @@ proc ::sync::Wait {callback args} {
 proc ::sync::Notify {sender notification} {
     variable latestNotification
 
-    debug.sync "Notify sender:$sender notification:$notification"
+    debug.sync {Notify sender:$sender notification:$notification}
     lappend latestNotification [list $sender $notification]
 }
 
@@ -1051,14 +1043,14 @@ namespace eval tester::async {
 proc ::tester::async::_consume {pipe} {
     variable buffers
 
-    debug.tester "eof:[eof $pipe]"
+    debug.tester {eof:[eof $pipe]}
     if {[eof $pipe]} {
 	::popeye::terminate $pipe
 	::sync::Notify $pipe "eof"
 	return false
     } else {
 	set chunk [read $pipe]
-	debug.tester "chunk:|$chunk|" 2
+	debug.tester {chunk:|$chunk|} 2
 	append buffers($pipe) $chunk
 	return true
     }
@@ -1071,7 +1063,7 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
     set timeRE {[[:digit:]:.]+}
     set entireSolutionRE "(.*?)\n?((?:[::msgcat::mc output::SolutionFinished]|[::msgcat::mc output::PartialSolution]) $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $buffers($pipe) - solution finished time suffix]} {
-	debug.tester "solution:|$solution|" 2
+	debug.tester {solution:|$solution|} 2
 	if {$solution=="\n"} {
 	    # this only happens in duplex stipulations when there is no solution
 	    # prevent 1 empty line per playable move from being printed
@@ -1113,7 +1105,7 @@ proc ::tester::async::_moveNumberRead {pipe} {
 proc ::tester::async::readable {pipe} {
     variable buffers
 
-    debug.tester "readable pipe:$pipe"
+    debug.tester {readable pipe:$pipe}
 
     if {[_consume $pipe]} {
 	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
@@ -1124,13 +1116,13 @@ proc ::tester::async::readable {pipe} {
 	}
     }
 
-    debug.tester "readable <-"
+    debug.tester {readable <-}
 }
 
 proc ::tester::async::moveNumber {pipe} {
     variable buffers
 
-    debug.tester "moveNumber pipe:$pipe"
+    debug.tester {moveNumber pipe:$pipe}
 
     if {[_consume $pipe]} {
 	lassign [_moveNumberRead $pipe] numberedMove time
@@ -1149,11 +1141,11 @@ proc ::tester::async::moveNumber {pipe} {
 	}
     }
 
-    debug.tester "moveNumber <-"
+    debug.tester {moveNumber <-}
 }
 
 proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
-    debug.tester "setplayRange pipe:$pipe firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
+    debug.tester {setplayRange pipe:$pipe firstTwin:|$firstTwin| writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
@@ -1173,7 +1165,7 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 	append lines "$line\n"
     }
 
-    debug.tester "lines:>[debuggable $lines]<" 2
+    debug.tester {lines:>$lines<} 2
 
     if {[llength $twinnings]==0} {
 	if {$writeTwinning} {
@@ -1183,7 +1175,7 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 	set twinningLetterRE {a\)}
 	set twinningRE {[^\n]*\n(?:[^\n]+\n)*}
 	if {[regexp -- "^\n[::msgcat::mc input::ZeroPosition]\n\n\n$twinningLetterRE .*$endOfPrevTwinningMark +($twinningRE)(\n.*)" $lines - twinning lines]} {
-	    debug.tester "setplayRange - twinning:|[debuggable $twinning]| lines:>[debuggable $lines]<" 2
+	    debug.tester {setplayRange - twinning:|$twinning| lines:>$lines<} 2
 	    if {$writeTwinning} {
 		::output::twinning $twinning $continued
 	    }
@@ -1197,18 +1189,18 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
     set timeRE {[[:digit:]:.]+}
     set entireSolutionRE "(.*)(\n)(\n[::msgcat::mc output::SolutionFinished] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
     if {[regexp -- $entireSolutionRE $lines - solution carry finished time suffix]} {
-	debug.tester "solution:>$solution<" 2
+	debug.tester {solution:>$solution<} 2
 	::output::solution $solution
 	::output::rememberFinish $carry $finished $time $suffix
     } else {
 	# no set play etc.
     }
 
-    debug.tester "setplayRange <-"
+    debug.tester {setplayRange <-}
 }
 
 proc ::tester::testMove {pipe firstTwin twinnings move} {
-    debug.tester "testMove pipe:$pipe firstTwin:|[debuggable $firstTwin]| twinnings:|[debuggable $twinnings]| move:$move"
+    debug.tester {testMove pipe:$pipe firstTwin:|$firstTwin| twinnings:|$twinnings| move:$move}
 
     lappend options [::msgcat::mc input::NoBoard]
     lappend options [::msgcat::mc input::MoveNumbers]
@@ -1224,11 +1216,11 @@ proc ::tester::testMove {pipe firstTwin twinnings move} {
 
     ::popeye::output::doAsync $pipe async::moveNumber
 
-    debug.tester "testMove <-"
+    debug.tester {testMove <-}
 }
 
 proc ::tester::testProgress {pipe notification firstTwin twinnings nrRunningProcesses currMove} {
-    debug.tester "testProgress pipe:$pipe notification:$notification twinnings:|[debuggable $twinnings]| nrRunningProcesses:$nrRunningProcesses currMove:$currMove"
+    debug.tester {testProgress pipe:$pipe notification:$notification twinnings:|$twinnings| nrRunningProcesses:$nrRunningProcesses currMove:$currMove}
 
     switch -exact $notification {
 	solution  {
@@ -1251,21 +1243,21 @@ proc ::tester::testProgress {pipe notification firstTwin twinnings nrRunningProc
 
     if {$nrRunningProcesses==0} {
 	::output::endOfPhase
-	debug.tester "testProgress <- break"
+	debug.tester {testProgress <- break}
 	return -code break
     } else {
 	set result [list $firstTwin $twinnings $nrRunningProcesses $currMove]
-	debug.tester "testProgress <- [debuggable $result]"
+	debug.tester {testProgress <- $result}
 	return $result
     }
 }
 
-proc ::tester::test {firstTwin writeTwinning continued twinnings} {
-    debug.tester "test firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
+proc ::tester::test {firstTwin writeTwinning continued {twinnings {}}} {
+    debug.tester {test firstTwin:|$firstTwin| writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
 
     # synchronously deal with everything happening before move 1, e.g. set play
     lassign [::popeye::spawn] setplayPipe greetingLine
-    debug.tester "setplayPipe:$setplayPipe" 2
+    debug.tester {setplayPipe:$setplayPipe} 2
     setplayRange $setplayPipe $firstTwin $writeTwinning $continued $twinnings
     ::popeye::terminate $setplayPipe
 
@@ -1278,38 +1270,30 @@ proc ::tester::test {firstTwin writeTwinning continued twinnings} {
 	incr currMove
     }
 
-    debug.tester "nrRunningProcesses:$nrRunningProcesses" 2
+    debug.tester {nrRunningProcesses:$nrRunningProcesses} 2
 
     # asynchronously deal with the processes created for the real moves
     lassign [::sync::Wait testProgress $firstTwin $twinnings $nrRunningProcesses $currMove] firstTwin nrProcesses nrMovesPlayed
 
-    debug.tester "test - firstTwin:|[debuggable $firstTwin]| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed"
+    debug.tester {test - firstTwin:|$firstTwin| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed}
 
     ::sync::Fini
 
     ::popeye::flushStderr
 
-    debug.tester "test <-"
-}
-
-proc handleTwin {firstTwin writeTwinning continued {twinnings {}}} {
-    debug.twin "handleTwin firstTwin:|[debuggable $firstTwin]| writeTwinning:$writeTwinning continued:$continued twinnings:|[debuggable $twinnings]|"
-
-    ::tester::test $firstTwin $writeTwinning $continued $twinnings
-	
-    debug.twin "handleTwin <-"
+    debug.tester {test <-}
 }
 
 proc readFirstTwin {chan} {
-    debug.problem "readFirstTwin"
+    debug.problem {readFirstTwin}
 
     lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwin endElmt
-    debug.problem "firstTwin:|[debuggable $firstTwin]| endElmt:$endElmt" 2
+    debug.problem {firstTwin:|$firstTwin| endElmt:$endElmt} 2
     while {$endElmt=="Protocol"} {
 	set protocol [string trim [::input::getLine]]
-	debug.problem "protocol:[debuggable $protocol]" 2
+	debug.problem {protocol:$protocol} 2
 	lassign [::input::readUpTo $chan {Twin ZeroPosition NextProblem EndProblem Protocol}] firstTwinPart2 endElmt
-	debug.problem "firstTwinPart2:|[debuggable $firstTwinPart2]| endElmt:$endElmt" 2
+	debug.problem {firstTwinPart2:|$firstTwinPart2| endElmt:$endElmt} 2
 	append firstTwin $firstTwinPart2
     }
 
@@ -1319,12 +1303,12 @@ proc readFirstTwin {chan} {
 
     set result [list $firstTwin $endElmt]
 
-    debug.problem "readFirstTwin <- [debuggable $result]"
+    debug.problem {readFirstTwin <- $result}
     return $result
 }
 
 proc handleFirstTwin {chan} {
-    debug.problem "handleFirstTwin"
+    debug.problem {handleFirstTwin}
 
     lassign [readFirstTwin $chan] firstTwin endElmt
 
@@ -1337,18 +1321,18 @@ proc handleFirstTwin {chan} {
     } else {
 	set writeTwinning [expr {$endElmt=="Twin"}]
 	set continued false
-	handleTwin $firstTwin $writeTwinning $continued
+	::tester::test $firstTwin $writeTwinning $continued
 	::output::advanceTwinningMark
     }
 
     set result [list $firstTwin $endElmt]
 
-    debug.problem "handleFirstTwin <- $result"
+    debug.problem {handleFirstTwin <- $result}
     return $result
 }
 
 proc handleNextTwin {chan firstTwin twinnings} {
-    debug.problem "handleNextTwin firstTwin:[debuggable $firstTwin] twinnings:[debuggable $twinnings]"
+    debug.problem {handleNextTwin firstTwin:$firstTwin twinnings:$twinnings}
 
     lassign [::input::readUpTo $chan {Continued Twin NextProblem EndProblem}] newTwinning endElmt
     if {$endElmt=="Continued"} {
@@ -1359,20 +1343,20 @@ proc handleNextTwin {chan firstTwin twinnings} {
 	set continued false
 	set twinnings [list $newTwinning]
     }
-    debug.problem "continued:$continued twinnings:|[debuggable $twinnings]| endElmt:$endElmt" 2
+    debug.problem {continued:$continued twinnings:|$twinnings| endElmt:$endElmt} 2
 
     set writeTwinning true
-    set nrFirstMoves [handleTwin $firstTwin $writeTwinning $continued $twinnings]
+    set nrFirstMoves [::tester::test $firstTwin $writeTwinning $continued $twinnings]
     ::output::advanceTwinningMark
 
     set result [list $endElmt $twinnings]
 
-    debug.problem "handleNextTwin <- $result"
+    debug.problem {handleNextTwin <- $result}
     return $result
 }
 
 proc handleProblem {chan} {
-    debug.problem "handleProblem"
+    debug.problem {handleProblem}
 
     lassign [handleFirstTwin $chan] firstTwin endElmt
     set twinnings {}
@@ -1383,7 +1367,7 @@ proc handleProblem {chan} {
 
     ::output::writeEndOfProblem
 
-    debug.problem "handleProblem <- $endElmt"
+    debug.problem {handleProblem <- $endElmt}
     return $endElmt
 }
 
@@ -1414,7 +1398,7 @@ proc handleGreetingLine {} {
 
     ::output::greetingLine "$greetingLine\n"
 
-    debug.problem "handleGreetingLine <-"
+    debug.problem {handleGreetingLine <-}
 }
 
 proc main {} {
