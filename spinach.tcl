@@ -853,6 +853,7 @@ proc ::popeye::output::doAsync {pipe listener args} {
     fconfigure $pipe -blocking false
 
     set callback [linsert $args 0 [uplevel namespace which -command $listener] $pipe]
+    eval $callback
     fileevent $pipe readable $callback
 }
 
@@ -1082,6 +1083,23 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
     }
 }
 
+proc ::tester::async::solution {pipe} {
+    variable buffers
+
+    debug.tester {solution pipe:$pipe}
+
+    if {[_consume $pipe]} {
+	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$finished!=""} {
+	    ::output::solution $solution
+	    ::sync::Notify $pipe "solution"
+	    ::output::rememberFinish $carry $finished $time $suffix
+	}
+    }
+
+    debug.tester {solution <-}
+}
+
 proc ::tester::async::_moveNumberRead {pipe} {
     variable buffers
 
@@ -1102,23 +1120,6 @@ proc ::tester::async::_moveNumberRead {pipe} {
     }
 }
 
-proc ::tester::async::readable {pipe} {
-    variable buffers
-
-    debug.tester {readable pipe:$pipe}
-
-    if {[_consume $pipe]} {
-	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$finished!=""} {
-	    ::output::solution $solution
-	    ::sync::Notify $pipe "solution"
-	    ::output::rememberFinish $carry $finished $time $suffix
-	}
-    }
-
-    debug.tester {readable <-}
-}
-
 proc ::tester::async::moveNumber {pipe} {
     variable buffers
 
@@ -1126,35 +1127,114 @@ proc ::tester::async::moveNumber {pipe} {
 
     if {[_consume $pipe]} {
 	lassign [_moveNumberRead $pipe] numberedMove time
-	lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$numberedMove!=""} {
-	    ::output::movenumberLine $numberedMove $time
-	    if {$finished==""} {
-		::popeye::output::doAsync $pipe readable
-	    } else {
-		::output::solution $solution
-		::sync::Notify $pipe "solution"
-		::output::rememberFinish $carry $finished $time $suffix
+	if {$numberedMove==""} {
+	    lassign [_endOfSolutionReached $pipe] solution carry finished time suffix
+	    if {$finished!=""} {
+		::sync::Notify $pipe "prematureEndOfSolution"
 	    }
-	} elseif {$finished!=""} {
-	    ::sync::Notify $pipe "prematureEndOfSolution"
+	} else {
+	    ::output::movenumberLine $numberedMove $time
+	    ::sync::Notify $pipe "movenumberLine"
 	}
     }
 
     debug.tester {moveNumber <-}
 }
 
-proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
-    debug.tester {setplayRange pipe:$pipe firstTwin:|$firstTwin| writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
+proc ::tester::async::testMove {pipe firstTwin twinnings move} {
+    debug.tester {testMove pipe:$pipe firstTwin:|$firstTwin| twinnings:|$twinnings| move:$move}
 
-    lappend options [::msgcat::mc input::NoBoard]
-    lappend options [::msgcat::mc input::MoveNumbers]
-    lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
+    lappend options "[::msgcat::mc input::NoBoard]"
+    lappend options "[::msgcat::mc input::MoveNumbers]"
+    lappend options "[::msgcat::mc input::StartMoveNumber] $move"
+    lappend options "[::msgcat::mc input::UpToMoveNumber] $move"
 
     ::popeye::input::Problem $pipe $firstTwin
     ::popeye::input::Options $pipe $options
     if {[llength $twinnings]>0} {
-	set endOfPrevTwinningMark "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
+	::popeye::input::ZeroPosition $pipe $twinnings
+    }
+    ::popeye::input::NextProblem $pipe
+
+    ::popeye::output::doAsync $pipe moveNumber
+
+    debug.tester {testMove <-}
+}
+
+proc ::tester::async::testProgress {pipe notification firstTwin twinnings nrRunningProcesses currMove} {
+    debug.tester {testProgress pipe:$pipe notification:$notification twinnings:|$twinnings| nrRunningProcesses:$nrRunningProcesses currMove:$currMove}
+
+    switch -exact $notification {
+	movenumberLine {
+	    ::popeye::output::doAsync $pipe solution
+	}
+	solution  {
+	    testMove $pipe $firstTwin $twinnings $currMove
+	    incr currMove
+	}
+	prematureEndOfSolution {
+	    ::popeye::terminate $pipe
+	    incr nrRunningProcesses -1
+	    if {$nrRunningProcesses==0} {
+		::output::endOfPhase
+		debug.tester {testProgress <- break}
+		return -code break
+	    }
+	}
+	eof {
+	    puts stderr "[::msgcat::mc spinach::unexpectedEOF]"
+	    exit 1
+	}
+	default {
+	    control::assert false "::tester::testProgress: unexpected notification $notification"
+	    exit 1
+	}
+    }
+
+    set result [list $firstTwin $twinnings $nrRunningProcesses $currMove]
+    debug.tester {testProgress <- $result}
+    return $result
+}
+
+proc ::tester::async::testRegularMoves {firstTwin twinnings} {
+    debug.tester {testRegularMoves firstTwin:|$firstTwin| twinnings:|$twinnings|}
+
+    ::sync::Init
+
+    set currMove 1
+    for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
+	lassign [::popeye::spawn] pipe greetingLine
+	testMove $pipe $firstTwin $twinnings $currMove
+	incr currMove
+    }
+
+    debug.tester {nrRunningProcesses:$nrRunningProcesses} 2
+
+    # asynchronously deal with the processes created for the real moves
+    lassign [::sync::Wait testProgress $firstTwin $twinnings $nrRunningProcesses $currMove] firstTwin nrProcesses nrMovesPlayed
+
+    debug.tester {testRegularMoves - firstTwin:|$firstTwin| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed} 2
+
+    ::sync::Fini
+
+    debug.tester {testRegularMoves <-}
+}
+
+namespace eval ::tester::sync {
+}
+
+proc ::tester::sync::popeyeRoundTrip {firstTwin twinnings endOfPrevTwinningMark} {
+    debug.tester {popeyeRoundTrip firstTwin:|$firstTwin| twinnings:|$twinnings| endOfPrevTwinningMark:|$endOfPrevTwinningMark|}
+    
+    lappend options "[::msgcat::mc input::NoBoard]"
+    lappend options "[::msgcat::mc input::MoveNumbers]"
+    lappend options "[::msgcat::mc input::UpToMoveNumber] 0"
+
+    lassign [::popeye::spawn] pipe greetingLine
+
+    ::popeye::input::Problem $pipe $firstTwin
+    ::popeye::input::Options $pipe $options
+    if {[llength $twinnings]>0} {
 	set markedTwinnings [linsert $twinnings end-1 $endOfPrevTwinningMark]
 	::popeye::input::ZeroPosition $pipe $markedTwinnings
     }
@@ -1165,8 +1245,15 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 	append lines "$line\n"
     }
 
-    debug.tester {lines:>$lines<} 2
+    ::popeye::terminate $pipe
 
+    debug.tester {popeyeRoundTrip <- $lines}
+    return $lines
+}
+
+proc ::tester::sync::twinning {lines endOfPrevTwinningMark writeTwinning continued twinnings} {
+    debug.tester {twinning lines:$lines endOfPrevTwinningMark:$endOfPrevTwinningMark writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
+    
     if {[llength $twinnings]==0} {
 	if {$writeTwinning} {
 	    ::output::twinning "\n" $continued
@@ -1185,6 +1272,13 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 	}
     }
 
+    debug.tester {twinning <- $lines}
+    return $lines
+}
+
+proc ::tester::sync::solution {lines} {
+    debug.tester {solution lines:$lines}
+
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
     set entireSolutionRE "(.*)(\n)(\n[::msgcat::mc output::SolutionFinished] $timeLabelRE = )($timeRE \[^\n]+)(\n+)"
@@ -1196,88 +1290,30 @@ proc ::tester::setplayRange {pipe firstTwin writeTwinning continued twinnings} {
 	# no set play etc.
     }
 
+    debug.tester {solution <-}
+}
+
+proc ::tester::sync::setplayRange {firstTwin writeTwinning continued twinnings} {
+    debug.tester {setplayRange firstTwin:|$firstTwin| writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
+
+    set endOfPrevTwinningMark "[::msgcat::mc input::Rotate] 180  [::msgcat::mc input::Rotate] 180"
+
+    set lines [popeyeRoundTrip $firstTwin $twinnings $endOfPrevTwinningMark]
+
+    debug.tester {lines:>$lines<} 2
+    set lines [::tester::sync::twinning $lines $endOfPrevTwinningMark $writeTwinning $continued $twinnings]
+    solution $lines
+
     debug.tester {setplayRange <-}
-}
-
-proc ::tester::testMove {pipe firstTwin twinnings move} {
-    debug.tester {testMove pipe:$pipe firstTwin:|$firstTwin| twinnings:|$twinnings| move:$move}
-
-    lappend options [::msgcat::mc input::NoBoard]
-    lappend options [::msgcat::mc input::MoveNumbers]
-    lappend options "[::msgcat::mc input::StartMoveNumber] $move"
-    lappend options "[::msgcat::mc input::UpToMoveNumber] $move"
-
-    ::popeye::input::Problem $pipe $firstTwin
-    ::popeye::input::Options $pipe $options
-    if {[llength $twinnings]>0} {
-	::popeye::input::ZeroPosition $pipe $twinnings
-    }
-    ::popeye::input::NextProblem $pipe
-
-    ::popeye::output::doAsync $pipe async::moveNumber
-
-    debug.tester {testMove <-}
-}
-
-proc ::tester::testProgress {pipe notification firstTwin twinnings nrRunningProcesses currMove} {
-    debug.tester {testProgress pipe:$pipe notification:$notification twinnings:|$twinnings| nrRunningProcesses:$nrRunningProcesses currMove:$currMove}
-
-    switch -exact $notification {
-	solution  {
-	    testMove $pipe $firstTwin $twinnings $currMove
-	    incr currMove
-	}
-	prematureEndOfSolution {
-	    ::popeye::terminate $pipe
-	    incr nrRunningProcesses -1
-	}
-	eof {
-	    puts stderr "[::msgcat::mc spinach::unexpectedEOF]"
-	    exit 1
-	}
-	default {
-	    control::assert false "::tester::testProgress: unexpected notification $notification"
-	    exit 1
-	}
-    }
-
-    if {$nrRunningProcesses==0} {
-	::output::endOfPhase
-	debug.tester {testProgress <- break}
-	return -code break
-    } else {
-	set result [list $firstTwin $twinnings $nrRunningProcesses $currMove]
-	debug.tester {testProgress <- $result}
-	return $result
-    }
 }
 
 proc ::tester::test {firstTwin writeTwinning continued {twinnings {}}} {
     debug.tester {test firstTwin:|$firstTwin| writeTwinning:$writeTwinning continued:$continued twinnings:|$twinnings|}
 
     # synchronously deal with everything happening before move 1, e.g. set play
-    lassign [::popeye::spawn] setplayPipe greetingLine
-    debug.tester {setplayPipe:$setplayPipe} 2
-    setplayRange $setplayPipe $firstTwin $writeTwinning $continued $twinnings
-    ::popeye::terminate $setplayPipe
+    sync::setplayRange $firstTwin $writeTwinning $continued $twinnings
 
-    ::sync::Init
-
-    set currMove 1
-    for {set nrRunningProcesses 0} {$nrRunningProcesses<$::params(nrprocs)} {incr nrRunningProcesses} {
-	lassign [::popeye::spawn] pipe greetingLine
-	testMove $pipe $firstTwin $twinnings $currMove
-	incr currMove
-    }
-
-    debug.tester {nrRunningProcesses:$nrRunningProcesses} 2
-
-    # asynchronously deal with the processes created for the real moves
-    lassign [::sync::Wait testProgress $firstTwin $twinnings $nrRunningProcesses $currMove] firstTwin nrProcesses nrMovesPlayed
-
-    debug.tester {test - firstTwin:|$firstTwin| nrProcesses:$nrProcesses $nrMovesPlayed:$nrMovesPlayed}
-
-    ::sync::Fini
+    async::testRegularMoves $firstTwin $twinnings
 
     ::popeye::flushStderr
 
