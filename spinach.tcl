@@ -847,8 +847,12 @@ proc ::popeye::output::getLine {pipe varname} {
     return [gets $pipe line]
 }
 
-proc ::popeye::output::_consume {pipe} {
-    variable ::popeye::output::buffers
+namespace eval ::popeye::output::async {
+    variable buffers
+}
+
+proc ::popeye::output::async::_consume {pipe} {
+    variable buffers
 
     debug.tester {eof:[eof $pipe]}
     if {[eof $pipe]} {
@@ -864,31 +868,31 @@ proc ::popeye::output::_consume {pipe} {
     }
 }
 
-proc ::popeye::output::readable {callback pipe args} {
+proc ::popeye::output::async::readable {callback pipe args} {
     if {[_consume $pipe]} {
 	$callback $pipe {*}$args
     }
 }
 
-proc ::popeye::output::startAsync {pipe listener args} {
-    debug.popeye {output::startAsync pipe:$pipe listener:$listener arguments:$args}
+proc ::popeye::output::async::start {pipe listener args} {
+    debug.popeye {output::async::start pipe:$pipe listener:$listener arguments:$args}
     fconfigure $pipe -blocking false
-    fileevent $pipe readable [linsert $args 0 ::popeye::output::readable [uplevel namespace which -command $listener] $pipe]
+    fileevent $pipe readable [linsert $args 0 ::popeye::output::async::readable [uplevel namespace which -command $listener] $pipe]
 }
 
-proc ::popeye::output::idle {callback pipe args} {
+proc ::popeye::output::async::idle {callback pipe args} {
     $callback $pipe {*}$args
     fconfigure $pipe -blocking false
-    fileevent $pipe readable [linsert $args 0 ::popeye::output::readable $callback $pipe]
+    fileevent $pipe readable [linsert $args 0 ::popeye::output::async::readable $callback $pipe]
 }
 
-proc ::popeye::output::transitionAsync {pipe listener args} {
-    debug.popeye {output::transitionAsync pipe:$pipe listener:$listener arguments:$args}
+proc ::popeye::output::async::transition {pipe listener args} {
+    debug.popeye {output::async::transition pipe:$pipe listener:$listener arguments:$args}
     fileevent $pipe readable ""
-    after idle ::popeye::output::idle [uplevel namespace which -command $listener] $pipe $args
+    after idle ::popeye::output::async::idle [uplevel namespace which -command $listener] $pipe $args
 }
 
-proc ::popeye::output::endAsync {pipe} {
+proc ::popeye::output::async::end {pipe} {
     variable buffers
 
     unset buffers($pipe)
@@ -1079,7 +1083,7 @@ namespace eval tester::async {
 }
 
 proc ::tester::async::_endOfSolutionReached {pipe} {
-    variable ::popeye::output::buffers
+    variable ::popeye::output::async::buffers
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
@@ -1107,7 +1111,7 @@ namespace eval ::tester::async::1 {
 }
 
 proc ::tester::async::1::_moveNumberRead {pipe} {
-    variable ::popeye::output::buffers
+    variable ::popeye::output::async::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -1161,15 +1165,15 @@ proc ::tester::async::1::testProgress {pipe notification firstTwin twinnings nrR
 
     switch -exact $notification {
 	movenumberLine {
-	    ::popeye::output::transitionAsync $pipe solution
+	    ::popeye::output::async::transition $pipe solution
 	}
 	solution  {
-	    ::popeye::output::endAsync $pipe
+	    ::popeye::output::async::end $pipe
 	    testMove $pipe $firstTwin $twinnings $currMove
 	    incr currMove
 	}
 	prematureEndOfSolution {
-	    ::popeye::output::endAsync $pipe
+	    ::popeye::output::async::end $pipe
 	    ::popeye::terminate $pipe
 	    incr nrRunningProcesses -1
 	    if {$nrRunningProcesses==0} {
@@ -1208,7 +1212,7 @@ proc ::tester::async::1::testMove {pipe firstTwin twinnings move} {
     }
     ::popeye::input::NextProblem $pipe
 
-    ::popeye::output::startAsync $pipe moveNumber
+    ::popeye::output::async::start $pipe moveNumber
 
     debug.tester {testMove <-}
 }
@@ -1241,7 +1245,7 @@ namespace eval ::tester::async::2 {
 }
 
 proc ::tester::async::2::_moveNumberRead {pipe movenumberRE} {
-    variable ::popeye::output::buffers
+    variable ::popeye::output::async::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -1319,13 +1323,13 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 
     switch -exact $notification {
 	movenumberLine1 {
-	    ::popeye::output::transitionAsync $pipe moveNumber2 $currmove1 $currmove2
+	    ::popeye::output::async::transition $pipe moveNumber2 $currmove1 $currmove2
 	}
 	movenumberLine2 {
-	    ::popeye::output::transitionAsync $pipe solution $currmove1 $currmove2
+	    ::popeye::output::async::transition $pipe solution $currmove1 $currmove2
 	}
 	prematureEndOfSolution1 {
-	    ::popeye::output::endAsync $pipe
+	    ::popeye::output::async::end $pipe
 	    ::popeye::terminate $pipe
 	    incr nrRunningProcesses -1
 	    if {$nrRunningProcesses==0} {
@@ -1335,7 +1339,7 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 	    }
 	}
 	prematureEndOfSolution2 {
-	    ::popeye::output::endAsync $pipe
+	    ::popeye::output::async::end $pipe
 	    if {$currmove1==$nextmove1} {
 		incr nextmove1
 		set nextmove2 1
@@ -1344,7 +1348,7 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 	    incr nextmove2
 	}
 	solution  {
-	    ::popeye::output::endAsync $pipe
+	    ::popeye::output::async::end $pipe
 	    testMove $pipe $firstTwin $twinnings $nextmove1 $nextmove2
 	    incr nextmove2
 	}
@@ -1378,7 +1382,7 @@ proc ::tester::async::2::testMove {pipe firstTwin twinnings move1 move2} {
     }
     ::popeye::input::NextProblem $pipe
 
-    ::popeye::output::startAsync $pipe moveNumber1 $move1 $move2
+    ::popeye::output::async::start $pipe moveNumber1 $move1 $move2
 
     debug.tester {testMove <-}
 }
