@@ -847,22 +847,28 @@ proc ::popeye::output::getLine {pipe varname} {
     return [gets $pipe line]
 }
 
-proc ::popeye::output::startAsync {pipe listener args} {
-    debug.popeye {output::doAsync pipe:$pipe listener:$listener arguments:$args}
-
-    fconfigure $pipe -blocking false
-
-    set readableCallback [linsert $args 0 [uplevel namespace which -command $listener] $pipe readable]
-    fileevent $pipe readable $readableCallback
+proc ::popeye::output::readable {callback pipe args} {
+    if {[::tester::async::_consume $pipe]} {
+	$callback $pipe {*}$args
+    }
 }
 
-proc ::popeye::output::doAsync {pipe listener args} {
-    debug.popeye {output::doAsync pipe:$pipe listener:$listener arguments:$args}
+proc ::popeye::output::startAsync {pipe listener args} {
+    debug.popeye {output::startAsync pipe:$pipe listener:$listener arguments:$args}
+    fconfigure $pipe -blocking false
+    fileevent $pipe readable [linsert $args 0 ::popeye::output::readable [uplevel namespace which -command $listener] $pipe]
+}
 
+proc ::popeye::output::idle {callback pipe args} {
+    $callback $pipe {*}$args
+    fconfigure $pipe -blocking false
+    fileevent $pipe readable [linsert $args 0 ::popeye::output::readable $callback $pipe]
+}
+
+proc ::popeye::output::transitionAsync {pipe listener args} {
+    debug.popeye {output::transitionAsync pipe:$pipe listener:$listener arguments:$args}
     fileevent $pipe readable ""
-
-    set idleCallback [linsert $args 0 [uplevel namespace which -command $listener] $pipe idle]
-    after idle eval $idleCallback
+    after idle ::popeye::output::idle [uplevel namespace which -command $listener] $pipe $args
 }
 
 # this is a hack
@@ -1116,45 +1122,35 @@ proc ::tester::async::1::_moveNumberRead {pipe} {
     }
 }
 
-proc ::tester::async::1::moveNumber {pipe mode} {
+proc ::tester::async::1::moveNumber {pipe} {
     variable ::tester::async::buffers
 
-    debug.tester {moveNumber pipe:$pipe mode:$mode}
+    debug.tester {moveNumber pipe:$pipe}
 
-    ::control::assert {$mode!="idle"}
-
-    if {[::tester::async::_consume $pipe]} {
-	lassign [_moveNumberRead $pipe] numberedMove time
-	if {$numberedMove==""} {
-	    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	    if {$finished!=""} {
-		::sync::Notify $pipe "prematureEndOfSolution"
-	    }
-	} else {
-	    ::output::movenumberLine $numberedMove $time
-	    ::sync::Notify $pipe "movenumberLine"
+    lassign [_moveNumberRead $pipe] numberedMove time
+    if {$numberedMove==""} {
+	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution"
 	}
+    } else {
+	::output::movenumberLine $numberedMove $time
+	::sync::Notify $pipe "movenumberLine"
     }
 
     debug.tester {moveNumber <-}
 }
 
-proc ::tester::async::1::solution {pipe mode} {
+proc ::tester::async::1::solution {pipe} {
     variable ::tester::async::buffers
 
-    debug.tester {solution pipe:$pipe mode:$mode}
+    debug.tester {solution pipe:$pipe}
 
-    if {$mode=="idle"} {
-	::popeye::output::startAsync $pipe solution
-    }
-
-    if {$mode=="idle" || [::tester::async::_consume $pipe]} {
-	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$finished!=""} {
-	    ::output::solution $solution
-	    ::sync::Notify $pipe "solution"
-	    ::output::rememberFinish $carry $finished $time $suffix
-	}
+    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+    if {$finished!=""} {
+	::output::solution $solution
+	::sync::Notify $pipe "solution"
+	::output::rememberFinish $carry $finished $time $suffix
     }
 
     debug.tester {solution <-}
@@ -1165,7 +1161,7 @@ proc ::tester::async::1::testProgress {pipe notification firstTwin twinnings nrR
 
     switch -exact $notification {
 	movenumberLine {
-	    ::popeye::output::doAsync $pipe solution
+	    ::popeye::output::transitionAsync $pipe solution
 	}
 	solution  {
 	    testMove $pipe $firstTwin $twinnings $currMove
@@ -1262,46 +1258,38 @@ proc ::tester::async::2::_moveNumber1Read {pipe} {
     }
 }
 
-proc ::tester::async::2::moveNumber1 {pipe mode move1 move2} {
+proc ::tester::async::2::moveNumber1 {pipe move1 move2} {
     variable ::tester::async::buffers
 
-    debug.tester {moveNumber1 pipe:$pipe mode:$mode move1:$move1 move2:$move2}
+    debug.tester {moveNumber1 pipe:$pipe move1:$move1 move2:$move2}
 
-    ::control::assert {$mode!="idle"}
-
-    if {[::tester::async::_consume $pipe]} {
-	lassign [_moveNumber1Read $pipe] numberedMove time
-	if {$numberedMove==""} {
-	    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	    if {$finished!=""} {
-		::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
-	    }
-	} else {
-	    ::sync::Notify $pipe "movenumberLine1" $move1 $move2
+    lassign [_moveNumber1Read $pipe] numberedMove time
+    if {$numberedMove==""} {
+	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
 	}
+    } else {
+	::sync::Notify $pipe "movenumberLine1" $move1 $move2
     }
 
     debug.tester {moveNumber1 <-}
 }
 
-proc ::tester::async::2::moveNumber1_1 {pipe mode move1 move2} {
+proc ::tester::async::2::moveNumber1_1 {pipe move1 move2} {
     variable ::tester::async::buffers
 
-    debug.tester {moveNumber1_1 pipe:$pipe mode:$mode move1:$move1 move2:$move2}
+    debug.tester {moveNumber1_1 pipe:$pipe move1:$move1 move2:$move2}
 
-    ::control::assert {$mode!="idle"}
-
-    if {[::tester::async::_consume $pipe]} {
-	lassign [_moveNumber1Read $pipe] numberedMove time
-	if {$numberedMove==""} {
-	    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	    if {$finished!=""} {
-		::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
-	    }
-	} else {
-	    ::output::movenumberLine $numberedMove $time
-	    ::sync::Notify $pipe "movenumberLine1" $move1 $move2
+    lassign [_moveNumber1Read $pipe] numberedMove time
+    if {$numberedMove==""} {
+	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+	if {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
 	}
+    } else {
+	::output::movenumberLine $numberedMove $time
+	::sync::Notify $pipe "movenumberLine1" $move1 $move2
     }
 
     debug.tester {moveNumber1_1 <-}
@@ -1327,48 +1315,36 @@ proc ::tester::async::2::_moveNumber2Read {pipe} {
     }
 }
 
-proc ::tester::async::2::moveNumber2 {pipe mode move1 move2} {
+proc ::tester::async::2::moveNumber2 {pipe move1 move2} {
     variable ::tester::async::buffers
 
-    debug.tester {moveNumber2 pipe:$pipe mode:$mode move1:$move1 move2:$move2}
-
-    if {$mode=="idle"} {
-	::popeye::output::startAsync $pipe moveNumber2 $move1 $move2
-    }
+    debug.tester {moveNumber2 pipe:$pipe move1:$move1 move2:$move2}
     
-    if {$mode=="idle" || [::tester::async::_consume $pipe]} {
-	lassign [_moveNumber2Read $pipe] numberedMove time
-	debug.tester {numberedMove:|$numberedMove|} 2
-	if {$numberedMove==""} {
-	    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	    debug.tester {finished:|$finished|} 2
-	    if {$finished!=""} {
-		::sync::Notify $pipe "prematureEndOfSolution2" $move1 $move2
-	    }
-	} else {
-	    ::sync::Notify $pipe "movenumberLine2" $move1 $move2
+    lassign [_moveNumber2Read $pipe] numberedMove time
+    debug.tester {numberedMove:|$numberedMove|} 2
+    if {$numberedMove==""} {
+	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+	debug.tester {finished:|$finished|} 2
+	if {$finished!=""} {
+	    ::sync::Notify $pipe "prematureEndOfSolution2" $move1 $move2
 	}
+    } else {
+	::sync::Notify $pipe "movenumberLine2" $move1 $move2
     }
 
     debug.tester {moveNumber2 <-}
 }
 
-proc ::tester::async::2::solution {pipe mode move1 move2} {
+proc ::tester::async::2::solution {pipe move1 move2} {
     variable ::tester::async::buffers
 
-    debug.tester {solution pipe:$pipe mode:$mode move1:$move1 move2:$move2}
+    debug.tester {solution pipe:$pipe move1:$move1 move2:$move2}
 
-    if {$mode=="idle"} {
-	::popeye::output::startAsync $pipe solution $move1 $move2
-    }
-
-    if {$mode=="idle" || [::tester::async::_consume $pipe]} {
-	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$finished!=""} {
-	    ::output::solution $solution
-	    ::sync::Notify $pipe "solution" $move1 $move2
-	    ::output::rememberFinish $carry $finished $time $suffix
-	}
+    lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+    if {$finished!=""} {
+	::output::solution $solution
+	::sync::Notify $pipe "solution" $move1 $move2
+	::output::rememberFinish $carry $finished $time $suffix
     }
 
     debug.tester {solution <-}
@@ -1379,10 +1355,10 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 
     switch -exact $notification {
 	movenumberLine1 {
-	    ::popeye::output::doAsync $pipe moveNumber2 $currmove1 $currmove2
+	    ::popeye::output::transitionAsync $pipe moveNumber2 $currmove1 $currmove2
 	}
 	movenumberLine2 {
-	    ::popeye::output::doAsync $pipe solution $currmove1 $currmove2
+	    ::popeye::output::transitionAsync $pipe solution $currmove1 $currmove2
 	}
 	prematureEndOfSolution1 {
 	    ::popeye::terminate $pipe
