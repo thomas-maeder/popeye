@@ -1240,17 +1240,16 @@ proc ::tester::async::1::testRegularMoves {firstTwin twinnings} {
 namespace eval ::tester::async::2 {
 }
 
-proc ::tester::async::2::_moveNumber1Read {pipe} {
+proc ::tester::async::2::_moveNumberRead {pipe movenumberRE} {
     variable ::popeye::output::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
-    set movenumberRE { *[[:digit:]]+}
     set moveRE {[^\n]+}
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
     set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "\n${movenumberRE}( +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
+    set movenumberLineRE "\n *${movenumberRE}( +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
 
     if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - numberedMove time remainder]} {
 	set buffers($pipe) $remainder
@@ -1263,60 +1262,31 @@ proc ::tester::async::2::_moveNumber1Read {pipe} {
 proc ::tester::async::2::moveNumber1 {pipe move1 move2} {
     debug.tester {moveNumber1 pipe:$pipe move1:$move1 move2:$move2}
 
-    lassign [_moveNumber1Read $pipe] numberedMove time
+    set movenumberRE {[[:digit:]]+}
+
+    lassign [_moveNumberRead $pipe $movenumberRE] numberedMove time
     if {$numberedMove==""} {
 	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
+	debug.tester {finished:|$finished|} 2
 	if {$finished!=""} {
 	    ::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
 	}
     } else {
+	if {$move2==1} {
+	    ::output::movenumberLine $numberedMove $time
+	}
 	::sync::Notify $pipe "movenumberLine1" $move1 $move2
     }
 
     debug.tester {moveNumber1 <-}
 }
 
-proc ::tester::async::2::moveNumber1_1 {pipe move1 move2} {
-    debug.tester {moveNumber1_1 pipe:$pipe move1:$move1 move2:$move2}
-
-    lassign [_moveNumber1Read $pipe] numberedMove time
-    if {$numberedMove==""} {
-	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
-	if {$finished!=""} {
-	    ::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
-	}
-    } else {
-	::output::movenumberLine $numberedMove $time
-	::sync::Notify $pipe "movenumberLine1" $move1 $move2
-    }
-
-    debug.tester {moveNumber1_1 <-}
-}
-
-proc ::tester::async::2::_moveNumber2Read {pipe} {
-    variable ::popeye::output::buffers
-
-    set parenOpenRE {[\(]}
-    set parenCloseRE {[\)]}
-    set movenumberRE { *[[:digit:]]+:[[:digit:]]+}
-    set moveRE {[^\n]+}
-    set timeLabelRE [::msgcat::mc output::Time]
-    set timeRE {[[:digit:]:.]+}
-    set timeUnitRE {(?:(?:h:)?m:)?s}
-    set movenumberLineRE "\n${movenumberRE}( +$parenOpenRE$moveRE +)$timeLabelRE = ($timeRE) $timeUnitRE$parenCloseRE"
-
-    if {[regexp -- "${movenumberLineRE}(.*)" $buffers($pipe) - numberedMove time remainder]} {
-	set buffers($pipe) $remainder
-	set result [list $numberedMove $time]
-    } else {
-	set result [list "" ""]
-    }
-}
-
 proc ::tester::async::2::moveNumber2 {pipe move1 move2} {
     debug.tester {moveNumber2 pipe:$pipe move1:$move1 move2:$move2}
     
-    lassign [_moveNumber2Read $pipe] numberedMove time
+    set movenumberRE {[[:digit:]]+:[[:digit:]]+}
+
+    lassign [_moveNumberRead $pipe $movenumberRE] numberedMove time
     debug.tester {numberedMove:|$numberedMove|} 2
     if {$numberedMove==""} {
 	lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
@@ -1408,11 +1378,7 @@ proc ::tester::async::2::testMove {pipe firstTwin twinnings move1 move2} {
     }
     ::popeye::input::NextProblem $pipe
 
-    if {$move2==1} {
-	::popeye::output::startAsync $pipe moveNumber1_1 $move1 $move2
-    } else {
-	::popeye::output::startAsync $pipe moveNumber1 $move1 $move2
-    }
+    ::popeye::output::startAsync $pipe moveNumber1 $move1 $move2
 
     debug.tester {testMove <-}
 }
