@@ -847,8 +847,25 @@ proc ::popeye::output::getLine {pipe varname} {
     return [gets $pipe line]
 }
 
+proc ::popeye::output::_consume {pipe} {
+    variable ::popeye::output::buffers
+
+    debug.tester {eof:[eof $pipe]}
+    if {[eof $pipe]} {
+	::popeye::terminate $pipe
+	::sync::Notify $pipe "eof"
+	return false
+    } else {
+	set chunk [read $pipe]
+	debug.tester {chunk:|$chunk|} 2
+	append buffers($pipe) $chunk
+	debug.tester {buffers($pipe):|$buffers($pipe)|} 2
+	return true
+    }
+}
+
 proc ::popeye::output::readable {callback pipe args} {
-    if {[::tester::async::_consume $pipe]} {
+    if {[_consume $pipe]} {
 	$callback $pipe {*}$args
     }
 }
@@ -869,6 +886,12 @@ proc ::popeye::output::transitionAsync {pipe listener args} {
     debug.popeye {output::transitionAsync pipe:$pipe listener:$listener arguments:$args}
     fileevent $pipe readable ""
     after idle ::popeye::output::idle [uplevel namespace which -command $listener] $pipe $args
+}
+
+proc ::popeye::output::endAsync {pipe} {
+    variable buffers
+
+    unset buffers($pipe)
 }
 
 # this is a hack
@@ -1053,28 +1076,10 @@ namespace eval tester {
 }
 
 namespace eval tester::async {
-    variable buffers
-}
-
-proc ::tester::async::_consume {pipe} {
-    variable buffers
-
-    debug.tester {eof:[eof $pipe]}
-    if {[eof $pipe]} {
-	::popeye::terminate $pipe
-	::sync::Notify $pipe "eof"
-	return false
-    } else {
-	set chunk [read $pipe]
-	debug.tester {chunk:|$chunk|} 2
-	append buffers($pipe) $chunk
-	debug.tester {buffers($pipe):|$buffers($pipe)|} 2
-	return true
-    }
 }
 
 proc ::tester::async::_endOfSolutionReached {pipe} {
-    variable buffers
+    variable ::popeye::output::buffers
 
     set timeLabelRE [::msgcat::mc output::Time]
     set timeRE {[[:digit:]:.]+}
@@ -1092,7 +1097,6 @@ proc ::tester::async::_endOfSolutionReached {pipe} {
 	if {![regexp -- "^(.*)(\n)$" $solution - solution carry]} {
 	    set carry ""
 	}
-	unset buffers($pipe)
 	set result [list $solution $carry $finished $time $suffix]
     } else {
 	set result [list "" "" "" "" ""]
@@ -1103,7 +1107,7 @@ namespace eval ::tester::async::1 {
 }
 
 proc ::tester::async::1::_moveNumberRead {pipe} {
-    variable ::tester::async::buffers
+    variable ::popeye::output::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -1123,8 +1127,6 @@ proc ::tester::async::1::_moveNumberRead {pipe} {
 }
 
 proc ::tester::async::1::moveNumber {pipe} {
-    variable ::tester::async::buffers
-
     debug.tester {moveNumber pipe:$pipe}
 
     lassign [_moveNumberRead $pipe] numberedMove time
@@ -1142,8 +1144,6 @@ proc ::tester::async::1::moveNumber {pipe} {
 }
 
 proc ::tester::async::1::solution {pipe} {
-    variable ::tester::async::buffers
-
     debug.tester {solution pipe:$pipe}
 
     lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
@@ -1164,10 +1164,12 @@ proc ::tester::async::1::testProgress {pipe notification firstTwin twinnings nrR
 	    ::popeye::output::transitionAsync $pipe solution
 	}
 	solution  {
+	    ::popeye::output::endAsync $pipe
 	    testMove $pipe $firstTwin $twinnings $currMove
 	    incr currMove
 	}
 	prematureEndOfSolution {
+	    ::popeye::output::endAsync $pipe
 	    ::popeye::terminate $pipe
 	    incr nrRunningProcesses -1
 	    if {$nrRunningProcesses==0} {
@@ -1239,7 +1241,7 @@ namespace eval ::tester::async::2 {
 }
 
 proc ::tester::async::2::_moveNumber1Read {pipe} {
-    variable ::tester::async::buffers
+    variable ::popeye::output::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -1259,8 +1261,6 @@ proc ::tester::async::2::_moveNumber1Read {pipe} {
 }
 
 proc ::tester::async::2::moveNumber1 {pipe move1 move2} {
-    variable ::tester::async::buffers
-
     debug.tester {moveNumber1 pipe:$pipe move1:$move1 move2:$move2}
 
     lassign [_moveNumber1Read $pipe] numberedMove time
@@ -1277,8 +1277,6 @@ proc ::tester::async::2::moveNumber1 {pipe move1 move2} {
 }
 
 proc ::tester::async::2::moveNumber1_1 {pipe move1 move2} {
-    variable ::tester::async::buffers
-
     debug.tester {moveNumber1_1 pipe:$pipe move1:$move1 move2:$move2}
 
     lassign [_moveNumber1Read $pipe] numberedMove time
@@ -1296,7 +1294,7 @@ proc ::tester::async::2::moveNumber1_1 {pipe move1 move2} {
 }
 
 proc ::tester::async::2::_moveNumber2Read {pipe} {
-    variable ::tester::async::buffers
+    variable ::popeye::output::buffers
 
     set parenOpenRE {[\(]}
     set parenCloseRE {[\)]}
@@ -1316,8 +1314,6 @@ proc ::tester::async::2::_moveNumber2Read {pipe} {
 }
 
 proc ::tester::async::2::moveNumber2 {pipe move1 move2} {
-    variable ::tester::async::buffers
-
     debug.tester {moveNumber2 pipe:$pipe move1:$move1 move2:$move2}
     
     lassign [_moveNumber2Read $pipe] numberedMove time
@@ -1336,8 +1332,6 @@ proc ::tester::async::2::moveNumber2 {pipe move1 move2} {
 }
 
 proc ::tester::async::2::solution {pipe move1 move2} {
-    variable ::tester::async::buffers
-
     debug.tester {solution pipe:$pipe move1:$move1 move2:$move2}
 
     lassign [::tester::async::_endOfSolutionReached $pipe] solution carry finished time suffix
@@ -1361,6 +1355,7 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 	    ::popeye::output::transitionAsync $pipe solution $currmove1 $currmove2
 	}
 	prematureEndOfSolution1 {
+	    ::popeye::output::endAsync $pipe
 	    ::popeye::terminate $pipe
 	    incr nrRunningProcesses -1
 	    if {$nrRunningProcesses==0} {
@@ -1370,6 +1365,7 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 	    }
 	}
 	prematureEndOfSolution2 {
+	    ::popeye::output::endAsync $pipe
 	    if {$currmove1==$nextmove1} {
 		incr nextmove1
 		set nextmove2 1
@@ -1378,6 +1374,7 @@ proc ::tester::async::2::testProgress {pipe notification currmove1 currmove2 fir
 	    incr nextmove2
 	}
 	solution  {
+	    ::popeye::output::endAsync $pipe
 	    testMove $pipe $firstTwin $twinnings $nextmove1 $nextmove2
 	    incr nextmove2
 	}
