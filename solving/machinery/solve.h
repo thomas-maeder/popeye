@@ -27,9 +27,14 @@ extern stip_length_type solve_result;
  */
 #if defined(DOTRACE)
 #define solve(si) \
-  TraceValue("%u",solve_nr_remaining), TraceEOL(), \
-  dispatch(si), \
-  TraceValue("%u",solve_nr_remaining), TraceValue("%u",solve_result), TraceEOL()
+  do { \
+    TraceValue("%u",solve_nr_remaining); \
+    TraceEOL(); \
+    dispatch(si); \
+    TraceValue("%u",solve_nr_remaining); \
+    TraceValue("%u",solve_result); \
+    TraceEOL(); \
+  } while (0)
 #else
 #define solve(si) dispatch(si)
 #endif

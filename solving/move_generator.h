@@ -116,8 +116,12 @@ void generate_moves_different_walk(slice_index si, piece_walk_type walk);
 
 #if defined(DOTRACE)
 #define generate_moves_delegate(si) \
-  TraceWalk(move_generation_current_walk), TraceSquare(curr_generation->departure), TraceEOL(), \
-  dispatch(si)
+  do { \
+    TraceWalk(move_generation_current_walk); \
+    TraceSquare(curr_generation->departure); \
+    TraceEOL(); \
+    dispatch(si); \
+  } while (0)
 #else
 #define generate_moves_delegate(si) dispatch(si)
 #endif
