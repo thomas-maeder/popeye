@@ -988,7 +988,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInverse",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "Alice"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1226,7 +1227,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInvers",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "AliceSchach"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1464,7 +1466,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInverse",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "AliceChess"
   }
 };
 
@@ -1537,7 +1540,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInverse"
+    "AndaInverse",
+    "EchiquierA",
+    "EchiquierB"
   },
   {
     /* German */
@@ -1558,7 +1563,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInvers"
+    "AndaInvers",
+    "BrettA",
+    "BrettB"
   },
   {
     /* English */
@@ -1579,7 +1586,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInverse"
+    "AndaInverse",
+    "BoardA",
+    "BoardB"
   }
 };
 

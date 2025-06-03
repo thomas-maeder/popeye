@@ -202,6 +202,8 @@ typedef enum
   Dob,
   Anda,
   AndaInverse,
+  AliceBoardA,
+  AliceBoardB,
 
   nr_piece_flags
 } piece_flag_type;
