@@ -7,6 +7,7 @@
 #include "solving/move_generator.h"
 #include "solving/non_king_move_generator.h"
 #include "solving/machinery/slack_length.h"
+#include "solving/check.h"
 #include "position/effects/flags_change.h"
 #include "position/position.h"
 
@@ -393,6 +394,92 @@ static void do_substitute_non_king(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static boolean check_by_piece_on_board_recursive(slice_index si,
+                                                 Flags board,
+                                                 Side side_in_check,
+                                                 square const *curr)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%x",board);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  if (*curr)
+  {
+    Flags const flags = being_solved.spec[*curr];
+
+    TraceSquare(*curr);TraceEOL();
+    if (is_square_empty(*curr) || TSTFLAG(flags,board))
+      result = check_by_piece_on_board_recursive(si,board,side_in_check,curr+1);
+    else
+    {
+      piece_walk_type const walk = being_solved.board[*curr];
+
+      TraceText("temporarily emptying square *curr\n");
+      empty_square(*curr);
+      result = check_by_piece_on_board_recursive(si,board,side_in_check,curr+1);
+      occupy_square(*curr,walk,flags);
+    }
+  }
+  else
+    result = pipe_is_in_check_recursive_delegate(si,side_in_check);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean check_by_piece_on_board(slice_index si,
+                                       Flags board,
+                                       Side side_in_check)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%x",board);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  result = check_by_piece_on_board_recursive(si,board,side_in_check,boardnum);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean alice_check_test_initialiser_is_in_check(slice_index si,
+                                                 Side side_in_check)
+{
+  boolean result;
+  square const king_square = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_in_check);
+  TraceFunctionParamListEnd();
+
+  assert(king_square!=initsquare);
+
+  if (TSTFLAG(being_solved.spec[king_square],AliceBoardA))
+    result = check_by_piece_on_board(si,AliceBoardA,side_in_check);
+  else
+  {
+    assert(TSTFLAG(being_solved.spec[king_square],AliceBoardB));
+    result = check_by_piece_on_board(si,AliceBoardB,side_in_check);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Instrument slices with move tracers
  */
 void solving_insert_alice(slice_index si)
@@ -410,6 +497,8 @@ void solving_insert_alice(slice_index si)
     stip_structure_traversal_override_single(&st,STNonKingMoveGenerator,&do_substitute_non_king);
     stip_traverse_structure(si,&st);
   }
+
+  solving_instrument_check_testing(si,STAliceCheckTestInitialiser);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

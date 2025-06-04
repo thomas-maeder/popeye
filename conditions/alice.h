@@ -65,6 +65,9 @@ void alice_king_move_generator_solve(slice_index si);
  */
 void alice_non_king_move_generator_solve(slice_index si);
 
+boolean alice_check_test_initialiser_is_in_check(slice_index si,
+                                                 Side side_in_check);
+
 /* Instrument slices with Alice chess
  */
 void solving_insert_alice(slice_index si);
