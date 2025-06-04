@@ -16,5 +16,22 @@ stip +1
 condition alice
 option nowk
 
+next
+
+title special check rule after king move
+pieces white boarda ka1 black boarda pa3
+stip ~1
+condition alice
+option nobk
+
+next
+
+title no special check rule after non-king move
+pieces white boarda pb6 black boarda ka8
+stip +1
+condition alice
+option nowk
+twin add white boardb pb6
+
 end
 

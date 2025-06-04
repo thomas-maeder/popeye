@@ -771,6 +771,7 @@ static slice_index const slice_rank_order[] =
   STTotalInvisibleInvisiblesAllocator,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
+  STAliceSelfCheckGuard,
   STTotalInvisibleUninterceptableSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsWasShortSolutionFound,

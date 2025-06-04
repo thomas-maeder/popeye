@@ -1,6 +1,7 @@
 #include "conditions/alice.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
@@ -59,6 +60,7 @@ static void generate_all_moves_on_board_recursive(Flags board, square const *cur
   TraceFunctionParam("%x",board);
   TraceFunctionParamListEnd();
 
+  // TODO only recurse over removed pieces
   if (*curr)
   {
     TraceSquare(*curr);TraceEOL();
@@ -149,6 +151,7 @@ static void generate_king_moves_on_board_recursive(Side side_at_move, Flags boar
   TraceFunctionParam("%x",board);
   TraceFunctionParamListEnd();
 
+  // TODO only recurse over removed pieces
   if (*curr)
   {
     TraceSquare(*curr);TraceEOL();
@@ -271,6 +274,7 @@ static void generate_non_king_all_moves_on_board_recursive(slice_index si, Flags
   TraceFunctionParam("%x",board);
   TraceFunctionParamListEnd();
 
+  // TODO only recurse over removed pieces
   if (*curr)
   {
     TraceSquare(*curr);TraceEOL();
@@ -394,6 +398,80 @@ static void do_substitute_non_king(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void alice_self_check_guard_solve(slice_index si)
+{
+  Side const side_in_check = advers(SLICE_STARTER(si));
+  square const king_square = being_solved.king_square[side_in_check];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (king_square==initsquare)
+    pipe_solve_delegate(si);
+  else
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+
+    if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+    {
+      boolean self_check_detected;
+      Flags const board = TSTFLAG(being_solved.spec[king_square],AliceBoardA) ? AliceBoardA : AliceBoardB;
+      Flags const other_board = board==AliceBoardA ? AliceBoardB : AliceBoardA;
+
+      assert(!TSTFLAG(being_solved.spec[king_square],other_board));
+
+      CLRFLAG(being_solved.spec[king_square],board);
+      SETFLAG(being_solved.spec[king_square],other_board);
+
+      self_check_detected = is_in_check(side_in_check);
+
+      CLRFLAG(being_solved.spec[king_square],other_board);
+      SETFLAG(being_solved.spec[king_square],board);
+
+      if (self_check_detected)
+        solve_result = previous_move_is_illegal;
+      else
+        pipe_solve_delegate(si);
+    }
+    else
+      pipe_solve_delegate(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_alice_selfcheckguard(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  // TODO use regular insertion
+  pipe_append(si,alloc_pipe(STAliceSelfCheckGuard));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean check_by_piece_on_board_recursive(slice_index si,
                                                  Flags board,
                                                  Side side_in_check,
@@ -495,6 +573,7 @@ void solving_insert_alice(slice_index si)
     stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
     stip_structure_traversal_override_single(&st,STKingMoveGenerator,&do_substitute_king);
     stip_structure_traversal_override_single(&st,STNonKingMoveGenerator,&do_substitute_non_king);
+    stip_structure_traversal_override_single(&st,STSelfCheckGuard,&insert_alice_selfcheckguard);
     stip_traverse_structure(si,&st);
   }
 

@@ -22,8 +22,11 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/modifier.h \
  solving/pipe.h solving/machinery/solve.h solving/machinery/dispatch.h \
- debugging/trace.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ debugging/assert.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h
 stipulation/battle_play/branch.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -72,10 +75,18 @@ solving/pipe.h:
 solving/machinery/solve.h:
 solving/machinery/dispatch.h:
 debugging/trace.h:
+position/position.h:
+position/color.h:
+position/color.enum.h:
+position/color.enum:
+position/pieceid.h:
+debugging/assert.h:
+pieces/walks/vectors.h:
+position/castling_rights.h:
+solving/ply.h:
 output/plaintext/message.h:
 output/message.h:
 input/plaintext/language.h:
-debugging/assert.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h \
@@ -97,7 +108,10 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  output/mode.enum stipulation/branch.h stipulation/slice_insertion.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/pipe.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ debugging/assert.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h
 stipulation/battle_play/attack_adapter.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
@@ -132,7 +146,15 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/defense_adapter.h:
 stipulation/pipe.h:
 debugging/trace.h:
+position/position.h:
+position/color.h:
+position/color.enum.h:
+position/color.enum:
+position/pieceid.h:
 debugging/assert.h:
+pieces/walks/vectors.h:
+position/castling_rights.h:
+solving/ply.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
  stipulation/battle_play/defense_adapter.h \
@@ -153,7 +175,10 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
  output/mode.enum stipulation/pipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/slice_insertion.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/color.enum position/pieceid.h \
+ debugging/assert.h pieces/walks/vectors.h position/castling_rights.h \
+ solving/ply.h
 stipulation/battle_play/defense_adapter.h:
 stipulation/structure_traversal.h:
 stipulation/slice.h:
@@ -187,4 +212,12 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 stipulation/slice_insertion.h:
 debugging/trace.h:
+position/position.h:
+position/color.h:
+position/color.enum.h:
+position/color.enum:
+position/pieceid.h:
 debugging/assert.h:
+pieces/walks/vectors.h:
+position/castling_rights.h:
+solving/ply.h:

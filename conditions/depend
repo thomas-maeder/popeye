@@ -7160,12 +7160,12 @@ conditions/alice$(OBJ_SUFFIX): conditions/alice.c conditions/alice.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- stipulation/pipe.h solving/pipe.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- solving/move_effect_journal.h solving/move_generator.h \
- debugging/measure.h solving/non_king_move_generator.h \
- solving/machinery/slack_length.h solving/check.h \
- position/effects/flags_change.h
+ stipulation/pipe.h stipulation/slice_insertion.h solving/pipe.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum solving/move_effect_journal.h \
+ solving/move_generator.h debugging/measure.h \
+ solving/non_king_move_generator.h solving/machinery/slack_length.h \
+ solving/check.h position/effects/flags_change.h
 conditions/alice.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -7208,6 +7208,7 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 stipulation/pipe.h:
+stipulation/slice_insertion.h:
 solving/pipe.h:
 solving/has_solution_type.h:
 solving/has_solution_type.enum.h:

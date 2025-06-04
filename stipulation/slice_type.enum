@@ -532,6 +532,7 @@
     ENUMERATOR(STAliceKingMoveGenerator),                               \
     ENUMERATOR(STAliceNonKingMoveGenerator),                            \
     ENUMERATOR(STAliceCheckTestInitialiser),                            \
+    ENUMERATOR(STAliceSelfCheckGuard),                                  \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \

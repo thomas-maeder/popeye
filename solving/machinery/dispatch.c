@@ -1174,6 +1174,10 @@ void dispatch(slice_index si)
       alice_non_king_move_generator_solve(si);
       break;
 
+    case STAliceSelfCheckGuard:
+      alice_self_check_guard_solve(si);
+      break;
+
     case STCirceCaptureFork:
       circe_capture_fork_solve(si);
       break;
