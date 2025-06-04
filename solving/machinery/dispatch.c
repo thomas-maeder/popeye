@@ -1162,6 +1162,18 @@ void dispatch(slice_index si)
       alice_change_board_solve(si);
       break;
 
+    case STAliceMoveGenerator:
+      alice_move_generator_solve(si);
+      break;
+
+    case STAliceKingMoveGenerator:
+      alice_king_move_generator_solve(si);
+      break;
+
+    case STAliceNonKingMoveGenerator:
+      alice_non_king_move_generator_solve(si);
+      break;
+
     case STCirceCaptureFork:
       circe_capture_fork_solve(si);
       break;

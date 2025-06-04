@@ -1,0 +1,11 @@
+begin
+
+protocol alice.tst
+
+title Alice Chess move generation and execution
+pieces white boarda ke1 bh4 white boardb pf4 black boarda pg3 black boardb pg5
+stipulation ~1
+condition alice
+option nobk
+
+end

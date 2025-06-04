@@ -528,6 +528,9 @@
     ENUMERATOR(STBretonPopeyeApplier),                                  \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
     ENUMERATOR(STAliceBoardChanger),                                    \
+    ENUMERATOR(STAliceMoveGenerator),                                   \
+    ENUMERATOR(STAliceKingMoveGenerator),                               \
+    ENUMERATOR(STAliceNonKingMoveGenerator),                            \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \

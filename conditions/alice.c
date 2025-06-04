@@ -1,7 +1,12 @@
 #include "conditions/alice.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
 #include "solving/pipe.h"
+#include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
+#include "solving/non_king_move_generator.h"
+#include "solving/machinery/slack_length.h"
 #include "position/effects/flags_change.h"
 #include "position/position.h"
 
@@ -47,6 +52,347 @@ void alice_change_board_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void generate_all_moves_on_board_recursive(Flags board, square const *curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  if (*curr)
+  {
+    TraceSquare(*curr);TraceEOL();
+
+    if (is_square_empty(*curr))
+      generate_all_moves_on_board_recursive(board,curr+1);
+    else
+    {
+      Flags const flags = being_solved.spec[*curr];
+      if (TSTFLAG(flags,board))
+        generate_all_moves_on_board_recursive(board,curr+1);
+      else
+      {
+        piece_walk_type const walk = being_solved.board[*curr];
+        empty_square(*curr);
+        generate_all_moves_on_board_recursive(board,curr+1);
+        occupy_square(*curr,walk,flags);
+      }
+    }
+  }
+  else
+    generate_all_moves_for_moving_side();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_all_moves_on_board(Flags board)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  generate_all_moves_on_board_recursive(board,boardnum);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean not_to_square_occupied_on_board_A(numecoup n)
+{
+  return !TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA);
+}
+
+static boolean not_to_square_occupied_on_board_B(numecoup n)
+{
+  return !TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB);
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void alice_move_generator_solve(slice_index si)
+{
+  numecoup base = MOVEBASE_OF_PLY(nbply+1);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nextply(SLICE_STARTER(si));
+  generate_all_moves_on_board(AliceBoardA);
+  move_generator_filter_moves(base,&not_to_square_occupied_on_board_B);
+  base = MOVEBASE_OF_PLY(nbply+1);
+  generate_all_moves_on_board(AliceBoardB);
+  move_generator_filter_moves(base,&not_to_square_occupied_on_board_A);
+  pipe_solve_delegate(si);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_king_moves_on_board_recursive(Side side_at_move, Flags board, square const *curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_at_move);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  if (*curr)
+  {
+    TraceSquare(*curr);TraceEOL();
+
+    if (is_square_empty(*curr))
+      generate_king_moves_on_board_recursive(side_at_move,board,curr+1);
+    else
+    {
+      Flags const flags = being_solved.spec[*curr];
+      if (TSTFLAG(flags,board))
+        generate_king_moves_on_board_recursive(side_at_move,board,curr+1);
+      else
+      {
+        piece_walk_type const walk = being_solved.board[*curr];
+        empty_square(*curr);
+        generate_king_moves_on_board_recursive(side_at_move,board,curr+1);
+        occupy_square(*curr,walk,flags);
+      }
+    }
+  }
+  else
+    generate_moves_for_piece(being_solved.king_square[side_at_move]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_king_moves_on_board(Side side_at_move, Flags board)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_at_move);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  generate_king_moves_on_board_recursive(side_at_move,board,boardnum);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void alice_king_move_generator_solve(slice_index si)
+{
+  Side const side_at_move = SLICE_STARTER(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nextply(SLICE_STARTER(si));
+
+  if (TSTFLAG(being_solved.spec[being_solved.king_square[side_at_move]],Royal))
+  {
+    numecoup const base = MOVEBASE_OF_PLY(nbply+1);
+    if (TSTFLAG(being_solved.spec[being_solved.king_square[side_at_move]],AliceBoardA))
+    {
+      generate_king_moves_on_board(side_at_move,AliceBoardA);
+      move_generator_filter_moves(base,&not_to_square_occupied_on_board_B);
+    }
+    else
+    {
+      generate_king_moves_on_board(side_at_move,AliceBoardB);
+      move_generator_filter_moves(base,&not_to_square_occupied_on_board_A);
+    }
+  }
+  else
+  {
+    /* - there is no being_solved.king_square, or
+     * - being_solved.king_square is a royal square */
+  }
+
+  pipe_solve_delegate(si);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean advance_departure_square(square const **next_square_to_try)
+{
+  while (true)
+  {
+    square const sq_departure = **next_square_to_try;
+    if (sq_departure==0)
+      break;
+    else
+    {
+      ++*next_square_to_try;
+
+      if (TSTFLAG(being_solved.spec[sq_departure],trait[nbply])
+        /* don't use king_square[side] - it may be a royal square occupied
+         * by a non-royal piece! */
+             && !TSTFLAG(being_solved.spec[sq_departure],Royal))
+      {
+        generate_moves_for_piece(sq_departure);
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+static void generate_non_king_all_moves_on_board_recursive(slice_index si, Flags board, square const *curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  if (*curr)
+  {
+    TraceSquare(*curr);TraceEOL();
+
+    if (is_square_empty(*curr))
+      generate_non_king_all_moves_on_board_recursive(si,board,curr+1);
+    else
+    {
+      Flags const flags = being_solved.spec[*curr];
+      if (TSTFLAG(flags,board))
+        generate_non_king_all_moves_on_board_recursive(si,board,curr+1);
+      else
+      {
+        piece_walk_type const walk = being_solved.board[*curr];
+        empty_square(*curr);
+        generate_non_king_all_moves_on_board_recursive(si,board,curr+1);
+        occupy_square(*curr,walk,flags);
+      }
+    }
+  }
+  else
+  {
+    square const *next_square_to_try = boardnum;
+    while (solve_result<slack_length
+           && advance_departure_square(&next_square_to_try))
+      pipe_solve_delegate(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_non_king_moves_on_board(slice_index si, Flags board)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  generate_non_king_all_moves_on_board_recursive(si,board,boardnum);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void alice_non_king_move_generator_solve(slice_index si)
+{
+  numecoup base = MOVEBASE_OF_PLY(nbply+1);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solve_result = immobility_on_next_move;
+
+  nextply(SLICE_STARTER(si));
+  generate_non_king_moves_on_board(si,AliceBoardA);
+  move_generator_filter_moves(base,&not_to_square_occupied_on_board_B);
+  base = MOVEBASE_OF_PLY(nbply+1);
+  generate_non_king_moves_on_board(si,AliceBoardB);
+  move_generator_filter_moves(base,&not_to_square_occupied_on_board_A);
+  pipe_solve_delegate(si);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_substitute(slice_index si,
+                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+  pipe_substitute(si,alloc_pipe(STAliceMoveGenerator));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_substitute_king(slice_index si,
+                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+  pipe_substitute(si,alloc_pipe(STAliceKingMoveGenerator));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_substitute_non_king(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+  pipe_substitute(si,alloc_pipe(STAliceNonKingMoveGenerator));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  */
 void solving_insert_alice(slice_index si)
@@ -55,6 +401,15 @@ void solving_insert_alice(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAliceBoardChanger);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
+    stip_structure_traversal_override_single(&st,STKingMoveGenerator,&do_substitute_king);
+    stip_structure_traversal_override_single(&st,STNonKingMoveGenerator,&do_substitute_non_king);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
