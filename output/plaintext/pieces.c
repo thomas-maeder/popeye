@@ -48,6 +48,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
           && (spname!=Patrol || !CondFlag[patrouille])
           && (spname!=Beamtet || !CondFlag[beamten])
           && (spname!=Anda || !CondFlag[anda])
+          && (spname!=AliceBoardA && spname!=AliceBoardB)
           && (spname!=AndaInverse || !CondFlag[andainverse])
           && (spname!=Royal || !is_king(p))
           && TSTFLAG(sp, spname))

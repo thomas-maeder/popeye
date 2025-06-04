@@ -136,6 +136,7 @@
 #include "conditions/transmissionmenace.h"
 #include "conditions/powertransfer.h"
 #include "conditions/all_in_chess.h"
+#include "conditions/alice.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -452,6 +453,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[breton])
     solving_insert_breton(si);
+
+  if (CondFlag[alice])
+    solving_insert_alice(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);

@@ -527,6 +527,7 @@
     ENUMERATOR(STBretonApplier),                                        \
     ENUMERATOR(STBretonPopeyeApplier),                                  \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
+    ENUMERATOR(STAliceBoardChanger),                                    \
     ENUMERATOR(STLostPiecesTester),                                     \
     ENUMERATOR(STLostPiecesRemover),                                    \
     ENUMERATOR(STNorskRemoveIllegalCaptures),                           \

@@ -744,11 +744,11 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  solving/machinery/dispatch.h debugging/trace.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/circe.h solving/machinery/twin.h \
+ debugging/assert.h conditions/circe/circe.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h debugging/assert.h
+ conditions/circe/relevant_side.h
 stipulation/move.h:
 stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
@@ -790,6 +790,7 @@ solving/move_effect_journal.h:
 position/castling_rights.h:
 solving/ply.h:
 position/pieceid.h:
+debugging/assert.h:
 conditions/circe/circe.h:
 solving/machinery/twin.h:
 conditions/circe/rebirth_square_occupied.h:
@@ -798,7 +799,6 @@ conditions/circe/rebirth_square.h:
 conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
-debugging/assert.h:
 stipulation/slice_type$(OBJ_SUFFIX): stipulation/slice_type.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h \
  stipulation/slice_type.enum stipulation/slice_type.enum \
