@@ -300,7 +300,7 @@ static void generate_non_king_all_moves_on_board_recursive(slice_index si, Flags
     square const *next_square_to_try = boardnum;
     while (solve_result<slack_length
            && advance_departure_square(&next_square_to_try))
-      pipe_solve_delegate(si);
+      generate_moves_for_piece(*next_square_to_try);
   }
 
   TraceFunctionExit(__func__);

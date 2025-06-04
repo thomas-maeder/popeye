@@ -1,0 +1,68 @@
+
+           Michel Caillaud
+      Andernach 2025, 5th place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   Q   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   R   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 2
+            BoardA c5 a1
+           BoardB e5 c3 d2
+             AliceChess
+
+  1.Ke5-f4A Qc5-f5B   2.d2-d1=SA Rc3-f3A #
+  1.Ke5-e4A Qc5-e5B   2.d2-d1=BA Rc3-e3A #
+
+solution finished.
+
+
+
+   Manfred Rittirsch & Franz Pachl
+      Andernach 2025, 6th place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   S   .   .  -P   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .  -P  -K   .   .  -P   K   5
+|                                   |
+4  -P   .   .   .   .   B   S   R   4
+|                                   |
+3   .   .   .  -P   .   .  -P   .   3
+|                                   |
+2   .   .   .   .   .  -P   .   .   2
+|                                   |
+1  -R   .   .   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        6 + 12
+      BoardA g7 c5 d5 g5 f2 a1
+BoardB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
+             AliceChess
+
+  1.Ra1-a7B Bf4*c7A   2.Ra7*d7A Sg4-e3A #
+  1.Ra1-g1B Bf4*g3A   2.Rg1*g4A Sd7-b6A #
+
+solution finished.
+
+

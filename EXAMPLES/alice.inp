@@ -1,0 +1,20 @@
+begin
+
+protocol alice.ref
+
+author Michel Caillaud
+origin Andernach 2025, 5th place
+pieces white boarda ka1 qc5 white boardb rc3 black boardb ke5 pd2
+stip h#2
+condition alice
+
+next
+
+author Manfred Rittirsch & Franz Pachl
+origin Andernach 2025, 6th place
+pieces white boardb kh5 rh4 bc8f4 sd7g4 black boarda kd5 ra1 pc5f2g5g7 black boardb bc7 se1 pa4c6d3g3
+stip h#2
+condition alice
+
+end
+
