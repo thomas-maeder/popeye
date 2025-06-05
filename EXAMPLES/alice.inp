@@ -16,5 +16,15 @@ pieces white boardb kh5 rh4 bc8f4 sd7g4 black boarda kd5 ra1 pc5f2g5g7 black boa
 stip h#2
 condition alice
 
+next
+
+author Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
+origin Andernach 2025, 7th place
+pieces white boarda kd1 qd7 rh4 ba5 pa4d4d5d6e4f2 white boardb sc6e6 pb3e2
+       black boarda kd3 ra3g8 ba7b1 pb7f6 black boardb sd8h6 pa6h3
+stipulation #2
+condition alice
+option try vari
+
 end
 

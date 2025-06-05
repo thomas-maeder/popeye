@@ -66,3 +66,235 @@ BoardB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
 solution finished.
 
 
+
+Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
+      Andernach 2025, 7th place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -S   .   .  -R   .   8
+|                                   |
+7  -B  -P   .   Q   .   .   .   .   7
+|                                   |
+6  -P   .   S   P   S  -P   .  -S   6
+|                                   |
+5   B   .   .   P   .   .   .   .   5
+|                                   |
+4   P   .   .   P   P   .   .   R   4
+|                                   |
+3  -R   P   .  -K   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   P   P   .   .   2
+|                                   |
+1   .  -B   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        14 + 11
+BoardA g8 a7 b7 d7 d6 f6 a5 d5 a4 d4 e4 h4 a3 d3 f2 b1 d1
+   BoardB d8 a6 c6 e6 h6 b3 h3 e2
+             AliceChess
+
+   1.Sc6-b4A + ?
+    but
+      1...Kd3-c3B !
+
+   1.Sc6-e5A + ?
+    but
+      1...f6*e5B !
+
+   1.Se6-c5A + ?
+    but
+      1...Ba7*c5B !
+
+   1.Se6-f4A + ?
+    but
+      1...Kd3*e4B !
+
+   1.Qd7-g4B ? threat:
+          2.Qg4-f3A #
+          2.Qg4*h3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Sd8*e6A
+          2.Qg4-f3A #
+          2.Qg4*h3A #
+          2.Qg4-c4A #
+      1...Ra3-c3B
+          2.Qg4-c4A #
+          2.Sc6-b4A #
+          2.Se6-f4A #
+      1...Ba7*d4B
+          2.Qg4*d4A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Ba7-c5B
+          2.Qg4-c4A #
+          2.Se6*c5A #
+          2.Se6-f4A #
+      1...Ba7-b6B
+          2.Qg4-c4A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Ba7-b8B
+          2.Qg4-f3A #
+          2.Qg4-c4A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Rg8-g1B
+          2.Qg4-f3A #
+          2.Qg4-g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-g2B
+          2.Qg4-f3A #
+          2.Qg4-g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-g3B
+          2.Qg4*g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-g5B
+          2.Qg4-f3A #
+          2.Qg4-g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-g6B
+          2.Qg4-f3A #
+          2.Qg4-g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-g7B
+          2.Qg4-f3A #
+          2.Qg4-g3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+      1...Rg8-f8B
+          2.Qg4-f3A #
+          2.Qg4-c4A #
+          2.Se6-f4A #
+    but
+      1...Sh6*g4A !
+
+   1.Qd7-f5B ? threat:
+          2.Qf5*h3A #
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Sh6-g4A
+          2.Qf5-f3A #
+          2.Se6-f4A #
+      1...Sd8*c6A
+          2.Qf5*h3A #
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+      1...Sd8*e6A
+          2.Qf5*h3A #
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+      1...Ra3-a2B
+          2.Qf5*h3A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Ra3*a4B
+          2.Qf5*h3A #
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Se6-f4A #
+      1...Ra3-c3B
+          2.Qf5-f1A #
+          2.Sc6-b4A #
+          2.Se6-f4A #
+      1...Ba7*d4B
+          2.Qf5-f1A #
+          2.Qf5-b5A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Ba7-c5B
+          2.Qf5-f1A #
+          2.Se6*c5A #
+          2.Se6-f4A #
+      1...Ba7-b6B
+          2.Qf5-f1A #
+          2.Qf5-b5A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Ba7-b8B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-c5A #
+          2.Se6-f4A #
+      1...Rg8-g1B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-g2B
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-g3B
+          2.Qf5-f1A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-g4B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Se6-f4A #
+      1...Rg8-g5B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-g6B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-g7B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+      1...Rg8-f8B
+          2.Qf5-f1A #
+          2.Qf5-f3A #
+          2.Qf5-b5A #
+          2.Se6-f4A #
+    but
+      1...Sh6*f5A !
+
+   1.Qd7-e8B ! threat:
+          2.Se6-f4A #
+      1...Sd8*c6A
+          2.Qe8-b5A #
+      1...Sd8*e6A
+          2.Qe8-e3A #
+
+   1.Qd7-c8B ? threat:
+          2.Sc6-b4A #
+      1...Sd8*c6A
+          2.Qc8-c4A #
+      1...Sd8*e6A
+          2.Qc8*h3A #
+      1...Ba7-c5B
+          2.Se6*c5A #
+    but
+      1...Sh6-g4A !
+
+   1.Qd7-e7B ? threat:
+          2.Se6-f4A #
+      1...Sd8*e6A
+          2.Qe7-e3A #
+    but
+      1...Sd8*c6A !
+
+
+solution finished.
+
+

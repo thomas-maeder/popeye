@@ -420,12 +420,25 @@ void alice_self_check_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(Side,side_in_check);
+  TraceSquare(king_square);
+  TraceEOL();
+
   if (king_square==initsquare)
     pipe_solve_delegate(si);
-  else
+  // TODO can we eliminate this check with better instrumentation (no alice_self_check_guard_solve at root level)?
+  else if (nbply>ply_retro_move)
   {
     move_effect_journal_index_type const top = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",parent_ply[nbply]);
+    TraceValue("%u",top);
+    TraceValue("%u",movement);
+    TraceValue("%x",move_effect_journal[movement].u.piece_movement.movingspec);
+    TraceValue("%x",being_solved.spec[king_square]);
+    TraceEOL();
 
     if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
     {
@@ -451,6 +464,8 @@ void alice_self_check_guard_solve(slice_index si)
     else
       pipe_solve_delegate(si);
   }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
