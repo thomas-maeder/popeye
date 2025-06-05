@@ -22,8 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 10
-  BoardA b8 e7 e6 d5 e5 d4 d3 a2 c2
-BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
+AliceB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
              AliceChess
 
    1.Bh4-g3A ! zugzwang.
@@ -192,8 +191,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 7
-BoardA e7 g7 e6 g6 d5 g4 d3 g3 d2 g2 h1
-            BoardB f8 f7
+            AliceB f8 f7
              AliceChess
 
 a) 
@@ -231,8 +229,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 2
-            BoardA c5 a1
-           BoardB e5 c3 d2
+           AliceB e5 c3 d2
              AliceChess
 
   1.Ke5-f4A Qc5-f5B   2.d2-d1=SA Rc3-f3A #
@@ -265,8 +262,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        6 + 12
-      BoardA g7 c5 d5 g5 f2 a1
-BoardB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
+AliceB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
              AliceChess
 
   1.Ra1-a7B Bf4*c7A   2.Ra7*d7A Sg4-e3A #
@@ -299,8 +295,7 @@ Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        14 + 11
-BoardA g8 a7 b7 d7 d6 f6 a5 d5 a4 d4 e4 h4 a3 d3 f2 b1 d1
-   BoardB d8 a6 c6 e6 h6 b3 h3 e2
+   AliceB d8 a6 c6 e6 h6 b3 h3 e2
              AliceChess
 
    1.Sc6-b4A + ?
@@ -531,8 +526,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       5 + 4
-         BoardA f8 d4 f3 d1
-        BoardB a4 a3 c1 e1 h1
+        AliceB a4 a3 c1 e1 h1
              AliceChess
 
   1...Bh1-e4A   2.Ba3-b2A Be4-d3B   3.Bb2*d4B Ra4*d4A #

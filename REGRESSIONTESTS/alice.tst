@@ -21,8 +21,7 @@ Alice Chess move generation and execution
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          3 + 2
-           BoardA h4 g3 d1
-            BoardB g5 f4
+            AliceB g5 f4
              AliceChess
 
    1.f4-f5A !
@@ -74,8 +73,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          2 + 1
-            BoardA d5 c3
-              BoardB e3
+              AliceB e3
              AliceChess
 
    1.e3-e4A + !
@@ -107,7 +105,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-            BoardA a3 a1
              AliceChess
 
    1.Ka1-a2B !
@@ -141,7 +138,6 @@ no special check rule after non-king move
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 1
-            BoardA a8 b6
              AliceChess
 
 a) 

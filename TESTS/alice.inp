@@ -3,35 +3,33 @@ begin
 protocol alice.tst
 
 title Alice Chess move generation and execution
-pieces white boarda kd1 bh4 white boardb pf4 black boarda pg3 black boardb pg5
+pieces white kd1 bh4 white AliceB pf4 black pg3 black AliceB pg5
 stipulation ~1
-condition alice
 option nobk
 
 next
 
 title Alice check only from same board
-pieces white boarda pc3 white boardb pe3 black boarda kd5
+pieces white pc3 white AliceB pe3 black kd5
 stip +1
-condition alice
 option nowk
 
 next
 
 title special check rule after king move
-pieces white boarda ka1 black boarda pa3
+pieces white ka1 black pa3
 stip ~1
-condition alice
+condition Alice
 option nobk
 
 next
 
 title no special check rule after non-king move
-pieces white boarda pb6 black boarda ka8
+pieces white pb6 black ka8
 stip +1
-condition alice
+condition Alice
 option nowk
-twin add white boardb pb6
+twin add white AliceB pb6
 
 end
 

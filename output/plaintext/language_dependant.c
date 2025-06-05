@@ -1541,8 +1541,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Dob",
     "Anda",
     "AndaInverse",
-    "EchiquierA",
-    "EchiquierB"
+    "AliceA",
+    "AliceB"
   },
   {
     /* German */
@@ -1564,8 +1564,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Dob",
     "Anda",
     "AndaInvers",
-    "BrettA",
-    "BrettB"
+    "AliceA",
+    "AliceB"
   },
   {
     /* English */
@@ -1587,8 +1587,8 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Dob",
     "Anda",
     "AndaInverse",
-    "BoardA",
-    "BoardB"
+    "AliceA",
+    "AliceB"
   }
 };
 
