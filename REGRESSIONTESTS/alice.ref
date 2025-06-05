@@ -1,4 +1,222 @@
 
+    Thomas Maeder & Kjell Widlert
+      Andernach 2025, 3rd place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S  -K   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   Q  -P   .   .   .   7
+|                                   |
+6   .  -P   .   .   P   .  -P   .   6
+|                                   |
+5   .   P   .  -S   K   .   .   .   5
+|                                   |
+4  -R   .   .  -P  -P   P   .   B   4
+|                                   |
+3   .   .   P   P   P   .   .   .   3
+|                                   |
+2  -B   .   P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        11 + 10
+  BoardA b8 e7 e6 d5 e5 d4 d3 a2 c2
+BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
+             AliceChess
+
+   1.Bh4-g3A ? zugzwang.
+      1...Ra4-a1A
+          2.Ke5*d4B #
+      1...Ra4-a3A
+          2.Ke5*d4B #
+      1...Ra4-a6A
+          2.Ke5*d4B #
+      1...Ra4-a5A
+          2.Ke5*d4B #
+      1...Ra4-c4A
+          2.Ke5*d5B #
+      1...Ra4-b4A
+          2.c2-c4B zugzwang.
+              2...g6-g5A
+                  3.Ke5-f5B #
+              2...Ba2-b1B
+                  3.Ke5*d5B #
+              2...Ba2-b3B
+                  3.Ke5*d5B #
+              2...Rb4-b1B
+                  3.Ke5*d4B #
+              2...Rb4-b2B
+                  3.Ke5*d4B #
+              2...Rb4-b3B
+                  3.Ke5*d4B #
+              2...Rb4-a4B
+                  3.Ke5*d4B #
+              2...Rb4-b7B
+                  3.Qd7-e8A #
+                  3.Qd7-d8A #
+              2...Sd5-f6B
+                  3.Qd7-c7A #
+              2...Sd5-c7B
+                  3.Qd7*c7A #
+      1...g6-g5A
+          2.Ke5-f5B #
+      1...Ba2-b1B
+          2.Ke5*d5B #
+      1...Ba2-b3B
+          2.c3-c4A zugzwang.
+              2...Bb3-a2A
+                  3.Ke5*d5B #
+              2...Bb3-d1A
+                  3.Ke5*d5B #
+              2...Bb3-g8A
+                  3.Ke5*d5B #
+              2...Bb3-f7A
+                  3.Ke5*d5B #
+              2...Ra4-a1A
+                  3.Ke5*d4B #
+              2...Ra4-a2A
+                  3.Ke5*d4B #
+              2...Ra4-a3A
+                  3.Ke5*d4B #
+              2...Ra4-a6A
+                  3.Ke5*d4B #
+              2...Ra4-a5A
+                  3.Ke5*d4B #
+              2...Ra4-b4A
+                  3.Ke5*d4B #
+              2...g6-g5A
+                  3.Ke5-f5B #
+              2...Sd5-b4B
+                  3.Qd7-c7A #
+                  3.Ke5*d4B #
+              2...Sd5-c3B
+                  3.Qd7-c7A #
+              2...Sd5-f6B
+                  3.Qd7-c7A #
+              2...Sd5-c7B
+                  3.Qd7*c7A #
+      1...Sd5-b4B
+          2.Qd7-c7A #
+          2.Ke5*d4B #
+      1...Sd5-f6B
+          2.Qd7-c7A #
+      1...Sd5-c7B
+          2.Qd7*c7A #
+    but
+      1...Ba2-c4B !
+
+   1.Qd7-e8A + ?
+    but
+      1...Kb8-b7B !
+
+   1.Qd7-c8A + ?
+    but
+      1...Kb8*c8B !
+
+   1.Qd7*a7A + ?
+      1...Kb8-c8B
+          2.Qa7-c7B #
+    but
+      1...Kb8*a7B !
+
+   1.Qd7-b7A + ?
+    but
+      1...Kb8*b7B !
+
+   1.Qd7-c7A + ?
+    but
+      1...Sd5*c7B !
+
+   1.Qd7-d8A + ?
+    but
+      1...Kb8-b7B !
+
+   1.Sa8*b6A ? threat:
+          2.Qd7-c8A #
+      1...Ra4-a6A
+          2.Qd7-e8A +
+              2...Kb8-c7B
+                  3.Qe8-c8B #
+              2...Kb8-b7B
+                  3.Qe8-c8B #
+          2.Qd7-d8A +
+              2...Kb8-b7B
+                  3.Qd8-c8B #
+      1...Ra4-c4A
+          2.Qd7-e8A +
+              2...Kb8-c7B
+                  3.Qe8-c8B #
+              2...Kb8-b7B
+                  3.Qe8-c8B #
+          2.Qd7-d8A +
+              2...Kb8-b7B
+                  3.Qd8-c8B #
+      1...Ba7*e3A
+          2.Qd7-c8A +
+              2...Kb8-a7B
+                  3.Qc8-c7B #
+                  3.Qc8-a8B #
+      1...Ba7-c5A
+          2.Qd7-c8A +
+              2...Kb8-a7B
+                  3.Qc8-c7B #
+                  3.Qc8-a8B #
+    but
+      1...Sd5*b6B !
+
+   1.Sa8-c7A ? threat:
+          2.Qd7-d8A +
+              2...Kb8-b7B
+                  3.Qd8-a8B #
+    but
+      1...Sd5*c7B !
+
+
+solution finished.
+
+
+
+   Manfred Rittirsch & Franz Pachl
+      Andernach 2025, 4th place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   .  -R   B  -B   .   7
+|                                   |
+6   .   .   .   .   P   .   P   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -P   .   4
+|                                   |
+3   .   .   .  -P   .   .   P   .   3
+|                                   |
+2   .   .   .  -R   .   .   R   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 7
+BoardA e7 g7 e6 g6 d5 g4 d3 g3 d2 g2 h1
+            BoardB f8 f7
+             AliceChess
+
+a) 
+
+  1.Bd5-b7B Rg2-e2B   2.Re7-a7B e6-e7B #
+
+b) wKh1-->h2  
+
+  1.Rd2-b2B Rg2-g1B   2.Bg7-a1B g6-g7B #
+
+solution finished.
+
+
+
            Michel Caillaud
       Andernach 2025, 5th place
 
@@ -294,6 +512,40 @@ BoardA g8 a7 b7 d7 d6 f6 a5 d5 a4 d4 e4 h4 a3 d3 f2 b1 d1
     but
       1...Sd8*c6A !
 
+
+solution finished.
+
+
+
+           Michel Caillaud
+      Andernach 2025, 8th place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   R   .   .   P   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -R  -K  -R   .   .   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       5 + 4
+         BoardA f8 d4 f3 d1
+        BoardB a4 a3 c1 e1 h1
+             AliceChess
+
+  1...Bh1-e4A   2.Ba3-b2A Be4-d3B   3.Bb2*d4B Ra4*d4A #
+  1...Ra4-e4A   2.Re1-f1A Re4-e2B   3.Rf1*f3B Bh1*f3A #
 
 solution finished.
 
