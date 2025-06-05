@@ -26,7 +26,7 @@
 BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
              AliceChess
 
-   1.Bh4-g3A ? zugzwang.
+   1.Bh4-g3A ! zugzwang.
       1...Ra4-a1A
           2.Ke5*d4B #
       1...Ra4-a3A
@@ -64,6 +64,8 @@ BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
           2.Ke5-f5B #
       1...Ba2-b1B
           2.Ke5*d5B #
+      1...Ba2-c4B
+          2.Ke5*d4B #
       1...Ba2-b3B
           2.c3-c4A zugzwang.
               2...Bb3-a2A
@@ -104,8 +106,6 @@ BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
           2.Qd7-c7A #
       1...Sd5-c7B
           2.Qd7*c7A #
-    but
-      1...Ba2-c4B !
 
    1.Qd7-e8A + ?
     but
@@ -135,15 +135,6 @@ BoardB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
 
    1.Sa8*b6A ? threat:
           2.Qd7-c8A #
-      1...Ra4-a6A
-          2.Qd7-e8A +
-              2...Kb8-c7B
-                  3.Qe8-c8B #
-              2...Kb8-b7B
-                  3.Qe8-c8B #
-          2.Qd7-d8A +
-              2...Kb8-b7B
-                  3.Qd8-c8B #
       1...Ra4-c4A
           2.Qd7-e8A +
               2...Kb8-c7B

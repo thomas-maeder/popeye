@@ -75,6 +75,8 @@ static void generate_all_moves_on_board_recursive(Flags board, square const *cur
       else
       {
         piece_walk_type const walk = being_solved.board[*curr];
+
+        TraceText("temporarily emptying square *curr\n");
         empty_square(*curr);
         generate_all_moves_on_board_recursive(board,curr+1);
         occupy_square(*curr,walk,flags);
@@ -166,6 +168,8 @@ static void generate_king_moves_on_board_recursive(Side side_at_move, Flags boar
       else
       {
         piece_walk_type const walk = being_solved.board[*curr];
+
+        TraceText("temporarily emptying square *curr\n");
         empty_square(*curr);
         generate_king_moves_on_board_recursive(side_at_move,board,curr+1);
         occupy_square(*curr,walk,flags);
@@ -251,16 +255,13 @@ static boolean advance_departure_square(square const **next_square_to_try)
       break;
     else
     {
-      ++*next_square_to_try;
-
       if (TSTFLAG(being_solved.spec[sq_departure],trait[nbply])
         /* don't use king_square[side] - it may be a royal square occupied
          * by a non-royal piece! */
              && !TSTFLAG(being_solved.spec[sq_departure],Royal))
-      {
-        generate_moves_for_piece(sq_departure);
         return true;
-      }
+      else
+        ++*next_square_to_try;
     }
   }
 
@@ -289,6 +290,8 @@ static void generate_non_king_all_moves_on_board_recursive(slice_index si, Flags
       else
       {
         piece_walk_type const walk = being_solved.board[*curr];
+
+        TraceText("temporarily emptying square *curr\n");
         empty_square(*curr);
         generate_non_king_all_moves_on_board_recursive(si,board,curr+1);
         occupy_square(*curr,walk,flags);
@@ -300,7 +303,10 @@ static void generate_non_king_all_moves_on_board_recursive(slice_index si, Flags
     square const *next_square_to_try = boardnum;
     while (solve_result<slack_length
            && advance_departure_square(&next_square_to_try))
+    {
       generate_moves_for_piece(*next_square_to_try);
+      ++next_square_to_try;
+    }
   }
 
   TraceFunctionExit(__func__);
