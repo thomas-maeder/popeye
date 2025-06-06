@@ -293,7 +293,7 @@ static void initialise_piece_flags(void)
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
     SETFLAGMASK(some_pieces_flags,NeutralMask);
 
-  if (TSTFLAG(some_pieces_flags,AliceBoardB))
+  if (TSTFLAG(some_pieces_flags,AliceBoardA) || TSTFLAG(some_pieces_flags,AliceBoardB))
     CondFlag[alice] = true;
 
   if (CondFlag[alice])
@@ -302,6 +302,9 @@ static void initialise_piece_flags(void)
     for (bnp = boardnum; *bnp; ++bnp)
       if (!is_square_empty(*bnp) && !TSTFLAG(being_solved.spec[*bnp],AliceBoardB))
         SETFLAG(being_solved.spec[*bnp],AliceBoardA);
+
+    SETFLAG(some_pieces_flags,AliceBoardA);
+    SETFLAG(some_pieces_flags,AliceBoardB);
   }
 
   if (stipulation_are_pieceids_required()

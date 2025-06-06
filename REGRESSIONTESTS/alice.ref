@@ -22,6 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 10
+  AliceA b8 e7 e6 d5 e5 d4 d3 a2 c2
 AliceB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
              AliceChess
 
@@ -163,6 +164,10 @@ AliceB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
     but
       1...Sd5*c7B !
 
+  add_to_move_generation_stack:      164128
+                     play_move:       75973
+ is_white_king_square_attacked:        9522
+ is_black_king_square_attacked:       83831
 
 solution finished.
 
@@ -191,16 +196,25 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 7
+AliceA e7 g7 e6 g6 d5 g4 d3 g3 d2 g2 h1
             AliceB f8 f7
              AliceChess
 
 a) 
 
   1.Bd5-b7B Rg2-e2B   2.Re7-a7B e6-e7B #
+  add_to_move_generation_stack:      143478
+                     play_move:      104578
+ is_white_king_square_attacked:        8431
+ is_black_king_square_attacked:      111183
 
 b) wKh1-->h2  
 
   1.Rd2-b2B Rg2-g1B   2.Bg7-a1B g6-g7B #
+  add_to_move_generation_stack:      155734
+                     play_move:      116540
+ is_white_king_square_attacked:        8424
+ is_black_king_square_attacked:      122844
 
 solution finished.
 
@@ -229,11 +243,16 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 2
+            AliceA c5 a1
            AliceB e5 c3 d2
              AliceChess
 
   1.Ke5-f4A Qc5-f5B   2.d2-d1=SA Rc3-f3A #
   1.Ke5-e4A Qc5-e5B   2.d2-d1=BA Rc3-e3A #
+  add_to_move_generation_stack:      121692
+                     play_move:       76741
+ is_white_king_square_attacked:       10439
+ is_black_king_square_attacked:       90703
 
 solution finished.
 
@@ -262,11 +281,16 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        6 + 12
+      AliceA g7 c5 d5 g5 f2 a1
 AliceB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
              AliceChess
 
   1.Ra1-a7B Bf4*c7A   2.Ra7*d7A Sg4-e3A #
   1.Ra1-g1B Bf4*g3A   2.Rg1*g4A Sd7-b6A #
+  add_to_move_generation_stack:      752384
+                     play_move:      440172
+ is_white_king_square_attacked:       52741
+ is_black_king_square_attacked:      509058
 
 solution finished.
 
@@ -295,6 +319,7 @@ Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        14 + 11
+AliceA g8 a7 b7 d7 d6 f6 a5 d5 a4 d4 e4 h4 a3 d3 f2 b1 d1
    AliceB d8 a6 c6 e6 h6 b3 h3 e2
              AliceChess
 
@@ -498,6 +523,10 @@ Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
     but
       1...Sd8*c6A !
 
+  add_to_move_generation_stack:       89828
+                     play_move:       53160
+ is_white_king_square_attacked:        1805
+ is_black_king_square_attacked:       59494
 
 solution finished.
 
@@ -526,11 +555,16 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       5 + 4
+         AliceA f8 d4 f3 d1
         AliceB a4 a3 c1 e1 h1
              AliceChess
 
   1...Bh1-e4A   2.Ba3-b2A Be4-d3B   3.Bb2*d4B Ra4*d4A #
   1...Ra4-e4A   2.Re1-f1A Re4-e2B   3.Rf1*f3B Bh1*f3A #
+  add_to_move_generation_stack:     3496962
+                     play_move:     3047064
+ is_white_king_square_attacked:       87707
+ is_black_king_square_attacked:     3131619
 
 solution finished.
 

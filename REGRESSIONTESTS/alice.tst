@@ -21,6 +21,7 @@ Alice Chess move generation and execution
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          3 + 2
+           AliceA h4 g3 d1
             AliceB g5 f4
              AliceChess
 
@@ -46,6 +47,10 @@ Alice Chess move generation and execution
 
    1.Bh4-f6B !
 
+  add_to_move_generation_stack:          12
+                     play_move:          11
+ is_white_king_square_attacked:          16
+ is_black_king_square_attacked:           0
 
 solution finished.
 
@@ -73,11 +78,16 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          2 + 1
+            AliceA d5 c3
               AliceB e3
              AliceChess
 
    1.e3-e4A + !
 
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
 
 solution finished.
 
@@ -105,12 +115,18 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
+            AliceA a3 a1
+               AliceB
              AliceChess
 
    1.Ka1-a2B !
 
    1.Ka1-b1B !
 
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           0
 
 solution finished.
 
@@ -138,15 +154,25 @@ no special check rule after non-king move
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 1
+            AliceA a8 b6
+               AliceB
              AliceChess
 
 a) 
 
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
 
 b) wPb6  
 
    1.b6-b7A + !
 
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
 
 solution finished.
 
