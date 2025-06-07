@@ -164,10 +164,10 @@ AliceB a8 a7 d7 b6 g6 b5 a4 e4 f4 h4 c3 e3
     but
       1...Sd5*c7B !
 
-  add_to_move_generation_stack:      164128
-                     play_move:       75973
+  add_to_move_generation_stack:      267210
+                     play_move:      135743
  is_white_king_square_attacked:        9522
- is_black_king_square_attacked:       83831
+ is_black_king_square_attacked:      141058
 
 solution finished.
 
@@ -203,18 +203,18 @@ AliceA e7 g7 e6 g6 d5 g4 d3 g3 d2 g2 h1
 a) 
 
   1.Bd5-b7B Rg2-e2B   2.Re7-a7B e6-e7B #
-  add_to_move_generation_stack:      143478
-                     play_move:      104578
+  add_to_move_generation_stack:      360939
+                     play_move:      163489
  is_white_king_square_attacked:        8431
- is_black_king_square_attacked:      111183
+ is_black_king_square_attacked:      166221
 
 b) wKh1-->h2  
 
   1.Rd2-b2B Rg2-g1B   2.Bg7-a1B g6-g7B #
-  add_to_move_generation_stack:      155734
-                     play_move:      116540
+  add_to_move_generation_stack:      373436
+                     play_move:      167855
  is_white_king_square_attacked:        8424
- is_black_king_square_attacked:      122844
+ is_black_king_square_attacked:      169749
 
 solution finished.
 
@@ -249,10 +249,10 @@ solution finished.
 
   1.Ke5-f4A Qc5-f5B   2.d2-d1=SA Rc3-f3A #
   1.Ke5-e4A Qc5-e5B   2.d2-d1=BA Rc3-e3A #
-  add_to_move_generation_stack:      121692
-                     play_move:       76741
+  add_to_move_generation_stack:      173455
+                     play_move:      121510
  is_white_king_square_attacked:       10439
- is_black_king_square_attacked:       90703
+ is_black_king_square_attacked:      134322
 
 solution finished.
 
@@ -287,10 +287,10 @@ AliceB c8 c7 d7 c6 h5 a4 f4 g4 h4 d3 g3 e1
 
   1.Ra1-a7B Bf4*c7A   2.Ra7*d7A Sg4-e3A #
   1.Ra1-g1B Bf4*g3A   2.Rg1*g4A Sd7-b6A #
-  add_to_move_generation_stack:      752384
-                     play_move:      440172
+  add_to_move_generation_stack:     2157879
+                     play_move:     1422345
  is_white_king_square_attacked:       52741
- is_black_king_square_attacked:      509058
+ is_black_king_square_attacked:     1487029
 
 solution finished.
 
@@ -523,10 +523,10 @@ AliceA g8 a7 b7 d7 d6 f6 a5 d5 a4 d4 e4 h4 a3 d3 f2 b1 d1
     but
       1...Sd8*c6A !
 
-  add_to_move_generation_stack:       89828
-                     play_move:       53160
+  add_to_move_generation_stack:      107848
+                     play_move:       54588
  is_white_king_square_attacked:        1805
- is_black_king_square_attacked:       59494
+ is_black_king_square_attacked:       60005
 
 solution finished.
 
@@ -561,10 +561,10 @@ solution finished.
 
   1...Bh1-e4A   2.Ba3-b2A Be4-d3B   3.Bb2*d4B Ra4*d4A #
   1...Ra4-e4A   2.Re1-f1A Re4-e2B   3.Rf1*f3B Bh1*f3A #
-  add_to_move_generation_stack:     3496962
-                     play_move:     3047064
+  add_to_move_generation_stack:     5137751
+                     play_move:     3660111
  is_white_king_square_attacked:       87707
- is_black_king_square_attacked:     3131619
+ is_black_king_square_attacked:     3726306
 
 solution finished.
 

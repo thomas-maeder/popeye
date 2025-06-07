@@ -306,6 +306,10 @@ void build_solvers1(slice_index si)
     maff_replace_immobility_testers(si);
   else if (CondFlag[OWU])
     owu_replace_immobility_testers(si);
+  else if (CondFlag[alice])
+  {
+    /* prevent king first optimisation - too complicated */
+  }
   else
     immobility_testers_substitute_king_first(si);
 

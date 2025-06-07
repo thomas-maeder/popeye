@@ -1166,14 +1166,6 @@ void dispatch(slice_index si)
       alice_move_generator_solve(si);
       break;
 
-    case STAliceKingMoveGenerator:
-      alice_king_move_generator_solve(si);
-      break;
-
-    case STAliceNonKingMoveGenerator:
-      alice_non_king_move_generator_solve(si);
-      break;
-
     case STAliceSelfCheckGuard:
       alice_self_check_guard_solve(si);
       break;
