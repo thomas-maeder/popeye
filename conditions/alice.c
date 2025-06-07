@@ -55,34 +55,50 @@ void alice_change_board_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static square const *advance(Flags board, square const *curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%x",board);
+  TraceFunctionParamListEnd();
+
+  while (*curr)
+  {
+    if (is_square_empty(*curr))
+      ++curr;
+    else
+    {
+      Flags const flags = being_solved.spec[*curr];
+      if (TSTFLAG(flags,board))
+        ++curr;
+      else
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+  return curr;
+}
+
 static void generate_all_moves_on_board_recursive(Flags board, square const *curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%x",board);
   TraceFunctionParamListEnd();
 
-  // TODO only recurse over removed pieces
+  curr = advance(board,curr);
+
   if (*curr)
   {
-    TraceSquare(*curr);TraceEOL();
+    Flags const flags = being_solved.spec[*curr];
+    piece_walk_type const walk = being_solved.board[*curr];
 
-    if (is_square_empty(*curr))
-      generate_all_moves_on_board_recursive(board,curr+1);
-    else
-    {
-      Flags const flags = being_solved.spec[*curr];
-      if (TSTFLAG(flags,board))
-        generate_all_moves_on_board_recursive(board,curr+1);
-      else
-      {
-        piece_walk_type const walk = being_solved.board[*curr];
+    TraceSquare(*curr);
+    TraceText("temporarily emptying square *curr\n");
 
-        TraceText("temporarily emptying square *curr\n");
-        empty_square(*curr);
-        generate_all_moves_on_board_recursive(board,curr+1);
-        occupy_square(*curr,walk,flags);
-      }
-    }
+    empty_square(*curr);
+    generate_all_moves_on_board_recursive(board,curr+1);
+    occupy_square(*curr,walk,flags);
   }
   else
     generate_all_moves_for_moving_side();
@@ -285,22 +301,19 @@ static boolean check_by_piece_on_board_recursive(slice_index si,
   TraceEnumerator(Side,side_in_check);
   TraceFunctionParamListEnd();
 
+  curr = advance(board,curr);
+
   if (*curr)
   {
     Flags const flags = being_solved.spec[*curr];
+    piece_walk_type const walk = being_solved.board[*curr];
 
-    TraceSquare(*curr);TraceEOL();
-    if (is_square_empty(*curr) || TSTFLAG(flags,board))
-      result = check_by_piece_on_board_recursive(si,board,side_in_check,curr+1);
-    else
-    {
-      piece_walk_type const walk = being_solved.board[*curr];
+    TraceSquare(*curr);
+    TraceText("temporarily emptying square *curr\n");
 
-      TraceText("temporarily emptying square *curr\n");
-      empty_square(*curr);
-      result = check_by_piece_on_board_recursive(si,board,side_in_check,curr+1);
-      occupy_square(*curr,walk,flags);
-    }
+    empty_square(*curr);
+    result = check_by_piece_on_board_recursive(si,board,side_in_check,curr+1);
+    occupy_square(*curr,walk,flags);
   }
   else
     result = pipe_is_in_check_recursive_delegate(si,side_in_check);
