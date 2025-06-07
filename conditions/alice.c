@@ -2,6 +2,7 @@
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/goals/slice_insertion.h"
 #include "solving/pipe.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
@@ -242,8 +243,30 @@ static void insert_alice_selfcheckguard(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  // TODO use regular insertion
-  pipe_append(si,alloc_pipe(STAliceSelfCheckGuard));
+  {
+    slice_index const prototype = alloc_pipe(STAliceSelfCheckGuard);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_alice_selfcheckguard_goal(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  slice_index const tester = SLICE_NEXT2(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STAliceSelfCheckGuard);
+    goal_branch_insert_slices(tester,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -349,6 +372,7 @@ void solving_insert_alice(slice_index si)
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
     stip_structure_traversal_override_single(&st,STSelfCheckGuard,&insert_alice_selfcheckguard);
+    stip_structure_traversal_override_single(&st,STGoalReachedTester,&insert_alice_selfcheckguard_goal);
     stip_traverse_structure(si,&st);
   }
 
