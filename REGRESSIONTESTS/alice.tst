@@ -177,3 +177,75 @@ b) wPb6
 solution finished.
 
 
+
+  castling transfers both partners
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         2 + 0
+            AliceA a1 e1
+               AliceB
+             AliceChess
+
+   1.0-0-0BB !
+
+  add_to_move_generation_stack:          16
+                     play_move:          16
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+no castling if intermediate square is occupied on other board
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .  -S   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         2 + 1
+            AliceA a1 e1
+              AliceB d1
+             AliceChess
+
+  add_to_move_generation_stack:          16
+                     play_move:          13
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

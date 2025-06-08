@@ -10,6 +10,7 @@
 #include "solving/non_king_move_generator.h"
 #include "solving/machinery/slack_length.h"
 #include "solving/check.h"
+#include "position/board.h"
 #include "position/effects/flags_change.h"
 #include "position/position.h"
 
@@ -31,23 +32,28 @@
  */
 void alice_change_board_solve(slice_index si)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  square const pos = move_effect_journal[movement].u.piece_movement.to;
-  Flags flags = being_solved.spec[pos];
-  Flags const flag_new = TSTFLAG(flags,AliceBoardA) ? AliceBoardB : AliceBoardA;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-  assert(TSTFLAG(flags,AliceBoardA)|TSTFLAG(flags,AliceBoardB));
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    {
+      square const pos = move_effect_journal[curr].u.piece_movement.to;
+      Flags flags = being_solved.spec[pos];
+      Flags const flag_new = TSTFLAG(flags,AliceBoardA) ? AliceBoardB : AliceBoardA;
 
-  CLRFLAG(flags,AliceBoardA);
-  CLRFLAG(flags,AliceBoardB);
-  SETFLAG(flags,flag_new);
-  move_effect_journal_do_flags_change(move_effect_reason_alice,pos,flags);
+      assert(TSTFLAG(flags,AliceBoardA)|TSTFLAG(flags,AliceBoardB));
+
+      CLRFLAG(flags,AliceBoardA);
+      CLRFLAG(flags,AliceBoardB);
+      SETFLAG(flags,flag_new);
+      move_effect_journal_do_flags_change(move_effect_reason_alice,pos,flags);
+    }
 
   pipe_solve_delegate(si);
 
@@ -121,12 +127,30 @@ static void generate_all_moves_on_board(Flags board)
 
 static boolean not_to_square_occupied_on_board_A(numecoup n)
 {
-  return !TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA);
+  if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA))
+    return false;
+  else if (move_generation_stack[n].capture==kingside_castling
+           || move_generation_stack[n].capture==queenside_castling)
+  {
+    square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
+    return !TSTFLAG(being_solved.spec[intermediate],AliceBoardA);
+  }
+  else
+    return true;
 }
 
 static boolean not_to_square_occupied_on_board_B(numecoup n)
 {
-  return !TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB);
+  if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB))
+    return false;
+  else if (move_generation_stack[n].capture==kingside_castling
+           || move_generation_stack[n].capture==queenside_castling)
+  {
+    square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
+    return !TSTFLAG(being_solved.spec[intermediate],AliceBoardB);
+  }
+  else
+    return true;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

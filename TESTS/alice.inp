@@ -31,5 +31,21 @@ condition Alice
 option nowk
 twin add white AliceB pb6
 
+next
+
+title castling transfers both partners
+pieces white ke1 ra1
+condition alice
+stip 001
+option nobk
+
+next
+
+title no castling if intermediate square is occupied on other board
+pieces white ke1 ra1 black aliceb sd1
+condition alice
+stip 001
+option nobk
+
 end
 
