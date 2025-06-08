@@ -86,13 +86,13 @@ static square const *advance(Flags board, square const *curr)
   return curr;
 }
 
-static void generate_all_moves_on_board_recursive(Flags board, square const *curr)
+static void generate_all_moves_on_board_recursive(Flags boardMoving, square const *curr)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%x",board);
+  TraceFunctionParam("%x",boardMoving);
   TraceFunctionParamListEnd();
 
-  curr = advance(board,curr);
+  curr = advance(boardMoving,curr);
 
   if (*curr)
   {
@@ -103,7 +103,7 @@ static void generate_all_moves_on_board_recursive(Flags board, square const *cur
     TraceText("temporarily emptying square *curr\n");
 
     empty_square(*curr);
-    generate_all_moves_on_board_recursive(board,curr+1);
+    generate_all_moves_on_board_recursive(boardMoving,curr+1);
     occupy_square(*curr,walk,flags);
   }
   else
@@ -113,19 +113,19 @@ static void generate_all_moves_on_board_recursive(Flags board, square const *cur
   TraceFunctionResultEnd();
 }
 
-static void generate_all_moves_on_board(Flags board)
+static void generate_all_moves_on_board(Flags boardMoving)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%x",board);
+  TraceFunctionParam("%x",boardMoving);
   TraceFunctionParamListEnd();
 
-  generate_all_moves_on_board_recursive(board,boardnum);
+  generate_all_moves_on_board_recursive(boardMoving,boardnum);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static boolean not_to_square_occupied_on_board_A(numecoup n)
+static boolean not_illegal_for_piece_moving_from_board_B(numecoup n)
 {
   if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA))
     return false;
@@ -135,11 +135,14 @@ static boolean not_to_square_occupied_on_board_A(numecoup n)
     square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
     return !TSTFLAG(being_solved.spec[intermediate],AliceBoardA);
   }
+  else if (move_generation_stack[n].capture>offset_en_passant_capture
+           && TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardA))
+    return false;
   else
     return true;
 }
 
-static boolean not_to_square_occupied_on_board_B(numecoup n)
+static boolean not_illegal_for_piece_moving_from_board_A(numecoup n)
 {
   if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB))
     return false;
@@ -149,6 +152,9 @@ static boolean not_to_square_occupied_on_board_B(numecoup n)
     square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
     return !TSTFLAG(being_solved.spec[intermediate],AliceBoardB);
   }
+  else if (move_generation_stack[n].capture>offset_en_passant_capture
+           && TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardB))
+    return false;
   else
     return true;
 }
@@ -176,10 +182,10 @@ void alice_move_generator_solve(slice_index si)
 
   nextply(SLICE_STARTER(si));
   generate_all_moves_on_board(AliceBoardA);
-  move_generator_filter_moves(base,&not_to_square_occupied_on_board_B);
+  move_generator_filter_moves(base,&not_illegal_for_piece_moving_from_board_A);
   base = MOVEBASE_OF_PLY(nbply+1);
   generate_all_moves_on_board(AliceBoardB);
-  move_generator_filter_moves(base,&not_to_square_occupied_on_board_A);
+  move_generator_filter_moves(base,&not_illegal_for_piece_moving_from_board_B);
   pipe_solve_delegate(si);
   finply();
 

@@ -47,5 +47,12 @@ condition alice
 stip 001
 option nobk
 
+next
+
+title en passant capture only of pawns on same board
+pieces black alicea pe7 white pd5 white aliceb pf5
+stip hep1
+option nowk nobk
+
 end
 

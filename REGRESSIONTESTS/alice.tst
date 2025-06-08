@@ -249,3 +249,39 @@ no castling if intermediate square is occupied on other board
 solution finished.
 
 
+
+en passant capture only of pawns on same board
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        2 + 1
+            AliceA e7 d5
+              AliceB f5
+             AliceChess
+
+  1.e7-e5B f5*e6 ep.A
+  add_to_move_generation_stack:           6
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
