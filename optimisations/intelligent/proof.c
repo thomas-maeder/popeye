@@ -110,7 +110,7 @@ slice_type proof_make_goal_reachable_type(void)
    * allow any optimisation at all.
    */
   if (piece_walk_may_exist_fairy
-      || (some_pieces_flags&~PieceIdMask&~BIT(Royal))
+      || (some_pieces_flags&~PieceIdMask&~BIT(Royal)&~PieceIdMask&~BIT(AliceBoardA)&~PieceIdMask&~BIT(AliceBoardB))
       || CondFlag[masand]
       || (CondFlag[circe]
           && circe_variant.on_occupied_rebirth_square
