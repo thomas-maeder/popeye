@@ -1,4 +1,41 @@
 
+          Joost Michielsen
+      Andernach 2025, 2nd place
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R  -K   .  -Q   .  -B  -S  -R   8
+|                                   |
+7   .  -B  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6  -S  -P   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4  -R   .   .   .   .   .   .   .   4
+|                                   |
+3   S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   P   P   P   P   P   P   2
+|                                   |
+1   R   .   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia10.5                   16 + 16
+AliceA a8 d8 f8 g8 h8 c7 d7 e7 f7 g7 h7 b2 c2 d2 e2 f2 g2 h2 a1 c1 d1 e1 f1 g1 h1
+     AliceB b8 b7 a6 b6 a5 a4 a3
+             AliceChess
+
+  1.a2-a4B b7-b6B   2.a4-a5A Bc8-b7B   3.a5-a6B a7-a5B   4.Sb1-a3B Ra8-a4B   5.a6-a7A Sb8-a6B   6.a7-a8=RB Qd8-b8B   7.Ra8-a7A Ke8-d8B   8.Ra7-a2B Kd8-c8A   9.Ra1-a7B Qb8-d8A  10.Ra2-a1A Kc8-b8B  11.Ra7-a8A dia
+  add_to_move_generation_stack:     9766376
+                     play_move:     8254085
+ is_white_king_square_attacked:      570888
+ is_black_king_square_attacked:      490111
+
+solution finished.
+
+
+
     Thomas Maeder & Kjell Widlert
       Andernach 2025, 3rd place
 
