@@ -104,7 +104,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[influencer]
                 || CondFlag[series_capture]
                 || CondFlag[transmissionmenace]
-                || CondFlag[powertransfer]);
+                || CondFlag[powertransfer]
+                || CondFlag[alice]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
