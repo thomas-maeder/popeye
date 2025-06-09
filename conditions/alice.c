@@ -13,6 +13,7 @@
 #include "position/board.h"
 #include "position/effects/flags_change.h"
 #include "position/position.h"
+#include "pieces/walks/pawns/en_passant.h"
 
 #include "debugging/assert.h"
 #include "debugging/trace.h"
@@ -105,6 +106,9 @@ static void generate_all_moves_on_board_recursive(Flags boardMoving, square cons
     empty_square(*curr);
     generate_all_moves_on_board_recursive(boardMoving,curr+1);
     occupy_square(*curr,walk,flags);
+
+    TraceSquare(*curr);
+    TraceText("restored piece on square *curr\n");
   }
   else
     generate_all_moves_for_moving_side();
@@ -127,36 +131,68 @@ static void generate_all_moves_on_board(Flags boardMoving)
 
 static boolean not_illegal_for_piece_moving_from_board_B(numecoup n)
 {
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_generation_stack[n].departure);
+  TraceSquare(move_generation_stack[n].arrival);
+  TraceValue("%u",move_generation_stack[n].capture==kingside_castling);
+  TraceValue("%u",move_generation_stack[n].capture==queenside_castling);
+  TraceEOL();
+
   if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA))
-    return false;
+    result = false;
   else if (move_generation_stack[n].capture==kingside_castling
            || move_generation_stack[n].capture==queenside_castling)
   {
     square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
-    return !TSTFLAG(being_solved.spec[intermediate],AliceBoardA);
+    result = !TSTFLAG(being_solved.spec[intermediate],AliceBoardA);
   }
-  else if (move_generation_stack[n].capture>offset_en_passant_capture
-           && TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardA))
-    return false;
-  else
-    return true;
+  else if (en_passant_is_ep_capture(move_generation_stack[n].capture)
+           && (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB)
+               || !TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardB)))
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean not_illegal_for_piece_moving_from_board_A(numecoup n)
 {
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(move_generation_stack[n].departure);
+  TraceSquare(move_generation_stack[n].arrival);
+  TraceValue("%u",move_generation_stack[n].capture==kingside_castling);
+  TraceValue("%u",move_generation_stack[n].capture==queenside_castling);
+  TraceEOL();
+
   if (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardB))
-    return false;
+    result = false;
   else if (move_generation_stack[n].capture==kingside_castling
            || move_generation_stack[n].capture==queenside_castling)
   {
     square const intermediate = (move_generation_stack[n].departure+move_generation_stack[n].arrival)/2;
-    return !TSTFLAG(being_solved.spec[intermediate],AliceBoardB);
+    result = !TSTFLAG(being_solved.spec[intermediate],AliceBoardB);
   }
-  else if (move_generation_stack[n].capture>offset_en_passant_capture
-           && TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardB))
-    return false;
-  else
-    return true;
+  else if (en_passant_is_ep_capture(move_generation_stack[n].capture)
+           && (TSTFLAG(being_solved.spec[move_generation_stack[n].arrival],AliceBoardA)
+               || !TSTFLAG(being_solved.spec[move_generation_stack[n].capture-offset_en_passant_capture],AliceBoardA)))
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
