@@ -2,17 +2,6 @@ begin
 
 protocol alice.ref
 
-author Joost Michielsen
-origin Andernach 2025, 2nd place
-Stipulation dia10.5
-Pieces
-  white  Rh1a8a1 Sg1 Bf1c1 Ke1 Qd1 Ph2g2f2e2d2c2b2
-  white AliceB Sa3
-  black  Ph7g7f7e7d7c7 Rh8 Sg8 Bf8 Qd8
-  black AliceB Bb7 Pb6a5 Ra4 Kb8 Sa6
-
-next
-
 author Thomas Maeder & Kjell Widlert
 origin Andernach 2025, 3rd place
 pieces white ke5 pc2d3e6 white AliceB qd7 bh4 sa8 pb5c3e3f4
