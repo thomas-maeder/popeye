@@ -283,6 +283,7 @@ Kommandos:
 	AntiDeckungen
 	FrankfurtSchach
 	Leffie
+	AliceSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -397,6 +398,10 @@ Kommandos:
 
 	Nach Rollentausch kann die maximale Anzahl Rollentausche angegeben werden.
 	Ohne diese Angabe ist die Anzahl unlimitiert.
+
+	Bei AliceSchach sind alle Steine AliceA, die nicht explizit als AliceB
+	deklariert werden. Umgekehrt gilta automatisch AliceSchach, wenn Steine
+	als AliceA oder AliceB deklariert sind.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
@@ -1012,6 +1017,8 @@ aufwendiger ist das Kommando
 	AndaInvers
 	Bul
 	Dob
+	AliceA
+	AliceB
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
