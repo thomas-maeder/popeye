@@ -400,7 +400,7 @@ Kommandos:
 	Ohne diese Angabe ist die Anzahl unlimitiert.
 
 	Bei AliceSchach sind alle Steine AliceA, die nicht explizit als AliceB
-	deklariert werden. Umgekehrt gilta automatisch AliceSchach, wenn Steine
+	deklariert werden. Umgekehrt gilt automatisch AliceSchach, wenn Steine
 	als AliceA oder AliceB deklariert sind.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
