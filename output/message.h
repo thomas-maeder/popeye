@@ -146,6 +146,7 @@ typedef enum
   ParseForsythFailure                               = 125,
   PieceAdditionFailed                               = 126,
   TwoDisterReferenceSquaresRequired                 = 127,
+  MoveNumbersIncompatibleWithStipulation            = 128,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;
