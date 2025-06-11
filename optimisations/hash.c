@@ -1165,27 +1165,6 @@ static unsigned int estimateNumberOfHoles(void)
   return result;
 }
 
-static void ProofSmallEncodePiece(byte **bp,
-                                  unsigned int row, unsigned int col,
-                                  piece_walk_type p, Flags flags,
-                                  boolean *even)
-{
-  Side const side =  TSTFLAG(flags,White) ? White : Black;
-  byte encoded = (byte)p;
-  assert(!is_piece_neutral(flags));
-  assert(p < (1 << black_bit));
-  if (side==Black)
-    encoded |= 1 << black_bit;
-  if (*even)
-  {
-    **bp += encoded<<(CHAR_BIT/2);
-    ++*bp;
-  }
-  else
-    **bp = encoded;
-  *even = !*even;
-}
-
 static byte *CommonEncode(byte *bp,
                           stip_length_type min_length,
                           stip_length_type validity_value)
@@ -1386,19 +1365,68 @@ static byte *SmallEncodePiece(byte *bp,
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
-
   return bp;
+}
+
+static void ProofSmallEncodePiece(byte **bp,
+                                  unsigned int row, unsigned int col,
+                                  piece_walk_type p, Flags flags,
+                                  boolean *even)
+{
+  Side const side =  TSTFLAG(flags,White) ? White : Black;
+  byte encoded = (byte)p;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",row);
+  TraceFunctionParam("%u",col);
+  TraceWalk(p);
+  TraceValue("%x",flags);
+  TraceFunctionParamListEnd();
+
+  assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
+
+  if (side==Black)
+    encoded |= 1 << black_bit;
+
+  if (*even)
+  {
+    **bp += encoded<<(CHAR_BIT/2);
+    ++*bp;
+  }
+  else
+    **bp = encoded;
+
+  *even = !*even;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void ProofLargeEncodePiece(byte **bp,
                                   unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",row);
+  TraceFunctionParam("%u",col);
+  TraceWalk(p);
+  TraceValue("%x",flags);
+  TraceFunctionParamListEnd();
+
   **bp = (byte)p;
   ++*bp;
 
-  **bp = flags&COLOURFLAGS;
-  ++*bp;
+  for (i = 0; i<bytes_per_spec; i++)
+  {
+    **bp = (byte)((flags>>(CHAR_BIT*i)) & ByteMask);
+    ++*bp;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
@@ -1406,6 +1434,11 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
   byte *bp = position+nr_rows_on_board;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",validity_value);
+  TraceFunctionParamListEnd();
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board * sizeof *position);
@@ -1424,7 +1457,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
         if (p!=Empty)
         {
           Flags const flags = being_solved.spec[curr_square];
-          if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags))
+          if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags) || CondFlag[alice])
             ProofLargeEncodePiece(&bp,row,col,p,flags);
           else
             ProofSmallEncodePiece(&bp,row,col,p,flags,&even);
@@ -1457,6 +1490,9 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
 
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static unsigned int TellCommonEncodePosLeng(unsigned int len,

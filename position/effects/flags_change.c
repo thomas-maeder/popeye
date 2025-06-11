@@ -17,6 +17,12 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceSquare(on);
   TraceFunctionParamListEnd();
 
+  TraceValue("%x",being_solved.spec[on]);
+  TraceValue("%x",to);
+  TraceValue("%u",(unsigned int)GetPieceId(being_solved.spec[on]));
+  TraceValue("%u",(unsigned int)GetPieceId(to));
+  TraceEOL();
+
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
 
   entry->u.flags_change.on = on;

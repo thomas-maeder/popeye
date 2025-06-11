@@ -133,7 +133,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*124*/ "Un sauteur ne peu pas etre et Bul et Dob\n",
     /*125*/ "Position Forsyth pas reconnue, ou capacite de pieces epuisee\n",
     /*126*/ "Capacite de pieces epuisee\n",
-    /*127*/ "Exactement 2 cases de reference Dister doivent etre indiquees\n"
+    /*127*/ "Exactement 2 cases de reference Dister doivent etre indiquees\n",
+    /*128*/ "Enroute ou JusquAuCoup incompatible avec l'enonce\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -263,7 +264,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*124*/ "Ein Huepfer kann nicht sowohl Bul als auch Dob sein\n",
     /*125*/ "Forsyth-Position nicht erkannt, oder Steinkapazitaeat erschoepft\n",
     /*126*/ "Maximale Anzahl Steine überschritten\n",
-    /*127*/ "Es müssen genau 2 Dister-Referenzfelder angegeben werden\n"
+    /*127*/ "Es müssen genau 2 Dister-Referenzfelder angegeben werden\n",
+    /*128*/ "StartZugnummer oder BisZugnummer inkompatibel mit der Forderung\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -393,7 +395,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*124*/ "A hopper can not be both Bul and Dob\n",
     /*125*/ "Forsyth position not recognized, or pieces capacity exhausted\n",
     /*126*/ "Pieces capacity exhausted\n",
-    /*127*/ "Exactly 2 dister reference squares have to be indicated\n"
+    /*127*/ "Exactly 2 dister reference squares have to be indicated\n",
+    /*128*/ "StartMoveNumber or UpToMoveNumber incompatible with the stipulation\n"
   }
 };
 

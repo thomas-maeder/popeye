@@ -254,8 +254,9 @@ typedef enum
   halfinchess,            /* 233 */
   allinchess,             /* 234 */
   mainlyinchess,          /* 235 */
+  alice,                  /* 236 */
 
-  CondCount               /* 236 */
+  CondCount               /* 237 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

@@ -110,7 +110,7 @@ slice_type proof_make_goal_reachable_type(void)
    * allow any optimisation at all.
    */
   if (piece_walk_may_exist_fairy
-      || (some_pieces_flags&~PieceIdMask&~BIT(Royal))
+      || (some_pieces_flags&~PieceIdMask&~BIT(Royal)&~PieceIdMask&~BIT(AliceBoardA)&~PieceIdMask&~BIT(AliceBoardB))
       || CondFlag[masand]
       || (CondFlag[circe]
           && circe_variant.on_occupied_rebirth_square
@@ -304,12 +304,15 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 
 static boolean blocked_by_pawn(square sq)
 {
-  return (((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
-           && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White))
-           && PawnMovesNeeded(White,sq)>=current_length)
-          || ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
-              && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black))
-              && PawnMovesNeeded(Black,sq)>=current_length));
+  if (TSTFLAG(proofgames_target_position.spec[sq],AliceBoardA) || TSTFLAG(proofgames_target_position.spec[sq],AliceBoardB))
+    return false;
+  else
+    return (((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
+             && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White))
+             && PawnMovesNeeded(White,sq)>=current_length)
+            || ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
+                && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black))
+                && PawnMovesNeeded(Black,sq)>=current_length));
 }
 
 static void OfficerMovesFromTo(piece_walk_type p,
@@ -591,6 +594,9 @@ static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
                          &captures,
                          CapturesAllowed,
                          CapturesRequired);
+        if (CondFlag[alice]
+            && (moves%2)!=(TSTFLAG(being_solved.spec[from->sq[ifrom]],AliceBoardB)!=TSTFLAG(proofgames_target_position.spec[to->sq[ito]],AliceBoardB)))
+          ++moves;
         if (moves<current_length)
         {
           pl[ito].moves[pl[ito].Nbr] = moves;
@@ -644,6 +650,9 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
       {
         PawnMovesFromTo(camp,from->sq[ifrom],
                         to->sq[ito], &moves, &captures, CapturesAllowed);
+        if (CondFlag[alice]
+            && (moves%2)!=(TSTFLAG(being_solved.spec[from->sq[ifrom]],AliceBoardB)!=TSTFLAG(proofgames_target_position.spec[to->sq[ito]],AliceBoardB)))
+          ++moves;
         if (moves < current_length)
         {
           pl[ito].moves[pl[ito].Nbr]= moves;

@@ -66,6 +66,7 @@ static slice_index const move_slice_rank_order[] =
     STWormholeTransferer,
     STBeforePawnPromotion, /* transfered pawn */
     STLandingAfterPawnPromotion,
+    STAliceBoardChanger,
     STEnPassantAdjuster,
     STEinsteinEnPassantAdjuster,
     STFrischaufPromoteeMarker,
