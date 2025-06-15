@@ -228,7 +228,6 @@ static void impossible_king_placement_validation(void)
 void validate_king_placements(void)
 {
   Side const side_to_be_mated = Black;
-  Side const side_mating = White;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -263,13 +262,6 @@ void validate_king_placements(void)
     }
     else
       indistinct_king_placement_validation();
-  }
-  else if (being_solved.king_square[side_mating]==initsquare
-           && nr_total_invisbles_consumed()==total_invisible_number)
-  {
-    record_decision_outcome("%s","The king of the mating side can't be placed");
-    record_decision_result(previous_move_is_illegal);
-    REPORT_DEADEND;
   }
   else
     done_validating_king_placements();

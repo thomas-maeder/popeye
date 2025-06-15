@@ -96,3 +96,42 @@ Intelligent mode didn't find the solution
 solution finished.
 
 
+
+Popeye 4.93 found 1...Be1-f2   2.TI~-~ Ba8-b7   3.TI~-~ Bb7-h1   4.TI~*h1 TI~*g1[e2=wK][h1=bK][g1=wQ] #
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   B   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                2 + 1 + 3 TI
+
+  5  (Be1-f2 )
+  5:1  (TI~-~ )
+  5:1:18  (Ba8-b7 )
+  5:1:18:1  (TI~-~ )
+  5:1:18:1:13  (Bb7-h1 )
+  5:1:18:1:13:3  (TI~*h1 )
+  add_to_move_generation_stack:          80
+                     play_move:         157
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          11
+                  TI decisions:       13007
+
+solution finished.
+
+
