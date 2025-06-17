@@ -220,7 +220,7 @@ typedef struct
     boolean instrumented;
 } insertion_status_type;
 
-static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
+static void insert_guard_battle(slice_index si, stip_structure_traversal *st)
 {
   insertion_status_type * const status = st->param;
 
@@ -228,6 +228,7 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->level!=structure_traversal_level_nested)
   {
     slice_index const prototype = alloc_pipe(STRestartGuard);
     slice_insertion_insert(si,&prototype,1);
@@ -363,8 +364,8 @@ static void insert_guard_regular(slice_index si,
 
 static structure_traversers_visitor restart_guard_inserters[] =
 {
-  { STAttackAdapter,     &insert_guard_attack                   },
-  { STDefenseAdapter,    &stip_structure_visitor_noop           },
+  { STAttackAdapter,     &insert_guard_battle                   },
+  { STDefenseAdapter,    &insert_guard_battle                   },
   { STHelpAdapter,       &insert_guard_help                     },
   { STIntelligentFilter, &insert_guard_intelligent              },
   { STIntelligentProof,  &insert_guard_regular                  },

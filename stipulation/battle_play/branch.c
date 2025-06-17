@@ -276,6 +276,7 @@ static slice_index const slice_rank_order[] =
   STMove,
   STDummyMove,
   STDefensePlayed,
+  STRestartGuard,
   STOutputPlainTextZugzwangByDummyMoveCheckWriter,
   STOutputLaTeXZugzwangByDummyMoveCheckWriter,
   STCaptureCounter,
