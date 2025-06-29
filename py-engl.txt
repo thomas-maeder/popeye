@@ -1134,6 +1134,7 @@ sstipulation). A little bit more elaborate are the commands
         s3      (3,3)-Zigzag Nightrider (e.g. a1-b3-d4-e6-g7...)
         s4      (4,0)-Zigzag Nightrider (e.g. a1-c2-e1-g2...)
 	sa	saltador		Argentinian Knight
+	sc	scarabeus
 	se	senora			Argentinian Queen
 	sh      ship
 	si      sirene

@@ -1180,6 +1180,7 @@ aufwendiger ist das Kommando
 	sk      Skylla
 	so      Skorpion			Erlkoenig + Grashuepfer
 	sp      Spatz                           0,1+1,1 135 Grad Huepfer
+	sr	Skarabaeus
 	ss      Spiralspringer   
 	st      Stachel (Koenig + koeniglicher Grashuepfer)
 	t       Turm                            0,1 Reiter

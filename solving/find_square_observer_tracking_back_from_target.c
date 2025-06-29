@@ -217,7 +217,7 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*160*/   contrahamster_check,
 /*161*/   &eagle_equihopper_check,
 /*162*/   &eagle_nonstop_equihopper_check,
-/*163 */  hunter_check,
+/*163 */  scarabeus_check,
 /*164 */  hunter_check,
 /*165 */  hunter_check,
 /*166 */  hunter_check,
@@ -227,6 +227,7 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*170 */  hunter_check,
 /*171 */  hunter_check,
 /*172 */  hunter_check,
+/*173 */  hunter_check
 };
 
 void track_back_from_target_according_to_observer_walk(slice_index si)

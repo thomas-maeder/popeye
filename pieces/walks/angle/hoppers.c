@@ -54,18 +54,6 @@ static void angle_hoppers_generate_moves(vec_index_type kanf, vec_index_type ken
   TraceFunctionResultEnd();
 }
 
-static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
-                                                        vec_index_type vec_index_departure_hurdle,
-                                                        angle_t angle,
-                                                        validator_id evaluate)
-{
-  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
-  numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
-  square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
-
-  return EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target);
-}
-
 /* Is a particular square observed by a particular type of angle hopper?
  * @param kanf first vectors index
  * @param kend last vectors index
@@ -91,25 +79,48 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
        interceptable_observation[observation_context].vector_index1>=kanf;
        --interceptable_observation[observation_context].vector_index1)
   {
-    numvec const vec_hurdle_target = vec[interceptable_observation[observation_context].vector_index1];
-    square const sq_hurdle = sq_target+vec_hurdle_target;
+    vec_index_type const vec_departure_hurdle = vec[interceptable_observation[observation_context].vector_index1];
 
-    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
+      vec_index_type const k1 = 2*interceptable_observation[observation_context].vector_index1;
+      numvec const vec_hurdle_target = angle_vectors[angle][k1];
+      square const sq_hurdle = sq_target+vec_hurdle_target;
 
-      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
-      if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
-                                                   vec_index_departure_hurdle,
-                                                   angle,
-                                                   evaluate)
-          || angle_hoppers_is_square_observed_one_dir(sq_hurdle,
-                                                      vec_index_departure_hurdle-1,
-                                                      angle,
-                                                      evaluate))
+      TraceSquare(sq_hurdle);TraceEOL();
+
+      if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
       {
-        result = true;
-        break;
+        square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
+        TraceSquare(sq_departure);TraceEOL();
+
+        hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
+
+        if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
+        {
+          result = true;
+          break;
+        }
+      }
+    }
+    {
+      vec_index_type const k1 = 2*interceptable_observation[observation_context].vector_index1-1;
+      numvec const vec_hurdle_target = angle_vectors[angle][k1];
+      square const sq_hurdle = sq_target+vec_hurdle_target;
+
+      TraceSquare(sq_hurdle);TraceEOL();
+
+      if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+      {
+        square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
+        TraceSquare(sq_departure);TraceEOL();
+
+        hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
+
+        if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
+        {
+          result = true;
+          break;
+        }
       }
     }
   }
@@ -145,8 +156,7 @@ void rook_moose_generate_moves(void)
 
 boolean rookmoose_check(validator_id evaluate)
 {
-  /* these vector indices are correct - we are retracting along these vectors! */
-  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_45, evaluate);
+  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_45, evaluate);
 }
 
 /* Generated moves for an Bishop Moose
@@ -158,8 +168,7 @@ void bishop_moose_generate_moves(void)
 
 boolean bishopmoose_check(validator_id evaluate)
 {
-  /* these vector indices are correct - we are retracting along these vectors! */
-  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_45, evaluate);
+  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_45, evaluate);
 }
 
 /* Generated moves for an Eagle
@@ -219,8 +228,7 @@ void rook_sparrow_generate_moves(void)
 
 boolean rooksparrow_check(validator_id evaluate)
 {
-  /* these vector indices are correct - we are retracting along these vectors! */
-  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_135, evaluate);
+  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_135, evaluate);
 }
 
 /* Generated moves for a Bishop Sparrow
@@ -232,8 +240,19 @@ void bishop_sparrow_generate_moves(void)
 
 boolean bishopsparrow_check(validator_id evaluate)
 {
-  /* these vector indices are correct - we are retracting along these vectors! */
-  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_135, evaluate);
+  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_135, evaluate);
+}
+
+/* Generated moves for a scarabeus
+ */
+void scarabeus_generate_moves(void)
+{
+  angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_27);
+}
+
+boolean scarabeus_check(validator_id evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_27, evaluate);
 }
 
 /* Generated moves for a Marguerite

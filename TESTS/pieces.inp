@@ -200,5 +200,17 @@ title eagle nonstop equihoppers
 pieces white eng7d1 black kd4 pd2b3
 stip ~1
 
+next
+
+title scarabeus
+pieces white sce4 black pe6f4e3c4
+stip ~1
+
+next
+
+title scarabeus
+pieces white sce4 black pf5f3d3c6
+stip ~1
+
 end
 
