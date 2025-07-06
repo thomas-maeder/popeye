@@ -459,7 +459,7 @@ Kommandos:
 	bzw. RexExklusive:
 		traditionell:		Angabe mit Option(en):
 		SpiegelCirce		Circe Spiegel
-		PlatzwechselCirce	Circe PWC
+		PlatzwechselCirce	Circe Platzwechsel
 		CouscousCirce		Circe Couscous
 		ChamaeleonCirce		Circe Chamaeleon
 		EquipollentsCirce	Circe Equipollents
