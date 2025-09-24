@@ -1867,8 +1867,18 @@ HERE - TRY ROOK AND QUEEN AS WELL
             }
             else
             {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
+              /*TraceValue("skip on line:%u\n",__LINE__);
+              skip = true;*/
+              /*
+               * begin
+                 pieces white ke2 pc4 black ke8 bg7 pc5h5
+                 total 3
+                 stip h#3.5
+                 option movenumbers start 8:1:4:2:2:4:18 upto 8:1:4:2:2:4:18
+                 end
+
+                 look for other black capturers if Qb5*c5 Rd7*g7 Pd6-d5*c4 doesn't work
+               */
             }
           }
           break;
