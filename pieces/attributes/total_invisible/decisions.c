@@ -1879,7 +1879,18 @@ HERE - TRY ROOK AND QUEEN AS WELL
           {
             if (decision_level_properties[curr_level].ply
                 <backtracking[curr_level-1].ply_failure)
-              skip = true;
+            {
+              /*TraceValue("skip on line:%u\n",__LINE__);
+              skip = true;*/
+              /* begin
+pieces white kf1 pc4 black ke8 bg7 pc5h5
+total 3
+stip h#3
+option movenumbers start 17:4:17:3:10:2 upto 17:4:17:3:10:2
+end
+1.0-0 TI~*h5   2.Rf8-f6 TI~*f6   3.Kg8-h7 we have just tried 1.-Bg4*h5 and must now try Bf3*h5
+               */
+            }
             else
             {
               /* try harder.
