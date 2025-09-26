@@ -188,6 +188,7 @@ void backward_previous_move(void)
 
   TraceSquare(check_by_uninterceptable_delivered_from);
   TraceValue("%u",check_by_uninterceptable_delivered_in_ply);
+  TraceValue("%u",nbply);
   TraceEOL();
 
   if (check_by_uninterceptable_delivered_in_ply>=nbply)

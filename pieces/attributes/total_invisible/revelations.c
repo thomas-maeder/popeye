@@ -1200,7 +1200,11 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
         piece_walk_type const walk_on_board = get_walk_of_piece_on_square(revealed_on);
         Flags const spec_on_board = being_solved.spec[revealed_on];
 
-        TraceSquare(revealed_on);TraceEOL();
+        TraceSquare(revealed_on);
+        TraceWalk(walk_revealed);
+        TraceEnumerator(Side,side_revealed);
+        TraceWalk(walk_on_board);
+        TraceEOL();
 
         if (is_square_empty(revealed_on))
         {
@@ -1329,7 +1333,27 @@ static void forward_test_and_execute_revelations_recursive(move_effect_journal_i
 
           reveal_placed(entry);
 
-          assert(id_revealed==id_on_board);
+          TraceSquare(on);
+          TraceEOL();
+          TraceValue("%u",id_revealed);
+          TraceWalk(entry->u.revelation_of_placed_piece.walk_revealed);
+          TraceEOL();
+          TraceValue("%u",id_on_board);
+          TraceWalk(being_solved.board[on]);
+          TraceEOL();
+          TraceValue("%u",id_original);
+          TraceWalk(entry->u.revelation_of_placed_piece.walk_original);
+          TraceEOL();
+
+          /*
+           assert(id_revealed==id_on_board); doesn't hold:
+           *  begin
+              pieces white ke2 pc4 black ke8 bg7 pc5h5
+              total 3
+              stip h#3.5
+              option movenumbers start 1:16:4:2:4:1 upto 1:16:4:2:4:1
+              end
+           */
 
           /* the following distinction isn't strictly necessary, but it clarifies nicely
            * that the two ids may be, but aren't necessarily equal */

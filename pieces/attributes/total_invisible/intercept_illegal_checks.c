@@ -499,16 +499,9 @@ static void place_piece_of_side_on_square(Side side_in_check,
           };
           enum { nr_walks = sizeof walk_order_after_pawn / sizeof walk_order_after_pawn[0] };
 
-          boolean walk_ruled_out[Bishop+1] = { false };
-
           place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,Queen,done_protecting_king);
 
-          if (has_decision_failed_capture())
-          {
-            walk_ruled_out[Rook] = true;
-            walk_ruled_out[Bishop] = true;
-          }
-          else if (can_decision_level_be_continued())
+          if (!has_decision_failed_capture() && can_decision_level_be_continued())
             place_pawn_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,done_protecting_king);
 
           {
@@ -518,8 +511,7 @@ static void place_piece_of_side_on_square(Side side_in_check,
                  ++i)
             {
               piece_walk_type const walk = walk_order_after_pawn[i];
-              if (!walk_ruled_out[walk])
-                place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,walk,done_protecting_king);
+              place_piece_of_any_walk_of_side_on_square(side_in_check,king_in_check_pos,check_vectors,nr_check_vectors,side,pos,id_placed,walk,done_protecting_king);
             }
           }
         }

@@ -2235,13 +2235,19 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           else
           {
             /* we may be able to sacrifice ourselves, either to the capturing pawn or
@@ -2253,6 +2259,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -2271,7 +2278,10 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_move_vector:
@@ -2297,6 +2307,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -2322,10 +2333,27 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
-            skip = true;
+          {
+            /*TraceValue("skip on line:%u\n",__LINE__);
+            skip = true;*/
+            /*  begin
+                pieces white kc3 black ke8 re4 bf6 pb6g6 total 3
+                stip h#3
+                option movenum start 3:5:1:1:4:1 upto 3:5:1:1:4:1
+                end
+
+                begin
+                pieces white ke2 pc4 black ke8 bg7 pc5h5
+                total 3
+                stip h#3.5
+                option movenumbers start 1:17:4:24:1:3 upto 1:17:4:24:1:3
+                end
+             */
+          }
           break;
 
         case decision_object_random_move:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
 
