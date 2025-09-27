@@ -172,11 +172,11 @@ solution finished.
 a) 
 
   1...Qc1-f1   2.[+wTIg3]f4*g3 Qf1-f4   3.[+wTIh2]g3*h2 TI~*h2 #
-  add_to_move_generation_stack:     5558375
-                     play_move:    17948798
+  add_to_move_generation_stack:     5560794
+                     play_move:    17951817
  is_white_king_square_attacked:           2
- is_black_king_square_attacked:     4072619
-                  TI decisions:    50576903
+ is_black_king_square_attacked:     4075158
+                  TI decisions:    82405334
 
 b) bKh3-->f3  
 
@@ -185,7 +185,7 @@ b) bKh3-->f3
                      play_move:    17154354
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:     3816418
-                  TI decisions:    46655804
+                  TI decisions:    62992579
 
 solution finished.
 

@@ -1917,8 +1917,15 @@ end
           break;
 
         default:
-          TraceValue("skip on line:%u\n",__LINE__);
-          skip = true;
+          /*TraceValue("skip on line:%u\n",__LINE__);
+          skip = true;*/
+          /*  begin
+              pieces white ke2 pc4 black ke8 bg7 pc5h5
+              total 3
+              stip h#3.5
+              option movenumbers start 9:17:8:2:2:2 upto 9:17:8:2:2:2
+              end
+           */
           break;
       }
       break;
@@ -2245,8 +2252,15 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
           {
-            TraceValue("skip on line:%u\n",__LINE__);
-            skip = true;
+            /*TraceValue("skip on line:%u\n",__LINE__);
+            skip = true;*/
+            /*
+             *  begin
+                pieces white kc3 black ke8 re5 bf6 pb6g6 total 3
+                stip h#3
+                option movenumbers start 1:13:19:13:17 upto 1:13:19:13:17
+                end
+             * */
           }
           else
           {
@@ -2522,13 +2536,18 @@ boolean can_decision_level_be_continued(void)
 
       case backtrack_revelation:
         assert(backtracking[decision_top].max_level<decision_level_latest);
-        result = decision_top<backtracking[decision_top].max_level;
-        if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
+        /*begin
+          pieces white ke2 pc4 black ke8 bg7 pc5h5
+          total 3
+          stip h#3.5
+          option movenumbers start 2:1:5:5:4:8:1 upto 2:1:5:5:4:8:40
+          end
+         * if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
         {
           TraceValue("skip on line:%u\n",__LINE__);
           result = false;
         }
-        else
+        else*/
           result = true;
         break;
 
