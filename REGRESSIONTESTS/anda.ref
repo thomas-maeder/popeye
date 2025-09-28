@@ -967,10 +967,10 @@ shortened to first 3+2 half-moves
              AndaInverse
 
   1.Sb1-a3[=n] c7-c6[=n]   2.b2*a3[=n] Sb8*c6[=n]   3.Bc1*a3[=n] dia
-  add_to_move_generation_stack:     4916879
-                     play_move:     4951118
+  add_to_move_generation_stack:     4918365
+                     play_move:     4952604
  is_white_king_square_attacked:      252778
- is_black_king_square_attacked:     4835165
+ is_black_king_square_attacked:     4836614
 
 solution finished.
 

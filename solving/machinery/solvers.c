@@ -136,6 +136,7 @@
 #include "conditions/transmissionmenace.h"
 #include "conditions/powertransfer.h"
 #include "conditions/all_in_chess.h"
+#include "conditions/alice.h"
 #include "platform/maxtime.h"
 #include "conditions/shielded_kings.h"
 #include "solving/end_of_branch_tester.h"
@@ -247,8 +248,7 @@ void build_solvers1(slice_index si)
 
   /* must come before stip_insert_selfcheck_guards() because the set play
    * branch needs a selfcheck guard */
-  if (OptFlag[solapparent] && !OptFlag[startmovenumber]
-      && !solving_apply_setplay(si))
+  if (OptFlag[solapparent] && !solving_apply_setplay(si))
     output_plaintext_message(SetPlayNotApplicable);
 
   retro_instrument_solving_default(si);
@@ -306,6 +306,10 @@ void build_solvers1(slice_index si)
     maff_replace_immobility_testers(si);
   else if (CondFlag[OWU])
     owu_replace_immobility_testers(si);
+  else if (CondFlag[alice])
+  {
+    /* prevent king first optimisation - too complicated */
+  }
   else
     immobility_testers_substitute_king_first(si);
 
@@ -453,6 +457,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[breton])
     solving_insert_breton(si);
+
+  if (CondFlag[alice])
+    solving_insert_alice(si);
 
   if (CondFlag[champursue])
     solving_insert_chameleon_pursuit(si);
@@ -671,8 +678,8 @@ void build_solvers1(slice_index si)
 
   solving_remove_irrelevant_constraints(si);
 
-  if (OptFlag[movenbr])
-    solving_insert_restart_guards(si);
+  if (OptFlag[movenbr] && !solving_insert_restart_guards(si))
+    output_plaintext_message(MoveNumbersIncompatibleWithStipulation);
 
   solving_insert_continuation_solvers(si);
 

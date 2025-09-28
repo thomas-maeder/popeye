@@ -1,3 +1,5 @@
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(AUXILIARY)
+
 #include "debugging/assert.h"
 #include "options/movenumbers.h"
 #include "solving/move_generator.h"
@@ -7,7 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if defined(__GNUC__)
+#if !defined(ASSERT_IMPL_DECLARED)
+void assert_impl(char const *assertion, char const *file, int line, char const *func);
+#endif
 
 void assert_impl(char const *assertion, char const *file, int line, char const *func)
 {
@@ -27,5 +31,9 @@ void assert_impl(char const *assertion, char const *file, int line, char const *
   fprintf(stderr,"%s:%d: %s: Assertion `%s' failed.\n",file,line,func,assertion);
   exit(1);
 }
+
+#else
+
+extern unsigned char ASSERT_C_NONEMPTY_TRANSLATION_UNIT;
 
 #endif

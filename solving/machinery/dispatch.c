@@ -157,6 +157,7 @@
 #include "conditions/cast.h"
 #include "conditions/multicaptures.h"
 #include "conditions/all_in_chess.h"
+#include "conditions/alice.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -1155,6 +1156,18 @@ void dispatch(slice_index si)
     case STBretonApplier:
     case STBretonPopeyeApplier:
       breton_applier_solve(si);
+      break;
+
+    case STAliceBoardChanger:
+      alice_change_board_solve(si);
+      break;
+
+    case STAliceMoveGenerator:
+      alice_move_generator_solve(si);
+      break;
+
+    case STAliceSelfCheckGuard:
+      alice_self_check_guard_solve(si);
       break;
 
     case STCirceCaptureFork:

@@ -48,6 +48,7 @@ static slice_index const goal_slice_rank_order[] =
   STPiecesParalysingStalemateSpecial,
   STGoalCheckReachedTester,
   STSelfCheckGuard,
+  STAliceSelfCheckGuard,
   STOhneschachStopIfCheckAndNotMate,
   STMummerDeadend,
   STGoalNotCheckReachedTester,

@@ -3,6 +3,7 @@
 
 #include "pieces/pieces.h"
 #include "position/board.h"
+#include "debugging/assert.h"
 
 enum
 {
@@ -21,10 +22,7 @@ typedef unsigned long       PieceIdType;
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
 
-enum
-{
-  ENSURE_PIECEIDWIDTH_IS_LARGE_ENOUGH=1/!((MaxPieceId>>(PieceIdWidth-1u))>>1)
-};
+STATIC_ASSERT(!((MaxPieceId>>(PieceIdWidth-1u))>>1), "PieceIdWidth must be large enough.");
 
 extern square PiecePositionsInDiagram[MaxPieceId+1];
 

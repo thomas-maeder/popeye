@@ -278,6 +278,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	FrankfurtChess
 	AntiGuards
 	Leffie
+	AliceChess
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -380,6 +381,10 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	After RoleExchange, the maximum number of RoleExchanges can be indicated.
 	Without this indication, the number is unlimited.
+
+	In AliceChess, all pieces not explicitly declared as AliceB are AliceA.
+	If some pieces are declared AliceA or AliceB, condition AliceChess is
+	automatically active.
 	
 	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
 	PhantomChess and GenevaChess, a number of options can be indicated; the
@@ -972,6 +977,8 @@ sstipulation). A little bit more elaborate are the commands
 	AndaInverse
 	Bul
 	Dob
+	AliceA
+	AliceB
 
 	may be given. All the pieces given after this will have these
 	attributes. After this specification follows the list of
