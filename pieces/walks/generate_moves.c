@@ -703,6 +703,10 @@ void generate_moves_for_piece_based_on_walk(void)
       eagle_nonstop_equihopper_generate_moves();
       break;
 
+    case Scarabeus:
+      scarabeus_generate_moves();
+      break;
+
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */

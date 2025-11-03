@@ -62,6 +62,12 @@ void bishop_sparrow_generate_moves(void);
 
 boolean bishopsparrow_check(validator_id evaluate);
 
+/* Generated moves for a scarabeus
+ */
+void scarabeus_generate_moves(void);
+
+boolean scarabeus_check(validator_id evaluate);
+
 /* Generated moves for a Marguerite
  */
 void marguerite_generate_moves(void);

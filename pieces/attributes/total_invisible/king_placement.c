@@ -235,8 +235,9 @@ void validate_king_placements(void)
   TraceValue("%u",nbply);
   TraceEnumerator(Side,side_to_be_mated);
   TraceSquare(being_solved.king_square[side_to_be_mated]);
-  TraceConsumption();
   TraceEOL();
+
+  TraceConsumption();
 
   TracePosition(being_solved.board,being_solved.spec);
 

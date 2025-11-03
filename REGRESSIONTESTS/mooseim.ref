@@ -48,9 +48,9 @@ a) B ==> M
 b) Q ==> EA  
 
   add_to_move_generation_stack:        2010
-                     play_move:        1151
+                     play_move:        1152
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        1075
+ is_black_king_square_attacked:        1076
 
 solution finished.
 

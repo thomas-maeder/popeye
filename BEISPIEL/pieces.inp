@@ -378,5 +378,15 @@ steine Weiss Kd6 Tc4 Le7 Be6 ZRa3a8b7h6 AEd2d3h1
 forderung #2
 option vari
 
+weiteresproblem
+
+autor S\'ebastien Luce
+quelle Julia's Fairies 2016
+steine Weiss Sre3
+Schwarz Kf1 Tf4 Ld2h2 Sf5g3 Be2f2g2
+forderung ser-#19
+bedingung platzwechselcirce
+option ohnewk
+
 end
 

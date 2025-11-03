@@ -1154,6 +1154,7 @@ suivante est un peu plus compliquee:
 	so      scorpion
 	sp      superpion
 	sr      sauteur roi
+	ss	scarabee
 	st      sauterelle tour
 	su	sauteur feuille majeur
 	sv      sauteur cavalier

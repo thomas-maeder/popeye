@@ -5,6 +5,7 @@
 
 typedef enum
 {
+  angle_27, /* scarabeus */
   angle_45,
   angle_90,
   angle_135,
