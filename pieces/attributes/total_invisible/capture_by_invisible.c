@@ -301,7 +301,7 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
-  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_movement.movingspec);
+  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_addition.added.flags);
   motivation_type const motivation_inserted = motivation[id_inserted];
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
@@ -331,6 +331,8 @@ static void capture_by_invisible_with_matching_walk(piece_walk_type walk_capturi
 
   remember_taboos_for_current_move();
 
+  TraceValue("%u",precapture);
+  TraceValue("%x",move_effect_journal[precapture].u.piece_addition.added.flags);
   TraceValue("%u",id_inserted);
   TraceValue("%u",motivation[id_inserted].first.purpose);
   TraceValue("%u",motivation[id_inserted].first.acts_when);
@@ -808,7 +810,7 @@ static boolean capture_by_existing_invisible_on(square sq_departure)
   move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
 
   move_effect_journal_index_type const precapture = effects_base;
-  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_movement.movingspec);
+  PieceIdType const id_inserted = GetPieceId(move_effect_journal[precapture].u.piece_addition.added.flags);
 
   move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
