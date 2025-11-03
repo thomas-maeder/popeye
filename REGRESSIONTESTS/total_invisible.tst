@@ -93,7 +93,7 @@ solution finished.
                      play_move:       22164
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        6885
-                  TI decisions:      181641
+                  TI decisions:      187425
 
 solution finished.
 
@@ -209,7 +209,7 @@ this doesn't work if we overdo it with optimisations
                      play_move:       12928
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        7735
-                  TI decisions:       70258
+                  TI decisions:       73756
 
 solution finished.
 
@@ -244,7 +244,7 @@ capture by invisible pawn results in promotion
                      play_move:      576910
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:      146488
-                  TI decisions:      694792
+                  TI decisions:      694850
 
 solution finished.
 
@@ -278,7 +278,7 @@ random move by invisible pawn results in promotion
                      play_move:       11966
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2185
-                  TI decisions:       16604
+                  TI decisions:       16606
 
 solution finished.
 
