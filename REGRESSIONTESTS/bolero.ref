@@ -282,3 +282,39 @@ solution finished.
 solution finished.
 
 
+
+            Geoff Foster
+Anda Fairy Planet 2020-21, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  =B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .  =R   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 1 + 2n
+         Bolero RexInclusive
+
+  1.Kd5-h1 Kd7-h3   2.nRc6-g2 nRg2-e1 #
+  1.Kd5-g2 Kd7-d2   2.nRc6-f3 nRf3-g4 #
+  add_to_move_generation_stack:     1210287
+                     play_move:      418793
+ is_white_king_square_attacked:       49010
+ is_black_king_square_attacked:      417593
+
+solution finished.
+
+

@@ -303,7 +303,7 @@ simples:
 	CameleonSequence peut etre utilisee pour definir cet ordre pour
 	les cameleons indiques de facon explicite.
 
-	Apres Madrasi et TransfertPouvoir, on peut entrer le mot-cle
+	Apres Madrasi, TransfertPouvoir et Bolero, on peut entrer le mot-cle
 	"RexInclusif".
 
 	Pour la condition Isardam, on peut indiquer TypeB puis
