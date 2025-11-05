@@ -1,5 +1,6 @@
 #include "conditions/all_in_chess.h"
 #include "position/position.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -416,6 +417,77 @@ void all_in_chess_move_generator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static ply find_ply_with_potentially_repeated_position(void)
+{
+  ply result;
+  ply const parent = parent_ply[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (parent==ply_retro_move || trait[parent]==trait[nbply])
+    result = ply_nil;
+  else
+    result = parent_ply[parent];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean en_passant_modified_since_last_move_of_same_side(void)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    ply const ply_position_potentially_repeated = find_ply_with_potentially_repeated_position();
+
+    if (ply_position_potentially_repeated!=ply_nil)
+    {
+      assert(trait[nbply]==trait[ply_position_potentially_repeated]);
+
+      if (en_passant_was_multistep_played(ply_position_potentially_repeated))
+      {
+        TraceSquare(en_passant_multistep_over[en_passant_top[ply_position_potentially_repeated]]);TraceEOL();
+
+        if (en_passant_was_multistep_played(nbply))
+        {
+          /* en passant rights potentially modified */
+          TraceSquare(en_passant_multistep_over[en_passant_top[nbply]]);TraceEOL();
+          result = en_passant_multistep_over[en_passant_top[ply_position_potentially_repeated]]!=en_passant_multistep_over[en_passant_top[nbply]];
+        }
+        else
+        {
+          /* en passant rights lost */
+          result = true;
+        }
+      }
+      else
+      {
+        if (en_passant_was_multistep_played(nbply))
+        {
+          /* en passant rights added */
+          TraceSquare(en_passant_multistep_over[en_passant_top[nbply]]);TraceEOL();
+          result = true;
+        }
+        else
+        {
+          /* no en passant activity */
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -455,8 +527,13 @@ void all_in_chess_undo_move_avoider_solve(slice_index si)
     if (move_effect_journal[parent_movement].u.piece_movement.from==move_effect_journal[movement].u.piece_movement.to
         && move_effect_journal[parent_movement].u.piece_movement.to==move_effect_journal[movement].u.piece_movement.from
         && move_effect_journal[parent_movement].u.piece_movement.moving==move_effect_journal[movement].u.piece_movement.moving
-        && move_effect_journal[parent_movement].u.piece_movement.movingspec==move_effect_journal[movement].u.piece_movement.movingspec)
+        && move_effect_journal[parent_movement].u.piece_movement.movingspec==move_effect_journal[movement].u.piece_movement.movingspec
+        && !en_passant_modified_since_last_move_of_same_side())
+    {
+      TraceValue("%u",nbply);
+      TraceText("AllInChess deems this move illegal because it undoes the preceding move\n");
       solve_result = this_move_is_illegal;
+    }
     else
       pipe_solve_delegate(si);
   }
