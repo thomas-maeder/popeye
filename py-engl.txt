@@ -303,7 +303,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After Madrasi and PowerTransfer, you can enter "RexInclusive".
+	After Madrasi, PowerTransfer and Bolero, you can enter "RexInclusive".
 
 	After the Isardam condition, "TypeB" and then "RexInclusive" can be
 	specified.
