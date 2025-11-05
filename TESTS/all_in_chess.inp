@@ -1,0 +1,13 @@
+begin
+
+protocol all_in_chess.tst
+
+title 2.Kh1 is not a repetition of the previous position due to the lost ep rights
+author Joost de Heer
+pieces white kf1 ba8 pg2 black kh1 ph4
+stip #2
+condition allinchess
+option vari
+
+end
+
