@@ -43,5 +43,13 @@ pieces white kf4 rc3g2 bh2h7 sc5h3 pb4d2d3d6f5f7h5 black pc6d7 kh6
 stipulation ser-h#14
 condition boleroinverse rexincl
 
+next
+
+author Geoff Foster
+origin Anda Fairy Planet 2020-21, 1st prize
+pieces white kd7 black kd5 neutral rc6 ba8
+stip h#2
+condition bolero rexincl
+
 end
 

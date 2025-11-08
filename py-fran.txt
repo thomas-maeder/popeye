@@ -280,6 +280,7 @@ simples:
 	Antigardes
 	Francfort
 	Leffie
+	AliceEchecs
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -302,7 +303,7 @@ simples:
 	CameleonSequence peut etre utilisee pour definir cet ordre pour
 	les cameleons indiques de facon explicite.
 
-	Apres Madrasi et TransfertPouvoir, on peut entrer le mot-cle
+	Apres Madrasi, TransfertPouvoir et Bolero, on peut entrer le mot-cle
 	"RexInclusif".
 
 	Pour la condition Isardam, on peut indiquer TypeB puis
@@ -386,6 +387,10 @@ simples:
 
 	After EchangeRole, le nomber maximal d'EchnangeRoles peut etre
 	indique. Sans cette indication, le nombre n'est pas limite.
+
+	En AliceEchecs, toutes les pieces que ne sont pas declarees
+	AliceB sont implicitement AliceA. Si des pieces sont declarees
+	AliceA ou AliceB, AliceEchecs est implicitement active.
 	
 	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre
@@ -991,6 +996,8 @@ suivante est un peu plus compliquee:
 	AndaInverse
 	Bul
 	Dob
+	AliceA
+	AliceB
 
 	Suit la liste des pieces comme d'habitude: allure de la piece suivi par
 	une liste de cases ou une telle piece est placee. On peut toujours
@@ -1147,6 +1154,7 @@ suivante est un peu plus compliquee:
 	so      scorpion
 	sp      superpion
 	sr      sauteur roi
+	ss	scarabee
 	st      sauterelle tour
 	su	sauteur feuille majeur
 	sv      sauteur cavalier

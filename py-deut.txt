@@ -283,6 +283,7 @@ Kommandos:
 	AntiDeckungen
 	FrankfurtSchach
 	Leffie
+	AliceSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -309,8 +310,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi und KraftTransfer kann wahlweise noch "RexInklusive"
-	angegeben werden.
+	Nach Madrasi, KraftTransfer und Bolero kann wahlweise noch
+	"RexInklusive" angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden und anschliessend "RexInklusiv".
@@ -397,6 +398,10 @@ Kommandos:
 
 	Nach Rollentausch kann die maximale Anzahl Rollentausche angegeben werden.
 	Ohne diese Angabe ist die Anzahl unlimitiert.
+
+	Bei AliceSchach sind alle Steine AliceA, die nicht explizit als AliceB
+	deklariert werden. Umgekehrt gilt automatisch AliceSchach, wenn Steine
+	als AliceA oder AliceB deklariert sind.
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
@@ -454,7 +459,7 @@ Kommandos:
 	bzw. RexExklusive:
 		traditionell:		Angabe mit Option(en):
 		SpiegelCirce		Circe Spiegel
-		PlatzwechselCirce	Circe PWC
+		PlatzwechselCirce	Circe Platzwechsel
 		CouscousCirce		Circe Couscous
 		ChamaeleonCirce		Circe Chamaeleon
 		EquipollentsCirce	Circe Equipollents
@@ -1012,6 +1017,8 @@ aufwendiger ist das Kommando
 	AndaInvers
 	Bul
 	Dob
+	AliceA
+	AliceB
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
@@ -1173,6 +1180,7 @@ aufwendiger ist das Kommando
 	sk      Skylla
 	so      Skorpion			Erlkoenig + Grashuepfer
 	sp      Spatz                           0,1+1,1 135 Grad Huepfer
+	sr	Skarabaeus
 	ss      Spiralspringer   
 	st      Stachel (Koenig + koeniglicher Grashuepfer)
 	t       Turm                            0,1 Reiter

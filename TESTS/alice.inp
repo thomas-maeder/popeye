@@ -1,0 +1,58 @@
+begin
+
+protocol alice.tst
+
+title Alice Chess move generation and execution
+pieces white kd1 bh4 white AliceB pf4 black pg3 black AliceB pg5
+stipulation ~1
+option nobk
+
+next
+
+title Alice check only from same board
+pieces white pc3 white AliceB pe3 black kd5
+stip +1
+option nowk
+
+next
+
+title special check rule after king move
+pieces white ka1 black pa3
+stip ~1
+condition Alice
+option nobk
+
+next
+
+title no special check rule after non-king move
+pieces white pb6 black ka8
+stip +1
+condition Alice
+option nowk
+twin add white AliceB pb6
+
+next
+
+title castling transfers both partners
+pieces white ke1 ra1
+condition alice
+stip 001
+option nobk
+
+next
+
+title no castling if intermediate square is occupied on other board
+pieces white ke1 ra1 black aliceb sd1
+condition alice
+stip 001
+option nobk
+
+next
+
+title en passant capture only of pawns on same board
+pieces black alicea pe7 white pd5 white aliceb pf5
+stip hep1
+option nowk nobk
+
+end
+

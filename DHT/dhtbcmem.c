@@ -23,9 +23,7 @@
 #include "dhtbcmem.h"
 #include "dht.h"
 
-enum {
-  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof ((BCMemValue const *)NULL)->Data[0])
-};
+STATIC_ASSERT(1 == sizeof ((BCMemValue const *)NULL)->Data[0], "sizeof BCMemValue element must be 1.");
 
 static dhtHashValue ConvertBCMemValue(dhtKey m)
 {

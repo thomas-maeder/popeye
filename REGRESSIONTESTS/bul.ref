@@ -135,10 +135,10 @@ solution finished.
 
   1.bGf3-d3[wbGe3->a7] bGa7-c5[bbGb6->d4]   2.bGd3-g6[wbGf5->h7] bGc5-f5[wbGe5->h8]   3.Kg7-f6 bGh8-h6[wbGh7->h5] +   4.bGd4-g7[bKf6->h8] bGf5-h7[bbGg6->g8] #
   1.bGf3-d3[wbGe3->c3] bGf5-d5[wbGe5->c5]   2.bGd3-b3[wbGc3->a3] bGc5-a7[bbGb6->b2]   3.Kg7-f7 bGd5-g8[bKf7->a2] +   4.Ka2-a1 bGg8-a2[bbGb3->b1] #
-  add_to_move_generation_stack:   114596134
-                     play_move:    65903242
+  add_to_move_generation_stack:   108823262
+                     play_move:    62548462
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:    61605692
+ is_black_king_square_attacked:    58403010
 
 solution finished.
 
@@ -173,10 +173,10 @@ solution finished.
   1.bLId5-b3[bPc4->a2] Rd2-d5   2.bVAg8*d5[bBf7->e6] bLIf5-d7[bBe6->c8]   3.bPAd1*d6[wbVAd5->d3] + bLId7*d3[wbPAd6->d2] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->g8] #
   1.bLId5-d7[bPd6->d8] Bf7-d5   2.bPAd1*d5[bRd2->d3] bLIe3-b3[bRd3->a3]   3.bVAg8*c4[wbPAd5->e6] + bLIb3*e6[wbVAc4->f7] #
-  add_to_move_generation_stack:  2818501305
-                     play_move:   524898205
- is_white_king_square_attacked:   308765244
- is_black_king_square_attacked:   169947478
+  add_to_move_generation_stack:  2818297934
+                     play_move:   524873952
+ is_white_king_square_attacked:   308749072
+ is_black_king_square_attacked:   169938335
 
 solution finished.
 

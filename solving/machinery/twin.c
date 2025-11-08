@@ -293,6 +293,20 @@ static void initialise_piece_flags(void)
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
     SETFLAGMASK(some_pieces_flags,NeutralMask);
 
+  if (TSTFLAG(some_pieces_flags,AliceBoardA) || TSTFLAG(some_pieces_flags,AliceBoardB))
+    CondFlag[alice] = true;
+
+  if (CondFlag[alice])
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (!is_square_empty(*bnp) && !TSTFLAG(being_solved.spec[*bnp],AliceBoardB))
+        SETFLAG(being_solved.spec[*bnp],AliceBoardA);
+
+    SETFLAG(some_pieces_flags,AliceBoardA);
+    SETFLAG(some_pieces_flags,AliceBoardB);
+  }
+
   if (stipulation_are_pieceids_required()
       || CondFlag[backhome]
       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
@@ -2193,10 +2207,7 @@ static twin_label_type const TWIN_LABELS[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
 twin_label_type getTwinLabel(unsigned int const index) /* index should be in [0, numTwinLabels()-1] */
 {
   {
-    enum
-    {
-      ensure_we_have_enough_twin_labels = 1/(nr_twin_labels <= ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS)))
-    };
+    STATIC_ASSERT(nr_twin_labels <= ((sizeof TWIN_LABELS)/(sizeof *TWIN_LABELS)), "We must have enough twin labels.");
   }
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index);

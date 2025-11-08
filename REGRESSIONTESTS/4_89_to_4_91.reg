@@ -556,7 +556,7 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
                      play_move:      921472
  is_white_king_square_attacked:       60410
  is_black_king_square_attacked:       65819
-                  TI decisions:     8967760
+                  TI decisions:     9548924
 
 solution finished.
 
@@ -605,7 +605,7 @@ Popeye 4.89 didn't find this solution
                      play_move:         517
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:         170
-                  TI decisions:       14906
+                  TI decisions:       15076
 
 solution finished.
 
@@ -685,7 +685,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          98
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           4
-                  TI decisions:         420
+                  TI decisions:         617
 
 solution finished.
 
@@ -725,7 +725,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:         121
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           2
-                  TI decisions:         834
+                  TI decisions:         858
 
 solution finished.
 
@@ -805,7 +805,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          91
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           5
-                  TI decisions:         391
+                  TI decisions:         819
 
 solution finished.
 
@@ -844,7 +844,7 @@ an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ 
                      play_move:         218
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:          17
-                  TI decisions:         955
+                  TI decisions:        1400
 
 solution finished.
 
@@ -918,7 +918,7 @@ so far, Popeye hasn't found this solution
                      play_move:       25735
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4663
-                  TI decisions:       87587
+                  TI decisions:       93346
 
 solution finished.
 
@@ -1005,7 +1005,7 @@ an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*
                      play_move:         125
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
-                  TI decisions:         534
+                  TI decisions:        1287
 
 solution finished.
 

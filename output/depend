@@ -24,11 +24,11 @@ output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  stipulation/slice_insertion.h output/plaintext/plaintext.h \
  output/latex/latex.h position/position.h position/color.h \
  position/color.enum.h position/color.enum position/pieceid.h \
- pieces/walks/vectors.h position/castling_rights.h input/plaintext/twin.h \
- input/plaintext/token.h input/plaintext/language.h \
- solving/machinery/twin.h solving/move_effect_journal.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h
+ debugging/assert.h pieces/walks/vectors.h position/castling_rights.h \
+ input/plaintext/twin.h input/plaintext/token.h \
+ input/plaintext/language.h solving/machinery/twin.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h
 output/output.h:
 output/mode.h:
 output/mode.enum.h:
@@ -66,6 +66,7 @@ position/color.h:
 position/color.enum.h:
 position/color.enum:
 position/pieceid.h:
+debugging/assert.h:
 pieces/walks/vectors.h:
 position/castling_rights.h:
 input/plaintext/twin.h:
@@ -86,10 +87,10 @@ output/message$(OBJ_SUFFIX): output/message.c output/plaintext/message.h \
  output/mode.h output/mode.enum.h output/mode.enum \
  output/plaintext/language_dependant.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h pieces/walks/vectors.h position/castling_rights.h \
- conditions/conditions.h options/options.h input/plaintext/twin.h \
- input/plaintext/token.h conditions/mummer.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ position/pieceid.h debugging/assert.h pieces/walks/vectors.h \
+ position/castling_rights.h conditions/conditions.h options/options.h \
+ input/plaintext/twin.h input/plaintext/token.h conditions/mummer.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -106,8 +107,7 @@ output/message$(OBJ_SUFFIX): output/message.c output/plaintext/message.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h conditions/sentinelles.h \
- debugging/assert.h
+ conditions/circe/relevant_side.h conditions/sentinelles.h
 output/plaintext/message.h:
 output/message.h:
 input/plaintext/language.h:
@@ -132,6 +132,7 @@ position/color.h:
 position/color.enum.h:
 position/color.enum:
 position/pieceid.h:
+debugging/assert.h:
 pieces/walks/vectors.h:
 position/castling_rights.h:
 conditions/conditions.h:
@@ -167,4 +168,3 @@ conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 conditions/sentinelles.h:
-debugging/assert.h:

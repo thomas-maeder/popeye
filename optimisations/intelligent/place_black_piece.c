@@ -621,7 +621,6 @@ void intelligent_place_pinned_black_knight(slice_index si,
                                            square placed_on,
                                            void (*go_on)(slice_index si))
 {
-  Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
@@ -636,6 +635,7 @@ void intelligent_place_pinned_black_knight(slice_index si,
                                                    Knight,
                                                    placed_on))
   {
+    Flags const placed_flags = black[placed_index].flags;
     occupy_square(placed_on,Knight,placed_flags);
     (*go_on)(si);
     intelligent_unreserve();
@@ -650,7 +650,6 @@ void intelligent_place_black_knight(slice_index si,
                                     square placed_on,
                                     void (*go_on)(slice_index si))
 {
-  Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
@@ -665,12 +664,36 @@ void intelligent_place_black_knight(slice_index si,
                                                    Knight,
                                                    placed_on))
   {
+    Flags const placed_flags = black[placed_index].flags;
     occupy_square(placed_on,Knight,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
       (*go_on)(si);
     else
       intelligent_pin_black_piece(si,placed_on,go_on);
     intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intelligent_place_black_dummy(slice_index si,
+                                          unsigned int placed_index,
+                                          square placed_on,
+                                          void (*go_on)(slice_index si))
+{
+  square const placed_comes_from = black[placed_index].diagram_square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParamListEnd();
+
+  if (placed_comes_from==placed_on)
+  {
+    Flags const placed_flags = black[placed_index].flags;
+    occupy_square(placed_on,Dummy,placed_flags);
+    (*go_on)(si);
   }
 
   TraceFunctionExit(__func__);
@@ -711,6 +734,7 @@ void intelligent_place_black_piece(slice_index si,
       break;
 
     case Dummy:
+      intelligent_place_black_dummy(si,placed_index,placed_on,go_on);
       break;
 
     default:

@@ -328,6 +328,10 @@ static void write_flags_change(output_plaintext_move_context_type *context,
                 true);
       break;
 
+    case move_effect_reason_alice:
+      (context->engine->fputc)(TSTFLAG(move_effect_journal[curr].u.flags_change.to,AliceBoardA) ? 'A' : 'B',context->file);
+      break;
+
     default:
       break;
   }

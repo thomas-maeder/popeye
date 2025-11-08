@@ -138,10 +138,6 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
-/* TODO we should remove help hash slices instead of testing this flag over and
- * over */
-static boolean is_table_uncompressed;
-
 /* Minimal value of a hash table element.
  * compresshash() will remove all elements with a value less than
  * minimalElementValueAfterCompression, and increase
@@ -942,8 +938,6 @@ static void compresshash (void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  is_table_uncompressed = false;
-
   targetKeyCount = dhtKeyCount(pyhash);
   targetKeyCount -= targetKeyCount/16;
 
@@ -1171,27 +1165,6 @@ static unsigned int estimateNumberOfHoles(void)
   return result;
 }
 
-static void ProofSmallEncodePiece(byte **bp,
-                                  unsigned int row, unsigned int col,
-                                  piece_walk_type p, Flags flags,
-                                  boolean *even)
-{
-  Side const side =  TSTFLAG(flags,White) ? White : Black;
-  byte encoded = (byte)p;
-  assert(!is_piece_neutral(flags));
-  assert(p < (1 << black_bit));
-  if (side==Black)
-    encoded |= 1 << black_bit;
-  if (*even)
-  {
-    **bp += encoded<<(CHAR_BIT/2);
-    ++*bp;
-  }
-  else
-    **bp = encoded;
-  *even = !*even;
-}
-
 static byte *CommonEncode(byte *bp,
                           stip_length_type min_length,
                           stip_length_type validity_value)
@@ -1392,19 +1365,68 @@ static byte *SmallEncodePiece(byte *bp,
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
-
   return bp;
+}
+
+static void ProofSmallEncodePiece(byte **bp,
+                                  unsigned int row, unsigned int col,
+                                  piece_walk_type p, Flags flags,
+                                  boolean *even)
+{
+  Side const side =  TSTFLAG(flags,White) ? White : Black;
+  byte encoded = (byte)p;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",row);
+  TraceFunctionParam("%u",col);
+  TraceWalk(p);
+  TraceValue("%x",flags);
+  TraceFunctionParamListEnd();
+
+  assert(!is_piece_neutral(flags));
+  assert(p < (1 << black_bit));
+
+  if (side==Black)
+    encoded |= 1 << black_bit;
+
+  if (*even)
+  {
+    **bp += encoded<<(CHAR_BIT/2);
+    ++*bp;
+  }
+  else
+    **bp = encoded;
+
+  *even = !*even;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void ProofLargeEncodePiece(byte **bp,
                                   unsigned int row, unsigned int col,
                                   piece_walk_type p, Flags flags)
 {
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",row);
+  TraceFunctionParam("%u",col);
+  TraceWalk(p);
+  TraceValue("%x",flags);
+  TraceFunctionParamListEnd();
+
   **bp = (byte)p;
   ++*bp;
 
-  **bp = flags&COLOURFLAGS;
-  ++*bp;
+  for (i = 0; i<bytes_per_spec; i++)
+  {
+    **bp = (byte)((flags>>(CHAR_BIT*i)) & ByteMask);
+    ++*bp;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
@@ -1412,6 +1434,11 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
   byte *bp = position+nr_rows_on_board;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",validity_value);
+  TraceFunctionParamListEnd();
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board * sizeof *position);
@@ -1430,7 +1457,7 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
         if (p!=Empty)
         {
           Flags const flags = being_solved.spec[curr_square];
-          if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags))
+          if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags) || CondFlag[alice])
             ProofLargeEncodePiece(&bp,row,col,p,flags);
           else
             ProofSmallEncodePiece(&bp,row,col,p,flags,&even);
@@ -1463,6 +1490,9 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
 
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static unsigned int TellCommonEncodePosLeng(unsigned int len,
@@ -1916,8 +1946,6 @@ static void inithash(slice_index si)
 
   template_element.Data.unsigned_integer = 0;
   init_elements(&template_element);
-
-  is_table_uncompressed = true;     /* V3.60  TLi */
 
   dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
@@ -2802,13 +2830,7 @@ void help_hashed_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",solve_nr_remaining);
-  TraceEOL();
-
-  if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
-    help_hashed_solve_impl(si,si);
-  else
-    pipe_solve_delegate(si);
+  help_hashed_solve_impl(si,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2883,14 +2905,11 @@ void hash_opener_solve(slice_index si)
 void check_hash_assumptions(void)
 {
   {
-    enum
-    {
-      /* SmallEncode uses 1 byte for both row and file of a square */
-      ensure_nr_rows_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_rows_on_board<(1<<(CHAR_BIT/2))),
-      ensure_nr_files_on_board_lt_one_shifted_by_CHAR_BIT_over_two = 1/(nr_files_on_board<(1<<(CHAR_BIT/2))),
+    /* SmallEncode uses 1 byte for both row and file of a square */
+    STATIC_ASSERT(nr_rows_on_board<(1<<(CHAR_BIT/2)), "nr_rows_on_board must fit in half a char.");
+    STATIC_ASSERT(nr_files_on_board<(1<<(CHAR_BIT/2)), "nr_files_on_board must fit in half a char.");
 
-      /* LargeEncode() uses 1 bit per square */
-      ensure_nr_files_on_board_le_CHAR_BIT = 1/(nr_files_on_board<=CHAR_BIT)
-    };
+    /* LargeEncode() uses 1 bit per square */
+    STATIC_ASSERT(nr_files_on_board<=CHAR_BIT, "char must have at least one bit for each file.");
   }
 }

@@ -54,6 +54,9 @@ TARGETLIBS=-lwinmm
 # suffix for objects
 OBJ_SUFFIX=.obj
 
+# suffix for libraries
+LIB_SUFFIX=libwin64.a
+
 # Popeye executable file name stem
 EXE_PLATFORM_MARK=win64
 

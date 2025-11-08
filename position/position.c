@@ -82,10 +82,13 @@ void initialise_game_array(position *pos)
     else
     {
       Side const side = PAS_sides[i];
+      assert(side!=no_side);
       pos->board[square_i] = p;
       ++pos->number_of_pieces[side][p];
       SETFLAG(pos->spec[square_i],side);
-      SetPieceId(pos->spec[square_i],++pos->currPieceId);
+      ++pos->currPieceId;
+      assert(pos->currPieceId!=MaxPieceId);
+      SetPieceId(pos->spec[square_i],pos->currPieceId);
     }
   }
 

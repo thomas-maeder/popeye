@@ -21,6 +21,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
   TraceWalk(added);
+  TraceValue("%x",addedspec);
   TraceEnumerator(Side,for_side);
   TraceFunctionParamListEnd();
 

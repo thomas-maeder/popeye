@@ -282,7 +282,8 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','s'},   /* MoaSauteur */
     /*160*/ {'h','c'},   /* ContraHamster */
     /*161*/ {'a','e'},   /* EagleEquihopper */
-    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
+    /*162*/ {'a','q'},   /* EagleNonstopEquihopper */
+    /*163*/ {'s','s'}    /* scarabee */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -446,7 +447,8 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','h'},   /* MoaSauteur */
     /*160*/ {'h','k'},   /* KontraHamster */
     /*161*/ {'a','e'},   /* EagleEquihopper */
-    /*162*/ {'a','q'}    /* EagleNonstopEquihopper */
+    /*162*/ {'a','q'},   /* EagleNonstopEquihopper */
+    /*163*/ {'s','r'}    /* Skarabaeus */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -610,7 +612,8 @@ static PieTable PieNamString[LanguageCount] =
     /*159*/ {'o','h'},   /* MoaSauteur */
     /*160*/ {'h','c'},   /* ContraHamster */
     /*161*/ {'e','e'},   /* EagleEquihopper */
-    /*162*/ {'e','n'}    /* EagleNonstopEquihopper */
+    /*162*/ {'e','n'},   /* EagleNonstopEquihopper */
+    /*163*/ {'s','c'}    /* Scarabeus */
   }
 };
 
@@ -988,7 +991,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInverse",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "Alice"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1226,7 +1230,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInvers",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "AliceSchach"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1464,7 +1469,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*232*/ "AndaInverse",
     /*233*/ "HalfInChess",
     /*234*/ "AllInChess",
-    /*235*/ "MainlyInChess"
+    /*235*/ "MainlyInChess",
+    /*236*/ "AliceChess"
   }
 };
 
@@ -1537,7 +1543,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInverse"
+    "AndaInverse",
+    "AliceA",
+    "AliceB"
   },
   {
     /* German */
@@ -1558,7 +1566,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInvers"
+    "AndaInvers",
+    "AliceA",
+    "AliceB"
   },
   {
     /* English */
@@ -1579,7 +1589,9 @@ static char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
     "Bul",
     "Dob",
     "Anda",
-    "AndaInverse"
+    "AndaInverse",
+    "AliceA",
+    "AliceB"
   }
 };
 

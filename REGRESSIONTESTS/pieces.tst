@@ -1897,3 +1897,101 @@ both sides need a king
 solution finished.
 
 
+
+              scarabeus
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -P   .  SC  -P   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 4
+both sides need a king
+
+   1.SCe4-h3 !
+
+   1.SCe4-h5 !
+
+   1.SCe4-d8 !
+
+   1.SCe4-f8 !
+
+   1.SCe4-a5 !
+
+   1.SCe4-a3 !
+
+   1.SCe4-f1 !
+
+   1.SCe4-d1 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+              scarabeus
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .  SC   .   .   .   4
+|                                   |
+3   .   .   .  -P   .  -P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 4
+both sides need a king
+
+   1.SCe4-a7 !
+
+   1.SCe4-b8 !
+
+   1.SCe4-h6 !
+
+   1.SCe4-g7 !
+
+   1.SCe4-h2 !
+
+   1.SCe4-g1 !
+
+   1.SCe4-b2 !
+
+   1.SCe4-c1 !
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

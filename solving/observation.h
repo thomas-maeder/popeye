@@ -149,8 +149,11 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate);
 
 #if defined(DOTRACE)
 #define is_square_observed_recursive(si) \
-  dispatch(si), \
-  TraceValue("%u",observation_result), TraceEOL()
+  do { \
+    dispatch(si); \
+    TraceValue("%u",observation_result); \
+    TraceEOL(); \
+  } while (0)
 #else
 #define is_square_observed_recursive(si) dispatch(si)
 #endif

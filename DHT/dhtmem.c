@@ -24,9 +24,7 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-enum {
-  ENSURE_SIZE_OF_ELEMENT_IS_ONE = 1/(1 == sizeof NilMemVal->Data[0])
-};
+STATIC_ASSERT(1 == sizeof NilMemVal->Data[0], "sizeof BCMemValue element must be 1.");
 
 static dhtHashValue HashMemoryValue(dhtKey k)
 {

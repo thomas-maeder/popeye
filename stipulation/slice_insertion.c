@@ -771,6 +771,7 @@ static slice_index const slice_rank_order[] =
   STTotalInvisibleInvisiblesAllocator,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
+  STAliceSelfCheckGuard,
   STTotalInvisibleUninterceptableSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsWasShortSolutionFound,
@@ -869,6 +870,10 @@ void slice_insertion_insert_contextually(slice_index si,
 
   switch (context)
   {
+    case stip_traversal_context_intro:
+      slice_insertion_insert(si,prototypes,nr_prototypes);
+      break;
+
     case stip_traversal_context_attack:
       attack_branch_insert_slices(si,prototypes,nr_prototypes);
       break;

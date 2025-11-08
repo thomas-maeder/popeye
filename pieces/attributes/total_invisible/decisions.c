@@ -1867,8 +1867,18 @@ HERE - TRY ROOK AND QUEEN AS WELL
             }
             else
             {
-              TraceValue("skip on line:%u\n",__LINE__);
-              skip = true;
+              /*TraceValue("skip on line:%u\n",__LINE__);
+              skip = true;*/
+              /*
+               * begin
+                 pieces white ke2 pc4 black ke8 bg7 pc5h5
+                 total 3
+                 stip h#3.5
+                 option movenumbers start 8:1:4:2:2:4:18 upto 8:1:4:2:2:4:18
+                 end
+
+                 look for other black capturers if Qb5*c5 Rd7*g7 Pd6-d5*c4 doesn't work
+               */
             }
           }
           break;
@@ -1879,7 +1889,18 @@ HERE - TRY ROOK AND QUEEN AS WELL
           {
             if (decision_level_properties[curr_level].ply
                 <backtracking[curr_level-1].ply_failure)
-              skip = true;
+            {
+              /*TraceValue("skip on line:%u\n",__LINE__);
+              skip = true;*/
+              /* begin
+pieces white kf1 pc4 black ke8 bg7 pc5h5
+total 3
+stip h#3
+option movenumbers start 17:4:17:3:10:2 upto 17:4:17:3:10:2
+end
+1.0-0 TI~*h5   2.Rf8-f6 TI~*f6   3.Kg8-h7 we have just tried 1.-Bg4*h5 and must now try Bf3*h5
+               */
+            }
             else
             {
               /* try harder.
@@ -1896,8 +1917,15 @@ HERE - TRY ROOK AND QUEEN AS WELL
           break;
 
         default:
-          TraceValue("skip on line:%u\n",__LINE__);
-          skip = true;
+          /*TraceValue("skip on line:%u\n",__LINE__);
+          skip = true;*/
+          /*  begin
+              pieces white ke2 pc4 black ke8 bg7 pc5h5
+              total 3
+              stip h#3.5
+              option movenumbers start 9:17:8:2:2:2 upto 9:17:8:2:2:2
+              end
+           */
           break;
       }
       break;
@@ -2214,13 +2242,26 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_departure:
           if (decision_level_properties[curr_level].ply
               <backtracking[curr_level-1].ply_failure)
-            skip = true;
+          {
+            /*TraceValue("skip on line:%u\n",__LINE__);
+            skip = true;*/
+            /*
+             *  begin
+                pieces white kc3 black ke8 re5 bf6 pb6g6 total 3
+                stip h#3
+                option movenumbers start 1:13:19:13:17 upto 1:13:19:13:17
+                end
+             * */
+          }
           else
           {
             /* we may be able to sacrifice ourselves, either to the capturing pawn or
@@ -2232,6 +2273,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -2250,7 +2292,10 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
+          {
+            TraceValue("skip on line:%u\n",__LINE__);
             skip = true;
+          }
           break;
 
         case decision_object_move_vector:
@@ -2276,6 +2321,7 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
           break;
 
         default:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
       }
@@ -2301,10 +2347,27 @@ static boolean failure_to_capture_invisible_by_pawn_continue_level(decision_leve
              */
           }
           else
-            skip = true;
+          {
+            /*TraceValue("skip on line:%u\n",__LINE__);
+            skip = true;*/
+            /*  begin
+                pieces white kc3 black ke8 re4 bf6 pb6g6 total 3
+                stip h#3
+                option movenum start 3:5:1:1:4:1 upto 3:5:1:1:4:1
+                end
+
+                begin
+                pieces white ke2 pc4 black ke8 bg7 pc5h5
+                total 3
+                stip h#3.5
+                option movenumbers start 1:17:4:24:1:3 upto 1:17:4:24:1:3
+                end
+             */
+          }
           break;
 
         case decision_object_random_move:
+          TraceValue("skip on line:%u\n",__LINE__);
           skip = true;
           break;
 
@@ -2473,13 +2536,18 @@ boolean can_decision_level_be_continued(void)
 
       case backtrack_revelation:
         assert(backtracking[decision_top].max_level<decision_level_latest);
-        result = decision_top<backtracking[decision_top].max_level;
-        if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
+        /*begin
+          pieces white ke2 pc4 black ke8 bg7 pc5h5
+          total 3
+          stip h#3.5
+          option movenumbers start 2:1:5:5:4:8:1 upto 2:1:5:5:4:8:40
+          end
+         * if (decision_level_properties[decision_top+1].object==decision_object_move_vector)
         {
           TraceValue("skip on line:%u\n",__LINE__);
           result = false;
         }
-        else
+        else*/
           result = true;
         break;
 

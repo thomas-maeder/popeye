@@ -9,6 +9,7 @@
 #include "conditions/marscirce/phantom.h"
 #include "conditions/pepo.h"
 #include "conditions/multicaptures.h"
+#include "conditions/alice.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -245,6 +246,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = pepo_check_test_initialiser_is_in_check(si,side_in_check);
       break;
 
+    case STAliceCheckTestInitialiser:
+      result = alice_check_test_initialiser_is_in_check(si,side_in_check);
+      break;
+
     case STKingSquareObservationTester:
       result = king_square_observation_tester_is_in_check(si,side_in_check);
       break;
@@ -325,6 +330,7 @@ static slice_index const slice_rank_order[] =
     STFindAttack,
     STAttackTarget,
     STPepoCheckTestInitialiser,
+    STAliceCheckTestInitialiser,
     STKingSquareObservationTester,
     STExtinctionAllPieceObservationTester,
     STCirceAssassinAllPieceObservationTester,

@@ -569,7 +569,7 @@ static goal_type determine_goal_to_be_reached(slice_index si)
                                            &stip_traverse_structure_binary_operand1);
   stip_traverse_structure(si,&st);
 
-  TraceValue("%u",goal_to_be_reached);
+  TraceValue("%u",goal_to_be_reached);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -954,11 +954,8 @@ void intelligent_mode_support_detector_or(slice_index si,
     /* enumerators are ordered so that the weakest support has the
      * lowest enumerator etc. */
     {
-      enum
-      {
-        ensure_intelligent_not_supported_lt_intelligent_not_active_by_default = 1/(intelligent_not_supported<intelligent_not_active_by_default),
-        ensure_intelligent_not_active_by_default_lt_intelligent_active_by_default = 1/(intelligent_not_active_by_default<intelligent_active_by_default)
-      };
+      STATIC_ASSERT(intelligent_not_supported<intelligent_not_active_by_default, "intelligent_not_supported must be < intelligent_not_active by default.");
+      STATIC_ASSERT(intelligent_not_active_by_default<intelligent_active_by_default, "intelligent_not_active_by_defaultt must be < intelligent_active_by_default.");
     }
 
     stip_traverse_structure_binary_operand1(si,st);

@@ -1,0 +1,64 @@
+begin
+
+protocol alice.ref
+
+author Joost Michielsen
+origin Andernach 2025, 2nd place
+Stipulation dia10.5
+Pieces
+  white  Rh1a8a1 Sg1 Bf1c1 Ke1 Qd1 Ph2g2f2e2d2c2b2
+  white AliceB Sa3
+  black  Ph7g7f7e7d7c7 Rh8 Sg8 Bf8 Qd8
+  black AliceB Bb7 Pb6a5 Ra4 Kb8 Sa6 
+
+next
+
+author Thomas Maeder & Kjell Widlert
+origin Andernach 2025, 3rd place
+pieces white ke5 pc2d3e6 white AliceB qd7 bh4 sa8 pb5c3e3f4
+       black kb8 ba2 sd5 pd4e7 black AliceB ra4 ba7 pb6e4g6
+stip #3
+option try vari
+
+next
+
+author Manfred Rittirsch & Franz Pachl
+origin Andernach 2025, 4th place
+pieces white kh1 rg2 pe6g3g6 white AliceB bf7
+       black rd2e7 bd5g7 pd3g4 black AliceB kf8
+stip h#2
+twin move h1 h2
+
+next
+
+author Michel Caillaud
+origin Andernach 2025, 5th place
+pieces white ka1 qc5 white AliceB rc3 black AliceB ke5 pd2
+stip h#2
+
+next
+
+author Manfred Rittirsch & Franz Pachl
+origin Andernach 2025, 6th place
+pieces white AliceB kh5 rh4 bc8f4 sd7g4 black kd5 ra1 pc5f2g5g7 black AliceB bc7 se1 pa4c6d3g3
+stip h#2
+
+next
+
+author Ralf Kr\"atschmer & Franz Pachl & Manfred Rittirsch
+origin Andernach 2025, 7th place
+pieces white kd1 qd7 rh4 ba5 pa4d4d5d6e4f2 white AliceB sc6e6 pb3e2
+       black kd3 ra3g8 ba7b1 pb7f6 black AliceB sd8h6 pa6h3
+stipulation #2
+option try vari
+
+next
+
+author Michel Caillaud
+origin Andernach 2025, 8th place
+pieces white kf8 pd4f3 white AliceB ra4 bh1
+       black kd1 black AliceB rc1e1 ba3
+stip h#2.5
+
+end
+
