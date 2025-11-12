@@ -1,0 +1,80 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on a Unix-ish i386
+# platform (host) for x86_64 (target)
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - x86_64-apple-darwin24-gcc
+# - x86_64-apple-darwin24-ranlib
+# - x86_64-apple-darwin24-strip
+
+# Include "regular" gcc settings
+include toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on target
+CCTARGET=x86_64-apple-darwin24-gcc
+
+# Linker for creating executables on target
+LDTARGET=x86_64-apple-darwin24-gcc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=x86_64-apple-darwin24-strip
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER=x86_64-apple-darwin24-ar rv
+
+# Archive index generator
+ARCHIVE_INDEXER=x86_64-apple-darwin24-ranlib
+
+
+# Linker options
+# --------------
+
+# enumerate libraries to link
+TARGETLIBS=
+
+
+# Platform-specific file names and suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.o
+
+# suffix for libraries
+LIB_SUFFIX=libmacos-intel.a
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=macos-intel
+
+# suffix for executables
+EXE_SUFFIX=
+
+# This is a 64-bit platform
+DEFS += $(DEFINEMACRO)SIXTYFOUR
+
+
+# Meta information
+# ----------------
+OSTYPE=MacOS
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=unix
+
