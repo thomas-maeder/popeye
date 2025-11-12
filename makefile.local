@@ -6,9 +6,9 @@
 # ========================================
 
 INCLUDES = pylang.h
-SRC_CFILES =	pygmarr.c gengmarr.c
+SRC_CFILES =	pygmarr.c
 GENERATED_CFILES = pygmarr.c
-ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
+ALLCFILES  =    $(SRC_CFILES) gengmarr.c $(GENERATED_CFILES) DHT/*.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
