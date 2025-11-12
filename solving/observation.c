@@ -40,6 +40,7 @@
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/cast.h"
 #include "conditions/multicaptures.h"
+#include "conditions/immobilio.h"
 #include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -257,6 +258,10 @@ boolean validate_observation_recursive(slice_index si)
       result = madrasi_validate_observer(si);
       break;
 
+    case STImmobilioMovesForPieceGenerator:
+      result = immobilio_validate_observer(si);
+      break;
+
     case STPartialParalysisMovesForPieceGenerator:
       result = partial_paralysis_validate_observer(si);
       break;
@@ -426,6 +431,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STPointReflectionEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
+    STImmobilioMovesForPieceGenerator,
     STPartialParalysisMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
     STParalysingObserverValidator,
