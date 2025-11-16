@@ -85,10 +85,21 @@ vec_index_type is_rider_check_uninterceptable(Side side_checking, square king_po
 static boolean can_interceptor_be_allocated(void)
 {
   dynamic_consumption_type const save_consumption = current_consumption;
-  boolean result = allocate_flesh_out_unplaced(White);
-  current_consumption = save_consumption;
-  result = result || allocate_flesh_out_unplaced(Black);
-  current_consumption = save_consumption;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    result = being_solved.king_square[White]==initsquare || allocate_flesh_out_unplaced(White);
+    current_consumption = save_consumption;
+    result = result || being_solved.king_square[Black]==initsquare || allocate_flesh_out_unplaced(Black);
+    current_consumption = save_consumption;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
