@@ -556,7 +556,7 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
                      play_move:      921472
  is_white_king_square_attacked:       60410
  is_black_king_square_attacked:       65819
-                  TI decisions:     9548924
+                  TI decisions:    10072882
 
 solution finished.
 
@@ -605,7 +605,7 @@ Popeye 4.89 didn't find this solution
                      play_move:         517
  is_white_king_square_attacked:          30
  is_black_king_square_attacked:         170
-                  TI decisions:       15076
+                  TI decisions:       15436
 
 solution finished.
 
@@ -805,7 +805,7 @@ Popeye 4.89 considered this move sequence a solution
                      play_move:          91
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           5
-                  TI decisions:         819
+                  TI decisions:         835
 
 solution finished.
 
@@ -918,7 +918,7 @@ so far, Popeye hasn't found this solution
                      play_move:       25735
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        4663
-                  TI decisions:       93346
+                  TI decisions:       94729
 
 solution finished.
 
