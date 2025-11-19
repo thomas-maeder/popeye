@@ -6899,9 +6899,7 @@ conditions/all_in_chess$(OBJ_SUFFIX): conditions/all_in_chess.c \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h position/color.enum \
  position/pieceid.h debugging/assert.h pieces/walks/vectors.h \
- position/castling_rights.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/ply.h solving/observation.h \
- solving/temporary_hacks.h solving/fork.h solving/has_solution_type.h \
+ position/castling_rights.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/has_solution_type.enum \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -6914,10 +6912,11 @@ conditions/all_in_chess$(OBJ_SUFFIX): conditions/all_in_chess.c \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h stipulation/fork.h \
- solving/check.h debugging/measure.h output/plaintext/protocol.h \
- solving/post_move_iteration.h solving/move_generator.h \
- solving/conditional_pipe.h solving/pipe.h \
- solving/machinery/slack_length.h
+ solving/temporary_hacks.h solving/check.h debugging/measure.h \
+ output/plaintext/protocol.h solving/post_move_iteration.h \
+ solving/observation.h solving/ply.h solving/fork.h \
+ solving/move_generator.h solving/conditional_pipe.h solving/pipe.h \
+ solving/machinery/slack_length.h solving/move_effect_journal.h
 conditions/all_in_chess.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -6945,12 +6944,6 @@ position/pieceid.h:
 debugging/assert.h:
 pieces/walks/vectors.h:
 position/castling_rights.h:
-pieces/walks/pawns/en_passant.h:
-solving/move_effect_journal.h:
-solving/ply.h:
-solving/observation.h:
-solving/temporary_hacks.h:
-solving/fork.h:
 solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
@@ -6970,14 +6963,19 @@ stipulation/traversal.h:
 stipulation/branch.h:
 stipulation/move.h:
 stipulation/fork.h:
+solving/temporary_hacks.h:
 solving/check.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
 solving/post_move_iteration.h:
+solving/observation.h:
+solving/ply.h:
+solving/fork.h:
 solving/move_generator.h:
 solving/conditional_pipe.h:
 solving/pipe.h:
 solving/machinery/slack_length.h:
+solving/move_effect_journal.h:
 conditions/alice$(OBJ_SUFFIX): conditions/alice.c conditions/alice.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
