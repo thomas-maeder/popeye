@@ -1,0 +1,12 @@
+BeginProblem
+
+protocol 4_95_to_4_97.reg
+
+title Popeye <=4.95 didn't find the solutions 1.Qa4-g4 and 1.Qa4-b4
+author Eric Huber
+Pieces White Se5 Ke1 Black Qa4
+TotalInvisible 2
+Stipulation h#2
+
+EndProblem
+
