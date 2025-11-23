@@ -58,6 +58,7 @@ static slice_index const slice_rank_order[] =
     STPowerTransferMovesForPieceGenerator,
     STSingleBoxType3TMovesForPieceGenerator,
     STMadrasiMovesForPieceGenerator,
+    STImmobilioMovesForPieceGenerator,
     STPartialParalysisMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
     STDisparateMovesForPieceGenerator,
