@@ -158,6 +158,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/all_in_chess.h"
 #include "conditions/alice.h"
+#include "conditions/immobilio.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2482,6 +2483,10 @@ void dispatch(slice_index si)
 
     case STMadrasiMovesForPieceGenerator:
       madrasi_generate_moves_for_piece(si);
+      break;
+
+    case STImmobilioMovesForPieceGenerator:
+      immobilio_generate_moves_for_piece(si);
       break;
 
     case STPartialParalysisMovesForPieceGenerator:

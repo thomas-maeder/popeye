@@ -348,6 +348,7 @@
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STMadrasiMovesForPieceGenerator),                      \
+    ENUMERATOR(STImmobilioMovesForPieceGenerator),                    \
     ENUMERATOR(STPartialParalysisMovesForPieceGenerator),             \
     ENUMERATOR(STEiffelMovesForPieceGenerator),                       \
     ENUMERATOR(STDisparateMovesForPieceGenerator),                    \

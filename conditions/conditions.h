@@ -255,8 +255,9 @@ typedef enum
   allinchess,             /* 234 */
   mainlyinchess,          /* 235 */
   alice,                  /* 236 */
+  immobilio,              /* 237 */
 
-  CondCount               /* 237 */
+  CondCount               /* 238 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

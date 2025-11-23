@@ -137,8 +137,9 @@
 #include "conditions/powertransfer.h"
 #include "conditions/all_in_chess.h"
 #include "conditions/alice.h"
-#include "platform/maxtime.h"
+#include "conditions/immobilio.h"
 #include "conditions/shielded_kings.h"
+#include "platform/maxtime.h"
 #include "solving/end_of_branch_tester.h"
 #include "solving/dead_end.h"
 #include "stipulation/constraint.h"
@@ -788,6 +789,9 @@ void build_solvers2(slice_index si)
 
   if (CondFlag[madras])
     madrasi_initialise_solving(si);
+
+  if (CondFlag[immobilio])
+    immobilio_initialise_solving(si);
 
   if (CondFlag[partialparalysis])
     partial_paralysis_initialise_solving(si);
