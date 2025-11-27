@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define REPORT_DECISIONS
+//#define REPORT_DECISIONS
 
 static decision_level_type decision_top = decision_level_forever;
 
