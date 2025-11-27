@@ -26,11 +26,11 @@ Popeye <=4.95 didn't find the solutions 1.Qa4-g4 and 1.Qa4-b4
   1.Qa4-a5 0-0-0   2.Qa5-b4[c3=bK] Rd1-d3 #
   1.Qa4-g4 0-0[g3=bK]   2.Qg4-h4 Rf1-f3 #
   1.Qa4-c4 0-0-0[c3=bK]   2.Qc4-b4 Rd1-d3 #
-  add_to_move_generation_stack:      201707
-                     play_move:      200460
+  add_to_move_generation_stack:      201819
+                     play_move:      200476
  is_white_king_square_attacked:       19420
- is_black_king_square_attacked:       18620
-                  TI decisions:      425964
+ is_black_king_square_attacked:       18636
+                  TI decisions:      426191
 
 solution finished.
 
