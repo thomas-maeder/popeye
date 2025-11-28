@@ -130,7 +130,7 @@ Popeye 4.93 found 1...Be1-f2   2.TI~-~ Ba8-b7   3.TI~-~ Bb7-h1   4.TI~*h1 TI~*g1
                      play_move:         157
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          11
-                  TI decisions:       13007
+                  TI decisions:       13010
 
 solution finished.
 

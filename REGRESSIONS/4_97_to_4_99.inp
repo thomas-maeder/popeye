@@ -1,0 +1,11 @@
+begin
+
+protocol 4_97_to_4_99.reg
+
+title Until 4.97, Popeye found b) 1...TI~*g8   2.Kg7-h6 TI~*g6[g6=wQ] #, not taking into account 1.-Pf7*g8=R
+author Jonathan Mestel
+pieces white ka2 sh8 black kg7 rf8g8 pe7g6h6 total 1
+stipulation h#1.5
+twin remove h6
+end
+
