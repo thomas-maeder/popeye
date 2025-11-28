@@ -1,0 +1,45 @@
+
+           Jonathan Mestel
+Until 4.97, Popeye found b) 1...TI~*g8   2.Kg7-h6 TI~*g6[g6=wQ] #, not taking into account 1.-Pf7*g8=R
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -R  -R   S   8
+|                                   |
+7   .   .   .   .  -P   .  -K   .   7
+|                                   |
+6   .   .   .   .   .   .  -P  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                2 + 6 + 1 TI
+
+a) 
+
+  1...TI~*f8   2.Kg7*h8 TI~*h6[h6=wQ] #
+  add_to_move_generation_stack:        6091
+                     play_move:       14495
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        3938
+                  TI decisions:       33805
+
+b) -bPh6  
+
+  add_to_move_generation_stack:        4671
+                     play_move:       12266
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        3154
+                  TI decisions:       23207
+
+solution finished.
+
+

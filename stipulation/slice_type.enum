@@ -348,6 +348,7 @@
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STMadrasiMovesForPieceGenerator),                      \
+    ENUMERATOR(STImmobilioMovesForPieceGenerator),                    \
     ENUMERATOR(STPartialParalysisMovesForPieceGenerator),             \
     ENUMERATOR(STEiffelMovesForPieceGenerator),                       \
     ENUMERATOR(STDisparateMovesForPieceGenerator),                    \
@@ -635,7 +636,7 @@
     ENUMERATOR(STTotalInvisibleSpecialMoveGenerator),                   \
     ENUMERATOR(STTotalInvisibleMovesByInvisibleGenerator),              \
     ENUMERATOR(STTotalInvisibleSpecialMovesPlayer),                     \
-    ENUMERATOR(STTotalInvisibleReserveKingMovement),                    \
+    ENUMERATOR(STTotalInvisibleReserveAdditionalEffect),                \
     ENUMERATOR(STTotalInvisibleRevealAfterFinalMove),                   \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

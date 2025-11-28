@@ -554,6 +554,53 @@ static unsigned int capture_by_invisible_pawn_inserted_one_dir(PieceIdType id_in
   return result;
 }
 
+static unsigned int capture_by_invisible_pawn_inserted_promoted(void)
+{
+  unsigned result = 0;
+  move_effect_journal_index_type const effects_base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const precapture = effects_base;
+  Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
+  PieceIdType const id_inserted = GetPieceId(flags_inserted);
+  move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  move_effect_journal_index_type const movement = effects_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const pawn_promotion = movement+1;
+  piece_walk_type walk_promotee = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[pawn_promotion].type==move_effect_none);
+
+  move_effect_journal[pawn_promotion].type = move_effect_walk_change;
+  move_effect_journal[pawn_promotion].reason = move_effect_reason_pawn_promotion;
+  move_effect_journal[pawn_promotion].u.piece_walk_change.from = Pawn;
+  move_effect_journal[pawn_promotion].u.piece_walk_change.on = sq_capture;
+
+  while (walk_promotee!=Empty && can_decision_level_be_continued())
+  {
+    move_effect_journal[pawn_promotion].u.piece_walk_change.to = walk_promotee;
+
+    push_decision_walk(nbply,id_inserted,walk_promotee,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+
+    result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
+
+    if (can_decision_level_be_continued())
+      result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
+
+    pop_decision();
+
+    walk_promotee = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][walk_promotee];
+  }
+
+  move_effect_journal[pawn_promotion].type = move_effect_none;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static unsigned int capture_by_invisible_pawn_inserted(void)
 {
   unsigned result = 0;
@@ -568,15 +615,22 @@ static unsigned int capture_by_invisible_pawn_inserted(void)
     move_effect_journal_index_type const precapture = effects_base;
     Flags const flags_inserted = move_effect_journal[precapture].u.piece_addition.added.flags;
     PieceIdType const id_inserted = GetPieceId(flags_inserted);
+    move_effect_journal_index_type const capture = effects_base+move_effect_journal_index_offset_capture;
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
-    push_decision_walk(nbply,id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
+    if (TSTFLAG(sq_spec(sq_capture),trait[nbply]==White ? WhPromSq : BlPromSq))
+      result += capture_by_invisible_pawn_inserted_promoted();
+    else
+    {
+      push_decision_walk(nbply,id_inserted,Pawn,decision_purpose_invisible_capturer_inserted,trait[nbply]);
 
-    result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
+      result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_left);
 
-    if (can_decision_level_be_continued())
-      result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
+      if (can_decision_level_be_continued())
+        result += capture_by_invisible_pawn_inserted_one_dir(id_inserted,dir_right);
 
-    pop_decision();
+      pop_decision();
+    }
   }
 
   TraceFunctionExit(__func__);

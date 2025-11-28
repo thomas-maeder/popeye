@@ -158,6 +158,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/all_in_chess.h"
 #include "conditions/alice.h"
+#include "conditions/immobilio.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2275,8 +2276,8 @@ void dispatch(slice_index si)
       total_invisible_special_moves_player_solve(si);
       break;
 
-    case STTotalInvisibleReserveKingMovement:
-      total_invisible_reserve_king_movement(si);
+    case STTotalInvisibleReserveAdditionalEffect:
+      total_invisible_reserve_additional_effect(si);
       break;
 
     case STTotalInvisibleMovesByInvisibleGenerator:
@@ -2482,6 +2483,10 @@ void dispatch(slice_index si)
 
     case STMadrasiMovesForPieceGenerator:
       madrasi_generate_moves_for_piece(si);
+      break;
+
+    case STImmobilioMovesForPieceGenerator:
+      immobilio_generate_moves_for_piece(si);
       break;
 
     case STPartialParalysisMovesForPieceGenerator:
