@@ -2276,8 +2276,8 @@ void dispatch(slice_index si)
       total_invisible_special_moves_player_solve(si);
       break;
 
-    case STTotalInvisibleReserveKingMovement:
-      total_invisible_reserve_king_movement(si);
+    case STTotalInvisibleReserveAdditionalEffect:
+      total_invisible_reserve_additional_effect(si);
       break;
 
     case STTotalInvisibleMovesByInvisibleGenerator:

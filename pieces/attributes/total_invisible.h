@@ -67,7 +67,7 @@ void total_invisible_invisibles_allocator_solve(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_reserve_king_movement(slice_index si);
+void total_invisible_reserve_additional_effect(slice_index si);
 
 /* Instrument the solvers with support for Total Invisible pieces
  * @param si identifies the root slice of the stipulation

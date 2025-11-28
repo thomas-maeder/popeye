@@ -909,7 +909,7 @@ void total_invisible_move_sequence_tester_solve(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void total_invisible_reserve_king_movement(slice_index si)
+void total_invisible_reserve_additional_effect(slice_index si)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -928,7 +928,7 @@ void total_invisible_reserve_king_movement(slice_index si)
   else
   {
     /* reserve a spot in the move effect journal for the case that a move by an invisible
-     * turns out to move a side's king square
+     * turns out to move a side's king square or a pawn promotion
      */
     move_effect_journal_do_null_effect(move_effect_no_reason);
     pipe_solve_delegate(si);
@@ -1258,10 +1258,10 @@ static void copy_help_branch(slice_index si,
       slice_index const prototypes[] = {
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
-          alloc_pipe(STTotalInvisibleReserveKingMovement),
+          alloc_pipe(STTotalInvisibleReserveAdditionalEffect),
           alloc_pipe(STTotalInvisibleMovesByInvisibleGenerator),
           alloc_pipe(STTotalInvisibleSpecialMovesPlayer),
-          alloc_pipe(STTotalInvisibleReserveKingMovement)
+          alloc_pipe(STTotalInvisibleReserveAdditionalEffect)
       };
       enum { nr_protypes = sizeof prototypes / sizeof prototypes[0] };
       slice_insertion_insert(si,prototypes,nr_protypes);

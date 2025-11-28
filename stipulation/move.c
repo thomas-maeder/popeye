@@ -123,7 +123,7 @@ static slice_index const move_slice_rank_order[] =
     STLostPiecesRemover,
     STLandingAfterMovePlay,
     STMoveCounter,
-    STTotalInvisibleReserveKingMovement,
+    STTotalInvisibleReserveAdditionalEffect,
     STKingSquareUpdater,
     STBGLAdjuster,
     STKoekoLegalityTester,
