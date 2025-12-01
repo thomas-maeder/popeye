@@ -366,7 +366,7 @@ clean:	$(NESTEDLIBDIRS:%=%/clean)
 	rm -f pymain$(OBJ_SUFFIX)
 
 clobber:	clean
-		rm -f py$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
+		rm -f py$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(CLOBBERFILES) $(STRFILES)
 
 FORCE:
 
