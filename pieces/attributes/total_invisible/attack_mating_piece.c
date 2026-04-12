@@ -11,6 +11,7 @@
 #include "debugging/trace.h"
 
 square sq_mating_piece_to_be_attacked = initsquare;
+numvec vec_mating = 0;
 
 static void place_mating_piece_attacker(Side side_attacking,
                                         square s,
@@ -212,6 +213,53 @@ static void place_mating_piece_attacking_pawn(Side side_attacking,
   TraceFunctionResultEnd();
 }
 
+static void place_mating_line_attacking_pawn(Side side_attacking,
+                                             square sq_mating_line,
+                                             PieceIdType id_placed)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_mating_line);
+  TraceEnumerator(Side,side_attacking);
+  TraceFunctionParam("%u",id_placed);
+  TraceFunctionParamListEnd();
+
+  push_decision_walk(nbply,id_placed,Pawn,decision_purpose_mating_piece_attacker,side_attacking);
+
+  if (can_decision_level_be_continued())
+  {
+    square s = sq_mating_line+dir_up;
+
+    TraceSquare(s);TraceEOL();
+
+    if (get_walk_of_piece_on_square(s)==Pawn
+        && TSTFLAG(being_solved.spec[s],side_attacking))
+      use_accidental_attack_on_mating_piece(s);
+    else if (is_square_empty(s))
+      place_mating_piece_attacker(side_attacking,s,id_placed,Pawn);
+  }
+
+  if (can_decision_level_be_continued())
+  {
+    square s = sq_mating_line+dir_up+dir_up;
+
+    if (TSTFLAG(sq_spec(s),BlPawnDoublestepSq))
+    {
+      TraceSquare(s);TraceEOL();
+
+      if (get_walk_of_piece_on_square(s)==Pawn
+          && TSTFLAG(being_solved.spec[s],side_attacking))
+        use_accidental_attack_on_mating_piece(s);
+      else if (is_square_empty(s))
+        place_mating_piece_attacker(side_attacking,s,id_placed,Pawn);
+    }
+  }
+
+  pop_decision();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void attack_mating_piece(Side side_attacking,
                          square sq_mating_piece)
 {
@@ -247,6 +295,45 @@ void attack_mating_piece(Side side_attacking,
 
     if (can_decision_level_be_continued())
       place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece,id_placed);
+
+    TraceText("starting to attack mating line ");
+    TraceSquare(sq_mating_piece);
+    TraceEnumerator(Side,side_attacking);
+    TraceSquare(being_solved.king_square[side_attacking]);
+    TraceValue("%d",vec_mating);
+    TraceEOL();
+
+    {
+      square sq_intermediate;
+      for (sq_intermediate = sq_mating_piece+vec_mating;
+           sq_intermediate!=being_solved.king_square[side_attacking];
+           sq_intermediate += vec_mating)
+      {
+        if (can_decision_level_be_continued())
+          place_mating_piece_attacking_rider(side_attacking,
+                                             sq_intermediate,
+                                             Bishop,
+                                             vec_bishop_start,vec_bishop_end,
+                                             id_placed);
+
+        if (can_decision_level_be_continued())
+          place_mating_piece_attacking_rider(side_attacking,
+                                             sq_intermediate,
+                                             Rook,
+                                             vec_rook_start,vec_rook_end,
+                                             id_placed);
+
+        if (can_decision_level_be_continued())
+          place_mating_piece_attacking_leaper(side_attacking,
+                                              sq_intermediate,
+                                              Knight,
+                                              vec_knight_start,vec_knight_end,
+                                              id_placed);
+
+        if (can_decision_level_be_continued())
+          place_mating_line_attacking_pawn(side_attacking,sq_intermediate,id_placed);
+      }
+    }
 
     uninitialise_motivation(id_placed);
   }

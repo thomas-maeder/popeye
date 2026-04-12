@@ -131,6 +131,7 @@ static void attack_checks(void)
         TraceText("mate can be refuted by free TIs\n");
         mate_validation_result = mate_attackable;
         sq_mating_piece_to_be_attacked = sq_attacker;
+        vec_mating = -vec[k];
       }
       nbply = save_nbply;
       SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
