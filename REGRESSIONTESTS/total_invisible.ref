@@ -633,11 +633,11 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3413456
-                     play_move:     5916656
+  add_to_move_generation_stack:     3413684
+                     play_move:     5916906
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2094772
-                  TI decisions:     6340210
+ is_black_king_square_attacked:     2095010
+                  TI decisions:     6340201
 
 b) wSb5-->d7  
 
@@ -679,11 +679,11 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:     6858082
-                     play_move:    13993853
+  add_to_move_generation_stack:     6858458
+                     play_move:    13994273
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5801559
-                  TI decisions:    21108700
+ is_black_king_square_attacked:     5801946
+                  TI decisions:    21108744
 
 b) bPe5-->h3  
 
@@ -844,11 +844,11 @@ a)
   1.Ke4-f3 Bb5-d3   2.[+wTIf2]e3*f2 TI~*h5[h5=wS] #
   1.Ke4-f3 Bb5-c6   2.Kf3-e4 TI~*h5[h5=wR] #
   1.TI~-~ Bb5-c6   2.TI~*h3 TI~*h5[h5=wR] #
-  add_to_move_generation_stack:      721021
-                     play_move:     1372401
+  add_to_move_generation_stack:      721145
+                     play_move:     1372541
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      414758
-                  TI decisions:     1349238
+ is_black_king_square_attacked:      414886
+                  TI decisions:     1349254
 
 b) wKc2-->g6  
 

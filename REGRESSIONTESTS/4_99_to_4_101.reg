@@ -1,0 +1,40 @@
+
+Popeye 4.99 considered this a solution because it failed to "attack" the mating line with the free invisible
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                1 + 1 + 2 TI
+
+  2  (0-0 )
+  2:8  (Kg3-h3 )
+  2:8:14  (Kg1-f2 )
+  2:8:14:3  (Kh3-h2 )
+  2:8:14:3:13  (Kf2-f3 )
+  2:8:14:3:13:5  (Kh2-h3 )
+  2:8:14:3:13:5:7  (Rf1-h1 )
+  add_to_move_generation_stack:         114
+                     play_move:         109
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          16
+                  TI decisions:          19
+
+solution finished.
+
+
