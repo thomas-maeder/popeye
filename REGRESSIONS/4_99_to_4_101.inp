@@ -1,0 +1,11 @@
+begin
+
+protocol 4_99_to_4_101.reg
+
+title Popeye 4.99 considered this a solution because it failed to "attack" the mating line with the free invisible
+pieces white ke1 black kg3 total 2
+stip h#3.5
+option movenum start 2:8:14:3:13:5:7 upto 2:8:14:3:13:5:7 
+
+end
+
