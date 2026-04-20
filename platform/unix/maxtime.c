@@ -142,10 +142,6 @@ static void ReDrawBoard(int sig)
   */
   ReDrawPly(nbply);
   putchar('\n');
-
-#if !HAVE_SIGACTION
-  signal(sig,&ReDrawBoard);
-#endif /*!HAVE_SIGACTION*/
 }
 
 static void solvingTimeOver(int sig)
