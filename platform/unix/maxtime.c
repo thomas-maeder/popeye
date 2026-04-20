@@ -196,9 +196,6 @@ void platform_init(void)
   act.sa_handler = &solvingTimeOver; 
   if (sigaction(SIGALRM, &act, NULL))
     perror(__func__);
-  act.sa_handler = &ReDrawBoard; 
-  if (sigaction(SIGCONT,  &act, NULL))
-    perror(__func__);
 #else
 #if defined(HASHRATE)
   if (signal(SIGUSR1, &sigUsr1Handler) == SIG_ERR)
@@ -207,8 +204,6 @@ void platform_init(void)
     perror(__func__);
 #endif /*HASHRATE*/
   if (signal(SIGALRM, &solvingTimeOver) == SIG_ERR)
-    perror(__func__);
-  if (signal(SIGCONT, &ReDrawBoard) == SIG_ERR)
     perror(__func__);
 #endif /*HAVE_SIGACTION*/
 }
