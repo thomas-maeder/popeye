@@ -305,6 +305,8 @@ void append_to_table(table t)
   TraceValue("%u",number_of_tables);
   TraceEOL();
 
+  assert(number_of_tables>0);
+
   if (current_position[number_of_tables]>=tables_stack_size)
     output_plaintext_error_message(TooManySol);
   else
