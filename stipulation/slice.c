@@ -189,6 +189,7 @@ static slice_type const proxy_slice_types[] =
     STThreatStart,
     STThreatEnd,
     STTestingPrerequisites,
+    STMaxNrNonTrivialLanding,
     STMaxThreatLengthStart,
     STOutputModeSelector,
     STCirceConsideringRebirth,
