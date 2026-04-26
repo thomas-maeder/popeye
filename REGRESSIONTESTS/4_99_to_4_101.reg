@@ -38,3 +38,12 @@ Popeye 4.99 considered this a solution because it failed to "attack" the mating 
 solution finished.
 
 
+
+  add_to_move_generation_stack:        1596
+                     play_move:         437
+ is_white_king_square_attacked:         428
+ is_black_king_square_attacked:         199
+
+solution finished.
+
+
