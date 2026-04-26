@@ -7,5 +7,14 @@ pieces white ke1 black kg3 total 2
 stip h#3.5
 option movenum start 2:8:14:3:13:5:7 upto 2:8:14:3:13:5:7 
 
-end
+next
+
+title this would produce a segmentation fault from 4.69 to 4.99
+Stipulation s#4
+Option NoBoard Defence 1 NonTrivial 0 2
+Pieces
+  black  Kh8
+  white  Ka1
+
+EndProblem
 
