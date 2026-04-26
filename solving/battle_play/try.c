@@ -567,24 +567,6 @@ static void spin_off_from_refutations_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void connect_solver_to_tester(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->activity==stip_traversal_activity_solving)
-  {
-    assert(SLICE_TESTER(SLICE_PREV(si))!=no_slice);
-    SLICE_TESTER(si) = SLICE_NEXT1(SLICE_TESTER(SLICE_PREV(si)));
-  }
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitor const try_solver_inserters[] =
 {
   { STOutputModeSelector,   &filter_output_mode               },
@@ -592,8 +574,7 @@ static structure_traversers_visitor const try_solver_inserters[] =
   { STEndOfBranch,          &filter_complex_sstip             },
   { STNotEndOfBranch,       &insert_refutations_allocator     },
   { STContinuationSolver,   &insert_refutations_solver        },
-  { STRefutationsSolver,    &spin_off_from_refutations_solver },
-  { STRefutationsAllocator, &connect_solver_to_tester         }
+  { STRefutationsSolver,    &spin_off_from_refutations_solver }
 };
 
 enum
