@@ -287,7 +287,7 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
     fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
     exit(2); /* TODO: Do we have to exit here? */
   }
-  pipe_substitute(si,alloc_proxy_slice());
+  pipe_substitute(si,alloc_pipe(STMaxNrNonTrivialLanding));
   link_to_branch((*copies)[si],si);
 
   TraceFunctionExit(__func__);

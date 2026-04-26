@@ -722,9 +722,6 @@ void build_solvers1(slice_index si)
 
   solving_insert_setplay_solvers(si);
 
-  if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    solving_insert_try_solvers(si);
-
   if (!OptFlag[matesin1])
     solving_insert_trivial_variation_filters(si);
 
@@ -732,6 +729,9 @@ void build_solvers1(slice_index si)
 
   if (OptFlag[nontrivial])
     solving_insert_max_nr_nontrivial_guards(si);
+
+  if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+    solving_insert_try_solvers(si);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
     solving_insert_threat_handlers(si);
