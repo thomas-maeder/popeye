@@ -26,7 +26,7 @@ void andernach_assume_side(Side side);
  */
 void andernach_side_changer_solve(slice_index si);
 
-/* Instrument slices with move tracers
+/* Instrument slices with Andernach Chess
  */
 void solving_insert_andernach(slice_index si);
 
