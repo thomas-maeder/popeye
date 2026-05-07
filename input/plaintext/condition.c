@@ -54,6 +54,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/powertransfer.h"
 #include "conditions/take_and_make.h"
+#include "conditions/pad.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -2065,6 +2066,10 @@ char *ParseCond(char *tok)
           tok = ParseTakeMakeVariants(tok);
           break;
         }
+
+        case pad:
+          tok = ParseRexIncl(tok,&pad_is_rex_inclusive,CirceVariantRexInclusive);
+          break;
 
         default:
           break;

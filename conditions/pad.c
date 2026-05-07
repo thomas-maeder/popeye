@@ -10,6 +10,8 @@
 
 #include "debugging/assert.h"
 
+boolean pad_is_rex_inclusive;
+
 static boolean has_piece_captured[MaxPieceId+1];
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -38,14 +40,27 @@ void pad_bookkeeper_solve(slice_index si)
   {
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
+    PieceIdType const moving_id = GetPieceId(moving_spec);
 
     if (TSTFLAG(moving_spec,Royal))
-      pipe_solve_delegate(si);
+    {
+      if (pad_is_rex_inclusive)
+      {
+        if (has_piece_captured[moving_id])
+          solve_result = this_move_is_illegal;
+        else
+        {
+          has_piece_captured[moving_id] = true;
+          pipe_solve_delegate(si);
+          has_piece_captured[moving_id] = false;
+        }
+      }
+      else
+        pipe_solve_delegate(si);
+    }
     else
     {
-      PieceIdType const id = GetPieceId(moving_spec);
-
-      if (has_piece_captured[id])
+      if (has_piece_captured[moving_id])
       {
         square const to = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -56,9 +71,9 @@ void pad_bookkeeper_solve(slice_index si)
       }
       else
       {
-        has_piece_captured[id] = true;
+        has_piece_captured[moving_id] = true;
         pipe_solve_delegate(si);
-        has_piece_captured[id] = false;
+        has_piece_captured[moving_id] = false;
       }
     }
   }

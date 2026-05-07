@@ -810,14 +810,14 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/koeko/anti.h conditions/koeko/koeko.h conditions/madrasi.h \
  conditions/magic_square.h conditions/marscirce/marscirce.h \
  solving/observation.h solving/temporary_hacks.h solving/fork.h \
- solving/move_generator.h debugging/measure.h conditions/marscirce/anti.h \
- conditions/marscirce/phantom.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/protean.h \
- conditions/frankfurt.h conditions/republican.h conditions/sat.h \
- conditions/singlebox/type1.h \
+ solving/move_generator.h debugging/measure.h output/plaintext/protocol.h \
+ conditions/marscirce/anti.h conditions/marscirce/phantom.h \
+ conditions/messigny.h conditions/oscillating_kings.h \
+ conditions/protean.h conditions/frankfurt.h conditions/republican.h \
+ conditions/sat.h conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
  conditions/role_exchange.h conditions/multicaptures.h \
- conditions/powertransfer.h conditions/take_and_make.h \
+ conditions/powertransfer.h conditions/take_and_make.h conditions/pad.h \
  pieces/walks/pawns/en_passant.h solving/castling.h solving/pipe.h
 input/plaintext/condition.h:
 stipulation/stipulation.h:
@@ -916,6 +916,7 @@ solving/temporary_hacks.h:
 solving/fork.h:
 solving/move_generator.h:
 debugging/measure.h:
+output/plaintext/protocol.h:
 conditions/marscirce/anti.h:
 conditions/marscirce/phantom.h:
 conditions/messigny.h:
@@ -931,6 +932,7 @@ conditions/role_exchange.h:
 conditions/multicaptures.h:
 conditions/powertransfer.h:
 conditions/take_and_make.h:
+conditions/pad.h:
 pieces/walks/pawns/en_passant.h:
 solving/castling.h:
 solving/pipe.h:
@@ -974,9 +976,10 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  output/plaintext/message.h output/message.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/fork.h solving/move_generator.h \
- debugging/measure.h solving/castling.h solving/battle_play/try.h \
- utilities/table.h solving/duplex.h solving/pipe.h stipulation/pipe.h \
- stipulation/branch.h stipulation/modifier.h platform/beep.h
+ debugging/measure.h output/plaintext/protocol.h solving/castling.h \
+ solving/battle_play/try.h utilities/table.h solving/duplex.h \
+ solving/pipe.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/modifier.h platform/beep.h
 input/plaintext/option.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -1057,6 +1060,7 @@ solving/temporary_hacks.h:
 solving/fork.h:
 solving/move_generator.h:
 debugging/measure.h:
+output/plaintext/protocol.h:
 solving/castling.h:
 solving/battle_play/try.h:
 utilities/table.h:

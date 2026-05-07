@@ -615,7 +615,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/sat.h conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
  conditions/role_exchange.h conditions/multicaptures.h \
- conditions/powertransfer.h pieces/walks/hunters.h
+ conditions/powertransfer.h conditions/pad.h pieces/walks/hunters.h
 output/plaintext/condition.h:
 utilities/boolean.h:
 output/output.h:
@@ -723,6 +723,7 @@ conditions/woozles.h:
 conditions/role_exchange.h:
 conditions/multicaptures.h:
 conditions/powertransfer.h:
+conditions/pad.h:
 pieces/walks/hunters.h:
 output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  output/plaintext/position.h position/position.h position/board.h \
