@@ -37,22 +37,29 @@ void pad_bookkeeper_solve(slice_index si)
   if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
 
-    if (has_piece_captured[id])
-    {
-      square const to = move_effect_journal[movement].u.piece_movement.to;
-      PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-      square const final_destination_of_moving = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,to);
-
-      move_effect_journal_do_piece_removal(move_effect_reason_pad,final_destination_of_moving);
+    if (TSTFLAG(moving_spec,Royal))
       pipe_solve_delegate(si);
-    }
     else
     {
-      has_piece_captured[id] = true;
-      pipe_solve_delegate(si);
-      has_piece_captured[id] = false;
+      PieceIdType const id = GetPieceId(moving_spec);
+
+      if (has_piece_captured[id])
+      {
+        square const to = move_effect_journal[movement].u.piece_movement.to;
+        PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+        square const final_destination_of_moving = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,to);
+
+        move_effect_journal_do_piece_removal(move_effect_reason_pad,final_destination_of_moving);
+        pipe_solve_delegate(si);
+      }
+      else
+      {
+        has_piece_captured[id] = true;
+        pipe_solve_delegate(si);
+        has_piece_captured[id] = false;
+      }
     }
   }
   else
