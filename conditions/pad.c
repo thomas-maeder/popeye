@@ -142,6 +142,9 @@ void solving_insert_pad(slice_index si)
   if (pad_is_strict)
   {
     stip_instrument_moves(si,STPADStrict);
+    stip_instrument_check_validation(si,
+                                     nr_sides,
+                                     STValidateCheckMoveByPlayingCapture);
   }
   else
   {
