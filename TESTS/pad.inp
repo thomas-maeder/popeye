@@ -1,0 +1,12 @@
+begin
+
+protocol pad.tst
+
+title 2 strikes and you are out
+pieces white pa2 black pb3c4
+stip ser-Zc42
+condition pad
+option nowk nobk movenumbers start 3:1 upto 3:40
+
+end
+
