@@ -920,6 +920,8 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           break;
 
         case pad:
+          if (pad_is_strict)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantStrict]);
           if (pad_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;

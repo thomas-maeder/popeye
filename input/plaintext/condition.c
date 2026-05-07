@@ -820,6 +820,40 @@ static char *ParseTakeMakeVariants(char *tok)
   return tok;
 }
 
+static char *ParsePADVariants(char *tok)
+{
+  boolean done = false;
+
+  while (!done)
+  {
+    unsigned int const index = GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok);
+
+    if (index>=CirceVariantCount)
+      done = true;
+    else
+    {
+      switch (index)
+      {
+        case CirceVariantRexInclusive:
+          pad_is_rex_inclusive = true;
+          tok = ReadNextTokStr();
+          break;
+
+        case CirceVariantStrict:
+          pad_is_strict = true;
+          tok = ReadNextTokStr();
+          break;
+
+        default:
+          done = true;
+          break;
+      }
+    }
+  }
+
+  return tok;
+}
+
 /* parse the orthogonal grid lines from the current token
  * @param tok current token
  * @param file_numbers where to store file numbers
@@ -2068,7 +2102,7 @@ char *ParseCond(char *tok)
         }
 
         case pad:
-          tok = ParseRexIncl(tok,&pad_is_rex_inclusive,CirceVariantRexInclusive);
+          tok = ParsePADVariants(tok);
           break;
 
         default:

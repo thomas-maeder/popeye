@@ -1421,6 +1421,10 @@ void dispatch(slice_index si)
       pad_bookkeeper_solve(si);
       break;
 
+    case STPADStrict:
+      pad_strict_solve(si);
+      break;
+
     case STDarksideSideChanger:
       darkside_side_changer_solve(si);
       break;
