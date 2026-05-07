@@ -1,0 +1,13 @@
+begin
+
+protocol pad.ref
+
+author Andrew Buchanan
+origin Problem Paradise 111 2025
+pieces white Ke7 Rc5 Bd3 Pg3 black Kf5 Sb6d2 Pc6d5e4g4g5g7
+stipulation h#2
+condition pad 
+twin add black bg7
+
+end
+
