@@ -7423,7 +7423,8 @@ conditions/pad$(OBJ_SUFFIX): conditions/pad.c conditions/pad.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum stipulation/move.h \
+ solving/has_solution_type.enum solving/observation.h \
+ solving/temporary_hacks.h solving/fork.h stipulation/move.h \
  position/effects/piece_removal.h solving/move_effect_journal.h \
  position/effects/utils.h solving/pipe.h
 conditions/pad.h:
@@ -7470,6 +7471,9 @@ stipulation/traversal.h:
 solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
+solving/observation.h:
+solving/temporary_hacks.h:
+solving/fork.h:
 stipulation/move.h:
 position/effects/piece_removal.h:
 solving/move_effect_journal.h:

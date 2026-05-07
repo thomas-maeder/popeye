@@ -1,6 +1,7 @@
 #include "conditions/pad.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "position/effects/piece_removal.h"
@@ -93,6 +94,11 @@ void solving_insert_pad(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STPADBookKeeper);
+
+  if (pad_is_rex_inclusive)
+    stip_instrument_check_validation(si,
+                                     nr_sides,
+                                     STValidateCheckMoveByPlayingCapture);
 
   {
     PieceIdType p;

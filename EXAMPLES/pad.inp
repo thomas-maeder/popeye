@@ -9,5 +9,14 @@ stipulation h#2
 condition pad 
 twin add black bg7
 
+nextproblem
+
+author Andrew Buchanan
+origin Problem Paradise 111 2025
+pieces white kb2 re3 bf3g5 pa4c4c5e5g3g4 black kd4 pa5e6
+stipulation #2
+condition pad rexincl
+option vari
+
 end
 
