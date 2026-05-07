@@ -1,0 +1,45 @@
+
+           Andrew Buchanan
+      Problem Paradise 111 2025
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .  -P   .   7
+|                                   |
+6   .  -S  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   R  -P   .  -K  -P   .   5
+|                                   |
+4   .   .   .   .  -P   .  -P   .   4
+|                                   |
+3   .   .   .   B   .   .   P   .   3
+|                                   |
+2   .   .   .  -S   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 9
+              PADChess
+
+a) 
+
+  1.Sb6-c4 Bd3*c4   2.g7-g6 Bc4*d5[-wBd5] #
+  add_to_move_generation_stack:       73440
+                     play_move:       61237
+ is_white_king_square_attacked:        7725
+ is_black_king_square_attacked:       60920
+
+b) bBg7  
+
+  1.Sd2-c4 Rc5*c4   2.Bg7-e5 Rc4*e4[-wRe4] #
+  add_to_move_generation_stack:      148443
+                     play_move:      123791
+ is_white_king_square_attacked:       15994
+ is_black_king_square_attacked:      123284
+
+solution finished.
+
+
