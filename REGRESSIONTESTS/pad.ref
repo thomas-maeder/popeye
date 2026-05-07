@@ -85,3 +85,57 @@ solution finished.
 solution finished.
 
 
+
+         Hiroaki␙Maeshima
+      Problem Paradise 111 2025
+               cooked
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   Q   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .  -P   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   B   .  -K   .   4
+|                                   |
+3   .   .   .   P   K  -P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        4 + 6
+        PADChess RexInclusive
+
+a) 
+
+  1.Be4-g6 e5-e4   2.Ke3*e4 Rg1-g3   3.Qh8-h5 + Kg4-f4 #
+  1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g2 #
+  1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g3 #
+  add_to_move_generation_stack:    17021880
+                     play_move:     8314165
+ is_white_king_square_attacked:     5782578
+ is_black_king_square_attacked:     3591767
+
+b) wBe4-->f2  
+
+  1.Bf2-g3 f3-f2   2.Ke3*f2 Be6-f5   3.Qh8-h4 + Kg4-f3 #
+  1.Ke3-e4 Rg1-a1   2.Ke4*e5 Ra1-a6   3.Qh8-h4 + Kg4-f5 #
+  1.Ke3-e4 Rg1-b1   2.Ke4*e5 Rb1-b6   3.Qh8-h4 + Kg4-f5 #
+  1.Ke3-e4 Rg1-d1   2.Ke4*e5 Rd1*d3   3.Qh8-h4 + Kg4-f5 #
+  1.Qh8-f6 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qf6-h4 + Kh3-g2 #
+  1.Qh8-d8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qd8-h4 + Kh3-g2 #
+  1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g2 #
+  add_to_move_generation_stack:    11231296
+                     play_move:     5656143
+ is_white_king_square_attacked:     3903276
+ is_black_king_square_attacked:     2435098
+
+solution finished.
+
+

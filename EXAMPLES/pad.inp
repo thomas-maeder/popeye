@@ -18,5 +18,15 @@ stipulation #2
 condition pad rexincl
 option vari
 
+next
+
+author Hiroaki␙Maeshima
+origin Problem Paradise 111 2025
+title cooked
+pieces white Ke3 Qh8 Be4 Pd3 black Kg4 Rg1 Be6 Pc5e5f3
+stipulation hs#3
+condition pad rexincl
+twin move e4 f2
+
 end
 
