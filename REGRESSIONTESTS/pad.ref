@@ -43,3 +43,45 @@ b) bBg7
 solution finished.
 
 
+
+           Andrew Buchanan
+      Problem Paradise 111 2025
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5  -P   .   P   .   P   .   B   .   5
+|                                   |
+4   P   .   P  -K   .   .   P   .   4
+|                                   |
+3   .   .   .   .   R   B   P   .   3
+|                                   |
+2   .   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 3
+        PADChess RexInclusive
+
+   1.Re3-b3 ! zugzwang.
+      1...Kd4*e5
+          2.Bg5-f6 #
+      1...Kd4*c5
+          2.Bg5-e3 #
+      1...Kd4*c4
+          2.Kb2-c3 #
+
+  add_to_move_generation_stack:        1814
+                     play_move:        1439
+ is_white_king_square_attacked:          94
+ is_black_king_square_attacked:        1272
+
+solution finished.
+
+
