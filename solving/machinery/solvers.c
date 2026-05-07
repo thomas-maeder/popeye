@@ -139,6 +139,7 @@
 #include "conditions/alice.h"
 #include "conditions/immobilio.h"
 #include "conditions/shielded_kings.h"
+#include "conditions/pad.h"
 #include "platform/maxtime.h"
 #include "solving/end_of_branch_tester.h"
 #include "solving/dead_end.h"
@@ -449,6 +450,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[andernach])
     solving_insert_andernach(si);
+
+  if (CondFlag[pad])
+    solving_insert_pad(si);
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
