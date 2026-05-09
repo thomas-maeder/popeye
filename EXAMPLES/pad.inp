@@ -2,7 +2,7 @@ begin
 
 protocol pad.ref
 
-author Andrew Buchanan
+author Hiroaki Maeshima
 origin Problem Paradise 111 2025
 pieces white Ke7 Rc5 Bd3 Pg3 black Kf5 Sb6d2 Pc6d5e4g4g5g7
 stipulation h#2
@@ -11,7 +11,7 @@ twin add black bg7
 
 nextproblem
 
-author Andrew Buchanan
+author Hiroaki Maeshima
 origin Problem Paradise 111 2025
 pieces white kb2 re3 bf3g5 pa4c4c5e5g3g4 black kd4 pa5e6
 stipulation #2
