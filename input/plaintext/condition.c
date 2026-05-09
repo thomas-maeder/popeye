@@ -824,6 +824,9 @@ static char *ParsePADVariants(char *tok)
 {
   boolean done = false;
 
+  pad_is_rex_inclusive = false;
+  pad_is_strict = false;
+
   while (!done)
   {
     unsigned int const index = GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok);

@@ -33,7 +33,7 @@ next
 author Tadashi Wakashima
 pieces white kf6 rd7 black kg8
 stipulation #2
-condition pad strict
+condition pad strict rexincl
 option vari
 
 next
@@ -41,7 +41,7 @@ next
 author Tadashi Wakashima
 pieces white kf5 re8 pg7 black kh6 bh8
 stipulation h#1
-condition PAD strict
+condition PAD strict rexincl
 
 end
 
