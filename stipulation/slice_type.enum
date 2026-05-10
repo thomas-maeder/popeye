@@ -366,6 +366,7 @@
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STCentralObservationValidator),                        \
     ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
+    ENUMERATOR(STDangerCirceMovesForPieceGenerator),                  \
     ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STOpponentMovesCounterFork),                           \
     ENUMERATOR(STOpponentMovesCounter),                               \

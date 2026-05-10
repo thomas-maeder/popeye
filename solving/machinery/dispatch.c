@@ -160,6 +160,7 @@
 #include "conditions/alice.h"
 #include "conditions/immobilio.h"
 #include "conditions/pad.h"
+#include "conditions/danger_circe.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -2545,6 +2546,10 @@ void dispatch(slice_index si)
 
     case STBeamtenMovesForPieceGenerator:
       beamten_generate_moves_for_piece(si);
+      break;
+
+    case STDangerCirceMovesForPieceGenerator:
+      danger_circe_generate_moves_for_piece(si);
       break;
 
     case STMarsCirceMoveGeneratorEnforceRexInclusive:

@@ -1,0 +1,15 @@
+begin
+
+protocol danger_circe.ref
+
+author Mario Parrinello
+origin Gentilly 2024, 2nd Commendation
+
+pieces white kh6 ra1e8 pd7e3e4e5 black kd2 ra5 bf6 sf1g3 pa3a4a6a7c2c3
+stipulation h#2
+condition dangercirce
+twin exchange a5 a6
+twin exchange a5 a4
+
+end
+

@@ -1,0 +1,53 @@
+
+          Mario Parrinello
+   Gentilly 2024, 2nd Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   R   .   .   .   8
+|                                   |
+7  -P   .   .   P   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .  -B   .   K   6
+|                                   |
+5  -R   .   .   .   P   .   .   .   5
+|                                   |
+4  -P   .   .   .   P   .   .   .   4
+|                                   |
+3  -P   .  -P   .   P   .  -S   .   3
+|                                   |
+2   .   .  -P  -K   .   .   .   .   2
+|                                   |
+1   R   .   .   .   .  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        7 + 11
+             DangerCirce
+
+a) 
+
+  1.Sf1*e3 e5-e2   2.Se3-d5 e4*d5 #
+  add_to_move_generation_stack:    10989526
+                     play_move:      347842
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bRa5<-->bPa6  
+
+  1.Sg3*e4 e3-e2   2.Se4-d6 e5*d6 #
+  add_to_move_generation_stack:     9619907
+                     play_move:      301970
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) bRa5<-->bPa4  
+
+  1.Bf6*e5 e4-e2   2.Be5-d4 e3*d4 #
+  add_to_move_generation_stack:    10933586
+                     play_move:      345698
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
