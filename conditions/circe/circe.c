@@ -206,7 +206,7 @@ circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
 
 static circe_variant_type const circe_variant_default = {
     .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed,
-    .do_place_reborn = true,
+    .reborn_placer = STCircePlaceReborn,
     .rebirth_reason = move_effect_reason_rebirth_no_choice,
     .anticirce_type = anticirce_type_count
 };
@@ -505,7 +505,7 @@ void circe_initialise_solving(slice_index si,
   if (CondFlag[glasgow])
     circe_glasgow_initialise_solving(si,variant,interval_start);
 
-  if (variant->do_place_reborn)
+  if (variant->reborn_placer!=no_slice_type)
   {
     circe_instrument_solving(si,
                              interval_start,
@@ -514,7 +514,7 @@ void circe_initialise_solving(slice_index si,
     circe_instrument_solving(si,
                              interval_start,
                              STCirceDeterminedRebirth,
-                             alloc_circe_handler_slice(STCircePlaceReborn,
+                             alloc_circe_handler_slice(variant->reborn_placer,
                                                        variant));
 
     if (variant->is_promotion_possible)

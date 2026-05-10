@@ -18,7 +18,7 @@
 static circe_variant_type const circe_variant_default = {
     .is_rex_inclusive = true,
     .on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict,
-    .do_place_reborn = true,
+    .reborn_placer = STCircePlaceReborn,
     .default_relevant_piece = circe_relevant_piece_capturer,
     .actual_relevant_piece = circe_relevant_piece_capturer,
     .rebirth_reason = move_effect_reason_rebirth_no_choice,
@@ -46,7 +46,7 @@ void anticirce_initialise_solving(slice_index si)
 
   circe_initialise_solving(si,&anticirce_variant,STMove,&move_insert_slices,STAnticirceConsideringRebirth);
 
-  if (anticirce_variant.do_place_reborn)
+  if (anticirce_variant.reborn_placer!=no_slice_type)
   {
     circe_instrument_solving(si,
                              STAnticirceConsideringRebirth,

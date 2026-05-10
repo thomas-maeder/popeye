@@ -55,7 +55,7 @@ void phantom_reset_variant(circe_variant_type *variant)
   variant->relevant_capture = circe_relevant_capture_nocapture;
   variant->default_relevant_piece = circe_relevant_piece_generated;
   variant->actual_relevant_piece = circe_relevant_piece_generated;
-  variant->do_place_reborn = false;
+  variant->reborn_placer = no_slice_type;
   variant->is_rex_inclusive = false;
   variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
 }

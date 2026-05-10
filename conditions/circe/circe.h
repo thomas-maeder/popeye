@@ -38,7 +38,7 @@ typedef struct circe_variant_type
     circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square;
     circe_reborn_walk_adapter_type reborn_walk_adapter;
     boolean is_turncoat;
-    boolean do_place_reborn;
+    slice_type reborn_placer;
     boolean is_promotion_possible;
     circe_relevant_piece default_relevant_piece;
     circe_relevant_piece actual_relevant_piece;

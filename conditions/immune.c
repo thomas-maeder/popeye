@@ -13,7 +13,7 @@ void immune_reset_variant(circe_variant_type *variant)
 {
   circe_reset_variant(variant);
 
-  variant->do_place_reborn = false;
+  variant->reborn_placer = no_slice_type;
   variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
 }
 
