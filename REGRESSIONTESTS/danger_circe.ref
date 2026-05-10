@@ -51,3 +51,83 @@ c) bRa5<-->bPa4
 solution finished.
 
 
+
+           Hans Uitenbroek
+      Gentilly 2024, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   .  -P   .   7
+|                                   |
+6   .   .  -P   .   P   .   P   .   6
+|                                   |
+5   .   .   .   .   K   .  -P   B   5
+|                                   |
+4   .   .   .   P   .   P   .  -B   4
+|                                   |
+3   .   P   .   R   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .  -P   .   2
+|                                   |
+1   .   .   B   .  -K  -S   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                      9 + 10
+             DangerCirce
+
+a) 
+
+  1...Rd3-h3   2.Rh1-a8 Ke5-f5   3.Ra8-e8 Rh3-e3 #
+  add_to_move_generation_stack:    63713579
+                     play_move:     1992042
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bRh1-->g1  
+
+  1...Bc1-e3   2.Rg1-h8 Ke5-e4   3.Rh8-e8 Be3-d2 #
+  add_to_move_generation_stack:    32952986
+                     play_move:     1060943
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+           Michel Caillaud
+   Gentilly 2024, 3rd commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .  -P   P   .   P  -P   7
+|                                   |
+6   .   .   .   P   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .  -P   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#4                        6 + 6
+             DangerCirce
+
+  1.e7-e8=R Bc2-g6   2.Re8-h1 + Kc1-e8   3.a7-a8=B g2*h1=S   4.g7-g8=Q + Sh1*g8 #
+  add_to_move_generation_stack: 17991211446
+                     play_move:   415502191
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
