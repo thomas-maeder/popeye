@@ -256,8 +256,9 @@ typedef enum
   mainlyinchess,          /* 235 */
   alice,                  /* 236 */
   immobilio,              /* 237 */
+  pad,                    /* 238 */
 
-  CondCount               /* 238 */
+  CondCount               /* 239 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
