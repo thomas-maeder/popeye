@@ -12,6 +12,41 @@ twin exchange a5 a4
 
 next
 
+author Maryan Kerhuel & Jacques Dupin
+origin Gentilly 2024, 5th Commendation
+pieces white kf7 rd4 bh2 pc5g3g5 black kc7 qh6 bd1 sa7 pb2c4c6g6
+stipulation h#2
+condition dangercirce
+twin move h2 g4
+
+next
+
+author Th. Giakatis & Kostas Prentos
+origin Gentilly 2024, 3rd HM
+pieces white ka2 rb5d2 bb3 pf3 black kh3 rd7g6 bd6h7 pb6e3h4
+stipulation h#2
+condition dangercirce
+
+next
+
+author Jerome Auclair
+origin Gentilly 2024
+pieces white kg2 ra1 ba6 black ka8 pe7
+stipulation h#3
+condition dangercirce
+
+next
+
+author Th. Argurakopoulos
+origin Gentilly 2024
+pieces white kd4 bb8 pa7b2 black kh3 qa1 ba4h8 sf8g7 pa2a3b3c4d5e4g4h4
+stipulation h#2.5
+condition dangercirce
+twin move h8 g2
+twin move f8 g2
+
+next
+
 author Hans Uitenbroek
 origin Gentilly 2024, 2nd prize
 pieces white ke5 rd3 bc1h5 pb3d4e6f4g6 black ke1 rh1 bh4 sf1 pc2c6c7g2g5g7
@@ -21,10 +56,44 @@ twin move h1 g1
 
 next
 
+author Jacques Dupin & Michel Caillaud
+origin Gentilly 2024, 1st prize
+pieces white kd8 pb7c7 black kg1 qg2 rf1 bh2h3 pe2f2f3
+stipulation h#2.5
+condition dangercirce
+
+next
+
 author Michel Caillaud
 origin Gentilly 2024, 3rd commendation
 pieces white kh6 pa7d6e7g5g7 black kc1 bc2c3 pd7g2h7
 stipulation hs#4
+condition dangercirce
+
+next
+
+author Jacques Rotenberg
+origin Gentilly 2024, 2nd HM
+pieces white kb7 qf8 ra2 ba3 sd3 pb2d6e3f5 black kd7 bc2 sa6b8 pe4f6
+stipulation #2
+condition dangercirce
+option try vari
+
+next
+
+author Juraj Lörinc
+origin Gentilly 2024, 1st HM
+pieces white kh6 rd8 bb1e3 pa2d3e6e7g5h3 black kg8 re2 be8 sc8 pd2g2
+stipulation r#2
+condition dangercirce
+option vari
+
+next
+
+author Christian Poisson
+origin 87 Nouvelles Parties 2020
+pieces white ke1 ra1h1 bc1f1 sb1g1 pa2d2e2f2g2h2 black ke8 qd8 ra8h8 bc8f8 sg8 pa7b7d7e7f7g7h7
+stipulation dia5
 condition dangercirce
 
 end
