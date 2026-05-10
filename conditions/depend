@@ -7505,8 +7505,9 @@ conditions/danger_circe$(OBJ_SUFFIX): conditions/danger_circe.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/move_generator.h \
- debugging/measure.h output/plaintext/protocol.h solving/observation.h \
- solving/temporary_hacks.h solving/fork.h solving/pipe.h solving/check.h
+ debugging/measure.h output/plaintext/protocol.h solving/pipe.h \
+ solving/check.h solving/observation.h solving/temporary_hacks.h \
+ solving/fork.h
 conditions/danger_circe.h:
 pieces/pieces.h:
 utilities/boolean.h:
@@ -7560,8 +7561,8 @@ conditions/circe/relevant_side.h:
 solving/move_generator.h:
 debugging/measure.h:
 output/plaintext/protocol.h:
+solving/pipe.h:
+solving/check.h:
 solving/observation.h:
 solving/temporary_hacks.h:
 solving/fork.h:
-solving/pipe.h:
-solving/check.h:

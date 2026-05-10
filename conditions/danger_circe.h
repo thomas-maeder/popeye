@@ -7,11 +7,6 @@
 
 /* This module implements the condition Danger Circe */
 
-/* Validate an observation according to Danger Circe
- * @return true iff the observation is valid
- */
-boolean danger_circe_validate_observation(slice_index si);
-
 /* Generate moves for a single piece
  * @param identifies generator slice
  */

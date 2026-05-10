@@ -1,49 +1,12 @@
 #include "conditions/danger_circe.h"
 #include "conditions/circe/circe.h"
 #include "solving/move_generator.h"
-#include "solving/observation.h"
 #include "solving/pipe.h"
 #include "solving/check.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
-
-static boolean is_unobserved(numecoup n)
-{
-  square const sq_departure = move_generation_stack[n].departure;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  result = !is_square_observed_general(advers(trait[nbply]),sq_departure,EVALUATE(observer));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Validate an observation according to Beamten Chess
- * @return true iff the observation is valid
- */
-boolean danger_circe_validate_observation(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (!is_unobserved(CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive_delegate(si));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Generate moves for a single piece
  * @param identifies generator slice
@@ -84,12 +47,6 @@ void danger_circe_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_moves_for_piece_generation(si,nr_sides,STDangerCirceMovesForPieceGenerator);
-
-//  stip_instrument_observation_validation(si,nr_sides,STBeamtenMovesForPieceGenerator);
-//  stip_instrument_check_validation(si,nr_sides,STBeamtenMovesForPieceGenerator);
-//  stip_instrument_check_validation(si,
-//                                   nr_sides,
-//                                   STValidateCheckMoveByPlayingCapture);
   solving_test_check_playing_moves(si);
 
   TraceFunctionExit(__func__);
