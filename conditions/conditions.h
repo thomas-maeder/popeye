@@ -257,8 +257,9 @@ typedef enum
   alice,                  /* 236 */
   immobilio,              /* 237 */
   pad,                    /* 238 */
+  danger_circe,           /* 239 */
 
-  CondCount               /* 239 */
+  CondCount               /* 240 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

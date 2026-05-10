@@ -2025,6 +2025,9 @@ void verify_position(slice_index si)
   if (CondFlag[pad])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
+  if (CondFlag[danger_circe])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==ConditionType3)

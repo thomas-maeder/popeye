@@ -140,6 +140,7 @@
 #include "conditions/immobilio.h"
 #include "conditions/shielded_kings.h"
 #include "conditions/pad.h"
+#include "conditions/danger_circe.h"
 #include "platform/maxtime.h"
 #include "solving/end_of_branch_tester.h"
 #include "solving/dead_end.h"
@@ -813,6 +814,9 @@ void build_solvers2(slice_index si)
 
   if (TSTFLAG(some_pieces_flags,Beamtet))
     beamten_initialise_solving(si);
+
+  if (CondFlag[danger_circe])
+    danger_circe_initialise_solving(si);
 
   if (CondFlag[whvault_king])
     vaulting_kings_initalise_solving(si,White);

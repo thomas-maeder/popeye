@@ -1,0 +1,18 @@
+begin
+
+protocol danger_circe.tst
+
+pieces white pd4e4f4g2g5 black se6 pf2
+stip ~1
+condition danger
+option nowk nobk
+
+next
+
+title disable optimisations in Danger Circe
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e2f2g2h2 black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d5e7f7g7h7
+stip dia 1.5
+condition dangercirce
+
+end
+
