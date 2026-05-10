@@ -4,12 +4,28 @@ protocol danger_circe.ref
 
 author Mario Parrinello
 origin Gentilly 2024, 2nd Commendation
-
 pieces white kh6 ra1e8 pd7e3e4e5 black kd2 ra5 bf6 sf1g3 pa3a4a6a7c2c3
 stipulation h#2
 condition dangercirce
 twin exchange a5 a6
 twin exchange a5 a4
+
+next
+
+author Hans Uitenbroek
+origin Gentilly 2024, 2nd prize
+pieces white ke5 rd3 bc1h5 pb3d4e6f4g6 black ke1 rh1 bh4 sf1 pc2c6c7g2g5g7
+stipulation h#2.5
+condition dangercirce
+twin move h1 g1
+
+next
+
+author Michel Caillaud
+origin Gentilly 2024, 3rd commendation
+pieces white kh6 pa7d6e7g5g7 black kc1 bc2c3 pd7g2h7
+stipulation hs#4
+condition dangercirce
 
 end
 
