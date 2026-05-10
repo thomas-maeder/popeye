@@ -3,6 +3,7 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/parachute.h"
+#include "conditions/anticirce/capture_exchange.h"
 #include "position/position.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
@@ -113,6 +114,10 @@ void circe_solving_instrument_rebirth_on_occupied_square(slice_index si,
         stop_rebirth_on_occupied_square(si,interval_start);
       else
         no_rebirth_on_occupied_square(si,interval_start);
+      break;
+
+    case circe_on_occupied_rebirth_square_exchange:
+      anticirce_capture_exchange_initialize_solving(si,interval_start);
       break;
 
     default:

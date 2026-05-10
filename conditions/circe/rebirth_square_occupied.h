@@ -16,7 +16,8 @@ typedef enum
   circe_on_occupied_rebirth_square_strict,
   circe_on_occupied_rebirth_square_assassinate,
   circe_on_occupied_rebirth_square_volcanic,
-  circe_on_occupied_rebirth_square_parachute
+  circe_on_occupied_rebirth_square_parachute,
+  circe_on_occupied_rebirth_square_exchange
 } circe_behaviour_on_occupied_rebirth_square_type;
 
 /* Retrieve the behaviour of a Circe variant if the rebirth square is occupied

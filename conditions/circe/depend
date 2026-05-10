@@ -110,10 +110,11 @@ conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  conditions/circe/goal_filters.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
- output/mode.enum stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_type.enum.h stipulation/slice_type.enum \
+ position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
+ output/mode.h output/mode.enum.h output/mode.enum stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_structural_type.enum \
  stipulation/slice_functional_type.h \
@@ -138,6 +139,7 @@ utilities/bitmask.h:
 utilities/boolean.h:
 stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
+stipulation/slice_type.enum:
 position/side.h:
 position/side.enum.h:
 position/side.enum:
@@ -2561,8 +2563,8 @@ conditions/circe/rebirth_square_occupied$(OBJ_SUFFIX): \
  conditions/circe/rebirth_square.h conditions/circe/relevant_capture.h \
  conditions/circe/relevant_piece.h conditions/circe/relevant_side.h \
  conditions/circe/rebirth_avoider.h conditions/circe/assassin.h \
- conditions/circe/parachute.h stipulation/pipe.h stipulation/fork.h \
- solving/binary.h
+ conditions/circe/parachute.h conditions/anticirce/capture_exchange.h \
+ stipulation/pipe.h stipulation/fork.h solving/binary.h
 conditions/circe/rebirth_square_occupied.h:
 stipulation/stipulation.h:
 stipulation/goals/goals.h:
@@ -2615,6 +2617,7 @@ conditions/circe/relevant_side.h:
 conditions/circe/rebirth_avoider.h:
 conditions/circe/assassin.h:
 conditions/circe/parachute.h:
+conditions/anticirce/capture_exchange.h:
 stipulation/pipe.h:
 stipulation/fork.h:
 solving/binary.h:

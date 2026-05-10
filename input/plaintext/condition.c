@@ -528,6 +528,7 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           {
             variant->is_promotion_possible = true;
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
+            variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_exchange;
           }
           else
             output_plaintext_input_error_message(NonsenseCombination);

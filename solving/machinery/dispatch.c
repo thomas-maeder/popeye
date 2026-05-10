@@ -1287,6 +1287,10 @@ void dispatch(slice_index si)
       anti_circe_capture_exchange_determine_rebirth_squares_solve(si);
       break;
 
+    case STAnticirceCaptureExchangeDoTransfer:
+      anti_circe_capture_exchange_do_transfer_solve(si);
+      break;
+
     case STAntipodesCirceDetermineRebirthSquare:
       antipodes_circe_determine_rebirth_square_solve(si);
       break;

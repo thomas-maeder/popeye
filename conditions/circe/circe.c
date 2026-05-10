@@ -100,6 +100,7 @@ static slice_index const circe_slice_rank_order[] =
     STCirceParachuteRemember,
     STCirceVolcanicRemember,
     STCircePlacingReborn,
+    STAnticirceCaptureExchangeDoTransfer,
     STCircePlaceReborn,
     STBeforePawnPromotion, /* reborn pawn */
     STLandingAfterPawnPromotion,
