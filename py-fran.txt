@@ -299,6 +299,8 @@ simples:
 	Leffie
 	AliceEchecs
 	Immobilio (peut etre suivie par la liste d'allures)
+	DangerCirce
+	PAD
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -403,12 +405,17 @@ simples:
 	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
 	la condition ultra respective.
 
-	After EchangeRole, le nomber maximal d'EchnangeRoles peut etre
+	Apres EchangeRole, le nomber maximal d'EchnangeRoles peut etre
 	indique. Sans cette indication, le nombre n'est pas limite.
 
 	En AliceEchecs, toutes les pieces que ne sont pas declarees
 	AliceB sont implicitement AliceA. Si des pieces sont declarees
 	AliceA ou AliceB, AliceEchecs est implicitement active.
+
+	Apres PAD, les options suivantes peuvent etre indiquees:
+		Strict
+		RexExclusive (standard)
+		RexInclusive
 	
 	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre

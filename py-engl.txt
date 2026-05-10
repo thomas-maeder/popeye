@@ -297,6 +297,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	Leffie
 	AliceChess
 	Immobilio (possibly followed by a list of piece walks)
+	DangerCirce
+	PAD
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -403,6 +405,11 @@ commands expect further parameters. Lets start with the simpler commands:
 	In AliceChess, all pieces not explicitly declared as AliceB are AliceA.
 	If some pieces are declared AliceA or AliceB, condition AliceChess is
 	automatically active.
+
+	After PAD, the following options can be indicated:
+		Strict
+		RexExclusive (default)
+		RexInclusive
 	
 	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
 	PhantomChess and GenevaChess, a number of options can be indicated; the

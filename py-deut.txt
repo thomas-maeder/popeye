@@ -304,6 +304,8 @@ Kommandos:
 	Leffie
 	AliceSchach
 	Immobilio (wenn gewuenscht gefolgt von der Liste der Gangarten)
+	DangerCirce
+	PAD
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
@@ -422,13 +424,18 @@ Kommandos:
 	Bei AliceSchach sind alle Steine AliceA, die nicht explizit als AliceB
 	deklariert werden. Umgekehrt gilt automatisch AliceSchach, wenn Steine
 	als AliceA oder AliceB deklariert sind.
+
+	Nach PAD kann angegeben werden:
+		Strikt
+		RexExklusive (Vorgabe)
+		RexInklusive
 	
 	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
 	werden; die Optionen koennen vielfaeltig miteinander kombiniert werden.
 	Nicht alle Kombinationen sind sinnfaellig, und nicht alle Optionen fuer
 	alle Grund-Bedingungen.
-	Zudem schliessen Optionen normalerweise gegenseitig aus, welche zur
+	Zudem schliessen sich Optionen normalerweise gegenseitig aus, welche zur
 	selben der folgenden 8 Gruppen gehören.
 	Einbezug des Koenigs:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
