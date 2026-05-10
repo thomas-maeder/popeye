@@ -1833,7 +1833,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Einstein",
     "ReversEinstein",
     "PriseProchaine",
-    "CaseDePrise"
+    "CaseDePrise",
+    "Prise&Echange"
   },{
     /* German */
     "RexInklusive",
@@ -1872,7 +1873,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Einstein",
     "ReversesEinstein",
     "NaechsterSchlag",
-    "Schlagfeld"
+    "Schlagfeld",
+    "Schlag&Tausch"
   },{
     /* English */
     "RexInclusive",
@@ -1911,7 +1913,8 @@ static char const * const CirceVariantTypeString[LanguageCount][CirceVariantCoun
     "Einstein",
     "ReversalEinstein",
     "WaitCapture",
-    "CaptureSquare"
+    "CaptureSquare",
+    "Capture&Exchange"
   }
 };
 

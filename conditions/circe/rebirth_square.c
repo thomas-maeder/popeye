@@ -69,6 +69,10 @@ static slice_type get_rebirth_square_determinator(circe_variant_type const *vari
       result = STCirceDetermineRebirthSquareCaptureSquare;
       break;
 
+    case circe_determine_rebirth_square_capture_exchange:
+      result = STAnticirceCaptureExchangeDetermineRebirthSquares;
+      break;
+
     default:
       assert(0);
       result = no_slice_type;

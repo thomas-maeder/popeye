@@ -522,6 +522,17 @@ static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
           variant->relevant_capture = circe_relevant_capture_lastcapture;
           break;
 
+        case CirceVariantCaptureExchange:
+          if (circe_override_determine_rebirth_square(variant,
+                                                      circe_determine_rebirth_square_capture_exchange))
+          {
+            variant->is_promotion_possible = true;
+            variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          }
+          else
+            output_plaintext_input_error_message(NonsenseCombination);
+          break;
+
         default:
           assert(0);
           break;

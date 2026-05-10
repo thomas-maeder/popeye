@@ -10,6 +10,7 @@
 #include "conditions/circe/super.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/circe/volage.h"
+#include "conditions/anticirce/capture_exchange.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
@@ -76,6 +77,7 @@ static slice_index const circe_slice_rank_order[] =
     STPWCDetermineRebirthSquare,
     STDiagramCirceDetermineRebirthSquare,
     STTakeMakeCirceDetermineRebirthSquares,
+    STAnticirceCaptureExchangeDetermineRebirthSquares,
     STCirceDetermineRebirthSquareCaptureSquare,
     STMoveGenerationPostMoveIterator,
     STSquareObservationPostMoveIterator,
@@ -542,6 +544,8 @@ void circe_initialise_solving(slice_index si,
     circe_solving_instrument_cage(si,variant,interval_start);
   else if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
     circe_solving_instrument_takemake();
+  else if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_exchange)
+    solving_instrument_anticirce_capture_exchange();
 
   if (variant->relevant_capture==circe_relevant_capture_lastmove)
     circe_solving_instrument_parrain(si,variant,interval_start);

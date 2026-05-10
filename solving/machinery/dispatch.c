@@ -5,6 +5,7 @@
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/clone.h"
 #include "conditions/anticirce/couscous.h"
+#include "conditions/anticirce/capture_exchange.h"
 #include "conditions/bgl.h"
 #include "conditions/bicaptures.h"
 #include "conditions/blackchecks.h"
@@ -1280,6 +1281,10 @@ void dispatch(slice_index si)
 
     case STTakeMakeCirceCollectRebirthSquares:
       take_make_circe_collect_rebirth_squares_solve(si);
+      break;
+
+    case STAnticirceCaptureExchangeDetermineRebirthSquares:
+      anti_circe_capture_exchange_determine_rebirth_squares_solve(si);
       break;
 
     case STAntipodesCirceDetermineRebirthSquare:

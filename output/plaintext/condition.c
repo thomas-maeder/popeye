@@ -220,6 +220,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_exchange)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCaptureExchange]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_capture_square)
