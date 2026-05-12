@@ -134,7 +134,7 @@ DBG=
 ARCH=                   # use platform default
 
 # Select target compiler optimization level
-CCOPTIM=-O3 -flto
+CCOPTIM=-O3 -flto -fno-stack-protector
 # -fprofile-use
 # -fprofile-generate
 
