@@ -105,6 +105,7 @@ typedef struct {
 typedef struct InternHsElement {
     dhtElement      HsEl;
     struct InternHsElement  *Next;
+    dhtHashValue    HashCache;
 } InternHsElement;
 
 #define NilInternHsElement  Nil(InternHsElement)
@@ -738,7 +739,7 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
         InternHsElement const *oldElmt = *oldPointer;
         TraceValue("%p ",(void *)*oldPointer);
         {
-          dhtHashValue const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
+          dhtHashValue const hashVal = oldElmt->HashCache;
           TraceValue("%lu",hashVal);
           TraceEOL();
           if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
@@ -796,7 +797,7 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   shrinkDirTable(&ht->DirTab);
 }
 
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
+LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key, dhtHashValue hashVal)
 {
   uLong h;
   InternHsElement **phe;
@@ -817,13 +818,13 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key)
   }
   TraceFunctionParamListEnd();
 
-  h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
+  h = DynamicHash(ht->p, ht->maxp, hashVal);
   phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
   TMDBG(printf("h:%lu\n",h));
 
   assert(phe!=0);
   while (*phe)
-    if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
+    if ((*phe)->HashCache==hashVal && (ht->procs.Equal)((*phe)->HsEl.Key, key))
     {
       TraceText("found");
       TraceEOL();
@@ -859,7 +860,10 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
   }
   TraceFunctionParamListEnd();
 
-  phe= LookupInternHsElement(ht, key);
+  {
+    dhtHashValue const hashVal = (ht->procs.Hash)(key);
+    phe= LookupInternHsElement(ht, key, hashVal);
+  }
   if (*phe)
   {
     DEBUG_CODE(
@@ -945,7 +949,9 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   assert(key.value.object_pointer!=0); /* TODO: This assert assumes that object_pointer is the active member.
                                           Is there a more generic test we could do?  Do we need one? */
 
-  phe = LookupInternHsElement(ht,key);
+  dhtHashValue hashVal = (ht->procs.Hash)(key);
+
+  phe = LookupInternHsElement(ht,key,hashVal);
   TraceValue("%p",(void *)phe);
   he = *phe;
   TraceValue("%p",(void *)he);
@@ -1000,11 +1006,13 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
       (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
     he->HsEl.Key = KeyV;
     he->HsEl.Data = DataV;
+    he->HashCache = hashVal;
   }
   else
   {
     *phe = he;
     he->Next = NilInternHsElement;
+    he->HashCache = hashVal;
     ht->KeyCount++;
   }
 
@@ -1046,7 +1054,10 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
   TraceFunctionParam("%p",(void *)ht);
   TraceFunctionParamListEnd();
 
-  phe= LookupInternHsElement(ht,key);
+  {
+    dhtHashValue const hashVal = (ht->procs.Hash)(key);
+    phe= LookupInternHsElement(ht, key, hashVal);
+  }
   if (*phe)
     result = &(*phe)->HsEl;
   else
