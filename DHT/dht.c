@@ -59,7 +59,7 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desi
 #endif /*New*/
 
 /* The next three values are those you may want to change */
-#define DefaultMaxLoadFactor    200     /* in percent */
+#define DefaultMaxLoadFactor    100     /* in percent */
 #define DefaultMinLoadFactor    100     /* in percent */
 
 
