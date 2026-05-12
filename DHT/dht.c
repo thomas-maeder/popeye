@@ -672,7 +672,7 @@ dhtElement *dhtGetNextElement(HashTable *ht)
 
 LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 {
-  uLong const h = v % maxp;
+  uLong const h = v & (maxp - 1);
   uLong result;
 
   TraceFunctionEntry(__func__);
@@ -682,7 +682,7 @@ LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
   TraceFunctionParamListEnd();
 
   if (h<p)
-    result = v % (maxp<<1);
+    result = v & ((maxp<<1) - 1);
   else
     result = h;
 
