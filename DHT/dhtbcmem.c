@@ -33,19 +33,14 @@ static dhtHashValue ConvertBCMemValue(dhtKey m)
   assert(!!toBeConverted);
   leng = toBeConverted->Leng;
   s = toBeConverted->Data;
-  dhtHashValue hash = 0;
+  dhtHashValue hash = 2166136261U;
 
   unsigned short i;
   for (i=0; i<leng; ++i)
   {
-    hash += s[i];
-    hash += hash << 10;
-    hash ^= hash >> 6;
+    hash ^= s[i];
+    hash *= 16777619U;
   }
-
-  hash += hash << 3;
-  hash ^= hash >> 11;
-  hash += hash << 15;
 
   return hash;
 }
