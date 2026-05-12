@@ -125,6 +125,20 @@ enum {
   ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX)
 };
 
+static inline void square_to_row_col(square s, int *r, int *c)
+{
+  if (onerow==8)
+  {
+    *r = s>>3;
+    *c = s&7;
+  }
+  else
+  {
+    *r = s/onerow;
+    *c = s%onerow;
+  }
+}
+
 #if defined(FXF)
 unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
 #endif
@@ -1290,8 +1304,8 @@ static byte *CommonEncode(byte *bp,
       }
 
       {
-        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
-        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        int row, col;
+        square_to_row_col(move_effect_journal[capture].u.piece_removal.on, &row, &col);
         *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
       }
     }
@@ -1477,11 +1491,13 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
       square s = (underworld[gi].on
                   - nr_of_slack_rows_below_board*onerow
                   - nr_of_slack_files_left_of_board);
-      byte const row = (byte)(s/onerow);
-      byte const col = (byte)(s%onerow);
-      bp = SmallEncodePiece(bp,
-                            row,col,
-                            underworld[gi].walk,underworld[gi].flags);
+      {
+        int r, c;
+        square_to_row_col(s, &r, &c);
+        bp = SmallEncodePiece(bp,
+                              (byte)r,(byte)c,
+                              underworld[gi].walk,underworld[gi].flags);
+      }
     }
   }
 
@@ -1671,8 +1687,12 @@ static void LargeEncode(stip_length_type min_length,
     square const s = (underworld[gi].on
                       - nr_of_slack_rows_below_board*onerow
                       - nr_of_slack_files_left_of_board);
-    row = s/onerow;
-    col = s%onerow;
+    {
+      int r, c;
+      square_to_row_col(s, &r, &c);
+      row = r;
+      col = c;
+    }
 
     assert((col + row*nr_files_on_board) < (1<<CHAR_BIT));
     *bp++ = (byte)(col + row*nr_files_on_board);
@@ -1724,11 +1744,13 @@ static void SmallEncode(stip_length_type min_length,
     square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
-    byte const row = (byte)(s/onerow);
-    byte const col = (byte)(s%onerow);
-    bp = SmallEncodePiece(bp,
-                          row,col,
-                          underworld[gi].walk,underworld[gi].flags);
+    {
+      int r, c;
+      square_to_row_col(s, &r, &c);
+      bp = SmallEncodePiece(bp,
+                            (byte)r,(byte)c,
+                            underworld[gi].walk,underworld[gi].flags);
+    }
   }
 
   /* Now the rest of the party */
