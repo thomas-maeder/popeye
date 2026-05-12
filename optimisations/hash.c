@@ -173,6 +173,23 @@ enum
 
 HashBuffer hashBuffers[maxply+1];
 
+/* Parallel arrays to hold precomputed FNV-1a hash per ply */
+static dhtHashValue precomputed_hash[maxply+1];
+static boolean      hash_is_precomputed[maxply+1];
+
+/* Compute FNV-1a hash for a finished HashBuffer */
+static dhtHashValue compute_hash_for_buffer(HashBuffer const *hb)
+{
+  BCMemValue const *cmv = &hb->cmv;
+  dhtHashValue h = 2166136261U;
+  for (unsigned short i = 0; i < cmv->Leng; ++i)
+  {
+    h ^= cmv->Data[i];
+    h *= 16777619U;
+  }
+  return h;
+}
+
 #if defined(TESTHASH)
 static void dump_hash_buffer(void)
 {
@@ -1507,6 +1524,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1711,6 +1730,8 @@ static void LargeEncode(stip_length_type min_length,
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 } /* LargeEncode */
@@ -1759,6 +1780,8 @@ static void SmallEncode(stip_length_type min_length,
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2374,12 +2397,14 @@ static void addtohash_battle_nosuccess(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,hb);
+  he = dhtLookupElementWithHash(pyhash,hb,precomputed_hash[nbply]);
   if (he==dhtNilElement)
   {
-    he = allocDHTelement(hb);
-    set_value_attack_nosuccess(he,si,val);
+    he = dhtEnterElementWithHash(pyhash,hb,template_element.Data,precomputed_hash[nbply]);
+    if (he!=dhtNilElement)
+      set_value_attack_nosuccess(he,si,val);
   }
   else
     if (get_value_attack_nosuccess(he,si)<val)
@@ -2412,12 +2437,14 @@ static void addtohash_battle_success(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,hb);
+  he = dhtLookupElementWithHash(pyhash,hb,precomputed_hash[nbply]);
   if (he==dhtNilElement)
   {
-    he = allocDHTelement(hb);
-    set_value_attack_success(he,si,val);
+    he = dhtEnterElementWithHash(pyhash,hb,template_element.Data,precomputed_hash[nbply]);
+    if (he!=dhtNilElement)
+      set_value_attack_success(he,si,val);
   }
   else
     if (get_value_attack_success(he,si)>val)
@@ -2494,7 +2521,8 @@ void attack_hashed_tester_solve(slice_index si)
   (*encode)(min_length,validity_value);
 
   k.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,k);
+  assert(hash_is_precomputed[nbply]);
+  he = dhtLookupElementWithHash(pyhash,k,precomputed_hash[nbply]);
   if (he==dhtNilElement)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else

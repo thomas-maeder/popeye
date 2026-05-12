@@ -1069,6 +1069,113 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
   return result;
 }
 
+dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dhtHashValue hashVal)
+{
+  InternHsElement **phe, *he;
+  dhtKey KeyV;
+  dhtValue DataV;
+  dhtValue *KeyVPtr;
+  dhtValue *DataVPtr;
+
+  TraceFunctionEntry(__func__);
+
+  assert(key.value.object_pointer!=0);
+
+  phe = LookupInternHsElement(ht,key,hashVal);
+  he = *phe;
+  if (he==0)
+  {
+    he = NewInternHsElement;
+    if (he==0)
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
+    }
+    KeyVPtr = &he->HsEl.Key.value;
+    DataVPtr = &he->HsEl.Data;
+  }
+  else
+  {
+    KeyVPtr = &KeyV.value;
+    DataVPtr = &DataV;
+  }
+  if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
+  {
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if ((ht->procs.DupData)(data, DataVPtr))
+  {
+    (ht->procs.FreeKeyValue)(*KeyVPtr);
+    if (!*phe)
+      FreeInternHsElement(he);
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)dhtNilElement);
+    TraceFunctionResultEnd();
+    return dhtNilElement;
+  }
+  if (*phe)
+  {
+    if (ht->DtaPolicy == dhtCopy)
+      (ht->procs.FreeData)(he->HsEl.Data);
+    if (ht->KeyPolicy == dhtCopy)
+      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
+    he->HsEl.Key = KeyV;
+    he->HsEl.Data = DataV;
+    he->HashCache = hashVal;
+  }
+  else
+  {
+    *phe = he;
+    he->Next = NilInternHsElement;
+    he->HashCache = hashVal;
+    ht->KeyCount++;
+  }
+
+  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
+  {
+    if (ExpandHashTable(ht)!=dhtOkStatus)
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p",(void *)&he->HsEl);
+  TraceFunctionResultEnd();
+  return &he->HsEl;
+}
+
+dhtElement *dhtLookupElementWithHash(HashTable *ht, dhtKey key, dhtHashValue hashVal)
+{
+  InternHsElement **phe;
+  dhtElement *result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p",(void *)ht);
+  TraceFunctionParamListEnd();
+
+  phe= LookupInternHsElement(ht, key, hashVal);
+  if (*phe)
+    result = &(*phe)->HsEl;
+  else
+    result = dhtNilElement;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%p",(void *)result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
 {
   unsigned int BucketCount = 0;
