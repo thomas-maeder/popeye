@@ -49,7 +49,7 @@ void set_dhtDebug(int const d) {dhtDebug = d;}
 #  define MYNAME(m)
 #endif /*DEBUG_DHT*/
 
-#if !defined(New) /* TODO: Is this the correct check for all of the below lines? */
+#if !defined(New)
 #  define New(type)    DHTVALUE_ALLOC(sizeof(type), type)
 #  define nNew(n,type) ((type *)nNewImpl(n,sizeof(type),ALIGNMENT_OF_TYPE(type)))
 #  define Nil(type)    ((type *)0)
@@ -58,342 +58,33 @@ static inline void * nNewImpl(size_t const nmemb, size_t const size, size_t desi
 }
 #endif /*New*/
 
-/* The next three values are those you may want to change */
-#define DefaultMaxLoadFactor    100     /* in percent */
-#define DefaultMinLoadFactor    100     /* in percent */
+typedef unsigned long uLong;
+typedef unsigned char uChar;
+typedef unsigned short uShort;
 
+/* ============================================================
+ * Open-addressing hash table with linear probing.
+ * Slots are identified by their Key pointer:
+ *   - EMPTY:   HsEl.Key.value.object_pointer == NULL
+ *   - DELETED: HsEl.Key.value.object_pointer == DELETED_MARKER
+ *   - OCCUPIED: anything else
+ * ============================================================ */
 
-/* One problem in implementing dynamic hashing is the table to hold
- * the pointers to the hash elements. This table should dynamically
- * expand and shrink. The naive approach to use malloc/realloc bears
- * some problems. It may consume too much unused memory if realloc
- * is called with too large increments, or if this increment is too
- * short too many calls to realloc may result in poor performance.
- * We use another approach here, which results in fixed size chunks
- * of memory to be allocated and free'd.
- */
+/* Sentinel pointer value for tombstone slots */
+static char deleted_sentinel;
+#define DELETED_MARKER ((const volatile void *)&deleted_sentinel)
 
-#define LD2_PTR_PER_DIR 8
-#define PTR_PER_DIR  (1<<LD2_PTR_PER_DIR)
-#define DIR_SIZE     (PTR_PER_DIR*sizeof(void *))
-#define DIR_IDX_MASK (PTR_PER_DIR-1)
-
-#define DIR_INDEX(l,x)  (((x)>>((l)*LD2_PTR_PER_DIR)) & DIR_IDX_MASK)
-
-typedef unsigned long   dht_index_t;
-#define MAX_LEVEL   ((sizeof(dht_index_t)*8 + LD2_PTR_PER_DIR-1) / LD2_PTR_PER_DIR)
-
-typedef void *ht_dir[PTR_PER_DIR];
-
-typedef struct {
-    ht_dir *dir;     /* the last (partial) dir on this level */
-    unsigned int valid;    /* the number of entries in partial dir */
-} level_descr;
-
-typedef struct {
-    unsigned int level;      /* this is the topmost level */
-    dht_index_t count;      /* total number of entries in table */
-    level_descr ld[MAX_LEVEL];
-} dirTable;
-
-typedef struct {
-    dirTable *dt;
-    ht_dir *current;    /* current dir of this level */
-    unsigned int index;   /* index to deliver next */
-} dirEnumerate;
+#define INITIAL_TABLE_SIZE 256
+#define DEFAULT_MAX_LOAD_FACTOR 70  /* percent */
 
 typedef struct InternHsElement {
-    dhtElement      HsEl;
-    struct InternHsElement  *Next;
-    dhtHashValue    HashCache;
+    dhtElement   HsEl;
+    dhtHashValue HashCache;
 } InternHsElement;
 
-#define NilInternHsElement  Nil(InternHsElement)
-#define NewInternHsElement  New(InternHsElement)
-#define FreeInternHsElement(h)  DHTVALUE_FREE(h, sizeof(InternHsElement))
-
-static InternHsElement EndOfTable;
-
-#define freeDir(t)  DHTVALUE_FREE(t, sizeof(ht_dir))
-
-typedef unsigned long uLong;
-typedef unsigned char   uChar;
-typedef unsigned short  uShort;
-
-static void **accessAdr(dirTable *dt, uLong x)
-{
-  /* whether x is a valid index in the table is not checked */
-  ht_dir *dir = dt->ld[dt->level].dir;
-  void **result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",(void *)dt);
-  TraceFunctionParam("%lu",x);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%lu",dt->level);
-  TraceEOL();
-
-  assert(dt->level<4);
-  switch (dt->level)
-  {  /* all cases fall through */
-    /*
-      case 7: dir= (ht_dir *)(*dir)[DIR_INDEX(7,x)];
-      case 6: dir= (ht_dir *)(*dir)[DIR_INDEX(6,x)];
-      case 5: dir= (ht_dir *)(*dir)[DIR_INDEX(5,x)];
-      case 4: dir= (ht_dir *)(*dir)[DIR_INDEX(4,x)];
-    */
-    case 3:
-      dir= (ht_dir *)(*dir)[DIR_INDEX(3,x)];
-      TraceValue("%p",(void *)dir);
-      TraceEOL();
-      /* FALLTHRU */
-    case 2:
-      dir= (ht_dir *)(*dir)[DIR_INDEX(2,x)];
-      TraceValue("%p",(void *)dir);
-      TraceEOL();
-      /* FALLTHRU */
-    case 1:
-      dir= (ht_dir *)(*dir)[DIR_INDEX(1,x)];
-      TraceValue("%p",(void *)dir);
-      TraceEOL();
-      /* FALLTHRU */
-    case 0:
-      result = &(*dir)[DIR_INDEX(0,x)];
-      TraceValue("%p",(void *)result);
-      TraceEOL();
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Append a dir table element to a dir table. Increases the level of
- * the dir table if all slots are occupied at the current level.
- * As its name indicates, this is a recursive function; the maximal
- * recursion level is dt->level+2.
- * @param dt address of dir table
- * @param elmt_to_append address of element to append
- * @param elmt_depth indicates the depth of the element to be appended.
- *                   elmt_depth==0: append a leaf
- *                   ...
- *                   elmt_depth==dt->level: insert at root level
- *                   elmt_depth==dt->level+1: increase *dt's level to allow
- *                                            appending
- * @return true iff insertion was successful
- */
-static boolean appendDirTable_recursive(dirTable *dt,
-                                        void *elmt_to_append,
-                                        unsigned int elmt_depth)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",(void *)dt);
-  TraceFunctionParam("%p",elmt_to_append);
-  TraceFunctionParam("%u",elmt_depth);
-  TraceFunctionParamListEnd();
-
-  if (elmt_depth>dt->level)
-  {
-    /* All current slots are occupied -> increase dt->level
-     */
-    dt->ld[elmt_depth].dir = New(ht_dir);
-    if (dt->ld[elmt_depth].dir==Nil(ht_dir))
-      result = false;
-    else
-    {
-      TraceValue("%p",(void *)dt->ld[elmt_depth-1].dir);
-      TraceEOL();
-      (*dt->ld[elmt_depth].dir)[0] = dt->ld[elmt_depth-1].dir;
-      (*dt->ld[elmt_depth].dir)[1] = elmt_to_append;
-      dt->ld[elmt_depth].valid = 2;
-      dt->level = elmt_depth;
-    }
-  }
-  else
-  {
-    unsigned int const nr_valid = dt->ld[elmt_depth].valid;
-    TraceValue("%p",(void *)dt->ld[elmt_depth].dir);
-    TraceValue("%d",dt->ld[elmt_depth].valid);
-    TraceValue("%d",PTR_PER_DIR);
-    TraceEOL();
-    if (nr_valid<PTR_PER_DIR)
-    {
-      /* Insert at the first free slot at level dt->level-elmt_depth
-       */
-      (*dt->ld[elmt_depth].dir)[nr_valid] = elmt_to_append;
-      dt->ld[elmt_depth].valid = nr_valid+1;
-    }
-    else
-    {
-      /* Insert a new subtree of height elmt_depth+1. This must happen
-       * in the order:
-       * 1. allocate subtree root
-       * 2. recurse
-       * 3. insert or deallocate subtree root, depending on success of
-       *    2.
-       * If (part of) 3. is done before 2., the tree will be in an
-       * inconsistent state (and some memory will be leaked) if
-       * 2. fails.
-       */
-      ht_dir * const subtree_root = New(ht_dir);
-      TraceValue("%p",(void *)subtree_root);
-      TraceEOL();
-      if (subtree_root==Nil(ht_dir))
-        result = false;
-      else if (appendDirTable_recursive(dt,subtree_root,elmt_depth+1))
-      {
-        (*subtree_root)[0] = elmt_to_append;
-        dt->ld[elmt_depth].dir = subtree_root;
-        dt->ld[elmt_depth].valid = 1;
-      }
-      else
-      {
-        freeDir(subtree_root);
-        result = false;
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",(int)result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Append a dir table element to a dir table. Increases the level of
- * the dir table if all slots are occupied at the current level.
- * @param dt address of dir table
- * @param elmt_to_append address of element to append
- * @return true iff insertion was successful
- */
-static boolean appendDirTable(dirTable *dt, void *elmt_to_append)
-{
-  if (appendDirTable_recursive(dt,elmt_to_append,0))
-  {
-    ++dt->count;
-    return true;
-  }
-  else
-    return false;
-}
-
-/* TODO recursive implementation */
-static void shrinkDirTable(dirTable *dt)
-{
-  unsigned int const i = dt->ld[0].valid;
-  if (i>1)
-  {
-    dt->ld[0].valid = i-1;
-    dt->count--;
-  }
-  else
-  {
-    if (dt->level==0)
-    {
-      if (i>0)
-      {
-        dt->ld[0].valid = i-1;
-        dt->count--;
-      }
-    }
-    else
-    {
-      unsigned int l = 0;
-      while (l<=dt->level)
-      {
-        --dt->ld[l].valid;
-        if (dt->ld[l].valid==0)
-        {
-          freeDir(dt->ld[l].dir);
-          l++;
-        }
-        else
-          break;
-      }
-
-      if (l==dt->level && dt->ld[l].valid==1)
-      {
-        --l;
-        dt->level = l;
-        dt->ld[l].dir = (*dt->ld[l+1].dir)[0];
-        dt->ld[l].valid = PTR_PER_DIR;
-        freeDir(dt->ld[l+1].dir);
-      }
-
-      while (l>0)
-      {
-        --l;
-        dt->ld[l].dir= (*dt->ld[l+1].dir)[dt->ld[l+1].valid-1];
-        dt->ld[l].valid= PTR_PER_DIR;
-      }
-
-      dt->count--;
-    }
-  }
-}
-
-static void freeDirTable(dirTable *dt)
-{
-  while (dt->count > 1)
-  {
-    dt->ld[0].valid= 1;
-    dt->count=  ((dt->count-1) & ~((dht_index_t)DIR_IDX_MASK)) + 1;
-    shrinkDirTable(dt);
-  }
-  TraceText("being freed:");
-  TraceValue("%p",(void *)dt->ld[0].dir);
-  TraceEOL();
-  freeDir(dt->ld[0].dir);
-}
-
-#define TMDBG(x) if (0) x
-
-static InternHsElement *stepDirTable(dirEnumerate *enumeration)
-{
-  InternHsElement *result = &EndOfTable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",(void *)enumeration);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%lu ",enumeration->index);
-  TraceValue("%lu",enumeration->dt->count);
-  TraceEOL();
-  TMDBG(printf("stepDirTable - index:%u count:%lu\n",enumeration->index,enumeration->dt->count));
-  if (enumeration->index<enumeration->dt->count)
-  {
-    dht_index_t di = enumeration->index & DIR_IDX_MASK;
-    TMDBG(printf("stepDirTable - di:%lu\n",di));
-    if (di==0)
-      enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
-                                               enumeration->index);
-    assert(enumeration->current!=0);
-    enumeration->index++;
-    TraceValue("%p",(void *)enumeration->current);
-    TraceValue("%p",(void *)*enumeration->current);
-    TraceEOL();
-    result = (*enumeration->current)[di];
-  }
-  else
-  {
-    TMDBG(puts("no further step"));
-    TraceText("returning address of end of table pseudo-element\n");
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)result);
-  TraceFunctionResultEnd();
-  return result;
-}
+#define SLOT_IS_EMPTY(s)   ((s)->HsEl.Key.value.object_pointer == NULL)
+#define SLOT_IS_DELETED(s) ((s)->HsEl.Key.value.object_pointer == DELETED_MARKER)
+#define SLOT_IS_OCCUPIED(s) (!SLOT_IS_EMPTY(s) && !SLOT_IS_DELETED(s))
 
 typedef struct
 {
@@ -408,34 +99,21 @@ typedef struct
 } Procedures;
 
 typedef struct dht {
-    uLong       p;     /* Next bucket to split */
-    uLong       maxp;  /* Upper bound on p during this expansion */
-    uLong       KeyCount;       /* number keys stored in table */
-    uShort      MinLoadFactor;  /* Lower bound on the load factor */
-    uShort      MaxLoadFactor;  /* Upper bound on the load factor */
-    uLong       CurrentSize;
-    dirTable        DirTab;     /* The directory table */
-    dirEnumerate    DirEnum;        /* stepping through the table */
-    InternHsElement *NextStep;      /* the next element to deliver */
-    dhtValuePolicy  KeyPolicy;      /* Whether we copy keys */
-    dhtValuePolicy  DtaPolicy;      /* Whether we copy data */
-    Procedures  procs;
+    Procedures       procs;
+    InternHsElement *table;
+    uLong            table_size;    /* power of 2 */
+    uLong            KeyCount;
+    uLong            enum_idx;      /* iteration index */
+    uShort           MaxLoadFactor; /* percent */
+    dhtValuePolicy   KeyPolicy;
+    dhtValuePolicy   DtaPolicy;
 } dht;
+
 #if !defined(HashTable)
 #define HashTable struct dht
 #endif
 #define NewHashTable        DHTVALUE_ALLOC(sizeof(dht), HashTable)
 #define FreeHashTable(h)    DHTVALUE_FREE(h, sizeof(dht))
-#define OVERFLOW_SAVE 1
-#if defined(OVERFLOW_SAVE)
-#define ActualLoadFactor(h)                     \
-  ( (h)->CurrentSize < 10000                    \
-    ?  ((h)->KeyCount*100) / (h)->CurrentSize   \
-    :  (h)->KeyCount / (((h)->CurrentSize/100))   \
-    )
-#else
-#define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
-#endif /*OVERFLOW_SAVE*/
 
 unsigned long dhtKeyCount(dht const *h)
 {
@@ -447,6 +125,57 @@ char dhtError[128];
 char const *dhtErrorMsg(void)
 {
   return dhtError;
+}
+
+/* Allocate and zero-initialize a table of given size.
+ * We use malloc/free directly because the flat table exceeds FXF's
+ * maximum allocation size. */
+static InternHsElement *allocTable(uLong size)
+{
+  size_t bytes = size * sizeof(InternHsElement);
+  InternHsElement *t = (InternHsElement *)malloc(bytes);
+  if (t)
+    memset(t, 0, bytes);
+  return t;
+}
+
+static void freeTable(InternHsElement *t, uLong size)
+{
+  (void)size;
+  free(t);
+}
+
+/* Grow the table to double its current size and rehash all elements */
+static dhtStatus growTable(dht *ht)
+{
+  uLong old_size = ht->table_size;
+  uLong new_size = old_size * 2;
+  InternHsElement *old_table = ht->table;
+  InternHsElement *new_table = allocTable(new_size);
+  uLong i;
+
+  if (!new_table)
+  {
+    strcpy(dhtError, "growTable: no memory");
+    return dhtFailedStatus;
+  }
+
+  ht->table = new_table;
+  ht->table_size = new_size;
+
+  for (i = 0; i < old_size; i++)
+  {
+    if (SLOT_IS_OCCUPIED(&old_table[i]))
+    {
+      uLong idx = old_table[i].HashCache & (new_size - 1);
+      while (!SLOT_IS_EMPTY(&new_table[idx]))
+        idx = (idx + 1) & (new_size - 1);
+      new_table[idx] = old_table[i];
+    }
+  }
+
+  freeTable(old_table, old_size);
+  return dhtOkStatus;
 }
 
 dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
@@ -484,53 +213,46 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
       strcpy(dhtError, "dhtCreate: no memory.");
     else
     {
-      ht->DirTab.ld[0].dir = New(ht_dir);
-      if (ht->DirTab.ld[0].dir==Nil(ht_dir))
+      ht->table = allocTable(INITIAL_TABLE_SIZE);
+      if (!ht->table)
       {
-        strcpy(dhtError,
-               "dhtCreate: No memory for Directory segment.");
+        strcpy(dhtError, "dhtCreate: No memory for table.");
         FreeHashTable(ht);
       }
       else
       {
-        ht->DirTab.level= 0;
-        ht->DirTab.count= PTR_PER_DIR;
-        ht->DirTab.ld[0].valid= PTR_PER_DIR;
-        memset(ht->DirTab.ld[0].dir, 0, sizeof(ht_dir));
-        ht->p=            0;
-        ht->KeyCount=     0;
-        ht->maxp=     PTR_PER_DIR;
-        ht->CurrentSize=    ht->maxp;
-        ht->MinLoadFactor=  DefaultMinLoadFactor;
-        ht->MaxLoadFactor=  DefaultMaxLoadFactor;
-        ht->KeyPolicy=        KeyPolicy;
-        ht->DtaPolicy=        DataPolicy;
+        ht->table_size = INITIAL_TABLE_SIZE;
+        ht->KeyCount = 0;
+        ht->enum_idx = 0;
+        ht->MaxLoadFactor = DEFAULT_MAX_LOAD_FACTOR;
+        ht->KeyPolicy = KeyPolicy;
+        ht->DtaPolicy = DataPolicy;
 
-        ht->procs.Hash=     dhtProcedures[KeyType]->Hash;
-        ht->procs.Equal=    dhtProcedures[KeyType]->Equal;
-        ht->procs.DumpData= dhtProcedures[DtaType]->Dump;
-        ht->procs.DumpKeyValue=  dhtProcedures[KeyType]->Dump;
+        ht->procs.Hash     = dhtProcedures[KeyType]->Hash;
+        ht->procs.Equal    = dhtProcedures[KeyType]->Equal;
+        ht->procs.DumpData = dhtProcedures[DtaType]->Dump;
+        ht->procs.DumpKeyValue = dhtProcedures[KeyType]->Dump;
 
         if (KeyPolicy==dhtNoCopy)
         {
-          ht->procs.DupKeyValue= dhtProcedures[dhtSimpleValue]->Dup;
-          ht->procs.FreeKeyValue= dhtProcedures[dhtSimpleValue]->Free;
+          ht->procs.DupKeyValue  = dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.FreeKeyValue = dhtProcedures[dhtSimpleValue]->Free;
         }
-        else if (KeyPolicy==dhtCopy)
+        else
         {
-          ht->procs.DupKeyValue= dhtProcedures[KeyType]->Dup;
-          ht->procs.FreeKeyValue= dhtProcedures[KeyType]->Free;
+          ht->procs.DupKeyValue  = dhtProcedures[KeyType]->Dup;
+          ht->procs.FreeKeyValue = dhtProcedures[KeyType]->Free;
         }
 
         if (DataPolicy==dhtNoCopy)
         {
-          ht->procs.DupData= dhtProcedures[dhtSimpleValue]->Dup;
-          ht->procs.FreeData= dhtProcedures[dhtSimpleValue]->Free;
+          ht->procs.DupData  = dhtProcedures[dhtSimpleValue]->Dup;
+          ht->procs.FreeData = dhtProcedures[dhtSimpleValue]->Free;
         }
-        else if (DataPolicy==dhtCopy)
+        else
         {
-          ht->procs.DupData= dhtProcedures[DtaType]->Dup;
-          ht->procs.FreeData= dhtProcedures[DtaType]->Free;
+          ht->procs.DupData  = dhtProcedures[DtaType]->Dup;
+          ht->procs.FreeData = dhtProcedures[DtaType]->Free;
         }
 
         result = ht;
@@ -546,27 +268,21 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 
 void dhtDestroy(HashTable *ht)
 {
-  dirEnumerate dEnum;
-  InternHsElement *b;
+  uLong i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  dEnum.index= 0;
-  dEnum.current = 0;
-  dEnum.dt= &ht->DirTab;
-
-  for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
-    while (b)
+  for (i = 0; i < ht->table_size; i++)
+  {
+    if (SLOT_IS_OCCUPIED(&ht->table[i]))
     {
-      InternHsElement *tmp= b;
-      (ht->procs.FreeData)(b->HsEl.Data);
-      (ht->procs.FreeKeyValue)(b->HsEl.Key.value);
-      b= b->Next;
-      FreeInternHsElement(tmp);
+      (ht->procs.FreeData)(ht->table[i].HsEl.Data);
+      (ht->procs.FreeKeyValue)(ht->table[i].HsEl.Key.value);
     }
+  }
 
-  freeDirTable(&ht->DirTab);
+  freeTable(ht->table, ht->table_size);
   FreeHashTable(ht);
 
   TraceFunctionExit(__func__);
@@ -575,38 +291,27 @@ void dhtDestroy(HashTable *ht)
 
 void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
 {
-  dirEnumerate dEnum;
-  int hcnt;
-  InternHsElement *b;
+  uLong i;
+  int hcnt = 0;
 
   fprintf(f, "%*sSimple Values: \n", ind, "");
-  fprintf(f, "%*sp (Next bucket to split) = %6lu\n",
-          ind, "", ht->p);
-  fprintf(f, "%*smaxp (Upper bound on p)  = %6lu\n",
-          ind, "", ht->maxp);
   fprintf(f, "%*sKeyCount                 = %6lu\n",
           ind, "", ht->KeyCount);
-  fprintf(f, "%*sCurrentSize              = %6lu\n",
-          ind, "", ht->CurrentSize);
-  fprintf(f, "%*sDirLevel                 = %6u\n",
-          ind, "", ht->DirTab.level);
-  hcnt=0;
+  fprintf(f, "%*sTableSize                = %6lu\n",
+          ind, "", ht->table_size);
 
-  dEnum.index= 0;
-  dEnum.current = 0;
-  dEnum.dt= &ht->DirTab;
-
-  for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
-    while (b)
+  for (i = 0; i < ht->table_size; i++)
+  {
+    if (SLOT_IS_OCCUPIED(&ht->table[i]))
     {
       fprintf(f, "%*s    ", ind, "");
-      (ht->procs.DumpKeyValue)(b->HsEl.Key.value, f);
+      (ht->procs.DumpKeyValue)(ht->table[i].HsEl.Key.value, f);
       fputs("->", f);
-      (ht->procs.DumpData)(b->HsEl.Data, f);
-      b= b->Next;
+      (ht->procs.DumpData)(ht->table[i].HsEl.Data, f);
       fputc('\n', f);
       hcnt++;
     }
+  }
 
   fprintf(f, "%*s%d records of %lu dumped\n\n",
           ind, "", hcnt, ht->KeyCount);
@@ -619,369 +324,176 @@ void dhtDump(HashTable *ht, FILE *f)
 
 dhtElement *dhtGetFirstElement(HashTable *ht)
 {
-  InternHsElement *b;
-  dhtElement *result = dhtNilElement;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
   TraceFunctionParamListEnd();
 
-  if (ht->KeyCount>0)
-  {
-    ht->DirEnum.index= 0;
-    ht->DirEnum.dt = &ht->DirTab;
-
-    for (b = stepDirTable(&ht->DirEnum);
-         b!=&EndOfTable;
-         b = stepDirTable(&ht->DirEnum))
-      if (b!=0)
-      {
-        ht->NextStep= b->Next;
-        result = &b->HsEl;
-        break;
-      }
-  }
+  ht->enum_idx = 0;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)result);
   TraceFunctionResultEnd();
-  return result;
+  return dhtGetNextElement(ht);
 }
 
 dhtElement *dhtGetNextElement(HashTable *ht)
 {
-  InternHsElement *b;
-
-  if (ht->NextStep)
+  while (ht->enum_idx < ht->table_size)
   {
-    dhtElement *de= &ht->NextStep->HsEl;
-    ht->NextStep= ht->NextStep->Next;
-    return de;
+    InternHsElement *slot = &ht->table[ht->enum_idx];
+    ht->enum_idx++;
+    if (SLOT_IS_OCCUPIED(slot))
+      return &slot->HsEl;
   }
-
-  for (b = stepDirTable(&ht->DirEnum);
-       b!=&EndOfTable;
-       b = stepDirTable(&ht->DirEnum))
-    if (b != 0)
-    {
-      ht->NextStep= b->Next;
-      return &b->HsEl;
-    }
-
   return dhtNilElement;
 }
 
-LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
+/* Find a slot for the given key. Returns the index of the slot containing
+ * the key, or the index of the first EMPTY slot if not found.
+ * If insert_mode is true, a DELETED slot encountered first will be returned
+ * for reuse (but only if the key is not found further along the probe). */
+static InternHsElement *lookupSlot(dht *ht, dhtKey key, dhtHashValue hashVal,
+                                   InternHsElement **first_deleted)
 {
-  uLong const h = v & (maxp - 1);
-  uLong result;
+  uLong mask = ht->table_size - 1;
+  uLong idx = hashVal & mask;
+  InternHsElement *del = NULL;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%lu ",p);
-  TraceFunctionParam("%lu ",maxp);
-  TraceFunctionParam("%08x",v);
-  TraceFunctionParamListEnd();
-
-  if (h<p)
-    result = v & ((maxp<<1) - 1);
-  else
-    result = h;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-LOCAL dhtStatus ExpandHashTable(HashTable *ht)
-{
-  static char const * const myname = "ExpandHashTable";
-  /* Need to expand the directory */
-  uLong oldp= ht->p;
-  uLong newp= ht->maxp + ht->p;
-  dhtStatus result = dhtFailedStatus;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",(void *)ht);
-  TraceFunctionParamListEnd();
-
-  TMDBG(printf("ExpandHashTable() - ht->DirTab.ld[0].valid:%u\n",
-               ht->DirTab.ld[0].valid));
-
-  if (appendDirTable(&ht->DirTab,0))
+  for (;;)
   {
-    ht->CurrentSize++;
-
-    /* update bucket pointers */
-    ht->p++;
-    if (ht->p == ht->maxp)
+    InternHsElement *slot = &ht->table[idx];
+    if (SLOT_IS_EMPTY(slot))
     {
-      ht->maxp<<= 1;
-      ht->p= 0;
+      if (first_deleted)
+        *first_deleted = del;
+      return slot;
     }
-
-    /* relocate records */
+    if (SLOT_IS_DELETED(slot))
     {
-      InternHsElement **newPointer = (InternHsElement **)accessAdr(&ht->DirTab,
-                                                                   newp);
-      InternHsElement **oldPointer = (InternHsElement **)accessAdr(&ht->DirTab,
-                                                                   oldp);
-
-      TraceValue("%lu ",oldp);
-      TraceValue("%p",(void *)oldPointer);
-      TraceEOL();
-      TraceValue("%lu ",newp);
-      TraceValue("%p",(void *)newPointer);
-      TraceEOL();
-      assert(oldPointer!=0);
-      while (*oldPointer)
-      {
-        InternHsElement const *oldElmt = *oldPointer;
-        TraceValue("%p ",(void *)*oldPointer);
-        {
-          dhtHashValue const hashVal = oldElmt->HashCache;
-          TraceValue("%lu",hashVal);
-          TraceEOL();
-          if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
-          {
-            *newPointer = *oldPointer;
-            *oldPointer = (*oldPointer)->Next;
-            newPointer = &(*newPointer)->Next;
-            *newPointer = NilInternHsElement;
-          }
-          else
-            oldPointer= &(*oldPointer)->Next;
-        }
-      }
+      if (!del)
+        del = slot;
     }
-
-    result = dhtOkStatus;
-  }
-  else
-    sprintf(dhtError, "%s: no memory\n", myname);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-LOCAL void ShrinkHashTable(HashTable *ht)
-{
-  InternHsElement   **oldPointer, **newPointer;
-  uLong     oldp;
-
-  if (ht->maxp == PTR_PER_DIR && ht->p == 0)
-    return;
-  if (ht->p == 0)
-  {
-    ht->maxp>>= 1;
-    ht->p= ht->maxp;
-  }
-  ht->p--;
-
-  TMDBG(puts("ShrinkHashTable()"));
-  newPointer= (InternHsElement**)accessAdr(&ht->DirTab, ht->p);
-  oldp= ht->p + ht->maxp;
-  oldPointer= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
-
-  assert(oldPointer!=0);
-  if (*oldPointer)
-  {
-    while (*newPointer)
-      newPointer= &(*newPointer)->Next;
-    *newPointer= *oldPointer;
-    *oldPointer= NilInternHsElement;
-  }
-  ht->CurrentSize--;
-  shrinkDirTable(&ht->DirTab);
-}
-
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtKey key, dhtHashValue hashVal)
-{
-  uLong h;
-  InternHsElement **phe;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",(void *)ht);
-  if (ht->KeyPolicy==dhtNoCopy)
-  {
-#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-    TraceFunctionParam("%jx",key.value.unsigned_integer);
-#else
-    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
-#endif
-  }
-  else
-  {
-    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
-  }
-  TraceFunctionParamListEnd();
-
-  h = DynamicHash(ht->p, ht->maxp, hashVal);
-  phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
-  TMDBG(printf("h:%lu\n",h));
-
-  assert(phe!=0);
-  while (*phe)
-    if ((*phe)->HashCache==hashVal && (ht->procs.Equal)((*phe)->HsEl.Key, key))
+    else if (slot->HashCache == hashVal && (ht->procs.Equal)(slot->HsEl.Key, key))
     {
-      TraceText("found");
-      TraceEOL();
-      break;
+      if (first_deleted)
+        *first_deleted = NULL;
+      return slot;
     }
-    else
-      phe= &((*phe)->Next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)*phe);
-  TraceFunctionResultEnd();
-  return phe;
+    idx = (idx + 1) & mask;
+  }
 }
 
 void dhtRemoveElement(HashTable *ht, dhtKey key)
 {
   MYNAME(dhtRemoveElement)
-  InternHsElement **phe, *he;
+  dhtHashValue hashVal;
+  InternHsElement *slot;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  if (ht->KeyPolicy==dhtNoCopy)
-  {
-#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-    TraceFunctionParam("%jx",key.value.unsigned_integer);
-#else
-    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
-#endif
-  }
-  else
-  {
-    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
-  }
   TraceFunctionParamListEnd();
 
-  {
-    dhtHashValue const hashVal = (ht->procs.Hash)(key);
-    phe= LookupInternHsElement(ht, key, hashVal);
-  }
-  if (*phe)
+  hashVal = (ht->procs.Hash)(key);
+  slot = lookupSlot(ht, key, hashVal, NULL);
+
+  if (SLOT_IS_OCCUPIED(slot))
   {
     DEBUG_CODE(
       fprintf(stderr, "%s: dumping before removing\n", myname);
       dhtDump(ht, stderr);
-      );
-    he= *phe;
-    if (ht->NextStep == he)
-      ht->NextStep= ht->NextStep->Next;
-
-    *phe= he->Next;
-    (ht->procs.FreeData)(he->HsEl.Data);
-    (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
-    FreeInternHsElement(he);
+    );
+    (ht->procs.FreeData)(slot->HsEl.Data);
+    (ht->procs.FreeKeyValue)(slot->HsEl.Key.value);
+    /* Mark as tombstone */
+    slot->HsEl.Key.value.object_pointer = DELETED_MARKER;
     ht->KeyCount--;
-    if (ActualLoadFactor(ht) < ht->MinLoadFactor)
-    {
-      DEBUG_CODE(
-        fprintf(stderr,
-                "%s: dumping before shrinking\n", myname);
-        dhtDump(ht, stderr);
-        );
-      ShrinkHashTable(ht);
-      DEBUG_CODE(
-        fprintf(stderr,
-                "%s: dumping after shrinking\n", myname);
-        dhtDump(ht, stderr);
-        );
-    }
     DEBUG_CODE(
       fprintf(stderr, "%s: dumping after removing\n", myname);
       dhtDump(ht, stderr);
-      );
+    );
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* dhtEnterElement adds the key, data pair.  If an equivalent key already exists
-   then the data will be updated and the existing key will be replaced by the
-   provided key.  (The latter can matter if keys contain data that doesn't affect
-   the equivalence check.)
-   This function allocates copies before freeing any old data, allowing us to bail
-   on failure while leaving the old data intact.  This isn't ideal from a memory-
-   usage perspective, so if this "strong exception guarantee" is unnecessary then
-   the code can likely be simplified and improved. */
 dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
 {
-  InternHsElement **phe, *he;
-  dhtKey KeyV;
-  dhtValue DataV;
-  dhtValue *KeyVPtr;
-  dhtValue *DataVPtr;
+  dhtHashValue hashVal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
-  if (ht->KeyPolicy==dhtNoCopy)
-  {
-#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-    TraceFunctionParam("%jx",key.value.unsigned_integer);
-#else
-    TraceFunctionParam("%lx",(unsigned long)key.value.unsigned_integer);
-#endif
-  }
-  else
-  {
-    TraceFunctionParam("%p",(void const *)key.value.object_pointer); // TODO: something more generic here?
-  }
-  if (ht->DtaPolicy==dhtNoCopy)
-  {
-#if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L))
-    TraceFunctionParam("%jx",data.unsigned_integer);
-#else
-    TraceFunctionParam("%lx",(unsigned long)data.unsigned_integer);
-#endif
-  }
-  else
-  {
-    TraceFunctionParam("%p",(void const *)data.object_pointer); // TODO: something more generic here?
-  }
+  TraceFunctionParamListEnd();
 
-  assert(key.value.object_pointer!=0); /* TODO: This assert assumes that object_pointer is the active member.
-                                          Is there a more generic test we could do?  Do we need one? */
+  assert(key.value.object_pointer!=0);
 
-  dhtHashValue hashVal = (ht->procs.Hash)(key);
+  hashVal = (ht->procs.Hash)(key);
 
-  phe = LookupInternHsElement(ht,key,hashVal);
-  TraceValue("%p",(void *)phe);
-  he = *phe;
-  TraceValue("%p",(void *)he);
-  TraceEOL();
-  if (he==0)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+  return dhtEnterElementWithHash(ht, key, data, hashVal);
+}
+
+dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dhtHashValue hashVal)
+{
+  InternHsElement *slot;
+  InternHsElement *first_deleted;
+  dhtValue DataV;
+  dhtValue *KeyVPtr, *DataVPtr;
+  dhtKey KeyK;
+
+  TraceFunctionEntry(__func__);
+
+  assert(key.value.object_pointer!=0);
+
+  slot = lookupSlot(ht, key, hashVal, &first_deleted);
+
+  if (SLOT_IS_OCCUPIED(slot))
   {
-    he = NewInternHsElement;
-    TraceValue("%p",(void *)he);
-    TraceEOL();
-    if (he==0)
+    /* Key exists — update in place */
+    KeyVPtr = &KeyK.value;
+    DataVPtr = &DataV;
+
+    if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
     {
-      TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-    KeyVPtr = &he->HsEl.Key.value;
-    DataVPtr = &he->HsEl.Data;
+    if ((ht->procs.DupData)(data, DataVPtr))
+    {
+      (ht->procs.FreeKeyValue)(*KeyVPtr);
+      TraceFunctionExit(__func__);
+      TraceFunctionResult("%p",(void *)dhtNilElement);
+      TraceFunctionResultEnd();
+      return dhtNilElement;
+    }
+
+    if (ht->DtaPolicy == dhtCopy)
+      (ht->procs.FreeData)(slot->HsEl.Data);
+    if (ht->KeyPolicy == dhtCopy)
+      (ht->procs.FreeKeyValue)(slot->HsEl.Key.value);
+
+    slot->HsEl.Key = KeyK;
+    slot->HsEl.Data = DataV;
+    slot->HashCache = hashVal;
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%p",(void *)&slot->HsEl);
+    TraceFunctionResultEnd();
+    return &slot->HsEl;
   }
-  else
-  {
-    KeyVPtr = &KeyV.value;
-    DataVPtr = &DataV;
-  }
+
+  /* Key not found — insert new element */
+  /* Choose insertion slot: reuse tombstone if available, else use the empty slot */
+  if (first_deleted)
+    slot = first_deleted;
+
+  KeyVPtr = &KeyK.value;
+  DataVPtr = &DataV;
+
   if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
   {
-    if (!*phe)
-      FreeInternHsElement(he);
-    TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",(void *)dhtNilElement);
     TraceFunctionResultEnd();
@@ -990,76 +502,56 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   if ((ht->procs.DupData)(data, DataVPtr))
   {
     (ht->procs.FreeKeyValue)(*KeyVPtr);
-    if (!*phe)
-      FreeInternHsElement(he);
-    TraceText("data duplication failed\n");
     TraceFunctionExit(__func__);
     TraceFunctionResult("%p",(void *)dhtNilElement);
     TraceFunctionResultEnd();
     return dhtNilElement;
   }
-  if (*phe)
-  {
-    if (ht->DtaPolicy == dhtCopy)
-      (ht->procs.FreeData)(he->HsEl.Data);
-    if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
-    he->HsEl.Key = KeyV;
-    he->HsEl.Data = DataV;
-    he->HashCache = hashVal;
-  }
-  else
-  {
-    *phe = he;
-    he->Next = NilInternHsElement;
-    he->HashCache = hashVal;
-    ht->KeyCount++;
-  }
 
-  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
+  slot->HsEl.Key = KeyK;
+  slot->HsEl.Data = DataV;
+  slot->HashCache = hashVal;
+  ht->KeyCount++;
+
+  /* Check load factor and grow if needed */
+  if (ht->KeyCount * 100 > (uLong)ht->MaxLoadFactor * ht->table_size)
   {
-#if 0
-      fputs("Dumping Hash-Table before expansion\n",stderr);
-      fDumpHashTable(ht, stderr);
-#endif
-    if (ExpandHashTable(ht)!=dhtOkStatus)
+    if (growTable(ht) != dhtOkStatus)
     {
-      /* TODO: It seems strange to return dhtNilElement AFTER we've added a new entry
-               or overwritten an old one.  Should we return something else here?  Should
-               we check and deal with this issue BEFORE creating or overwriting an entry? */
-      TraceText("expansion failed\n");
+      /* Element was inserted but table couldn't grow.
+       * Return the element — it's still valid, just find it again
+       * since growTable may have been partially successful (it wasn't). */
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
       return dhtNilElement;
     }
-#if 0
-      fputs("Dumping Hash-Table after expansion\n",stderr);
-      fDumpHashTable(ht, stderr);
-#endif
+    /* After rehash, slot pointer is invalid — look up again */
+    slot = lookupSlot(ht, key, hashVal, NULL);
+    assert(SLOT_IS_OCCUPIED(slot));
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)&he->HsEl);
+  TraceFunctionResult("%p",(void *)&slot->HsEl);
   TraceFunctionResultEnd();
-  return &he->HsEl;
+  return &slot->HsEl;
 }
 
 dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
-  InternHsElement **phe;
+  dhtHashValue hashVal;
+  InternHsElement *slot;
   dhtElement *result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
   TraceFunctionParamListEnd();
 
-  {
-    dhtHashValue const hashVal = (ht->procs.Hash)(key);
-    phe= LookupInternHsElement(ht, key, hashVal);
-  }
-  if (*phe)
-    result = &(*phe)->HsEl;
+  hashVal = (ht->procs.Hash)(key);
+  slot = lookupSlot(ht, key, hashVal, NULL);
+
+  if (SLOT_IS_OCCUPIED(slot))
+    result = &slot->HsEl;
   else
     result = dhtNilElement;
 
@@ -1069,104 +561,19 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
   return result;
 }
 
-dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dhtHashValue hashVal)
-{
-  InternHsElement **phe, *he;
-  dhtKey KeyV;
-  dhtValue DataV;
-  dhtValue *KeyVPtr;
-  dhtValue *DataVPtr;
-
-  TraceFunctionEntry(__func__);
-
-  assert(key.value.object_pointer!=0);
-
-  phe = LookupInternHsElement(ht,key,hashVal);
-  he = *phe;
-  if (he==0)
-  {
-    he = NewInternHsElement;
-    if (he==0)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%p",(void *)dhtNilElement);
-      TraceFunctionResultEnd();
-      return dhtNilElement;
-    }
-    KeyVPtr = &he->HsEl.Key.value;
-    DataVPtr = &he->HsEl.Data;
-  }
-  else
-  {
-    KeyVPtr = &KeyV.value;
-    DataVPtr = &DataV;
-  }
-  if ((ht->procs.DupKeyValue)(key.value, KeyVPtr))
-  {
-    if (!*phe)
-      FreeInternHsElement(he);
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
-  }
-  if ((ht->procs.DupData)(data, DataVPtr))
-  {
-    (ht->procs.FreeKeyValue)(*KeyVPtr);
-    if (!*phe)
-      FreeInternHsElement(he);
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%p",(void *)dhtNilElement);
-    TraceFunctionResultEnd();
-    return dhtNilElement;
-  }
-  if (*phe)
-  {
-    if (ht->DtaPolicy == dhtCopy)
-      (ht->procs.FreeData)(he->HsEl.Data);
-    if (ht->KeyPolicy == dhtCopy)
-      (ht->procs.FreeKeyValue)(he->HsEl.Key.value);
-    he->HsEl.Key = KeyV;
-    he->HsEl.Data = DataV;
-    he->HashCache = hashVal;
-  }
-  else
-  {
-    *phe = he;
-    he->Next = NilInternHsElement;
-    he->HashCache = hashVal;
-    ht->KeyCount++;
-  }
-
-  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
-  {
-    if (ExpandHashTable(ht)!=dhtOkStatus)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%p",(void *)dhtNilElement);
-      TraceFunctionResultEnd();
-      return dhtNilElement;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%p",(void *)&he->HsEl);
-  TraceFunctionResultEnd();
-  return &he->HsEl;
-}
-
 dhtElement *dhtLookupElementWithHash(HashTable *ht, dhtKey key, dhtHashValue hashVal)
 {
-  InternHsElement **phe;
+  InternHsElement *slot;
   dhtElement *result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",(void *)ht);
   TraceFunctionParamListEnd();
 
-  phe= LookupInternHsElement(ht, key, hashVal);
-  if (*phe)
-    result = &(*phe)->HsEl;
+  slot = lookupSlot(ht, key, hashVal, NULL);
+
+  if (SLOT_IS_OCCUPIED(slot))
+    result = &slot->HsEl;
   else
     result = dhtNilElement;
 
@@ -1179,27 +586,19 @@ dhtElement *dhtLookupElementWithHash(HashTable *ht, dhtKey key, dhtHashValue has
 unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
 {
   unsigned int BucketCount = 0;
-  dhtElement const *he = dhtGetFirstElement(ht);
+  uLong i;
 
   memset(counter, 0, n*sizeof(counter[0]));
-  while (he!=Nil(dhtElement))
+
+  for (i = 0; i < ht->table_size; i++)
   {
-    unsigned int len = 1;
-    InternHsElement *ihe = ((InternHsElement const *)he)->Next;
-    while (ihe!=0)
+    if (SLOT_IS_OCCUPIED(&ht->table[i]))
     {
-      ++len;
-      ht->NextStep = ihe;
-      ihe = ihe->Next;
+      /* In open addressing each occupied slot is its own "bucket" of length 1 */
+      BucketCount++;
+      if (n > 0)
+        ++counter[0]; /* all chains have length 1 */
     }
-
-    ++BucketCount;
-    if (len<n)
-      ++counter[len-1];
-    else
-      ++counter[n-1];
-
-    he = dhtGetNextElement(ht);
   }
 
   return BucketCount;

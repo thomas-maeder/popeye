@@ -11,5 +11,6 @@ py
 pymacos
 gengmarr
 .settings
-.tex
-.ref
+*.tex
+*.ref
+*.tst
