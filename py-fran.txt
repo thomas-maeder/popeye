@@ -299,7 +299,7 @@ simples:
 	Leffie
 	AliceEchecs
 	Immobilio (peut etre suivie par la liste d'allures)
-	DangerCirce
+	CirceDanger
 	PAD
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,

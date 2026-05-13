@@ -304,7 +304,7 @@ Kommandos:
 	Leffie
 	AliceSchach
 	Immobilio (wenn gewuenscht gefolgt von der Liste der Gangarten)
-	DangerCirce
+	GefahrenCirce
 	PAD
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
