@@ -480,6 +480,7 @@
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
     ENUMERATOR(STAnticirceCaptureExchangeDetermineRebirthSquares),      \
+    ENUMERATOR(STAnticirceCaptureExchangeGenerate),                     \
     ENUMERATOR(STAnticirceCaptureExchangeDoTransfer),                   \
     ENUMERATOR(STAntipodesCirceDetermineRebirthSquare),                 \
     ENUMERATOR(STSymmetryCirceDetermineRebirthSquare),                  \
@@ -487,7 +488,7 @@
     ENUMERATOR(STHorizontalSymmetryCirceDetermineRebirthSquare),        \
     ENUMERATOR(STPWCDetermineRebirthSquare),                            \
     ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
-    ENUMERATOR(STCirceDetermineRebirthSquareCaptureSquare),               \
+    ENUMERATOR(STCirceDetermineRebirthSquareCaptureSquare),             \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCirceTestRebirthSquareEmpty),                          \
     ENUMERATOR(STCircePlacingReborn),                                   \

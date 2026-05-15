@@ -1,5 +1,6 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/cheylan.h"
+#include "conditions/anticirce/capture_exchange.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -60,6 +61,10 @@ void anticirce_initialise_solving(slice_index si)
                                        nr_sides,
                                        STValidateCheckMoveByPlayingCapture);
   }
+
+  if (anticirce_variant.on_occupied_rebirth_square
+      ==circe_on_occupied_rebirth_square_exchange)
+    solving_insert_anticirce_capture_exchange(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

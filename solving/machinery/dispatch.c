@@ -1283,6 +1283,10 @@ void dispatch(slice_index si)
       take_make_circe_collect_rebirth_squares_solve(si);
       break;
 
+    case STAnticirceCaptureExchangeGenerate:
+      anticirce_capture_exchange_generate_solve(si);
+      break;
+
     case STAnticirceCaptureExchangeDetermineRebirthSquares:
       anti_circe_capture_exchange_determine_rebirth_squares_solve(si);
       break;
