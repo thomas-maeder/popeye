@@ -161,6 +161,7 @@
 #include "conditions/immobilio.h"
 #include "conditions/pad.h"
 #include "conditions/danger_circe.h"
+#include "conditions/mate-C.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -1139,6 +1140,10 @@ void dispatch(slice_index si)
 
     case STMasandGeneralisedRecolorer:
       masand_generalised_recolorer_solve(si);
+      break;
+
+    case STMate_CRecolorer:
+      mate_C_recolorer_solve(si);
       break;
 
     case STInfluencerWalkChanger:

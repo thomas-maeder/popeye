@@ -258,8 +258,9 @@ typedef enum
   immobilio,              /* 237 */
   pad,                    /* 238 */
   danger_circe,           /* 239 */
+  mate_C,                 /* 240 */
 
-  CondCount               /* 240 */
+  CondCount               /* 241 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

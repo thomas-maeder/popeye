@@ -1,0 +1,10 @@
+begin
+
+protocol mate_C.tst
+
+pieces white kg2 qh1 dug1 black ka8 pa7h2 dub8
+stip #1
+cond #C
+
+end
+

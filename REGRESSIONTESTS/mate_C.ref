@@ -1,0 +1,44 @@
+
+      Klaus Wenda & Hans Gruber
+          Andernach 2026 TT
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   P   .   .   .   .   B   5
+|                                   |
+4   .   .   B   P  -K   .   S   .   4
+|                                   |
+3   .   .   .  -P   P   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .  NE   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#5                       10 + 2
+                 #C
+
+ 25  (Sg4-f6[f6=b] )
+ 25:8  (Sf6-d5 )
+ 25:8:27  (Bh5-f3[f3=b] )
+ 25:8:27:1  (Bf3-d1 )
+ 25:8:27:1:14  (Rh1-h6 )
+ 25:8:27:1:14:7  (Bd1-c2 )
+ 25:8:27:1:14:7:28  (Rh6-e6[e6=b] )
+ 25:8:27:1:14:7:28:20  (Re6-a6 )
+ 25:8:27:1:14:7:28:20:10  (Bc4*d3 + )
+  1.Sg4-f6[f6=b] Sf6-d5   2.Bh5-f3[f3=b] Bf3-d1   3.Rh1-h6 Bd1-c2   4.Rh6-e6[e6=b] Re6-a6   5.Bc4*d3 + Bc2*d3 #
+  add_to_move_generation_stack:         626
+                     play_move:         518
+ is_white_king_square_attacked:         352
+ is_black_king_square_attacked:         436
+
+solution finished.
+
+

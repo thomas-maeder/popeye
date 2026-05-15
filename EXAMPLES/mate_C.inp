@@ -1,0 +1,14 @@
+begin
+
+protocol mate_C.ref
+
+author Klaus Wenda & Hans Gruber
+origin Andernach 2026 TT
+
+pieces white kb5 rh1 bc4h5 sg4 pc5d2d4e3 neb1 black ke4 pd3
+stip hs#5
+condition #C
+option movenumbers start 25:8:27:1:14:7:28:20:10 upto 25:8:27:1:14:7:28:20:10
+
+end
+
