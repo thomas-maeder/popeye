@@ -105,7 +105,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[series_capture]
                 || CondFlag[transmissionmenace]
                 || CondFlag[powertransfer]
-                || CondFlag[danger_circe]);
+                || CondFlag[danger_circe]
+                || CondFlag[mate_C]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
@@ -756,7 +757,7 @@ static boolean FairyImpossible(void)
   }
   else
   {
-    if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton])
+    if (!CondFlag[masand] && !CondFlag[lostpieces] && !CondFlag[breton] && !CondFlag[mate_C])
     {
       /* not enough time to capture the remaining pieces */
       TraceValue("%u",Nbr[White]);
