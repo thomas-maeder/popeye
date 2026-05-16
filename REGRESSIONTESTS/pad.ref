@@ -213,3 +213,42 @@ solution finished.
 solution finished.
 
 
+
+          Hiroaki Maeshima
+      Problem Paradise 111 2025
+actually a #1 with 2 solutions - retroanalysis shows that wB and bPg6 have captured
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P  -P   .   .  -P  -P   .   7
+|                                   |
+6   .   .   B   .   .   .   P  -K   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   K   .   .   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2   .   .   .   .   P   .   P   R   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       7 + 7
+              PADChess
+
+ 27  (Bc6*f3 )
+ 27:11  (f7*g6 )
+  1...Bc6*f3   2.f7*g6 Rh2*h5 #
+  1...Bc6*f3   2.f7*g6 Bf3*h5[-wBh5] #
+  add_to_move_generation_stack:          88
+                     play_move:          88
+ is_white_king_square_attacked:           7
+ is_black_king_square_attacked:          49
+
+solution finished.
+
+
