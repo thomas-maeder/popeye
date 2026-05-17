@@ -121,9 +121,7 @@
 #include "platform/timer.h"
 #endif
 
-enum {
-  ENSURE_MAX_LENGTH_FITS_IN_UNSIGNED_SHORT = 1/(MAX_LENGTH_OF_ENCODING <= USHRT_MAX)
-};
+STATIC_ASSERT(MAX_LENGTH_OF_ENCODING <= USHRT_MAX);
 
 #if defined(FXF)
 unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
@@ -154,8 +152,9 @@ static slice_index hash_slices[max_nr_slices];
 enum
 {
   NUM_ELEMENTS_IN_HASHBUFFER = ((sizeof(HashBuffer) - offsetof(BCMemValue, Data))/sizeof(byte)),
-  ENSURE_HASHBUFFER_DATA_HAS_AT_LEAST_NR_ROWS_ON_BOARD_ENTRIES = 1/(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board)
 };
+
+STATIC_ASSERT(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board);
 
 HashBuffer hashBuffers[maxply+1];
 
