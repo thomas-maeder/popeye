@@ -48,8 +48,8 @@
 #  endif
 #  define MAX_POINTER_DIFFERENCE ((ptrdiff_t_printf_type)(((size_t)-1)>>1)) /* just a guess */
 
-STATIC_ASSERT(MAX_POINTER_DIFFERENCE > 0); /* I'm not sure what would happen if this fails,
-                                              but it likely wouldn't be pretty. */
+STATIC_ASSERT(MAX_POINTER_DIFFERENCE > 0, "We must be able to take pointer differenes."); /* I'm not sure what would happen if this fails,
+                                                                                             but it likely wouldn't be pretty. */
 #endif
 
 #define BOTTOM_BIT(s) (((size_t) (s)) & -(size_t) (s))

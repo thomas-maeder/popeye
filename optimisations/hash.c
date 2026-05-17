@@ -121,7 +121,7 @@
 #include "platform/timer.h"
 #endif
 
-STATIC_ASSERT(MAX_LENGTH_OF_ENCODING <= USHRT_MAX);
+STATIC_ASSERT(MAX_LENGTH_OF_ENCODING <= USHRT_MAX, "Encodings must fit in unsigned shorts.");
 
 #if defined(FXF)
 unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
@@ -154,7 +154,7 @@ enum
   NUM_ELEMENTS_IN_HASHBUFFER = ((sizeof(HashBuffer) - offsetof(BCMemValue, Data))/sizeof(byte)),
 };
 
-STATIC_ASSERT(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board);
+STATIC_ASSERT(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board, "There must be at least one hash element for each row.");
 
 HashBuffer hashBuffers[maxply+1];
 
