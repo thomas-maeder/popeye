@@ -306,6 +306,7 @@ Kommandos:
 	Immobilio (wenn gewuenscht gefolgt von der Liste der Gangarten)
 	GefahrenCirce
 	PAD
+	#C
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
