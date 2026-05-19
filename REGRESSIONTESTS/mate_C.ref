@@ -29,10 +29,10 @@ solving starts after 3 given half-moves
  25:8  (Sf6-d5 )
  25:8:27  (Bh5-f3[f3=b] )
   1.Sg4-f6[f6=b] Sf6-d5   2.Bh5-f3[f3=b] Bf3-d1   3.Rh1-h6 Bd1-c2   4.Rh6-e6[e6=b] Re6-a6   5.Bc4*d3 + Bc2*d3 #
-  add_to_move_generation_stack:    63270622
-                     play_move:    22763264
- is_white_king_square_attacked:    32715813
- is_black_king_square_attacked:    23380174
+  add_to_move_generation_stack:    63269412
+                     play_move:    22762806
+ is_white_king_square_attacked:    32694437
+ is_black_king_square_attacked:    23023829
 
 solution finished.
 

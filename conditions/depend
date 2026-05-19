@@ -7593,7 +7593,7 @@ conditions/mate-C$(OBJ_SUFFIX): conditions/mate-C.c conditions/mate-C.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/has_solution_type.enum solving/conditional_pipe.h \
- stipulation/move.h solving/pipe.h
+ stipulation/move.h stipulation/pipe.h solving/pipe.h
 conditions/mate-C.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -7650,4 +7650,5 @@ solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
 solving/conditional_pipe.h:
 stipulation/move.h:
+stipulation/pipe.h:
 solving/pipe.h:

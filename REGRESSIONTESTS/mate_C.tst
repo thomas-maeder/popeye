@@ -26,7 +26,7 @@
 
   add_to_move_generation_stack:          27
                      play_move:          39
- is_white_king_square_attacked:          14
+ is_white_king_square_attacked:          11
  is_black_king_square_attacked:          45
 
 solution finished.
@@ -64,8 +64,8 @@ Pb5 is not recolored because recoloring Na8 would be self-check
 
   add_to_move_generation_stack:         515
                      play_move:         343
- is_white_king_square_attacked:         415
- is_black_king_square_attacked:         239
+ is_white_king_square_attacked:         383
+ is_black_king_square_attacked:          99
 
 solution finished.
 

@@ -10,13 +10,13 @@
 #include "solving/conditional_pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
 #include "solving/pipe.h"
 
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
 static square current_observer_pos[maxply+1];
-static boolean recursion_preventer_hack = false; // TODO avoid with more accurate instrumentation
 
 /* Validate an observation or observer by making sure it's the checking piece
  * @param si identifies the validator slice
@@ -142,45 +142,77 @@ void mate_C_recolorer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (recursion_preventer_hack)
-    pipe_solve_delegate(si);
-  else
+  switch (conditional_pipe_solve_delegate(temporary_hack_mate_tester[advers(trait[nbply])]))
   {
-    recursion_preventer_hack = true;
+    case this_move_is_illegal:
+      solve_result = this_move_is_illegal;
+      break;
 
-    switch (conditional_pipe_solve_delegate(temporary_hack_mate_tester[advers(trait[nbply])]))
-    {
-      case this_move_is_illegal:
-        recursion_preventer_hack = false;
-        solve_result = this_move_is_illegal;
-        break;
+    case previous_move_has_not_solved:
+      pipe_solve_delegate(si);
+      break;
 
-      case previous_move_has_not_solved:
-        recursion_preventer_hack = false;
-        pipe_solve_delegate(si);
-        break;
-
-      default:
-        recursion_preventer_hack = false;
-        change_checkers(si);
-        break;
-    }
+    default:
+      change_checkers(si);
+      break;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void solving_insert_mate_C(slice_index si)
+static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STMate_CRecolorer);
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STMate_CRecolorer)
+    };
+
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    move_insert_slices(si,st->context,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor mate_C_inserters[] =
+{
+  { STGoalMateReachedTester, &stip_structure_visitor_noop },
+  { STMove,                  &instrument_move             }
+};
+
+enum
+{
+  nr_mate_C_inserters = sizeof mate_C_inserters / sizeof mate_C_inserters[0]
+};
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void solving_insert_mate_C(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    mate_C_inserters,
+                                    nr_mate_C_inserters);
+  stip_traverse_structure(si,&st);
+
   stip_instrument_observation_validation(si,nr_sides,STMate_CEnforceObserver);
 
   TraceFunctionExit(__func__);
