@@ -105,7 +105,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[series_capture]
                 || CondFlag[transmissionmenace]
                 || CondFlag[powertransfer]
-                || CondFlag[danger_circe]);
+                || CondFlag[danger_circe]
+                || CondFlag[alice]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
@@ -901,7 +902,7 @@ static boolean FairyImpossible(void)
     }
   }
 
-  if (!CondFlag[arc])
+  if (!CondFlag[arc] && !CondFlag[alice])
   {
     TraceText("testing if there are enough remaining moves");TraceEOL();
     MovesAvailable *= 2;
