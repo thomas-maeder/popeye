@@ -1,6 +1,6 @@
-To install on MacOS (tested on an M2 Macbook Pro in 2023 under MacOS Monerey):
+To install on MacOS (tested on an M2 Macbook Pro in 2025 under MacOS Sequoia):
 
-1. Popeye's build system requires an up-to-date `clang`, `ld` etc. which are not provided by Apple by default.
+1. Popeye's build system requires an up-to-date `clang`, `ld` etc. which are not provided by Apple by default. Update by using [homebrew](https://brew.sh):
 
 ```
 $ brew install llvm
@@ -14,17 +14,11 @@ export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include" 
 ```
 
-3. At the top level of the Popeye source code distribution, edit `makefile.defaults`. Find the line that says `TOOLCHAIN` and ensure it is pointing at `clang`:
+3. Now simply run `make -f makefile.unx TOOLCHAIN=clang`, which, after compiling and linking 500-odd source files, should result in a working Popeye binary called `py` in the current directory.
 
-```
-TOOLCHAIN=clang
-```
+4. (Optional: basic testing) Launch `py` with no arguments. It should display the following header (or some variation, depending on your MacOS and popeye versions):
 
-4. Now simply run `make -f makefile.unx`, which, after compiling and linking 500-odd source files, should result in a working Popeye binary called `py` in the current directory.
-
-5. (Optional: basic testing) Launch `py` with no arguments. It should display the following header (or some variation, depending on your MacOS version):
-
-`Popeye Darwin-21.6.0-arm-64Bit v4.87 (1024 MB)`
+`Popeye Darwin-24.6.0-arm-64Bit v4.99 (1024 MB)`
 
 Now paste the following into the terminal:
 
@@ -49,4 +43,4 @@ Popeye should respond by solving the problem, then exiting with no errors:
 solution finished. Time = 0.018 s
 ```
 
-6. (Optional: comprehensive testing) Run any of the self-test scripts (`solveExamples.sh` is quite comprehensive, for instance) to confirm all functionality works.
+5. (Optional: comprehensive testing) Run any of the self-test scripts (`solveExamples.sh` is quite comprehensive, for instance) to confirm all functionality works.
