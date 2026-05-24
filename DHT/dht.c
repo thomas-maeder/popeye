@@ -519,8 +519,7 @@ dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dh
     if (growTable(ht) != dhtOkStatus)
     {
       /* Element was inserted but table couldn't grow.
-       * Return the element — it's still valid, just find it again
-       * since growTable may have been partially successful (it wasn't). */
+       * Signal failure to the caller by returning dhtNilElement. */
       TraceFunctionExit(__func__);
       TraceFunctionResult("%p",(void *)dhtNilElement);
       TraceFunctionResultEnd();
