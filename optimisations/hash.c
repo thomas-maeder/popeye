@@ -127,16 +127,9 @@ enum {
 
 static inline void square_to_row_col(square s, int *r, int *c)
 {
-  if (onerow==8)
-  {
-    *r = s>>3;
-    *c = s&7;
-  }
-  else
-  {
-    *r = s/onerow;
-    *c = s%onerow;
-  }
+  /* If onerow happens to be a power of 2, the compiler should optimize these. */
+  *r = s/onerow;
+  *c = s%onerow;
 }
 
 #if defined(FXF)
@@ -1706,12 +1699,7 @@ static void LargeEncode(stip_length_type min_length,
     square const s = (underworld[gi].on
                       - nr_of_slack_rows_below_board*onerow
                       - nr_of_slack_files_left_of_board);
-    {
-      int r, c;
-      square_to_row_col(s, &r, &c);
-      row = r;
-      col = c;
-    }
+    square_to_row_col(s, &row, &col);
 
     assert((col + row*nr_files_on_board) < (1<<CHAR_BIT));
     *bp++ = (byte)(col + row*nr_files_on_board);

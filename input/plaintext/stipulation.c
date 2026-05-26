@@ -263,7 +263,7 @@ static void attach_help_branch(stip_length_type length,
   TraceFunctionParam("%u",branch);
   TraceFunctionParamListEnd();
 
-  if ((length & 1) == 1)
+  if (length & 1)
   {
     slice_index const inverter = alloc_move_inverter_slice();
     pipe_link(proxy,inverter);

@@ -36,13 +36,13 @@ struct dht    *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
 dhtElement    *dhtEnterElement(struct dht *, dhtKey key, dhtValue data);
 dhtElement    *dhtEnterElementWithHash(struct dht *, dhtKey key, dhtValue data, dhtHashValue hashVal);
 
-unsigned int   dhtBucketStat(struct dht *, unsigned int *counter, unsigned int n);
+unsigned int   dhtBucketStat(struct dht const *, unsigned int *counter, unsigned int n);
 void           dhtDestroy(struct dht *);
-void           dhtDump(struct dht *, FILE *);
-void           dhtDumpIndented(int ind, struct dht *, FILE *);
+void           dhtDump(struct dht const *, FILE *);
+void           dhtDumpIndented(int ind, struct dht const *, FILE *);
 void           dhtRemoveElement(struct dht *, dhtKey key);
-dhtElement    *dhtLookupElement(struct dht *, dhtKey key);
-dhtElement    *dhtLookupElementWithHash(struct dht *, dhtKey key, dhtHashValue hashVal);
+dhtElement    *dhtLookupElement(struct dht const *, dhtKey key);
+dhtElement    *dhtLookupElementWithHash(struct dht const *, dhtKey key, dhtHashValue hashVal);
 dhtElement    *dhtGetFirstElement(struct dht *);
 dhtElement    *dhtGetNextElement(struct dht *);
 unsigned long  dhtKeyCount(struct dht const *);

@@ -67,13 +67,13 @@ void find_shortest_solve(slice_index si)
 
   assert(length>=solve_nr_remaining);
 
-  for (solve_nr_remaining = n_min+((save_solve_nr_remaining-n_min)&1);
-       solve_nr_remaining<=save_solve_nr_remaining;
-       solve_nr_remaining += 2)
+  solve_nr_remaining = n_min+((save_solve_nr_remaining-n_min)&1);
+  for (;;)
   {
     pipe_solve_delegate(si);
-    if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
+    if ((solve_nr_remaining >= save_solve_nr_remaining) || (solve_result<=MOVE_HAS_SOLVED_LENGTH()))
       break;
+    solve_nr_remaining += 2;
   }
 
   solve_nr_remaining = save_solve_nr_remaining;
@@ -124,8 +124,8 @@ static slice_index find_ready_for_move_in_loop(slice_index ready_root)
                                result,
                                stip_traversal_context_help);
     assert(result!=no_slice);
-  } while (((SLICE_U(result).branch.length-slack_length)&1)
-           !=((SLICE_U(ready_root).branch.length-slack_length)&1));
+  } while ((SLICE_U(result).branch.length&1)
+           !=(SLICE_U(ready_root).branch.length&1));
   return result;
 }
 
