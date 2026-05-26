@@ -75,19 +75,22 @@ static stip_length_type delegate_solve(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  solve_nr_remaining = n_min+((n-n_min)&1);
-  for (;;)
+  if (n_min <= n)
   {
-    pipe_solve_delegate(si);
+    solve_nr_remaining = n_min+((n-n_min)&1);
+    for (;;)
+    {
+      pipe_solve_delegate(si);
 
-    result = solve_result;
-    if ((solve_nr_remaining >= n) || (result<=MOVE_HAS_SOLVED_LENGTH()))
-      break;
+      result = solve_result;
+      if ((result<=MOVE_HAS_SOLVED_LENGTH()) || (solve_nr_remaining >= n))
+        break;
 
-    solve_nr_remaining += 2;
+      solve_nr_remaining += 2;
+    }
+
+    solve_nr_remaining = save_solve_nr_remaining;
   }
-
-  solve_nr_remaining = save_solve_nr_remaining;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

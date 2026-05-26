@@ -67,16 +67,19 @@ void find_shortest_solve(slice_index si)
 
   assert(length>=solve_nr_remaining);
 
-  solve_nr_remaining = n_min+((save_solve_nr_remaining-n_min)&1);
-  for (;;)
+  if (n_min <= save_solve_nr_remaining)
   {
-    pipe_solve_delegate(si);
-    if ((solve_nr_remaining >= save_solve_nr_remaining) || (solve_result<=MOVE_HAS_SOLVED_LENGTH()))
-      break;
-    solve_nr_remaining += 2;
-  }
+    solve_nr_remaining = n_min+((save_solve_nr_remaining-n_min)&1);
+    for (;;)
+    {
+      pipe_solve_delegate(si);
+      if ((solve_result<=MOVE_HAS_SOLVED_LENGTH()) || (solve_nr_remaining >= save_solve_nr_remaining))
+        break;
+      solve_nr_remaining += 2;
+    }
 
-  solve_nr_remaining = save_solve_nr_remaining;
+    solve_nr_remaining = save_solve_nr_remaining;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
