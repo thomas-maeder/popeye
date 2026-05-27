@@ -633,7 +633,17 @@ unsigned int dhtBucketStat(HashTable const *ht, unsigned int *counter, unsigned 
   uLong size = ht->table_size;
 
   if (n > (((size_t) -1)/sizeof(counter[0])))
-    memset(counter, 0, ((((size_t) -1)/sizeof(counter[0])))*sizeof(counter[0]));
+  {
+    unsigned int *zero_position = counter;
+    unsigned int num_left_to_zero = n;
+    do {
+        memset(zero_position, 0, ((((size_t) -1)/sizeof(zero_position[0]))*sizeof(zero_position[0])));
+        zero_position += (((size_t) -1)/sizeof(zero_position[0]));
+        num_left_to_zero -= (unsigned int)(((size_t) -1)/sizeof(zero_position[0]));
+    }
+    while (num_left_to_zero > (unsigned int)(((size_t) -1)/sizeof(zero_position[0])));
+    memset(zero_position, 0, num_left_to_zero*sizeof(zero_position[0]));
+  }
   else
     memset(counter, 0, n*sizeof(counter[0]));
 
