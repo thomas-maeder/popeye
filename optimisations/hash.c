@@ -171,15 +171,19 @@ static dhtHashValue precomputed_hash[maxply+1];
 static boolean      hash_is_precomputed[maxply+1];
 
 /* Compute FNV-1a hash for a finished HashBuffer */
-#if (((((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 31) >> 31) >> 3) /* at least 128 bits */
-#  define FNV_PRIME 309485009821345068724781371U
-#  define FNV_OFFSET 144066263297769815596495629667062367629U
-#elif (((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 1) /* at least 64 bits */
-#  define FNV_PRIME 1099511628211U
-#  define FNV_OFFSET 14695981039346656037U
-#else /* assume at least 32 bits */
-#  define FNV_PRIME 16777619U
-#  define FNV_OFFSET 2166136261U
+#if (((MAX_DHT_HASH_VALUE >> 15) >> 15) >> 1)
+#  if (((((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 31) >> 31) >> 3) /* at least 128 bits */
+#    define FNV_PRIME 309485009821345068724781371U
+#    define FNV_OFFSET 144066263297769815596495629667062367629U
+#  elif (((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 1) /* at least 64 bits */
+#    define FNV_PRIME 1099511628211U
+#    define FNV_OFFSET 14695981039346656037U
+#  else /* at least 32 bits */
+#    define FNV_PRIME 16777619U
+#    define FNV_OFFSET 2166136261U
+#  endif
+#else
+#  error ERROR: Use of FNV-1a requires dhtHashValue to have at least 32 bits.
 #endif
 static dhtHashValue compute_hash_for_buffer(HashBuffer const *hb)
 {
