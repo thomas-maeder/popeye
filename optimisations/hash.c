@@ -171,14 +171,26 @@ static dhtHashValue precomputed_hash[maxply+1];
 static boolean      hash_is_precomputed[maxply+1];
 
 /* Compute FNV-1a hash for a finished HashBuffer */
+#if (((((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 31) >> 31) >> 3) /* at least 128 bits */
+#  define FNV_PRIME 309485009821345068724781371U
+#  define FNV_OFFSET 144066263297769815596495629667062367629U
+#elif (((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 1) /* at least 64 bits */
+#  define FNV_PRIME 1099511628211U
+#  define FNV_OFFSET 14695981039346656037U
+#else /* assume at least 32 bits */
+#  define FNV_PRIME 16777619U
+#  define FNV_OFFSET 2166136261U
+#endif
 static dhtHashValue compute_hash_for_buffer(HashBuffer const *hb)
 {
-  BCMemValue const *cmv = &hb->cmv;
-  dhtHashValue h = 2166136261U;
-  for (unsigned short i = 0; i < cmv->Leng; ++i)
+  BCMemValue const * cmv = &hb->cmv;
+  unsigned short Leng = cmv->Leng;
+  unsigned char const * buffer = cmv->Data;
+  dhtHashValue h = FNV_OFFSET;
+  for (unsigned short i = 0; i < Leng; ++i)
   {
-    h ^= cmv->Data[i];
-    h *= 16777619U;
+    h ^= buffer[i];
+    h *= FNV_PRIME;
   }
   return h;
 }

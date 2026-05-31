@@ -133,6 +133,7 @@ typedef struct {
 } dhtKey;
 
 typedef unsigned long dhtHashValue;
+#define MAX_DHT_HASH_VALUE ULONG_MAX
 
 typedef struct {
 	dhtHashValue	(*Hash)(dhtKey);
