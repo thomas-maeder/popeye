@@ -68,7 +68,6 @@ static stip_length_type delegate_solve(slice_index si,
                                         stip_length_type n_min)
 {
   stip_length_type result = n+2;
-  stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -77,6 +76,7 @@ static stip_length_type delegate_solve(slice_index si,
 
   if (n_min <= n)
   {
+    stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
     solve_nr_remaining = n_min+((n-n_min)&1);
     for (;;)
     {

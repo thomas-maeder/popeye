@@ -57,8 +57,6 @@ void find_shortest_solve(slice_index si)
   stip_length_type const n_min = (min_length>=(length-solve_nr_remaining)+slack_length
                                   ? min_length-(length-solve_nr_remaining)
                                   : min_length);
-  stip_length_type const save_solve_nr_remaining = solve_nr_remaining;
-
   solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
 
   TraceFunctionEntry(__func__);
@@ -67,8 +65,9 @@ void find_shortest_solve(slice_index si)
 
   assert(length>=solve_nr_remaining);
 
-  if (n_min <= save_solve_nr_remaining)
+  if (n_min <= solve_nr_remaining)
   {
+    stip_length_type const save_solve_nr_remaining = solve_nr_remaining;
     solve_nr_remaining = n_min+((save_solve_nr_remaining-n_min)&1);
     for (;;)
     {
