@@ -40,6 +40,7 @@ Benchmark environment: Linux x86_64, GCC, `-O3 -flto`, 4GB hash table (`-maxmem 
 | 11 | `6dfed6ecc` | DHT hash-aware lookup API | ~152.4s | -1.4% | -41.4% |
 | 12 | `994906ba8` | `-fno-stack-protector` | ~152.6s | -1.1% | -41.3% |
 | 13 | `eae8acbb1` | DHT open addressing (linear probing) | ~145.6s | -4.6% | -44.0% |
+| 14 | — | Bugfix: enforce maxmem on DHT table growth | ~145.6s | 0% | -44.0% |
 
 ---
 
@@ -227,6 +228,42 @@ Wired 4 hot-path call sites in battle/attack hashing to use these with `precompu
 
 ---
 
+### 14. Bugfix: Enforce `-maxmem` on DHT Table Growth (Jun 03) — **correctness fix**
+
+**File:** `DHT/dht.c` function `growTable`
+
+**Bug:** The open-addressing rewrite (opt 13) allocates the DHT table backbone via `calloc()` directly, bypassing the FXF memory pool. The FXF arena *is* the `-maxmem` budget — `allochash()` calls `fxfInit(nr_kilos * 1024)` to allocate the arena. Position keys and data stored *within* the DHT still go through `fxfAlloc` (bounded by the arena), but the flat table array that holds the slots grows unboundedly via `calloc()` with no budget check.
+
+**Impact:** With `-maxmem 100M`, the table can grow via successive doublings (256 → 512 → ... → 8,388,608 slots = 201 MB) far exceeding the user's memory limit. Each `growTable` call allocates a new array from the OS without checking against any cap. On memory-hungry problems (e.g. `EXAMPLES/lengthy/helpdirectmate.inp`), the process consumes arbitrary amounts of memory regardless of the `-maxmem` setting.
+
+**Reproduction:**
+```
+$ ./py -maxmem 100M EXAMPLES/lengthy/helpdirectmate.inp
+# stderr (with debug instrumentation):
+[DHT] growTable: 2097152 -> 4194304 slots (100663296 bytes)
+[DHT] growTable: 4194304 -> 8388608 slots (201326592 bytes)  ← exceeds 100MB budget
+```
+
+**Fix (8 lines):**
+```c
+#if defined(FXF)
+  /* Enforce memory budget: table must not exceed the FXF arena size */
+  if (new_size * sizeof(InternHsElement) > fxfArenaSize())
+  {
+    strcpy(dhtError, "growTable: exceeds memory budget");
+    return dhtFailedStatus;
+  }
+#endif
+```
+
+**Why this works:** When `growTable` returns `dhtFailedStatus`, `dhtEnterElementWithHash` returns `dhtNilElement`. The caller `allocDHTelement()` in `optimisations/hash.c` already handles this: it runs `compresshash()` to evict stale entries, and if that fails to free space, it destroys and recreates the hash table. This is the same recovery path that was exercised pre-opt-13 when FXF ran out of memory for position keys. The solver continues correctly with reduced hash effectiveness rather than unbounded memory growth.
+
+**Implementation note:** Required adding `fxfArenaSize()` (returns `GlobalSize`) to `DHT/fxf.c` / `DHT/fxf.h`, since the existing `fxfTotal()` returns *used* bytes (not the arena capacity) and would incorrectly block growth early when FXF has barely been touched.
+
+**Performance impact:** None for problems that fit within the memory budget (the common case). For problems that exceed the budget, the solver now correctly compresses/resets the hash table instead of consuming unlimited memory — matching the intended behavior of `-maxmem`.
+
+---
+
 ## Failed Attempts (Reverted)
 
 ### A. `-march=native` (Apr 30) — **REVERTED (regression)**
@@ -379,8 +416,10 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF \
 |------|---------|
 | `makefile.defaults` | Added `NDEBUG` to DEFS |
 | `toolchains/gcc/make.incl` | Added `-fno-stack-protector` to CCOPTIM |
-| `DHT/dht.c` | Bitwise AND, load factor 100%, hash caching, WithHash API, open addressing rewrite |
+| `DHT/dht.c` | Bitwise AND, load factor 100%, hash caching, WithHash API, open addressing rewrite, maxmem enforcement in growTable |
 | `DHT/dht.h` | `dhtLookupElementWithHash`, `dhtEnterElementWithHash` declarations |
+| `DHT/fxf.c` | Added `fxfArenaSize()` to expose arena capacity |
+| `DHT/fxf.h` | Added `fxfArenaSize()` declaration |
 | `DHT/dhtbcmem.c` | FNV-1a hash function |
 | `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array |
 | `optimisations/orthodox_square_observation.c` | `side_offset` row pointer caching |

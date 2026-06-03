@@ -163,7 +163,15 @@ static dhtStatus growTable(dht *ht)
     return dhtFailedStatus;
   }
   new_size = old_size * 2;
-  new_table = allocTable(new_size); /* TODO: Can we do better with a strategy involving realloc? */
+#if defined(FXF)
+  /* Enforce memory budget: table must not exceed the FXF arena size */
+  if (new_size * sizeof(InternHsElement) > fxfArenaSize())
+  {
+    strcpy(dhtError, "growTable: exceeds memory budget");
+    return dhtFailedStatus;
+  }
+#endif
+  new_table = allocTable(new_size);
   if (!new_table)
   {
     strcpy(dhtError, "growTable: no memory");

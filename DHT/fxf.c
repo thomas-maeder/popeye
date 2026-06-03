@@ -379,6 +379,10 @@ size_t fxfMaxAllocation(void) {
   return fxfMAXSIZE;
 }
 
+size_t fxfArenaSize(void) {
+  return GlobalSize;
+}
+
 #define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {

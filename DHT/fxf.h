@@ -26,6 +26,7 @@ void fxfFree(void *ptr, size_t size);
 void fxfInfo(FILE *);
 size_t fxfTotal(void);
 size_t fxfMaxAllocation(void);
+size_t fxfArenaSize(void);
 
 /* Reset the internal data structures to the state that was reached
  * after the latest call to fxfInit() */
