@@ -97,6 +97,7 @@ VERSION=4.100
 # to produce a message after canceling Popeye with a signal   SIGNALS
 # to produce statistics about hashtable fill rate             TESTHASH
 # to use the "FiXed and Fast memory allocator"                FXF
+# to use the alternative DHT variant with open adressing      DHT_OPEN_ADDRESSING
 
 
 # Other
@@ -107,6 +108,7 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF $(DEFINEMA
 # $(DEFINEMACRO)TESTHASH
 # $(DEFINEMACRO)DOTRACE
 # $(DEFINEMACRO)DOTRACECALLSTACK
+# $(DEFINEMACRO)DHT_OPEN_ADDRESSING
 
 
 

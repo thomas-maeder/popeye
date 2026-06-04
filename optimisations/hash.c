@@ -170,6 +170,15 @@ HashBuffer hashBuffers[maxply+1];
 static dhtHashValue precomputed_hash[maxply+1];
 static boolean      hash_is_precomputed[maxply+1];
 
+/* Dispatch macros: use precomputed hash when open addressing is enabled */
+#if defined(DHT_OPEN_ADDRESSING)
+#define DHT_LOOKUP(ht,key) dhtLookupElementWithHash(ht,key,precomputed_hash[nbply])
+#define DHT_ENTER(ht,key,data) dhtEnterElementWithHash(ht,key,data,precomputed_hash[nbply])
+#else
+#define DHT_LOOKUP(ht,key) dhtLookupElement(ht,key)
+#define DHT_ENTER(ht,key,data) dhtEnterElement(ht,key,data)
+#endif
+
 /* Compute FNV-1a hash for a finished HashBuffer */
 #if (((MAX_DHT_HASH_VALUE >> 15) >> 15) >> 1)
 #  if (((((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 31) >> 31) >> 3) /* at least 128 bits */
@@ -1902,17 +1911,21 @@ unsigned long allochash(unsigned long nr_kilos)
   size_t const one_kilo = 1<<10;
   if (nr_kilos > (((size_t) -1)/one_kilo))
     nr_kilos = (((size_t) -1)/one_kilo);
+#if defined(DHT_OPEN_ADDRESSING)
   /* Reserve 25% of the budget for the DHT table backbone (allocated
    * outside FXF via calloc).  The remaining 75% goes to the FXF arena
    * for position key/data storage. */
   {
     unsigned long arena_kilos = nr_kilos - nr_kilos/4;
     while (arena_kilos && !fxfInit(arena_kilos*one_kilo))
-      /* we didn't get hashmemory ... */
       arena_kilos /= 2;
     if (!arena_kilos)
       nr_kilos = 0;
   }
+#else
+  while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
+    nr_kilos /= 2;
+#endif
   if (nr_kilos && need_to_schedule_fxfTeardown)
   {
     if (atexit(&fxfTeardown))
@@ -2411,10 +2424,10 @@ static void addtohash_battle_nosuccess(slice_index si,
 
   assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElementWithHash(pyhash,hb,precomputed_hash[nbply]);
+  he = DHT_LOOKUP(pyhash,hb);
   if (he==dhtNilElement)
   {
-    he = dhtEnterElementWithHash(pyhash,hb,template_element.Data,precomputed_hash[nbply]);
+    he = DHT_ENTER(pyhash,hb,template_element.Data);
     if (he!=dhtNilElement)
       set_value_attack_nosuccess(he,si,val);
   }
@@ -2451,10 +2464,10 @@ static void addtohash_battle_success(slice_index si,
 
   assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElementWithHash(pyhash,hb,precomputed_hash[nbply]);
+  he = DHT_LOOKUP(pyhash,hb);
   if (he==dhtNilElement)
   {
-    he = dhtEnterElementWithHash(pyhash,hb,template_element.Data,precomputed_hash[nbply]);
+    he = DHT_ENTER(pyhash,hb,template_element.Data);
     if (he!=dhtNilElement)
       set_value_attack_success(he,si,val);
   }
@@ -2534,7 +2547,7 @@ void attack_hashed_tester_solve(slice_index si)
 
   k.value.object_pointer = &hashBuffers[nbply].cmv;
   assert(hash_is_precomputed[nbply]);
-  he = dhtLookupElementWithHash(pyhash,k,precomputed_hash[nbply]);
+  he = DHT_LOOKUP(pyhash,k);
   if (he==dhtNilElement)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else

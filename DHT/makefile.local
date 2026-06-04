@@ -1,7 +1,13 @@
 # -*- Makefile -*-
 #
 
-SRC_CFILES = dht.c dhtcmem.c dhtmem.c dhtsimpl.c dhtstrng.c dhtvalue.c dhtbcmem.c \
+ifeq ($(findstring DHT_OPEN_ADDRESSING,$(DEFS)),DHT_OPEN_ADDRESSING)
+DHT_SRC = dht_open_addressing.c
+else
+DHT_SRC = dht.c
+endif
+
+SRC_CFILES = $(DHT_SRC) dhtcmem.c dhtmem.c dhtsimpl.c dhtstrng.c dhtvalue.c dhtbcmem.c \
 	fxf.c
 INCLUDES = dhtbcmem.h dhtcmem.h dht.h dhtmem.h dhtvalue.h fxf.h
 

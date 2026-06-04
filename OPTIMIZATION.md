@@ -43,6 +43,7 @@ Benchmark environment: Linux x86_64, GCC, `-O3 -flto`, 4GB hash table (`-maxmem 
 | 14 | — | Bugfix: enforce maxmem on DHT table growth | ~145.6s | 0% | -44.0% |
 | 15 | `c6ce96822` | Bugfix: handle DHT graveyard (tombstone saturation) | ~145.6s | 0% | -44.0% |
 | 16 | — | Bugfix: correct memory budget split (arena 75% / table 25%) | ~145.6s | 0% | -44.0% |
+| 17 | — | Compile-time DHT variant switch (`DHT_OPEN_ADDRESSING`) | ~145.6s | 0% | -44.0% |
 
 ---
 
@@ -326,6 +327,49 @@ Total VSZ = 4624MB (arena 3840 + table 768 + overhead 16) — within the 5120MB 
 
 ---
 
+### 17. Compile-Time DHT Variant Switch (Jun 04) — **infrastructure**
+
+**Files:** `DHT/dht.h`, `DHT/dht_original.c` (new), `DHT/makefile.local`, `optimisations/hash.c`, `makefile.defaults`
+
+**What:** The DHT implementation is now selectable at compile time via the `DHT_OPEN_ADDRESSING` flag. This allows switching between the original `develop`-branch chained DHT and the optimized open-addressing variant without code changes.
+
+**Variants:**
+
+| | Default (original) | `DHT_OPEN_ADDRESSING` |
+|---|---|---|
+| Source file | `DHT/dht.c` | `DHT/dht_open_addressing.c` |
+| Data structure | Separate chaining (linked lists) | Open addressing (linear probing) |
+| Memory allocation | All via FXF (single pool) | Table via calloc + keys via FXF (split pool) |
+| Arena budget | 100% to FXF | 75% FXF / 25% table headroom |
+| Precomputed hash | Not used | Used on battle/attack paths |
+| Performance (alice.inp, 4G) | ~3.2s | ~3.0s |
+
+**How to enable:**
+
+```bash
+# Default build (original chained DHT):
+make -f makefile.unx
+
+# Optimized open-addressing DHT:
+make -f makefile.unx DEFS="$(DEFS) -DDHT_OPEN_ADDRESSING"
+# or add $(DEFINEMACRO)DHT_OPEN_ADDRESSING to makefile.defaults DEFS line
+```
+
+**Implementation details:**
+
+1. `DHT/makefile.local` conditionally selects `dht_open_addressing.c` or `dht.c` based on the flag
+2. `DHT/dht.h` guards `dhtLookupElementWithHash` / `dhtEnterElementWithHash` declarations
+3. `optimisations/hash.c` uses dispatch macros (`DHT_LOOKUP` / `DHT_ENTER`) that expand to the `WithHash` variants when enabled, or the standard API otherwise
+4. `optimisations/hash.c` `allochash()` only applies the 75/25 budget split when open addressing is active
+
+**Why a compile-time switch:**
+
+The two DHT implementations share an API (`dht.h`) but have fundamentally different internals — the open-addressing version is a complete rewrite (1088 → 650 lines). Interleaving with `#ifdef` within a single file would be unmaintainable. Separate source files (`dht.c` for the original, `dht_open_addressing.c` for the optimized variant) selected by the build system keeps history clean and makes it easy for developers to extend either variant independently.
+
+**Correctness verified:** Both variants produce identical solutions on `alice.inp` and `grid.inp`. Only timing differs.
+
+---
+
 ## Failed Attempts (Reverted)
 
 ### A. `-march=native` (Apr 30) — **REVERTED (regression)**
@@ -478,7 +522,8 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF \
 |------|---------|
 | `makefile.defaults` | Added `NDEBUG` to DEFS |
 | `toolchains/gcc/make.incl` | Added `-fno-stack-protector` to CCOPTIM |
-| `DHT/dht.c` | Bitwise AND, load factor 100%, hash caching, WithHash API, open addressing rewrite, maxmem enforcement in growTable |
+| `DHT/dht.c` | Original chained DHT (develop baseline, with const-correctness fixes) |
+| `DHT/dht_open_addressing.c` | Open addressing rewrite: linear probing, hash caching, WithHash API, maxmem enforcement |
 | `DHT/dht.h` | `dhtLookupElementWithHash`, `dhtEnterElementWithHash` declarations |
 | `DHT/fxf.c` | Added `fxfArenaSize()` to expose arena capacity |
 | `DHT/fxf.h` | Added `fxfArenaSize()` declaration |
