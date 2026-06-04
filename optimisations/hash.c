@@ -1902,9 +1902,17 @@ unsigned long allochash(unsigned long nr_kilos)
   size_t const one_kilo = 1<<10;
   if (nr_kilos > (((size_t) -1)/one_kilo))
     nr_kilos = (((size_t) -1)/one_kilo);
-  while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
-    /* we didn't get hashmemory ... */
-    nr_kilos /= 2;
+  /* Reserve 25% of the budget for the DHT table backbone (allocated
+   * outside FXF via calloc).  The remaining 75% goes to the FXF arena
+   * for position key/data storage. */
+  {
+    unsigned long arena_kilos = nr_kilos - nr_kilos/4;
+    while (arena_kilos && !fxfInit(arena_kilos*one_kilo))
+      /* we didn't get hashmemory ... */
+      arena_kilos /= 2;
+    if (!arena_kilos)
+      nr_kilos = 0;
+  }
   if (nr_kilos && need_to_schedule_fxfTeardown)
   {
     if (atexit(&fxfTeardown))

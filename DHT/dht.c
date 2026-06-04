@@ -158,8 +158,11 @@ static dhtStatus growTable(dht *ht)
   uLong i;
   assert((old_size > 0) && !(old_size & (old_size - 1)));
 #if defined(FXF)
-  /* Enforce memory budget: table must not exceed the FXF arena size */
-  if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/2))
+  /* Enforce memory budget: the table backbone (outside FXF) is capped at
+   * 1/3 of the arena size (~25% of the original -maxmem budget, since
+   * arena = 75% of budget). This keeps total process memory within the
+   * user's specified limit. */
+  if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/6))
   {
     strcpy(dhtError, "growTable: exceeds memory budget");
     return dhtFailedStatus;

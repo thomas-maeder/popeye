@@ -41,6 +41,8 @@ Benchmark environment: Linux x86_64, GCC, `-O3 -flto`, 4GB hash table (`-maxmem 
 | 12 | `994906ba8` | `-fno-stack-protector` | ~152.6s | -1.1% | -41.3% |
 | 13 | `eae8acbb1` | DHT open addressing (linear probing) | ~145.6s | -4.6% | -44.0% |
 | 14 | — | Bugfix: enforce maxmem on DHT table growth | ~145.6s | 0% | -44.0% |
+| 15 | `c6ce96822` | Bugfix: handle DHT graveyard (tombstone saturation) | ~145.6s | 0% | -44.0% |
+| 16 | — | Bugfix: correct memory budget split (arena 75% / table 25%) | ~145.6s | 0% | -44.0% |
 
 ---
 
@@ -264,6 +266,66 @@ $ ./py -maxmem 100M EXAMPLES/lengthy/helpdirectmate.inp
 
 ---
 
+### 15. Bugfix: Handle DHT Graveyard — Tombstone Saturation (Jun 03) — `c6ce96822`
+
+**Author:** Joshua Green
+
+**File:** `DHT/dht.c` function `lookupSlot` and callers
+
+**Bug:** The open-addressing table could fill completely with a mix of occupied slots and tombstones (a "graveyard"), causing `lookupSlot` to loop infinitely since it only terminated on EMPTY slots.
+
+**Fix:** `lookupSlot` now detects a full wraparound (returns to starting index) and returns a tombstone slot for insertion. The API was simplified to return `boolean` (found/not-found) with the slot pointer as an output parameter. Also reordered the FXF budget check in `growTable` to avoid potential overflow.
+
+---
+
+### 16. Bugfix: Correct Memory Budget Split for DHT Table (Jun 04) — **correctness fix**
+
+**Files:** `optimisations/hash.c` function `allochash`, `DHT/dht.c` function `growTable`
+
+**Problem:** Bugfix 14 capped the DHT table at `fxfArenaSize()` but the arena consumed 100% of the `-maxmem` budget. Since the table is allocated outside the arena via `calloc`, the total process memory was `budget + table` — exceeding the user's requested limit. With `-maxmem 5G` the process could use 5GB (arena) + up to 5GB (table) = 10GB.
+
+**Root cause:** In the original `develop` branch, everything (table directory nodes, element nodes, key data) was allocated through FXF. The arena was the *total* memory budget and all structures competed for space within it. After opt 13 moved the table backbone outside FXF, it became an *additional* allocation on top of the arena — breaking the budget semantics.
+
+**Fix — 75/25 budget split:**
+
+1. `allochash()` now allocates the FXF arena at **75% of the budget** (was 100%):
+```c
+unsigned long arena_kilos = nr_kilos - nr_kilos/4;
+```
+
+2. `growTable()` caps the table at **~25% of the budget** (= arena/3):
+```c
+if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/6))
+```
+
+**Why 75/25 is the correct split:**
+
+In the open-addressing DHT, each stored position requires:
+- **Table slot:** 24 bytes (`InternHsElement`: key pointer + data + hash cache) — at 70% load factor, effective cost = 24/0.7 ≈ 34 bytes per entry
+- **Key data in FXF:** ~50–200 bytes (encoded position via `BCMemValue`)
+
+Typical ratio: ~75% of per-entry memory is key data (FXF), ~25% is table backbone (calloc). This matches the original `develop` behavior where both shared the same pool naturally.
+
+**Trade-offs:**
+- Reducing the arena fraction below 75% would starve key storage, causing premature hash compression
+- Increasing it above 75% would starve the table, reducing maximum hash capacity (fewer slots = earlier compression)
+- The power-of-2 table sizing means the table can't perfectly fill its 25% budget — the last allowed doubling may leave some headroom unused
+
+**Verification (`-maxmem 5G`, 300s run on `memory_heavy.inp`):**
+```
+ t(s) | VSZ(MB) | RSS(MB) | Notes
+    0 |    3880 |      35 | Arena=3840MB (75% of 5GB)
+   40 |    4624 |    1025 | Table hits cap: 768MB (32M slots)
+   90 |    4624 |    1218 | RSS stabilizes
+  300 |    4624 |    1249 | Bounded — no further growth
+```
+
+Total VSZ = 4624MB (arena 3840 + table 768 + overhead 16) — within the 5120MB budget.
+
+**Performance impact:** None. `alice.inp -maxmem 4G` = 3.07s (unchanged from pre-fix).
+
+---
+
 ## Failed Attempts (Reverted)
 
 ### A. `-march=native` (Apr 30) — **REVERTED (regression)**
@@ -421,7 +483,7 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF \
 | `DHT/fxf.c` | Added `fxfArenaSize()` to expose arena capacity |
 | `DHT/fxf.h` | Added `fxfArenaSize()` declaration |
 | `DHT/dhtbcmem.c` | FNV-1a hash function |
-| `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array |
+| `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array, 75/25 arena budget split |
 | `optimisations/orthodox_square_observation.c` | `side_offset` row pointer caching |
 | `position/position.h` | Inlined `find_end_of_line` |
 | `solving/find_shortest.c` | Parity `&1` |
