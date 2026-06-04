@@ -157,21 +157,21 @@ static dhtStatus growTable(dht *ht)
   InternHsElement *new_table;
   uLong i;
   assert((old_size > 0) && !(old_size & (old_size - 1)));
+#if defined(FXF)
+  /* Enforce memory budget: table must not exceed the FXF arena size */
+  if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/2))
+  {
+    strcpy(dhtError, "growTable: exceeds memory budget");
+    return dhtFailedStatus;
+  }
+#endif
   if (old_size > ((uLong) -1)/2)
   {
     strcpy(dhtError, "growTable: no memory");
     return dhtFailedStatus;
   }
   new_size = old_size * 2;
-#if defined(FXF)
-  /* Enforce memory budget: table must not exceed the FXF arena size */
-  if (new_size * sizeof(InternHsElement) > fxfArenaSize())
-  {
-    strcpy(dhtError, "growTable: exceeds memory budget");
-    return dhtFailedStatus;
-  }
-#endif
-  new_table = allocTable(new_size);
+  new_table = allocTable(new_size); /* TODO: Can we do better with a strategy involving realloc? */
   if (!new_table)
   {
     strcpy(dhtError, "growTable: no memory");
@@ -374,43 +374,57 @@ dhtElement *dhtGetNextElement(HashTable *ht)
   return dhtNilElement;
 }
 
-/* Find a slot for the given key. Returns the index of the slot containing
- * the key, or the index of the first EMPTY slot if not found.
- * If first_deleted isn't NULL, a DELETED slot encountered first will be returned
- * for reuse (but only if the key is not found further along the probe).
+/* Find a slot for the given key. Returns true if the key is found, false otherwise.
+ * If slot isn't NULL, returns the address of key if found and the address of an
+ * available slot otherwise (a DELETED slot if available, otherwise an EMPTY one).
  * We expect the caller to ensure that hashVal is > 1, since smaller values
  * indicate emptiness or deletion. */
-static InternHsElement *lookupSlot(dht const *ht, dhtKey key, dhtHashValue hashVal,
-                                   InternHsElement **first_deleted)
+static boolean lookupSlot(dht const *ht, dhtKey key, dhtHashValue hashVal,
+                          InternHsElement **slot)
 {
   uLong mask = ht->table_size - 1;
   uLong idx = hashVal & mask;
+  uLong const starting_idx = idx;
   InternHsElement *del = NULL;
 
   assert(hashVal > 1);
 
-  for (;;)
+  do
   {
-    InternHsElement *slot = &ht->table[idx];
-    if (SLOT_IS_EMPTY(slot))
+    InternHsElement *tbl_idx = &ht->table[idx];
+    if (SLOT_IS_EMPTY(tbl_idx))
     {
-      if (first_deleted)
-        *first_deleted = del;
-      return slot;
+      /* We're done searching; the element isnt there. */
+      if (slot)
+      {
+        /* Return the proper insertion point. */
+        if (del)
+          *slot = del;
+        else
+          *slot = tbl_idx;
+      }
+      return false;
     }
-    if (SLOT_IS_DELETED(slot))
+    if (SLOT_IS_DELETED(tbl_idx))
     {
       if (!del)
-        del = slot;
+        del = tbl_idx;
     }
-    else if ((slot->HashCache == hashVal) && (ht->procs.Equal)(slot->HsEl.Key, key))
+    else if ((tbl_idx->HashCache == hashVal) && (ht->procs.Equal)(tbl_idx->HsEl.Key, key))
     {
-      if (first_deleted)
-        *first_deleted = NULL;
-      return slot;
+      /* TODO: Consider lazy deletion (https://en.wikipedia.org/wiki/Lazy_deletion). */
+      if (slot)
+        *slot = tbl_idx;
+      return true;
     }
     idx = (idx + 1) & mask;
   }
+  while (idx != starting_idx);
+  /* table is a graveyard; there must be at least one tombstone */
+  assert(!!del);
+  if (slot)
+    *slot = del;
+  return false;
 }
 
 void dhtRemoveElement(HashTable *ht, dhtKey key)
@@ -426,9 +440,8 @@ void dhtRemoveElement(HashTable *ht, dhtKey key)
   hashVal = (ht->procs.Hash)(key);
   if (hashVal < 2)
     hashVal += SMALL_HASH_ADJUSTMENT;
-  slot = lookupSlot(ht, key, hashVal, NULL);
 
-  if (SLOT_IS_OCCUPIED(slot))
+  if (lookupSlot(ht, key, hashVal, &slot))
   {
     DEBUG_CODE(
       fprintf(stderr, "%s: dumping before removing\n", myname);
@@ -497,11 +510,11 @@ static int tableNeedsToGrow(HashTable const *ht)
 dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dhtHashValue hashVal)
 {
   InternHsElement *slot;
-  InternHsElement *first_deleted;
   dhtValue DataV;
   dhtKey KeyK;
   dhtValue *KeyVPtr = &KeyK.value;
   dhtValue *DataVPtr = &DataV;
+  boolean found;
 
   TraceFunctionEntry(__func__);
 
@@ -526,12 +539,13 @@ dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dh
   if (hashVal < 2)
     hashVal += SMALL_HASH_ADJUSTMENT;
 
-  slot = lookupSlot(ht, key, hashVal, &first_deleted);
+  found = lookupSlot(ht, key, hashVal, &slot);
+  assert(slot && ((!found) == !SLOT_IS_OCCUPIED(slot)));
 
-  if (SLOT_IS_OCCUPIED(slot))
+  if (found)
   {
     /* Key exists — update in place */
-
+    
     if (ht->DtaPolicy == dhtCopy)
       (ht->procs.FreeData)(slot->HsEl.Data);
     if (ht->KeyPolicy == dhtCopy)
@@ -563,13 +577,9 @@ dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dh
       return dhtNilElement;
     }
     /* After rehash, slot pointer is invalid — look up again */
-    slot = lookupSlot(ht, key, hashVal, NULL);
-    assert(SLOT_IS_EMPTY(slot));
+    found = lookupSlot(ht, key, hashVal, &slot);
+    assert(slot && (!found) && SLOT_IS_EMPTY(slot));
   }
-  else
-    /* Choose insertion slot: reuse tombstone if available, else use the empty slot */
-    if (first_deleted)
-      slot = first_deleted;
 
   slot->HsEl.Key = KeyK;
   slot->HsEl.Data = DataV;
@@ -595,9 +605,8 @@ dhtElement *dhtLookupElement(HashTable const *ht, dhtKey key)
   hashVal = (ht->procs.Hash)(key);
   if (hashVal < 2)
     hashVal += SMALL_HASH_ADJUSTMENT;
-  slot = lookupSlot(ht, key, hashVal, NULL);
 
-  if (SLOT_IS_OCCUPIED(slot))
+  if (lookupSlot(ht, key, hashVal, &slot))
     result = &slot->HsEl;
   else
     result = dhtNilElement;
@@ -621,9 +630,8 @@ dhtElement *dhtLookupElementWithHash(HashTable const *ht, dhtKey key, dhtHashVal
 
   if (hashVal < 2)
     hashVal += SMALL_HASH_ADJUSTMENT;
-  slot = lookupSlot(ht, key, hashVal, NULL);
 
-  if (SLOT_IS_OCCUPIED(slot))
+  if (lookupSlot(ht, key, hashVal, &slot))
     result = &slot->HsEl;
   else
     result = dhtNilElement;
