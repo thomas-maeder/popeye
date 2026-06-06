@@ -1037,7 +1037,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   return &he->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable const *ht, dhtKey key)
+dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   InternHsElement **phe;
   dhtElement *result;

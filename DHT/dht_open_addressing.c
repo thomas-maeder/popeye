@@ -382,7 +382,7 @@ dhtElement *dhtGetNextElement(HashTable *ht)
  * available slot otherwise (a DELETED slot if available, otherwise an EMPTY one).
  * We expect the caller to ensure that hashVal is > 1, since smaller values
  * indicate emptiness or deletion. */
-static boolean lookupSlot(dht const *ht, dhtKey key, dhtHashValue hashVal,
+static boolean lookupSlot(dht *ht, dhtKey key, dhtHashValue hashVal,
                           InternHsElement **slot)
 {
   uLong mask = ht->table_size - 1;
@@ -415,7 +415,13 @@ static boolean lookupSlot(dht const *ht, dhtKey key, dhtHashValue hashVal,
     }
     else if ((tbl_idx->HashCache == hashVal) && (ht->procs.Equal)(tbl_idx->HsEl.Key, key))
     {
-      /* TODO: Consider lazy deletion (https://en.wikipedia.org/wiki/Lazy_deletion). */
+      if (del)
+      {
+        /* Shift the element to the tombstone, to make future lookups faster. */
+        *del = *tbl_idx;
+        tbl_idx->HashCache = 1;
+        tbl_idx = del;
+      }
       if (slot)
         *slot = tbl_idx;
       return true;
@@ -595,7 +601,7 @@ dhtElement *dhtEnterElementWithHash(HashTable *ht, dhtKey key, dhtValue data, dh
   return &slot->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable const *ht, dhtKey key)
+dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   dhtHashValue hashVal;
   InternHsElement *slot;
@@ -620,7 +626,7 @@ dhtElement *dhtLookupElement(HashTable const *ht, dhtKey key)
   return result;
 }
 
-dhtElement *dhtLookupElementWithHash(HashTable const *ht, dhtKey key, dhtHashValue hashVal)
+dhtElement *dhtLookupElementWithHash(HashTable *ht, dhtKey key, dhtHashValue hashVal)
 {
   InternHsElement *slot;
   dhtElement *result;

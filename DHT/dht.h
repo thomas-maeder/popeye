@@ -43,9 +43,9 @@ void           dhtDestroy(struct dht *);
 void           dhtDump(struct dht const *, FILE *);
 void           dhtDumpIndented(int ind, struct dht const *, FILE *);
 void           dhtRemoveElement(struct dht *, dhtKey key);
-dhtElement    *dhtLookupElement(struct dht const *, dhtKey key);
+dhtElement    *dhtLookupElement(struct dht *, dhtKey key);
 #if defined(DHT_OPEN_ADDRESSING)
-dhtElement    *dhtLookupElementWithHash(struct dht const *, dhtKey key, dhtHashValue hashVal);
+dhtElement    *dhtLookupElementWithHash(struct dht *, dhtKey key, dhtHashValue hashVal);
 #endif
 dhtElement    *dhtGetFirstElement(struct dht *);
 dhtElement    *dhtGetNextElement(struct dht *);
