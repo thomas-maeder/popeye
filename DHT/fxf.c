@@ -383,6 +383,15 @@ size_t fxfArenaSize(void) {
   return GlobalSize;
 }
 
+size_t fxfAvailable(void) {
+#if defined(SEGMENTED)
+  return (size_t)pointerDifference(TopFreePtr,BotFreePtr)
+       + ARENA_SEG_SIZE*(size_t)(ArenaSegCnt-CurrentSeg-1);
+#else
+  return (size_t)pointerDifference(TopFreePtr,BotFreePtr);
+#endif
+}
+
 #define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {

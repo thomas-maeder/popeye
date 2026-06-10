@@ -1912,11 +1912,11 @@ unsigned long allochash(unsigned long nr_kilos)
   if (nr_kilos > (((size_t) -1)/one_kilo))
     nr_kilos = (((size_t) -1)/one_kilo);
 #if defined(DHT_OPEN_ADDRESSING)
-  /* Reserve 25% of the budget for the DHT table backbone (allocated
-   * outside FXF via calloc).  The remaining 75% goes to the FXF arena
-   * for position key/data storage. */
+  /* 50/50 budget split: arena gets half, table gets the other half.
+   * This keeps total VSZ within the -maxmem budget while providing
+   * optimal performance (best balance of key storage vs table capacity). */
   {
-    unsigned long arena_kilos = nr_kilos - nr_kilos/4;
+    unsigned long arena_kilos = nr_kilos / 2;
     while (arena_kilos && !fxfInit(arena_kilos*one_kilo))
       arena_kilos /= 2;
     if (!arena_kilos)

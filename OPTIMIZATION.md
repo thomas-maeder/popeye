@@ -279,57 +279,98 @@ $ ./py -maxmem 100M EXAMPLES/lengthy/helpdirectmate.inp
 
 ---
 
-### 16. Bugfix: Correct Memory Budget Split for DHT Table (Jun 04) — **correctness fix**
+### 16. Bugfix: Correct Memory Budget Split for DHT Table (Jun 04, revised Jun 09) — **correctness fix**
 
-**Files:** `optimisations/hash.c` function `allochash`, `DHT/dht.c` function `growTable`
+**Files:** `optimisations/hash.c` function `allochash`, `DHT/dht_open_addressing.c` function `growTable`, `DHT/fxf.c` + `DHT/fxf.h` (added `fxfAvailable()`)
 
-**Problem:** Bugfix 14 capped the DHT table at `fxfArenaSize()` but the arena consumed 100% of the `-maxmem` budget. Since the table is allocated outside the arena via `calloc`, the total process memory was `budget + table` — exceeding the user's requested limit. With `-maxmem 5G` the process could use 5GB (arena) + up to 5GB (table) = 10GB.
+**Problem:** The open-addressing DHT (opt 13) allocates its table backbone outside FXF via `calloc`. If the FXF arena consumes 100% of the `-maxmem` budget, the table adds *on top* — causing total VSZ to exceed the user's stated limit. Systems with strict overcommit accounting or cgroups would reject these allocations.
 
-**Root cause:** In the original `develop` branch, everything (table directory nodes, element nodes, key data) was allocated through FXF. The arena was the *total* memory budget and all structures competed for space within it. After opt 13 moved the table backbone outside FXF, it became an *additional* allocation on top of the arena — breaking the budget semantics.
+**Root cause:** In the original `develop` branch, everything was allocated within FXF. The arena *was* the total budget. After opt 13 moved the table outside FXF, `arena + table > budget`.
 
-**Fix — 75/25 budget split:**
+**Analysis — empirical memory ratio per stored position:**
 
-1. `allochash()` now allocates the FXF arena at **75% of the budget** (was 100%):
+Instrumented `growTable` on `dw_ng.04.memtest -maxmem 512M` showed:
+```
+table=192MB when arena_used=50MB  → ratio 4:1 (table:keys)
+table=384MB when arena_used=100MB → ratio 4:1 (table:keys)
+```
+
+Each stored position requires:
+- **Table slot:** 24 bytes × (1/0.7 load factor) ≈ 34 bytes effective
+- **Key in FXF:** ~18–25 bytes (BCMemValue: 2-byte length + encoded position)
+
+Effective split per entry: **~65% table, ~35% keys**.
+
+**Splits tested (`-maxmem 512M`, `dw_ng.04.memtest`):**
+
+| Split (arena/table) | VSZ(MB) | RSS(MB) | RSS/VSZ | Time | VSZ ≤ budget? |
+|---------------------|---------|---------|---------|------|---------------|
+| 75/25 (initial) | 496 | 151 | 30% | 41s | ✓ |
+| **50/50 (chosen)** | **464** | **296** | **63%** | **35s** | **✓** |
+| 33/67 | 379 | 296 | 78% | 38s | ✓ |
+| 25/75 | 528 | 516 | 97% | 41s | ✗ |
+| 100/dynamic (no VSZ cap) | 912 | 520 | 57% | 28s | ✗ |
+
+**Chosen fix — 50/50 budget split:**
+
+1. `allochash()` allocates the FXF arena at **50% of the budget**:
 ```c
-unsigned long arena_kilos = nr_kilos - nr_kilos/4;
+unsigned long arena_kilos = nr_kilos / 2;
 ```
 
-2. `growTable()` caps the table at **~25% of the budget** (= arena/3):
+2. `growTable()` caps the table at **50% of the budget** (= `fxfArenaSize()`):
 ```c
-if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/6))
+if ((old_size * 2) * sizeof(InternHsElement) > fxfArenaSize())
+    return dhtFailedStatus;
 ```
 
-**Why 75/25 is the correct split:**
+**Why 50/50:**
 
-In the open-addressing DHT, each stored position requires:
-- **Table slot:** 24 bytes (`InternHsElement`: key pointer + data + hash cache) — at 70% load factor, effective cost = 24/0.7 ≈ 34 bytes per entry
-- **Key data in FXF:** ~50–200 bytes (encoded position via `BCMemValue`)
+- Best performance within budget (35s vs 38–41s for other bounded splits)
+- VSZ stays within `-maxmem` limit (464MB < 512MB)
+- Good RSS utilization (63%) — the solver uses what it needs
+- Both table and keys get enough room to avoid premature hash compression
+- A more keys-heavy split (75/25) starves the table → slow due to high load factor
+- A more table-heavy split (25/75, 33/67) starves keys → slow due to frequent compression
 
-Typical ratio: ~75% of per-entry memory is key data (FXF), ~25% is table backbone (calloc). This matches the original `develop` behavior where both shared the same pool naturally.
+**Performance impact:** `alice.inp -maxmem 4G` = ~3.0s (unchanged).
 
-**Trade-offs:**
-- Reducing the arena fraction below 75% would starve key storage, causing premature hash compression
-- Increasing it above 75% would starve the table, reducing maximum hash capacity (fewer slots = earlier compression)
-- The power-of-2 table sizing means the table can't perfectly fill its 25% budget — the last allowed doubling may leave some headroom unused
+**High-Memory Benchmark Results (Jun 09):**
 
-**Verification (`-maxmem 5G`, 300s run on `memory_heavy.inp`):**
-```
- t(s) | VSZ(MB) | RSS(MB) | Notes
-    0 |    3880 |      35 | Arena=3840MB (75% of 5GB)
-   40 |    4624 |    1025 | Table hits cap: 768MB (32M slots)
-   90 |    4624 |    1218 | RSS stabilizes
-  300 |    4624 |    1249 | Bounded — no further growth
-```
+Two memory-intensive test problems were used to evaluate different budget splits:
 
-Total VSZ = 4624MB (arena 3840 + table 768 + overhead 16) — within the 5120MB budget.
+*Test 1: `dw_ng.04.memtest` (Circe h=8, `-maxmem 512M`)*
 
-**Performance impact:** None. `alice.inp -maxmem 4G` = 3.07s (unchanged from pre-fix).
+| Split (arena/table) | VSZ(MB) | RSS(MB) | RSS/VSZ | Time | VSZ ≤ budget? |
+|---------------------|---------|---------|---------|------|---------------|
+| 50/50 | 464 | 296 | 63% | 35s | ✓ |
+| 33/67 | 379 | 296 | 78% | 38s | ✓ |
+| 25/75 | 528 | 516 | 97% | 41s | ✗ |
+
+*Test 2: `FS10852.memtest` (Hypervolage h#4.5, `-maxmem 10G`)*
+
+| Variant | VSZ(MB) | RSS peak(MB) | RSS/VSZ | Time |
+|---------|---------|--------------|---------|------|
+| **OA 50/50** | **8208** | **7471** | **91%** | **4:29** |
+| OA 33/67 | 6501 | 6489 | 99% | 6:43 |
+| OA 25/75 | 5648 | 5635 | 99% | 11:31 |
+| OA 100% + dynamic | 13328 | 7471 | 56% | 5:30 |
+| Original (chained) | 10256 | 8743 | 85% | 11:12 |
+
+*Notes:* The "OA 100% + dynamic" approach allocates 100% of budget to the FXF arena and lets the table grow via `fxfAvailable()`. It achieves similar RSS and time as 50/50 but VSZ grows 30% beyond the budget (13.3GB for a 10G limit) — unacceptable for strict-accounting environments. The 50/50 split achieves the same performance while keeping VSZ bounded.
+
+**Key findings:**
+- OA 50/50 is **2.5× faster than the original** chained DHT on memory-intensive problems
+- More arena space = fewer hash compressions = dramatically faster solving
+- The 25/75 and 33/67 splits starve key storage, causing constant compression cycles
+- The original fills memory linearly over the full solve time (no compression until complete)
+- The OA variant compresses/reuses memory more efficiently, finishing with less total RSS
 
 ---
 
 ### 17. Compile-Time DHT Variant Switch (Jun 04) — **infrastructure**
 
-**Files:** `DHT/dht.h`, `DHT/dht_original.c` (new), `DHT/makefile.local`, `optimisations/hash.c`, `makefile.defaults`
+**Files:** `DHT/dht.h`, `DHT/dht_open_addressing.c`, `DHT/makefile.local`, `optimisations/hash.c`, `makefile.defaults`
 
 **What:** The DHT implementation is now selectable at compile time via the `DHT_OPEN_ADDRESSING` flag. This allows switching between the original `develop`-branch chained DHT and the optimized open-addressing variant without code changes.
 
@@ -525,10 +566,10 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF \
 | `DHT/dht.c` | Original chained DHT (develop baseline, with const-correctness fixes) |
 | `DHT/dht_open_addressing.c` | Open addressing rewrite: linear probing, hash caching, WithHash API, maxmem enforcement |
 | `DHT/dht.h` | `dhtLookupElementWithHash`, `dhtEnterElementWithHash` declarations |
-| `DHT/fxf.c` | Added `fxfArenaSize()` to expose arena capacity |
-| `DHT/fxf.h` | Added `fxfArenaSize()` declaration |
+| `DHT/fxf.c` | Added `fxfArenaSize()` and `fxfAvailable()` |
+| `DHT/fxf.h` | Added `fxfArenaSize()` and `fxfAvailable()` declarations |
 | `DHT/dhtbcmem.c` | FNV-1a hash function |
-| `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array, 75/25 arena budget split |
+| `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array, 50/50 arena/table budget split, `DHT_LOOKUP`/`DHT_ENTER` dispatch macros |
 | `optimisations/orthodox_square_observation.c` | `side_offset` row pointer caching |
 | `position/position.h` | Inlined `find_end_of_line` |
 | `solving/find_shortest.c` | Parity `&1` |

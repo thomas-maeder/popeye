@@ -158,11 +158,9 @@ static dhtStatus growTable(dht *ht)
   uLong i;
   assert((old_size > 0) && !(old_size & (old_size - 1)));
 #if defined(FXF)
-  /* Enforce memory budget: the table backbone (outside FXF) is capped at
-   * 1/3 of the arena size (~25% of the original -maxmem budget, since
-   * arena = 75% of budget). This keeps total process memory within the
-   * user's specified limit. */
-  if (old_size > ((fxfArenaSize()/sizeof(InternHsElement))/6))
+  /* Cap table at budget/2 = fxfArenaSize(). Together with the arena
+   * (also budget/2), total VSZ stays within the -maxmem budget. */
+  if ((old_size * 2) * sizeof(InternHsElement) > fxfArenaSize())
   {
     strcpy(dhtError, "growTable: exceeds memory budget");
     return dhtFailedStatus;
@@ -174,7 +172,7 @@ static dhtStatus growTable(dht *ht)
     return dhtFailedStatus;
   }
   new_size = old_size * 2;
-  new_table = allocTable(new_size); /* TODO: Can we do better with a strategy involving realloc? */
+  new_table = allocTable(new_size);
   if (!new_table)
   {
     strcpy(dhtError, "growTable: no memory");
