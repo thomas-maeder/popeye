@@ -60,6 +60,20 @@ static int EqualBCMemValue(dhtKey v1, dhtKey v2)
 
   data1 = value1->Data;
   data2 = value2->Data;
+
+  /* Fast reject: compare first 8 bytes directly without memcmp overhead.
+   * Most non-matching positions differ in the first few bytes. */
+  if (length >= 8)
+  {
+    unsigned long w1, w2;
+    memcpy(&w1, data1, 8);
+    memcpy(&w2, data2, 8);
+    if (w1 != w2)
+      return 0;
+    if (length == 8)
+      return 1;
+  }
+
   while (length > ((size_t)-1))
   {
     if (memcmp(data1, data2, ((size_t)-1)))

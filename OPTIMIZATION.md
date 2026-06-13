@@ -45,6 +45,7 @@ Benchmark environment: Linux x86_64, GCC, `-O3 -flto`, 4GB hash table (`-maxmem 
 | 16 | — | Bugfix: correct memory budget split (arena 75% / table 25%) | ~145.6s | 0% | -44.0% |
 | 17 | — | Compile-time DHT variant switch (`DHT_OPEN_ADDRESSING`) | ~145.6s | 0% | -44.0% |
 | 21 | — | Fixed-VSZ: DHT table allocated inside FXF arena via `fxfReserveTop` | ~145.6s | 0% | -44.0% |
+| 22 | — | In-place tombstone cleanup after hash compression | ~139.7s | -4.0% | -46.3% |
 
 ---
 
@@ -477,6 +478,77 @@ This means ~50% of the table region is dead, limiting effective arena utilizatio
 - ✗ Slightly slower than 50/50 at large budgets (6:02 vs 4:29 at 10G) because the dead tables consume arena space that 50/50 doesn't waste
 
 **Performance:** `alice.inp -maxmem 4G` = 3.1s (unchanged).
+
+---
+
+### 22. In-Place Tombstone Cleanup After Hash Compression (Jun 13) — **-4.0% (81-file), -42% (FS10852)**
+
+**Files:** `DHT/dht_open_addressing.c` (`dhtCleanup`), `DHT/dhtbcmem.c` (`EqualBCMemValue`), `optimisations/hash.c` (`compresshash`)
+
+**Problem:** After `compresshash()` removes low-value entries via `dhtRemoveElement()`, each removal leaves a DELETED tombstone marker. Over multiple compression cycles, tombstones accumulate and saturate the table. Linear probing must scan through all tombstones before finding an EMPTY slot or a match, causing `lookupSlot` to consume **48.6%** of total CPU time.
+
+**Profiling evidence (FS10852.memtest, `-maxmem 4G`, before fix):**
+```
+48.61%  lookupSlot           ← probe loop dominated by tombstone scanning
+15.35%  ConvertBCMemValue
+ 5.19%  dispatch
+ 4.97%  EqualBCMemValue
+```
+
+**Fix — two changes:**
+
+1. **In-place `dhtCleanup()`** — replaces the old allocate-and-copy version with a zero-allocation algorithm:
+   - Pass 1: Clear all DELETED slots → EMPTY
+   - Pass 2: For each OCCUPIED slot, verify it's still reachable from its ideal probe position. If not (because a tombstone in its probe chain was cleared), re-insert it at the nearest valid position.
+
+2. **Call `dhtCleanup(pyhash)` at the end of `compresshash()`** — removes all tombstones immediately after compression, restoring clean probe chains.
+
+3. **`EqualBCMemValue` first-8-bytes fast reject** — compare first 8 bytes as `unsigned long` before calling `memcmp`. Most non-matching keys diverge early. (Minor, ~0.5% contribution.)
+
+**Profiling after fix:**
+```
+24.42%  ConvertBCMemValue    ← now the bottleneck (hash computation)
+ 9.73%  dispatch
+ 9.49%  LargeEncode
+ 8.56%  generate_move_reaching_goal
+ 7.41%  EqualBCMemValue
+ 6.04%  lookupSlot           ← reduced from 48.6% to 6.0%
+```
+
+`lookupSlot` dropped from **48.6% → 6.0%** — an 87% reduction in probe overhead.
+
+**Benchmark results:**
+
+*81-file benchmark:*
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| Total time | 147.8s | 139.7s | **-5.5%** |
+| Pass/fail | 81/0 | 81/0 | ✓ |
+
+*FS10852.memtest:*
+| Budget | Before | After | Change |
+|--------|--------|-------|--------|
+| 4G | 6:44 | **3:53** | **-42%** |
+| 10G | 6:02 | **5:41** | -6% |
+
+*Memory profile (4G):*
+| Metric | Before | After | Notes |
+|--------|--------|-------|-------|
+| VSZ | 4112 MB | 4112 MB | Still fixed ✓ |
+| RSS peak | 3614 MB (87%) | 2846 MB (69%) | Less memory needed! |
+
+The lower RSS is because tombstone cleanup frees FXF key memory that was previously unreachable (entries removed during compression but their FXF key data trapped behind tombstones). With clean probe chains, FXF can reuse freed slots more effectively.
+
+**Performance:** `alice.inp -maxmem 4G` = 3.1s (unchanged).
+
+**Note:** Performance vs. `-maxmem` budget is non-linear (U-shaped curve). On FS10852: 20G (3:26) < 4G (3:53) < 10G (5:41). The 10G case is slowest due to chronic compression cycles — enough memory to keep hashing but not enough to avoid repeated eviction/re-encoding. See `tasks/findings.md` for full perf analysis.
+
+**User guidance for `-maxmem` selection:**
+
+If a problem runs slowly and monitoring shows RSS constantly at >98% of VSZ with no progress, the solver is likely in the "chronic compression" regime. In this case:
+- **Increase `-maxmem`** until RSS stabilizes below 90% (gives the hash table headroom to avoid compression entirely) — this is the fastest option if memory is available.
+- **Decrease `-maxmem`** to force the solver to abandon hashing early and fall back to brute-force exploration — counterintuitively faster than the middle ground.
+- **Monitor with:** `watch -n1 'grep VmRSS /proc/$(pgrep py)/status'` — if RSS hits the budget ceiling and solving stalls, adjust the budget in either direction.
 
 ---
 

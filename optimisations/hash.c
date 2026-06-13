@@ -1106,6 +1106,11 @@ static void compresshash (void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+
+#if defined(DHT_OPEN_ADDRESSING)
+  /* Remove tombstones created during compression to keep probe chains short */
+  dhtCleanup(pyhash);
+#endif
 } /* compresshash */
 
 #if defined(HASHRATE)

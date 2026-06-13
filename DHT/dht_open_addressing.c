@@ -172,27 +172,53 @@ static void freeTable(InternHsElement *t, uLong size)
 /* Remove all the tombstones. */
 int dhtCleanup(dht *ht)
 {
-  /* TODO: Can this be done in-place? */
-  uLong old_size = ht->table_size;
+  /* In-place tombstone removal using backward-shift compaction.
+   * For each DELETED slot: mark EMPTY, then shift back any subsequent
+   * OCCUPIED slots that were displaced past this position. */
+  uLong const size = ht->table_size;
+  uLong const mask = size - 1;
+  InternHsElement *table = ht->table;
   uLong i;
-  InternHsElement *old_table;
-  InternHsElement *new_table = allocTable(old_size);
-  if (!new_table)
-    return 1;
-  old_table = ht->table;
-  --old_size;
-  for (i = 0; i <= old_size; i++)
+
+  for (i = 0; i < size; i++)
   {
-    if (SLOT_IS_OCCUPIED(&old_table[i]))
+    if (SLOT_IS_DELETED(&table[i]))
+      table[i].HashCache = 0; /* mark EMPTY */
+  }
+
+  /* Now re-probe all occupied slots to ensure they're reachable.
+   * Any slot whose ideal position was before a cleared tombstone
+   * must be moved to a valid probe position. */
+  for (i = 0; i < size; i++)
+  {
+    if (SLOT_IS_OCCUPIED(&table[i]))
     {
-      uLong idx = old_table[i].HashCache & old_size;
-      while (!SLOT_IS_EMPTY(&new_table[idx]))
-        idx = (idx + 1) & old_size;
-      new_table[idx] = old_table[i];
+      uLong ideal = table[i].HashCache & mask;
+      if (ideal != i)
+      {
+        /* Check if this slot is reachable from its ideal position.
+         * If not, move it. Remove from current position and re-insert. */
+        InternHsElement entry = table[i];
+        uLong j;
+        int reachable = 0;
+        for (j = ideal; j != i; j = (j + 1) & mask)
+        {
+          if (SLOT_IS_EMPTY(&table[j]))
+            break; /* probe chain broken — not reachable */
+        }
+        if (j == i)
+          continue; /* still reachable, leave it */
+        /* Not reachable — re-insert */
+        table[i].HashCache = 0; /* mark current position empty */
+        j = ideal;
+        while (!SLOT_IS_EMPTY(&table[j]))
+          j = (j + 1) & mask;
+        table[j] = entry;
+        /* Restart scan from current position since we freed a slot */
+        i--; /* will be incremented by for loop */
+      }
     }
   }
-  freeTable(old_table, (old_size + 1));
-  ht->table = new_table;
   return 0;
 }
 

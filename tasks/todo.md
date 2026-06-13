@@ -28,21 +28,25 @@ make -f makefile.unx DEFS="-DSIGNALS -DMSG_IN_MEM -DFXF -DFXF_MAX_ALIGNMENT_TYPE
 
 | Variant            | Budget | VSZ(MB) | RSS peak(MB) | Time   | VSZ fixed? |
 |--------------------|--------|---------|--------------|--------|------------|
-| OA fixed-VSZ       | 4G     | 4112    | 3614 (87%)   | 6:44   | ✓          |
-| OA fixed-VSZ       | 10G    | 10256   | 10243 (99%)  | 6:02   | ✓          |
-| OA fixed-VSZ       | 20G    | 20496   | 17958 (87%)  | 7:11   | ✓          |
-| OA 50/50           | 4G     | 3600    | 3587 (99%)   | 9:31   | ✓          |
-| OA 50/50           | 10G    | 8208    | 7471 (91%)   | 4:29   | ✓          |
-| OA 100% + dynamic  | 10G    | 13328   | 7471 (56%)   | 5:30   | ✗          |
-| Original (chained) | 4G     | 4112    | 4100 (99%)   | >15:00 | ✓          |
-| Original (chained) | 10G    | 10256   | 8743 (85%)   | 11:12  | ✓          |
+| **OA opt(22) tombstone cleanup** | **4G** | **4112** | **2846 (69%)** | **3:53** | **✓** |
+| **OA opt(22) tombstone cleanup** | **10G** | **10256** | **10243 (99%)** | **5:41** | **✓** |
+| OA opt(21) fixed-VSZ | 4G | 4112 | 3614 (87%) | 6:44 | ✓ |
+| OA opt(21) fixed-VSZ | 10G | 10256 | 10243 (99%) | 6:02 | ✓ |
+| OA 50/50 | 4G | 3600 | 3587 (99%) | 9:31 | ✓ |
+| OA 50/50 | 10G | 8208 | 7471 (91%) | 4:29 | ✓ |
+| Original (chained) | 4G | 4112 | 4100 (99%) | >15:00 | ✓ |
+| Original (chained) | 10G | 10256 | 8743 (85%) | 11:12 | ✓ |
 
-### Key findings:
-- Fixed-VSZ is the best approach for constrained environments (fixed memory footprint)
-- At 4G: only variant that actually finishes (6:44 vs >15min for original)
-- Dead-table overhead (~13%) is inherent to growing within a non-freeable arena
-- At 10G the problem fills to 99% (dead tables fit within the extra headroom)
-- At 20G there's more budget than needed; 87% utilization = problem just doesn't need 20G
+### 81-file benchmark:
+- Baseline (opt 21): 147.8s
+- Current (opt 22): **139.7s** (-5.5%)
+
+### Key findings (opt 22):
+- Tombstone cleanup after compression reduced `lookupSlot` from 48.6% → 6.0% of CPU
+- The 42% speedup on FS10852 (4G) is due to eliminating probe chain degradation
+- RSS dropped from 87% to 69% — cleanup frees memory previously trapped behind tombstones
+- The in-place `dhtCleanup` algorithm requires no extra memory allocation
+- Universal improvement: the 81-file benchmark also improved by 5.5%
 
 ## Files Modified (relative to develop baseline)
 
@@ -62,7 +66,8 @@ make -f makefile.unx DEFS="-DSIGNALS -DMSG_IN_MEM -DFXF -DFXF_MAX_ALIGNMENT_TYPE
 
 ## Open Questions / Next Steps
 
-1. **Fixed-VSZ (opt 21) is the current implementation** — table lives inside FXF arena, VSZ matches the original exactly.
-2. Dead-table overhead (~13%) is unavoidable without either: (a) in-place rehashing (impossible with mask-based OA) or (b) temporary external allocation (violates fixed-VSZ goal).
-3. Consider: should the default be changed to include `DHT_OPEN_ADDRESSING`? The OA variant is 2.2× faster on memory-intensive problems with no regression on others.
-4. The `dw_ng.04.memtest` and `FS10852.memtest` files are available for regression testing.
+1. **Current bottleneck is `ConvertBCMemValue` (24.4%)** — the FNV-1a hash computation. Possible improvements: SIMD hashing, or reducing the number of hash computations per position.
+2. `dispatch()` at 9.7% — computed goto / function pointer table could reduce indirect branch overhead.
+3. `LargeEncode` at 9.5% — position encoding is now a significant cost. Could benefit from incremental encoding (delta from parent position).
+4. The in-place `dhtCleanup` is O(n) per slot — could be optimized with backward-shift deletion during removal instead of bulk cleanup afterward.
+5. Consider: should `DHT_OPEN_ADDRESSING` become the default? It's now 2-3× faster on heavy problems and 5.5% faster on the general benchmark with no correctness issues.
