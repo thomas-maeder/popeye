@@ -44,6 +44,7 @@ Benchmark environment: Linux x86_64, GCC, `-O3 -flto`, 4GB hash table (`-maxmem 
 | 15 | `c6ce96822` | Bugfix: handle DHT graveyard (tombstone saturation) | ~145.6s | 0% | -44.0% |
 | 16 | — | Bugfix: correct memory budget split (arena 75% / table 25%) | ~145.6s | 0% | -44.0% |
 | 17 | — | Compile-time DHT variant switch (`DHT_OPEN_ADDRESSING`) | ~145.6s | 0% | -44.0% |
+| 21 | — | Fixed-VSZ: DHT table allocated inside FXF arena via `fxfReserveTop` | ~145.6s | 0% | -44.0% |
 
 ---
 
@@ -411,6 +412,74 @@ The two DHT implementations share an API (`dht.h`) but have fundamentally differ
 
 ---
 
+### 21. Fixed-VSZ: DHT Table Inside FXF Arena (Jun 13) — **memory architecture**
+
+**Files:** `DHT/dht_open_addressing.c` (`allocTable`, `freeTable`, `growTable`), `DHT/fxf.c` (`fxfReserveTop`), `DHT/fxf.h`, `optimisations/hash.c` (`allochash`)
+
+**Problem:** The previous 50/50 split allocated the arena and table as separate mallocs. VSZ = arena + table, growing in steps as the table doubled. While VSZ stayed within budget eventually, it was not fixed — it jumped during table growth and was split across two allocations.
+
+**Goal:** Match the original chained DHT's memory behavior: a single fixed VSZ equal to the budget from startup, with RSS growing incrementally to near 100%.
+
+**Solution:** Allocate the DHT table from WITHIN the FXF arena using `fxfReserveTop()`. The table is carved from the top of the arena (decrementing `TopFreePtr`), while position keys continue to be allocated from the bottom (via normal `fxfAlloc`). Everything lives in one `malloc` — VSZ is fixed at the budget.
+
+```
+Arena layout:
+[keys → BotFreePtr] ... [free space] ... [TopFreePtr ← table | dead tables]
+└─────────── single malloc = -maxmem budget ───────────────────────────────┘
+```
+
+**Implementation:**
+
+1. `allochash()` gives **100% of budget** to FXF (no split):
+```c
+while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
+    nr_kilos /= 2;
+```
+
+2. `allocTable()` uses `fxfReserveTop(bytes)` + `memset(0)` instead of `calloc`
+
+3. `freeTable()` is a no-op (arena memory can't be individually freed)
+
+4. `growTable()` checks `fxfAvailable()` before reserving the new table
+
+**Dead-table overhead:**
+
+When the table doubles (N → 2N), the old table (N slots) becomes inaccessible dead space within the arena. The geometric series of dead tables sums to approximately the current table size:
+
+```
+dead = N/2 + N/4 + N/8 + ... ≈ N
+active table = N
+total table memory = ~2N
+```
+
+This means ~50% of the table region is dead, limiting effective arena utilization to ~87%. This overhead is inherent to growing a hash table within a non-freeable arena — eliminating it would require either in-place rehashing (impossible with mask-based open addressing) or a temporary external allocation (spikes VSZ).
+
+**Benchmark (`FS10852.memtest`):**
+
+| Budget | VSZ(MB) | RSS peak(MB) | RSS/VSZ | Time | VSZ fixed? |
+|--------|---------|--------------|---------|------|------------|
+| 4G | 4112 | 3614 | 87% | 6:44 | ✓ |
+| 10G | 10256 | 10243 | 99% | 6:02 | ✓ |
+| 20G | 20496 | 17958 | 87% | 7:11 | ✓ |
+
+*Comparison with previous approaches (FS10852, 4G):*
+
+| Variant | VSZ(MB) | RSS/VSZ | Time | Notes |
+|---------|---------|---------|------|-------|
+| **OA fixed-VSZ (this)** | **4112** | **87%** | **6:44** | Fixed VSZ, 2.2× faster than original |
+| OA 50/50 split | 3600 | 99% | 9:31 | VSZ bounded but not fixed |
+| Original (chained) | 4112 | 99% | >15:00 | Doesn't finish |
+
+**Trade-offs:**
+- ✓ Fixed VSZ identical to original — compatible with strict overcommit systems
+- ✓ 2.2× faster than original at 4G, finishes where original cannot
+- ✗ ~13% dead-table waste reduces effective capacity
+- ✗ Slightly slower than 50/50 at large budgets (6:02 vs 4:29 at 10G) because the dead tables consume arena space that 50/50 doesn't waste
+
+**Performance:** `alice.inp -maxmem 4G` = 3.1s (unchanged).
+
+---
+
 ## Failed Attempts (Reverted)
 
 ### A. `-march=native` (Apr 30) — **REVERTED (regression)**
@@ -564,10 +633,10 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF \
 | `makefile.defaults` | Added `NDEBUG` to DEFS |
 | `toolchains/gcc/make.incl` | Added `-fno-stack-protector` to CCOPTIM |
 | `DHT/dht.c` | Original chained DHT (develop baseline, with const-correctness fixes) |
-| `DHT/dht_open_addressing.c` | Open addressing rewrite: linear probing, hash caching, WithHash API, maxmem enforcement |
+| `DHT/dht_open_addressing.c` | Open addressing rewrite: linear probing, hash caching, WithHash API, in-arena table via `fxfReserveTop` |
 | `DHT/dht.h` | `dhtLookupElementWithHash`, `dhtEnterElementWithHash` declarations |
-| `DHT/fxf.c` | Added `fxfArenaSize()` and `fxfAvailable()` |
-| `DHT/fxf.h` | Added `fxfArenaSize()` and `fxfAvailable()` declarations |
+| `DHT/fxf.c` | Added `fxfArenaSize()`, `fxfAvailable()`, `fxfReserveTop()` |
+| `DHT/fxf.h` | Declarations for `fxfArenaSize()`, `fxfAvailable()`, `fxfReserveTop()` |
 | `DHT/dhtbcmem.c` | FNV-1a hash function |
 | `optimisations/hash.c` | `/onerow` elimination, precomputed hash wiring, `hash_is_precomputed` array, 50/50 arena/table budget split, `DHT_LOOKUP`/`DHT_ENTER` dispatch macros |
 | `optimisations/orthodox_square_observation.c` | `side_offset` row pointer caching |

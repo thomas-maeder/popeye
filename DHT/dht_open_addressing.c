@@ -135,6 +135,26 @@ char const *dhtErrorMsg(void)
 /* Allocate and zero-initialize a table of given size.
  * We use malloc/free directly because the flat table exceeds FXF's
  * maximum allocation size. */
+#if defined(FXF)
+/* Allocate from the top of the FXF arena via fxfReserveTop — keeps
+ * everything within the single arena malloc, giving fixed VSZ.
+ * Old tables become dead space on grow (~50% overhead). */
+static InternHsElement *allocTable(uLong size)
+{
+  size_t bytes = (size_t)size * sizeof(InternHsElement);
+  void *ptr = fxfReserveTop(bytes);
+  if (!ptr)
+    return NULL;
+  memset(ptr, 0, bytes);
+  return (InternHsElement *)ptr;
+}
+
+static void freeTable(InternHsElement *t, uLong size)
+{
+  (void)t;
+  (void)size;
+}
+#else
 static InternHsElement *allocTable(uLong size)
 {
   if (size > ((size_t) -1))
@@ -147,6 +167,7 @@ static void freeTable(InternHsElement *t, uLong size)
   (void)size;
   free(t);
 }
+#endif
 
 /* Remove all the tombstones. */
 int dhtCleanup(dht *ht)
@@ -185,14 +206,41 @@ static dhtStatus growTable(dht *ht)
   uLong i;
   assert((old_size > 0) && !(old_size & (old_size - 1)));
 #if defined(FXF)
-  /* Cap table at budget/2 = fxfArenaSize(). Together with the arena
-   * (also budget/2), total VSZ stays within the -maxmem budget. */
-  if ((old_size * 2) * sizeof(InternHsElement) > fxfArenaSize())
+  if (old_size > ((uLong) -1)/2)
+  {
+    strcpy(dhtError, "growTable: no memory");
+    return dhtFailedStatus;
+  }
+  new_size = old_size * 2;
+  if (new_size * sizeof(InternHsElement) > fxfAvailable())
   {
     strcpy(dhtError, "growTable: exceeds memory budget");
     return dhtFailedStatus;
   }
-#endif
+  new_table = allocTable(new_size);
+  if (!new_table)
+  {
+    strcpy(dhtError, "growTable: no memory");
+    return dhtFailedStatus;
+  }
+  old_table = ht->table;
+  ht->table = new_table;
+  ht->table_size = new_size;
+  {
+    uLong mask = new_size - 1;
+    for (i = 0; i < old_size; i++)
+    {
+      if (SLOT_IS_OCCUPIED(&old_table[i]))
+      {
+        uLong idx = old_table[i].HashCache & mask;
+        while (!SLOT_IS_EMPTY(&new_table[idx]))
+          idx = (idx + 1) & mask;
+        new_table[idx] = old_table[i];
+      }
+    }
+  }
+  return dhtOkStatus;
+#else
   if (old_size > ((uLong) -1)/2)
   {
     strcpy(dhtError, "growTable: no memory");
@@ -224,6 +272,7 @@ static dhtStatus growTable(dht *ht)
 
   freeTable(old_table, old_size);
   return dhtOkStatus;
+#endif
 }
 
 dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,

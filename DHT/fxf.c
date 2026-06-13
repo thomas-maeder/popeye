@@ -392,6 +392,14 @@ size_t fxfAvailable(void) {
 #endif
 }
 
+void *fxfReserveTop(size_t size) {
+  size_t available = (size_t)pointerDifference(TopFreePtr, BotFreePtr);
+  if (size > available)
+    return Nil(void);
+  TopFreePtr = stepPointer(TopFreePtr, -(ptrdiff_t)size);
+  return TopFreePtr;
+}
+
 #define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {

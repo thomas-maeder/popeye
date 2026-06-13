@@ -1914,16 +1914,11 @@ unsigned long allochash(unsigned long nr_kilos)
   if (nr_kilos > (((size_t) -1)/one_kilo))
     nr_kilos = (((size_t) -1)/one_kilo);
 #if defined(DHT_OPEN_ADDRESSING)
-  /* 50/50 budget split: arena gets half, table gets the other half.
-   * This keeps total VSZ within the -maxmem budget while providing
-   * optimal performance (best balance of key storage vs table capacity). */
-  {
-    unsigned long arena_kilos = nr_kilos / 2;
-    while (arena_kilos && !fxfInit(arena_kilos*one_kilo))
-      arena_kilos /= 2;
-    if (!arena_kilos)
-      nr_kilos = 0;
-  }
+  /* With DHT_OPEN_ADDRESSING, the table is carved from the top of the
+   * FXF arena via fxfReserveTop(). No separate allocation needed —
+   * 100% of the budget goes to the arena, giving fixed VSZ. */
+  while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
+    nr_kilos /= 2;
 #else
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
     nr_kilos /= 2;
