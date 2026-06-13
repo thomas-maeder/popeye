@@ -44,6 +44,7 @@ void           dhtDump(struct dht const *, FILE *);
 void           dhtDumpIndented(int ind, struct dht const *, FILE *);
 void           dhtRemoveElement(struct dht *, dhtKey key);
 dhtElement    *dhtLookupElement(struct dht *, dhtKey key);
+int            dhtCleanup(struct dht *);
 #if defined(DHT_OPEN_ADDRESSING)
 dhtElement    *dhtLookupElementWithHash(struct dht *, dhtKey key, dhtHashValue hashVal);
 #endif

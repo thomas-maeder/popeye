@@ -1037,6 +1037,13 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   return &he->HsEl;
 }
 
+int dhtCleanup(dht *ht)
+{
+  /* TODO: Should we call ShrinkHashTable here rather than in dhtRemoveElement? */
+  (void) ht;
+  return 0;
+}
+
 dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   InternHsElement **phe;

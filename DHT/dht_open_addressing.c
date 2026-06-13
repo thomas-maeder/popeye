@@ -148,6 +148,33 @@ static void freeTable(InternHsElement *t, uLong size)
   free(t);
 }
 
+/* Remove all the tombstones. */
+int dhtCleanup(dht *ht)
+{
+  /* TODO: Can this be done in-place? */
+  uLong old_size = ht->table_size;
+  uLong i;
+  InternHsElement *old_table;
+  InternHsElement *new_table = allocTable(old_size);
+  if (!new_table)
+    return 1;
+  old_table = ht->table;
+  --old_size;
+  for (i = 0; i <= old_size; i++)
+  {
+    if (SLOT_IS_OCCUPIED(&old_table[i]))
+    {
+      uLong idx = old_table[i].HashCache & old_size;
+      while (!SLOT_IS_EMPTY(&new_table[idx]))
+        idx = (idx + 1) & old_size;
+      new_table[idx] = old_table[i];
+    }
+  }
+  freeTable(old_table, (old_size + 1));
+  ht->table = new_table;
+  return 0;
+}
+
 /* Grow the table to double its current size and rehash all elements */
 static dhtStatus growTable(dht *ht)
 {
