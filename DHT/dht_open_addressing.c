@@ -132,17 +132,18 @@ char const *dhtErrorMsg(void)
   return dhtError;
 }
 
-/* Allocate and zero-initialize a table of given size.
- * We use malloc/free directly because the flat table exceeds FXF's
- * maximum allocation size. */
 #if defined(FXF)
 /* Allocate from the top of the FXF arena via fxfReserveTop — keeps
  * everything within the single arena malloc, giving fixed VSZ.
  * Old tables become dead space on grow (~50% overhead). */
 static InternHsElement *allocTable(uLong size)
 {
-  size_t bytes = (size_t)size * sizeof(InternHsElement);
-  void *ptr = fxfReserveTop(bytes);
+  size_t bytes;
+  void *ptr;
+  if (size > (((size_t) -1)/sizeof(InternHsElement)))
+    return NULL;
+  bytes = ((size_t)size * sizeof(InternHsElement));
+  ptr = fxfReserveTop(bytes);
   if (!ptr)
     return NULL;
   memset(ptr, 0, bytes);
@@ -155,6 +156,9 @@ static void freeTable(InternHsElement *t, uLong size)
   (void)size;
 }
 #else
+/* Allocate and zero-initialize a table of given size.
+ * We use calloc/free directly because the flat table exceeds FXF's
+ * maximum allocation size. */
 static InternHsElement *allocTable(uLong size)
 {
   if (size > ((size_t) -1))
