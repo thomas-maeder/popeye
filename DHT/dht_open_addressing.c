@@ -176,52 +176,45 @@ static void freeTable(InternHsElement *t, uLong size)
 /* Remove all the tombstones. */
 int dhtCleanup(dht *ht)
 {
-  /* In-place tombstone removal using backward-shift compaction.
-   * For each DELETED slot: mark EMPTY, then shift back any subsequent
-   * OCCUPIED slots that were displaced past this position. */
-  uLong const size = ht->table_size;
-  uLong const mask = size - 1;
-  InternHsElement *table = ht->table;
+  /* In-place tombstone removal.
+     Strategy: Loop through the entire table, marking tombstones empty.
+               Meanwhile, verify that elements can be reached without
+               going through any empty slots or tombstones.  If we hit
+               one of those first, move the element to that spot and
+               resume the main search, being careful to (re)examine
+               any elements whose chains may have been broken by the
+               move. */
+
+  uLong const mask = ht->table_size - 1;
+  InternHsElement * const table = ht->table;
   uLong i;
-
-  for (i = 0; i < size; i++)
+  for (i = 0; i <= mask; ++i)
   {
-    if (SLOT_IS_DELETED(&table[i]))
-      table[i].HashCache = 0; /* mark EMPTY */
-  }
-
-  /* Now re-probe all occupied slots to ensure they're reachable.
-   * Any slot whose ideal position was before a cleared tombstone
-   * must be moved to a valid probe position. */
-  for (i = 0; i < size; i++)
-  {
-    if (SLOT_IS_OCCUPIED(&table[i]))
+    /* Invariants: At this point:
+                   - There are no tombstones with indices < i.
+                   - All elements with indices < i can be successfully reached
+                     without walking through any empty slots or tombstones. */
+    InternHsElement * const table_i = &table[i];
+    if (SLOT_IS_OCCUPIED(table_i))
     {
-      uLong ideal = table[i].HashCache & mask;
-      if (ideal != i)
-      {
-        /* Check if this slot is reachable from its ideal position.
-         * If not, move it. Remove from current position and re-insert. */
-        InternHsElement entry = table[i];
-        uLong j;
-        int reachable = 0;
-        for (j = ideal; j != i; j = (j + 1) & mask)
+      /* Check if this slot is reachable from its ideal position.
+       * If not, move to a better position. */
+      uLong j;
+      for (j = (table_i->HashCache & mask); j != i; j = ((j + 1) & mask))
+        if (!SLOT_IS_OCCUPIED(&table[j]))
         {
-          if (SLOT_IS_EMPTY(&table[j]))
-            break; /* probe chain broken — not reachable */
+          /* Not reachable — re-insert */
+          table[j] = *table_i;
+          table_i->HashCache = 0; /* mark current position empty */
+          if (i > j)
+            i = ((uLong) -1); /* Exploit unsigned wraparound to restart the outer loop,
+                                 since emptying table[i] may have broken a chain that
+                                 began in (j, i], walked through i, and wrapped around. */
+          break;
         }
-        if (j == i)
-          continue; /* still reachable, leave it */
-        /* Not reachable — re-insert */
-        table[i].HashCache = 0; /* mark current position empty */
-        j = ideal;
-        while (!SLOT_IS_EMPTY(&table[j]))
-          j = (j + 1) & mask;
-        table[j] = entry;
-        /* Restart scan from current position since we freed a slot */
-        i--; /* will be incremented by for loop */
-      }
     }
+    else if (SLOT_IS_DELETED(table_i))
+      table_i->HashCache = 0; /* mark EMPTY */
   }
   return 0;
 }
