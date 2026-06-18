@@ -152,8 +152,8 @@ static InternHsElement *allocTable(uLong size)
 
 static void freeTable(InternHsElement *t, uLong size)
 {
-  (void)t;
   (void)size;
+  (void)t;
 }
 #else
 /* Allocate and zero-initialize a table of given size.
@@ -174,7 +174,7 @@ static void freeTable(InternHsElement *t, uLong size)
 #endif
 
 /* Remove all the tombstones. */
-int dhtCleanup(dht *ht)
+static void removeTombstonesInPlace(dht *ht)
 {
   /* In-place tombstone removal.
      Strategy: Loop through the entire table, marking tombstones empty.
@@ -198,24 +198,56 @@ int dhtCleanup(dht *ht)
     if (SLOT_IS_OCCUPIED(table_i))
     {
       /* Check if this slot is reachable from its ideal position.
-       * If not, move to a better position. */
+         If not, move to a better position. */
       uLong j;
       for (j = (table_i->HashCache & mask); j != i; j = ((j + 1) & mask))
-        if (!SLOT_IS_OCCUPIED(&table[j]))
+      {
+        InternHsElement * const table_j = &table[j];
+        if (!SLOT_IS_OCCUPIED(table_j))
         {
-          /* Not reachable — re-insert */
-          table[j] = *table_i;
+          /* Not reachable — move here */
+          *table_j = *table_i;
           table_i->HashCache = 0; /* mark current position empty */
           if (i > j)
             i = ((uLong) -1); /* Exploit unsigned wraparound to restart the outer loop,
-                                 since emptying table[i] may have broken a chain that
-                                 began in (j, i], walked through i, and wrapped around. */
+-                                since emptying table[i] may have broken a chain that
+-                                began in (j, i], walked through i, and wrapped around. */
           break;
         }
+      }
     }
     else if (SLOT_IS_DELETED(table_i))
       table_i->HashCache = 0; /* mark EMPTY */
   }
+}
+
+int dhtCleanup(dht *ht)
+{
+  uLong size = ht->table_size;
+  InternHsElement *new_table;
+  if (false &&
+#if defined(FXF)
+      (size <= (fxfAvailable()/sizeof(InternHsElement))) && /* Apply the same requirements to a
+                                                               second buffer as growTable does. */
+#endif
+      (new_table = allocTable(size)))
+  {
+    InternHsElement *old_table = ht->table;
+    uLong i;
+    ht->table = new_table;
+    --size; /* Now it's the mask we need. */
+    for (i = 0; i <= size; i++)
+      if (SLOT_IS_OCCUPIED(&old_table[i]))
+      {
+        uLong idx = old_table[i].HashCache & size;
+        while (!SLOT_IS_EMPTY(&new_table[idx]))
+          idx = (idx + 1) & size;
+        new_table[idx] = old_table[i];
+      }
+    freeTable(old_table, i); /* Here i == size + 1 == original size.*/
+  }
+  else
+    removeTombstonesInPlace(ht);
   return 0;
 }
 
@@ -228,18 +260,19 @@ static dhtStatus growTable(dht *ht)
   InternHsElement *new_table;
   uLong i;
   assert((old_size > 0) && !(old_size & (old_size - 1)));
-#if defined(FXF)
   if (old_size > ((uLong) -1)/2)
   {
     strcpy(dhtError, "growTable: no memory");
     return dhtFailedStatus;
   }
   new_size = old_size * 2;
-  if (new_size * sizeof(InternHsElement) > fxfAvailable())
+#if defined(FXF)
+  if (new_size > (fxfAvailable()/sizeof(InternHsElement)))
   {
     strcpy(dhtError, "growTable: exceeds memory budget");
     return dhtFailedStatus;
   }
+#endif
   new_table = allocTable(new_size);
   if (!new_table)
   {
@@ -247,43 +280,10 @@ static dhtStatus growTable(dht *ht)
     return dhtFailedStatus;
   }
   old_table = ht->table;
-  ht->table = new_table;
-  ht->table_size = new_size;
-  {
-    uLong mask = new_size - 1;
-    for (i = 0; i < old_size; i++)
-    {
-      if (SLOT_IS_OCCUPIED(&old_table[i]))
-      {
-        uLong idx = old_table[i].HashCache & mask;
-        while (!SLOT_IS_EMPTY(&new_table[idx]))
-          idx = (idx + 1) & mask;
-        new_table[idx] = old_table[i];
-      }
-    }
-  }
-  return dhtOkStatus;
-#else
-  if (old_size > ((uLong) -1)/2)
-  {
-    strcpy(dhtError, "growTable: no memory");
-    return dhtFailedStatus;
-  }
-  new_size = old_size * 2;
-  new_table = allocTable(new_size);
-  if (!new_table)
-  {
-    strcpy(dhtError, "growTable: no memory");
-    return dhtFailedStatus;
-  }
-  old_table = ht->table;
-
   ht->table = new_table;
   ht->table_size = new_size;
   --new_size; /* Now it's the mask we need. */
-
   for (i = 0; i < old_size; i++)
-  {
     if (SLOT_IS_OCCUPIED(&old_table[i]))
     {
       uLong idx = old_table[i].HashCache & new_size;
@@ -291,11 +291,8 @@ static dhtStatus growTable(dht *ht)
         idx = (idx + 1) & new_size;
       new_table[idx] = old_table[i];
     }
-  }
-
   freeTable(old_table, old_size);
   return dhtOkStatus;
-#endif
 }
 
 dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
