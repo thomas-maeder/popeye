@@ -225,7 +225,7 @@ int dhtCleanup(dht *ht)
 {
   uLong size = ht->table_size;
   InternHsElement *new_table;
-  if (false &&
+  if (
 #if defined(FXF)
       (size <= (fxfAvailable()/sizeof(InternHsElement))) && /* Apply the same requirements to a
                                                                second buffer as growTable does. */
