@@ -1056,8 +1056,6 @@ static void compresshash (void)
 #endif  /* TESTHASH */
     }
 
-    dhtCleanup(pyhash);
-
 #if defined(TESTHASH)
     ++nrIterationsInCompression;
     assert(nrElementsAtStartOfCompression>=nrElementsVisitedInIteration);
