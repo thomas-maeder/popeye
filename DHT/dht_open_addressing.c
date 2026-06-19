@@ -223,14 +223,10 @@ static void removeTombstonesInPlace(dht *ht)
 
 int dhtCleanup(dht *ht)
 {
+#if !defined(FXF)
   uLong size = ht->table_size;
-  InternHsElement *new_table;
-  if (
-#if defined(FXF)
-      (size <= (fxfAvailable()/sizeof(InternHsElement))) && /* Apply the same requirements to a
-                                                               second buffer as growTable does. */
-#endif
-      (new_table = allocTable(size)))
+  InternHsElement *new_table = allocTable(size);
+  if (new_table)
   {
     InternHsElement *old_table = ht->table;
     uLong i;
@@ -247,6 +243,7 @@ int dhtCleanup(dht *ht)
     freeTable(old_table, i); /* Here i == size + 1 == original size.*/
   }
   else
+#endif
     removeTombstonesInPlace(ht);
   return 0;
 }
