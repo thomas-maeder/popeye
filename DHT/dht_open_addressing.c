@@ -177,47 +177,77 @@ static void freeTable(InternHsElement *t, uLong size)
 static void removeTombstonesInPlace(dht *ht)
 {
   /* In-place tombstone removal.
-     Strategy: Loop through the entire table, marking tombstones empty.
-               Meanwhile, verify that elements can be reached without
-               going through any empty slots or tombstones.  If we hit
-               one of those first, move the element to that spot and
-               resume the main search, being careful to (re)examine
-               any elements whose chains may have been broken by the
-               move. */
-
+     Strategy: Loop through the entire table, and treat tombstones
+               as elements to remove in an implementation that doesn't
+               use tombstones. */
   uLong const mask = ht->table_size - 1;
   InternHsElement * const table = ht->table;
   uLong i;
   for (i = 0; i <= mask; ++i)
   {
-    /* Invariants: At this point:
-                   - There are no tombstones with indices < i.
-                   - All elements with indices < i can be successfully reached
-                     without walking through any empty slots or tombstones. */
+    /* Invariants:
+       - No tombstones at indices < i.
+       - All entries are currently reachable, though
+         their path(s) may walk through tombstone(s). */
     InternHsElement * const table_i = &table[i];
-    if (SLOT_IS_OCCUPIED(table_i))
+    if (SLOT_IS_DELETED(table_i))
     {
-      /* Check if this slot is reachable from its ideal position.
-         If not, move to a better position. */
-      uLong j;
-      for (j = (table_i->HashCache & mask); j != i; j = ((j + 1) & mask))
+      /* We want to mark this slot as empty.  However,
+         if doing so would break a chain then we want
+         to move the required element here and then
+         try to mark that element's original slot empty,
+         etc.. */
+      uLong before_next_possible_tombstone = mask;
+      uLong tombstone = i;
+      InternHsElement * table_j;
+      table_i->HashCache = 0; /* Mark it empty for now so that this
+                                 loop is guaranteed to terminate. */
+      for (;;)
       {
-        InternHsElement * const table_j = &table[j];
-        if (!SLOT_IS_OCCUPIED(table_j))
+        i = ((i + 1) & mask); /* i is playing the role of j now.
+                                 We'll reset it (if necessary)
+                                 once we're ready to break this
+                                 loop. */
+        table_j = &table[i];
+        if (SLOT_IS_EMPTY(table_j))
         {
-          /* Not reachable — move here */
-          *table_j = *table_i;
-          table_i->HashCache = 0; /* mark current position empty */
-          if (i > j)
-            i = ((uLong) -1); /* Exploit unsigned wraparound to restart the outer loop,
--                                since emptying table[i] may have broken a chain that
--                                began in (j, i], walked through i, and wrapped around. */
+          /* We've reached the end; no chains will be broken. */
+          if ((before_next_possible_tombstone < mask) || (table_j <= table_i))
+            /* Go straight to the first tombstone we saw on the way,
+               and otherwise continue with next slot if we haven't
+               wrapped around. */
+            i = before_next_possible_tombstone;
           break;
         }
+        else if (SLOT_IS_OCCUPIED(table_j))
+        {
+          /* Does this element's chain walk through the
+             slot we just marked as empty? */
+          uLong const ideal = (table_j->HashCache & mask);
+          if (tombstone < i)
+          {
+            if ((ideal <= i) && (tombstone < ideal))
+              continue;
+          }
+          else
+            if ((ideal <= i) || (tombstone < ideal))
+              continue;
+
+          /* It does.  Move this element to that location,
+             and restart the checking from here. */
+          table[tombstone] = *table_j;
+          table_j->HashCache = 0; /* Mark it empty for now so that the
+                                     loop we're in is guaranteed to terminate. */
+          tombstone = i;
+        }
+        else
+          /* If this is the first (additional) tombstone we've seen,
+             make a note so that the outer loop can jump to this slot
+             when we're done with this loop. */
+          if (before_next_possible_tombstone >= mask)
+            before_next_possible_tombstone = (i - 1);
       }
     }
-    else if (SLOT_IS_DELETED(table_i))
-      table_i->HashCache = 0; /* mark EMPTY */
   }
 }
 
