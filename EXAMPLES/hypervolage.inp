@@ -1,0 +1,10 @@
+beginproblem
+author Rupert J. Wood
+origin 10852, feenschach 203, 10/2013
+stipulation h#4.5
+condition hypervolage
+option movenum
+pieces
+white ka8 bb1 sc6c3 pa2c2c4b5g3
+black kg1 rc7 bd7 sc8 bh3 pa3b6d5f3f5g4
+endproblem
