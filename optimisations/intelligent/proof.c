@@ -105,8 +105,7 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[series_capture]
                 || CondFlag[transmissionmenace]
                 || CondFlag[powertransfer]
-                || CondFlag[danger_circe]
-                || CondFlag[alice]);
+                || CondFlag[danger_circe]);
 
   /* TODO these can't possibly be the only elements that don't
    * allow any optimisation at all.
@@ -1474,19 +1473,22 @@ static void InitialiseIntelligentSide(Side side)
     square const sq_queen_block_right = sq_queen+dir_forward+2*dir_right;
 
     /* determine pieces blocked */
-    BlockedQueenBishop[side] = (proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
-        && (proofgames_target_position.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_left],side))
-        && (proofgames_target_position.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_right],side));
+    if (!CondFlag[alice])
+    {
+      BlockedQueenBishop[side] = (proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
+          && (proofgames_target_position.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_left],side))
+          && (proofgames_target_position.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_right],side));
 
-    BlockedKingBishop[side] = (proofgames_target_position.board[sq_king_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_king_bishop],side))
-        && (proofgames_target_position.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_left],side))
-        && (proofgames_target_position.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_right],side));
+      BlockedKingBishop[side] = (proofgames_target_position.board[sq_king_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_king_bishop],side))
+          && (proofgames_target_position.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_left],side))
+          && (proofgames_target_position.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_right],side));
 
-    BlockedQueen[side] = BlockedQueenBishop[side]
-        && BlockedKingBishop[side]
-        && (proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
-        && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
-        && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
+      BlockedQueen[side] = BlockedQueenBishop[side]
+          && BlockedKingBishop[side]
+          && (proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
+          && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
+          && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
+    }
 
     /* determine pieces captured */
     CapturedQueenBishop[side] = !(proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
