@@ -8,5 +8,12 @@ stip ser-Zc42
 condition pad
 option nowk nobk movenumbers start 3:1 upto 3:40
 
-end
+nextproblem
 
+title after Circe rebirth, the PAD count is reset to 0
+pieces white qd6 black kd8 rb8 sd7f8
+stipulation h#2
+condition circe pad strict
+option nowk
+
+end

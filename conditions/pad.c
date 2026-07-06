@@ -111,9 +111,15 @@ void pad_strict_solve(slice_index si)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
+    Flags const capturee_spec = move_effect_journal[capture].u.piece_removal.flags;
+    PieceIdType const capturee_id = GetPieceId(capturee_spec);
+    boolean const save_capturee_pad_state = has_piece_captured[capturee_id];
+
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
     PieceIdType const moving_id = GetPieceId(moving_spec);
+
+    has_piece_captured[capturee_id] = false;
 
     if (!TSTFLAG(moving_spec,Royal) || pad_is_rex_inclusive)
     {
@@ -128,6 +134,8 @@ void pad_strict_solve(slice_index si)
     }
     else
       pipe_solve_delegate(si);
+
+    has_piece_captured[capturee_id] = save_capturee_pad_state;
   }
   else
     pipe_solve_delegate(si);
@@ -149,10 +157,9 @@ void solving_insert_pad(slice_index si)
   else
     stip_instrument_moves(si,STPADBookKeeper);
 
-  if (pad_is_rex_inclusive)
-    stip_instrument_check_validation(si,
-                                     nr_sides,
-                                     STValidateCheckMoveByPlayingCapture);
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
 
   {
     PieceIdType p;

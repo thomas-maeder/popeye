@@ -28,7 +28,7 @@ a)
 
   1.Sb6-c4 Bd3*c4   2.g7-g6 Bc4*d5[-wBd5] #
   add_to_move_generation_stack:       73440
-                     play_move:       61237
+                     play_move:       78090
  is_white_king_square_attacked:        7725
  is_black_king_square_attacked:       60920
 
@@ -36,7 +36,7 @@ b) bBg7
 
   1.Sd2-c4 Rc5*c4   2.Bg7-e5 Rc4*e4[-wRe4] #
   add_to_move_generation_stack:      148443
-                     play_move:      123791
+                     play_move:      156343
  is_white_king_square_attacked:       15994
  is_black_king_square_attacked:      123284
 
@@ -245,7 +245,7 @@ actually a #1 with 2 solutions - retroanalysis shows that wB and bPg6 have captu
   1...Bc6*f3   2.f7*g6 Rh2*h5 #
   1...Bc6*f3   2.f7*g6 Bf3*h5[-wBh5] #
   add_to_move_generation_stack:          88
-                     play_move:          88
+                     play_move:         109
  is_white_king_square_attacked:           7
  is_black_king_square_attacked:          49
 
