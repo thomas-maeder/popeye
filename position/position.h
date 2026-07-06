@@ -84,7 +84,17 @@ void replace_walk(square s, piece_walk_type walk);
 #define is_square_blocked(s) (being_solved.board[(s)]==Invalid)
 #define get_walk_of_piece_on_square(s) (being_solved.board[(s)])
 #define set_walk_of_piece_on_square(s, w) (being_solved.board[(s)]=(w))
-square find_end_of_line(square from, numvec dir);
+static inline square find_end_of_line(square from, numvec dir)
+{
+  square result = from;
+  do
+  {
+    result += dir;
+  }
+  while (is_square_empty(result));
+
+  return result;
+}
 #define piece_belongs_to_opponent(sq)    TSTFLAG(being_solved.spec[(sq)],advers(trait[nbply]))
 
 /* Change the side of some piece specs

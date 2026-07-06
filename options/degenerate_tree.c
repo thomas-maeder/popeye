@@ -68,23 +68,29 @@ static stip_length_type delegate_solve(slice_index si,
                                         stip_length_type n_min)
 {
   stip_length_type result = n+2;
-  stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  for (solve_nr_remaining = n_min+(n-n_min)%2; solve_nr_remaining<=n; solve_nr_remaining += 2)
+  if (n_min <= n)
   {
-    pipe_solve_delegate(si);
+    stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
+    solve_nr_remaining = n_min+((n-n_min)&1);
+    for (;;)
+    {
+      pipe_solve_delegate(si);
 
-  result = solve_result;
-    if (result<=MOVE_HAS_SOLVED_LENGTH())
-      break;
+      result = solve_result;
+      if ((result<=MOVE_HAS_SOLVED_LENGTH()) || (solve_nr_remaining >= n))
+        break;
+
+      solve_nr_remaining += 2;
+    }
+
+    solve_nr_remaining = save_solve_nr_remaining;
   }
-
-  solve_nr_remaining = save_solve_nr_remaining;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -121,7 +127,7 @@ void degenerate_tree_solve(slice_index si)
   {
     if (max_length_short_solutions>=2)
     {
-      stip_length_type const parity = (solve_nr_remaining-slack_length)%2;
+      stip_length_type const parity = (solve_nr_remaining-slack_length)&1;
       stip_length_type const n_interm = max_length_short_solutions+slack_length-parity;
       if (delegate_solve(si,n_interm,n_min)>n_interm)
         delegate_solve(si,solve_nr_remaining,solve_nr_remaining);

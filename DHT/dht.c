@@ -553,7 +553,7 @@ void dhtDestroy(HashTable *ht)
 
   dEnum.index= 0;
   dEnum.current = 0;
-  dEnum.dt= &ht->DirTab;
+  dEnum.dt= (dirTable *)&ht->DirTab;
 
   for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
     while (b)
@@ -572,7 +572,7 @@ void dhtDestroy(HashTable *ht)
   TraceFunctionResultEnd();
 }
 
-void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
+void dhtDumpIndented(int ind, HashTable const *ht, FILE *f)
 {
   dirEnumerate dEnum;
   int hcnt;
@@ -593,7 +593,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
 
   dEnum.index= 0;
   dEnum.current = 0;
-  dEnum.dt= &ht->DirTab;
+  dEnum.dt= (dirTable *)&ht->DirTab;
 
   for (b = stepDirTable(&dEnum); b!=&EndOfTable; b = stepDirTable(&dEnum))
     while (b)
@@ -611,7 +611,7 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
           ind, "", hcnt, ht->KeyCount);
 }
 
-void dhtDump(HashTable *ht, FILE *f)
+void dhtDump(HashTable const *ht, FILE *f)
 {
   dhtDumpIndented(0, ht, f);
 }
@@ -1037,6 +1037,13 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtKey key, dhtValue data)
   return &he->HsEl;
 }
 
+int dhtCleanup(dht *ht)
+{
+  /* TODO: Should we call ShrinkHashTable here rather than in dhtRemoveElement? */
+  (void) ht;
+  return 0;
+}
+
 dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
 {
   InternHsElement **phe;
@@ -1046,7 +1053,7 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
   TraceFunctionParam("%p",(void *)ht);
   TraceFunctionParamListEnd();
 
-  phe= LookupInternHsElement(ht,key);
+  phe= LookupInternHsElement((HashTable *)ht,key);
   if (*phe)
     result = &(*phe)->HsEl;
   else
@@ -1058,10 +1065,10 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtKey key)
   return result;
 }
 
-unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
+unsigned int dhtBucketStat(HashTable const *ht, unsigned int *counter, unsigned int n)
 {
   unsigned int BucketCount = 0;
-  dhtElement const *he = dhtGetFirstElement(ht);
+  dhtElement const *he = dhtGetFirstElement((HashTable *)ht);
 
   memset(counter, 0, n*sizeof(counter[0]));
   while (he!=Nil(dhtElement))
@@ -1071,7 +1078,7 @@ unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
     while (ihe!=0)
     {
       ++len;
-      ht->NextStep = ihe;
+      ((HashTable *)ht)->NextStep = ihe;
       ihe = ihe->Next;
     }
 
@@ -1081,7 +1088,7 @@ unsigned int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
     else
       ++counter[n-1];
 
-    he = dhtGetNextElement(ht);
+    he = dhtGetNextElement((HashTable *)ht);
   }
 
   return BucketCount;

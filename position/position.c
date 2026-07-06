@@ -200,14 +200,4 @@ void block_square(square s)
   being_solved.spec[s] = BorderSpec;
 }
 
-square find_end_of_line(square from, numvec dir)
-{
-  square result = from;
-  do
-  {
-    result += dir;
-  }
-  while (is_square_empty(result));
 
-  return result;
-}

@@ -377,6 +377,27 @@ size_t fxfMaxAllocation(void) {
   return fxfMAXSIZE;
 }
 
+size_t fxfArenaSize(void) {
+  return GlobalSize;
+}
+
+size_t fxfAvailable(void) {
+#if defined(SEGMENTED)
+  return (size_t)pointerDifference(TopFreePtr,BotFreePtr)
+       + ARENA_SEG_SIZE*(size_t)(ArenaSegCnt-CurrentSeg-1);
+#else
+  return (size_t)pointerDifference(TopFreePtr,BotFreePtr);
+#endif
+}
+
+void *fxfReserveTop(size_t size) {
+  size_t available = (size_t)pointerDifference(TopFreePtr, BotFreePtr);
+  if (size > available)
+    return Nil(void);
+  TopFreePtr = stepPointer(TopFreePtr, -(ptrdiff_t)size);
+  return TopFreePtr;
+}
+
 #define ALIGN_TO_MINIMUM(s)  ROUND_UP_TO_ALIGNMENT(s, min_alignment)
 
 size_t fxfInit(size_t Size) {

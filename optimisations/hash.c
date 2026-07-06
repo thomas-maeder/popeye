@@ -123,6 +123,13 @@
 
 STATIC_ASSERT(MAX_LENGTH_OF_ENCODING <= USHRT_MAX, "Encodings must fit in unsigned shorts.");
 
+static inline void square_to_row_col(square s, int *r, int *c)
+{
+  /* If onerow happens to be a power of 2, the compiler should optimize these. */
+  *r = s/onerow;
+  *c = s%onerow;
+}
+
 #if defined(FXF)
 unsigned long hash_max_kilo_storable_positions = ULONG_MAX;
 #endif
@@ -157,6 +164,48 @@ enum
 STATIC_ASSERT(NUM_ELEMENTS_IN_HASHBUFFER >= nr_rows_on_board, "There must be at least one hash element for each row.");
 
 HashBuffer hashBuffers[maxply+1];
+
+/* Parallel arrays to hold precomputed FNV-1a hash per ply */
+static dhtHashValue precomputed_hash[maxply+1];
+static boolean      hash_is_precomputed[maxply+1];
+
+/* Dispatch macros: use precomputed hash when open addressing is enabled */
+#if defined(DHT_OPEN_ADDRESSING)
+#define DHT_LOOKUP(ht,key) dhtLookupElementWithHash(ht,key,precomputed_hash[nbply])
+#define DHT_ENTER(ht,key,data) dhtEnterElementWithHash(ht,key,data,precomputed_hash[nbply])
+#else
+#define DHT_LOOKUP(ht,key) dhtLookupElement(ht,key)
+#define DHT_ENTER(ht,key,data) dhtEnterElement(ht,key,data)
+#endif
+
+/* Compute FNV-1a hash for a finished HashBuffer */
+#if (((MAX_DHT_HASH_VALUE >> 15) >> 15) >> 1)
+#  if (((((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 31) >> 31) >> 3) /* at least 128 bits */
+#    define FNV_PRIME 309485009821345068724781371U
+#    define FNV_OFFSET 144066263297769815596495629667062367629U
+#  elif (((MAX_DHT_HASH_VALUE >> 31) >> 31) >> 1) /* at least 64 bits */
+#    define FNV_PRIME 1099511628211U
+#    define FNV_OFFSET 14695981039346656037U
+#  else /* at least 32 bits */
+#    define FNV_PRIME 16777619U
+#    define FNV_OFFSET 2166136261U
+#  endif
+#else
+#  error ERROR: Use of FNV-1a requires dhtHashValue to have at least 32 bits.
+#endif
+static dhtHashValue compute_hash_for_buffer(HashBuffer const *hb)
+{
+  BCMemValue const * cmv = &hb->cmv;
+  unsigned short Leng = cmv->Leng;
+  unsigned char const * buffer = cmv->Data;
+  dhtHashValue h = FNV_OFFSET;
+  for (unsigned short i = 0; i < Leng; ++i)
+  {
+    h ^= buffer[i];
+    h *= FNV_PRIME;
+  }
+  return h;
+}
 
 #if defined(TESTHASH)
 static void dump_hash_buffer(void)
@@ -1054,6 +1103,11 @@ static void compresshash (void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+
+#if defined(DHT_OPEN_ADDRESSING)
+  /* Remove tombstones created during compression to keep probe chains short */
+  dhtCleanup(pyhash);
+#endif
 } /* compresshash */
 
 #if defined(HASHRATE)
@@ -1289,8 +1343,8 @@ static byte *CommonEncode(byte *bp,
       }
 
       {
-        int const row = move_effect_journal[capture].u.piece_removal.on/onerow;
-        int const col = move_effect_journal[capture].u.piece_removal.on%onerow;
+        int row, col;
+        square_to_row_col(move_effect_journal[capture].u.piece_removal.on, &row, &col);
         *bp++ = (byte)((row<<(CHAR_BIT/2))+col);
       }
     }
@@ -1476,11 +1530,13 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
       square s = (underworld[gi].on
                   - nr_of_slack_rows_below_board*onerow
                   - nr_of_slack_files_left_of_board);
-      byte const row = (byte)(s/onerow);
-      byte const col = (byte)(s%onerow);
-      bp = SmallEncodePiece(bp,
-                            row,col,
-                            underworld[gi].walk,underworld[gi].flags);
+      {
+        int r, c;
+        square_to_row_col(s, &r, &c);
+        bp = SmallEncodePiece(bp,
+                              (byte)r,(byte)c,
+                              underworld[gi].walk,underworld[gi].flags);
+      }
     }
   }
 
@@ -1490,6 +1546,8 @@ static void ProofEncode(stip_length_type min_length, stip_length_type validity_v
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1670,8 +1728,7 @@ static void LargeEncode(stip_length_type min_length,
     square const s = (underworld[gi].on
                       - nr_of_slack_rows_below_board*onerow
                       - nr_of_slack_files_left_of_board);
-    row = s/onerow;
-    col = s%onerow;
+    square_to_row_col(s, &row, &col);
 
     assert((col + row*nr_files_on_board) < (1<<CHAR_BIT));
     *bp++ = (byte)(col + row*nr_files_on_board);
@@ -1690,6 +1747,8 @@ static void LargeEncode(stip_length_type min_length,
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 } /* LargeEncode */
@@ -1723,11 +1782,13 @@ static void SmallEncode(stip_length_type min_length,
     square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
-    byte const row = (byte)(s/onerow);
-    byte const col = (byte)(s%onerow);
-    bp = SmallEncodePiece(bp,
-                          row,col,
-                          underworld[gi].walk,underworld[gi].flags);
+    {
+      int r, c;
+      square_to_row_col(s, &r, &c);
+      bp = SmallEncodePiece(bp,
+                            (byte)r,(byte)c,
+                            underworld[gi].walk,underworld[gi].flags);
+    }
   }
 
   /* Now the rest of the party */
@@ -1736,6 +1797,8 @@ static void SmallEncode(stip_length_type min_length,
   assert((bp - hb->cmv.Data) <= MAX_LENGTH_OF_ENCODING);
   hb->cmv.Leng = (bp - hb->cmv.Data);
 
+  precomputed_hash[nbply] = compute_hash_for_buffer(hb);
+  hash_is_precomputed[nbply] = true;
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1852,9 +1915,16 @@ unsigned long allochash(unsigned long nr_kilos)
   size_t const one_kilo = 1<<10;
   if (nr_kilos > (((size_t) -1)/one_kilo))
     nr_kilos = (((size_t) -1)/one_kilo);
+#if defined(DHT_OPEN_ADDRESSING)
+  /* With DHT_OPEN_ADDRESSING, the table is carved from the top of the
+   * FXF arena via fxfReserveTop(). No separate allocation needed —
+   * 100% of the budget goes to the arena, giving fixed VSZ. */
   while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
-    /* we didn't get hashmemory ... */
     nr_kilos /= 2;
+#else
+  while (nr_kilos && !fxfInit(nr_kilos*one_kilo))
+    nr_kilos /= 2;
+#endif
   if (nr_kilos && need_to_schedule_fxfTeardown)
   {
     if (atexit(&fxfTeardown))
@@ -2351,12 +2421,14 @@ static void addtohash_battle_nosuccess(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,hb);
+  he = DHT_LOOKUP(pyhash,hb);
   if (he==dhtNilElement)
   {
-    he = allocDHTelement(hb);
-    set_value_attack_nosuccess(he,si,val);
+    he = DHT_ENTER(pyhash,hb,template_element.Data);
+    if (he!=dhtNilElement)
+      set_value_attack_nosuccess(he,si,val);
   }
   else
     if (get_value_attack_nosuccess(he,si)<val)
@@ -2389,12 +2461,14 @@ static void addtohash_battle_success(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
+  assert(hash_is_precomputed[nbply]);
   hb.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,hb);
+  he = DHT_LOOKUP(pyhash,hb);
   if (he==dhtNilElement)
   {
-    he = allocDHTelement(hb);
-    set_value_attack_success(he,si,val);
+    he = DHT_ENTER(pyhash,hb,template_element.Data);
+    if (he!=dhtNilElement)
+      set_value_attack_success(he,si,val);
   }
   else
     if (get_value_attack_success(he,si)>val)
@@ -2471,7 +2545,8 @@ void attack_hashed_tester_solve(slice_index si)
   (*encode)(min_length,validity_value);
 
   k.value.object_pointer = &hashBuffers[nbply].cmv;
-  he = dhtLookupElement(pyhash,k);
+  assert(hash_is_precomputed[nbply]);
+  he = DHT_LOOKUP(pyhash,k);
   if (he==dhtNilElement)
     solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else

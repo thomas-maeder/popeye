@@ -34,13 +34,20 @@ struct dht    *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
    TODO: Is the "equivalent key" behavior what we need/want?  Otherwise it's
          pessimization in comparison to just leaving the original key intact. */
 dhtElement    *dhtEnterElement(struct dht *, dhtKey key, dhtValue data);
+#if defined(DHT_OPEN_ADDRESSING)
+dhtElement    *dhtEnterElementWithHash(struct dht *, dhtKey key, dhtValue data, dhtHashValue hashVal);
+#endif
 
-unsigned int   dhtBucketStat(struct dht *, unsigned int *counter, unsigned int n);
+unsigned int   dhtBucketStat(struct dht const *, unsigned int *counter, unsigned int n);
 void           dhtDestroy(struct dht *);
-void           dhtDump(struct dht *, FILE *);
-void           dhtDumpIndented(int ind, struct dht *, FILE *);
+void           dhtDump(struct dht const *, FILE *);
+void           dhtDumpIndented(int ind, struct dht const *, FILE *);
 void           dhtRemoveElement(struct dht *, dhtKey key);
 dhtElement    *dhtLookupElement(struct dht *, dhtKey key);
+int            dhtCleanup(struct dht *);
+#if defined(DHT_OPEN_ADDRESSING)
+dhtElement    *dhtLookupElementWithHash(struct dht *, dhtKey key, dhtHashValue hashVal);
+#endif
 dhtElement    *dhtGetFirstElement(struct dht *);
 dhtElement    *dhtGetNextElement(struct dht *);
 unsigned long  dhtKeyCount(struct dht const *);

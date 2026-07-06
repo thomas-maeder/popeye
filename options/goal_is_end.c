@@ -164,7 +164,7 @@ static void insert_goal_is_end_tester_help(slice_index adapter,
                                            stip_structure_traversal *st)
 {
   goal_is_end_tester_insertion_state_type * const state = st->param;
-  unsigned int const adapter_parity = (SLICE_U(adapter).branch.length-slack_length)%2;
+  unsigned int const adapter_parity = (SLICE_U(adapter).branch.length-slack_length)&1;
   Side const adapter_side = SLICE_STARTER(adapter);
   Side const tester_side = SLICE_STARTER(state->tester);
   unsigned int const parity = adapter_side==tester_side ? adapter_parity : 1-adapter_parity;

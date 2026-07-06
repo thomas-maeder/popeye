@@ -771,7 +771,7 @@ slice_index alloc_help_branch(stip_length_type length,
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
 
-    if (length%2==0)
+    if ((length&1)==0)
       help_branch_insert_slices(adapter,&deadend,1);
     else
       help_branch_insert_slices(move1,&deadend,1);
@@ -999,7 +999,7 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
 
-    if (length%2==0)
+    if ((length&1)==0)
       /* branch ends after the pseudo move */
       pipe_append(not_end_goal2,deadend);
     else

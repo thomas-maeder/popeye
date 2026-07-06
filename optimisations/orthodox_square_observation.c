@@ -129,22 +129,24 @@ vec_index_type pawn_check_ortho(Side side_checking, square sq_king)
 }
 
 boolean is_square_observed_ortho(Side side_checking,
-                                 square sq_target)
+                                  square sq_target)
 {
-  if (being_solved.number_of_pieces[side_checking][King]>0
+  unsigned int const * const number_of_pieces_side = being_solved.number_of_pieces[side_checking];
+
+  if (number_of_pieces_side[King]>0
       && king_check_ortho(side_checking,sq_target))
     return true;
 
-  if (being_solved.number_of_pieces[side_checking][Pawn]>0
+  if (number_of_pieces_side[Pawn]>0
       && pawn_check_ortho(side_checking,sq_target))
     return true;
 
-  if (being_solved.number_of_pieces[side_checking][Knight]>0
+  if (number_of_pieces_side[Knight]>0
       && knight_check_ortho(side_checking,sq_target))
     return true;
 
-  if (being_solved.number_of_pieces[side_checking][Queen]>0
-      || being_solved.number_of_pieces[side_checking][Rook]>0)
+  if (number_of_pieces_side[Queen]>0
+      || number_of_pieces_side[Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
@@ -159,8 +161,8 @@ boolean is_square_observed_ortho(Side side_checking,
     }
   }
 
-  if (being_solved.number_of_pieces[side_checking][Queen]>0
-      || being_solved.number_of_pieces[side_checking][Bishop]>0)
+  if (number_of_pieces_side[Queen]>0
+      || number_of_pieces_side[Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++)
@@ -179,7 +181,7 @@ boolean is_square_observed_ortho(Side side_checking,
     piece_walk_type const *pcheck;
 
     for (pcheck = checkpieces; *pcheck; ++pcheck)
-      if (being_solved.number_of_pieces[side_checking][*pcheck]>0)
+      if (number_of_pieces_side[*pcheck]>0)
       {
         observing_walk[nbply] = *pcheck;
         if ((*checkfunctions[*pcheck])(EVALUATE(check)))
@@ -193,6 +195,7 @@ boolean is_square_observed_ortho(Side side_checking,
 vec_index_type is_square_uninterceptably_observed_ortho(Side side_checking, square sq_target)
 {
   vec_index_type result = 0;
+  unsigned int const * const number_of_pieces_side = being_solved.number_of_pieces[side_checking];
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_checking);
@@ -200,22 +203,22 @@ vec_index_type is_square_uninterceptably_observed_ortho(Side side_checking, squa
   TraceFunctionParamListEnd();
 
 
-  if (being_solved.number_of_pieces[side_checking][King]>0)
+  if (number_of_pieces_side[King]>0)
     result = king_check_ortho(side_checking,sq_target);
 
-  if (result==0 && being_solved.number_of_pieces[side_checking][Pawn]>0)
+  if (result==0 && number_of_pieces_side[Pawn]>0)
     result = pawn_check_ortho(side_checking,sq_target);
 
-  if (result==0 && being_solved.number_of_pieces[side_checking][Knight]>0)
+  if (result==0 && number_of_pieces_side[Knight]>0)
     result = knight_check_ortho(side_checking,sq_target);
 
-  if (result==0 && being_solved.number_of_pieces[side_checking][Rook]>0)
+  if (result==0 && number_of_pieces_side[Rook]>0)
     result = leapers_check_ortho(side_checking,sq_target, vec_rook_start,vec_rook_end, Rook);
 
-  if (result==0 && being_solved.number_of_pieces[side_checking][Bishop]>0)
+  if (result==0 && number_of_pieces_side[Bishop]>0)
     result = leapers_check_ortho(side_checking,sq_target, vec_bishop_start,vec_bishop_end, Bishop);
 
-  if (result==0 && being_solved.number_of_pieces[side_checking][Queen]>0)
+  if (result==0 && number_of_pieces_side[Queen]>0)
     result = leapers_check_ortho(side_checking,sq_target, vec_queen_start,vec_queen_end, Queen);
 
   TraceFunctionExit(__func__);
@@ -227,14 +230,15 @@ vec_index_type is_square_uninterceptably_observed_ortho(Side side_checking, squa
 unsigned int count_interceptable_orthodox_checks(Side side_checking, square sq_target)
 {
   unsigned int result = 0;
+  unsigned int const * const number_of_pieces_side = being_solved.number_of_pieces[side_checking];
 
   /* for simplicity's sake, we also count checks from adjacent squares even if
    * these aren't interceptable; we trust in the caller to first invoke
    * is_square_uninterceptably_observed_ortho() so that this doesn't matter.
    */
 
-  if (being_solved.number_of_pieces[side_checking][Queen]>0
-      || being_solved.number_of_pieces[side_checking][Rook]>0)
+  if (number_of_pieces_side[Queen]>0
+      || number_of_pieces_side[Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
@@ -246,8 +250,8 @@ unsigned int count_interceptable_orthodox_checks(Side side_checking, square sq_t
     }
   }
 
-  if (being_solved.number_of_pieces[side_checking][Queen]>0
-      || being_solved.number_of_pieces[side_checking][Bishop]>0)
+  if (number_of_pieces_side[Queen]>0
+      || number_of_pieces_side[Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++)
