@@ -43,5 +43,15 @@ pieces white kf5 re8 pg7 black kh6 bh8
 stipulation h#1
 condition PAD strict rexincl
 
+next
+
+author Hiroaki Maeshima
+origin Problem Paradise 111 2025
+title actually a #1 with 2 solutions - retroanalysis shows that wB and bPg6 have captured
+pieces white kf4 rh1h2 bc6 pe2g2g6 black kh6 pb7c7f7g7h5f3 
+stip h#1.5
+condition PAD
+option movenumbers start 27:11 upto 27:11
+
 end
 

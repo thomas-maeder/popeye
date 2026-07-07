@@ -995,7 +995,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*236*/ "Alice",
     /*237*/ "Immobilio",
     /*238*/ "PADechecs",
-    /*239*/ "DangerCirce"
+    /*239*/ "CirceDanger"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1237,7 +1237,7 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*236*/ "AliceSchach",
     /*237*/ "Immobilio",
     /*238*/ "PADSchach",
-    /*239*/ "DangerCirce"
+    /*239*/ "GefahrenCirce"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
