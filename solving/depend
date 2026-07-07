@@ -82,13 +82,13 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/move_effect_journal.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h stipulation/slice_type.enum \
- position/side.h position/side.enum.h position/side.enum pieces/pieces.h \
- output/mode.h output/mode.enum.h output/mode.enum \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h position/color.enum \
- position/pieceid.h debugging/assert.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h solving/pipe.h
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ position/side.enum pieces/pieces.h output/mode.h output/mode.enum.h \
+ output/mode.enum solving/machinery/dispatch.h debugging/trace.h \
+ position/position.h position/color.h position/color.enum.h \
+ position/color.enum position/pieceid.h debugging/assert.h \
+ pieces/walks/vectors.h position/castling_rights.h solving/ply.h \
+ solving/pipe.h
 solving/move_effect_journal.h:
 solving/machinery/solve.h:
 stipulation/stipulation.h:
@@ -98,7 +98,6 @@ utilities/bitmask.h:
 utilities/boolean.h:
 stipulation/slice_type.h:
 stipulation/slice_type.enum.h:
-stipulation/slice_type.enum:
 position/side.h:
 position/side.enum.h:
 position/side.enum:
@@ -1577,7 +1576,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/cast.h \
- conditions/multicaptures.h conditions/immobilio.h \
+ conditions/multicaptures.h conditions/immobilio.h conditions/mate-C.h \
  optimisations/observation.h pieces/walks/hunters.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
@@ -1681,6 +1680,7 @@ conditions/transmuting_kings/vaulting_kings.h:
 conditions/cast.h:
 conditions/multicaptures.h:
 conditions/immobilio.h:
+conditions/mate-C.h:
 optimisations/observation.h:
 pieces/walks/hunters.h:
 pieces/attributes/paralysing/paralysing.h:

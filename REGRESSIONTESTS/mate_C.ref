@@ -1,0 +1,81 @@
+solving starts after 3 given half-moves
+
+      Klaus Wenda & Hans Gruber
+          Andernach 2026 TT
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   K   P   .   .   .   .   B   5
+|                                   |
+4   .   .   B   P  -K   .   S   .   4
+|                                   |
+3   .   .   .  -P   P   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .  NE   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#5                       10 + 2
+                 #C
+
+ 25  (Sg4-f6[f6=b] )
+ 25:8  (Sf6-d5 )
+ 25:8:27  (Bh5-f3[f3=b] )
+  1.Sg4-f6[f6=b] Sf6-d5   2.Bh5-f3[f3=b] Bf3-d1   3.Rh1-h6 Bd1-c2   4.Rh6-e6[e6=b] Re6-a6   5.Bc4*d3 + Bc2*d3 #
+  add_to_move_generation_stack:    63269412
+                     play_move:    22762806
+ is_white_king_square_attacked:    32694437
+ is_black_king_square_attacked:    23023829
+
+solution finished.
+
+
+
+          Michael Caillaud
+Quartz III/2020, Christmas Tourney 2019, 2nd prize
+       only solving moves 4-6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .  -Q  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   R   .   .   .   .   .   6
+|                                   |
+5  -P   .   K  -P   .   .   .   .   5
+|                                   |
+4  -B   .   .   P   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   .   P   P   P   .   2
+|                                   |
+1   R   S   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia6                      17 + 15
+                 #C
+
+ 11  (d2-d4 )
+ 11:7  (d7-d5 )
+ 11:7:11  (Ke1-d2 )
+ 11:7:11:22  (Bc8-d7 )
+ 11:7:11:22:14  (Kd2-c3 )
+ 11:7:11:22:14:7  (Bd7-a4 )
+  1.d2-d4 d7-d5   2.Ke1-d2 Bc8-d7   3.Kd2-c3 Bd7-a4   4.Kc3-b4 a7-a5 +   5.Kb4-c5 Ra8-a6   6.h2-h4 Ra6-c6[c6=w] dia
+  add_to_move_generation_stack:      350409
+                     play_move:      311363
+ is_white_king_square_attacked:      217568
+ is_black_king_square_attacked:      119836
+
+solution finished.
+
+

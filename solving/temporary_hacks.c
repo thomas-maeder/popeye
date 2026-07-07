@@ -59,7 +59,7 @@ static slice_index make_mate_tester_fork(Side side)
 {
   slice_index result;
 
-  if (CondFlag[exclusive] || CondFlag[republican])
+  if (CondFlag[exclusive] || CondFlag[republican] || CondFlag[mate_C])
   {
     Goal const mate_goal = { goal_mate, initsquare };
     slice_index const mate_tester = alloc_goal_mate_reached_tester_system();

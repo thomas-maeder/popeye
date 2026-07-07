@@ -1,0 +1,24 @@
+begin
+
+protocol mate_C.ref
+
+author Klaus Wenda & Hans Gruber
+origin Andernach 2026 TT
+remark solving starts after 3 given half-moves
+pieces white kb5 rh1 bc4h5 sg4 pc5d2d4e3 neb1 black ke4 pd3
+stip hs#5
+condition #C
+option movenumbers start 25:8:27 upto 25:8:27
+
+next
+
+author Michael Caillaud
+origin Quartz III/2020, Christmas Tourney 2019, 2nd prize
+title only solving moves 4-6
+pieces white kc5 qd1 ra1h1c6 bc1f1 sb1g1 pa2b2c2d4e2f2g2h4 black ke8 qd8 rh8 ba4f8 sb8g8 pa5b7c7d5e7f7g7h7
+stip dia6
+condition #c
+option movenum start 11:7:11:22:14:7 upto 11:7:11:22:14:7
+
+end
+

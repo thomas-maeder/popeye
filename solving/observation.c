@@ -41,6 +41,7 @@
 #include "conditions/cast.h"
 #include "conditions/multicaptures.h"
 #include "conditions/immobilio.h"
+#include "conditions/mate-C.h"
 #include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -172,6 +173,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STMasandEnforceObserver:
       result = masand_enforce_observer(si);
+      break;
+
+    case STMate_CEnforceObserver:
+      result = mate_C_enforce_observer(si);
       break;
 
     case STBackhomeExistanceTester:
@@ -387,6 +392,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMarsCirceGenerateFromRebirthSquare,
     STAMUObservationCounter,
     STMasandEnforceObserver,
+    STMate_CEnforceObserver,
     STUndoOptimiseObservationsByQueen,
     STFuddledMenInverseValidateObservation,
     STSingleBoxType3EnforceObserverWalk,

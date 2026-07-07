@@ -141,6 +141,7 @@
 #include "conditions/shielded_kings.h"
 #include "conditions/pad.h"
 #include "conditions/danger_circe.h"
+#include "conditions/mate-C.h"
 #include "platform/maxtime.h"
 #include "solving/end_of_branch_tester.h"
 #include "solving/dead_end.h"
@@ -374,6 +375,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[masand])
     solving_insert_masand(si);
+
+  if (CondFlag[mate_C])
+    solving_insert_mate_C(si);
 
   if (TSTFLAG(some_pieces_flags,Anda))
     solving_insert_anda(si);

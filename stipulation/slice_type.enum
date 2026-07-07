@@ -436,6 +436,8 @@
     ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMasandGeneralisedRecolorer),                           \
     ENUMERATOR(STMasandGeneralisedEnforceObserver),                     \
+    ENUMERATOR(STMate_CRecolorer),                                      \
+    ENUMERATOR(STMate_CEnforceObserver),                                \
     ENUMERATOR(STInfluencerWalkChanger),                                \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \

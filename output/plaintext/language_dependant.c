@@ -995,7 +995,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*236*/ "Alice",
     /*237*/ "Immobilio",
     /*238*/ "PADechecs",
-    /*239*/ "CirceDanger"
+    /*239*/ "CirceDanger",
+    /*240*/ "#C"
   },{
     /* German Condition Names */
     /* 0*/  "Circe",
@@ -1237,7 +1238,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*236*/ "AliceSchach",
     /*237*/ "Immobilio",
     /*238*/ "PADSchach",
-    /*239*/ "GefahrenCirce"
+    /*239*/ "GefahrenCirce",
+    /*240*/ "#C"
 },{
     /* English Condition Names */
     /* 0*/  "Circe",
@@ -1479,7 +1481,8 @@ static char const * const CondString[LanguageCount][CondCount] =
     /*236*/ "AliceChess",
     /*237*/ "Immobilio",
     /*238*/ "PADChess",
-    /*239*/ "DangerCirce"
+    /*239*/ "DangerCirce",
+    /*240*/ "#C"
   }
 };
 

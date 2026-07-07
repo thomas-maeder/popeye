@@ -301,6 +301,7 @@ simples:
 	Immobilio (peut etre suivie par la liste d'allures)
 	CirceDanger
 	PAD
+	#C
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
