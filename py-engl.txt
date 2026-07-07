@@ -53,8 +53,25 @@ Commandline parameters:
 	If a problem hasn't been solved after one minute, solving
 	continues with the next problem in the input file (if any).
 
+-heartbeat
+        MAINLY FOR PARALLELISERS LIKE SPINACH
+	Activation of printing of heartbeat lines on the error channel.
+	If activated, Popeye will print heartbeat lines to the error
+	channel in more or less regular time intervals.
+	If printing such a heartbeat line fails, Popeye terminates
+	immediately.
+	This parameter improves the collaboration between parallelisers
+	and Popeye:
+	- parallelisers can detect that their Popeye slaves are working
+	- (more importantly) Popeye processes can detect that their
+	  paralleliser has been terminated; this avoids long running
+	  Popeye zombie processes
+	After -heartbeat, the rate can be indicated. The default rate
+	is 50000; higher values cause less heartbeat lines to be printed
+	per time interval, and lower values more heartbeat lines.
+
 -regression
-	FOR DEVELOPERS MAINLY
+	MAINLY FOR DEVELOPERS
 	Popeye version info and solving times are suppressed from
 	output files.
 
@@ -279,7 +296,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	AntiGuards
 	Leffie
 	AliceChess
-	Immobilio
+	Immobilio (possibly followed by a list of piece walks)
+	DangerCirce
+	PAD
+	#C
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of
@@ -386,6 +406,11 @@ commands expect further parameters. Lets start with the simpler commands:
 	In AliceChess, all pieces not explicitly declared as AliceB are AliceA.
 	If some pieces are declared AliceA or AliceB, condition AliceChess is
 	automatically active.
+
+	After PAD, the following options can be indicated:
+		Strict
+		RexExclusive (default)
+		RexInclusive
 	
 	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
 	PhantomChess and GenevaChess, a number of options can be indicated; the

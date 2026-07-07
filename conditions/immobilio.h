@@ -8,6 +8,9 @@
 /* Implementation of condition Immobilio
  */
 
+extern boolean immobilio_is_restricted_to_walks;
+extern boolean immobilio_is_walk_affected[nr_piece_walks];
+
 /* Validate an observater according to Immobilio
  * @return true iff the observation is valid
  */

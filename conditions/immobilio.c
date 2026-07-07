@@ -11,6 +11,9 @@
 
 #include "debugging/trace.h"
 
+boolean immobilio_is_restricted_to_walks;
+boolean immobilio_is_walk_affected[nr_piece_walks];
+
 static boolean is_paralysed(numecoup n)
 {
   boolean result;
@@ -22,16 +25,22 @@ static boolean is_paralysed(numecoup n)
   {
     square const sq_departure = move_generation_stack[n].departure;
     piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
-    square const sq_rebirth = circe_regular_rebirth_square(walk,
-                                                           sq_departure,
-                                                           advers(trait[nbply]));
+    if (!immobilio_is_restricted_to_walks
+        || immobilio_is_walk_affected[walk])
+    {
+      square const sq_rebirth = circe_regular_rebirth_square(walk,
+                                                             sq_departure,
+                                                             advers(trait[nbply]));
 
-    TraceSquare(sq_departure);
-    TraceWalk(walk);
-    TraceSquare(sq_rebirth);
-    TraceEOL();
+      TraceSquare(sq_departure);
+      TraceWalk(walk);
+      TraceSquare(sq_rebirth);
+      TraceEOL();
 
-    result = !is_square_empty(sq_rebirth);
+      result = !is_square_empty(sq_rebirth);
+    }
+    else
+      result = false;
   }
 
   TraceFunctionExit(__func__);

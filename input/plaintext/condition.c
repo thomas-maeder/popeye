@@ -29,6 +29,7 @@
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
 #include "conditions/imitator.h"
+#include "conditions/immobilio.h"
 #include "conditions/immune.h"
 #include "conditions/isardam.h"
 #include "conditions/kobul.h"
@@ -53,6 +54,7 @@
 #include "conditions/multicaptures.h"
 #include "conditions/powertransfer.h"
 #include "conditions/take_and_make.h"
+#include "conditions/pad.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
@@ -815,6 +817,43 @@ static char *ParseTakeMakeVariants(char *tok)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParsePADVariants(char *tok)
+{
+  boolean done = false;
+
+  pad_is_rex_inclusive = false;
+  pad_is_strict = false;
+
+  while (!done)
+  {
+    unsigned int const index = GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok);
+
+    if (index>=CirceVariantCount)
+      done = true;
+    else
+    {
+      switch (index)
+      {
+        case CirceVariantRexInclusive:
+          pad_is_rex_inclusive = true;
+          tok = ReadNextTokStr();
+          break;
+
+        case CirceVariantStrict:
+          pad_is_strict = true;
+          tok = ReadNextTokStr();
+          break;
+
+        default:
+          done = true;
+          break;
+      }
+    }
+  }
+
   return tok;
 }
 
@@ -1686,6 +1725,14 @@ char *ParseCond(char *tok)
           tok = ParseCirceVariants(tok,&geneva_variant);
           break;
 
+        case immobilio:
+        {
+          unsigned int nr_walks_read;
+          tok = ReadWalks(tok,&immobilio_is_walk_affected,&nr_walks_read);
+          immobilio_is_restricted_to_walks = nr_walks_read>0;
+          break;
+        }
+
         /* different types of Anticirce */
           /* just Anticirce - but maybe with many variants */
         case anticirce:
@@ -2056,6 +2103,10 @@ char *ParseCond(char *tok)
           tok = ParseTakeMakeVariants(tok);
           break;
         }
+
+        case pad:
+          tok = ParsePADVariants(tok);
+          break;
 
         default:
           break;

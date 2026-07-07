@@ -307,22 +307,16 @@ the mate wasn't recognized for a long time because of a silly bug
 +---a---b---c---d---e---f---g---h---+
   h#2                  2 + 1 + 3 TI
 
- 16  (Qg4-f4 )
- 16:4  (0-0 )
- 16:4:10  (Qf4-g5 )
- 16:4:10:7  (Rf1-e1 )
- 16:4:10:8  (Rf1-f8 )
- 16:4:10:9  (Rf1-f7 )
- 16:4:10:10  (Rf1-f6 )
- 16:4:10:11  (Rf1-f5 )
- 16:4:10:12  (Rf1-f4 )
- 16:4:10:13  (Rf1-f3 )
+ 14  (Qg4-f4 )
+ 14:2  (0-0 )
+ 14:2:7  (Qf4-g5 )
+ 14:2:7:11  (Rf1-f3 )
   1.Qg4-f4 0-0   2.Qf4-g5 Rf1-f3[g3=bK] #
-  add_to_move_generation_stack:         230
-                     play_move:         223
- is_white_king_square_attacked:           8
- is_black_king_square_attacked:          88
-                  TI decisions:         106
+  add_to_move_generation_stack:         225
+                     play_move:         219
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:          87
+                  TI decisions:          90
 
 solution finished.
 

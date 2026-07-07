@@ -1,0 +1,20 @@
+begin
+
+protocol mate_C.tst
+
+pieces white kg2 qh1 dug1 black ka8 pa7h2 dub8
+stip #1
+cond #C
+
+next
+
+author Dirk Borst & Thomas Maeder
+origin Andernach 2026
+title Pb5 is not recolored because recoloring Na8 would be self-check
+pieces white kc4 pa4b3c3d4d5e7 nd3 black kc7 na8 pa5a6b6d6
+stip s#1
+condition #c
+option vari
+
+end
+

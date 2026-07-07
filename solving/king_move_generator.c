@@ -48,8 +48,6 @@ void king_move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(side_at_move);
-
   if (TSTFLAG(being_solved.spec[being_solved.king_square[side_at_move]],Royal))
     generate_moves_for_piece(being_solved.king_square[side_at_move]);
   else
@@ -59,8 +57,6 @@ void king_move_generator_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

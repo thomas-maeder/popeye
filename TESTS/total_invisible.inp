@@ -54,7 +54,7 @@ title the mate wasn't recognized for a long time because of a silly bug
 pieces white ke1 qe4 black qg4
 total 3
 stip h#2
-option movenum start 16:4:10:7 upto 16:4:10:13
+option movenum start 14:2:7:11 upto 14:2:7:11
 
 end
 

@@ -47,6 +47,7 @@
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
+#include "platform/heartbeat.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -1196,6 +1197,7 @@ static char *twins_handle(char *tok, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  heartbeat_instrument_solving(si);
   pipe_solve_delegate(si);
 
   while (tok)
@@ -1210,6 +1212,7 @@ static char *twins_handle(char *tok, slice_index si)
         output_plaintext_input_error_message(ComNotUniq);
       else
       {
+        heartbeat_instrument_solving(si);
         pipe_solve_delegate(si);
 
         if (endToken==EndTwinTokenCount)
@@ -1282,6 +1285,7 @@ void input_plaintext_twins_handle(slice_index si)
       break;
 
     case EndTwinTokenCount:
+      heartbeat_instrument_solving(si);
       pipe_solve_delegate(si);
       break;
 

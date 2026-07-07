@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = maxmem.c maxtime.c beep.c platform.c timer.c
+SRC_CFILES = maxmem.c maxtime.c beep.c platform.c timer.c heartbeat.c
 INCLUDES = maxmem.h maxtime.h maxtime_impl.h priority.h timer.h \
-	beep.h beep_impl.h platform.h tmpfile.h
+	beep.h beep_impl.h platform.h tmpfile.h heartbeat.h
 
 include makefile.rules $(CURRPWD)depend

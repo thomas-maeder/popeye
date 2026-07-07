@@ -94,7 +94,7 @@ void killer_move_optimise_final_defense_move(slice_index si,
 static stip_length_type defend_with_non_killer_pieces(slice_index si)
 {
   Side const defender = SLICE_STARTER(si);
-  square const killer_pos = killer_moves[nbply+1].departure;
+  square const killer_pos = killer_moves[nbply].departure;
   square const *bnp;
   stip_length_type result = immobility_on_next_move;
 
@@ -128,7 +128,7 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
 static void defend_with_killer_piece(slice_index si)
 {
   Side const defender = SLICE_STARTER(si);
-  square const killer_pos = killer_moves[nbply+1].departure;
+  square const killer_pos = killer_moves[nbply].departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

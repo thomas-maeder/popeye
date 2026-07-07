@@ -216,14 +216,12 @@ void alice_move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(SLICE_STARTER(si));
   generate_all_moves_on_board(AliceBoardA);
   move_generator_filter_moves(base,&not_illegal_for_piece_moving_from_board_A);
   base = MOVEBASE_OF_PLY(nbply+1);
   generate_all_moves_on_board(AliceBoardB);
   move_generator_filter_moves(base,&not_illegal_for_piece_moving_from_board_B);
   pipe_solve_delegate(si);
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -35,7 +35,7 @@
 static void ReportSignalAndBailOut(int sig)
 {
   output_plaintext_report_aborted(sig);
-  exit(1);
+  _exit(1);
 }
 
 /* specific signal handlers: */
@@ -142,10 +142,6 @@ static void ReDrawBoard(int sig)
   */
   ReDrawPly(nbply);
   putchar('\n');
-
-#if !HAVE_SIGACTION
-  signal(sig,&ReDrawBoard);
-#endif /*!HAVE_SIGACTION*/
 }
 
 static void solvingTimeOver(int sig)
@@ -196,9 +192,6 @@ void platform_init(void)
   act.sa_handler = &solvingTimeOver; 
   if (sigaction(SIGALRM, &act, NULL))
     perror(__func__);
-  act.sa_handler = &ReDrawBoard; 
-  if (sigaction(SIGHUP,  &act, NULL))
-    perror(__func__);
 #else
 #if defined(HASHRATE)
   if (signal(SIGUSR1, &sigUsr1Handler) == SIG_ERR)
@@ -207,8 +200,6 @@ void platform_init(void)
     perror(__func__);
 #endif /*HASHRATE*/
   if (signal(SIGALRM, &solvingTimeOver) == SIG_ERR)
-    perror(__func__);
-  if (signal(SIGHUP,  &ReDrawBoard) == SIG_ERR)
     perror(__func__);
 #endif /*HAVE_SIGACTION*/
 }

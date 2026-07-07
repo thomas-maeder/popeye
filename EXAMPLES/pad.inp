@@ -1,0 +1,57 @@
+begin
+
+protocol pad.ref
+
+author Hiroaki Maeshima
+origin Problem Paradise 111 2025
+pieces white Ke7 Rc5 Bd3 Pg3 black Kf5 Sb6d2 Pc6d5e4g4g5g7
+stipulation h#2
+condition pad 
+twin add black bg7
+
+nextproblem
+
+author Hiroaki Maeshima
+origin Problem Paradise 111 2025
+pieces white kb2 re3 bf3g5 pa4c4c5e5g3g4 black kd4 pa5e6
+stipulation #2
+condition pad rexincl
+option vari
+
+next
+
+author Hiroaki Maeshima
+origin Problem Paradise 111 2025
+title cooked
+pieces white Ke3 Qh8 Be4 Pd3 black Kg4 Rg1 Be6 Pc5e5f3
+stipulation hs#3
+condition pad rexincl
+twin move e4 f2
+
+next
+
+author Tadashi Wakashima
+pieces white kf6 rd7 black kg8
+stipulation #2
+condition pad strict rexincl
+option vari
+
+next
+
+author Tadashi Wakashima
+pieces white kf5 re8 pg7 black kh6 bh8
+stipulation h#1
+condition PAD strict rexincl
+
+next
+
+author Hiroaki Maeshima
+origin Problem Paradise 111 2025
+title actually a #1 with 2 solutions - retroanalysis shows that wB and bPg6 have captured
+pieces white kf4 rh1h2 bc6 pe2g2g6 black kh6 pb7c7f7g7h5f3 
+stip h#1.5
+condition PAD
+option movenumbers start 27:11 upto 27:11
+
+end
+

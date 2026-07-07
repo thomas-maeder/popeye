@@ -1,0 +1,34 @@
+begin
+
+protocol 4_99_to_4_101.reg
+
+title Popeye 4.99 considered this a solution because it failed to "attack" the mating line with the free invisible
+pieces white ke1 black kg3 total 2
+stip h#3.5
+option movenum start 2:8:14:3:13:5:7 upto 2:8:14:3:13:5:7 
+
+next
+
+title this would produce a segmentation fault from 4.69 to 4.99
+Stipulation s#4
+Option NoBoard Defence 1 NonTrivial 0 2
+Pieces
+  black  Kh8
+  white  Ka1
+
+NextProblem
+
+title Popeye 4.99 didn't find this because of an "optimization"
+pieces white ke1 qd1 rc6h1 bc1d6f1 sg1 pc2e2g2h2
+       white Aliceb sc3 pa3a4d4
+       black rf6 bc8 sb8 pb7c7d7e7g7h7
+       black aliceb kf8 ra1 bc5 sh6 pf5
+stip a=>b6
+opt move white start 9:15:17:8:10:20:7:8:19:14:11 upto 9:15:17:8:10:20:7:8:19:14:11
+pieces white Ke1 qc7 rc6h1 bf1f6 sd1g1 pe2g2h2
+       white aliceb pa3a4c3d4
+       black ke8 rh8 bc8f8 sb8g8 pb7d7e7g7h7
+       black aliceb ra1 pd6f5
+
+end
+

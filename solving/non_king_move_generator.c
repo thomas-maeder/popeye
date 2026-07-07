@@ -77,13 +77,9 @@ void non_king_move_generator_solve(slice_index si)
 
   solve_result = immobility_on_next_move;
 
-  nextply(SLICE_STARTER(si));
-
   while (solve_result<slack_length
          && advance_departure_square(&next_square_to_try))
     pipe_solve_delegate(si);
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

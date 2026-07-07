@@ -139,6 +139,9 @@
 #include "conditions/alice.h"
 #include "conditions/immobilio.h"
 #include "conditions/shielded_kings.h"
+#include "conditions/pad.h"
+#include "conditions/danger_circe.h"
+#include "conditions/mate-C.h"
 #include "platform/maxtime.h"
 #include "solving/end_of_branch_tester.h"
 #include "solving/dead_end.h"
@@ -373,6 +376,9 @@ void build_solvers1(slice_index si)
   if (CondFlag[masand])
     solving_insert_masand(si);
 
+  if (CondFlag[mate_C])
+    solving_insert_mate_C(si);
+
   if (TSTFLAG(some_pieces_flags,Anda))
     solving_insert_anda(si);
   if (TSTFLAG(some_pieces_flags,AndaInverse))
@@ -449,6 +455,9 @@ void build_solvers1(slice_index si)
 
   if (CondFlag[andernach])
     solving_insert_andernach(si);
+
+  if (CondFlag[pad])
+    solving_insert_pad(si);
 
   if (CondFlag[antiandernach])
     solving_insert_antiandernach(si);
@@ -722,16 +731,16 @@ void build_solvers1(slice_index si)
 
   solving_insert_setplay_solvers(si);
 
+  solving_insert_min_length(si);
+
+  if (OptFlag[nontrivial])
+    solving_insert_max_nr_nontrivial_guards(si);
+
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     solving_insert_try_solvers(si);
 
   if (!OptFlag[matesin1])
     solving_insert_trivial_variation_filters(si);
-
-  solving_insert_min_length(si);
-
-  if (OptFlag[nontrivial])
-    solving_insert_max_nr_nontrivial_guards(si);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
     solving_insert_threat_handlers(si);
@@ -810,6 +819,9 @@ void build_solvers2(slice_index si)
   if (TSTFLAG(some_pieces_flags,Beamtet))
     beamten_initialise_solving(si);
 
+  if (CondFlag[danger_circe])
+    danger_circe_initialise_solving(si);
+
   if (CondFlag[whvault_king])
     vaulting_kings_initalise_solving(si,White);
   if (CondFlag[blvault_king])
@@ -885,6 +897,8 @@ void build_solvers2(slice_index si)
 
   optimise_is_square_observed(si);
   optimise_is_in_check(si);
+
+  solving_insert_next_ply(si);
 
   solving_impose_starter(si,SLICE_STARTER(si));
 

@@ -190,6 +190,7 @@
     ENUMERATOR(STDoneRemovingIllegalMoves),                             \
     ENUMERATOR(STDoneRemovingFutileMoves),                              \
     ENUMERATOR(STDonePriorisingMoves),                                  \
+    ENUMERATOR(STNextPly),                                              \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
@@ -244,6 +245,9 @@
     ENUMERATOR(STMaxTimeProblemInstrumenter),                                    \
     ENUMERATOR(STMaxTimeSetter), /* start maxtime timer */              \
     ENUMERATOR(STMaxTimeGuard), /* makes sure maxtime is kept*/         \
+    ENUMERATOR(STHeartBeatSetter), /* start maxtime timer */              \
+    ENUMERATOR(STHeartBeatWriter), /* writes heartbeat to stderr */     \
+    ENUMERATOR(STHeartBeatProblemInstrumenter),                                    \
     ENUMERATOR(STMaxSolutionsProblemInstrumenter),                      \
     ENUMERATOR(STMaxSolutionsSolvingInstrumenter),                      \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
@@ -328,6 +332,7 @@
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
+    ENUMERATOR(STMaxNrNonTrivialLanding), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthStart), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STStopOnShortSolutionsProblemInstrumenter),             \
@@ -361,6 +366,7 @@
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STCentralObservationValidator),                        \
     ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
+    ENUMERATOR(STDangerCirceMovesForPieceGenerator),                  \
     ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STOpponentMovesCounterFork),                           \
     ENUMERATOR(STOpponentMovesCounter),                               \
@@ -430,6 +436,8 @@
     ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMasandGeneralisedRecolorer),                           \
     ENUMERATOR(STMasandGeneralisedEnforceObserver),                     \
+    ENUMERATOR(STMate_CRecolorer),                                      \
+    ENUMERATOR(STMate_CEnforceObserver),                                \
     ENUMERATOR(STInfluencerWalkChanger),                                \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
@@ -524,6 +532,8 @@
     ENUMERATOR(STSnekCircleSubstitutor),                                \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
+    ENUMERATOR(STPADBookKeeper),                                        \
+    ENUMERATOR(STPADStrict),                                            \
     ENUMERATOR(STDarksideSideChanger),                                  \
     ENUMERATOR(STBretonApplier),                                        \
     ENUMERATOR(STBretonPopeyeApplier),                                  \

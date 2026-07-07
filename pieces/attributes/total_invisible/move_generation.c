@@ -23,13 +23,17 @@
  */
 void total_invisible_generate_moves_by_invisible(slice_index si)
 {
-  Side const side_moving = trait[nbply];
+  Side const side_moving = SLICE_STARTER(si);
   Side const side_capturee = advers(side_moving);
   square const *s;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  curr_generation->departure = move_by_invisible;
+  curr_generation->arrival = move_by_invisible;
+  push_move_capture_extra(move_by_invisible);
 
   curr_generation->departure = capture_by_invisible;
 
@@ -50,10 +54,6 @@ void total_invisible_generate_moves_by_invisible(slice_index si)
       push_move_regular_capture();
     }
   }
-
-  curr_generation->departure = move_by_invisible;
-  curr_generation->arrival = move_by_invisible;
-  push_move_capture_extra(move_by_invisible);
 
   pipe_solve_delegate(si);
 

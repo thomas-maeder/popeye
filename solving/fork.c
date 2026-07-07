@@ -13,6 +13,7 @@ void fork_solve_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(SLICE_NEXT2(si)!=no_slice);
   solve(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);

@@ -534,24 +534,24 @@ Popeye 4.89 found 1...Bc2-b1   2.Bc3-d4 TI~-~   3.TI~*b1 [+wRh1]0-0[f2=wR][f1=wR
 +---a---b---c---d---e---f---g---h---+
   h#2.5                2 + 1 + 3 TI
 
-  1  (TI~-~ )
-  2  (TI~*c3 )
-  3  (0-0-0 )
-  4  (0-0 )
-  5  (Ke1-f2 )
-  6  (Ke1-d2 )
-  7  (Ke1-d1 )
-  8  (Ke1-e2 )
-  9  (Ke1-f1 )
- 10  (Bc2-b1 )
- 11  (Bc2-d1 )
- 12  (Bc2-h7 )
- 13  (Bc2-g6 )
- 14  (Bc2-f5 )
- 15  (Bc2-e4 )
- 16  (Bc2-d3 )
- 17  (Bc2-a4 )
- 18  (Bc2-b3 )
+  1  (0-0-0 )
+  2  (0-0 )
+  3  (Ke1-f2 )
+  4  (Ke1-d2 )
+  5  (Ke1-d1 )
+  6  (Ke1-e2 )
+  7  (Ke1-f1 )
+  8  (Bc2-b1 )
+  9  (Bc2-d1 )
+ 10  (Bc2-h7 )
+ 11  (Bc2-g6 )
+ 12  (Bc2-f5 )
+ 13  (Bc2-e4 )
+ 14  (Bc2-d3 )
+ 15  (Bc2-a4 )
+ 16  (Bc2-b3 )
+ 17  (TI~*c3 )
+ 18  (TI~-~ )
   add_to_move_generation_stack:      841131
                      play_move:      921477
  is_white_king_square_attacked:       60410
@@ -585,27 +585,19 @@ Popeye 4.89 didn't find this solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
- 18  (Rb2-h2 )
- 18:9  (Bb8-c7 )
- 18:9:1  (TI~-~ )
- 18:9:1:6  (Bc7-g3 )
- 18:9:1:6:10  (Rh2-h1 )
- 18:9:1:6:10:1  (TI~-~ )
- 18:9:1:6:10:2  (TI~*h1 )
+ 16  (Rb2-h2 )
+ 16:7  (Bb8-c7 )
+ 16:7:23  (TI~-~ )
+ 16:7:23:4  (Bc7-g3 )
+ 16:7:23:4:8  (Rh2-h1 )
+ 16:7:23:4:8:9  (TI~*h1 )
+ 16:7:23:4:8:9:1  (0-0-0 )
   1...Rb2-h2   2.Bb8-c7 TI~-~   3.Bc7-g3 Rh2-h1   4.TI~*h1 0-0-0[f2=wR][h1=bK] #
- 18:9:1:6:10:3  (Bg3-f2 )
- 18:9:1:6:10:4  (Bg3-h2 )
- 18:9:1:6:10:5  (Bg3-h4 )
- 18:9:1:6:10:6  (Bg3-b8 )
- 18:9:1:6:10:7  (Bg3-c7 )
- 18:9:1:6:10:8  (Bg3-d6 )
- 18:9:1:6:10:9  (Bg3-e5 )
- 18:9:1:6:10:10  (Bg3-f4 )
-  add_to_move_generation_stack:         480
-                     play_move:         517
- is_white_king_square_attacked:          30
- is_black_king_square_attacked:         170
-                  TI decisions:       15568
+  add_to_move_generation_stack:         332
+                     play_move:         360
+ is_white_king_square_attacked:          28
+ is_black_king_square_attacked:         168
+                  TI decisions:        1742
 
 solution finished.
 
@@ -634,13 +626,13 @@ Popeye 4.89 considered this move sequence a solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
- 15  (Bg8-h7 )
- 15:9  (Bc1-b2 )
- 15:9:10  (Bh7-b1 )
- 15:9:10:2  (TI~*b1 )
- 15:9:10:2:1  (TI~-~ )
- 15:9:10:2:1:9  (Bb2-c3 )
- 15:9:10:2:1:9:3  (0-0 )
+ 13  (Bg8-h7 )
+ 13:7  (Bc1-b2 )
+ 13:7:8  (Bh7-b1 )
+ 13:7:8:10  (TI~*b1 )
+ 13:7:8:10:8  (TI~-~ )
+ 13:7:8:10:8:8  (Bb2-c3 )
+ 13:7:8:10:8:8:1  (0-0 )
   add_to_move_generation_stack:         527
                      play_move:         569
  is_white_king_square_attacked:          46
@@ -674,13 +666,13 @@ Popeye 4.89 considered this move sequence a solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  3  (0-0-0 )
-  3:1  (TI~-~ )
-  3:1:3  (Kc1-d2 )
-  3:1:3:4  (Bh2-g1 )
-  3:1:3:4:2  (TI~*g1 )
-  3:1:3:4:2:2  (TI~*f2 )
-  3:1:3:4:2:2:5  (Rd1-f1 )
+  1  (0-0-0 )
+  1:10  (TI~-~ )
+  1:10:1  (Kc1-d2 )
+  1:10:1:1  (Bh2-g1 )
+  1:10:1:1:18  (TI~*g1 )
+  1:10:1:1:18:1  (TI~*f2 )
+  1:10:1:1:18:1:4  (Rd1-f1 )
   add_to_move_generation_stack:         100
                      play_move:          98
  is_white_king_square_attacked:           2
@@ -714,13 +706,13 @@ Popeye 4.89 considered this move sequence a solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  4  (0-0 )
-  4:1  (TI~-~ )
-  4:1:8  (Rf1-f8 )
-  4:1:8:7  (Bb2-g7 )
-  4:1:8:7:2  (TI~*g7 )
-  4:1:8:7:2:2  (TI~*f8 )
-  4:1:8:7:2:2:7  (h7-h8=Q )
+  2  (0-0 )
+  2:12  (TI~-~ )
+  2:12:6  (Rf1-f8 )
+  2:12:6:4  (Bb2-g7 )
+  2:12:6:4:28  (TI~*g7 )
+  2:12:6:4:28:1  (TI~*f8 )
+  2:12:6:4:28:1:6  (h7-h8=Q )
   add_to_move_generation_stack:         100
                      play_move:         121
  is_white_king_square_attacked:           2
@@ -754,13 +746,13 @@ Popeye 4.89 considered this move sequence a solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  3  (0-0-0 )
-  3:7  (Be3-h6 )
-  3:7:15  (Rd1-e1 )
-  3:7:15:1  (TI~-~ )
-  3:7:15:1:1  (TI~-~ )
-  3:7:15:1:1:8  (Bh6-f8 )
-  3:7:15:1:1:8:2  (TI~*f8 )
+  1  (0-0-0 )
+  1:4  (Be3-h6 )
+  1:4:13  (Rd1-e1 )
+  1:4:13:9  (TI~-~ )
+  1:4:13:9:32  (TI~-~ )
+  1:4:13:9:32:5  (Bh6-f8 )
+  1:4:13:9:32:5:31  (TI~*f8 )
   add_to_move_generation_stack:         202
                      play_move:         210
  is_white_king_square_attacked:           8
@@ -794,13 +786,13 @@ Popeye 4.89 considered this move sequence a solution
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  9  (Rb1-b3 )
-  9:7  (Bg1-d4 )
-  9:7:2  (TI~*d4 )
-  9:7:2:2  (TI~*b3 )
-  9:7:2:2:2  (0-0-0 )
-  9:7:2:2:2:10  (Kb3-c3 )
-  9:7:2:2:2:10:6  (Rd1-d3 )
+  7  (Rb1-b3 )
+  7:5  (Bg1-d4 )
+  7:5:22  (TI~*d4 )
+  7:5:22:1  (TI~*b3 )
+  7:5:22:1:1  (0-0-0 )
+  7:5:22:1:1:8  (Kb3-c3 )
+  7:5:22:1:1:8:5  (Rd1-d3 )
   add_to_move_generation_stack:          94
                      play_move:          91
  is_white_king_square_attacked:           2
@@ -834,12 +826,12 @@ an intermediate version found 1...[+wRh1]0-0[f1=wR]   2.Bd8-g5 Bg4-h3   3.TI~-~ 
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  4  (0-0 )
-  4:8  (Bd8-g5 )
-  4:8:22  (Bg4-h3 )
-  4:8:22:1  (TI~-~ )
-  4:8:22:1:2  (TI~*g5 )
-  4:8:22:1:2:2  (TI~*h3 )
+  2  (0-0 )
+  2:5  (Bd8-g5 )
+  2:5:20  (Bg4-h3 )
+  2:5:20:12  (TI~-~ )
+  2:5:20:12:23  (TI~*g5 )
+  2:5:20:12:23:1  (TI~*h3 )
   add_to_move_generation_stack:         206
                      play_move:         218
  is_white_king_square_attacked:          30
@@ -873,13 +865,13 @@ an intermediate version found   1...[+wRa1]0-0-0[d1=wR]   2.TI~*f2 TI~-~[f2=bK] 
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  3  (0-0-0 )
-  3:2  (TI~*f2 )
-  3:2:1  (TI~-~ )
-  3:2:1:11  (Ba5-e1 )
-  3:2:1:11:13  (Rd1-d2 )
-  3:2:1:11:13:4  (Kf2-g1 )
-  3:2:1:11:13:4:2  (TI~*e1 )
+  1  (0-0-0 )
+  1:8  (TI~*f2 )
+  1:8:17  (TI~-~ )
+  1:8:17:9  (Ba5-e1 )
+  1:8:17:9:11  (Rd1-d2 )
+  1:8:17:9:11:2  (Kf2-g1 )
+  1:8:17:9:11:2:19  (TI~*e1 )
   add_to_move_generation_stack:         145
                      play_move:         155
  is_white_king_square_attacked:          10
@@ -947,12 +939,12 @@ an intermediate version found 1.Bb2-a3 TI~-~   2.TI~-~ Bf3-h1   3.TI~*h1 [+wRa1]
 +---a---b---c---d---e---f---g---h---+
   h#3                  2 + 1 + 3 TI
 
- 11  (Bb2-a3 )
- 11:1  (TI~-~ )
- 11:1:1  (TI~-~ )
- 11:1:1:12  (Bf3-h1 )
- 11:1:1:12:2  (TI~*h1 )
- 11:1:1:12:2:3  (0-0-0 )
+  9  (Bb2-a3 )
+  9:20  (TI~-~ )
+  9:20:9  (TI~-~ )
+  9:20:9:10  (Bf3-h1 )
+  9:20:9:10:8  (TI~*h1 )
+  9:20:9:10:8:1  (0-0-0 )
   add_to_move_generation_stack:         266
                      play_move:         264
  is_white_king_square_attacked:          26
@@ -986,21 +978,21 @@ an intermediate version found 1...Ke1-f2   2.[+wTIa4]b5*a4 Kf2-g3   3.TI~-~ TI~*
 +---a---b---c---d---e---f---g---h---+
   h#3.5                2 + 1 + 3 TI
 
-  4  (Ke1-f2 )
-  4:5  ([+wTIa4]b5*a4 )
-  4:5:12  (Kf2-g3 )
-  4:5:12:1  (TI~-~ )
-  4:5:12:1:2  (TI~*a4 )
-  4:5:12:1:2:2  (TI~*f1 )
-  4:5:12:1:2:2:1  (TI~-~ )
-  4:5:12:1:2:2:2  (Kg3-f2 )
-  4:5:12:1:2:2:3  (Kg3-h2 )
-  4:5:12:1:2:2:4  (Kg3-h4 )
-  4:5:12:1:2:2:5  (Kg3-f4 )
-  4:5:12:1:2:2:6  (Kg3-g2 )
-  4:5:12:1:2:2:7  (Kg3-f3 )
-  4:5:12:1:2:2:8  (Kg3-g4 )
-  4:5:12:1:2:2:9  (Kg3-h3 )
+  2  (Ke1-f2 )
+  2:3  ([+wTIa4]b5*a4 )
+  2:3:10  (Kf2-g3 )
+  2:3:10:4  (TI~-~ )
+  2:3:10:4:23  (TI~*a4 )
+  2:3:10:4:23:1  (TI~*f1 )
+  2:3:10:4:23:1:1  (Kg3-f2 )
+  2:3:10:4:23:1:2  (Kg3-h2 )
+  2:3:10:4:23:1:3  (Kg3-h4 )
+  2:3:10:4:23:1:4  (Kg3-f4 )
+  2:3:10:4:23:1:5  (Kg3-g2 )
+  2:3:10:4:23:1:6  (Kg3-f3 )
+  2:3:10:4:23:1:7  (Kg3-g4 )
+  2:3:10:4:23:1:8  (Kg3-h3 )
+  2:3:10:4:23:1:9  (TI~-~ )
   add_to_move_generation_stack:          76
                      play_move:         125
  is_white_king_square_attacked:           0

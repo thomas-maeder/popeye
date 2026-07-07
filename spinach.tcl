@@ -108,9 +108,9 @@ namespace eval language {
 	}
 
 	namespace eval input {
-	    variable BeginProblem "DebugProblem"
+	    variable BeginProblem "DebutProbleme"
 	    variable NextProblem "Asuivre"
-	    variable EndProblem "FinProblem"
+	    variable EndProblem "FinProbleme"
 	    variable ZeroPosition "zeroposition"
 	    variable Twin "Jumeau"
 	    variable Continued "enplus"
@@ -505,7 +505,6 @@ namespace eval output {
     variable latestCarry ""
     variable latestFinish
 
-    variable nextMoveNumber 1
     variable nextTwinningMark "a"
     variable isSolutionPartial false
 }
@@ -630,17 +629,19 @@ proc ::output::_formattedTime {} {
     return $timeFormatted
 }
 
-proc ::output::movenumberLine {numberedMove time} {
+proc ::output::movenumberLine {numberedMove time move1 {move2 ""}} {
     variable areMovenumbersSuppressed
     variable latestCarry
-    variable nextMoveNumber
 
     _puts $latestCarry
     set latestCarry ""
 
     if {!$areMovenumbersSuppressed} {
-	_puts "\n[format %3d $nextMoveNumber]$numberedMove[::msgcat::mc output::Time] = [_formattedTime])"
-	incr nextMoveNumber
+	set movenumber "[format %3d $move1]"
+	if {$move2!=""} {
+	    append movenumber ":$move2"
+	}
+	_puts "\n$movenumber $numberedMove[::msgcat::mc output::Time] = [_formattedTime])"
     }
 }
 
@@ -692,6 +693,10 @@ namespace eval popeye {
 
     lassign [chan pipe] errorout errorin
     fconfigure $errorout -blocking false
+    fileevent $errorout readable "::popeye::heartbeat $errorout"
+
+    variable heartbeatOption "-heartbeat"
+    variable heartbeat_buffer ""
 }
 
 proc ::popeye::setExecutable {path} {
@@ -711,9 +716,16 @@ proc ::popeye::setMaxmem {setting} {
     set maxmemOption "-maxmem $setting"
 }
 
+proc ::popeye::heartbeat {channel} {
+    variable heartbeat_buffer
+
+    append heartbeat_buffer [regsub -all {heartbeat: *[0-9]+} [read $channel] ""]
+}
+
 proc ::popeye::spawn {} {
     variable executablePath
     variable maxmemOption
+    variable heartbeatOption
     variable errorin
 
     debug.popeye {spawn}
@@ -723,7 +735,7 @@ proc ::popeye::spawn {} {
 
     # this mess seems to be the only way that works on both Linux and Windows
     # with paths that may contain spaces
-    set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption 2>@$errorin" "r+"]
+    set pipe [open "| \"[join [file split $executablePath] /]\" $maxmemOption $heartbeatOption 2>@$errorin" "r+"]
     debug.popeye {pipe:$pipe pid:[pid $pipe]} 2
     debug.popeye {caller:[info level -1]} 2
 
@@ -768,11 +780,15 @@ proc ::popeye::terminate {pipe {expectedErrorMessageREs {}}} {
 }
 
 proc ::popeye::flushStderr {} {
+    variable heartbeat_buffer
     variable errorout
 
     set written {}
 
-    set lines [split [read $errorout] "\n"]
+    heartbeat $errorout
+
+    set lines [split $heartbeat_buffer "\n"]
+    set heartbeat_buffer ""
 
     foreach line $lines {
 	if {$line==""} {
@@ -1140,7 +1156,7 @@ proc ::tester::async::1::moveNumber {pipe} {
 	    ::sync::Notify $pipe "prematureEndOfSolution"
 	}
     } else {
-	::output::movenumberLine $numberedMove $time
+	::output::movenumberLine $numberedMove $time ""
 	::sync::Notify $pipe "movenumberLine"
     }
 
@@ -1274,10 +1290,11 @@ proc ::tester::async::2::moveNumber1 {pipe move1 move2} {
 	debug.tester {finished:|$finished|} 2
 	if {$finished!=""} {
 	    ::sync::Notify $pipe "prematureEndOfSolution1" $move1 $move2
+	    ::output::rememberFinish $carry $finished $time $suffix
 	}
     } else {
 	if {$move2==1} {
-	    ::output::movenumberLine $numberedMove $time
+	    ::output::movenumberLine $numberedMove $time $move1
 	}
 	::sync::Notify $pipe "movenumberLine1" $move1 $move2
     }
@@ -1297,8 +1314,10 @@ proc ::tester::async::2::moveNumber2 {pipe move1 move2} {
 	debug.tester {finished:|$finished|} 2
 	if {$finished!=""} {
 	    ::sync::Notify $pipe "prematureEndOfSolution2" $move1 $move2
+	    ::output::rememberFinish $carry $finished $time $suffix
 	}
     } else {
+	::output::movenumberLine $numberedMove $time $move1 $move2
 	::sync::Notify $pipe "movenumberLine2" $move1 $move2
     }
 
@@ -1504,7 +1523,7 @@ proc ::tester::test {firstTwin writeTwinning continued {twinnings {}}} {
     # synchronously deal with everything happening before move 1, e.g. set play
     sync::setplayRange $firstTwin $writeTwinning $continued $twinnings
 
-    async::1::testRegularMoves $firstTwin $twinnings
+    async::2::testRegularMoves $firstTwin $twinnings
 
     ::popeye::flushStderr
 

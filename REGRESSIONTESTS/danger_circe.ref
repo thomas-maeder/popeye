@@ -1,0 +1,566 @@
+
+          Mario Parrinello
+   Gentilly 2024, 2nd Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   R   .   .   .   8
+|                                   |
+7  -P   .   .   P   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .  -B   .   K   6
+|                                   |
+5  -R   .   .   .   P   .   .   .   5
+|                                   |
+4  -P   .   .   .   P   .   .   .   4
+|                                   |
+3  -P   .  -P   .   P   .  -S   .   3
+|                                   |
+2   .   .  -P  -K   .   .   .   .   2
+|                                   |
+1   R   .   .   .   .  -S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        7 + 11
+             DangerCirce
+
+a) 
+
+  1.Sf1*e3 e5-e2   2.Se3-d5 e4*d5 #
+  add_to_move_generation_stack:    10989526
+                     play_move:      347842
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bRa5<-->bPa6  
+
+  1.Sg3*e4 e3-e2   2.Se4-d6 e5*d6 #
+  add_to_move_generation_stack:     9619907
+                     play_move:      301970
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) bRa5<-->bPa4  
+
+  1.Bf6*e5 e4-e2   2.Be5-d4 e3*d4 #
+  add_to_move_generation_stack:    10933586
+                     play_move:      345698
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+   Maryan Kerhuel & Jacques Dupin
+   Gentilly 2024, 5th Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -S   .  -K   .   .   K   .   .   7
+|                                   |
+6   .   .  -P   .   .   .  -P  -Q   6
+|                                   |
+5   .   .   P   .   .   .   P   .   5
+|                                   |
+4   .   .  -P   R   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   B   2
+|                                   |
+1   .   .   .  -B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 8
+             DangerCirce
+
+a) 
+
+  1.Bd1-c8 Bh2-c1   2.b2-b7 Bc1-f4 #
+  add_to_move_generation_stack:     8055538
+                     play_move:      301193
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) wBh2-->g4  
+
+  1.Qh6-d8 Rd4-a1   2.Sa7-b8 Ra1-a7 #
+  add_to_move_generation_stack:    12198110
+                     play_move:      397296
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+    Th. Giakatis & Kostas Prentos
+        Gentilly 2024, 3rd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -R   .   .   .  -B   7
+|                                   |
+6   .  -P   .  -B   .   .  -R   .   6
+|                                   |
+5   .   R   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   B   .   .  -P   P   .  -K   3
+|                                   |
+2   K   .   .   R   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 8
+             DangerCirce
+
+  1.Bd6-g3 Rb5-e5   2.Rd7-d3 Bb3-f1 #
+  1.Rg6-g3 Bb3-f7   2.Bh7-d3 Rb5-h1 #
+  add_to_move_generation_stack:    32216617
+                     play_move:      869513
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+           Jerome Auclair
+            Gentilly 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   R   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 2
+             DangerCirce
+
+  1.e7-e6 Ba6-c8 +   2.Ka8-e8 Ra1-a8   3.e6-e7 Bc8-e6 #
+  1.Ka8-a7 Ba6-c8 +   2.Ka7-b8 Ra1-a8 +   3.Kb8-e8 Bc8-e6 #
+  1.Ka8-b8 Ba6-c4   2.Kb8-c8 Bc4-e6 +   3.Kc8-e8 Ra1-a8 #
+  add_to_move_generation_stack:    11620144
+                     play_move:      416980
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+         Th. Argurakopoulos
+            Gentilly 2024
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .  -S   .  -B   8
+|                                   |
+7   P   .   .   .   .   .  -S   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4  -B   .  -P   K  -P   .  -P  -P   4
+|                                   |
+3  -P  -P   .   .   .   .   .  -K   3
+|                                   |
+2  -P   P   .   .   .   .   .   .   2
+|                                   |
+1  -Q   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                      4 + 14
+             DangerCirce
+
+a) 
+
+  1...a7-a8=B   2.Ba4-e8 Ba8-c6   3.Qa1-f1 Bc6*f1 #
+  add_to_move_generation_stack:    38233707
+                     play_move:     1684199
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bBh8-->g2  
+
+  1...a7-a8=S   2.Sg7-e8 Sa8-c7   3.Qa1-g1 + Sc7*g1 #
+  add_to_move_generation_stack:    42702919
+                     play_move:     1882924
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+c) bSf8-->g2  
+
+  1...a7-a8=R   2.Ba4-e8 Ra8-a4   3.Qa1-h1 Ra4*h1 #
+  add_to_move_generation_stack:    31568416
+                     play_move:     1376563
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+           Hans Uitenbroek
+      Gentilly 2024, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   .  -P   .   7
+|                                   |
+6   .   .  -P   .   P   .   P   .   6
+|                                   |
+5   .   .   .   .   K   .  -P   B   5
+|                                   |
+4   .   .   .   P   .   P   .  -B   4
+|                                   |
+3   .   P   .   R   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .  -P   .   2
+|                                   |
+1   .   .   B   .  -K  -S   .  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                      9 + 10
+             DangerCirce
+
+a) 
+
+  1...Rd3-h3   2.Rh1-a8 Ke5-f5   3.Ra8-e8 Rh3-e3 #
+  add_to_move_generation_stack:    63713579
+                     play_move:     1992042
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) bRh1-->g1  
+
+  1...Bc1-e3   2.Rg1-h8 Ke5-e4   3.Rh8-e8 Be3-d2 #
+  add_to_move_generation_stack:    32952986
+                     play_move:     1060943
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+   Jacques Dupin & Michel Caillaud
+      Gentilly 2024, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .   P   P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -P   .  -B   3
+|                                   |
+2   .   .   .   .  -P  -P  -Q  -B   2
+|                                   |
+1   .   .   .   .   .  -R  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       3 + 8
+             DangerCirce
+
+  1...b7-b8=R   2.Kg1-h1 Rb8-b7   3.Rf1-g1 c7-c8=R #
+  1...c7-c8=S   2.Qg2-h1 Sc8-a7   3.Bh3-g2 b7-b8=S #
+  add_to_move_generation_stack:    26301841
+                     play_move:     1075433
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+           Michel Caillaud
+   Gentilly 2024, 3rd commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .  -P   P   .   P  -P   7
+|                                   |
+6   .   .   .   P   .   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .  -P   .   2
+|                                   |
+1   .   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#4                        6 + 6
+             DangerCirce
+
+  1.e7-e8=R Bc2-g6   2.Re8-h1 + Kc1-e8   3.a7-a8=B g2*h1=S   4.g7-g8=Q + Sh1*g8 #
+  add_to_move_generation_stack: 17991211446
+                     play_move:   415502191
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+          Jacques Rotenberg
+        Gentilly 2024, 2nd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .   .   Q   .   .   8
+|                                   |
+7   .   K   .  -K   .   .   .   .   7
+|                                   |
+6  -S   .   .   P   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   P   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   B   .   .   S   P   .   .   .   3
+|                                   |
+2   R   P  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 6
+             DangerCirce
+
+   1.b2-b3 ? zugzwang.
+      1...Bc2-b1
+          2.Qf8-c8 #
+      1...Bc2-d1
+          2.Qf8-c8 #
+      1...Bc2*d3
+          2.Qf8-c8 #
+      1...Bc2*b3
+          2.Qf8-c8 #
+      1...Bc2-c8 +
+          2.Qf8*c8 #
+      1...e4*d3
+          2.Qf8-e7 #
+      1...Sa6-b4
+          2.Sd3-c5 #
+      1...Sa6-c5 +
+          2.Sd3*c5 #
+      1...Sa6-c7
+          2.Sd3-c5 #
+      1...Sa6-g8
+          2.Sd3-c5 #
+      1...f6-f7
+          2.Sd3-e5 #
+    but
+      1...Sb8-c6 !
+
+   1.Ba3-c5 ? threat:
+          2.Qf8-c8 #
+      1...Sa6*c5 +
+          2.Sd3*c5 #
+    but
+      1...Bc2-a4 !
+
+   1.Ba3-b4 ? zugzwang.
+      1...Bc2-b1
+          2.Qf8-c8 #
+      1...Bc2-d1
+          2.Qf8-c8 #
+      1...Bc2*d3
+          2.Qf8-c8 #
+      1...Bc2-b3
+          2.Qf8-c8 #
+      1...e4*d3
+          2.Qf8-e7 #
+      1...Sa6*b4
+          2.Sd3-c5 #
+      1...Sa6-c5 +
+          2.Sd3*c5 #
+      1...Sa6-c7
+          2.Sd3-c5 #
+          2.Qf8-c8 #
+      1...Sa6-g8
+          2.Sd3-c5 #
+      1...f6-f7
+          2.Sd3-e5 #
+      1...Sb8-c6
+          2.Qf8-c8 #
+    but
+      1...Bc2-a4 !
+
+   1.Sd3-e5 + ?
+    but
+      1...f6*e5 !
+
+   1.Sd3-c5 + ?
+    but
+      1...Sa6*c5 + !
+
+   1.d6-d2 ! zugzwang.
+      1...Bc2-b1
+          2.Qf8-c8 #
+      1...Bc2-d1
+          2.Qf8-c8 #
+      1...Bc2*d3
+          2.Qf8-c8 #
+      1...Bc2-a4
+          2.Qf8-c8 #
+      1...Bc2-b3
+          2.Qf8-c8 #
+      1...e4*d3
+          2.Qf8-e7 #
+      1...Sa6-b4
+          2.Sd3-c5 #
+      1...Sa6-c5 +
+          2.Sd3*c5 #
+      1...Sa6-c7
+          2.Sd3-c5 #
+          2.Qf8-c8 #
+      1...Sa6-g8
+          2.Sd3-c5 #
+      1...f6-f7
+          2.Sd3-e5 #
+      1...Sb8-c6
+          2.Qf8-c8 #
+
+   1.Qf8-e7 + ?
+    but
+      1...e4*e7 !
+
+   1.Qf8-c8 + ?
+    but
+      1...Bc2*c8 + !
+
+   1.Qf8-d8 + ?
+    but
+      1...Kd7*d8 !
+
+  add_to_move_generation_stack:      449392
+                     play_move:       11534
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Juraj Lörinc
+        Gentilly 2024, 1st HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -S   R  -B   .  -K   .   8
+|                                   |
+7   .   .   .   .   P   .   .   .   7
+|                                   |
+6   .   .   .   .   P   .   .   K   6
+|                                   |
+5   .   .   .   .   .   .   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   P   B   .   .   P   3
+|                                   |
+2   P   .   .  -P  -R   .  -P   .   2
+|                                   |
+1   .   B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                        10 + 6
+             DangerCirce
+
+   1.d3-d4 ! threat:
+          2.Bb1-e4
+              2...g2-g7 #
+      1...g2-g1=Q
+          2.g5-g2
+              2...Qg1*e3 #
+      1...g2-g1=S
+          2.h3-h2
+              2...Re2*h2 #
+      1...g2-g1=R
+          2.Bb1-f1
+              2...Rg1-h8 #
+      1...g2-g1=B
+          2.e7*e2
+              2...Bg1-f8 #
+
+  add_to_move_generation_stack:     1035919
+                     play_move:       32513
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+          Christian Poisson
+      87 Nouvelles Parties 2020
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P   .  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia5                      13 + 14
+             DangerCirce
+
+  1.c2-c4 b7-b5   2.Qd1-b3 b5*c4   3.Qb3*b8 c4-c3   4.Qb8*c7 c3*b2   5.Qc7-b7 b2*b7 dia
+  add_to_move_generation_stack:   290452644
+                     play_move:   106256399
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

@@ -67,6 +67,7 @@ static slice_index const slice_rank_order[] =
     STUltraPatrolMovesForPieceGenerator,
     STCentralMovesForPieceGenerator,
     STBeamtenMovesForPieceGenerator,
+    STDangerCirceMovesForPieceGenerator,
     STTotalInvisibleSpecialMoveGenerator,
     STAnnanMovesForPieceGenerator,
     STNannaMovesForPieceGenerator,
@@ -478,14 +479,13 @@ boolean observing_move_generator_is_in_check(slice_index si,
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void move_generator_solve(slice_index si)
+void next_ply_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(SLICE_STARTER(si));
-  generate_all_moves_for_moving_side();
   pipe_solve_delegate(si);
   finply();
 
@@ -493,12 +493,31 @@ void move_generator_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-typedef struct
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void move_generator_solve(slice_index si)
 {
-  boolean is_insertion_skipped;
-  move_generation_instrumentation_callback *callback;
-  void *param;
-} move_generator_insertion_status;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  generate_all_moves_for_moving_side();
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void insert_move_generator(slice_index si,
                                   stip_structure_traversal *st,
@@ -516,6 +535,92 @@ static void insert_move_generator(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument the solving machinery with move generator slices
+ * @param si identifies root the solving machinery
+ */
+void solving_insert_move_generators(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,&insert_move_generator,0);
+
+  TraceStipulation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_generator(slice_index si,
+                               stip_structure_traversal *st)
+{
+  boolean * const generator_found = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *generator_found = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_next_ply(slice_index si,
+                            stip_structure_traversal *st,
+                            void *param)
+{
+  stip_structure_traversal st_nested;
+  boolean generator_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st_nested,&generator_found);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_move_generator,
+                                                &remember_generator);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STDoneGeneratingMoves,
+                                           &stip_structure_visitor_noop);
+  stip_traverse_structure(si,&st_nested);
+
+  if (generator_found)
+  {
+    slice_index const prototype = alloc_pipe(STNextPly);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with move generator slices
+ * @param si identifies root the solving machinery
+ */
+void solving_insert_next_ply(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,&insert_next_ply,0);
+
+  TraceStipulation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef struct
+{
+  boolean is_insertion_skipped;
+  move_generation_instrumentation_callback *callback;
+  void *param;
+} move_generator_insertion_status;
 
 static void instrument_generating_moves(slice_index si, stip_structure_traversal *st)
 {
@@ -583,23 +688,6 @@ void solving_instrument_move_generation(slice_index si,
   stip_structure_traversal_init(&st,&status);
   stip_structure_traversal_override(&st,solver_inserters,nr_solver_inserters);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the solving machinery with move generator slices
- * @param si identifies root the solving machinery
- */
-void solving_insert_move_generators(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  solving_instrument_move_generation(si,&insert_move_generator,0);
-
-  TraceStipulation(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

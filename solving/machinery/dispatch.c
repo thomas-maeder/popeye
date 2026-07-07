@@ -159,6 +159,9 @@
 #include "conditions/all_in_chess.h"
 #include "conditions/alice.h"
 #include "conditions/immobilio.h"
+#include "conditions/pad.h"
+#include "conditions/danger_circe.h"
+#include "conditions/mate-C.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -364,6 +367,7 @@
 #include "platform/platform.h"
 #include "platform/maxmem.h"
 #include "platform/timer.h"
+#include "platform/heartbeat.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -700,6 +704,10 @@ void dispatch(slice_index si)
 
     case STFindShortest:
       find_shortest_solve(si);
+      break;
+
+    case STNextPly:
+      next_ply_solve(si);
       break;
 
     case STMoveGenerator:
@@ -1134,6 +1142,10 @@ void dispatch(slice_index si)
       masand_generalised_recolorer_solve(si);
       break;
 
+    case STMate_CRecolorer:
+      mate_C_recolorer_solve(si);
+      break;
+
     case STInfluencerWalkChanger:
       influencer_walk_changer_solve(si);
       break;
@@ -1411,6 +1423,14 @@ void dispatch(slice_index si)
       antiandernach_side_changer_solve(si);
       break;
 
+    case STPADBookKeeper:
+      pad_bookkeeper_solve(si);
+      break;
+
+    case STPADStrict:
+      pad_strict_solve(si);
+      break;
+
     case STDarksideSideChanger:
       darkside_side_changer_solve(si);
       break;
@@ -1662,6 +1682,18 @@ void dispatch(slice_index si)
 
     case STMaxTimeGuard:
       maxtime_guard_solve(si);
+      break;
+
+    case STHeartBeatProblemInstrumenter:
+      heartbeat_problem_instrumenter_solve(si);
+      break;
+
+    case STHeartBeatSetter:
+      heartbeat_set(si);
+      break;
+
+    case STHeartBeatWriter:
+      heartbeat_writer_solve(si);
       break;
 
     case STMaxSolutionsProblemInstrumenter:
@@ -2519,6 +2551,10 @@ void dispatch(slice_index si)
 
     case STBeamtenMovesForPieceGenerator:
       beamten_generate_moves_for_piece(si);
+      break;
+
+    case STDangerCirceMovesForPieceGenerator:
+      danger_circe_generate_moves_for_piece(si);
       break;
 
     case STMarsCirceMoveGeneratorEnforceRexInclusive:

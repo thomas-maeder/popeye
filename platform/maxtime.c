@@ -8,6 +8,7 @@
 #endif
 
 #include "maxtime_impl.h"
+#include "debugging/trace.h"
 
 #if !defined(MAX_NR_PERIODS)
 #  if !defined(SIG_ATOMIC_MAX)
@@ -72,7 +73,14 @@ sig_atomic_t volatile nr_periods = MAX_NR_PERIODS;
  */
 void platform_set_commandline_maxtime(maxtime_type commandlineValue)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",commandlineValue);
+  TraceFunctionParamListEnd();
+
   maxTimeCommandLine = commandlineValue;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Reset the value of the maxtime option.

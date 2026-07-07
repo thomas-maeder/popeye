@@ -247,7 +247,7 @@ void max_nr_nontrivial_counter_solve(slice_index si)
 }
 
 static void insert_nontrivial_guards(slice_index si,
-                                      stip_structure_traversal *st)
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -287,7 +287,7 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
     fprintf(stderr, "\nOUT OF SPACE: Unable to copy slice in %s in %s -- aborting.\n", __func__, __FILE__);
     exit(2); /* TODO: Do we have to exit here? */
   }
-  pipe_substitute(si,alloc_proxy_slice());
+  pipe_substitute(si,alloc_pipe(STMaxNrNonTrivialLanding));
   link_to_branch((*copies)[si],si);
 
   TraceFunctionExit(__func__);
@@ -317,7 +317,7 @@ static slice_index spin_off_counting_slices(slice_index si,
 }
 
 static void alloc_branch_from_tester(slice_index si,
-                                      stip_structure_traversal *st)
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -327,7 +327,19 @@ static void alloc_branch_from_tester(slice_index si,
 
   if (st->activity==stip_traversal_activity_solving)
   {
-    SLICE_TESTER(si) = SLICE_PREV(SLICE_TESTER(SLICE_NEXT1(si)));
+    slice_index const next = SLICE_NEXT1(si);
+    slice_index const tester_of_next = SLICE_TESTER(next);
+    slice_index const tester_of_nexts_prev = SLICE_PREV(tester_of_next);
+
+    TraceValue("%u",next);
+    TraceEnumerator(slice_type,SLICE_TYPE(next));
+    TraceValue("%u",tester_of_next);
+    TraceValue("%u",tester_of_nexts_prev);
+    TraceEOL();
+
+    assert(tester_of_next!=no_slice);
+
+    SLICE_TESTER(si) = tester_of_nexts_prev;
 
     st->activity = stip_traversal_activity_testing;
     stip_traverse_structure(SLICE_TESTER(si),st);

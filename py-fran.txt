@@ -44,7 +44,7 @@ parametre de ligne de commande:
 	desactiver cette optimisation.
 
 -maxtime
-	Inidication du nombre maximal de secondes que Popeye investit
+	Indication du nombre maximal de secondes que Popeye investit
 	a la resolution de chaque probleme. Ce parametre est
 	equivalent a l'option maxtemps qui peut etre utilisee dans la
 	definition des problemes (voir plus bas).
@@ -52,6 +52,23 @@ parametre de ligne de commande:
 		-maxtime 60
 	Si un probleme n'est pas completement resolu apres une minute,
 	la resolution est continuee avec le probleme suivant.
+
+-heartbeat
+        POUR "PARALLELISATEURS" COMME SPINACH
+	Activation d'un pouls.
+	Si active, Popeye emet des lignes de pouls sur le canal
+	d'erreur avec une cadence plus ou moins reguliere. Si l'emission
+	d'une ligne de pouls echoue, Popeye se termine immediatement.
+	Ce parametre ameliore la collaboration de Popeye avec des
+	parallelisateurs:
+        - les parallelisateurs peuvent detecter que leur esclaves Popeye
+	  sont toujours actifs
+        - (plus important) les processus Popeye peuvent detecter que
+          leurs parallelisateur a ete termine; ceci evite des processus
+          Popeye zombie.
+	Apres -hearbeat, on peut indiquer le taux. Le taux standard est
+	de 50000; des chiffres superieurs causent l'emisision de moins de
+	lignes de pouls, des chiffres inferieurs l'emission de plus de lignes.
 
 -regression
 	POUR DEVELOPPEURS
@@ -281,7 +298,10 @@ simples:
 	Francfort
 	Leffie
 	AliceEchecs
-	Immobilio
+	Immobilio (peut etre suivie par la liste d'allures)
+	CirceDanger
+	PAD
+	#C
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
@@ -386,12 +406,17 @@ simples:
 	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
 	la condition ultra respective.
 
-	After EchangeRole, le nomber maximal d'EchnangeRoles peut etre
+	Apres EchangeRole, le nomber maximal d'EchnangeRoles peut etre
 	indique. Sans cette indication, le nombre n'est pas limite.
 
 	En AliceEchecs, toutes les pieces que ne sont pas declarees
 	AliceB sont implicitement AliceA. Si des pieces sont declarees
 	AliceA ou AliceB, AliceEchecs est implicitement active.
+
+	Apres PAD, les options suivantes peuvent etre indiquees:
+		Strict
+		RexExclusive (standard)
+		RexInclusive
 	
 	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre

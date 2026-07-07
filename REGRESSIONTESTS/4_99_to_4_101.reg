@@ -1,0 +1,122 @@
+
+Popeye 4.99 considered this a solution because it failed to "attack" the mating line with the free invisible
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3.5                1 + 1 + 2 TI
+
+  2  (0-0 )
+  2:8  (Kg3-h3 )
+  2:8:14  (Kg1-f2 )
+  2:8:14:3  (Kh3-h2 )
+  2:8:14:3:13  (Kf2-f3 )
+  2:8:14:3:13:5  (Kh2-h3 )
+  2:8:14:3:13:5:7  (Rf1-h1 )
+  add_to_move_generation_stack:         114
+                     play_move:         109
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          16
+                  TI decisions:          19
+
+solution finished.
+
+
+
+  add_to_move_generation_stack:        1596
+                     play_move:         437
+ is_white_king_square_attacked:         428
+ is_black_king_square_attacked:         199
+
+solution finished.
+
+
+
+Popeye 4.99 didn't find this because of an "optimization"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B   .   .  -K   .   .   8
+|                                   |
+7   .  -P  -P  -P  -P   .  -P  -P   7
+|                                   |
+6   .   .   R   B   .  -R   .  -S   6
+|                                   |
+5   .   .  -B   .   .  -P   .   .   5
+|                                   |
+4   P   .   .   P   .   .   .   .   4
+|                                   |
+3   P   .   S   .   .   .   .   .   3
+|                                   |
+2   .   .   P   .   P   .   P   P   2
+|                                   |
+1  -R   .   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 14
+               AliceA
+  AliceB f8 h6 c5 f5 a4 d4 a3 c3 a1
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B   .  -K  -B  -S  -R   8
+|                                   |
+7   .  -P   Q  -P  -P   .  -P  -P   7
+|                                   |
+6   .   .   R  -P   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   P   .   .   P   .   .   .   .   4
+|                                   |
+3   P   .   P   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   P   P   2
+|                                   |
+1  -R   .   .   S   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b6                     15 + 14
+AliceA b8 c8 e8 f8 g8 h8 b7 c7 d7 e7 g7 h7 c6 f6 e2 g2 h2 d1 e1 f1 g1 h1
+     AliceB d6 f5 a4 d4 a3 c3 a1
+             AliceChess
+
+  9  (Bc1-g5B )
+  9:15  (Kf8-e8A )
+  9:15:17  (Qd1-c1B )
+  9:15:17:8  (Bc5-f8A )
+  9:15:17:8:10  (Sc3-d1A )
+  9:15:17:8:10:20  (c7*d6B )
+  9:15:17:8:10:20:7  (Qc1-c7A )
+  9:15:17:8:10:20:7:8  (Sh6-g8A )
+  9:15:17:8:10:20:7:8:19  (c2-c3B )
+  9:15:17:8:10:20:7:8:19:14  (Rf6-h6B )
+  9:15:17:8:10:20:7:8:19:14:11  (Bg5-f6A )
+  1.Bc1-g5B Kf8-e8A   2.Qd1-c1B Bc5-f8A   3.Sc3-d1A c7*d6B   4.Qc1-c7A Sh6-g8A   5.c2-c3B Rf6-h6B   6.Bg5-f6A Rh6-h8A a=>b
+  add_to_move_generation_stack:         553
+                     play_move:         444
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          20
+
+solution finished.
+
+

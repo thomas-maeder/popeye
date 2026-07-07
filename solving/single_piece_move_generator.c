@@ -61,11 +61,9 @@ void single_piece_move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(SLICE_STARTER(si));
   generate_moves_for_piece(square_departure);
   square_departure = initsquare;
   pipe_solve_delegate(si);
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
