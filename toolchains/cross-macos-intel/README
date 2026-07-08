@@ -1,0 +1,14 @@
+This tool chain uses the docker image ghcr.io/shepherdjerred/macos-cross-compiler
+
+To translate Popeye, proceed like this:
+1 cd into the popeye source directory
+2 Start a container: docker run --platform=linux/amd64 --volume $PWD:/workspace --rm --interactive --tty ghcr.io/shepherdjerred/macos-cross-compiler:latest bash
+3 Install make: apt install make
+4 Translate Popeye: make TOOLCHAIN=cross-macos-intel
+5 Optional cleanup (does not remove the executable pymacos-intel): make TOOLCHAIN=cross-macos-intel clean
+
+During 4, you may get some error message regarding files *-host.*; proceed as follows:
+1 Open a shell on the (Linux) host and cd into the popeye source directory
+2 Copy the command (starts with "gcc") from the container bash into this shell to execute it there
+3 Repeat the make command in the container
+
