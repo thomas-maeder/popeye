@@ -2,6 +2,7 @@
 #define CONDITIONS_PAD_H
 
 #include "solving/machinery/solve.h"
+#include "position/pieceid.h"
 
 /* This module implements the condition PAD Chess */
 
