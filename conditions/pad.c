@@ -14,7 +14,7 @@
 boolean pad_is_rex_inclusive;
 boolean pad_is_strict;
 
-static boolean has_piece_captured[MaxPieceId+1];
+boolean pad_has_piece_captured[MaxPieceId+1];
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -48,13 +48,13 @@ void pad_bookkeeper_solve(slice_index si)
     {
       if (pad_is_rex_inclusive)
       {
-        if (has_piece_captured[moving_id])
+        if (pad_has_piece_captured[moving_id])
           solve_result = this_move_is_illegal;
         else
         {
-          has_piece_captured[moving_id] = true;
+          pad_has_piece_captured[moving_id] = true;
           pipe_solve_delegate(si);
-          has_piece_captured[moving_id] = false;
+          pad_has_piece_captured[moving_id] = false;
         }
       }
       else
@@ -62,7 +62,7 @@ void pad_bookkeeper_solve(slice_index si)
     }
     else
     {
-      if (has_piece_captured[moving_id])
+      if (pad_has_piece_captured[moving_id])
       {
         square const to = move_effect_journal[movement].u.piece_movement.to;
         PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -73,9 +73,9 @@ void pad_bookkeeper_solve(slice_index si)
       }
       else
       {
-        has_piece_captured[moving_id] = true;
+        pad_has_piece_captured[moving_id] = true;
         pipe_solve_delegate(si);
-        has_piece_captured[moving_id] = false;
+        pad_has_piece_captured[moving_id] = false;
       }
     }
   }
@@ -113,29 +113,29 @@ void pad_strict_solve(slice_index si)
   {
     Flags const capturee_spec = move_effect_journal[capture].u.piece_removal.flags;
     PieceIdType const capturee_id = GetPieceId(capturee_spec);
-    boolean const save_capturee_pad_state = has_piece_captured[capturee_id];
+    boolean const save_capturee_pad_state = pad_has_piece_captured[capturee_id];
 
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
     PieceIdType const moving_id = GetPieceId(moving_spec);
 
-    has_piece_captured[capturee_id] = false;
+    pad_has_piece_captured[capturee_id] = false;
 
     if (!TSTFLAG(moving_spec,Royal) || pad_is_rex_inclusive)
     {
-      if (has_piece_captured[moving_id])
+      if (pad_has_piece_captured[moving_id])
         solve_result = this_move_is_illegal;
       else
       {
-        has_piece_captured[moving_id] = true;
+        pad_has_piece_captured[moving_id] = true;
         pipe_solve_delegate(si);
-        has_piece_captured[moving_id] = false;
+        pad_has_piece_captured[moving_id] = false;
       }
     }
     else
       pipe_solve_delegate(si);
 
-    has_piece_captured[capturee_id] = save_capturee_pad_state;
+    pad_has_piece_captured[capturee_id] = save_capturee_pad_state;
   }
   else
     pipe_solve_delegate(si);
@@ -164,7 +164,7 @@ void solving_insert_pad(slice_index si)
   {
     PieceIdType p;
     for (p = MinPieceId; p<=MaxPieceId; ++p)
-      has_piece_captured[p] = false;
+      pad_has_piece_captured[p] = false;
   }
 
   TraceFunctionExit(__func__);

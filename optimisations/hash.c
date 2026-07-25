@@ -97,6 +97,7 @@
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
 #include "conditions/fuddled_men.h"
+#include "conditions/pad.h"
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
@@ -1363,6 +1364,9 @@ static byte *SmallEncodePiece(byte *bp,
     *bp++ = (byte)pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+
+    if (CondFlag[pad])
+      *bp++ = (byte)pad_has_piece_captured[GetPieceId(pspec)];
   }
   return bp;
 }
@@ -1630,6 +1634,9 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
     *bp++ = (byte)pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
+
+    if (CondFlag[pad])
+      *bp++ = (byte)pad_has_piece_captured[GetPieceId(pspec)];
   }
 
   assert((position[row]&BIT(col))==0);
@@ -1981,6 +1988,9 @@ static void inithash(slice_index si)
     if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
       bytes_per_spec++;
   }
+
+  if (CondFlag[pad])
+    one_byte_hash = false;
 
   bytes_per_piece = one_byte_hash ? 1 : 1+bytes_per_spec;
 

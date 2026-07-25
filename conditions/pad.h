@@ -7,6 +7,7 @@
 
 extern boolean pad_is_rex_inclusive;
 extern boolean pad_is_strict;
+extern boolean pad_has_piece_captured[MaxPieceId+1];
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
