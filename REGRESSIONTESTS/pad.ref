@@ -27,18 +27,18 @@
 a) 
 
   1.Sb6-c4 Bd3*c4   2.g7-g6 Bc4*d5[-wBd5] #
-  add_to_move_generation_stack:       73440
-                     play_move:       78090
- is_white_king_square_attacked:        7725
- is_black_king_square_attacked:       60920
+  add_to_move_generation_stack:       73476
+                     play_move:       78128
+ is_white_king_square_attacked:        7731
+ is_black_king_square_attacked:       60948
 
 b) bBg7  
 
   1.Sd2-c4 Rc5*c4   2.Bg7-e5 Rc4*e4[-wRe4] #
-  add_to_move_generation_stack:      148443
-                     play_move:      156343
- is_white_king_square_attacked:       15994
- is_black_king_square_attacked:      123284
+  add_to_move_generation_stack:      148479
+                     play_move:      156381
+ is_white_king_square_attacked:       16000
+ is_black_king_square_attacked:      123312
 
 solution finished.
 
@@ -117,10 +117,10 @@ a)
   1.Be4-g6 e5-e4   2.Ke3*e4 Rg1-g3   3.Qh8-h5 + Kg4-f4 #
   1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g2 #
   1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g3 #
-  add_to_move_generation_stack:    17021880
-                     play_move:     8314165
- is_white_king_square_attacked:     5782578
- is_black_king_square_attacked:     3591767
+  add_to_move_generation_stack:    17063674
+                     play_move:     8332613
+ is_white_king_square_attacked:     5796548
+ is_black_king_square_attacked:     3599468
 
 b) wBe4-->f2  
 
@@ -131,10 +131,10 @@ b) wBe4-->f2
   1.Qh8-f6 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qf6-h4 + Kh3-g2 #
   1.Qh8-d8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qd8-h4 + Kh3-g2 #
   1.Qh8-e8 Kg4-h3   2.Ke3*f3 Rg1-e1   3.Qe8-h5 + Kh3-g2 #
-  add_to_move_generation_stack:    11231296
-                     play_move:     5656143
- is_white_king_square_attacked:     3903276
- is_black_king_square_attacked:     2435098
+  add_to_move_generation_stack:    11257397
+                     play_move:     5667508
+ is_white_king_square_attacked:     3911838
+ is_black_king_square_attacked:     2439823
 
 solution finished.
 

@@ -61,10 +61,10 @@ after Circe rebirth, the PAD count is reset to 0
 
   1.Kd8-c8 Qd6*f8 +   2.Sd7*f8[+wQd1] Qd1-d7 #
   1.Kd8-e8 Qd6*f8 +   2.Sd7*f8[+wQd1] Qd1-d7 #
-  add_to_move_generation_stack:      149416
-                     play_move:      133236
+  add_to_move_generation_stack:      151327
+                     play_move:      135146
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      107911
+ is_black_king_square_attacked:      109627
 
 solution finished.
 
