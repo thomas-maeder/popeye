@@ -299,6 +299,12 @@ void solving_optimise_with_orthodox_mating_move_generators(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (unverified_fairy_element())
+  {
+    output_plaintext_error_message(OrthodoxMatingMovesUnverifiedElement);
+    disable_orthodox_mating_move_optimisation(nr_sides);
+  }
+
   TraceStipulation(si);
 
   stip_moves_traversal_init(&st,&state);
@@ -312,9 +318,6 @@ void solving_optimise_with_orthodox_mating_move_generators(slice_index si)
                                 final_move_optimisers,
                                 nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
-
-  if (unverified_fairy_element())
-    output_plaintext_error_message(OrthodoxMatingMovesUnverifiedElement);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
