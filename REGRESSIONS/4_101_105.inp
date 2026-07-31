@@ -1,0 +1,10 @@
+begin
+
+protocol 4_101_105.reg
+
+title the mating move wasn't found because of the orthodox mating move "optimization"
+pieces white kc1 sc6 bb6 black ka8
+stip #1
+condition powertransfer
+
+end
