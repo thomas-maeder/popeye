@@ -83,7 +83,7 @@ typedef enum
   play_detecting_revelations,
   play_validating_mate,
   play_testing_mate,
-  play_attacking_mating_piece,
+  play_attacking_mate,
   play_initialising_replay,
   play_replay_validating,
   play_replay_testing,

@@ -55,10 +55,10 @@ static void done_validating_king_placements(void)
     case play_testing_mate:
       if (combined_validation_result==mate_attackable)
       {
-        play_phase = play_attacking_mating_piece;
+        play_phase = play_attacking_mate;
         /* until we prove otherwise: */
         record_decision_result(previous_move_has_solved);
-        attack_mating_piece(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
+        attack_mate(advers(trait[top_ply_of_regular_play]),sq_mating_piece_to_be_attacked);
         play_phase = play_testing_mate;
       }
       else
@@ -73,7 +73,7 @@ static void done_validating_king_placements(void)
 
       break;
 
-    case play_attacking_mating_piece:
+    case play_attacking_mate:
       record_decision_outcome("%s","placed mating piece attacker");
       done_placing_mating_piece_attacker();
       break;

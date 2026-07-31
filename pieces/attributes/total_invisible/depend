@@ -643,7 +643,7 @@ pieces/attributes/total_invisible/attack_mating_piece$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/decisions.h output/plaintext/pieces.h \
  output/output.h output/plaintext/plaintext.h options/movenumbers.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/has_solution_type.enum
+ solving/has_solution_type.enum optimisations/orthodox_check_directions.h
 pieces/attributes/total_invisible/attack_mating_piece.h:
 position/position.h:
 position/board.h:
@@ -687,6 +687,7 @@ options/movenumbers.h:
 solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 solving/has_solution_type.enum:
+optimisations/orthodox_check_directions.h:
 pieces/attributes/total_invisible/king_placement$(OBJ_SUFFIX): \
  pieces/attributes/total_invisible/king_placement.c \
  pieces/attributes/total_invisible/king_placement.h \
