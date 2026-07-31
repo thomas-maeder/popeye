@@ -134,7 +134,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*125*/ "Position Forsyth pas reconnue, ou capacite de pieces epuisee\n",
     /*126*/ "Capacite de pieces epuisee\n",
     /*127*/ "Exactement 2 cases de reference Dister doivent etre indiquees\n",
-    /*128*/ "Enroute ou JusquAuCoup incompatible avec l'enonce\n"
+    /*128*/ "Enroute ou JusquAuCoup incompatible avec l'enonce\n",
+    /*129*/ "Un element feerique utilise n'est pas verifie pour l'optimisation coups matants orthodoxes\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -265,7 +266,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*125*/ "Forsyth-Position nicht erkannt, oder Steinkapazitaeat erschoepft\n",
     /*126*/ "Maximale Anzahl Steine überschritten\n",
     /*127*/ "Es müssen genau 2 Dister-Referenzfelder angegeben werden\n",
-    /*128*/ "StartZugnummer oder BisZugnummer inkompatibel mit der Forderung\n"
+    /*128*/ "StartZugnummer oder BisZugnummer inkompatibel mit der Forderung\n",
+    /*129*/ "Ein verwendetetes Maerchenelement ist nicht verifiziert für die Optimierung Orthodoxe Mattzuege\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -396,7 +398,8 @@ static char const *MessageTabs[LanguageCount][MsgCount] =
     /*125*/ "Forsyth position not recognized, or pieces capacity exhausted\n",
     /*126*/ "Pieces capacity exhausted\n",
     /*127*/ "Exactly 2 dister reference squares have to be indicated\n",
-    /*128*/ "StartMoveNumber or UpToMoveNumber incompatible with the stipulation\n"
+    /*128*/ "StartMoveNumber or UpToMoveNumber incompatible with the stipulation\n",
+    /*129*/ "A fairy element used is not verified for the orthodox mating moves optimisation\n"
   }
 };
 

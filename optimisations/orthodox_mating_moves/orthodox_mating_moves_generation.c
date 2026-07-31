@@ -6,9 +6,13 @@
 #include "solving/fork_on_remaining.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
+
+static Cond const last_verified_condition = mate_C;
+static piece_walk_type const last_verified_piece_walk_type = Scarabeus;
 
 /* for which Side(s) is the optimisation currently enabled? */
 static boolean enabled[nr_sides] = { false };
@@ -249,6 +253,40 @@ enum
   = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
 };
 
+static boolean unverified_fairy_element(void)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    Cond c;
+    for (c = last_verified_condition+1; c!=CondCount; ++c)
+      if (CondFlag[c])
+      {
+        result = true;
+        break;
+      }
+  }
+
+  {
+    piece_walk_type p;
+    for (p = last_verified_piece_walk_type+1; p!=Hunter0; ++p)
+      if (piece_walk_may_exist[p])
+      {
+        result = true;
+        break;
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+
+  return result;
+}
+
 /* Optimise move generation by inserting orthodox mating move generators
  * @param si identifies the root slice of the stipulation
  */
@@ -274,6 +312,9 @@ void solving_optimise_with_orthodox_mating_move_generators(slice_index si)
                                 final_move_optimisers,
                                 nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
+
+  if (unverified_fairy_element())
+    output_plaintext_error_message(OrthodoxMatingMovesUnverifiedElement);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
