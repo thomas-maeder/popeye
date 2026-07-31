@@ -147,7 +147,8 @@ typedef enum
   PieceAdditionFailed                               = 126,
   TwoDisterReferenceSquaresRequired                 = 127,
   MoveNumbersIncompatibleWithStipulation            = 128,
-  OrthodoxMatingMovesUnverifiedElement              = 129,
+  OrthodoxMatingMovesUnverifiedFairyElement         = 129,
+  ProofGamesUnverifiedFairyElement                  = 130,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

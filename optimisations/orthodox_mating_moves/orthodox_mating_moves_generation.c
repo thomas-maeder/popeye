@@ -301,7 +301,7 @@ void solving_optimise_with_orthodox_mating_move_generators(slice_index si)
 
   if (unverified_fairy_element())
   {
-    output_plaintext_error_message(OrthodoxMatingMovesUnverifiedElement);
+    output_plaintext_error_message(OrthodoxMatingMovesUnverifiedFairyElement);
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
