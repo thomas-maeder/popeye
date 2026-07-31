@@ -296,10 +296,6 @@ static void attack_square_with_officer(Side side_attacking,
 
 void attack_mate(Side side_attacking, square sq_mating_piece)
 {
-  PieceIdType const id_attacking = initialise_motivation(nbply,
-                                                         purpose_attacker,initsquare,
-                                                         purpose_attacker,initsquare);
-  square sq_attacked;
   piece_walk_type const walk_attacking = get_walk_of_piece_on_square(sq_mating_piece);
   numvec const vec_mating = CheckDir(walk_attacking)[being_solved.king_square[side_attacking]-sq_mating_piece];
 
@@ -308,27 +304,36 @@ void attack_mate(Side side_attacking, square sq_mating_piece)
   TraceSquare(sq_mating_piece);
   TraceFunctionParamListEnd();
 
+  TraceWalk(walk_attacking);
   TraceValue("%d",vec_mating);
   TraceSquare(being_solved.king_square[side_attacking]);
   TraceEOL();
 
-  attack_square_with_officer(side_attacking,sq_mating_piece,id_attacking);
-
-  if (can_decision_level_be_continued())
-    place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece,id_attacking);
-
-  for (sq_attacked = sq_mating_piece+vec_mating;
-       sq_attacked!=being_solved.king_square[side_attacking];
-       sq_attacked += vec_mating)
+  if (vec_mating!=0)
   {
-    if (can_decision_level_be_continued())
-      attack_square_with_officer(side_attacking,sq_attacked,id_attacking);
+    PieceIdType const id_attacking = initialise_motivation(nbply,
+                                                           purpose_attacker,initsquare,
+                                                           purpose_attacker,initsquare);
+    square sq_attacked;
+
+    attack_square_with_officer(side_attacking,sq_mating_piece,id_attacking);
 
     if (can_decision_level_be_continued())
-      place_mating_line_attacking_pawn(side_attacking,sq_mating_piece,id_attacking);
+      place_mating_piece_attacking_pawn(side_attacking,sq_mating_piece,id_attacking);
+
+    for (sq_attacked = sq_mating_piece+vec_mating;
+         sq_attacked!=being_solved.king_square[side_attacking];
+         sq_attacked += vec_mating)
+    {
+      if (can_decision_level_be_continued())
+        attack_square_with_officer(side_attacking,sq_attacked,id_attacking);
+
+      if (can_decision_level_be_continued())
+        place_mating_line_attacking_pawn(side_attacking,sq_attacked,id_attacking);
+    }
+
+    uninitialise_motivation(id_attacking);
   }
-
-  uninitialise_motivation(id_attacking);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
