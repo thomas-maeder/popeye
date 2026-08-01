@@ -89,58 +89,55 @@ static boolean make_a_flight(void)
 
 static void attack_checks(void)
 {
+  Side const side_delivering_check = trait[nbply];
+  Side const side_in_check = advers(side_delivering_check);
+  square const king_pos = being_solved.king_square[side_in_check];
+  ply const save_nbply = nbply;
+  vec_index_type k;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  /* make sure that the appropriate taboos are applied */
+  nbply = top_ply_of_regular_play+1;
+  k = is_square_uninterceptably_attacked(side_in_check,king_pos);
+  nbply = save_nbply;
+
+  if (k==0)
   {
-    Side const side_delivering_check = trait[nbply];
-    Side const side_in_check = advers(side_delivering_check);
-    square const king_pos = being_solved.king_square[side_in_check];
-    ply const save_nbply = nbply;
-    vec_index_type k;
-
-    /* make sure that the appropriate taboos are applied */
+    mate_validation_result = no_mate;
+    solve_result = previous_move_has_not_solved;
+  }
+  else if (k==UINT_MAX)
+  {
+    TraceText("mate can be refuted by interceptors - no free TI available\n");
+    mate_validation_result = mate_defendable_by_interceptors;
+  }
+  else if (nr_placeable_invisibles_for_side(side_in_check)>0)
+  {
+    square const sq_attacker = find_end_of_line(king_pos,vec[k]);
+    TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
+    assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
+    CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
     nbply = top_ply_of_regular_play+1;
-    k = is_square_uninterceptably_attacked(side_in_check,king_pos);
-    nbply = save_nbply;
-
-    if (k==0)
+    if (is_square_uninterceptably_attacked(side_in_check,king_pos))
     {
-      mate_validation_result = no_mate;
-      solve_result = previous_move_has_not_solved;
-    }
-    else if (k==UINT_MAX)
-    {
-      TraceText("mate can be refuted by interceptors - no free TI available\n");
-      mate_validation_result = mate_defendable_by_interceptors;
-    }
-    else if (nr_placeable_invisibles_for_side(side_in_check)>0)
-    {
-      square const sq_attacker = find_end_of_line(king_pos,vec[k]);
-      TraceSquare(king_pos);TraceValue("%u",k);TraceValue("%d",vec[k]);TraceSquare(sq_attacker);TraceEOL();
-      assert(TSTFLAG(being_solved.spec[sq_attacker],side_delivering_check));
-      CLRFLAG(being_solved.spec[sq_attacker],side_delivering_check);
-      nbply = top_ply_of_regular_play+1;
-      if (is_square_uninterceptably_attacked(side_in_check,king_pos))
-      {
-        TraceText("mate can not be defended\n");
-        mate_validation_result = mate_with_2_uninterceptable_doublechecks;
-      }
-      else
-      {
-        TraceText("mate can be refuted by free TIs\n");
-        mate_validation_result = mate_attackable;
-        sq_mating_piece_to_be_attacked = sq_attacker;
-        vec_mating = -vec[k];
-      }
-      nbply = save_nbply;
-      SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
+      TraceText("mate can not be defended\n");
+      mate_validation_result = mate_with_2_uninterceptable_doublechecks;
     }
     else
     {
-      TraceText("mate can be refuted by interceptors - no free TI avaliable\n");
-      mate_validation_result = mate_defendable_by_interceptors;
+      TraceText("mate can be refuted by free TIs\n");
+      mate_validation_result = mate_attackable;
+      sq_mating_piece_to_be_attacked = sq_attacker;
     }
+    nbply = save_nbply;
+    SETFLAG(being_solved.spec[sq_attacker],side_delivering_check);
+  }
+  else
+  {
+    TraceText("mate can be refuted by interceptors - no free TI avaliable\n");
+    mate_validation_result = mate_defendable_by_interceptors;
   }
 
   TraceFunctionExit(__func__);

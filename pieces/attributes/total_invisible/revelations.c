@@ -251,7 +251,7 @@ void undo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
 
     case play_detecting_revelations:
     case play_testing_mate:
-    case play_attacking_mating_piece:
+    case play_attacking_mate:
     case play_unwinding:
     default:
       assert(0);
@@ -314,7 +314,7 @@ void redo_revelation_of_new_invisible(move_effect_journal_entry_type const *entr
 
     case play_detecting_revelations:
     case play_testing_mate:
-    case play_attacking_mating_piece:
+    case play_attacking_mate:
     case play_rewinding:
     default:
       assert(0);
@@ -702,7 +702,7 @@ void undo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-    case play_attacking_mating_piece:
+    case play_attacking_mate:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:
@@ -776,7 +776,7 @@ void redo_revelation_of_placed_invisible(move_effect_journal_entry_type const *e
     case play_detecting_revelations:
     case play_validating_mate:
     case play_testing_mate:
-    case play_attacking_mating_piece:
+    case play_attacking_mate:
     case play_initialising_replay:
     case play_replay_validating:
     case play_replay_testing:

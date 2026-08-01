@@ -256,7 +256,7 @@ a)
                      play_move:     5556245
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1200807
-                  TI decisions:    22513386
+                  TI decisions:    22512714
 
 b) -bPg5  
 
@@ -265,7 +265,7 @@ b) -bPg5
                      play_move:     5717110
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1238958
-                  TI decisions:    25566104
+                  TI decisions:    25565432
 
 solution finished.
 
@@ -633,11 +633,11 @@ solution finished.
 a) 
 
   1.Qe4-e7 Sd3-c5   2.Qe7-h4 Bf5-e4 #
-  add_to_move_generation_stack:     3413684
-                     play_move:     5916906
+  add_to_move_generation_stack:     3416022
+                     play_move:     5919664
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     2095010
-                  TI decisions:     6340201
+ is_black_king_square_attacked:     2097480
+                  TI decisions:     6348329
 
 b) wSb5-->d7  
 
@@ -679,20 +679,20 @@ Ricardo Vieira, Ofer Comay, Menachem Witztum, Paz Einat
 a) 
 
   1.Rd1-d8 Rh6-h2   2.Rd8-a8 Bb7-f3 #
-  add_to_move_generation_stack:     6858458
-                     play_move:    13994273
+  add_to_move_generation_stack:     6859678
+                     play_move:    13995352
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5801946
-                  TI decisions:    21108744
+ is_black_king_square_attacked:     5803025
+                  TI decisions:    21108907
 
 b) bPe5-->h3  
 
   1.Bb3-c2 Bb7-g2   2.Bc2-h7 Rh6-h4 #
-  add_to_move_generation_stack:     6577075
-                     play_move:    12285918
+  add_to_move_generation_stack:     6597081
+                     play_move:    12301734
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     5632845
-                  TI decisions:    17793352
+ is_black_king_square_attacked:     5648661
+                  TI decisions:    17795482
 
 solution finished.
 
@@ -1042,11 +1042,11 @@ Julia's Fairies 2019 - 15.12.2019 - No. 1463
   1...nQh1-g1   2.nQg1-c5 0-0-0   3.[+wTIg3]f4*g3 Rd1-d4 #
   1...nQh1-g1   2.[+wTIg3]f4*g3 0-0-0   3.nQg1-c5 Rd1-d4 #
   1...TI~*h3   2.[+wTIf1]nPg2*f1=nR nRf1-f3   3.[+wTIg3]f4*g3 TI~*g3[g3=wR] #
-  add_to_move_generation_stack:    12842552
-                     play_move:    25320106
+  add_to_move_generation_stack:    12842675
+                     play_move:    25320197
  is_white_king_square_attacked:     1337928
- is_black_king_square_attacked:     5249988
-                  TI decisions:   179885138
+ is_black_king_square_attacked:     5250079
+                  TI decisions:   179885476
 
 solution finished.
 
