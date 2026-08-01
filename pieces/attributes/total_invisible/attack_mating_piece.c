@@ -297,7 +297,8 @@ static void attack_square_with_officer(Side side_attacking,
 void attack_mate(Side side_attacking, square sq_mating_piece)
 {
   piece_walk_type const walk_attacking = get_walk_of_piece_on_square(sq_mating_piece);
-  numvec const vec_mating = CheckDir(walk_attacking)[being_solved.king_square[side_attacking]-sq_mating_piece];
+  piece_walk_type const walk_vector = walk_attacking==Pawn ? Bishop : walk_attacking;
+  numvec const vec_mating = CheckDir(walk_vector)[being_solved.king_square[side_attacking]-sq_mating_piece];
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_attacking);
@@ -309,6 +310,7 @@ void attack_mate(Side side_attacking, square sq_mating_piece)
   TraceSquare(being_solved.king_square[side_attacking]);
   TraceEOL();
 
+  /* if the last move of the attempted solution is by a TI, there may be no mating vector at all */
   if (vec_mating!=0)
   {
     PieceIdType const id_attacking = initialise_motivation(nbply,
