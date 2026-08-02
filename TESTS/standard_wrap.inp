@@ -1,0 +1,9 @@
+beginproblem
+
+title Same position standard board
+author Test
+origin Test
+fors 7k/P7/5PP1/8/8/8/5Q2/6K1
+stip h#1
+
+endproblem

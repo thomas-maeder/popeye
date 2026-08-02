@@ -1,4 +1,5 @@
 #include "position/position.h"
+#include "position/topology.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -200,14 +201,42 @@ void block_square(square s)
   being_solved.spec[s] = BorderSpec;
 }
 
-square find_end_of_line(square from, numvec dir)
+static square find_end_of_line_wrapped(square from, numvec dir)
 {
-  square result = from;
+  square result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceValue("%d",dir);
+  TraceFunctionParamListEnd();
+
+  topology_reset_phase();
+  result = from;
   do
   {
-    result += dir;
+    result = topology_step(result, dir);
   }
   while (is_square_empty(result));
 
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
   return result;
+}
+
+square find_end_of_line(square from, numvec dir)
+{
+  if (board_topology != TOPOLOGY_STANDARD)
+    return find_end_of_line_wrapped(from, dir);
+
+  {
+    square result = from;
+    do
+    {
+      result += dir;
+    }
+    while (is_square_empty(result));
+
+    return result;
+  }
 }

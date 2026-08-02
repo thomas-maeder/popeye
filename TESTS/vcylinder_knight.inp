@@ -1,0 +1,10 @@
+beginproblem
+
+title Vertical Cylinder - Knight h#3
+author Test
+origin Test
+fors K7/1S6/2S5/3k4/8/8/8/8
+stip h#3
+cond VerticalCylinder
+
+endproblem

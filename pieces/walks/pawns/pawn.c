@@ -1,4 +1,5 @@
 #include "pieces/walks/pawns/pawn.h"
+#include "position/topology.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "conditions/circe/circe.h"
@@ -112,14 +113,29 @@ boolean pawn_check(validator_id evaluate)
     numvec const dir_forward_right = dir_forward+dir_right;
     numvec const dir_forward_left = dir_forward+dir_left;
 
-    if (pawn_test_check(sq_target-dir_forward_right,sq_target,evaluate))
-      result = true;
-    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,evaluate))
-      result = true;
-    else if (en_passant_test_check(dir_forward_right,&pawn_test_check,evaluate))
-      result = true;
-    else if (en_passant_test_check(dir_forward_left,&pawn_test_check,evaluate))
-      result = true;
+    if (board_topology != TOPOLOGY_STANDARD)
+    {
+      topology_reset_phase();
+      if (pawn_test_check(topology_step(sq_target,-dir_forward_right),sq_target,evaluate))
+        result = true;
+      else
+      {
+        topology_reset_phase();
+        if (pawn_test_check(topology_step(sq_target,-dir_forward_left),sq_target,evaluate))
+          result = true;
+      }
+    }
+    else
+    {
+      if (pawn_test_check(sq_target-dir_forward_right,sq_target,evaluate))
+        result = true;
+      else if (pawn_test_check(sq_target-dir_forward_left,sq_target,evaluate))
+        result = true;
+      else if (en_passant_test_check(dir_forward_right,&pawn_test_check,evaluate))
+        result = true;
+      else if (en_passant_test_check(dir_forward_left,&pawn_test_check,evaluate))
+        result = true;
+    }
   }
 
   TraceFunctionExit(__func__);

@@ -259,8 +259,9 @@ typedef enum
   pad,                    /* 238 */
   danger_circe,           /* 239 */
   mate_C,                 /* 240 */
+  verticalcylinder,       /* 241 */
 
-  CondCount               /* 241 */
+  CondCount               /* 242 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
