@@ -229,6 +229,10 @@ void platform_reset_maxtime_timer(void)
 
 #else
 
+void platform_init(void)
+{
+}
+
 boolean platform_set_maxtime_timer(maxtime_type seconds)
 {
   if (seconds==no_time_set)
