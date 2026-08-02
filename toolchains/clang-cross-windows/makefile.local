@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+
+include makefile.rules
+
+DISTRIBUTEDFILES = 	makefile.local make.incl
