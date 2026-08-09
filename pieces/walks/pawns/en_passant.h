@@ -9,9 +9,9 @@
 /* This module provides implements en passant captures
  */
 
-extern square en_passant_multistep_over[maxply+1];
+extern square en_passant_multistep_over[maxply]; // TODO: Is maxplay enough elements for this array?
 
-extern unsigned int en_passant_top[maxply+1];
+extern unsigned int en_passant_end[maxply+1];
 
 enum
 {

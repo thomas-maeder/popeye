@@ -59,7 +59,7 @@ static boolean exists_redundant_white_piece(slice_index si)
   boolean result = false;
   square const *bnp;
   castling_rights_type const save_castling_flag = being_solved.castling_rights;
-  unsigned int const save_ep = en_passant_top[nbply-1];
+  unsigned int const save_ep = en_passant_end[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -73,7 +73,7 @@ static boolean exists_redundant_white_piece(slice_index si)
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
 
   /* same for en passant */
-  en_passant_top[nbply-1] = en_passant_top[nbply];
+  en_passant_end[nbply-1] = en_passant_end[nbply];
 
   /* check for redundant white pieces */
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
@@ -98,7 +98,7 @@ static boolean exists_redundant_white_piece(slice_index si)
     }
   }
 
-  en_passant_top[nbply-1] = save_ep;
+  en_passant_end[nbply-1] = save_ep;
 
   being_solved.castling_rights = save_castling_flag;
 
