@@ -1,0 +1,95 @@
+
+                Test
+                Test
+Standard board - Queen wrapping comparison (no solution)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   P   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 1
+
+
+solution finished.
+
+
+
+        Anatoli G. Jepifanow
+ 14639 Ideal-Mate Review 01-03/2005 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   S   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 1
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Kd5-e6 Sc6-d4 +   2.Ke6-f7 Sd4-e6   3.Kf7-g8 Sb7-h6 #
+
+solution finished.
+
+
+
+                Test
+                Test
+Vertical Cylinder - Queen diagonal wrapping
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   P   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 1
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Kh8-g8 Qf2-d8 #
+
+solution finished.
+
+
