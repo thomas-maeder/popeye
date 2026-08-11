@@ -307,6 +307,7 @@ Kommandos:
 	GefahrenCirce
 	PAD
 	#C
+	VerticalCylinder
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines
