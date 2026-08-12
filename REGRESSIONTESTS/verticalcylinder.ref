@@ -133,10 +133,10 @@ solution finished.
 Orthodox mating moves optimisation deactivated because of an unverified fairy element
 
   1.Ke6-f6 Ke4-d5   2.Gf1-f7 ROg3-f5   3.Ge5-g5 ROf5-h5 #
-  add_to_move_generation_stack:    11503320
-                     play_move:     5020794
- is_white_king_square_attacked:      671113
- is_black_king_square_attacked:     4964842
+  add_to_move_generation_stack:    11502974
+                     play_move:     5020934
+ is_white_king_square_attacked:      671154
+ is_black_king_square_attacked:     4964982
 
 solution finished.
 
