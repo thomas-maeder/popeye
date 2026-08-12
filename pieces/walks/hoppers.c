@@ -81,7 +81,7 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
        interceptable_observation[observation_context].vector_index1<=kend;
        interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
+    square const sq_hurdle = topology_add(sq_target, vec[interceptable_observation[observation_context].vector_index1]);
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
@@ -172,11 +172,11 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
        interceptable_observation[observation_context].vector_index1 <= kend;
        interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
+    square const sq_hurdle = topology_add(sq_target, vec[interceptable_observation[observation_context].vector_index1]);
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
+      square const sq_departure = topology_add(sq_hurdle, vec[interceptable_observation[observation_context].vector_index1]);
 
       hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
@@ -348,7 +348,7 @@ boolean contragrasshopper_check(validator_id evaluate)
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
+      square const sq_departure = topology_add(sq_hurdle, vec[interceptable_observation[observation_context].vector_index1]);
 
       hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
@@ -710,8 +710,8 @@ boolean equistopper_check(validator_id evaluate)
         interceptable_observation[observation_context].vector_index1<=vec_equi_nonintercept_end;
         interceptable_observation[observation_context].vector_index1++)      /* 2,4; 2,6; 4,6; */
     {
-      square const sq_departure = sq_target-vec[interceptable_observation[observation_context].vector_index1];
-      square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
+      square const sq_departure = topology_add(sq_target, -vec[interceptable_observation[observation_context].vector_index1]);
+      square const sq_hurdle = topology_add(sq_target, vec[interceptable_observation[observation_context].vector_index1]);
       hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
       if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
           && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))

@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible/capture_by_invisible.h"
+#include "position/topology.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/taboo.h"
@@ -396,9 +397,9 @@ static unsigned int capture_by_invisible_rider_inserted(piece_walk_type walk_rid
 
       push_decision_move_vector(nbply,id_inserted,kcurr,decision_purpose_invisible_capturer_inserted);
 
-      for (sq_departure = sq_arrival-vec[kcurr];
+      for (sq_departure = topology_add(sq_arrival, -vec[kcurr]);
            is_square_empty(sq_departure) && can_decision_level_be_continued();
-           sq_departure -= vec[kcurr])
+           sq_departure = topology_add(sq_departure, -vec[kcurr]))
         result += capture_by_invisible_inserted_on(walk_rider,sq_departure);
 
       pop_decision();
@@ -447,7 +448,7 @@ static unsigned int capture_by_inserted_invisible_king_inserted(void)
        kcurr<=vec_queen_end && can_decision_level_be_continued();
        ++kcurr)
   {
-    being_solved.king_square[side_capturing] = sq_arrival-vec[kcurr];
+    being_solved.king_square[side_capturing] = topology_add(sq_arrival, -vec[kcurr]);
 
     if (is_square_empty(being_solved.king_square[side_capturing]))
     {
@@ -500,7 +501,7 @@ static unsigned int capture_by_invisible_leaper_inserted(piece_walk_type walk_le
 
     for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
     {
-      square const sq_departure = sq_arrival-vec[kcurr];
+      square const sq_departure = topology_add(sq_arrival, -vec[kcurr]);
 
       if (is_square_empty(sq_departure))
         result += capture_by_invisible_inserted_on(walk_leaper,sq_departure);

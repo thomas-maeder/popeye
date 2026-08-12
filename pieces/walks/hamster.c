@@ -16,7 +16,7 @@ void hamster_generate_moves(void)
     square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
     if (!is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle-vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, -vec[k]);
       if (curr_generation->arrival!=sq_departure)
         push_move_no_capture();
     }
@@ -35,7 +35,7 @@ void contrahamster_generate_moves(void)
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    square const sq_hurdle = sq_departure-vec[k];
+    square const sq_hurdle = topology_add(sq_departure, -vec[k]);
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
       curr_generation->arrival = topology_add(sq_departure, vec[k]); /* not allowing null moves */

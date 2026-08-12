@@ -1,4 +1,5 @@
 #include "pieces/walks/bouncer.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
@@ -17,10 +18,10 @@ void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend)
     square const bounce_where = find_end_of_line(sq_departure,vec[k]);
     square const bounce_to = 2*sq_departure-bounce_where;
 
-    curr_generation->arrival = sq_departure-vec[k];
+    curr_generation->arrival = topology_add(sq_departure, -vec[k]);
     while (curr_generation->arrival!=bounce_to
            && is_square_empty(curr_generation->arrival))
-      curr_generation->arrival -= vec[k];
+      curr_generation->arrival = topology_add(curr_generation->arrival, -vec[k]);
 
     if (curr_generation->arrival==bounce_to)
     {

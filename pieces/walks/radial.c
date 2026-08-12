@@ -1,4 +1,5 @@
 #include "pieces/walks/radial.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/fork.h"
 #include "position/position.h"
@@ -94,12 +95,12 @@ static void radialknight_generate(vec_index_type kanf, vec_index_type kend)
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
   {
-    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    square const sq_hurdle = topology_add(curr_generation->departure, vec[idx_to_hurdle]);
     if (piece_belongs_to_opponent(sq_hurdle))
     {
       vec_index_type idx_hurdle_to_arrival;
       for (idx_hurdle_to_arrival = kanf; idx_hurdle_to_arrival<=kend; idx_hurdle_to_arrival++)
-        generate(sq_hurdle+vec[idx_hurdle_to_arrival]);
+        generate(topology_add(sq_hurdle, vec[idx_hurdle_to_arrival]));
     }
   }
 }
@@ -122,14 +123,14 @@ static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
   {
-    square const sq_hurdle = sq_target+vec[idx_to_hurdle];
+    square const sq_hurdle = topology_add(sq_target, vec[idx_to_hurdle]);
     if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle)
         && TSTFLAG(being_solved.spec[sq_hurdle],advers(trait[nbply])))
     {
       vec_index_type idx_to_observer;
       for (idx_to_observer= kanf; idx_to_observer<= kend; idx_to_observer++)
       {
-        square const sq_observer = sq_hurdle+vec[idx_to_observer];
+        square const sq_observer = topology_add(sq_hurdle, vec[idx_to_observer]);
         if (sq_observer!=sq_target
             && EVALUATE_OBSERVATION(evaluate,sq_observer,sq_target))
           return true;
@@ -159,13 +160,13 @@ static boolean test_treehopper_check(vec_index_type kanf, vec_index_type kend,
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
   {
-    square const sq_hurdle = sq_target+vec[idx_to_hurdle];
+    square const sq_hurdle = topology_add(sq_target, vec[idx_to_hurdle]);
     if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
     {
       vec_index_type idx_hurdle_to_observer;
       for (idx_hurdle_to_observer= kanf; idx_hurdle_to_observer<= kend; idx_hurdle_to_observer++)
       {
-        square const sq_observer = sq_hurdle+vec[idx_hurdle_to_observer];
+        square const sq_observer = topology_add(sq_hurdle, vec[idx_hurdle_to_observer]);
         if (sq_observer!=sq_target
             && EVALUATE_OBSERVATION(evaluate,sq_observer,sq_target))
           return true;
@@ -182,12 +183,12 @@ static void treehopper_generate(vec_index_type kanf, vec_index_type kend)
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
   {
-    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    square const sq_hurdle = topology_add(curr_generation->departure, vec[idx_to_hurdle]);
     if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
     {
       vec_index_type idx_hurdle_to_arrival;
       for (idx_hurdle_to_arrival = kanf; idx_hurdle_to_arrival<=kend; idx_hurdle_to_arrival++)
-        generate(sq_hurdle+vec[idx_hurdle_to_arrival]);
+        generate(topology_add(sq_hurdle, vec[idx_hurdle_to_arrival]));
     }
   }
 }
@@ -240,13 +241,13 @@ static void leafhopper_generate(vec_index_type kanf, vec_index_type kend)
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
   {
-    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    square const sq_hurdle = topology_add(curr_generation->departure, vec[idx_to_hurdle]);
     if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
     {
       vec_index_type idx_to_arrival;
       for (idx_to_arrival = kanf; idx_to_arrival<=kend; idx_to_arrival++)
         if (idx_to_arrival!=idx_to_hurdle)
-          generate(curr_generation->departure+vec[idx_to_arrival]);
+          generate(topology_add(curr_generation->departure, vec[idx_to_arrival]));
     }
   }
 }
@@ -281,7 +282,7 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
   TraceEOL();
   for (idx_to_observer = kanf; idx_to_observer<=kend; idx_to_observer++)
   {
-    square const sq_observer = sq_target+vec[idx_to_observer];
+    square const sq_observer = topology_add(sq_target, vec[idx_to_observer]);
     TraceSquare(sq_observer);
     TraceValue("%u",is_square_blocked(sq_observer));
     TraceValue("%u",is_square_empty(sq_observer));
@@ -291,7 +292,7 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
       vec_index_type idx_to_hurdle;
       for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
       {
-        square const sq_hurdle = sq_observer+vec[idx_to_hurdle];
+        square const sq_hurdle = topology_add(sq_observer, vec[idx_to_hurdle]);
         TraceSquare(sq_hurdle);
         TraceEOL();
         if (sq_hurdle!=sq_target

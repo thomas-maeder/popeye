@@ -478,7 +478,7 @@ boolean roselocust_check(validator_id evaluate)
        idx_curr_dir<=vec_knight_end;
        idx_curr_dir++)
   {
-    square const sq_arrival = sq_target-vec[idx_curr_dir];
+    square const sq_arrival = topology_add(sq_target, -vec[idx_curr_dir]);
     if (is_square_empty(sq_arrival))
     {
       /* idx_curr_dir==0 (and the equivalent
