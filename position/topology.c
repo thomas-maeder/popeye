@@ -99,3 +99,10 @@ square topology_step(square sq, numvec dir)
   TraceFunctionResultEnd();
   return result;
 }
+
+square topology_add(square sq, numvec dir)
+{
+  if (board_topology == TOPOLOGY_STANDARD)
+    return sq + dir;
+  return topology_step(sq, dir);
+}

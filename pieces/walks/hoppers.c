@@ -1,4 +1,5 @@
 #include "pieces/walks/hoppers.h"
+#include "position/topology.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "position/effects/flags_change.h"
@@ -59,7 +60,7 @@ void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
     if (!is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle+vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, vec[k]);
       if (piece_belongs_to_opponent(curr_generation->arrival))
         hoppers_push_capture(k,sq_hurdle);
       else if (is_square_empty(curr_generation->arrival))
@@ -147,10 +148,10 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
   {
-    square const sq_hurdle = curr_generation->departure+vec[k];
+    square const sq_hurdle = topology_add(curr_generation->departure, vec[k]);
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle+vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, vec[k]);
       if (piece_belongs_to_opponent(curr_generation->arrival))
         hoppers_push_capture(k,sq_hurdle);
       else if (is_square_empty(curr_generation->arrival))
@@ -216,7 +217,7 @@ void doublehopper_generate_moves(vec_index_type vec_start,
     square const sq_hurdle1 = find_end_of_line(curr_generation->departure,vec[k]);
     if (!is_square_blocked(sq_hurdle1))
     {
-      square const past_sq_hurdle1 = sq_hurdle1+vec[k];
+      square const past_sq_hurdle1 = topology_add(sq_hurdle1, vec[k]);
       if (is_square_empty(past_sq_hurdle1))
       {
         vec_index_type k1;
@@ -225,7 +226,7 @@ void doublehopper_generate_moves(vec_index_type vec_start,
           square const sq_hurdle2 = find_end_of_line(past_sq_hurdle1,vec[k1]);
           if (!is_square_blocked(sq_hurdle2))
           {
-            curr_generation->arrival = sq_hurdle2+vec[k1];
+            curr_generation->arrival = topology_add(sq_hurdle2, vec[k1]);
             if (curr_generation->arrival!=curr_generation->departure)
             {
               if (is_square_empty(curr_generation->arrival))
@@ -313,14 +314,14 @@ void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
   for (k = kbeg; k<=kend; ++k)
   {
-    square const sq_hurdle = curr_generation->departure+vec[k];
+    square const sq_hurdle = topology_add(curr_generation->departure, vec[k]);
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle+vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, vec[k]);
       while (is_square_empty(curr_generation->arrival))
       {
         hoppers_push_move(k,sq_hurdle);
-        curr_generation->arrival += vec[k];
+        curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))
@@ -498,7 +499,7 @@ void equihopper_generate_moves(void)
 
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)
   {
-    square const sq_hurdle = sq_departure+vec[k];
+    square const sq_hurdle = topology_add(sq_departure, vec[k]);
     curr_generation->arrival = sq_departure + 2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
@@ -527,8 +528,8 @@ boolean equihopper_check(validator_id evaluate)
       vec_index_type  k;
       for (k = vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
       {
-        square const sq_hurdle = sq_target+vec[k];
-        square const sq_departure = sq_hurdle+vec[k];
+        square const sq_hurdle = topology_add(sq_target, vec[k]);
+        square const sq_departure = topology_add(sq_hurdle, vec[k]);
 
         hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
         if (!is_square_empty(sq_hurdle)
@@ -668,7 +669,7 @@ void equistopper_generate_moves(void)
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)
   {
     square const sq_hurdle1 = sq_departure+2*vec[k];
-    curr_generation->arrival = sq_departure+vec[k];
+    curr_generation->arrival = topology_add(sq_departure, vec[k]);
     if (get_walk_of_piece_on_square(sq_hurdle1)>=King)
     {
       if  (is_square_empty(curr_generation->arrival))

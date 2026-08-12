@@ -1,4 +1,5 @@
 #include "pieces/walks/bouncy.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/fork.h"
 #include "position/position.h"
@@ -14,7 +15,7 @@ static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
-    curr_generation->arrival = step_departure+vec[k];
+    curr_generation->arrival = topology_add(step_departure, vec[k]);
     if (is_square_empty(curr_generation->arrival))
     {
       push_move_no_capture();
@@ -113,7 +114,7 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
-    curr_generation->arrival = step_departure+vec[k];
+    curr_generation->arrival = topology_add(step_departure, vec[k]);
 
     while (is_square_empty(curr_generation->arrival))
     {
@@ -124,7 +125,7 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
         break;
       }
       else
-        curr_generation->arrival += vec[k];
+        curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
     }
 
     if (piece_belongs_to_opponent(curr_generation->arrival))
@@ -151,7 +152,7 @@ static boolean rrefcech(square i1, int x, validator_id evaluate)
   {
     for (k= vec_knight_start; k <= vec_knight_end; k++)
     {
-      square const sq_departure= i1+vec[k];
+      square const sq_departure= topology_add(i1, vec[k]);
       if (is_square_empty(sq_departure))
       {
         if (!NoEdge(sq_departure)) {
@@ -167,7 +168,7 @@ static boolean rrefcech(square i1, int x, validator_id evaluate)
   {
     for (k= vec_knight_start; k <= vec_knight_end; k++)
     {
-      square const sq_departure= i1+vec[k];
+      square const sq_departure= topology_add(i1, vec[k]);
       if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
@@ -191,7 +192,7 @@ static boolean rrefnech(square i1, validator_id evaluate)
     settraversed(i1);
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    square sq_departure = i1+vec[k];
+    square sq_departure = topology_add(i1, vec[k]);
 
     while (is_square_empty(sq_departure))
     {
@@ -201,7 +202,7 @@ static boolean rrefnech(square i1, validator_id evaluate)
           return true;
         break;
       }
-      sq_departure += vec[k];
+      sq_departure = topology_add(sq_departure, vec[k]);
     }
 
     if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))

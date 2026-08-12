@@ -302,7 +302,7 @@ simples:
 	CirceDanger
 	PAD
 	#C
-	VerticalCylinder
+	CylindreVertical
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

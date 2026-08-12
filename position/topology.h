@@ -47,4 +47,11 @@ void topology_reset_phase(void);
  */
 square topology_step(square sq, numvec dir);
 
+/* Add a direction vector to a square, applying topology wrapping if needed.
+ * For standard topology: returns sq + dir (one predictable branch).
+ * For non-standard topology: delegates to topology_step().
+ * Use this in fairy piece stepping code instead of raw sq + vec[k].
+ */
+square topology_add(square sq, numvec dir);
+
 #endif

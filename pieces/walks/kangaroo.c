@@ -1,4 +1,5 @@
 #include "pieces/walks/kangaroo.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
@@ -19,7 +20,7 @@ void kangaroo_generate_moves(void)
       square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
       if (!is_square_blocked(sq_hurdle2))
       {
-        curr_generation->arrival = sq_hurdle2+vec[k];
+        curr_generation->arrival = topology_add(sq_hurdle2, vec[k]);
         if (is_square_empty(curr_generation->arrival))
           push_move_no_capture();
         else if (piece_belongs_to_opponent(curr_generation->arrival))
@@ -75,11 +76,11 @@ void kangaroo_lion_generate_moves(void)
       square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
       if (!is_square_blocked(sq_hurdle2))
       {
-        curr_generation->arrival = sq_hurdle2+vec[k];
+        curr_generation->arrival = topology_add(sq_hurdle2, vec[k]);
         while (is_square_empty(curr_generation->arrival))
         {
           push_move_no_capture();
-          curr_generation->arrival += vec[k];
+          curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
         }
         if (piece_belongs_to_opponent(curr_generation->arrival))
           push_move_regular_capture();
