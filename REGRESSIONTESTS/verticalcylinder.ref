@@ -105,3 +105,39 @@ Orthodox mating moves optimisation deactivated because of an unverified fairy el
 solution finished.
 
 
+
+            Jaroslav Stun
+   11581 Die Schwalbe 196 08/2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .  -G   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  RO   .   3
+|                                   |
+2   .   .   G   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -G   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 3
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Ke6-f6 Ke4-d5   2.Gf1-f7 ROg3-f5   3.Ge5-g5 ROf5-h5 #
+  add_to_move_generation_stack:    11503320
+                     play_move:     5020794
+ is_white_king_square_attacked:      671113
+ is_black_king_square_attacked:     4964842
+
+solution finished.
+
+

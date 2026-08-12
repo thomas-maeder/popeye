@@ -28,4 +28,16 @@ fors 7k/8/5PP1/2P5/8/8/5Q2/6K1
 stip h#1
 cond VerticalCylinder
 
+next
+
+author Jaroslav Stun
+origin  11581 Die Schwalbe 196 08/2002
+
+stip h#3
+cond VerticalCylinder
+
+Pieces
+  white  ROg3 gc2 Ke4
+  black  ge5f1 Ke6
+
 end
