@@ -31,11 +31,13 @@ Popeye is known to have been compiled for other platforms, e.g. Android or WebAs
 - [Teddy](https://problemskak.dk/download-Teddy.php) is a popular Windows GUI for Popeye
 - [FEN Tool](https://mutsuntsai.github.io/fen-tool/) allows using Popeye within the browser, both on mobile phones and regular computers
 - [Spinach] (experimental) speeds up Popeye by distribution its workload on different CPU cores
+- [Py2Web](https://www.yacpdb.org/#static/py2web) renders Popeye's output in web pages
+- [YACPDB](https://www.yacpdb.org/#static/home) Yet Another Chess Problem Database uses Py2Web to render solutions
 
 
 ## Awards
 
-In 2026, Popeye, as well as Olive's author Dmitri Turevski, is one of the first recipients of a [WFCC](https://www.wfcc.ch/) Special Awards.
+In 2026, Popeye, as well as Dmitri Turevski, creator of Olive, Py2Web and YACPDB, is among the first recipients of a [WFCC](https://www.wfcc.ch/) Special Awards.
 
 <img width="845" height="1200" alt="Popeye Team WFCC Special Award 2026" src="https://github.com/user-attachments/assets/3793b4cf-9b44-4142-9be1-b6de6d800a2f" />
 
