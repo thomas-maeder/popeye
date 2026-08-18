@@ -30,7 +30,7 @@ Popeye is known to have been compiled for other platforms, e.g. Android or WebAs
 - [Olive](https://github.com/dturevski/olive-gui) is a great cross-platform GUI for Popeye
 - [Teddy](https://problemskak.dk/download-Teddy.php) is a popular Windows GUI for Popeye
 - [FEN Tool](https://mutsuntsai.github.io/fen-tool/) allows using Popeye within the browser, both on mobile phones and regular computers
-- [Spinach] (experimental) speeds up Popeye by distribution its workload on different CPU cores
+- [Spinach] (experimental) speeds up Popeye by distributing its workload on different CPU cores
 - [Py2Web](https://www.yacpdb.org/#static/py2web) renders Popeye's output in web pages
 - [YACPDB](https://www.yacpdb.org/#static/home) Yet Another Chess Problem Database uses Py2Web to render solutions
 
