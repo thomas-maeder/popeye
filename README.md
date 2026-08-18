@@ -37,7 +37,7 @@ Popeye is known to have been compiled for other platforms, e.g. Android or WebAs
 
 ## Awards
 
-In 2026, Popeye, as well as Dmitri Turevski, creator of Olive, Py2Web and YACPDB, is among the first recipients of a [WFCC](https://www.wfcc.ch/) Special Awards.
+In 2026, Popeye, as well as Dmitri Turevski (creator of Olive, Py2Web and YACPDB), is among the first recipients of a [WFCC](https://www.wfcc.ch/) Special Award.
 
 <img width="845" height="1200" alt="Popeye Team WFCC Special Award 2026" src="https://github.com/user-attachments/assets/3793b4cf-9b44-4142-9be1-b6de6d800a2f" />
 
