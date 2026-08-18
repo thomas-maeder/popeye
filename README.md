@@ -2,7 +2,7 @@
 
 Popeye is a free open-source cross-platform program for testing chess problems.
 
-It can be used for orthodox problems, but supports also a great deal of fairy
+It can be used for orthodox problems, but also supports a great deal of fairy
 chess elements (piece types, conditions and stipulations).
 
 Thanks to its "intelligent mode", Popeye is very fast at testing (almost) orthodox
