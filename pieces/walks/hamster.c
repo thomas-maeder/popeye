@@ -1,4 +1,5 @@
 #include "pieces/walks/hamster.h"
+#include "position/topology.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
@@ -15,7 +16,7 @@ void hamster_generate_moves(void)
     square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
     if (!is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle-vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, -vec[k]);
       if (curr_generation->arrival!=sq_departure)
         push_move_no_capture();
     }
@@ -34,14 +35,14 @@ void contrahamster_generate_moves(void)
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    square const sq_hurdle = sq_departure-vec[k];
+    square const sq_hurdle = topology_add(sq_departure, -vec[k]);
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_departure+vec[k]; /* not allowing null moves */
+      curr_generation->arrival = topology_add(sq_departure, vec[k]); /* not allowing null moves */
       while (is_square_empty(curr_generation->arrival))
       {
         push_move_no_capture();
-        curr_generation->arrival += vec[k];
+        curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
       }
      // printf("~ dep: %d dir: %d hur: %d arr: %d\n",sq_departure , vec[k] , sq_hurdle , curr_generation->arrival );
       if (piece_belongs_to_opponent(curr_generation->arrival))

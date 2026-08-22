@@ -1,4 +1,5 @@
 #include "pieces/walks/roses.h"
+#include "position/topology.h"
 #include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
@@ -20,7 +21,7 @@ static square generate_moves_on_circle_segment(square sq_base,
 
   curr_generation->arrival = sq_base;
 
-  curr_generation->arrival += vec[*idx_curr_dir];
+  curr_generation->arrival = topology_add(curr_generation->arrival, vec[*idx_curr_dir]);
   // TODO does this overflow work on all implementations?
   assert(abs(sense)==1);
   assert(*idx_curr_dir>0 || sense>0);
@@ -30,7 +31,7 @@ static square generate_moves_on_circle_segment(square sq_base,
          && is_square_empty(curr_generation->arrival))
   {
     push_move_no_capture();
-    curr_generation->arrival += vec[*idx_curr_dir];
+    curr_generation->arrival = topology_add(curr_generation->arrival, vec[*idx_curr_dir]);
     // TODO does this overflow work on all implementations?
     assert(abs(sense)==1);
     assert(*idx_curr_dir>0 || sense>0);
@@ -58,7 +59,7 @@ static square find_end_of_circle_line(square sq_departure,
   square sq_result = sq_departure;
   do
   {
-    sq_result += vec[*idx_curr_dir];
+    sq_result = topology_add(sq_result, vec[*idx_curr_dir]);
     // TODO does this overflow work on all implementations?
     assert(abs(sense)==1);
     assert(*idx_curr_dir>0 || sense>0);
@@ -326,7 +327,7 @@ static void rosehopper_genrerate_circle(vec_index_type rotation,
                                              sense);
   if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
-    curr_generation->arrival = sq_hurdle+vec[rotation];
+    curr_generation->arrival = topology_add(sq_hurdle, vec[rotation]);
     if (is_square_empty(curr_generation->arrival))
       push_move_no_capture();
     else if  (curr_generation->arrival!=curr_generation->departure
@@ -388,7 +389,7 @@ boolean rosehopper_check(validator_id evaluate)
        idx_curr_dir<=vec_knight_end;
        idx_curr_dir++)
   {
-    square const sq_hurdle = sq_target+vec[idx_curr_dir];
+    square const sq_hurdle = topology_add(sq_target, vec[idx_curr_dir]);
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
       /* idx_curr_dir==0 (and the equivalent
@@ -477,7 +478,7 @@ boolean roselocust_check(validator_id evaluate)
        idx_curr_dir<=vec_knight_end;
        idx_curr_dir++)
   {
-    square const sq_arrival = sq_target-vec[idx_curr_dir];
+    square const sq_arrival = topology_add(sq_target, -vec[idx_curr_dir]);
     if (is_square_empty(sq_arrival))
     {
       /* idx_curr_dir==0 (and the equivalent

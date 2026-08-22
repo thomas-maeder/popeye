@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible/attack_mating_piece.h"
+#include "position/topology.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/revelations.h"
@@ -111,7 +112,7 @@ static void place_mate_attacking_rider(Side side_attacking,
   for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
   {
     square s;
-    for (s = sq_mating_piece+vec[kcurr]; can_decision_level_be_continued(); s += vec[kcurr])
+    for (s = topology_add(sq_mating_piece, vec[kcurr]); can_decision_level_be_continued(); s = topology_add(s, vec[kcurr]))
     {
       if (is_square_empty(s))
         place_mating_piece_attacker(side_attacking,s,id_attacking,walk_rider);
@@ -152,7 +153,7 @@ static void place_mate_attacking_leaper(Side side_attacking,
 
   for (; kcurr<=kend && can_decision_level_be_continued(); ++kcurr)
   {
-    square const s = sq_mating_piece+vec[kcurr];
+    square const s = topology_add(sq_mating_piece, vec[kcurr]);
 
     TraceSquare(s);TraceEOL();
 

@@ -300,6 +300,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	DangerCirce
 	PAD
 	#C
+	VerticalCylinder
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

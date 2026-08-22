@@ -1,4 +1,5 @@
 #include "pieces/walks/spiral_springers.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
@@ -6,16 +7,16 @@
 
 static void generate_zigzag(vec_index_type idx_zig, vec_index_type idx_zag)
 {
-  curr_generation->arrival = curr_generation->departure+vec[idx_zig];
+  curr_generation->arrival = topology_add(curr_generation->departure, vec[idx_zig]);
 
   while (is_square_empty(curr_generation->arrival))
   {
     push_move_no_capture();
-    curr_generation->arrival += vec[idx_zag];
+    curr_generation->arrival = topology_add(curr_generation->arrival, vec[idx_zag]);
     if (is_square_empty(curr_generation->arrival))
     {
       push_move_no_capture();
-      curr_generation->arrival += vec[idx_zig];
+      curr_generation->arrival = topology_add(curr_generation->arrival, vec[idx_zig]);
     }
     else
       break;
@@ -29,7 +30,7 @@ static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
 {
   boolean result;
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
-  square sq_departure = sq_arrival+vec[idx_zig];
+  square sq_departure = topology_add(sq_arrival, vec[idx_zig]);
 
   ++observation_context;
 
@@ -38,9 +39,9 @@ static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
 
   while (is_square_empty(sq_departure))
   {
-    sq_departure += vec[idx_zag];
+    sq_departure = topology_add(sq_departure, vec[idx_zag]);
     if (is_square_empty(sq_departure))
-      sq_departure += vec[idx_zig];
+      sq_departure = topology_add(sq_departure, vec[idx_zig]);
     else
       break;
   }

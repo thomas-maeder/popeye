@@ -1,4 +1,5 @@
 #include "pieces/walks/locusts.h"
+#include "position/topology.h"
 #include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
@@ -51,7 +52,7 @@ static boolean locusts_check(vec_index_type kanf, vec_index_type kend,
        interceptable_observation[observation_context].vector_index1<=kend;
        interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_arrival = sq_target-vec[interceptable_observation[observation_context].vector_index1];
+    square const sq_arrival = topology_add(sq_target, -vec[interceptable_observation[observation_context].vector_index1]);
     if (is_square_empty(sq_arrival))
     {
       square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);

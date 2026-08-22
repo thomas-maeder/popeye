@@ -1,4 +1,5 @@
 #include "pieces/walks/pawns/pawns.h"
+#include "position/topology.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
@@ -32,7 +33,13 @@ void pawns_generate_capture_move(numvec dir)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  curr_generation->arrival = curr_generation->departure+dir;
+  if (board_topology != TOPOLOGY_STANDARD)
+  {
+    topology_reset_phase();
+    curr_generation->arrival = topology_step(curr_generation->departure,dir);
+  }
+  else
+    curr_generation->arrival = curr_generation->departure+dir;
 
   if (piece_belongs_to_opponent(curr_generation->arrival))
     push_move_regular_capture();
@@ -46,12 +53,47 @@ void pawns_generate_capture_move(numvec dir)
 /* generates moves of a pawn in direction dir where steps single steps are
  * possible.
  */
+static void pawns_generate_nocapture_moves_wrapped(numvec dir, unsigned int steps)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParam("%u",steps);
+  TraceFunctionParamListEnd();
+
+  topology_reset_phase();
+  curr_generation->arrival = topology_step(curr_generation->departure,dir);
+
+  if (is_square_empty(curr_generation->arrival))
+  {
+    push_move_no_capture();
+    curr_generation->arrival = topology_step(curr_generation->arrival,dir);
+
+    while (--steps>0)
+      if (is_square_empty(curr_generation->arrival))
+      {
+        push_special_move(pawn_multistep);
+        curr_generation->arrival = topology_step(curr_generation->arrival,dir);
+      }
+      else
+        break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void pawns_generate_nocapture_moves(numvec dir, unsigned int steps)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParam("%u",steps);
   TraceFunctionParamListEnd();
+
+  if (board_topology != TOPOLOGY_STANDARD)
+  {
+    pawns_generate_nocapture_moves_wrapped(dir, steps);
+    return;
+  }
 
   curr_generation->arrival = curr_generation->departure+dir;
 

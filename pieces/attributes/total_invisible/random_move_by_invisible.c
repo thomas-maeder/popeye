@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible/random_move_by_invisible.h"
+#include "position/topology.h"
 #include "pieces/attributes/total_invisible/revelations.h"
 #include "pieces/attributes/total_invisible/decisions.h"
 #include "pieces/attributes/total_invisible/taboo.h"
@@ -696,9 +697,9 @@ static void forward_random_move_by_invisible_rider_from(vec_index_type kstart,
 
     TraceValue("%u",k);TraceValue("%d",vec[k]);TraceEOL();
 
-    for (sq_arrival = move_effect_journal[movement].u.piece_movement.from+vec[k];
+    for (sq_arrival = topology_add(move_effect_journal[movement].u.piece_movement.from, vec[k]);
          is_on_board(sq_arrival) && can_decision_level_be_continued();
-         sq_arrival += vec[k])
+         sq_arrival = topology_add(sq_arrival, vec[k]))
     {
       TraceSquare(sq_arrival);TraceEOL();
       move_effect_journal[movement].u.piece_movement.to = sq_arrival;
@@ -746,7 +747,7 @@ static void forward_random_move_by_invisible_leaper_from(vec_index_type kstart,
   assert(kstart<=kend);
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
-    square const sq_arrival = sq_departure+vec[k];
+    square const sq_arrival = topology_add(sq_departure, vec[k]);
 
     if (is_on_board(sq_arrival) && !will_be_taboo(sq_arrival,trait[nbply],nbply))
     {
@@ -1233,7 +1234,7 @@ static void backward_random_move_by_specific_invisible_rider_to(vec_index_type k
 
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
-    move_effect_journal[movement].u.piece_movement.from = sq_arrival-vec[k];
+    move_effect_journal[movement].u.piece_movement.from = topology_add(sq_arrival, -vec[k]);
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
@@ -1241,7 +1242,7 @@ static void backward_random_move_by_specific_invisible_rider_to(vec_index_type k
            && is_square_empty(move_effect_journal[movement].u.piece_movement.from))
     {
       done_backward_random_move_by_specific_invisible_to();
-      move_effect_journal[movement].u.piece_movement.from -= vec[k];
+      move_effect_journal[movement].u.piece_movement.from = topology_add(move_effect_journal[movement].u.piece_movement.from, -vec[k]);
     }
   }
 
@@ -1272,7 +1273,7 @@ static void backward_random_move_by_specific_invisible_king_to(void)
 
   for (k = vec_queen_start; k<=vec_queen_end && can_decision_level_be_continued(); ++k)
   {
-    move_effect_journal[movement].u.piece_movement.from = move_effect_journal[movement].u.piece_movement.to-vec[k];
+    move_effect_journal[movement].u.piece_movement.from = topology_add(move_effect_journal[movement].u.piece_movement.to, -vec[k]);
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 
@@ -1308,7 +1309,7 @@ static void backward_random_move_by_specific_invisible_leaper_to(vec_index_type 
 
   for (k = kstart; k<=kend && can_decision_level_be_continued(); ++k)
   {
-    move_effect_journal[movement].u.piece_movement.from = sq_arrival-vec[k];
+    move_effect_journal[movement].u.piece_movement.from = topology_add(sq_arrival, -vec[k]);
     TraceSquare(move_effect_journal[movement].u.piece_movement.from);
     TraceEOL();
 

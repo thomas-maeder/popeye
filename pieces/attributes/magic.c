@@ -1,4 +1,5 @@
 #include "pieces/attributes/magic.h"
+#include "position/topology.h"
 #include "pieces/walks/roses.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
@@ -137,7 +138,7 @@ static void identify_circular_line(void)
   square sq_curr = sq_observee;
 
   square start = sq_observee;
-  square end = start+vec[idx];
+  square end = topology_add(start, vec[idx]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -148,7 +149,7 @@ static void identify_circular_line(void)
 
   do
   {
-    sq_curr += vec[idx];
+    sq_curr = topology_add(sq_curr, vec[idx]);
     // TODO does this overflow work on all implementations?
     assert(abs(sense)==1);
     assert(idx>0 || sense>0);
@@ -157,7 +158,7 @@ static void identify_circular_line(void)
     if (start>sq_curr)
     {
       start = sq_curr;
-      end = start+vec[idx];
+      end = topology_add(start, vec[idx]);
     }
   } while (sq_curr!=sq_observee);
 
@@ -173,7 +174,7 @@ static void identify_zigzag_line(void)
   square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type const idx_zig = interceptable_observation[observation_context].vector_index1;
   vec_index_type const idx_zag = interceptable_observation[observation_context].auxiliary;
-  square sq_curr = sq_observee+vec[idx_zig];
+  square sq_curr = topology_add(sq_observee, vec[idx_zig]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -185,20 +186,20 @@ static void identify_zigzag_line(void)
   {
     if (is_square_blocked(sq_curr))
     {
-      PushMagicView(sq_observee,sq_observer,sq_curr+vec[idx_zag],sq_curr);
+      PushMagicView(sq_observee,sq_observer,topology_add(sq_curr, vec[idx_zag]),sq_curr);
       break;
     }
     else
     {
-      sq_curr += vec[idx_zag];
+      sq_curr = topology_add(sq_curr, vec[idx_zag]);
 
       if (is_square_blocked(sq_curr))
       {
-        PushMagicView(sq_observee,sq_observer,sq_curr+vec[idx_zig],sq_curr);
+        PushMagicView(sq_observee,sq_observer,topology_add(sq_curr, vec[idx_zig]),sq_curr);
         break;
       }
       else
-        sq_curr += vec[idx_zig];
+        sq_curr = topology_add(sq_curr, vec[idx_zig]);
     }
   }
 

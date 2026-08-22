@@ -1,8 +1,35 @@
 #include "pieces/walks/riders.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
+
+/* Generate moves to the square on a line segment (topology-aware variant)
+ * @param sq_base first square of line segment
+ * @param k vector index indicating the direction of the line segment
+ */
+static square generate_moves_on_line_segment_wrapped(square sq_base,
+                                                     vec_index_type k)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_base);
+  TraceFunctionParamListEnd();
+
+  topology_reset_phase();
+  curr_generation->arrival = topology_step(sq_base,vec[k]);
+
+  while (is_square_empty(curr_generation->arrival))
+  {
+    push_move_no_capture();
+    curr_generation->arrival = topology_step(curr_generation->arrival,vec[k]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(curr_generation->arrival);
+  TraceFunctionResultEnd();
+  return curr_generation->arrival;
+}
 
 /* Generate moves to the square on a line segment
  * @param sq_base first square of line segment
@@ -13,6 +40,9 @@ square generate_moves_on_line_segment(square sq_base, vec_index_type k)
   TraceFunctionEntry(__func__);
   TraceSquare(sq_base);
   TraceFunctionParamListEnd();
+
+  if (board_topology != TOPOLOGY_STANDARD)
+    return generate_moves_on_line_segment_wrapped(sq_base, k);
 
   curr_generation->arrival = sq_base+vec[k];
 

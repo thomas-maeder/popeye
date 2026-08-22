@@ -1,4 +1,5 @@
 #include "pieces/attributes/total_invisible/uninterceptable_check.h"
+#include "position/topology.h"
 #include "pieces/attributes/total_invisible/taboo.h"
 #include "pieces/attributes/total_invisible/consumption.h"
 #include "pieces/attributes/total_invisible/revelations.h"
@@ -28,13 +29,13 @@ static boolean is_rider_check_uninterceptable_on_vector(Side side_checking, squa
   TraceFunctionParamListEnd();
 
   {
-    square s = king_pos+vec[k];
+    square s = topology_add(king_pos, vec[k]);
 
     while (is_square_empty(s)
            && ((is_taboo(s,White,nbply) && is_taboo(s,Black,nbply))
                || (was_taboo(s,White,nbply) && was_taboo(s,Black,nbply))
                || (will_be_taboo(s,White,nbply) && will_be_taboo(s,Black,nbply))))
-      s += vec[k];
+      s = topology_add(s, vec[k]);
 
     {
       piece_walk_type const walk = get_walk_of_piece_on_square(s);
@@ -171,7 +172,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
       vec_index_type k;
       for (k = vec_rook_start; result==0 && k!=vec_rook_end; ++k)
       {
-        square const sq_attacker = sq_attacked+vec[k];
+        square const sq_attacker = topology_add(sq_attacked, vec[k]);
         piece_walk_type const walk_attacker = get_walk_of_piece_on_square(sq_attacker);
         if ((walk_attacker==Queen || walk_attacker==Rook)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
@@ -188,7 +189,7 @@ vec_index_type is_square_attacked_by_uninterceptable(Side side_under_attack, squ
       vec_index_type k;
       for (k = vec_bishop_start; result==0 && k!=vec_bishop_end; ++k)
       {
-        square const sq_attacker = sq_attacked+vec[k];
+        square const sq_attacker = topology_add(sq_attacked, vec[k]);
         piece_walk_type const walk_attacker = get_walk_of_piece_on_square(sq_attacker);
         if ((walk_attacker==Queen || walk_attacker==Bishop)
             && TSTFLAG(being_solved.spec[sq_attacker],side_checking))
