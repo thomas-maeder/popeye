@@ -7,4 +7,14 @@ pieces white kc1 sc6 bb6 black ka8
 stip #1
 condition powertransfer
 
-end
+NextProblem
+
+Stipulation h#1
+Condition PowerTransfer RexInclusive
+Pieces
+white Bd3 Ka7
+black Qe1 Pf2 Kc6
+Twin stip h#1.5
+
+EndProblem
+

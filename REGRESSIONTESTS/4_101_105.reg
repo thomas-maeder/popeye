@@ -33,3 +33,47 @@ the mating move wasn't found because of the orthodox mating move "optimization"
 solution finished.
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   B   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -P   .   .   2
+|                                   |
+1   .   .   .   .  -Q   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         2 + 3
+     PowerTransfer RexInclusive
+
+a) 
+
+  1.f2-f1=Q Bd3-d7 #
+  add_to_move_generation_stack:       21810
+                     play_move:         701
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+b) h#1.5  
+
+  1...Bd3-h7   2.f2-f1=Q Bh7-d7 #
+  1...Bd3-f5   2.f2-f1=Q Bf5-d7 #
+  add_to_move_generation_stack:      367990
+                     play_move:       12124
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
