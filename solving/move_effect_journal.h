@@ -51,6 +51,7 @@ typedef enum
   move_effect_swap_volcanic,
   move_effect_revelation_of_placed_invisible,
   move_effect_revelation_of_new_invisible,
+  move_effect_pad,
 
   move_effect_input_condition,
   move_effect_input_stipulation,
@@ -293,6 +294,11 @@ typedef struct
         {
             piece_walk_type type;
         } hunter_type_definition;
+        struct
+        {
+            PieceIdType id;
+            boolean state;
+        } pad;
     } u;
 #if defined(DOTRACE)
       unsigned long id;
