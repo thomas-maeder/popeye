@@ -16,6 +16,53 @@ boolean pad_is_strict;
 
 boolean pad_has_piece_captured[MaxPieceId+1];
 
+void do_pad(move_effect_reason_type reason, PieceIdType who, boolean state)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_pad,reason);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceValue("%x",who);
+  TraceValue("%u",state);
+  TraceFunctionParamListEnd();
+
+  entry->u.pad.id = who;
+  entry->u.pad.state = state;
+
+  pad_has_piece_captured[who] = state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_pad(move_effect_journal_entry_type const *entry)
+{
+  PieceIdType const who = entry->u.pad.id;
+  boolean const state = entry->u.pad.state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  pad_has_piece_captured[who] = !state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_pad(move_effect_journal_entry_type const *entry)
+{
+  PieceIdType const who = entry->u.pad.id;
+  boolean const state = entry->u.pad.state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  pad_has_piece_captured[who] = state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -52,9 +99,8 @@ void pad_bookkeeper_solve(slice_index si)
           solve_result = this_move_is_illegal;
         else
         {
-          pad_has_piece_captured[moving_id] = true;
+          do_pad(move_effect_reason_regular_capture,moving_id,true);
           pipe_solve_delegate(si);
-          pad_has_piece_captured[moving_id] = false;
         }
       }
       else
@@ -73,9 +119,8 @@ void pad_bookkeeper_solve(slice_index si)
       }
       else
       {
-        pad_has_piece_captured[moving_id] = true;
+        do_pad(move_effect_reason_regular_capture,moving_id,true);
         pipe_solve_delegate(si);
-        pad_has_piece_captured[moving_id] = false;
       }
     }
   }
@@ -119,7 +164,8 @@ void pad_strict_solve(slice_index si)
     Flags const moving_spec = move_effect_journal[movement].u.piece_movement.movingspec;
     PieceIdType const moving_id = GetPieceId(moving_spec);
 
-    pad_has_piece_captured[capturee_id] = false;
+    if (pad_has_piece_captured[capturee_id])
+      do_pad(move_effect_reason_rebirth_no_choice,capturee_id,false);
 
     if (!TSTFLAG(moving_spec,Royal) || pad_is_rex_inclusive)
     {
@@ -127,15 +173,12 @@ void pad_strict_solve(slice_index si)
         solve_result = this_move_is_illegal;
       else
       {
-        pad_has_piece_captured[moving_id] = true;
+        do_pad(move_effect_reason_regular_capture,moving_id,true);
         pipe_solve_delegate(si);
-        pad_has_piece_captured[moving_id] = false;
       }
     }
     else
       pipe_solve_delegate(si);
-
-    pad_has_piece_captured[capturee_id] = save_capturee_pad_state;
   }
   else
     pipe_solve_delegate(si);
@@ -166,6 +209,10 @@ void solving_insert_pad(slice_index si)
     for (p = MinPieceId; p<=MaxPieceId; ++p)
       pad_has_piece_captured[p] = false;
   }
+
+  move_effect_journal_set_effect_doers(move_effect_pad,
+                                       &undo_pad,
+                                       &redo_pad);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
