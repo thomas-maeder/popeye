@@ -14,7 +14,7 @@ include toolchains/gcc/make.incl
 CCHOST=emcc
 LDHOST=emcc
 CCTARGET=emcc
-LDTARGET=emcc -s EXPORTED_FUNCTIONS="['_main']" --memory-init-file 0 -s ALLOW_MEMORY_GROWTH=1 -s TOTAL_MEMORY=33554432 -s ABORTING_MALLOC=0
+LDTARGET=emcc -sEXPORTED_FUNCTIONS=_main -sEXPORTED_RUNTIME_METHODS=FS,callMain -sWASM=1 -sALLOW_MEMORY_GROWTH=1 -sABORTING_MALLOC=0 -sSTACK_SIZE=8MB -sENVIRONMENT=worker -sMIN_SAFARI_VERSION=120000 -sEXPORT_ES6=1
 EXE_SUFFIX=.js
 ARCHIVER=emar rv
 ARCHIVE_INDEXER=emranlib
@@ -22,5 +22,8 @@ STRIPTARGET=@echo "no need to strip"
 CCOPTIM=-O3
 LDOPTIM=-O3
 EXECUTE=node
-OSTYPE=asm.js
+OSTYPE=WASM
 PLATFORM=unix
+CLOBBERFILES=py.wasm gemgmarr.wasm
+
+py.js: toolchains/emcc/make.incl
