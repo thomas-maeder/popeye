@@ -1,4 +1,5 @@
 #include "pieces/walks/querquisite.h"
+#include "position/topology.h"
 #include "pieces/walks/leapers.h"
 #include "pieces/walks/riders.h"
 #include "solving/move_generator.h"
@@ -70,7 +71,7 @@ boolean querquisite_check(validator_id evaluate)
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
-    square const sq_departure= sq_target+vec[k];
+    square const sq_departure= topology_add(sq_target, vec[k]);
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if ((file_departure==file_knight_queenside
          || file_departure==file_knight_kingside)
@@ -80,7 +81,7 @@ boolean querquisite_check(validator_id evaluate)
 
   for (k= vec_queen_start; k<=vec_queen_end; k++)
   {
-    square const sq_departure= sq_target+vec[k];
+    square const sq_departure= topology_add(sq_target, vec[k]);
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if (file_departure==file_king
         && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))

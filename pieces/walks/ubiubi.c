@@ -1,4 +1,5 @@
 #include "pieces/walks/ubiubi.h"
+#include "position/topology.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
@@ -21,7 +22,7 @@ static void utiubi_generate_moves_recursive(square step_departure,
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
-    curr_generation->arrival = step_departure+vec[k];
+    curr_generation->arrival = topology_add(step_departure, vec[k]);
     if (!is_square_blocked(curr_generation->arrival))
       switch (traversal_state[curr_generation->arrival])
       {
@@ -76,7 +77,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
 
   for (k = vec_knight_start; k<=vec_knight_end; k++)
   {
-    square const sq_departure = intermediate_square+vec[k];
+    square const sq_departure = topology_add(intermediate_square, vec[k]);
     if (!is_square_blocked(sq_departure))
     {
       if (traversal_state[sq_departure]==ubiubi_empty)

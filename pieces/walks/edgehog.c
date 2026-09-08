@@ -1,4 +1,5 @@
 #include "pieces/walks/edgehog.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/fork.h"
@@ -14,12 +15,12 @@ void edgehog_generate_moves(void)
 
   for (k= vec_queen_end; k >=vec_queen_start; k--)
   {
-    curr_generation->arrival = sq_departure+vec[k];
+    curr_generation->arrival = topology_add(sq_departure, vec[k]);
     while (is_square_empty(curr_generation->arrival))
     {
       if (NoEdge(curr_generation->arrival)!=NoEdge(sq_departure))
         push_move_no_capture();
-      curr_generation->arrival += vec[k];
+      curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
     }
 
     if (piece_belongs_to_opponent(curr_generation->arrival)

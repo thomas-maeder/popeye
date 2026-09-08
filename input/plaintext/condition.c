@@ -5,6 +5,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
 #include "pieces/pieces.h"
+#include "position/topology.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/neutral/neutral.h"
@@ -2108,6 +2109,9 @@ char *ParseCond(char *tok)
           tok = ParsePADVariants(tok);
           break;
 
+        case verticalcylinder:
+          break;
+
         default:
           break;
       }
@@ -2198,6 +2202,8 @@ void InitCond(void)
 
   for (i= 0; i < ExtraCondCount; ++i)
     ExtraCondFlag[i] = false;
+
+  board_topology = TOPOLOGY_STANDARD;
 
   being_solved.number_of_imitators = 0;
 

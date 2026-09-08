@@ -1,4 +1,5 @@
 #include "pieces/walks/cat.h"
+#include "position/topology.h"
 #include "pieces/walks/leapers.h"
 #include "solving/move_generator.h"
 #include "solving/fork.h"
@@ -13,7 +14,7 @@ void cat_generate_moves(void)
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
-    curr_generation->arrival = curr_generation->departure+vec[k];
+    curr_generation->arrival = topology_add(curr_generation->departure, vec[k]);
     if (piece_belongs_to_opponent(curr_generation->arrival))
       push_move_regular_capture();
     else
@@ -40,7 +41,7 @@ boolean cat_check(validator_id evaluate)
     vec_index_type  k;
     for (k = vec_dabbaba_start; k<=vec_dabbaba_end; k++)
     {
-      square middle_square= sq_target+vec[k];
+      square middle_square= topology_add(sq_target, vec[k]);
       while (is_square_empty(middle_square))
       {
         {
@@ -55,7 +56,7 @@ boolean cat_check(validator_id evaluate)
             return true;
         }
 
-        middle_square += vec[k];
+        middle_square = topology_add(middle_square, vec[k]);
       }
     }
 

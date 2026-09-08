@@ -1,7 +1,24 @@
 #include "pieces/walks/leapers.h"
+#include "position/topology.h"
 #include "solving/move_generator.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
+
+/* Generate moves for a leaper piece (topology-aware variant) */
+static void leaper_generate_moves_wrapped(vec_index_type kbeg, vec_index_type kend)
+{
+  vec_index_type k;
+
+  for (k= kbeg; k<= kend; ++k)
+  {
+    topology_reset_phase();
+    curr_generation->arrival = topology_step(curr_generation->departure,vec[k]);
+    if (is_square_empty(curr_generation->arrival))
+      push_move_no_capture();
+    else if (piece_belongs_to_opponent(curr_generation->arrival))
+      push_move_regular_capture();
+  }
+}
 
 /* Generate moves for a leaper piece
  * @param kbeg start of range of vector indices to be used
@@ -11,6 +28,12 @@ void leaper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 {
   /* generate leaper moves from vec[kbeg] to vec[kend] */
   vec_index_type k;
+
+  if (board_topology != TOPOLOGY_STANDARD)
+  {
+    leaper_generate_moves_wrapped(kbeg, kend);
+    return;
+  }
 
   for (k= kbeg; k<= kend; ++k)
   {
@@ -33,6 +56,32 @@ boolean leapers_check(vec_index_type kanf, vec_index_type kend,
 
   TraceSquare(sq_target);
   TraceEOL();
+
+  if (board_topology != TOPOLOGY_STANDARD)
+  {
+    ++observation_context;
+
+    for (interceptable_observation[observation_context].vector_index1 = kanf;
+         interceptable_observation[observation_context].vector_index1<=kend;
+         interceptable_observation[observation_context].vector_index1++)
+    {
+      square sq_departure;
+      topology_reset_phase();
+      sq_departure = topology_step(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
+      if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
+      {
+        result = true;
+        break;
+      }
+    }
+
+    --observation_context;
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%u",result);
+    TraceFunctionResultEnd();
+    return result;
+  }
 
   ++observation_context;
 

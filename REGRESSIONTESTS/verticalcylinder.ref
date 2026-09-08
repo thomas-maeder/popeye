@@ -1,0 +1,143 @@
+
+                Test
+                Test
+Standard board - Queen wrapping comparison (no solution)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   P   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 1
+
+  add_to_move_generation_stack:          15
+                     play_move:          12
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          12
+
+solution finished.
+
+
+
+        Anatoli G. Jepifanow
+ 14639 Ideal-Mate Review 01-03/2005 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   S   .   .   .   .   .   .   7
+|                                   |
+6   .   .   S   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 1
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Kd5-e6 Sc6-d4 +   2.Ke6-f7 Sd4-e6   3.Kf7-g8 Sb7-h6 #
+  add_to_move_generation_stack:      213576
+                     play_move:      152449
+ is_white_king_square_attacked:       16356
+ is_black_king_square_attacked:      147718
+
+solution finished.
+
+
+
+                Test
+                Test
+Vertical Cylinder - Queen diagonal wrapping
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   P   .   6
+|                                   |
+5   .   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         5 + 1
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Kh8-g8 Qf2-d8 #
+  add_to_move_generation_stack:         257
+                     play_move:         182
+ is_white_king_square_attacked:          26
+ is_black_king_square_attacked:         182
+
+solution finished.
+
+
+
+            Jaroslav Stun
+   11581 Die Schwalbe 196 08/2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .  -G   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  RO   .   3
+|                                   |
+2   .   .   G   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -G   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 3
+          VerticalCylinder
+Orthodox mating moves optimisation deactivated because of an unverified fairy element
+
+  1.Ke6-f6 Ke4-d5   2.Gf1-f7 ROg3-f5   3.Ge5-g5 ROf5-h5 #
+  add_to_move_generation_stack:    11502974
+                     play_move:     5020934
+ is_white_king_square_attacked:      671154
+ is_black_king_square_attacked:     4964982
+
+solution finished.
+
+

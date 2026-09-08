@@ -2,6 +2,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
+#include "position/topology.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -21,7 +22,14 @@ static vec_index_type leapers_check_ortho(Side side_checking,
 
   for (k = kanf; k<=kend; k++)
   {
-    square const sq_departure = sq_king+vec[k];
+    square sq_departure;
+    if (board_topology!=TOPOLOGY_STANDARD)
+    {
+      topology_reset_phase();
+      sq_departure = topology_step(sq_king,vec[k]);
+    }
+    else
+      sq_departure = sq_king+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(being_solved.spec[sq_departure],side_checking))
     {
@@ -111,10 +119,25 @@ vec_index_type pawn_check_ortho(Side side_checking, square sq_king)
     numvec const dir_forward = side_checking==White ? dir_up : dir_down;
     numvec const dir_forward_right = dir_forward+dir_right;
     numvec const dir_forward_left = dir_forward+dir_left;
+    square sq_check_right;
+    square sq_check_left;
 
-    if (pawn_test_check_ortho(side_checking,sq_king-dir_forward_right))
+    if (board_topology!=TOPOLOGY_STANDARD)
+    {
+      topology_reset_phase();
+      sq_check_right = topology_step(sq_king,-dir_forward_right);
+      topology_reset_phase();
+      sq_check_left = topology_step(sq_king,-dir_forward_left);
+    }
+    else
+    {
+      sq_check_right = sq_king-dir_forward_right;
+      sq_check_left = sq_king-dir_forward_left;
+    }
+
+    if (pawn_test_check_ortho(side_checking,sq_check_right))
       result = side_checking==White ? 8 : 5;
-    else if (pawn_test_check_ortho(side_checking,sq_king-dir_forward_left))
+    else if (pawn_test_check_ortho(side_checking,sq_check_left))
       result = side_checking==White ? 7 : 6;
     else if (en_passant_test_check_ortho(side_checking,sq_king,dir_forward_right))
       result = side_checking==White ? 8 : 5;

@@ -1,4 +1,5 @@
 #include "pieces/walks/angle/hoppers.h"
+#include "position/topology.h"
 #include "pieces/walks/hoppers.h"
 #include "pieces/walks/hamster.h"
 #include "solving/move_generator.h"
@@ -368,7 +369,7 @@ void eagle_equihopper_generate_moves(void)
 
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)
   {
-    square const sq_hurdle = sq_departure+vec[k];
+    square const sq_hurdle = topology_add(sq_departure, vec[k]);
 
     if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
@@ -497,7 +498,7 @@ static boolean eagle_equihopper_check_other_lines(validator_id evaluate,
 
   for (k = vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
   {
-    square const sq_hurdle = sq_target+vec[k];
+    square const sq_hurdle = topology_add(sq_target, vec[k]);
     numvec const x = sq_hurdle%onerow - sq_target%onerow;
     numvec const y = sq_hurdle/onerow - sq_target/onerow;
 
@@ -556,9 +557,9 @@ static void eagle_nonstop_equihopper_generate_moves_for_vector_range(vec_index_t
   {
     square sq_hurdle = sq_departure;
 
-    for (sq_hurdle += vec[k];
+    for (sq_hurdle = topology_add(sq_hurdle, vec[k]);
         !is_square_blocked(sq_hurdle);
-        sq_hurdle += vec[k])
+        sq_hurdle = topology_add(sq_hurdle, vec[k]))
     {
       if (sq_hurdle!=sq_departure /* prevent nNE from capturing itself */
           && !is_square_empty(sq_hurdle))
@@ -629,9 +630,9 @@ static boolean eagle_nonstop_equihopper_check_for_vector_range(vec_index_type st
   {
     square sq_hurdle = sq_target;
 
-    for (sq_hurdle += vec[k];
+    for (sq_hurdle = topology_add(sq_hurdle, vec[k]);
         !is_square_blocked(sq_hurdle);
-        sq_hurdle += vec[k])
+        sq_hurdle = topology_add(sq_hurdle, vec[k]))
     {
       if (!is_square_empty(sq_hurdle))
       {

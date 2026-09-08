@@ -1,4 +1,5 @@
 #include "pieces/walks/lions.h"
+#include "position/topology.h"
 #include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
@@ -18,11 +19,11 @@ void lions_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
     if (!is_square_blocked(sq_hurdle))
     {
-      curr_generation->arrival = sq_hurdle+vec[k];
+      curr_generation->arrival = topology_add(sq_hurdle, vec[k]);
       while (is_square_empty(curr_generation->arrival))
       {
         hoppers_push_move(k,sq_hurdle);
-        curr_generation->arrival += vec[k];
+        curr_generation->arrival = topology_add(curr_generation->arrival, vec[k]);
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))

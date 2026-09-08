@@ -1,4 +1,5 @@
 #include "pieces/walks/cardinal.h"
+#include "position/topology.h"
 #include "pieces/walks/angle/angles.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
@@ -21,12 +22,12 @@ static void cardinal_generate_moves_recursive(square in, numvec k, int x)
   else if (x && is_square_blocked(curr_generation->arrival))
   {
     for (k1= 1; k1<=4; k1++)
-      if (!is_square_blocked(curr_generation->arrival+vec[k1]))
+      if (!is_square_blocked(topology_add(curr_generation->arrival, vec[k1])))
         break;
 
     if (k1<=4)
     {
-      curr_generation->arrival += vec[k1];
+      curr_generation->arrival = topology_add(curr_generation->arrival, vec[k1]);
       if (piece_belongs_to_opponent(curr_generation->arrival))
         push_move_regular_capture();
       else if (is_square_empty(curr_generation->arrival))
@@ -66,12 +67,12 @@ static boolean cardinal_check_recursive(square intermediate_square,
   {
     numvec k1;
     for (k1 = 1; k1<=4; k1++)
-      if (!is_square_blocked(sq_departure+vec[k1]))
+      if (!is_square_blocked(topology_add(sq_departure, vec[k1])))
         break;
 
     if (k1<=4)
     {
-      sq_departure += vec[k1];
+      sq_departure = topology_add(sq_departure, vec[k1]);
       if (is_square_empty(sq_departure))
       {
         k1= 5;

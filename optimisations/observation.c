@@ -1,6 +1,7 @@
 #include "optimisations/observation.h"
 #include "conditions/conditions.h"
 #include "conditions/singlebox/type1.h"
+#include "position/topology.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
@@ -404,6 +405,17 @@ void optimise_is_square_observed(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  /* The orthodox observation optimisation (is_square_observed_ortho) scans
+   * the board with hardcoded direction tables that cannot represent
+   * non-standard board topologies.  Disable it for those so that check
+   * detection goes through the topology-aware observation pipeline. */
+  if (board_topology != TOPOLOGY_STANDARD)
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
 
   TraceStipulation(si);
 

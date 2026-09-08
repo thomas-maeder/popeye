@@ -1,4 +1,5 @@
 #include "pieces/walks/marine.h"
+#include "position/topology.h"
 #include "pieces/walks/riders.h"
 #include "pieces/walks/pawns/pawns.h"
 #include "pieces/walks/pawns/pawn.h"
@@ -150,8 +151,8 @@ static boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
   vec_index_type k;
   for (k = kanf; k<=kend; ++k)
   {
-    square const sq_arrival = sq_target-vec[k];
-    square const sq_departure = sq_target+vec[k];
+    square const sq_arrival = topology_add(sq_target, -vec[k]);
+    square const sq_departure = topology_add(sq_target, vec[k]);
     if (is_square_empty(sq_arrival)
         && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival))
       return true;

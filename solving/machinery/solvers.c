@@ -3,6 +3,7 @@
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
+#include "position/topology.h"
 #include "retro/retro.h"
 #include "solving/selfcheck_guard.h"
 #include "solving/has_solution_type.h"
@@ -777,6 +778,9 @@ void build_solvers2(slice_index si)
     solving_insert_republican_king_placers(si);
 
   and_enable_shortcut_logic(si);
+
+  if (CondFlag[verticalcylinder])
+    board_topology = TOPOLOGY_VERTICAL_CYLINDER;
 
   solving_insert_avoid_unsolvable_forks(si);
 

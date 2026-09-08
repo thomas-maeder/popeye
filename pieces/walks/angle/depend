@@ -17,7 +17,7 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  stipulation/slice_type.enum.h stipulation/slice_type.enum output/mode.h \
  output/mode.enum.h output/mode.enum solving/machinery/dispatch.h \
  solving/ply.h debugging/trace.h solving/temporary_hacks.h solving/fork.h \
- solving/machinery/solve.h pieces/walks/hoppers.h \
+ solving/machinery/solve.h position/topology.h pieces/walks/hoppers.h \
  solving/move_generator.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -28,7 +28,7 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h \
  stipulation/slice_contextual_type.enum stipulation/traversal.h \
- debugging/measure.h output/plaintext/protocol.h pieces/walks/hamster.h \
+ debugging/measure.h pieces/walks/hamster.h \
  solving/find_square_observer_tracking_back_from_target.h
 pieces/walks/angle/hoppers.h:
 pieces/walks/angle/angles.h:
@@ -62,6 +62,7 @@ debugging/trace.h:
 solving/temporary_hacks.h:
 solving/fork.h:
 solving/machinery/solve.h:
+position/topology.h:
 pieces/walks/hoppers.h:
 solving/move_generator.h:
 stipulation/structure_traversal.h:
@@ -77,6 +78,5 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/slice_contextual_type.enum:
 stipulation/traversal.h:
 debugging/measure.h:
-output/plaintext/protocol.h:
 pieces/walks/hamster.h:
 solving/find_square_observer_tracking_back_from_target.h:
