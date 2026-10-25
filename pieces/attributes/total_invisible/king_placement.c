@@ -45,7 +45,7 @@ static void done_validating_king_placements(void)
       {
         if (mate_validation_result<combined_validation_result)
           combined_validation_result = mate_validation_result;
-        if (mate_validation_result<=mate_attackable)
+        if (mate_validation_result==no_mate)
           record_decision_result(previous_move_has_not_solved);
       }
 

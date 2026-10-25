@@ -16,5 +16,11 @@ white Bd3 Ka7
 black Qe1 Pf2 Kc6
 Twin stip h#1.5
 
-EndProblem
+NextProblem
 
+title Popeye gave 1...Kb5-a5   2.Kc8-b8 TI~*c7   3.Kb8-a8 TI~*a7 # until 4.103
+pieces white kb5 pb6 duc2a2 black kc8 pc7b7a7 total 24
+stip h#2.5
+option movenumbers start 6:10:7:6:7 upto 6:10:7:6:7
+
+end

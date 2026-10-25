@@ -77,3 +77,41 @@ b) h#1.5
 solution finished.
 
 
+
+Popeye gave 1...Kb5-a5   2.Kc8-b8 TI~*c7   3.Kb8-a8 TI~*a7 # until 4.103
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7  -P  -P  -P   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  DU   .  DU   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5               4 + 4 + 24 TI
+
+  6  (Kb5-a5 )
+  6:10  (Kc8-b8 )
+  6:10:7  (TI~*c7 )
+  6:10:7:6  (Kb8-a8 )
+  6:10:7:6:7  (TI~*a7 )
+  add_to_move_generation_stack:          83
+                     play_move:         158
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          45
+                  TI decisions:         236
+
+solution finished.
+
+
