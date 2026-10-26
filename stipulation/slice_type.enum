@@ -710,7 +710,7 @@
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STTestingIfSquareIsObservedWithSpecificWalk),            \
     ENUMERATOR(STDetermineObserverWalk),                                \
-    ENUMERATOR(STBicoloresTryBothSides),                                \
+    ENUMERATOR(STBicoloresCheckTester),                                \
     ENUMERATOR(STOptimisingObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \

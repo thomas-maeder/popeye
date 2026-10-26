@@ -10,6 +10,7 @@
 #include "conditions/pepo.h"
 #include "conditions/multicaptures.h"
 #include "conditions/alice.h"
+#include "conditions/bicolores.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -206,6 +207,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = vogtlaender_check_tester_is_in_check(si,side_in_check);
       break;
 
+    case STBicoloresCheckTester:
+      result = bicolores_check_tester_is_in_check(si,side_in_check);
+      break;
+
     case STNoKingCheckTester:
       result = no_king_check_tester_is_in_check(si,side_in_check);
       break;
@@ -322,6 +327,7 @@ static slice_index const slice_rank_order[] =
     STMultiCapturesInitializeCheckDetection,
     STPhantomKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
+    STBicoloresCheckTester,
     STKingCapturedObservationGuard,
     STMakeTakeLimitMoveGenerationMakeWalk,
     STCastlingSuspender,
