@@ -115,3 +115,77 @@ Popeye gave 1...Kb5-a5   2.Kc8-b8 TI~*c7   3.Kb8-a8 TI~*a7 # until 4.103
 solution finished.
 
 
+
+            Lubos Kekely
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .  -K   B   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   Q   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#1                         4 + 2
+              Bicolores
+             DangerCirce
+
+   1.b7-b8=Q !
+      1...h3-h2 #
+
+  add_to_move_generation_stack:       11121
+                     play_move:         307
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+
+
+            Lubos Kekely
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .  -K   .   S   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   P   5
+|                                   |
+4  -R   .  -P   .   .   .   .   .   4
+|                                   |
+3  -P   .   P   .   R   .   .   .   3
+|                                   |
+2  -P   B   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#1                         6 + 6
+              Bicolores
+             DangerCirce
+
+   1.Bb2-a1 !
+      1...Ra4-b4 #
+
+  add_to_move_generation_stack:        5960
+                     play_move:         126
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+
+solution finished.
+
+

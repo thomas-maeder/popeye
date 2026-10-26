@@ -23,4 +23,20 @@ pieces white kb5 pb6 duc2a2 black kc8 pc7b7a7 total 24
 stip h#2.5
 option movenumbers start 6:10:7:6:7 upto 6:10:7:6:7
 
+NextProblem
+
+author Lubos Kekely
+Pieces White Pb7 Bg7 Kh7 Qe2 Black Kf7 Ph3                
+Stip s#1
+Cond bicolore dangercirce
+Opti Vari
+
+NextProblem
+
+author Lubos Kekely
+Pieces White Kh8 Sh7 Ph5 Pc3 Re3 Bb2 Black Kf7 Pa5 Ra4 Pc4 Pa3 Pa2
+Stip s#1
+Cond bicolores dangercirce
+Opti Var 
+
 end

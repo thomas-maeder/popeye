@@ -1,4 +1,6 @@
 #include "conditions/bicolores.h"
+#include "position/position.h"
+#include "solving/ply.h"
 #include "solving/check.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
