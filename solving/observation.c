@@ -801,7 +801,6 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STOptimiseObservationsByQueenInitialiser,
     STDetermineObserverWalk,
     STPepoCheckTestHack,
-    STBicoloresTryBothSides,
     STTestingIfSquareIsObservedWithSpecificWalk,
     STOptimisingObserverWalk,
     STDontTryObservingWithNonExistingWalk,

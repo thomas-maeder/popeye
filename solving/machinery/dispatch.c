@@ -90,7 +90,6 @@
 #include "conditions/kobul.h"
 #include "conditions/andernach.h"
 #include "conditions/antiandernach.h"
-#include "conditions/bicolores.h"
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
@@ -2709,10 +2708,6 @@ void dispatch(slice_index si)
 
     case STDetermineObserverWalk:
       determine_observer_walk(si);
-      break;
-
-    case STBicoloresTryBothSides:
-      bicolores_try_both_sides(si);
       break;
 
     case STDontTryObservingWithNonExistingWalk:
